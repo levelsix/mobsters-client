@@ -436,13 +436,17 @@ BOOL ItemTypeIsValidValue(ItemType value);
 @private
   BOOL hasItemId_:1;
   BOOL hasGemPrice_:1;
+  BOOL hasStructId_:1;
   int32_t itemId;
   int32_t gemPrice;
+  int32_t structId;
 }
 - (BOOL) hasItemId;
 - (BOOL) hasGemPrice;
+- (BOOL) hasStructId;
 @property (readonly) int32_t itemId;
 @property (readonly) int32_t gemPrice;
+@property (readonly) int32_t structId;
 
 + (ItemGemPriceProto*) defaultInstance;
 - (ItemGemPriceProto*) defaultInstance;
@@ -488,6 +492,11 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (int32_t) gemPrice;
 - (ItemGemPriceProto_Builder*) setGemPrice:(int32_t) value;
 - (ItemGemPriceProto_Builder*) clearGemPrice;
+
+- (BOOL) hasStructId;
+- (int32_t) structId;
+- (ItemGemPriceProto_Builder*) setStructId:(int32_t) value;
+- (ItemGemPriceProto_Builder*) clearStructId;
 @end
 
 

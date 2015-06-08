@@ -47,8 +47,8 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value) {
 }
 @interface PrivateChatPostProto ()
 @property (strong) NSString* privateChatPostUuid;
-@property (strong) MinimumUserProtoWithLevel* poster;
-@property (strong) MinimumUserProtoWithLevel* recipient;
+@property (strong) MinimumUserProto* poster;
+@property (strong) MinimumUserProto* recipient;
 @property int64_t timeOfPost;
 @property (strong) NSString* content;
 @property TranslateLanguages originalContentLanguage;
@@ -104,8 +104,8 @@ BOOL TranslateLanguagesIsValidValue(TranslateLanguages value) {
 - (id) init {
   if ((self = [super init])) {
     self.privateChatPostUuid = @"";
-    self.poster = [MinimumUserProtoWithLevel defaultInstance];
-    self.recipient = [MinimumUserProtoWithLevel defaultInstance];
+    self.poster = [MinimumUserProto defaultInstance];
+    self.recipient = [MinimumUserProto defaultInstance];
     self.timeOfPost = 0L;
     self.content = @"";
     self.originalContentLanguage = TranslateLanguagesEnglish;
@@ -393,7 +393,7 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
         break;
       }
       case 18: {
-        MinimumUserProtoWithLevel_Builder* subBuilder = [MinimumUserProtoWithLevel builder];
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
         if (self.hasPoster) {
           [subBuilder mergeFrom:self.poster];
         }
@@ -402,7 +402,7 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
         break;
       }
       case 26: {
-        MinimumUserProtoWithLevel_Builder* subBuilder = [MinimumUserProtoWithLevel builder];
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
         if (self.hasRecipient) {
           [subBuilder mergeFrom:self.recipient];
         }
@@ -455,22 +455,22 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
 - (BOOL) hasPoster {
   return result.hasPoster;
 }
-- (MinimumUserProtoWithLevel*) poster {
+- (MinimumUserProto*) poster {
   return result.poster;
 }
-- (PrivateChatPostProto_Builder*) setPoster:(MinimumUserProtoWithLevel*) value {
+- (PrivateChatPostProto_Builder*) setPoster:(MinimumUserProto*) value {
   result.hasPoster = YES;
   result.poster = value;
   return self;
 }
-- (PrivateChatPostProto_Builder*) setPoster_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue {
+- (PrivateChatPostProto_Builder*) setPoster_Builder:(MinimumUserProto_Builder*) builderForValue {
   return [self setPoster:[builderForValue build]];
 }
-- (PrivateChatPostProto_Builder*) mergePoster:(MinimumUserProtoWithLevel*) value {
+- (PrivateChatPostProto_Builder*) mergePoster:(MinimumUserProto*) value {
   if (result.hasPoster &&
-      result.poster != [MinimumUserProtoWithLevel defaultInstance]) {
+      result.poster != [MinimumUserProto defaultInstance]) {
     result.poster =
-      [[[MinimumUserProtoWithLevel builderWithPrototype:result.poster] mergeFrom:value] buildPartial];
+      [[[MinimumUserProto builderWithPrototype:result.poster] mergeFrom:value] buildPartial];
   } else {
     result.poster = value;
   }
@@ -479,28 +479,28 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
 }
 - (PrivateChatPostProto_Builder*) clearPoster {
   result.hasPoster = NO;
-  result.poster = [MinimumUserProtoWithLevel defaultInstance];
+  result.poster = [MinimumUserProto defaultInstance];
   return self;
 }
 - (BOOL) hasRecipient {
   return result.hasRecipient;
 }
-- (MinimumUserProtoWithLevel*) recipient {
+- (MinimumUserProto*) recipient {
   return result.recipient;
 }
-- (PrivateChatPostProto_Builder*) setRecipient:(MinimumUserProtoWithLevel*) value {
+- (PrivateChatPostProto_Builder*) setRecipient:(MinimumUserProto*) value {
   result.hasRecipient = YES;
   result.recipient = value;
   return self;
 }
-- (PrivateChatPostProto_Builder*) setRecipient_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue {
+- (PrivateChatPostProto_Builder*) setRecipient_Builder:(MinimumUserProto_Builder*) builderForValue {
   return [self setRecipient:[builderForValue build]];
 }
-- (PrivateChatPostProto_Builder*) mergeRecipient:(MinimumUserProtoWithLevel*) value {
+- (PrivateChatPostProto_Builder*) mergeRecipient:(MinimumUserProto*) value {
   if (result.hasRecipient &&
-      result.recipient != [MinimumUserProtoWithLevel defaultInstance]) {
+      result.recipient != [MinimumUserProto defaultInstance]) {
     result.recipient =
-      [[[MinimumUserProtoWithLevel builderWithPrototype:result.recipient] mergeFrom:value] buildPartial];
+      [[[MinimumUserProto builderWithPrototype:result.recipient] mergeFrom:value] buildPartial];
   } else {
     result.recipient = value;
   }
@@ -509,7 +509,7 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
 }
 - (PrivateChatPostProto_Builder*) clearRecipient {
   result.hasRecipient = NO;
-  result.recipient = [MinimumUserProtoWithLevel defaultInstance];
+  result.recipient = [MinimumUserProto defaultInstance];
   return self;
 }
 - (BOOL) hasTimeOfPost {
@@ -879,7 +879,7 @@ static ColorProto* defaultColorProtoInstance = nil;
 @end
 
 @interface GroupChatMessageProto ()
-@property (strong) MinimumUserProtoWithLevel* sender;
+@property (strong) MinimumUserProto* sender;
 @property int64_t timeOfChat;
 @property TranslateLanguages contentLanguage;
 @property (strong) NSString* content;
@@ -941,7 +941,7 @@ static ColorProto* defaultColorProtoInstance = nil;
 @synthesize chatUuid;
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProtoWithLevel defaultInstance];
+    self.sender = [MinimumUserProto defaultInstance];
     self.timeOfChat = 0L;
     self.contentLanguage = TranslateLanguagesEnglish;
     self.content = @"";
@@ -1224,7 +1224,7 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
         break;
       }
       case 10: {
-        MinimumUserProtoWithLevel_Builder* subBuilder = [MinimumUserProtoWithLevel builder];
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -1269,22 +1269,22 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProtoWithLevel*) sender {
+- (MinimumUserProto*) sender {
   return result.sender;
 }
-- (GroupChatMessageProto_Builder*) setSender:(MinimumUserProtoWithLevel*) value {
+- (GroupChatMessageProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (GroupChatMessageProto_Builder*) setSender_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue {
+- (GroupChatMessageProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (GroupChatMessageProto_Builder*) mergeSender:(MinimumUserProtoWithLevel*) value {
+- (GroupChatMessageProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProtoWithLevel defaultInstance]) {
+      result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
-      [[[MinimumUserProtoWithLevel builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -1293,7 +1293,7 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
 }
 - (GroupChatMessageProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProtoWithLevel defaultInstance];
+  result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
 - (BOOL) hasTimeOfChat {

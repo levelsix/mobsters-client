@@ -541,9 +541,9 @@ static float buttonInitialWidth = 159.f;
 @implementation ChatClanAvengeView
 
 - (void) updateForClanAvenging:(PvpClanAvenging *)ca {
-  [self.monsterView updateForMonsterId:ca.attacker.minUserProto.avatarMonsterId];
-  self.nameLabel.text = [Globals fullNameWithName:ca.attacker.minUserProto.name clanTag:ca.attacker.minUserProto.clan.tag];
-  self.levelLabel.text = [NSString stringWithFormat:@"Level %d", ca.attacker.level];
+  [self.monsterView updateForMonsterId:ca.attacker.avatarMonsterId];
+  self.nameLabel.text = [Globals fullNameWithName:ca.attacker.name clanTag:ca.attacker.clan.tag];
+  self.strengthLabel.text = [Globals commafyNumber:ca.attacker.strength];
   
   self.attackButton.superview.hidden = ![ca canAttack];
   

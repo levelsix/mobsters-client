@@ -15,7 +15,6 @@
 
 @interface PrivateChatPostProto (UnreadStatus)
 
-- (MinimumUserProtoWithLevel *) otherUserWithLevel;
 - (MinimumUserProto *) otherUser;
 - (BOOL) isUnread;
 - (void) markAsRead;

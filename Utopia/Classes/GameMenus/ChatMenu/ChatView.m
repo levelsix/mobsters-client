@@ -758,7 +758,7 @@
     Globals *gl = [Globals sharedGlobals];
     if (arr.count == 0 && [proto.otherUserUuid isEqualToString:gl.adminChatUser.userUuid]) {
       GroupChatMessageProto_Builder *p = [GroupChatMessageProto builder];
-      p.sender = [[[MinimumUserProtoWithLevel builder] setMinUserProto:gl.adminChatUser] build];
+      p.sender = gl.adminChatUser;
       p.content = @"Hey there! I'll be with you shortly. What can I help you with today?";
       p.timeOfChat = [[MSDate date] timeIntervalSince1970]*1000;
       [arr addObject:[[ChatMessage alloc] initWithProto:p.build]];
@@ -775,7 +775,7 @@
   // Check unresponded messages for this
   id<ChatObject> unresponded = nil;
   for (id<ChatObject> cm in self.unrespondedChatMessages) {
-    if ([cm.sender.userUuid isEqualToString:post.poster.minUserProto.userUuid]) {
+    if ([cm.sender.userUuid isEqualToString:post.poster.userUuid]) {
       unresponded = cm;
     }
   }
@@ -844,7 +844,7 @@
       ChatMessage *cm = [ChatMessage new];
       cm.date = [MSDate date];
       cm.originalMessage = msg;
-      cm.originalSender = gs.minUserWithLevel;
+      cm.originalSender = gs.minUser;
       
       [self.unrespondedChatMessages addObject:cm];
       
@@ -954,8 +954,8 @@
   TranslateLanguages displayLanguage = TranslateLanguagesNoTranslation;
   if(_chatMode == PrivateChatModeAllMessages) {
     PrivateChatPostProto *pcpp = self.displayedChatList[indexPath.row];
-    if ([pcpp isKindOfClass:[PrivateChatPostProto class]] && ![pcpp.poster.minUserProto.userUuid isEqualToString:gs.userUuid] && [gs translateOnForUser:pcpp.poster.minUserProto.userUuid]) {
-      TranslateLanguages savedLanguage = [gs languageForUser:pcpp.poster.minUserProto.userUuid];
+    if ([pcpp isKindOfClass:[PrivateChatPostProto class]] && ![pcpp.poster.userUuid isEqualToString:gs.userUuid] && [gs translateOnForUser:pcpp.poster.userUuid]) {
+      TranslateLanguages savedLanguage = [gs languageForUser:pcpp.poster.userUuid];
       displayLanguage = savedLanguage == pcpp.originalContentLanguage ? TranslateLanguagesNoTranslation : savedLanguage;
     }
   }

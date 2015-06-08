@@ -886,6 +886,7 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableItemsUsedList;
 @property (strong) NSMutableArray * mutableNuUserItemsList;
+@property int32_t gemsSpent;
 @end
 
 @implementation TradeItemForSpeedUpsRequestProto
@@ -901,9 +902,17 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 @dynamic itemsUsedList;
 @synthesize mutableNuUserItemsList;
 @dynamic nuUserItemsList;
+- (BOOL) hasGemsSpent {
+  return !!hasGemsSpent_;
+}
+- (void) setHasGemsSpent:(BOOL) value_ {
+  hasGemsSpent_ = !!value_;
+}
+@synthesize gemsSpent;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.gemsSpent = 0;
   }
   return self;
 }
@@ -944,6 +953,9 @@ static TradeItemForSpeedUpsRequestProto* defaultTradeItemForSpeedUpsRequestProto
   [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:3 value:element];
   }];
+  if (self.hasGemsSpent) {
+    [output writeInt32:4 value:self.gemsSpent];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -962,6 +974,9 @@ static TradeItemForSpeedUpsRequestProto* defaultTradeItemForSpeedUpsRequestProto
   [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(3, element);
   }];
+  if (self.hasGemsSpent) {
+    size_ += computeInt32Size(4, self.gemsSpent);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -1015,6 +1030,9 @@ static TradeItemForSpeedUpsRequestProto* defaultTradeItemForSpeedUpsRequestProto
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasGemsSpent) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gemsSpent", [NSNumber numberWithInteger:self.gemsSpent]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1030,6 +1048,8 @@ static TradeItemForSpeedUpsRequestProto* defaultTradeItemForSpeedUpsRequestProto
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       [self.itemsUsedList isEqualToArray:otherMessage.itemsUsedList] &&
       [self.nuUserItemsList isEqualToArray:otherMessage.nuUserItemsList] &&
+      self.hasGemsSpent == otherMessage.hasGemsSpent &&
+      (!self.hasGemsSpent || self.gemsSpent == otherMessage.gemsSpent) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1043,6 +1063,9 @@ static TradeItemForSpeedUpsRequestProto* defaultTradeItemForSpeedUpsRequestProto
   [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasGemsSpent) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsSpent] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -1103,6 +1126,9 @@ static TradeItemForSpeedUpsRequestProto* defaultTradeItemForSpeedUpsRequestProto
       [result.mutableNuUserItemsList addObjectsFromArray:other.mutableNuUserItemsList];
     }
   }
+  if (other.hasGemsSpent) {
+    [self setGemsSpent:other.gemsSpent];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1143,6 +1169,10 @@ static TradeItemForSpeedUpsRequestProto* defaultTradeItemForSpeedUpsRequestProto
         UserItemProto_Builder* subBuilder = [UserItemProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addNuUserItems:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setGemsSpent:[input readInt32]];
         break;
       }
     }
@@ -1224,6 +1254,22 @@ static TradeItemForSpeedUpsRequestProto* defaultTradeItemForSpeedUpsRequestProto
 }
 - (TradeItemForSpeedUpsRequestProto_Builder *)clearNuUserItems {
   result.mutableNuUserItemsList = nil;
+  return self;
+}
+- (BOOL) hasGemsSpent {
+  return result.hasGemsSpent;
+}
+- (int32_t) gemsSpent {
+  return result.gemsSpent;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) setGemsSpent:(int32_t) value {
+  result.hasGemsSpent = YES;
+  result.gemsSpent = value;
+  return self;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) clearGemsSpent {
+  result.hasGemsSpent = NO;
+  result.gemsSpent = 0;
   return self;
 }
 @end
@@ -2144,6 +2190,7 @@ BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(Remove
 @property (strong) PBAppendableArray * mutableItemIdsUsedList;
 @property (strong) NSMutableArray * mutableNuUserItemsList;
 @property int64_t clientTime;
+@property int32_t gemsSpent;
 @end
 
 @implementation TradeItemForResourcesRequestProto
@@ -2166,10 +2213,18 @@ BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(Remove
   hasClientTime_ = !!value_;
 }
 @synthesize clientTime;
+- (BOOL) hasGemsSpent {
+  return !!hasGemsSpent_;
+}
+- (void) setHasGemsSpent:(BOOL) value_ {
+  hasGemsSpent_ = !!value_;
+}
+@synthesize gemsSpent;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.clientTime = 0L;
+    self.gemsSpent = 0;
   }
   return self;
 }
@@ -2217,6 +2272,9 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
   if (self.hasClientTime) {
     [output writeInt64:4 value:self.clientTime];
   }
+  if (self.hasGemsSpent) {
+    [output writeInt32:5 value:self.gemsSpent];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2244,6 +2302,9 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
   }];
   if (self.hasClientTime) {
     size_ += computeInt64Size(4, self.clientTime);
+  }
+  if (self.hasGemsSpent) {
+    size_ += computeInt32Size(5, self.gemsSpent);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2298,6 +2359,9 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
   }
+  if (self.hasGemsSpent) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gemsSpent", [NSNumber numberWithInteger:self.gemsSpent]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2315,6 +2379,8 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
       [self.nuUserItemsList isEqualToArray:otherMessage.nuUserItemsList] &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
+      self.hasGemsSpent == otherMessage.hasGemsSpent &&
+      (!self.hasGemsSpent || self.gemsSpent == otherMessage.gemsSpent) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2330,6 +2396,9 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
   }];
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
+  if (self.hasGemsSpent) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsSpent] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2394,6 +2463,9 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
   }
+  if (other.hasGemsSpent) {
+    [self setGemsSpent:other.gemsSpent];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2436,6 +2508,10 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
       }
       case 32: {
         [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 40: {
+        [self setGemsSpent:[input readInt32]];
         break;
       }
     }
@@ -2537,6 +2613,22 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
 - (TradeItemForResourcesRequestProto_Builder*) clearClientTime {
   result.hasClientTime = NO;
   result.clientTime = 0L;
+  return self;
+}
+- (BOOL) hasGemsSpent {
+  return result.hasGemsSpent;
+}
+- (int32_t) gemsSpent {
+  return result.gemsSpent;
+}
+- (TradeItemForResourcesRequestProto_Builder*) setGemsSpent:(int32_t) value {
+  result.hasGemsSpent = YES;
+  result.gemsSpent = value;
+  return self;
+}
+- (TradeItemForResourcesRequestProto_Builder*) clearGemsSpent {
+  result.hasGemsSpent = NO;
+  result.gemsSpent = 0;
   return self;
 }
 @end

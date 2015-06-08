@@ -242,11 +242,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return mup.build;
 }
 
-- (MinimumUserProtoWithLevel *) minUserWithLevel {
-  MinimumUserProtoWithLevel *mupl = [[[[MinimumUserProtoWithLevel builder] setMinUserProto:[self minUser]] setLevel:_level] build];
-  return mupl;
-}
-
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
   if (itemId == 0) {
     [Globals popupMessage:@"Attempted to access static item 0"];
@@ -671,7 +666,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(ChatScope)scope isAdmin:(BOOL)isAdmin {
+- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(ChatScope)scope isAdmin:(BOOL)isAdmin {
   ChatMessage *cm = [[ChatMessage alloc] init];
   cm.originalSender = sender;
   cm.originalMessage = msg;

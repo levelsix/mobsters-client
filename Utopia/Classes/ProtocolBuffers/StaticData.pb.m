@@ -83,6 +83,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutableBattleItemList;
 @property (strong) NSMutableArray * mutablePvpBoardObstacleProtosList;
 @property (strong) NSMutableArray * mutableClanGiftsList;
+@property (strong) NSMutableArray * mutableStructureItemPricesList;
 @end
 
 @implementation StaticDataProto
@@ -183,6 +184,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic pvpBoardObstacleProtosList;
 @synthesize mutableClanGiftsList;
 @dynamic clanGiftsList;
+@synthesize mutableStructureItemPricesList;
+@dynamic structureItemPricesList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -448,6 +451,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 - (ClanGiftProto*)clanGiftsAtIndex:(NSUInteger)index {
   return [mutableClanGiftsList objectAtIndex:index];
 }
+- (NSArray *)structureItemPricesList {
+  return mutableStructureItemPricesList;
+}
+- (ItemGemPriceProto*)structureItemPricesAtIndex:(NSUInteger)index {
+  return [mutableStructureItemPricesList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -580,6 +589,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.clanGiftsList enumerateObjectsUsingBlock:^(ClanGiftProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:46 value:element];
+  }];
+  [self.structureItemPricesList enumerateObjectsUsingBlock:^(ItemGemPriceProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:47 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -718,6 +730,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.clanGiftsList enumerateObjectsUsingBlock:^(ClanGiftProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(46, element);
+  }];
+  [self.structureItemPricesList enumerateObjectsUsingBlock:^(ItemGemPriceProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(47, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1012,6 +1027,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.structureItemPricesList enumerateObjectsUsingBlock:^(ItemGemPriceProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"structureItemPrices"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1068,6 +1089,7 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [self.allBattleItemFactorysList isEqualToArray:otherMessage.allBattleItemFactorysList] &&
       [self.battleItemList isEqualToArray:otherMessage.battleItemList] &&
       [self.clanGiftsList isEqualToArray:otherMessage.clanGiftsList] &&
+      [self.structureItemPricesList isEqualToArray:otherMessage.structureItemPricesList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1199,6 +1221,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.clanGiftsList enumerateObjectsUsingBlock:^(ClanGiftProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.structureItemPricesList enumerateObjectsUsingBlock:^(ItemGemPriceProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -1537,6 +1562,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [result.mutableClanGiftsList addObjectsFromArray:other.mutableClanGiftsList];
     }
   }
+  if (other.mutableStructureItemPricesList.count > 0) {
+    if (result.mutableStructureItemPricesList == nil) {
+      result.mutableStructureItemPricesList = [[NSMutableArray alloc] initWithArray:other.mutableStructureItemPricesList];
+    } else {
+      [result.mutableStructureItemPricesList addObjectsFromArray:other.mutableStructureItemPricesList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1820,6 +1852,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         ClanGiftProto_Builder* subBuilder = [ClanGiftProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addClanGifts:[subBuilder buildPartial]];
+        break;
+      }
+      case 378: {
+        ItemGemPriceProto_Builder* subBuilder = [ItemGemPriceProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addStructureItemPrices:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2867,6 +2905,30 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (StaticDataProto_Builder *)clearClanGifts {
   result.mutableClanGiftsList = nil;
+  return self;
+}
+- (NSMutableArray *)structureItemPricesList {
+  return result.mutableStructureItemPricesList;
+}
+- (ItemGemPriceProto*)structureItemPricesAtIndex:(NSUInteger)index {
+  return [result structureItemPricesAtIndex:index];
+}
+- (StaticDataProto_Builder *)addStructureItemPrices:(ItemGemPriceProto*)value {
+  if (result.mutableStructureItemPricesList == nil) {
+    result.mutableStructureItemPricesList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableStructureItemPricesList addObject:value];
+  return self;
+}
+- (StaticDataProto_Builder *)addAllStructureItemPrices:(NSArray *)array {
+  if (result.mutableStructureItemPricesList == nil) {
+    result.mutableStructureItemPricesList = [NSMutableArray array];
+  }
+  [result.mutableStructureItemPricesList addObjectsFromArray:array];
+  return self;
+}
+- (StaticDataProto_Builder *)clearStructureItemPrices {
+  result.mutableStructureItemPricesList = nil;
   return self;
 }
 @end

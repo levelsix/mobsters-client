@@ -154,7 +154,7 @@
 
 @property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
-@property (nonatomic, retain) IBOutlet UILabel *levelLabel;
+@property (nonatomic, retain) IBOutlet UILabel *strengthLabel;
 @property (nonatomic, assign) IBOutlet UIButton *attackButton;
 @property (nonatomic, assign) IBOutlet UIButton *profileButton;
 

@@ -16,7 +16,7 @@
 @property (nonatomic, assign) IBOutlet UILabel *nameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *typeLabel;
 @property (nonatomic, assign) IBOutlet UILabel *totalHelpsLabel;
-@property (nonatomic, assign) IBOutlet UILabel *levelLabel;
+@property (nonatomic, assign) IBOutlet UILabel *strengthLabel;
 @property (nonatomic, assign) IBOutlet UILabel *raidContributionLabel;
 @property (nonatomic, assign) IBOutlet UILabel *battleWinsLabel;
 

@@ -63,7 +63,7 @@
 }
 
 - (MinimumUserProto *) sender {
-  return self.originalSender.minUserProto;
+  return self.originalSender;
 }
 
 - (NSString *) message {
@@ -197,10 +197,10 @@
   GameState *gs = [GameState sharedGameState];
   PrivateChatPostProto_Builder *bldr = [PrivateChatPostProto builder];
   bldr.content = posName;
-  bldr.poster = [gs minUserWithLevel];
-  bldr.recipient = [[[MinimumUserProtoWithLevel builder] setMinUserProto:[self sender]] build];
+  bldr.poster = [gs minUser];
+  bldr.recipient = [self sender];
   bldr.timeOfPost = [[MSDate date] timeIntervalSince1970]*1000.;
-  bldr.originalContentLanguage = [gs languageForUser:bldr.recipient.minUserProto.userUuid];
+  bldr.originalContentLanguage = [gs languageForUser:bldr.recipient.userUuid];
   PrivateChatPostProto *pcpp = [bldr build];
   return pcpp;
 }
@@ -213,7 +213,7 @@
   // Send a private message as if you just accepted the hire
   [[OutgoingEventController sharedOutgoingEventController] privateChatPost:self.invite.inviter.minUserProto.userUuid content:pcpp.content originalLanguage:pcpp.originalContentLanguage];
   
-  NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, pcpp.recipient.minUserProto.userUuid];
+  NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, pcpp.recipient.userUuid];
   [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:self userInfo:@{key : pcpp}];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
@@ -228,7 +228,7 @@
 @implementation PrivateChatPostProto (ChatObject)
 
 - (MinimumUserProto *) sender {
-  return self.poster.minUserProto;
+  return self.poster;
 }
 
 - (NSString *) message {
@@ -340,8 +340,8 @@
 - (PrivateChatPostProto *) privateChat {
   GameState *gs = [GameState sharedGameState];
   PrivateChatPostProto_Builder *bldr = [PrivateChatPostProto builder];
-  bldr.poster = [[[MinimumUserProtoWithLevel builder] setMinUserProto:[self sender]] build];
-  bldr.recipient = [gs minUserWithLevel];
+  bldr.poster = [self sender];
+  bldr.recipient = [gs minUser];
   bldr.timeOfPost = [[self date] timeIntervalSince1970]*1000.;
   PrivateChatPostProto *pcpp = [bldr build];
   return pcpp;
@@ -434,7 +434,7 @@
 - (BOOL) canAttack {
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *invalidIds = [self.avengedUserUuids mutableCopy];
-  [invalidIds addObject:self.attacker.minUserProto.userUuid];
+  [invalidIds addObject:self.attacker.userUuid];
   [invalidIds addObject:self.defender.userUuid];
   
   return ![invalidIds containsObject:gs.userUuid];
@@ -445,7 +445,7 @@
 }
 
 - (NSString *) message {
-  return [NSString stringWithFormat:@"I have been attacked by %@. Please avenge me!", self.attacker.minUserProto.name];
+  return [NSString stringWithFormat:@"I have been attacked by %@. Please avenge me!", self.attacker.name];
 }
 
 - (MSDate *) date {
@@ -498,7 +498,7 @@
 
 - (IBAction)profileClicked:(id)sender {
   UIViewController *gvc = [GameViewController baseController];
-  ProfileViewController *pvc = [[ProfileViewController alloc] initWithUserUuid:self.attacker.minUserProto.userUuid];
+  ProfileViewController *pvc = [[ProfileViewController alloc] initWithUserUuid:self.attacker.userUuid];
   [gvc addChildViewController:pvc];
   pvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:pvc.view];
@@ -508,7 +508,7 @@
   return [self class] == [object class] &&
   ( (self.clanAvengeUuid && [object clanAvengeUuid] && [self.clanAvengeUuid isEqualToString:[object clanAvengeUuid]]) ||
    ( (!self.clanAvengeUuid || ![object clanAvengeUuid]) &&
-    [self.attacker.minUserProto.userUuid isEqualToString:[object attacker].minUserProto.userUuid] &&
+    [self.attacker.userUuid isEqualToString:[object attacker].userUuid] &&
     [self.defender.userUuid isEqualToString:[object defender].userUuid]));
 }
 

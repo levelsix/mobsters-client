@@ -1210,7 +1210,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   [bl setClanAvenging:ca];
   
   [[OutgoingEventController sharedOutgoingEventController] queueUpForClanAvenge:ca delegate:nil];
-  [[OutgoingEventController sharedOutgoingEventController] retrieveUserTeam:ca.attacker.minUserProto.userUuid delegate:bl];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveUserTeam:ca.attacker.userUuid delegate:bl];
   
   [self crossFadeIntoBattleLayer:bl];
 }

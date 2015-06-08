@@ -89,18 +89,18 @@
   };
   
   NSComparator baseComp = ^NSComparisonResult(MinimumUserProtoForClans *m1, MinimumUserProtoForClans *m2) {
-    return [m1.minUserProtoWithLevel.minUserProto.userUuid compare:m2.minUserProtoWithLevel.minUserProto.userUuid];
+    return [@(m2.sender.strength) compare:@(m1.sender.strength)];
   };
   
-  if (_sortOrder == ClanInfoSortOrderLevel) {
+  if (_sortOrder == ClanInfoSortOrderStrength) {
     comp = ^NSComparisonResult(MinimumUserProtoForClans *m1, MinimumUserProtoForClans *m2) {
       NSComparisonResult reqResult = reqComp(m1, m2);
       if (reqResult != NSOrderedSame) return reqResult;
       
-      int level1 = m1.minUserProtoWithLevel.level;
-      int level2 = m2.minUserProtoWithLevel.level;
-      if (level1 != level2) {
-        return [@(level2) compare:@(level1)];
+      uint64_t strength1 = m1.sender.strength;
+      uint64_t strength2 = m2.sender.strength;
+      if (strength1 != strength2) {
+        return [@(strength2) compare:@(strength1)];
       } else {
         return baseComp(m1, m2);
       }
@@ -123,8 +123,8 @@
       NSComparisonResult reqResult = reqComp(m1, m2);
       if (reqResult != NSOrderedSame) return reqResult;
       
-      NSArray *ums1 = self.curTeams[m1.minUserProtoWithLevel.minUserProto.userUuid];
-      NSArray *ums2 = self.curTeams[m2.minUserProtoWithLevel.minUserProto.userUuid];
+      NSArray *ums1 = self.curTeams[m1.sender.userUuid];
+      NSArray *ums2 = self.curTeams[m2.sender.userUuid];
       
       Globals *gl = [Globals sharedGlobals];
       int str1 = 0, str2 = 0;
@@ -409,7 +409,7 @@
 
 - (void) setDataForCellAtIndexPath:(NSIndexPath *)indexPath cell:(ClanMemberCell *)cell {
   MinimumUserProtoForClans *user = [self.shownMembers objectAtIndex:indexPath.row];
-  NSString *userUuid = user.minUserProtoWithLevel.minUserProto.userUuid;
+  NSString *userUuid = user.sender.userUuid;
   [cell loadForUser:user currentTeam:self.curTeams[userUuid] myStatus:self.myUser.clanStatus];
 }
 
@@ -435,12 +435,12 @@
 - (void) settingClicked:(ClanInfoSettingsButtonView *)button {
   if (!_waitingForResponse) {
     ClanSetting setting = button.setting;
-    NSString *userUuid = _curClickedCell.user.minUserProtoWithLevel.minUserProto.userUuid;
+    NSString *userUuid = _curClickedCell.user.sender.userUuid;
     BOOL confirming = NO;
     if (setting == ClanSettingAcceptMember) {
       [[OutgoingEventController sharedOutgoingEventController] approveOrRejectRequestToJoinClan:userUuid accept:YES delegate:self];
     } else if (setting == ClanSettingBoot) {
-      NSString *desc = [NSString stringWithFormat:@"Are you sure you would like to boot %@?", _curClickedCell.user.minUserProtoWithLevel.minUserProto.name];
+      NSString *desc = [NSString stringWithFormat:@"Are you sure you would like to boot %@?", _curClickedCell.user.sender.name];
       [GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"Boot Member?" okayButton:@"Boot" cancelButton:@"Cancel"  okTarget:self okSelector:@selector(sendBoot) cancelTarget:nil cancelSelector:nil];
       confirming = YES;
     } else if (setting == ClanSettingDemoteToCaptain) {
@@ -454,7 +454,7 @@
     } else if (setting == ClanSettingRejectMember) {
       [[OutgoingEventController sharedOutgoingEventController] approveOrRejectRequestToJoinClan:userUuid accept:NO delegate:self];
     } else if (setting == ClanSettingTransferLeader) {
-      NSString *desc = [NSString stringWithFormat:@"Are you sure you would like to transfer leadership to %@?", _curClickedCell.user.minUserProtoWithLevel.minUserProto.name];
+      NSString *desc = [NSString stringWithFormat:@"Are you sure you would like to transfer leadership to %@?", _curClickedCell.user.sender.name];
       [GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"Transfer Leadership?" okayButton:@"Transfer" cancelButton:@"Cancel" okTarget:self okSelector:@selector(sendTransferClanOwnership) cancelTarget:nil cancelSelector:nil];
       confirming = YES;
     }
@@ -471,7 +471,7 @@
 }
 
 - (void) sendBoot {
-  NSString *userUuid = _curClickedCell.user.minUserProtoWithLevel.minUserProto.userUuid;
+  NSString *userUuid = _curClickedCell.user.sender.userUuid;
   [[OutgoingEventController sharedOutgoingEventController] bootPlayerFromClan:userUuid delegate:self];
   _waitingForResponse = YES;
   [_clickedSettingsButton beginSpinning];
@@ -479,7 +479,7 @@
 }
 
 - (void) sendTransferClanOwnership {
-  NSString *userUuid = _curClickedCell.user.minUserProtoWithLevel.minUserProto.userUuid;
+  NSString *userUuid = _curClickedCell.user.sender.userUuid;
   [[OutgoingEventController sharedOutgoingEventController] transferClanOwnership:userUuid delegate:self];
   _waitingForResponse = YES;
   [_clickedSettingsButton beginSpinning];
@@ -542,7 +542,7 @@
   
   if (sender) {
     ClanMemberCell *cell = (ClanMemberCell *)sender;
-    ProfileViewController *mpvc = [[ProfileViewController alloc] initWithUserUuid:cell.user.minUserProtoWithLevel.minUserProto.userUuid];
+    ProfileViewController *mpvc = [[ProfileViewController alloc] initWithUserUuid:cell.user.sender.userUuid];
     UIViewController *parent = [GameViewController baseController];
     mpvc.view.frame = parent.view.bounds;
     [parent.view addSubview:mpvc.view];
@@ -574,7 +574,7 @@
   NSMutableArray *arr = members.mutableCopy;
   for (int i = 0; i < arr.count; i++) {
     MinimumUserProtoForClans *mup = members[i];
-    if ([mup.minUserProtoWithLevel.minUserProto.userUuid isEqualToString:userUuid]) {
+    if ([mup.sender.userUuid isEqualToString:userUuid]) {
       [arr removeObjectAtIndex:i];
       
       if (mup.clanStatus != UserClanStatusRequesting) {
@@ -591,7 +591,7 @@
   NSMutableArray *arr = members.mutableCopy;
   for (int i = 0; i < arr.count; i++) {
     MinimumUserProtoForClans *mup = members[i];
-    if ([mup.minUserProtoWithLevel.minUserProto.userUuid isEqualToString:userUuid]) {
+    if ([mup.sender.userUuid isEqualToString:userUuid]) {
       MinimumUserProtoForClans *newMup = [[[MinimumUserProtoForClans builderWithPrototype:mup] setClanStatus:status] build];
       [arr replaceObjectAtIndex:i withObject:newMup];
       
@@ -629,7 +629,7 @@
   if (_isMyClan) {
     GameState *gs = [GameState sharedGameState];
     for (MinimumUserProtoForClans *mup in self.allMembers) {
-      if ([mup.minUserProtoWithLevel.minUserProto.userUuid isEqualToString:gs.userUuid]) {
+      if ([mup.sender.userUuid isEqualToString:gs.userUuid]) {
         self.myUser = mup;
       }
     }

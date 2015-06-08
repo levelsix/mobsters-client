@@ -40,7 +40,7 @@
 
 @interface ChatMessage : NSObject <ChatObject>
 
-@property (nonatomic, retain) MinimumUserProtoWithLevel *originalSender;
+@property (nonatomic, retain) MinimumUserProto *originalSender;
 @property (nonatomic, retain) MSDate *date;
 @property (nonatomic, assign) BOOL isAdmin;
 @property (nonatomic, assign) BOOL isRead;
@@ -83,7 +83,7 @@
 
 @property (nonatomic, retain) NSString *clanAvengeUuid;
 @property (nonatomic, retain) NSString *clanUuid;
-@property (nonatomic, retain) MinimumUserProtoWithLevel *attacker;
+@property (nonatomic, retain) MinimumUserProto *attacker;
 @property (nonatomic, retain) MinimumUserProto *defender;
 @property (nonatomic, retain) MSDate *battleEndTime;
 @property (nonatomic, retain) MSDate *avengeRequestTime;

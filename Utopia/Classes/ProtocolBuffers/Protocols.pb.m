@@ -193,6 +193,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCDeleteClanGiftsEvent:
     case EventProtocolRequestCReceivedClanGiftsEvent:
     case EventProtocolRequestCRetrieveStrengthLeaderBoardEvent:
+    case EventProtocolRequestCPurchaseItemsWithGemsEvent:
     case EventProtocolRequestCReconnectEvent:
       return YES;
     default:
@@ -332,6 +333,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSReceivedClanGiftsEvent:
     case EventProtocolResponseSRetrieveStrengthLeaderBoardEvent:
     case EventProtocolResponseSReconnectEvent:
+    case EventProtocolResponseSPurchaseItemsWithGemsEvent:
       return YES;
     default:
       return NO;

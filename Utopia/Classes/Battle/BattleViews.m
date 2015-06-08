@@ -705,7 +705,7 @@
 }
 
 - (void) updateForPvpProto:(PvpProto *)pvp {
-  self.nameLabel.string = [Globals fullNameWithName:pvp.defender.minUserProto.name clanTag:pvp.defender.minUserProto.clan.tag];
+  self.nameLabel.string = [Globals fullNameWithName:pvp.defender.name clanTag:pvp.defender.clan.tag];
   self.cashLabel.string = [Globals cashStringForNumber:pvp.prospectiveCashWinnings];
   self.oilLabel.string = [Globals commafyNumber:pvp.prospectiveOilWinnings];
   
@@ -713,7 +713,7 @@
   TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
   self.nextMatchCostLabel.string = [Globals cashStringForNumber:thp.pvpQueueCashCost];
   
-  int avatarId = pvp.defender.minUserProto.avatarMonsterId;
+  int avatarId = pvp.defender.avatarMonsterId;
   if (!avatarId) {
     PvpMonsterProto *ump = [pvp.defenderMonstersList firstObject];
     

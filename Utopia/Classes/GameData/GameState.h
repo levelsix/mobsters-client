@@ -174,7 +174,6 @@
 + (void) purgeSingleton;
 
 - (MinimumUserProto *) minUser;
-- (MinimumUserProtoWithLevel *) minUserWithLevel;
 - (FullUserProto *) convertToFullUserProto;
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time;
 - (void) checkMaxResourceCapacities;
@@ -221,7 +220,7 @@
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
 - (void) addNotification:(UserNotification *)un;
 - (void) addToMiniJobs:(NSArray *)miniJobs isNew:(BOOL)isNew;
-- (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(ChatScope)scope isAdmin:(BOOL)isAdmin;
+- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(ChatScope)scope isAdmin:(BOOL)isAdmin;
 - (void) addChatMessage:(ChatMessage *)cm scope:(ChatScope) scope;
 - (void) addPrivateChat:(PrivateChatPostProto *)post;
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp;

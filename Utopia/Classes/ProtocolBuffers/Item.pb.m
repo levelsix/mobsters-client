@@ -1830,6 +1830,7 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
 @interface ItemGemPriceProto ()
 @property int32_t itemId;
 @property int32_t gemPrice;
+@property int32_t structId;
 @end
 
 @implementation ItemGemPriceProto
@@ -1848,10 +1849,18 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
   hasGemPrice_ = !!value_;
 }
 @synthesize gemPrice;
+- (BOOL) hasStructId {
+  return !!hasStructId_;
+}
+- (void) setHasStructId:(BOOL) value_ {
+  hasStructId_ = !!value_;
+}
+@synthesize structId;
 - (id) init {
   if ((self = [super init])) {
     self.itemId = 0;
     self.gemPrice = 0;
+    self.structId = 0;
   }
   return self;
 }
@@ -1877,6 +1886,9 @@ static ItemGemPriceProto* defaultItemGemPriceProtoInstance = nil;
   if (self.hasGemPrice) {
     [output writeInt32:2 value:self.gemPrice];
   }
+  if (self.hasStructId) {
+    [output writeInt32:3 value:self.structId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1891,6 +1903,9 @@ static ItemGemPriceProto* defaultItemGemPriceProtoInstance = nil;
   }
   if (self.hasGemPrice) {
     size_ += computeInt32Size(2, self.gemPrice);
+  }
+  if (self.hasStructId) {
+    size_ += computeInt32Size(3, self.structId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1933,6 +1948,9 @@ static ItemGemPriceProto* defaultItemGemPriceProtoInstance = nil;
   if (self.hasGemPrice) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gemPrice", [NSNumber numberWithInteger:self.gemPrice]];
   }
+  if (self.hasStructId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"structId", [NSNumber numberWithInteger:self.structId]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1948,6 +1966,8 @@ static ItemGemPriceProto* defaultItemGemPriceProtoInstance = nil;
       (!self.hasItemId || self.itemId == otherMessage.itemId) &&
       self.hasGemPrice == otherMessage.hasGemPrice &&
       (!self.hasGemPrice || self.gemPrice == otherMessage.gemPrice) &&
+      self.hasStructId == otherMessage.hasStructId &&
+      (!self.hasStructId || self.structId == otherMessage.structId) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1957,6 +1977,9 @@ static ItemGemPriceProto* defaultItemGemPriceProtoInstance = nil;
   }
   if (self.hasGemPrice) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemPrice] hash];
+  }
+  if (self.hasStructId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.structId] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2007,6 +2030,9 @@ static ItemGemPriceProto* defaultItemGemPriceProtoInstance = nil;
   if (other.hasGemPrice) {
     [self setGemPrice:other.gemPrice];
   }
+  if (other.hasStructId) {
+    [self setStructId:other.structId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2034,6 +2060,10 @@ static ItemGemPriceProto* defaultItemGemPriceProtoInstance = nil;
       }
       case 16: {
         [self setGemPrice:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setStructId:[input readInt32]];
         break;
       }
     }
@@ -2069,6 +2099,22 @@ static ItemGemPriceProto* defaultItemGemPriceProtoInstance = nil;
 - (ItemGemPriceProto_Builder*) clearGemPrice {
   result.hasGemPrice = NO;
   result.gemPrice = 0;
+  return self;
+}
+- (BOOL) hasStructId {
+  return result.hasStructId;
+}
+- (int32_t) structId {
+  return result.structId;
+}
+- (ItemGemPriceProto_Builder*) setStructId:(int32_t) value {
+  result.hasStructId = YES;
+  result.structId = value;
+  return self;
+}
+- (ItemGemPriceProto_Builder*) clearStructId {
+  result.hasStructId = NO;
+  result.structId = 0;
   return self;
 }
 @end

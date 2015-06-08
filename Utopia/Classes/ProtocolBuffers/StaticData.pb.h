@@ -130,8 +130,6 @@
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
-@class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
@@ -353,6 +351,7 @@
   NSMutableArray * mutableBattleItemList;
   NSMutableArray * mutablePvpBoardObstacleProtosList;
   NSMutableArray * mutableClanGiftsList;
+  NSMutableArray * mutableStructureItemPricesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStarterPack;
@@ -399,6 +398,7 @@
 @property (readonly, strong) NSArray * battleItemList;
 @property (readonly, strong) NSArray * pvpBoardObstacleProtosList;
 @property (readonly, strong) NSArray * clanGiftsList;
+@property (readonly, strong) NSArray * structureItemPricesList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
 - (FullTaskProto*)allTasksAtIndex:(NSUInteger)index;
@@ -440,6 +440,7 @@
 - (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
 - (ClanGiftProto*)clanGiftsAtIndex:(NSUInteger)index;
+- (ItemGemPriceProto*)structureItemPricesAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -735,6 +736,12 @@
 - (StaticDataProto_Builder *)addClanGifts:(ClanGiftProto*)value;
 - (StaticDataProto_Builder *)addAllClanGifts:(NSArray *)array;
 - (StaticDataProto_Builder *)clearClanGifts;
+
+- (NSMutableArray *)structureItemPricesList;
+- (ItemGemPriceProto*)structureItemPricesAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addStructureItemPrices:(ItemGemPriceProto*)value;
+- (StaticDataProto_Builder *)addAllStructureItemPrices:(NSArray *)array;
+- (StaticDataProto_Builder *)clearStructureItemPrices;
 @end
 
 

@@ -11,8 +11,6 @@
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
-@class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
@@ -146,10 +144,12 @@
 
 @interface MinimumUserProto : PBGeneratedMessage {
 @private
+  BOOL hasStrength_:1;
   BOOL hasAvatarMonsterId_:1;
   BOOL hasUserUuid_:1;
   BOOL hasName_:1;
   BOOL hasClan_:1;
+  int64_t strength;
   int32_t avatarMonsterId;
   NSString* userUuid;
   NSString* name;
@@ -159,10 +159,12 @@
 - (BOOL) hasName;
 - (BOOL) hasClan;
 - (BOOL) hasAvatarMonsterId;
+- (BOOL) hasStrength;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly, strong) NSString* name;
 @property (readonly, strong) MinimumClanProto* clan;
 @property (readonly) int32_t avatarMonsterId;
+@property (readonly) int64_t strength;
 
 + (MinimumUserProto*) defaultInstance;
 - (MinimumUserProto*) defaultInstance;
@@ -220,66 +222,11 @@
 - (int32_t) avatarMonsterId;
 - (MinimumUserProto_Builder*) setAvatarMonsterId:(int32_t) value;
 - (MinimumUserProto_Builder*) clearAvatarMonsterId;
-@end
 
-@interface MinimumUserProtoWithLevel : PBGeneratedMessage {
-@private
-  BOOL hasLevel_:1;
-  BOOL hasMinUserProto_:1;
-  int32_t level;
-  MinimumUserProto* minUserProto;
-}
-- (BOOL) hasMinUserProto;
-- (BOOL) hasLevel;
-@property (readonly, strong) MinimumUserProto* minUserProto;
-@property (readonly) int32_t level;
-
-+ (MinimumUserProtoWithLevel*) defaultInstance;
-- (MinimumUserProtoWithLevel*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (MinimumUserProtoWithLevel_Builder*) builder;
-+ (MinimumUserProtoWithLevel_Builder*) builder;
-+ (MinimumUserProtoWithLevel_Builder*) builderWithPrototype:(MinimumUserProtoWithLevel*) prototype;
-- (MinimumUserProtoWithLevel_Builder*) toBuilder;
-
-+ (MinimumUserProtoWithLevel*) parseFromData:(NSData*) data;
-+ (MinimumUserProtoWithLevel*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MinimumUserProtoWithLevel*) parseFromInputStream:(NSInputStream*) input;
-+ (MinimumUserProtoWithLevel*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MinimumUserProtoWithLevel*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (MinimumUserProtoWithLevel*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface MinimumUserProtoWithLevel_Builder : PBGeneratedMessageBuilder {
-@private
-  MinimumUserProtoWithLevel* result;
-}
-
-- (MinimumUserProtoWithLevel*) defaultInstance;
-
-- (MinimumUserProtoWithLevel_Builder*) clear;
-- (MinimumUserProtoWithLevel_Builder*) clone;
-
-- (MinimumUserProtoWithLevel*) build;
-- (MinimumUserProtoWithLevel*) buildPartial;
-
-- (MinimumUserProtoWithLevel_Builder*) mergeFrom:(MinimumUserProtoWithLevel*) other;
-- (MinimumUserProtoWithLevel_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (MinimumUserProtoWithLevel_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasMinUserProto;
-- (MinimumUserProto*) minUserProto;
-- (MinimumUserProtoWithLevel_Builder*) setMinUserProto:(MinimumUserProto*) value;
-- (MinimumUserProtoWithLevel_Builder*) setMinUserProto_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (MinimumUserProtoWithLevel_Builder*) mergeMinUserProto:(MinimumUserProto*) value;
-- (MinimumUserProtoWithLevel_Builder*) clearMinUserProto;
-
-- (BOOL) hasLevel;
-- (int32_t) level;
-- (MinimumUserProtoWithLevel_Builder*) setLevel:(int32_t) value;
-- (MinimumUserProtoWithLevel_Builder*) clearLevel;
+- (BOOL) hasStrength;
+- (int64_t) strength;
+- (MinimumUserProto_Builder*) setStrength:(int64_t) value;
+- (MinimumUserProto_Builder*) clearStrength;
 @end
 
 @interface MinimumUserProtoWithFacebookId : PBGeneratedMessage {

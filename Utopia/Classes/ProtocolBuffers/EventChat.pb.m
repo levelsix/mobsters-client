@@ -1283,7 +1283,7 @@ BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatRes
 @end
 
 @interface ReceivedGroupChatResponseProto ()
-@property (strong) MinimumUserProtoWithLevel* sender;
+@property (strong) MinimumUserProto* sender;
 @property ChatScope scope;
 @property (strong) GroupChatMessageProto* message;
 @property (strong) NSString* chatMessage;
@@ -1334,7 +1334,7 @@ BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatRes
 }
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProtoWithLevel defaultInstance];
+    self.sender = [MinimumUserProto defaultInstance];
     self.scope = ChatScopeClan;
     self.message = [GroupChatMessageProto defaultInstance];
     self.chatMessage = @"";
@@ -1573,7 +1573,7 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
         break;
       }
       case 10: {
-        MinimumUserProtoWithLevel_Builder* subBuilder = [MinimumUserProtoWithLevel builder];
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -1613,22 +1613,22 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProtoWithLevel*) sender {
+- (MinimumUserProto*) sender {
   return result.sender;
 }
-- (ReceivedGroupChatResponseProto_Builder*) setSender:(MinimumUserProtoWithLevel*) value {
+- (ReceivedGroupChatResponseProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (ReceivedGroupChatResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue {
+- (ReceivedGroupChatResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (ReceivedGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProtoWithLevel*) value {
+- (ReceivedGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProtoWithLevel defaultInstance]) {
+      result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
-      [[[MinimumUserProtoWithLevel builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -1637,7 +1637,7 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
 }
 - (ReceivedGroupChatResponseProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProtoWithLevel defaultInstance];
+  result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
 - (BOOL) hasScope {

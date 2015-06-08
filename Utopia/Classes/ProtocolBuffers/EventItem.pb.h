@@ -36,8 +36,6 @@
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
-@class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
@@ -336,15 +334,19 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 
 @interface TradeItemForSpeedUpsRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasGemsSpent_:1;
   BOOL hasSender_:1;
+  int32_t gemsSpent;
   MinimumUserProto* sender;
   NSMutableArray * mutableItemsUsedList;
   NSMutableArray * mutableNuUserItemsList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasGemsSpent;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * itemsUsedList;
 @property (readonly, strong) NSArray * nuUserItemsList;
+@property (readonly) int32_t gemsSpent;
 - (UserItemUsageProto*)itemsUsedAtIndex:(NSUInteger)index;
 - (UserItemProto*)nuUserItemsAtIndex:(NSUInteger)index;
 
@@ -401,6 +403,11 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (TradeItemForSpeedUpsRequestProto_Builder *)addNuUserItems:(UserItemProto*)value;
 - (TradeItemForSpeedUpsRequestProto_Builder *)addAllNuUserItems:(NSArray *)array;
 - (TradeItemForSpeedUpsRequestProto_Builder *)clearNuUserItems;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (TradeItemForSpeedUpsRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (TradeItemForSpeedUpsRequestProto_Builder*) clearGemsSpent;
 @end
 
 @interface TradeItemForSpeedUpsResponseProto : PBGeneratedMessage {
@@ -595,18 +602,22 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 @interface TradeItemForResourcesRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
+  BOOL hasGemsSpent_:1;
   BOOL hasSender_:1;
   int64_t clientTime;
+  int32_t gemsSpent;
   MinimumUserProtoWithMaxResources* sender;
   PBAppendableArray * mutableItemIdsUsedList;
   NSMutableArray * mutableNuUserItemsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
+- (BOOL) hasGemsSpent;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) PBArray * itemIdsUsedList;
 @property (readonly, strong) NSArray * nuUserItemsList;
 @property (readonly) int64_t clientTime;
+@property (readonly) int32_t gemsSpent;
 - (int32_t)itemIdsUsedAtIndex:(NSUInteger)index;
 - (UserItemProto*)nuUserItemsAtIndex:(NSUInteger)index;
 
@@ -669,6 +680,11 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (int64_t) clientTime;
 - (TradeItemForResourcesRequestProto_Builder*) setClientTime:(int64_t) value;
 - (TradeItemForResourcesRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (TradeItemForResourcesRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (TradeItemForResourcesRequestProto_Builder*) clearGemsSpent;
 @end
 
 @interface TradeItemForResourcesResponseProto : PBGeneratedMessage {

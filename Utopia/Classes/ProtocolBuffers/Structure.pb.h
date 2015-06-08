@@ -1080,7 +1080,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   int32_t generatedJobLimit;
   int32_t hoursBetweenJobGeneration;
   StructureInfoProto* structInfo;
-  NSMutableArray * mutableRefreshMiniJobItemPricesList;
 }
 - (BOOL) hasStructInfo;
 - (BOOL) hasGeneratedJobLimit;
@@ -1088,8 +1087,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t generatedJobLimit;
 @property (readonly) int32_t hoursBetweenJobGeneration;
-@property (readonly, strong) NSArray * refreshMiniJobItemPricesList;
-- (ItemGemPriceProto*)refreshMiniJobItemPricesAtIndex:(NSUInteger)index;
 
 + (MiniJobCenterProto*) defaultInstance;
 - (MiniJobCenterProto*) defaultInstance;
@@ -1142,12 +1139,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) hoursBetweenJobGeneration;
 - (MiniJobCenterProto_Builder*) setHoursBetweenJobGeneration:(int32_t) value;
 - (MiniJobCenterProto_Builder*) clearHoursBetweenJobGeneration;
-
-- (NSMutableArray *)refreshMiniJobItemPricesList;
-- (ItemGemPriceProto*)refreshMiniJobItemPricesAtIndex:(NSUInteger)index;
-- (MiniJobCenterProto_Builder *)addRefreshMiniJobItemPrices:(ItemGemPriceProto*)value;
-- (MiniJobCenterProto_Builder *)addAllRefreshMiniJobItemPrices:(NSArray *)array;
-- (MiniJobCenterProto_Builder *)clearRefreshMiniJobItemPrices;
 @end
 
 @interface FullUserStructureProto : PBGeneratedMessage {

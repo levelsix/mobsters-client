@@ -328,7 +328,7 @@
 
 + (NSString *) userConfimredPushNotificationsKey;
 + (NSString *) cashStringForNumber:(int64_t)n;
-+ (NSString *) commafyNumber:(float)n;
++ (NSString *) commafyNumber:(double)n;
 + (NSString *) shortenNumber:(int)num;
 + (NSString *) qualifierStringForNumber:(int)rank;
 

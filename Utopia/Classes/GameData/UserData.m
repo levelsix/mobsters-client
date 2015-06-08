@@ -1049,7 +1049,7 @@
 
 - (id) initWithPrivateChatPost:(PrivateChatPostProto *)proto {
   if ((self = [super init])) {
-    self.otherPlayer = proto.poster.minUserProto;
+    self.otherPlayer = proto.poster;
     self.time = [MSDate dateWithTimeIntervalSince1970:proto.timeOfPost/1000.];
     self.type = kNotificationPrivateChat;
     self.wallPost = proto.content;

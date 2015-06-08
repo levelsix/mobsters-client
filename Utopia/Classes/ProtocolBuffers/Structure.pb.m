@@ -4562,7 +4562,6 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
 @property (strong) StructureInfoProto* structInfo;
 @property int32_t generatedJobLimit;
 @property int32_t hoursBetweenJobGeneration;
-@property (strong) NSMutableArray * mutableRefreshMiniJobItemPricesList;
 @end
 
 @implementation MiniJobCenterProto
@@ -4588,8 +4587,6 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
   hasHoursBetweenJobGeneration_ = !!value_;
 }
 @synthesize hoursBetweenJobGeneration;
-@synthesize mutableRefreshMiniJobItemPricesList;
-@dynamic refreshMiniJobItemPricesList;
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
@@ -4610,12 +4607,6 @@ static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
 - (MiniJobCenterProto*) defaultInstance {
   return defaultMiniJobCenterProtoInstance;
 }
-- (NSArray *)refreshMiniJobItemPricesList {
-  return mutableRefreshMiniJobItemPricesList;
-}
-- (ItemGemPriceProto*)refreshMiniJobItemPricesAtIndex:(NSUInteger)index {
-  return [mutableRefreshMiniJobItemPricesList objectAtIndex:index];
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -4629,9 +4620,6 @@ static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
   if (self.hasHoursBetweenJobGeneration) {
     [output writeInt32:3 value:self.hoursBetweenJobGeneration];
   }
-  [self.refreshMiniJobItemPricesList enumerateObjectsUsingBlock:^(ItemGemPriceProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:4 value:element];
-  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -4650,9 +4638,6 @@ static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
   if (self.hasHoursBetweenJobGeneration) {
     size_ += computeInt32Size(3, self.hoursBetweenJobGeneration);
   }
-  [self.refreshMiniJobItemPricesList enumerateObjectsUsingBlock:^(ItemGemPriceProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(4, element);
-  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -4700,12 +4685,6 @@ static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
   if (self.hasHoursBetweenJobGeneration) {
     [output appendFormat:@"%@%@: %@\n", indent, @"hoursBetweenJobGeneration", [NSNumber numberWithInteger:self.hoursBetweenJobGeneration]];
   }
-  [self.refreshMiniJobItemPricesList enumerateObjectsUsingBlock:^(ItemGemPriceProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"refreshMiniJobItemPrices"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -4723,7 +4702,6 @@ static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
       (!self.hasGeneratedJobLimit || self.generatedJobLimit == otherMessage.generatedJobLimit) &&
       self.hasHoursBetweenJobGeneration == otherMessage.hasHoursBetweenJobGeneration &&
       (!self.hasHoursBetweenJobGeneration || self.hoursBetweenJobGeneration == otherMessage.hoursBetweenJobGeneration) &&
-      [self.refreshMiniJobItemPricesList isEqualToArray:otherMessage.refreshMiniJobItemPricesList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -4737,9 +4715,6 @@ static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
   if (self.hasHoursBetweenJobGeneration) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.hoursBetweenJobGeneration] hash];
   }
-  [self.refreshMiniJobItemPricesList enumerateObjectsUsingBlock:^(ItemGemPriceProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -4792,13 +4767,6 @@ static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
   if (other.hasHoursBetweenJobGeneration) {
     [self setHoursBetweenJobGeneration:other.hoursBetweenJobGeneration];
   }
-  if (other.mutableRefreshMiniJobItemPricesList.count > 0) {
-    if (result.mutableRefreshMiniJobItemPricesList == nil) {
-      result.mutableRefreshMiniJobItemPricesList = [[NSMutableArray alloc] initWithArray:other.mutableRefreshMiniJobItemPricesList];
-    } else {
-      [result.mutableRefreshMiniJobItemPricesList addObjectsFromArray:other.mutableRefreshMiniJobItemPricesList];
-    }
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4835,12 +4803,6 @@ static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
       }
       case 24: {
         [self setHoursBetweenJobGeneration:[input readInt32]];
-        break;
-      }
-      case 34: {
-        ItemGemPriceProto_Builder* subBuilder = [ItemGemPriceProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addRefreshMiniJobItemPrices:[subBuilder buildPartial]];
         break;
       }
     }
@@ -4906,30 +4868,6 @@ static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
 - (MiniJobCenterProto_Builder*) clearHoursBetweenJobGeneration {
   result.hasHoursBetweenJobGeneration = NO;
   result.hoursBetweenJobGeneration = 0;
-  return self;
-}
-- (NSMutableArray *)refreshMiniJobItemPricesList {
-  return result.mutableRefreshMiniJobItemPricesList;
-}
-- (ItemGemPriceProto*)refreshMiniJobItemPricesAtIndex:(NSUInteger)index {
-  return [result refreshMiniJobItemPricesAtIndex:index];
-}
-- (MiniJobCenterProto_Builder *)addRefreshMiniJobItemPrices:(ItemGemPriceProto*)value {
-  if (result.mutableRefreshMiniJobItemPricesList == nil) {
-    result.mutableRefreshMiniJobItemPricesList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableRefreshMiniJobItemPricesList addObject:value];
-  return self;
-}
-- (MiniJobCenterProto_Builder *)addAllRefreshMiniJobItemPrices:(NSArray *)array {
-  if (result.mutableRefreshMiniJobItemPricesList == nil) {
-    result.mutableRefreshMiniJobItemPricesList = [NSMutableArray array];
-  }
-  [result.mutableRefreshMiniJobItemPricesList addObjectsFromArray:array];
-  return self;
-}
-- (MiniJobCenterProto_Builder *)clearRefreshMiniJobItemPrices {
-  result.mutableRefreshMiniJobItemPricesList = nil;
   return self;
 }
 @end

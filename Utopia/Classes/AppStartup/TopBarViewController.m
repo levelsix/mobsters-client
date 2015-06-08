@@ -1119,16 +1119,16 @@
   
   [self.avatarMonsterView updateForMonsterId:gs.avatarMonsterId];
   
-  if (gs.clan) {
-    ClanIconProto *icon = [gs clanIconWithId:gs.clan.clanIconId];
-    NSString *imgName = icon.imgName;
-    [Globals imageNamed:imgName withView:self.clanShieldIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    [Globals imageNamed:@"inaclanbutton.png" withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    self.clanShieldIcon.hidden = NO;
-  } else  {
-    [Globals imageNamed:@"notinaclanbutton.png" withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    self.clanShieldIcon.hidden = YES;
-  }
+//  if (gs.clan) {
+//    ClanIconProto *icon = [gs clanIconWithId:gs.clan.clanIconId];
+//    NSString *imgName = icon.imgName;
+//    [Globals imageNamed:imgName withView:self.clanShieldIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+//    [Globals imageNamed:@"inaclanbutton.png" withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+//    self.clanShieldIcon.hidden = NO;
+//  } else  {
+//    [Globals imageNamed:@"notinaclanbutton.png" withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+//    self.clanShieldIcon.hidden = YES;
+//  }
   
   [self updateLabels];
   

@@ -1122,7 +1122,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-      [gs addChatMessage:gs.minUserWithLevel message:msg scope:scope isAdmin:(scope == ChatScopeGlobal ? gs.isAdmin : NO)];
+      [gs addChatMessage:gs.minUser message:msg scope:scope isAdmin:(scope == ChatScopeGlobal ? gs.isAdmin : NO)];
       
       NSString *key = scope == ChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
       [[NSNotificationCenter defaultCenter] postNotificationName:key object:nil];
@@ -1487,7 +1487,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     GameState *gs = [GameState sharedGameState];
     PvpClanAvenging *ca = [[PvpClanAvenging alloc] init];
     MinimumUserProto *mup = [[[[[[MinimumUserProto builder] setName:pvp.attacker.name] setAvatarMonsterId:pvp.attacker.avatarMonsterId] setUserUuid:pvp.attacker.userUuid] setClan:pvp.attacker.clan] build];
-    ca.attacker = [[[[MinimumUserProtoWithLevel builder] setMinUserProto:mup] setLevel:pvp.attacker.level] build];
+    ca.attacker = mup;
     ca.defender = [gs minUser];
     ca.battleEndTime = [MSDate dateWithTimeIntervalSince1970:pvp.battleEndTime/1000.];
     ca.avengeRequestTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
@@ -2218,7 +2218,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (isRevenge) {
     PvpHistoryProto *pvp = nil;
     for (PvpHistoryProto *potential in gs.battleHistory) {
-      if ([potential.attacker.userUuid isEqualToString:proto.defender.minUserProto.userUuid] &&
+      if ([potential.attacker.userUuid isEqualToString:proto.defender.userUuid] &&
           potential.battleEndTime == previousBattleTime) {
         pvp = potential;
       }
@@ -2253,7 +2253,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.minUserProto.userUuid userAttacked:userAttacked userWon:userWon oilChange:oilGained cashChange:cashGained clientTime:[self getCurrentMilliseconds] monsterDropIds:monsterDropIds];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.userUuid userAttacked:userAttacked userWon:userWon oilChange:oilGained cashChange:cashGained clientTime:[self getCurrentMilliseconds] monsterDropIds:monsterDropIds];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   [gs addUnrespondedUpdates:[OilUpdate updateWithTag:tag change:oilGained], [CashUpdate updateWithTag:tag change:cashGained], nil];
   

@@ -1138,12 +1138,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   // Chats sent from this user will be faked.
   GameState *gs = [GameState sharedGameState];
-  if (![proto.sender.minUserProto.userUuid isEqualToString:gs.userUuid]) {
+  if (![proto.sender.userUuid isEqualToString:gs.userUuid]) {
     ChatMessage *cm = [[ChatMessage alloc] initWithProto:proto.message];
     [gs addChatMessage:cm scope:proto.scope];
     
     Globals *gl = [Globals sharedGlobals];
-    if (![gl isUserUuidMuted:proto.sender.minUserProto.userUuid]) {
+    if (![gl isUserUuidMuted:proto.sender.userUuid]) {
       NSString *key = proto.scope == ChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
       [[NSNotificationCenter defaultCenter] postNotificationName:key object:nil];
     }
@@ -1159,9 +1159,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addPrivateChat:proto.post];
     //add here
     //okay I will
-    if (![gs.privateChatLanguages valueForKey:proto.post.poster.minUserProto.userUuid]) {
-      [gs.privateChatLanguages setValue:@(proto.translationSetting.defaultLanguage) forKey:proto.post.poster.minUserProto.userUuid];
-      [gs.privateTranslationOn setValue:@(proto.translationSetting.translateOn) forKey:proto.post.poster.minUserProto.userUuid];
+    if (![gs.privateChatLanguages valueForKey:proto.post.poster.userUuid]) {
+      [gs.privateChatLanguages setValue:@(proto.translationSetting.defaultLanguage) forKey:proto.post.poster.userUuid];
+      [gs.privateTranslationOn setValue:@(proto.translationSetting.translateOn) forKey:proto.post.poster.userUuid];
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil userInfo:
@@ -1286,7 +1286,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [AchievementUtil checkClanJoined];
     } else {
-      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just joined your squad. Go say hi!", proto.requester.minUserProtoWithLevel.minUserProto.name] isImmediate:NO];
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just joined your squad. Go say hi!", proto.requester.sender.name] isImmediate:NO];
     }
   } else {
     if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusFailClanIsFull) {

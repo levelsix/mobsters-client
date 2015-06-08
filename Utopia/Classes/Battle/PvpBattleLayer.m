@@ -110,7 +110,7 @@
   
   // Send a private chat if avenge
   if (_clanAvenging) {
-    NSString *msg = [NSString stringWithFormat:@"I have successfully avenged you and defeated %@.", _clanAvenging.attacker.minUserProto.name];
+    NSString *msg = [NSString stringWithFormat:@"I have successfully avenged you and defeated %@.", _clanAvenging.attacker.name];
     [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_clanAvenging.defender.userUuid content:msg originalLanguage:TranslateLanguagesEnglish];
   }
 }
@@ -124,7 +124,7 @@
   
   // Send a private chat if avenge
   if (_clanAvenging) {
-    NSString *msg = [NSString stringWithFormat:@"I have attacked %@ but was unable to avenge you.", _clanAvenging.attacker.minUserProto.name];
+    NSString *msg = [NSString stringWithFormat:@"I have attacked %@ but was unable to avenge you.", _clanAvenging.attacker.name];
     [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_clanAvenging.defender.userUuid content:msg originalLanguage:TranslateLanguagesEnglish];
   }
 }
@@ -242,7 +242,7 @@
   PvpLeagueProto *league = [gs leagueForId:gs.pvpLeague.leagueId];
   
   NSString *outcome = _wonBattle ? @"Win" : _didRunaway ? @"Flee" : @"Lose";
-  [Analytics pvpMatchEnd:_wonBattle numEnemiesDefeated:_curStage mobstersUsed:self.myTeam totalRounds:(int)self.enemyTeam.count elo:gs.pvpLeague.elo oppElo:pvp.pvpLeagueStats.elo oppId:pvp.defender.minUserProto.userUuid outcome:outcome league:league.leagueName];
+  [Analytics pvpMatchEnd:_wonBattle numEnemiesDefeated:_curStage mobstersUsed:self.myTeam totalRounds:(int)self.enemyTeam.count elo:gs.pvpLeague.elo oppElo:pvp.pvpLeagueStats.elo oppId:pvp.defender.userUuid outcome:outcome league:league.leagueName];
 }
 
 - (void) sendButtonClicked:(id)sender {
@@ -252,14 +252,14 @@
   if (tf.text.length) {
     PvpProto *pvp = self.defendersList[_curQueueNum];
     
-    if (pvp.defender.minUserProto.hasUserUuid && pvp.defender.minUserProto.userUuid.length > 0) {
+    if (pvp.defender.hasUserUuid && pvp.defender.userUuid.length > 0) {
       TranslateLanguages originalLanguage;
-      if ([gs languageForUser:pvp.defender.minUserProto.userUuid]) {
-        originalLanguage = [gs languageForUser:pvp.defender.minUserProto.userUuid];
+      if ([gs languageForUser:pvp.defender.userUuid]) {
+        originalLanguage = [gs languageForUser:pvp.defender.userUuid];
       } else {
         originalLanguage = gs.globalLanguage;
       }
-      [[OutgoingEventController sharedOutgoingEventController] privateChatPost:pvp.defender.minUserProto.userUuid content:tf.text originalLanguage:originalLanguage];
+      [[OutgoingEventController sharedOutgoingEventController] privateChatPost:pvp.defender.userUuid content:tf.text originalLanguage:originalLanguage];
     }
     
     tf.text = nil;
@@ -645,9 +645,9 @@
   if (self.defendersList.count <= _curQueueNum) {
     if (!self.seenUserUuids) self.seenUserUuids = [NSMutableArray array];
     for (PvpProto *pvp in self.defendersList) {
-      if (pvp.defender.minUserProto.hasUserUuid &&
-          pvp.defender.minUserProto.userUuid.length > 0) {
-        [self.seenUserUuids addObject:pvp.defender.minUserProto.userUuid];
+      if (pvp.defender.hasUserUuid &&
+          pvp.defender.userUuid.length > 0) {
+        [self.seenUserUuids addObject:pvp.defender.userUuid];
       }
     }
     [self fireQueueUp];

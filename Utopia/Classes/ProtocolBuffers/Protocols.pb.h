@@ -410,10 +410,8 @@
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
-@class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevelForTournament;
 @class MinimumUserProtoWithLevelForTournament_Builder;
-@class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
@@ -1020,7 +1018,8 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCDeleteClanGiftsEvent = 501,
   EventProtocolRequestCReceivedClanGiftsEvent = 502,
   EventProtocolRequestCRetrieveStrengthLeaderBoardEvent = 503,
-  EventProtocolRequestCReconnectEvent = 504,
+  EventProtocolRequestCPurchaseItemsWithGemsEvent = 504,
+  EventProtocolRequestCReconnectEvent = 505,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1157,6 +1156,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSReceivedClanGiftsEvent = 502,
   EventProtocolResponseSRetrieveStrengthLeaderBoardEvent = 503,
   EventProtocolResponseSReconnectEvent = 504,
+  EventProtocolResponseSPurchaseItemsWithGemsEvent = 505,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

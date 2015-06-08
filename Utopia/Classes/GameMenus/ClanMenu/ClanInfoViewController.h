@@ -13,7 +13,7 @@
 #import "ClanInfoViews.h"
 
 typedef enum {
-  ClanInfoSortOrderLevel = 1,
+  ClanInfoSortOrderStrength = 1,
   ClanInfoSortOrderMember,
   ClanInfoSortOrderTeam,
   ClanInfoSortOrderRaid,

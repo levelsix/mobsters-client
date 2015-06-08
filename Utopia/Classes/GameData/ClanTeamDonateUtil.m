@@ -53,9 +53,8 @@
 - (PrivateChatPostProto *) clanChatPrivateChat {
   // This is an easy way to do read msgs for all clan chats (use an id that is shared amongst everything)
   MinimumUserProto *mup = [[[MinimumUserProto builder] setUserUuid:CLAN_CHAT_PRIVATE_CHAT_USER_ID] build];
-  MinimumUserProtoWithLevel *mupl = [[[MinimumUserProtoWithLevel builder] setMinUserProto:mup] build];
   PrivateChatPostProto *pcpp = [[[[PrivateChatPostProto builder]
-                                  setRecipient:mupl]
+                                  setRecipient:mup]
                                  setTimeOfPost:self.timeOfSolicitation]
                                 build];
   return pcpp;

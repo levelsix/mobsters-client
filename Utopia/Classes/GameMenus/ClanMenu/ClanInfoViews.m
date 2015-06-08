@@ -21,19 +21,19 @@
   }
 }
 
-- (void) loadForUser:(MinimumUserProtoForClans *)mup currentTeam:(NSArray *)currentTeam myStatus:(UserClanStatus)myStatus {
-  MinimumUserProtoWithLevel *mupl = mup.minUserProtoWithLevel;
-  self.user = mup;
+- (void) loadForUser:(MinimumUserProtoForClans *)mupc currentTeam:(NSArray *)currentTeam myStatus:(UserClanStatus)myStatus {
+  MinimumUserProto *mup = mupc.sender;
+  self.user = mupc;
   
-  [self.userIcon updateForMonsterId:self.user.minUserProtoWithLevel.minUserProto.avatarMonsterId];
-  self.nameLabel.text = mupl.minUserProto.name;
-  self.raidContributionLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(mup.raidContribution*100.f)];
-  self.battleWinsLabel.text = [NSString stringWithFormat:@"%@ Win%@", [Globals commafyNumber:mup.battlesWon], mup.battlesWon == 1 ? @"" : @"s"];
-  self.totalHelpsLabel.text = [NSString stringWithFormat:@"%d",mup.numClanHelpsGiven];
+  [self.userIcon updateForMonsterId:self.user.sender.avatarMonsterId];
+  self.nameLabel.text = mup.name;
+  self.raidContributionLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(mupc.raidContribution*100.f)];
+  self.battleWinsLabel.text = [NSString stringWithFormat:@"%@ Win%@", [Globals commafyNumber:mupc.battlesWon], mupc.battlesWon == 1 ? @"" : @"s"];
+  self.totalHelpsLabel.text = [NSString stringWithFormat:@"%d",mupc.numClanHelpsGiven];
   
-  self.typeLabel.text = [Globals stringForClanStatus:mup.clanStatus];
-  self.typeLabel.highlighted = (mup.clanStatus == UserClanStatusRequesting);
-  self.levelLabel.text = [Globals commafyNumber:mupl.level];
+  self.typeLabel.text = [Globals stringForClanStatus:mupc.clanStatus];
+  self.typeLabel.highlighted = (mupc.clanStatus == UserClanStatusRequesting);
+  self.strengthLabel.text = [Globals commafyNumber:mup.strength];
   
   for (int i = 0; i < self.monsterViews.count; i++) {
     MiniMonsterView *mv = self.monsterViews[i];
@@ -43,13 +43,13 @@
   }
   
   if (myStatus == UserClanStatusLeader) {
-    if (mup.clanStatus != UserClanStatusLeader) {
+    if (mupc.clanStatus != UserClanStatusLeader) {
       [self editMemberConfiguration];
     } else {
       [self regularConfiguration];
     }
   } else if (myStatus == UserClanStatusJuniorLeader) {
-    if (mup.clanStatus != UserClanStatusLeader && mup.clanStatus != UserClanStatusJuniorLeader) {
+    if (mupc.clanStatus != UserClanStatusLeader && mupc.clanStatus != UserClanStatusJuniorLeader) {
       [self editMemberConfiguration];
     } else {
       [self regularConfiguration];

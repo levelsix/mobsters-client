@@ -935,16 +935,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [NSString stringWithFormat:@"$%@", [self commafyNumber:n]];
 }
 
-+ (NSString *) commafyNumber:(float)f {
-  int n = (int)f;
++ (NSString *) commafyNumber:(double)f {
+  int64_t n = (int64_t)f;
   float r = f-n;
   
   BOOL neg = n < 0;
-  n = abs(n);
-  NSString *s = [NSString stringWithFormat:@"%03d", n%1000];
+  n = ABS(n);
+  NSString *s = [NSString stringWithFormat:@"%03d", (int)(n%1000)];
   n /= 1000;
   while (n > 0) {
-    s = [NSString stringWithFormat:@"%03d,%@", n%1000, s];
+    s = [NSString stringWithFormat:@"%03d,%@", (int)(n%1000), s];
     n /= 1000;
   }
   
