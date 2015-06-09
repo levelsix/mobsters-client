@@ -1076,7 +1076,7 @@
   NSString* popoverText = [[[[NSString stringWithFormat:@"Strength shows overall progression in %@. ", GAME_NAME]
                              stringByAppendingFormat:@"The higher the number, the stronger the player.\n\n"]
                             stringByAppendingFormat:@"It moves up and down based on your %@s, Buildings, and Research.\n\n", MONSTER_NAME]
-                           stringByAppendingFormat:@"%@s - %@\nBuildings - %@\nResearch - %@", MONSTER_NAME, [Globals commafyNumber:toonStrength],
+                           stringByAppendingFormat:@"%@s: %@\nBuildings: %@\nResearch: %@", MONSTER_NAME, [Globals commafyNumber:toonStrength],
                            [Globals commafyNumber:buildingStrength], [Globals commafyNumber:researchStrength]];
   GenericPopoverViewController *popover = [[GenericPopoverViewController alloc] initWithWidth:240.f title:@"Strength" body:popoverText];
   if (popover) {
@@ -1103,7 +1103,8 @@
   
   if (self.expLabel.currentNum <= gs.currentExpForLevel) {
     [self.expLabel transitionToNum:gs.currentExpForLevel];
-  } else {    [self.expLabel instaMoveToNum:gs.currentExpForLevel];
+  } else {
+    [self.expLabel instaMoveToNum:gs.currentExpForLevel];
   }
   
   if (self.strengthLabel.goalNum == 0) {

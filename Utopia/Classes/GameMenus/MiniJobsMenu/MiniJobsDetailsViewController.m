@@ -137,12 +137,9 @@
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  self.sortOrder = MiniJobsSortOrderHpDesc;
+  self.sortOrder = MiniJobsSortOrderStrength;
   [self reloadTableAnimated:NO];
   [self updateBottomLabels];
-  
-  // Hp should be autoclicked
-  _clickedButton = (UIButton *)[self.headerView viewWithTag:1];
   
   self.pickedMonsters = [NSMutableArray array];
   
@@ -311,6 +308,9 @@
       } else if (self.sortOrder == MiniJobsSortOrderAtkDesc) {
         pt1 = [gl calculateTotalDamageForMonster:obj2];
         pt2 = [gl calculateTotalDamageForMonster:obj1];
+      } else if (self.sortOrder == MiniJobsSortOrderStrength) {
+        pt1 = [gl calculateStrengthForMonster:obj2];
+        pt2 = [gl calculateStrengthForMonster:obj1];
       }
     }
     if (pt1 != pt2) {
@@ -348,6 +348,7 @@
   [button setTitleColor:[UIColor colorWithWhite:51/255.f alpha:1.f] forState:UIControlStateNormal];
   _clickedButton = button;
   
+  self.headerArrow.hidden = NO;
   self.headerArrow.center = ccp(CGRectGetMaxX(button.frame)+5.f, self.headerArrow.center.y);
   if (isDesc) {
     self.headerArrow.transform = CGAffineTransformIdentity;

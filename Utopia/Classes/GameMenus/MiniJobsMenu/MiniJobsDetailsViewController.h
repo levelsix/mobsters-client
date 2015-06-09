@@ -74,6 +74,7 @@ typedef enum {
   MiniJobsSortOrderHpDesc,
   MiniJobsSortOrderAtkAsc,
   MiniJobsSortOrderAtkDesc,
+  MiniJobsSortOrderStrength,
 } MiniJobsSortOrder;
 
 @interface MiniJobsDetailsViewController : PopupSubViewController <UITableViewDataSource, UITableViewDelegate, ListCollectionDelegate> {

@@ -273,6 +273,7 @@
 @implementation MiniJobCenterProto (ItemPrices)
 
 - (int) itemGemPriceForItemId:(int)itemId {
+#warning fix this
 //  for (ItemGemPriceProto *igpp in self.refreshMiniJobItemPricesList) {
 //    if (igpp.itemId == itemId) {
 //      return igpp.gemPrice;
