@@ -15,12 +15,32 @@
                     <rect key="frame" x="3" y="5" width="551" height="45"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarbg.png" id="1cr-WW-VNM">
-                            <rect key="frame" x="196" y="22" width="209" height="21"/>
+                        <view contentMode="scaleToFill" id="vaj-KF-7u4" customClass="SplitImageProgressBar">
+                            <rect key="frame" x="196" y="22" width="350" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarbgmiddle.png" id="Qou-0s-Vzx">
+                                    <rect key="frame" x="7" y="0.0" width="343" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarbgcap.png" id="Qbc-eZ-EiY">
+                                    <rect key="frame" x="0.0" y="0.0" width="7" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarbgcap.png" id="o5J-BA-Udp" customClass="FlipImageView">
+                                    <rect key="frame" x="343" y="0.0" width="7" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="leftCap" destination="Qbc-eZ-EiY" id="Qhr-Ew-ply"/>
+                                <outlet property="middleBar" destination="Qou-0s-Vzx" id="FTD-0V-dXU"/>
+                                <outlet property="rightCap" destination="o5J-BA-Udp" id="ane-dr-5s2"/>
+                            </connections>
+                        </view>
                         <view contentMode="scaleToFill" id="9JW-Jz-o48" customClass="SplitImageProgressBar">
-                            <rect key="frame" x="196" y="22" width="209" height="21"/>
+                            <rect key="frame" x="196" y="22" width="350" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarnewmiddle.png" id="dtb-us-Nqy">
@@ -44,7 +64,7 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" id="A9j-Vg-ENk" customClass="SplitImageProgressBar">
-                            <rect key="frame" x="196" y="22" width="209" height="21"/>
+                            <rect key="frame" x="196" y="22" width="350" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarcurrentmiddle.png" id="5lK-YB-LjC">
@@ -131,10 +151,35 @@
             </connections>
             <point key="canvasLocation" x="365" y="393"/>
         </view>
+        <view contentMode="scaleToFill" id="4z5-SY-868" customClass="SplitImageProgressBar">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarnewmiddle.png" id="xRB-tW-4d7">
+                    <rect key="frame" x="4" y="0.0" width="104" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarnewcap.png" id="gU1-Gr-rUa">
+                    <rect key="frame" x="0.0" y="0.0" width="4" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarnewcap.png" id="eJq-0S-EAC" customClass="FlipImageView">
+                    <rect key="frame" x="107" y="0.0" width="4" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="leftCap" destination="gU1-Gr-rUa" id="WiJ-Sh-o7y"/>
+                <outlet property="middleBar" destination="xRB-tW-4d7" id="GMV-6P-mnA"/>
+                <outlet property="rightCap" destination="eJq-0S-EAC" id="hsC-H5-Gg6"/>
+            </connections>
+        </view>
     </objects>
     <resources>
         <image name="popuplinevertical.png" width="1" height="1"/>
-        <image name="upgradebarbg.png" width="117" height="12"/>
+        <image name="upgradebarbgcap.png" width="117" height="12"/>
+        <image name="upgradebarbgmiddle.png" width="117" height="12"/>
         <image name="upgradebarcurrentcap.png" width="3" height="12"/>
         <image name="upgradebarcurrentmiddle.png" width="1" height="12"/>
         <image name="upgradebarnewcap.png" width="3" height="12"/>

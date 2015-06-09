@@ -17,8 +17,8 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="M4F-Td-Cfl" customClass="EmbeddedScrollingUpgradeView">
-                    <rect key="frame" x="303" y="0.0" width="554" height="415"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="303" y="3" width="554" height="414"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="0.875" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="xwE-dC-z3o"/>
@@ -199,6 +199,9 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="bottomBgLeftCap" destination="Qte-JX-l0O" id="cAk-Ln-RoU"/>
+                <outlet property="bottomBgMiddle" destination="LSR-C8-iqd" id="Y6c-tS-vzo"/>
+                <outlet property="bottomBgRightCap" destination="XJN-Y5-Hba" id="4VY-QC-Sz0"/>
                 <outlet property="buttonContainerView" destination="6pg-7r-gYw" id="UuM-op-Aka"/>
                 <outlet property="cashButton" destination="m54-R8-eLK" id="AJ4-OC-Xch"/>
                 <outlet property="cashButtonView" destination="vei-JO-UJp" id="Yxs-1x-U3b"/>
