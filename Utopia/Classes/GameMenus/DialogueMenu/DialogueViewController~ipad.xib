@@ -46,6 +46,10 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" id="qhg-jh-w6v">
+                    <rect key="frame" x="0.0" y="464" width="205" height="304"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                </imageView>
                 <view contentMode="scaleToFill" id="ghB-Ov-0iH">
                     <rect key="frame" x="299" y="256" width="152" height="68"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -61,7 +65,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FIGHT!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="ymR-ft-CV4" customClass="NiceFontLabel8S">
-                            <rect key="frame" x="17" y="16" width="73" height="30"/>
+                            <rect key="frame" x="21" y="16" width="73" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="19"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -70,7 +74,7 @@
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="fightonbubblearrow.png" id="Slp-XR-vzO">
-                            <rect key="frame" x="108" y="20" width="14" height="21"/>
+                            <rect key="frame" x="107" y="20" width="14" height="21"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                     </subviews>
@@ -98,7 +102,7 @@
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Hey Meep, look at that fat kid eating cake. Let's go shoot him.." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="yBQ-Qk-ZiX" customClass="NiceFontLabel5">
-                                    <rect key="frame" x="42" y="38" width="202" height="102"/>
+                                    <rect key="frame" x="42" y="41" width="202" height="102"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="deviceRGB"/>
@@ -113,55 +117,52 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="mkP-qB-uEF">
-                    <rect key="frame" x="251" y="473" width="201" height="60"/>
+                    <rect key="frame" x="251" y="441" width="300" height="90"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="itemdialoguebubble.png" highlightedImage="itemdialoguebubble4.png" id="qHF-O9-oi4">
-                            <rect key="frame" x="0.0" y="0.0" width="201" height="60"/>
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="90"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="OuC-wt-RkJ">
-                            <rect key="frame" x="14" y="0.0" width="187" height="60"/>
+                            <rect key="frame" x="22" y="4" width="275" height="85"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="KQK-T2-SaO">
-                                    <rect key="frame" x="9" y="8" width="42" height="42"/>
+                                    <rect key="frame" x="13" y="8" width="63" height="63"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="ifitemsquaresmall.png" id="l2u-Sd-2za">
-                                            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="63" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="LEH-Py-KKr">
-                                            <rect key="frame" x="7" y="6" width="29" height="29"/>
+                                            <rect key="frame" x="9" y="9" width="45" height="45"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Tap an orb to destroy it." lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="U8j-me-Q5e" customClass="NiceFontLabel5">
-                                    <rect key="frame" x="60" y="25" width="115" height="26"/>
+                                    <rect key="frame" x="89" y="40" width="178" height="26"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="deviceRGB"/>
                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Orb Hammer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="mY9-S2-nxE" customClass="NiceFontLabel12">
-                                    <rect key="frame" x="60" y="0.0" width="115" height="32"/>
+                                    <rect key="frame" x="89" y="11" width="178" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" red="0.0" green="0.49803921569999998" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                     <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="MHn-y0-mmA">
                     <rect key="frame" x="541" y="265" width="119" height="49"/>
@@ -193,10 +194,6 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" id="qhg-jh-w6v">
-                    <rect key="frame" x="0.0" y="464" width="205" height="304"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>

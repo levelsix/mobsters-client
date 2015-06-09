@@ -2010,6 +2010,42 @@
 		63F9002C1B229FD2006B6D65 /* nameinput@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9002B1B229FD2006B6D65 /* nameinput@2x~ipad.png */; };
 		63F9002D1B229FD2006B6D65 /* nameinput@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9002B1B229FD2006B6D65 /* nameinput@2x~ipad.png */; };
 		63F9002E1B229FD2006B6D65 /* nameinput@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9002B1B229FD2006B6D65 /* nameinput@2x~ipad.png */; };
+		63F900B81B2654D5006B6D65 /* itemdialoguebubble@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900B71B2654D5006B6D65 /* itemdialoguebubble@2x~ipad.png */; };
+		63F900B91B2654D5006B6D65 /* itemdialoguebubble@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900B71B2654D5006B6D65 /* itemdialoguebubble@2x~ipad.png */; };
+		63F900BA1B2654D5006B6D65 /* itemdialoguebubble@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900B71B2654D5006B6D65 /* itemdialoguebubble@2x~ipad.png */; };
+		63F900C41B26550D006B6D65 /* ifitemsquare@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900BC1B26550D006B6D65 /* ifitemsquare@2x~ipad.png */; };
+		63F900C51B26550D006B6D65 /* ifitemsquare@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900BC1B26550D006B6D65 /* ifitemsquare@2x~ipad.png */; };
+		63F900C61B26550D006B6D65 /* ifitemsquare@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900BC1B26550D006B6D65 /* ifitemsquare@2x~ipad.png */; };
+		63F900C71B26550D006B6D65 /* ifitemsquaremedium@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900BD1B26550D006B6D65 /* ifitemsquaremedium@2x~ipad.png */; };
+		63F900C81B26550D006B6D65 /* ifitemsquaremedium@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900BD1B26550D006B6D65 /* ifitemsquaremedium@2x~ipad.png */; };
+		63F900C91B26550D006B6D65 /* ifitemsquaremedium@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900BD1B26550D006B6D65 /* ifitemsquaremedium@2x~ipad.png */; };
+		63F900CA1B26550D006B6D65 /* ifitemsquaresmall@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900BE1B26550D006B6D65 /* ifitemsquaresmall@2x~ipad.png */; };
+		63F900CB1B26550D006B6D65 /* ifitemsquaresmall@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900BE1B26550D006B6D65 /* ifitemsquaresmall@2x~ipad.png */; };
+		63F900CC1B26550D006B6D65 /* ifitemsquaresmall@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900BE1B26550D006B6D65 /* ifitemsquaresmall@2x~ipad.png */; };
+		63F900CD1B26550D006B6D65 /* ifitemsquareverysmall@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900BF1B26550D006B6D65 /* ifitemsquareverysmall@2x~ipad.png */; };
+		63F900CE1B26550D006B6D65 /* ifitemsquareverysmall@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900BF1B26550D006B6D65 /* ifitemsquareverysmall@2x~ipad.png */; };
+		63F900CF1B26550D006B6D65 /* ifitemsquareverysmall@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900BF1B26550D006B6D65 /* ifitemsquareverysmall@2x~ipad.png */; };
+		63F900D01B26550D006B6D65 /* itemsquaregrey@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900C01B26550D006B6D65 /* itemsquaregrey@2x~ipad.png */; };
+		63F900D11B26550D006B6D65 /* itemsquaregrey@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900C01B26550D006B6D65 /* itemsquaregrey@2x~ipad.png */; };
+		63F900D21B26550D006B6D65 /* itemsquaregrey@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900C01B26550D006B6D65 /* itemsquaregrey@2x~ipad.png */; };
+		63F900D31B26550D006B6D65 /* itemsquaremediumgrey@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900C11B26550D006B6D65 /* itemsquaremediumgrey@2x~ipad.png */; };
+		63F900D41B26550D006B6D65 /* itemsquaremediumgrey@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900C11B26550D006B6D65 /* itemsquaremediumgrey@2x~ipad.png */; };
+		63F900D51B26550D006B6D65 /* itemsquaremediumgrey@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900C11B26550D006B6D65 /* itemsquaremediumgrey@2x~ipad.png */; };
+		63F900D61B26550D006B6D65 /* itemsquaresmallgrey@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900C21B26550D006B6D65 /* itemsquaresmallgrey@2x~ipad.png */; };
+		63F900D71B26550D006B6D65 /* itemsquaresmallgrey@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900C21B26550D006B6D65 /* itemsquaresmallgrey@2x~ipad.png */; };
+		63F900D81B26550D006B6D65 /* itemsquaresmallgrey@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900C21B26550D006B6D65 /* itemsquaresmallgrey@2x~ipad.png */; };
+		63F900D91B26550D006B6D65 /* itemsquareverysmallgrey@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900C31B26550D006B6D65 /* itemsquareverysmallgrey@2x~ipad.png */; };
+		63F900DA1B26550D006B6D65 /* itemsquareverysmallgrey@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900C31B26550D006B6D65 /* itemsquareverysmallgrey@2x~ipad.png */; };
+		63F900DB1B26550D006B6D65 /* itemsquareverysmallgrey@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900C31B26550D006B6D65 /* itemsquareverysmallgrey@2x~ipad.png */; };
+		63F900DF1B26647D006B6D65 /* girl1@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900DC1B26647D006B6D65 /* girl1@2x~ipad.png */; };
+		63F900E01B26647D006B6D65 /* girl1@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900DC1B26647D006B6D65 /* girl1@2x~ipad.png */; };
+		63F900E11B26647D006B6D65 /* girl1@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900DC1B26647D006B6D65 /* girl1@2x~ipad.png */; };
+		63F900E21B26647D006B6D65 /* girl2@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900DD1B26647D006B6D65 /* girl2@2x~ipad.png */; };
+		63F900E31B26647D006B6D65 /* girl2@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900DD1B26647D006B6D65 /* girl2@2x~ipad.png */; };
+		63F900E41B26647D006B6D65 /* girl2@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900DD1B26647D006B6D65 /* girl2@2x~ipad.png */; };
+		63F900E51B26647D006B6D65 /* girl3@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900DE1B26647D006B6D65 /* girl3@2x~ipad.png */; };
+		63F900E61B26647D006B6D65 /* girl3@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900DE1B26647D006B6D65 /* girl3@2x~ipad.png */; };
+		63F900E71B26647D006B6D65 /* girl3@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900DE1B26647D006B6D65 /* girl3@2x~ipad.png */; };
 		63F9FF471B1FF3EA006B6D65 /* upgradebarcurrentcap@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9FF451B1FF3EA006B6D65 /* upgradebarcurrentcap@2x~ipad.png */; };
 		63F9FF481B1FF3EA006B6D65 /* upgradebarcurrentcap@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9FF451B1FF3EA006B6D65 /* upgradebarcurrentcap@2x~ipad.png */; };
 		63F9FF491B1FF3EA006B6D65 /* upgradebarcurrentcap@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9FF451B1FF3EA006B6D65 /* upgradebarcurrentcap@2x~ipad.png */; };
@@ -8344,6 +8380,18 @@
 		63F900231B229B72006B6D65 /* TutorialNameViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "TutorialNameViewController~ipad.xib"; sourceTree = "<group>"; };
 		63F900271B229F0F006B6D65 /* doneusername@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "doneusername@2x~ipad.png"; sourceTree = "<group>"; };
 		63F9002B1B229FD2006B6D65 /* nameinput@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nameinput@2x~ipad.png"; sourceTree = "<group>"; };
+		63F900B71B2654D5006B6D65 /* itemdialoguebubble@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemdialoguebubble@2x~ipad.png"; sourceTree = "<group>"; };
+		63F900BC1B26550D006B6D65 /* ifitemsquare@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ifitemsquare@2x~ipad.png"; sourceTree = "<group>"; };
+		63F900BD1B26550D006B6D65 /* ifitemsquaremedium@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ifitemsquaremedium@2x~ipad.png"; sourceTree = "<group>"; };
+		63F900BE1B26550D006B6D65 /* ifitemsquaresmall@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ifitemsquaresmall@2x~ipad.png"; sourceTree = "<group>"; };
+		63F900BF1B26550D006B6D65 /* ifitemsquareverysmall@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ifitemsquareverysmall@2x~ipad.png"; sourceTree = "<group>"; };
+		63F900C01B26550D006B6D65 /* itemsquaregrey@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemsquaregrey@2x~ipad.png"; sourceTree = "<group>"; };
+		63F900C11B26550D006B6D65 /* itemsquaremediumgrey@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemsquaremediumgrey@2x~ipad.png"; sourceTree = "<group>"; };
+		63F900C21B26550D006B6D65 /* itemsquaresmallgrey@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemsquaresmallgrey@2x~ipad.png"; sourceTree = "<group>"; };
+		63F900C31B26550D006B6D65 /* itemsquareverysmallgrey@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemsquareverysmallgrey@2x~ipad.png"; sourceTree = "<group>"; };
+		63F900DC1B26647D006B6D65 /* girl1@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "girl1@2x~ipad.png"; sourceTree = "<group>"; };
+		63F900DD1B26647D006B6D65 /* girl2@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "girl2@2x~ipad.png"; sourceTree = "<group>"; };
+		63F900DE1B26647D006B6D65 /* girl3@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "girl3@2x~ipad.png"; sourceTree = "<group>"; };
 		63F9FF451B1FF3EA006B6D65 /* upgradebarcurrentcap@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upgradebarcurrentcap@2x~ipad.png"; sourceTree = "<group>"; };
 		63F9FF461B1FF3EA006B6D65 /* upgradebarcurrentmiddle@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upgradebarcurrentmiddle@2x~ipad.png"; sourceTree = "<group>"; };
 		63F9FF4D1B2009E6006B6D65 /* itembarpurplebarcurrentcap@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itembarpurplebarcurrentcap@2x~ipad.png"; sourceTree = "<group>"; };
@@ -11937,6 +11985,14 @@
 		2948F5841AB7635300DF08C2 /* Item Factory Squares */ = {
 			isa = PBXGroup;
 			children = (
+				63F900BC1B26550D006B6D65 /* ifitemsquare@2x~ipad.png */,
+				63F900BD1B26550D006B6D65 /* ifitemsquaremedium@2x~ipad.png */,
+				63F900BE1B26550D006B6D65 /* ifitemsquaresmall@2x~ipad.png */,
+				63F900BF1B26550D006B6D65 /* ifitemsquareverysmall@2x~ipad.png */,
+				63F900C01B26550D006B6D65 /* itemsquaregrey@2x~ipad.png */,
+				63F900C11B26550D006B6D65 /* itemsquaremediumgrey@2x~ipad.png */,
+				63F900C21B26550D006B6D65 /* itemsquaresmallgrey@2x~ipad.png */,
+				63F900C31B26550D006B6D65 /* itemsquareverysmallgrey@2x~ipad.png */,
 				2948F5851AB7635300DF08C2 /* ifitemsquare@2x.png */,
 				2948F5861AB7635300DF08C2 /* ifitemsquaremedium@2x.png */,
 				2948F5871AB7635300DF08C2 /* ifitemsquaresmall@2x.png */,
@@ -13589,6 +13645,7 @@
 		29AF489F1AAA93DA0034927C /* Items Factory */ = {
 			isa = PBXGroup;
 			children = (
+				63F900B71B2654D5006B6D65 /* itemdialoguebubble@2x~ipad.png */,
 				2948F5841AB7635300DF08C2 /* Item Factory Squares */,
 				29AF48A01AAA93DA0034927C /* Bag Assets */,
 				2948F5801AB7634300DF08C2 /* itemsbag@2x.png */,
@@ -13931,6 +13988,9 @@
 		63AB75481A79D17400CFC2B4 /* New tribal girl poses */ = {
 			isa = PBXGroup;
 			children = (
+				63F900DC1B26647D006B6D65 /* girl1@2x~ipad.png */,
+				63F900DD1B26647D006B6D65 /* girl2@2x~ipad.png */,
+				63F900DE1B26647D006B6D65 /* girl3@2x~ipad.png */,
 				63AB75491A79D17400CFC2B4 /* girl1@2x.png */,
 				63AB754A1A79D17400CFC2B4 /* girl2@2x.png */,
 				63AB754B1A79D17400CFC2B4 /* girl3@2x.png */,
@@ -18971,10 +19031,12 @@
 				2998001A1A970F050014DFC9 /* TribalGuy0T1Card@2x.png in Resources */,
 				291721441AD24B210093F100 /* pop_in_bad.mp3 in Resources */,
 				CF0CEE9B196F452900ECD301 /* buildingcap@2x.png in Resources */,
+				63F900E61B26647D006B6D65 /* girl3@2x~ipad.png in Resources */,
 				CF0CEE9E196F452900ECD301 /* ComboFire4.plist in Resources */,
 				CF0CEEA2196F452900ECD301 /* lightbigavatar@2x.png in Resources */,
 				298051251A2EAE0500806253 /* QueueHealingCenterT3@2x.png in Resources */,
 				DA86923A19C7C64500320A74 /* inactiveskill@2x.png in Resources */,
+				63F900E01B26647D006B6D65 /* girl1@2x~ipad.png in Resources */,
 				CF0CEEA8196F452900ECD301 /* gachaepictag@2x.png in Resources */,
 				29AE75F61A6F414700264070 /* TribalGirl1T1AttackNF@2x.pvr.ccz in Resources */,
 				CF0CEEAA196F452900ECD301 /* jobiconaccountant@2x.png in Resources */,
@@ -19034,6 +19096,7 @@
 				63CA0A941AD37EF600E92774 /* timerevolve@2x.png in Resources */,
 				CF0CEF1A196F452900ECD301 /* nightpointsfont@2x.png in Resources */,
 				CF0CEF1B196F452900ECD301 /* oilready@2x.png in Resources */,
+				63F900CE1B26550D006B6D65 /* ifitemsquareverysmall@2x~ipad.png in Resources */,
 				CF0CEF1C196F452900ECD301 /* fightarrow@2x.png in Resources */,
 				9B7AAB371AC0CDE300CA387F /* eventeventactive@2x.png in Resources */,
 				CF0CEF1D196F452900ECD301 /* waterpointsfont.fnt in Resources */,
@@ -19286,6 +19349,7 @@
 				CF0CF07D196F452900ECD301 /* ChatBottomView.xib in Resources */,
 				CF0CF07E196F452900ECD301 /* enhancebubble@2x.png in Resources */,
 				9B41AF681A81B41300529879 /* 6fireglove@2x.png in Resources */,
+				63F900C51B26550D006B6D65 /* ifitemsquare@2x~ipad.png in Resources */,
 				63CE45EC1AD8564400C5D8C5 /* Reward.proto in Resources */,
 				CFA7938A1A0C63ED00DF3407 /* firescientisteventlive@2x.png in Resources */,
 				634174811A843521006DA494 /* messagegreendivider@2x.png in Resources */,
@@ -19334,6 +19398,7 @@
 				9BA69BFA1B1D537400FE01A8 /* inactivechatline@2x~ipad.png in Resources */,
 				299AA34C1A7856AA00A2D806 /* 6nightorb-9@2x.png in Resources */,
 				CFF4129319BFC223002672D4 /* stagecompletestage@2x.png in Resources */,
+				63F900DA1B26550D006B6D65 /* itemsquareverysmallgrey@2x~ipad.png in Resources */,
 				CF0CF0B1196F452900ECD301 /* questcompletionnumber@2x.png in Resources */,
 				9B6B77EF1A858B1A0080C8E5 /* movelabelmoves@2x.png in Resources */,
 				2933DC971ADFA836005D7620 /* GemPackageViewController.xib in Resources */,
@@ -19419,6 +19484,7 @@
 				298050311A265EE800806253 /* collectgift@2x.png in Resources */,
 				6B51469A1AA1487100B2844A /* 6nightlsorb@2x.png in Resources */,
 				299AA3F11A7856AA00A2D806 /* watersideways-9@2x.png in Resources */,
+				63F900E31B26647D006B6D65 /* girl2@2x~ipad.png in Resources */,
 				CF0CF131196F452900ECD301 /* buildingsell@2x.png in Resources */,
 				CF0CF132196F452900ECD301 /* HireViewController.xib in Resources */,
 				633CCB431AA675B500C6649F /* researchbottom@2x.png in Resources */,
@@ -19897,6 +19963,7 @@
 				CF0CF395196F452900ECD301 /* sfx_defeated_character_disappear.mp3 in Resources */,
 				9BDA8BE91A43837D00C7AC27 /* NewGachaViewController.xib in Resources */,
 				CF0CF396196F452900ECD301 /* greysmallsquare@2x.png in Resources */,
+				63F900D41B26550D006B6D65 /* itemsquaremediumgrey@2x~ipad.png in Resources */,
 				63E23E871B16766F00F4A27C /* collectgift@2x~ipad.png in Resources */,
 				CF0CF398196F452900ECD301 /* TeamViewController.xib in Resources */,
 				6B1EAA231ACF5DCC00E0B642 /* VinesRight05.png in Resources */,
@@ -19907,6 +19974,7 @@
 				9B7AAB341AC0CDE300CA387F /* eventearnpointsinactive@2x.png in Resources */,
 				29804FA31A241F4A00806253 /* squadreward1@2x.png in Resources */,
 				9BDA8B7C1A3B8DC200C7AC27 /* 6waterheadshot@2x.png in Resources */,
+				63F900D11B26550D006B6D65 /* itemsquaregrey@2x~ipad.png in Resources */,
 				29AE75821A6F36E000264070 /* Kim1T1TutBig@2x.png in Resources */,
 				29AE75EE1A6F36E000264070 /* Zark1T1RunNF@2x.pvr.ccz in Resources */,
 				CF0CF39F196F452900ECD301 /* minijobsredbubble4@2x.png in Resources */,
@@ -20450,6 +20518,7 @@
 				63BACB201A71EF5E000A641A /* firecal@2x.png in Resources */,
 				CF0CF62A196F452900ECD301 /* CustomNavBarButtons.xib in Resources */,
 				29AE75EB1A6F36E000264070 /* Zark1T1RunNF@2x.plist in Resources */,
+				63F900B91B2654D5006B6D65 /* itemdialoguebubble@2x~ipad.png in Resources */,
 				291721051ACF7F120093F100 /* strengthicon@2x.png in Resources */,
 				CFF9DD8119B861F200CA9A8E /* waterenhancebg@2x.png in Resources */,
 				9B127ED51B17D381007C82D4 /* bluenotificationbubble@2x~ipad.png in Resources */,
@@ -20574,6 +20643,7 @@
 				6B1EAA141ACF5DCC00E0B642 /* VinesMain20.png in Resources */,
 				CF0CF69F196F452900ECD301 /* tagshine@2x.png in Resources */,
 				63F900291B229F0F006B6D65 /* doneusername@2x~ipad.png in Resources */,
+				63F900CB1B26550D006B6D65 /* ifitemsquaresmall@2x~ipad.png in Resources */,
 				CF0CF6A2196F452900ECD301 /* amountbarbg@2x.png in Resources */,
 				29AF48E11AAA93DA0034927C /* itemsnavbarbottom@2x.png in Resources */,
 				CF65ECD219A2B1CC00ABBC77 /* newchatline@2x.png in Resources */,
@@ -20663,6 +20733,7 @@
 				CF0CF6F7196F452900ECD301 /* shadow@2x.png in Resources */,
 				CFA728361A0AE62A00FF6031 /* buildingfinishnowbuttonpressed@2x.png in Resources */,
 				CF6A64CC19D24F030002E05D /* 6earthpoison@2x.png in Resources */,
+				63F900D71B26550D006B6D65 /* itemsquaresmallgrey@2x~ipad.png in Resources */,
 				CF0CF6FD196F452900ECD301 /* ballin@2x.png in Resources */,
 				CF0CF701196F452900ECD301 /* canttouchthis@2x.png in Resources */,
 				CF4251A919AD2C9D00964547 /* recommendedtag@2x.png in Resources */,
@@ -20829,6 +20900,7 @@
 				CF0CF7C1196F452900ECD301 /* tiles@2x.png in Resources */,
 				CF0CF7C2196F452900ECD301 /* combo1a.aif in Resources */,
 				CF0CF7C3196F452900ECD301 /* combo2a.aif in Resources */,
+				63F900C81B26550D006B6D65 /* ifitemsquaremedium@2x~ipad.png in Resources */,
 				9BC535901A845C1200E49F4D /* miniearth@2x.png in Resources */,
 				63C57EB51A66282700ED406E /* gradientwaterdailylab@2x.png in Resources */,
 				29927EAB1AAF9D1700418683 /* ItemFactoryCardCell.xib in Resources */,
@@ -21149,6 +21221,7 @@
 				29ABD6C81A732EF2003A65F4 /* tutorialrocks@2x.png in Resources */,
 				CF023C921992E2BB0082FE61 /* currentborder@2x.png in Resources */,
 				CFFA320718B40944008B81B9 /* ClanRaidStageCell.xib in Resources */,
+				63F900E21B26647D006B6D65 /* girl2@2x~ipad.png in Resources */,
 				CFF6472E195EB92100C43641 /* HomeTitleLabel.xib in Resources */,
 				4C16FEEC19CE03A200F9FC1E /* nightpoison@2x.png in Resources */,
 				29AE75ED1A6F36E000264070 /* Zark1T1RunNF@2x.pvr.ccz in Resources */,
@@ -21204,6 +21277,7 @@
 				63BACAFD1A71B7C2000A641A /* firecal@2x.png in Resources */,
 				6B1EAA011ACF5DCC00E0B642 /* VinesMain14.png in Resources */,
 				CF2A4AF21901B8F500B2D7D7 /* emptyachievementstar@2x.png in Resources */,
+				63F900D91B26550D006B6D65 /* itemsquareverysmallgrey@2x~ipad.png in Resources */,
 				CF1908B718D9221A00D6F0E4 /* buildingupgraded@2x.png in Resources */,
 				CF37377619E36B1D00CB16E3 /* youlostyou@2x.png in Resources */,
 				299AA30C1A7856AA00A2D806 /* 6earthheadshot-9@2x.png in Resources */,
@@ -21390,6 +21464,7 @@
 				CF0CDEA319E5050E006A5ECB /* toplongbar@2x.png in Resources */,
 				29804F751A241F4A00806253 /* helpothers@2x.png in Resources */,
 				CFA728351A0AE62A00FF6031 /* buildingfinishnowbuttonpressed@2x.png in Resources */,
+				63F900DF1B26647D006B6D65 /* girl1@2x~ipad.png in Resources */,
 				63AB75501A79D17400CFC2B4 /* girl2@2x.png in Resources */,
 				CF95205D1939690800A98290 /* pvpguys@2x.png in Resources */,
 				CF864E13193E8F3000DE0D7A /* clansizebg@2x.png in Resources */,
@@ -21596,6 +21671,7 @@
 				29FC5EFE1A89A8A000A50FA7 /* gradientearthdailylab@2x.png in Resources */,
 				9BDA8C0C1A5C806D00C7AC27 /* gachaheaderbg@2x.png in Resources */,
 				9BDA8B941A3B8E1700C7AC27 /* lightheadshot@2x.png in Resources */,
+				63F900E51B26647D006B6D65 /* girl3@2x~ipad.png in Resources */,
 				CF1816E219D34F5A00EF5729 /* 6allcocktail@2x.png in Resources */,
 				CF29E9F91964BD0500B40DA4 /* healredbubble5@2x.png in Resources */,
 				9B0E6E381A73373100118210 /* LifeSteal.plist in Resources */,
@@ -21789,6 +21865,7 @@
 				CF864DBC193E7C5C00DE0D7A /* greyopenarrow@2x.png in Resources */,
 				CFF6471C195E3EFF00C43641 /* evolveplus@2x.png in Resources */,
 				29ABD6CB1A732EF2003A65F4 /* tutorialtrees@2x.png in Resources */,
+				63F900D01B26550D006B6D65 /* itemsquaregrey@2x~ipad.png in Resources */,
 				63F9FF4A1B1FF3EA006B6D65 /* upgradebarcurrentmiddle@2x~ipad.png in Resources */,
 				CFCD0E691953C93E00EDC233 /* gachaultrapiece@2x.png in Resources */,
 				CF6F1A07181518C900CFF2B9 /* sharecheckbox@2x.png in Resources */,
@@ -21893,6 +21970,7 @@
 				CFC4D28718D7BD04004681FD /* sfx_cant_place_building.mp3 in Resources */,
 				63CDCF1F1ABB897600A00DB6 /* greensquadreward3@2x.png in Resources */,
 				CF2A4B001901B8F500B2D7D7 /* purplenotificationheader@2x.png in Resources */,
+				63F900B81B2654D5006B6D65 /* itemdialoguebubble@2x~ipad.png in Resources */,
 				4C16FEE819CE03A200F9FC1E /* lightpoison@2x.png in Resources */,
 				63A005E91B1FBF09009C8AFE /* upgradebarbgmiddle@2x~ipad.png in Resources */,
 				63CDCEFB1AB8EBF400A00DB6 /* buildingresearch@2x.png in Resources */,
@@ -21980,6 +22058,7 @@
 				CF6890301912E7B500FF1F71 /* attackbarcapmj@2x.png in Resources */,
 				CFB250991859B9C300BE0C05 /* closebattle@2x.png in Resources */,
 				9B2EFD8F1ACC79AC005B7B83 /* MiniEventCollectRewardView.xib in Resources */,
+				63F900D31B26550D006B6D65 /* itemsquaremediumgrey@2x~ipad.png in Resources */,
 				2981337D1AB7C6D900CA5658 /* ifitemsquareverysmall@2x.png in Resources */,
 				CFDEA541199C34D800445F3C /* lockedinactive@2x.png in Resources */,
 				CF6A64E119D24F030002E05D /* 6nightorb@2x.png in Resources */,
@@ -22325,6 +22404,7 @@
 				CFF412A119BFC261002672D4 /* BattleQueueNode.ccbi in Resources */,
 				9BA69C7D1B1FCC4600FE01A8 /* buildtimeclock@2x~ipad.png in Resources */,
 				299AA4D31A7872C300A2D806 /* fireorb@2x.png in Resources */,
+				63F900C71B26550D006B6D65 /* ifitemsquaremedium@2x~ipad.png in Resources */,
 				6B5146841AA1487100B2844A /* 6earthlsorb-9@2x.png in Resources */,
 				299AA3C31A7856AA00A2D806 /* nightheadshot-9@2x.png in Resources */,
 				294035651AD7310B00B759A4 /* researchbubble@2x.png in Resources */,
@@ -22495,6 +22575,7 @@
 				63F9FF541B2009E6006B6D65 /* itembarpurplebarcurrentmiddle@2x~ipad.png in Resources */,
 				29A38D6C1ACCD85B006F3CBF /* healingresearchgroup@2x.png in Resources */,
 				CFFCF57E19B163BA007E316D /* settingsconnect@2x.png in Resources */,
+				63F900D61B26550D006B6D65 /* itemsquaresmallgrey@2x~ipad.png in Resources */,
 				CF0CE150196D705700ECD301 /* menuclosex@2x.png in Resources */,
 				63CA0AD61AD5B8BB00E92774 /* chattranslatoredge@2x.png in Resources */,
 				63CDCF261ABB897600A00DB6 /* squadrewardgobutton@2x.png in Resources */,
@@ -22577,6 +22658,7 @@
 				29AE758A1A6F36E000264070 /* MilitaryChicken1T1P4TutBig@2x.png in Resources */,
 				CF12798D181F5EF300211623 /* GothamNarrow-Ultra.otf in Resources */,
 				CFEC99441947FBF300BD893E /* gachaultratag@2x.png in Resources */,
+				63F900CD1B26550D006B6D65 /* ifitemsquareverysmall@2x~ipad.png in Resources */,
 				29AF48F21AAA93DA0034927C /* smallsquarebottom@2x.png in Resources */,
 				9BB5AF881AA7996B002076E3 /* BoardDesignerObstacleView.xib in Resources */,
 				CF023C9E1992E2BB0082FE61 /* movesqueuebgwide@2x.png in Resources */,
@@ -22722,6 +22804,7 @@
 				9BDA8BFC1A5B432900C7AC27 /* gooniegrabgachatabactive@2x.png in Resources */,
 				CF40D03218DFCC6C0034A721 /* platinumicon@2x.png in Resources */,
 				298050661A265EE800806253 /* 1gbhud@2x.png in Resources */,
+				63F900CA1B26550D006B6D65 /* ifitemsquaresmall@2x~ipad.png in Resources */,
 				CF6A64F119D24F030002E05D /* 6waterorb@2x.png in Resources */,
 				CFF64710195E356700C43641 /* EvolveDetailsViewController.xib in Resources */,
 				63BACB031A71B7C2000A641A /* earthscientisteventguy@2x.png in Resources */,
@@ -22767,6 +22850,7 @@
 				9B127E861B0E6CAC007C82D4 /* attackbutton@2x~ipad.png in Resources */,
 				CF29E9821962296C00B40DA4 /* menuinactivetabpressed@2x.png in Resources */,
 				63F900581B26257C006B6D65 /* 2ndplacebg@2x.png in Resources */,
+				63F900C41B26550D006B6D65 /* ifitemsquare@2x~ipad.png in Resources */,
 				CFC4D29218D7BD04004681FD /* sfx_match_3_slide_in.mp3 in Resources */,
 				CFF1D7A617E12E3200874339 /* makeitrain@2x.plist in Resources */,
 				CFF1D7A817E12E3200874339 /* makeitrain@2x.pvr.ccz in Resources */,
@@ -23353,6 +23437,7 @@
 				6B5146A41AA1487100B2844A /* earthlsorb-9@2x.png in Resources */,
 				CF481BE319F7217F00041486 /* sfx_attack_ui_slide_in.mp3 in Resources */,
 				CF481BE719F7217F00041486 /* clanhelpbarbg@2x.png in Resources */,
+				63F900E41B26647D006B6D65 /* girl2@2x~ipad.png in Resources */,
 				63E23EA71B169BE500F4A27C /* greenitemsbutton@2x~ipad.png in Resources */,
 				CF481BE819F7217F00041486 /* sfx_damage_click_lp.mp3 in Resources */,
 				9B41AF891A841D7500529879 /* 6swordorb@2x.png in Resources */,
@@ -23407,6 +23492,7 @@
 				6B1EA9FA1ACF5DCC00E0B642 /* VinesMain11.png in Resources */,
 				CF481C1B19F7217F00041486 /* RequestsViewController.xib in Resources */,
 				63F9FF491B1FF3EA006B6D65 /* upgradebarcurrentcap@2x~ipad.png in Resources */,
+				63F900D51B26550D006B6D65 /* itemsquaremediumgrey@2x~ipad.png in Resources */,
 				CF481C1C19F7217F00041486 /* gachararetag@2x.png in Resources */,
 				CF481C1E19F7217F00041486 /* fightonbubblebutton@2x.png in Resources */,
 				299AA4ED1A7872C300A2D806 /* nightorb@2x.png in Resources */,
@@ -23464,6 +23550,7 @@
 				63CDCF4A1AC0F6A500A00DB6 /* greycomplete@2x.png in Resources */,
 				CF481C8519F7217F00041486 /* enhancebubble@2x.png in Resources */,
 				9B127EF11B193E6B007C82D4 /* timerstopbg@2x~ipad.png in Resources */,
+				63F900C91B26550D006B6D65 /* ifitemsquaremedium@2x~ipad.png in Resources */,
 				CFA7938B1A0C63ED00DF3407 /* firescientisteventlive@2x.png in Resources */,
 				CF481C9119F7217F00041486 /* ChatClanHelpView.xib in Resources */,
 				636C3E9E1AAA9EFF00B02980 /* ResearchSelectionBar.xib in Resources */,
@@ -23508,6 +23595,7 @@
 				CF481CC019F7217F00041486 /* questcompletionnumber@2x.png in Resources */,
 				9BA69C0D1B1E3A7500FE01A8 /* ChatBottomLineView~ipad.xib in Resources */,
 				29AF489E1AAA8F820034927C /* buildingeditboard@2x.png in Resources */,
+				63F900E11B26647D006B6D65 /* girl1@2x~ipad.png in Resources */,
 				6B1EAA1B1ACF5DCC00E0B642 /* VinesRight02.png in Resources */,
 				CF481CC619F7217F00041486 /* arrowdown@2x.png in Resources */,
 				29DCD0071A8C3D8B003176FD /* salebuildericon@2x.png in Resources */,
@@ -23536,6 +23624,7 @@
 				CF481CF119F7217F00041486 /* itemswonlost@2x.png in Resources */,
 				6B1EA9FD1ACF5DCC00E0B642 /* VinesMain12.png in Resources */,
 				CF481CF219F7217F00041486 /* teambubble2@2x.png in Resources */,
+				63F900E71B26647D006B6D65 /* girl3@2x~ipad.png in Resources */,
 				29AF48F41AAA93DA0034927C /* smallsquarebottom@2x.png in Resources */,
 				CF481CF519F7217F00041486 /* diamondicon@2x.png in Resources */,
 				CF481CF619F7217F00041486 /* bombparticle.plist in Resources */,
@@ -23585,6 +23674,7 @@
 				9BC9F3331A8B05E1009DC3D5 /* energizeorb@2x.png in Resources */,
 				CF481D5119F7217F00041486 /* buildingsell@2x.png in Resources */,
 				CF481D5219F7217F00041486 /* HireViewController.xib in Resources */,
+				63F900DB1B26550D006B6D65 /* itemsquareverysmallgrey@2x~ipad.png in Resources */,
 				9B7AAB3B1AC0CDE300CA387F /* eventeventinactive@2x.png in Resources */,
 				CF481D5719F7217F00041486 /* MPMT1@2x.plist in Resources */,
 				CF481D5919F7217F00041486 /* lightpointsfont.fnt in Resources */,
@@ -23625,6 +23715,7 @@
 				CF481D9819F7217F00041486 /* youwonitembg@2x.png in Resources */,
 				CF481D9B19F7217F00041486 /* minijobsrewardbg@2x.png in Resources */,
 				9BA69D091B227A1900FE01A8 /* gempackagecap@2x~ipad.png in Resources */,
+				63F900CC1B26550D006B6D65 /* ifitemsquaresmall@2x~ipad.png in Resources */,
 				CF481D9C19F7217F00041486 /* singleplayerheader@2x.png in Resources */,
 				CF481DA519F7217F00041486 /* RequestsBattleCell.xib in Resources */,
 				29AE75B61A6F36E000264070 /* Kim1T1RunNF@2x.plist in Resources */,
@@ -23750,6 +23841,7 @@
 				290A99571AD6FB6600FA41B2 /* 1scene@2x.jpg in Resources */,
 				2948F5971AB7635300DF08C2 /* itemsquaregrey@2x.png in Resources */,
 				CF481E5319F7217F00041486 /* MenuOilDrillT1@2x.png in Resources */,
+				63F900BA1B2654D5006B6D65 /* itemdialoguebubble@2x~ipad.png in Resources */,
 				299AA3591A7856AA00A2D806 /* 6rockgrenade-9@2x.png in Resources */,
 				2933DCD11ADFA8B2005D7620 /* squadrewardgobutton@2x.png in Resources */,
 				63BACB281A71EF5F000A641A /* lightcal@2x.png in Resources */,
@@ -24158,6 +24250,7 @@
 				6B1EAA6F1ACF5DCC00E0B642 /* VinesRight@2x.plist in Resources */,
 				CF48209919F7217F00041486 /* newtext@2x.png in Resources */,
 				299AA3D71A7856AA00A2D806 /* rockheadshot-9@2x.png in Resources */,
+				63F900D21B26550D006B6D65 /* itemsquaregrey@2x~ipad.png in Resources */,
 				CF48209B19F7217F00041486 /* 6lightsideways@2x.png in Resources */,
 				9B6B77D21A858B1A0080C8E5 /* 2moveslabel@2x.png in Resources */,
 				9BBE37211AFD8777001A0E81 /* grabstokenlabel@2x.png in Resources */,
@@ -24179,6 +24272,7 @@
 				298050681A265EE800806253 /* 1gbhud@2x.png in Resources */,
 				CF4820B219F7217F00041486 /* championribbon@2x.png in Resources */,
 				CF4820B319F7217F00041486 /* fireavatar@2x.png in Resources */,
+				63F900CF1B26550D006B6D65 /* ifitemsquareverysmall@2x~ipad.png in Resources */,
 				CF4820B519F7217F00041486 /* Ziggurat-HTF-Black.otf in Resources */,
 				29C3CA701A955BD0005407E9 /* gacha_reveal.mp3 in Resources */,
 				CF4820BC19F7217F00041486 /* championbig@2x.png in Resources */,
@@ -24880,6 +24974,7 @@
 				2981337F1AB7C6D900CA5658 /* ifitemsquareverysmall@2x.png in Resources */,
 				CF48241919F7217F00041486 /* pinknotificationbubble@2x.png in Resources */,
 				9BA69C771B1FC76C00FE01A8 /* menusquareactivepressed@2x~ipad.png in Resources */,
+				63F900C61B26550D006B6D65 /* ifitemsquare@2x~ipad.png in Resources */,
 				CF48241A19F7217F00041486 /* achievementrewardbg@2x.png in Resources */,
 				63CA0A8F1AD37EF600E92774 /* timercreateitems@2x.png in Resources */,
 				298133B31AB80BE400CA5658 /* nightdailylab@2x.png in Resources */,
@@ -25021,6 +25116,7 @@
 				29C3CA591A92EFB5005407E9 /* greenarrow@2x.png in Resources */,
 				6B1EA9BE1ACF5DCB00E0B642 /* VinesLeft01.png in Resources */,
 				CF4824D219F7217F00041486 /* combo1a.aif in Resources */,
+				63F900D81B26550D006B6D65 /* itemsquaresmallgrey@2x~ipad.png in Resources */,
 				CF4824D319F7217F00041486 /* combo2a.aif in Resources */,
 				CF4824D519F7217F00041486 /* Ziggurat-HTF-Black-Italic.otf in Resources */,
 				CF4824D619F7217F00041486 /* menuresourcesinactive@2x.png in Resources */,
