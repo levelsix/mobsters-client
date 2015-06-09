@@ -193,7 +193,7 @@
                                                             <rect key="frame" x="219" y="0.0" width="1" height="39"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </imageView>
-                                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qV5-6B-afk">
+                                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qV5-6B-afk" customClass="GeneralButton">
                                                             <rect key="frame" x="0.0" y="0.0" width="109" height="39"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <state key="normal">
@@ -203,7 +203,7 @@
                                                                 <action selector="buttonClicked:" destination="ahs-Sr-Gkk" eventType="touchUpInside" id="o4f-q0-I8X"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8r5-F8-sWe">
+                                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8r5-F8-sWe" customClass="GeneralButton">
                                                             <rect key="frame" x="110" y="0.0" width="109" height="39"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <state key="normal">
@@ -213,7 +213,7 @@
                                                                 <action selector="buttonClicked:" destination="ahs-Sr-Gkk" eventType="touchUpInside" id="0F8-Ar-ELt"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ffV-r5-CUe">
+                                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ffV-r5-CUe" customClass="GeneralButton">
                                                             <rect key="frame" x="220" y="0.0" width="109" height="39"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <state key="normal">
@@ -746,7 +746,7 @@
                     <rect key="frame" x="181" y="153" width="106" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Jha-5n-8pL">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Jha-5n-8pL" customClass="GeneralButton">
                             <rect key="frame" x="0.0" y="0.0" width="106" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" image="profsenmessagebutton.png">

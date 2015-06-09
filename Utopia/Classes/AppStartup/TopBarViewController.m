@@ -98,7 +98,7 @@
   
   // We have to do this because it seems that the view connection wasnt made when the view was added
   [self addChildViewController:self.timerViewController];
-//  [self.timerViewController viewWillAppear:YES];
+  //  [self.timerViewController viewWillAppear:YES];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -1068,9 +1068,16 @@
 }
 
 - (IBAction)strengthClicked:(id)sender {
-  NSString* popoverText = [[[NSString stringWithFormat:@"Strength shows overall progression in %@. ", GAME_NAME]
-                            stringByAppendingString:@"The higher the number, the stronger the player.\n\n"]
-                           stringByAppendingString:[NSString stringWithFormat:@"It moves up and down based on your %@s, Buildings, and Research.", MONSTER_NAME]];
+  GameState *gs = [GameState sharedGameState];
+  uint64_t toonStrength = [gs toonStrength];
+  uint64_t buildingStrength = [gs buildingStrength];
+  uint64_t researchStrength = [gs researchStrength];
+  
+  NSString* popoverText = [[[[NSString stringWithFormat:@"Strength shows overall progression in %@. ", GAME_NAME]
+                             stringByAppendingFormat:@"The higher the number, the stronger the player.\n\n"]
+                            stringByAppendingFormat:@"It moves up and down based on your %@s, Buildings, and Research.\n\n", MONSTER_NAME]
+                           stringByAppendingFormat:@"%@s - %@\nBuildings - %@\nResearch - %@", MONSTER_NAME, [Globals commafyNumber:toonStrength],
+                           [Globals commafyNumber:buildingStrength], [Globals commafyNumber:researchStrength]];
   GenericPopoverViewController *popover = [[GenericPopoverViewController alloc] initWithWidth:240.f title:@"Strength" body:popoverText];
   if (popover) {
     GameViewController *gvc = (GameViewController *)self.parentViewController;
@@ -1096,8 +1103,7 @@
   
   if (self.expLabel.currentNum <= gs.currentExpForLevel) {
     [self.expLabel transitionToNum:gs.currentExpForLevel];
-  } else {
-    [self.expLabel instaMoveToNum:gs.currentExpForLevel];
+  } else {    [self.expLabel instaMoveToNum:gs.currentExpForLevel];
   }
   
   if (self.strengthLabel.goalNum == 0) {
@@ -1119,16 +1125,16 @@
   
   [self.avatarMonsterView updateForMonsterId:gs.avatarMonsterId];
   
-//  if (gs.clan) {
-//    ClanIconProto *icon = [gs clanIconWithId:gs.clan.clanIconId];
-//    NSString *imgName = icon.imgName;
-//    [Globals imageNamed:imgName withView:self.clanShieldIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-//    [Globals imageNamed:@"inaclanbutton.png" withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-//    self.clanShieldIcon.hidden = NO;
-//  } else  {
-//    [Globals imageNamed:@"notinaclanbutton.png" withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-//    self.clanShieldIcon.hidden = YES;
-//  }
+  //  if (gs.clan) {
+  //    ClanIconProto *icon = [gs clanIconWithId:gs.clan.clanIconId];
+  //    NSString *imgName = icon.imgName;
+  //    [Globals imageNamed:imgName withView:self.clanShieldIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  //    [Globals imageNamed:@"inaclanbutton.png" withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  //    self.clanShieldIcon.hidden = NO;
+  //  } else  {
+  //    [Globals imageNamed:@"notinaclanbutton.png" withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  //    self.clanShieldIcon.hidden = YES;
+  //  }
   
   [self updateLabels];
   

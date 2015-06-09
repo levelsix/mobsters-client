@@ -177,6 +177,10 @@
 - (FullUserProto *) convertToFullUserProto;
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time;
 - (void) checkMaxResourceCapacities;
+
+- (uint64_t) buildingStrength;
+- (uint64_t) toonStrength;
+- (uint64_t) researchStrength;
 - (void) recalculateStrength;
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId;

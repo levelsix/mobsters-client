@@ -167,26 +167,47 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) recalculateStrength {
-  Globals *gl = [Globals sharedGlobals];
+- (uint64_t) buildingStrength {
+  uint64_t strength = 0;
   
+  for (UserStruct *us in self.myStructs) {
+    strength += us.staticStructForCurrentConstructionLevel.structInfo.strength;
+  }
+  
+  return strength;
+}
+
+- (uint64_t) toonStrength {
+  Globals *gl = [Globals sharedGlobals];
+  uint64_t strength = 0;
+  
+  for (UserMonster *um in self.myMonsters) {
+    strength += [gl calculateStrengthForMonster:um];
+  }
+  
+  return strength;
+}
+
+- (uint64_t) researchStrength {
+  uint64_t strength = 0;
+  
+  for (UserResearch *ur in self.researchUtil.userResearches) {
+    strength += ur.staticResearchForBenefitLevel.strength;
+  }
+  
+  return strength;
+}
+
+- (void) recalculateStrength {
   uint64_t strength = 0;
   
   if (!self.myStructs.count) {
     return;
   }
   
-  for (UserStruct *us in self.myStructs) {
-    strength += us.staticStructForCurrentConstructionLevel.structInfo.strength;
-  }
-  
-  for (UserResearch *ur in self.researchUtil.userResearches) {
-    strength += ur.staticResearchForBenefitLevel.strength;
-  }
-  
-  for (UserMonster *um in self.myMonsters) {
-    strength += [gl calculateStrengthForMonster:um];
-  }
+  strength += [self toonStrength];
+  strength += [self buildingStrength];
+  strength += [self researchStrength];
   
   if (self.totalStrength != strength) {
     [[OutgoingEventController sharedOutgoingEventController] updateUserStrength:strength];

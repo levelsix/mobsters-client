@@ -15,6 +15,8 @@
 #import "GameViewController.h"
 #import "GameState.h"
 
+#import "SoundEngine.h"
+
 @interface SalesScrollView : CancellableScrollView
 
 @end
@@ -87,6 +89,8 @@
   
   if (!CGRectContainsPoint(self.scrollView.frame, pt)) {
     [self.parentViewController close];
+    
+    [SoundEngine closeButtonClick];
   }
 }
 
