@@ -32,7 +32,7 @@
                             </connections>
                         </scrollView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="33" customClass="CloseButton">
-                            <rect key="frame" x="529" y="3" width="39" height="35"/>
+                            <rect key="frame" x="516" y="5" width="50" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
