@@ -589,8 +589,9 @@
 - (void) popupOrbCounter
 {
   CGPoint orbCounterPosition = [self convertToWorldSpace:_skillIcon.position];
+  orbCounterPosition = ccp(orbCounterPosition.x * 1.5, [Globals screenSize].height - orbCounterPosition.y * 1.5);
   
-  orbCounterPosition = ccp(orbCounterPosition.x * 1.5, orbCounterPosition.y * .66 - _skillIcon.contentSize.height);
+//  orbCounterPosition = ccp(orbCounterPosition.x * 1.5, orbCounterPosition.y * .66 - _skillIcon.contentSize.height);
   
   [skillManager displaySkillCounterPopupForController:self.skillController withProto:_skillProto atPosition:orbCounterPosition];
   

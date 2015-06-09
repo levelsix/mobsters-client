@@ -26,7 +26,7 @@
 
 //#define USE_PROD
 //#define USE_STAGING
-#define USE_LOCAL
+//#define USE_LOCAL
 
 //#define FORCE_TUTORIAL TutorialStepGuideGreeting
 //#define FORCE_TUTORIAL TutorialStepEnteredBattle
@@ -143,7 +143,7 @@
 
 #else
 
-#define HOST_NAME @"dev1mobsters.lvl6.com"
+#define HOST_NAME @"dev2mobsters.lvl6.com"
 #define HOST_PORT 5672
 #define USE_SSL 0
 #define MQ_USERNAME @"lvl6client"
