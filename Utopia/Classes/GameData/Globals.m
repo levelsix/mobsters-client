@@ -1774,6 +1774,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return adjustedPath;
 }
 
++ (UIImage *) nonDeviceAdjustedImageFromBundle:(NSString *)name ofType:(NSString *)ext {
+  UIImage *image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:name ofType:ext]];
+  UIImage *scaledImage = [UIImage imageWithCGImage:image.CGImage scale:[UIScreen mainScreen].scale orientation:image.imageOrientation];
+  
+  return scaledImage;
+}
+
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt {
   // place it so that the bottom middle is at pt
   // Remember, frame is relative to top left corner

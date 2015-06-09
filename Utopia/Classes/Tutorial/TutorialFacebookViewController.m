@@ -17,12 +17,11 @@
 @implementation TutorialFacebookViewController
 
 - (void) viewWillAppear:(BOOL)animated {
-  [self superclass];
+  [super viewWillAppear:animated];
   
   if ([Globals isiPad]) {
     self.mainView.transform = CGAffineTransformMakeScale(1.5f, 1.5f);
   }
-  
 }
 
 - (void) viewDidLoad {
