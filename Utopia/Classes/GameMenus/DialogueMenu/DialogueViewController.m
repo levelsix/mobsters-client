@@ -109,25 +109,16 @@
       img.originX = -42;
       
       if ([Globals isiPad]) {
-        UIImage *regImg = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"greyrocks@2x" ofType:@"png"]];
-        UIImage *scaledImage = [UIImage imageWithCGImage:[regImg CGImage]
-                                                   scale:[[UIScreen mainScreen] scale]
-                                             orientation:regImg.imageOrientation];
-        img.image = scaledImage;
-        img.size = img.image.size;
-        
-      } else {
-        img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"minirocks.png"]];
-      }
-      
-      [self.bottomGradient addSubview:img];
-      if ([Globals isiPad]) {
+        img = [[UIImageView alloc] initWithImage:[Globals nonDeviceAdjustedImageFromBundle:@"greyrocks@2x" ofType:@"png"]];
         img.originX = 0;
         img.originY = img.superview.height - img.height;
       } else {
+        img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"minirocks.png"]];
         img.originY = self.bottomGradient.height-img.height+10.f;
         img.originX = -42;
       }
+      
+      [self.bottomGradient addSubview:img];
       
       self.leftImageView.image = [Globals imageNamed:@"girl2.png"];
       self.leftImageView.originX = 3.f;
@@ -332,7 +323,6 @@
   }
   
   CGPoint pt = self.leftImageView.center;
-  
   self.leftImageView.center = ccpAdd(pt, ccp(-self.leftImageView.frame.size.width, self.leftImageView.frame.size.height/3));
   self.speechBubble.alpha = 0.f;
   self.leftImageView.transform = CGAffineTransformMakeScale(IMAGE_BEGIN_SCALE, IMAGE_BEGIN_SCALE);
