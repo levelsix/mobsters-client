@@ -69,6 +69,10 @@
   }];
 }
 
+- (void) appearInPosition {
+  self.center = ccp(self.superview.center.x, self.superview.frame.size.height - (self.frame.size.height/2) - 3);
+}
+
 - (void) animateOut:(dispatch_block_t)completion {
   [UIView animateWithDuration:0.3f animations:^{
     self.center = ccp(self.center.x, self.center.y + self.frame.size.height + 10);
@@ -327,7 +331,7 @@ int x = 0;
   _preSelectResearch = nil;
   for (int i = 0; i < _researchButtons.count && i < _userResearches.count; i++) {
     if ([_userResearches[i] isEqual:userResearch]) {
-      [self researchButtonClicked:_researchButtons[i]];
+      [self researchButtonClicked:_researchButtons[i] animated:NO];
       return;
     }
   }
@@ -448,6 +452,10 @@ int x = 0;
 }
 
 - (void) researchButtonClicked:(id)sender {
+  [self researchButtonClicked:sender animated:YES];
+}
+
+- (void) researchButtonClicked:(id)sender animated:(BOOL)animated {
   
   ResearchButtonView *clicked = (ResearchButtonView *)sender;
   if (clicked != _lastClicked) {
@@ -467,17 +475,24 @@ int x = 0;
     _curBarView = [[NSBundle mainBundle] loadNibNamed:@"ResearchSelectionBar" owner:self options:nil][0];
     [self.view addSubview:_curBarView];
     [_curBarView updateForUserResearch:_selectedResearch];
-    [_curBarView animateIn:nil];
     _curBarView.delegate = self;
     
+    if (animated) {
+      [_curBarView animateIn:nil];
+    } else {
+      [_curBarView appearInPosition];
+    }
+    
     self.scrollView.contentSize = CGSizeMake(_contentSize.width, _contentSize.height + _curBarView.height);
-    [UIView animateWithDuration:0.3f animations:^{
+    float dur = animated ? 0.3f : 0.f;
+    
+    [UIView animateWithDuration:dur animations:^{
       const CGFloat yOffset = [self.contentView convertPoint:_lastClicked.center fromView:_lastClicked.superview].y - self.scrollView.contentOffset.y - (self.view.height - _curBarView.height) * .5f;
       self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, clampf(self.scrollView.contentOffset.y + yOffset, 0.f, self.scrollView.contentSize.height - self.scrollView.height));
     }];
     
     if(_selectFieldViewUp) {
-      [UIView animateWithDuration:0.3f animations:^{
+      [UIView animateWithDuration:dur animations:^{
         _selectFieldView.alpha = 0.f;
       }];
       [_selectFieldView animateOut:^{
@@ -486,7 +501,6 @@ int x = 0;
       }];
     }
   }
-  
 }
 
 - (IBAction) deselectTree:(id)sender {

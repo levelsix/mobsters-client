@@ -28,6 +28,7 @@
 
 - (void) updateForUserResearch:(UserResearch *)userResearch;
 - (void) animateIn:(dispatch_block_t)completion;
+- (void) appearInPosition;
 - (void) animateOut:(dispatch_block_t)completion;
 
 @end
