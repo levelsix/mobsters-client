@@ -315,7 +315,7 @@
                         <action selector="sortClicked:" destination="-1" eventType="touchUpInside" id="IaU-q3-Ocg"/>
                     </connections>
                 </button>
-                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mYx-dL-gpc" customClass="NiceFontButton10">
+                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mYx-dL-gpc" customClass="NiceFontButton10">
                     <rect key="frame" x="140" y="-2" width="106" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>

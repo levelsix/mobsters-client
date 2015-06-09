@@ -850,7 +850,9 @@
       
       
       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [self addChatMessage:cm];
+        if (self.curUserUuid) {
+          [self addChatMessage:cm];
+        }
       });
     }
     [super sendChatClicked:sender];
