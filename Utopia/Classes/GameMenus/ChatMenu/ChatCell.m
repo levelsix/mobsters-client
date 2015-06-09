@@ -584,9 +584,10 @@ static float buttonInitialWidth = 159.f;
     self.emptyView.hidden = NO;
     self.filledView.hidden = YES;
   } else {
+    GameState *gs = [GameState sharedGameState];
     UserMonsterSnapshotProto *snap = [donation.donationsList firstObject];
     
-    UserMonster *um = donation.donatedMonster;
+    UserMonster *um = [donation donatedMonsterWithResearchUtil:gs.researchUtil];
     MonsterProto *mp = um.staticMonster;
     
     [self.monsterView updateForMonsterId:um.monsterId];

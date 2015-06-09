@@ -14,7 +14,7 @@
 
 @interface ClanMemberTeamDonationProto (ChatObject) <ChatObject>
 
-- (UserMonster *) donatedMonster;
+- (UserMonster *) donatedMonsterWithResearchUtil:(ResearchUtil *)ru;
 - (MSDate *) fulfilledDate;
 
 - (IBAction) donateClicked:(id)sender;

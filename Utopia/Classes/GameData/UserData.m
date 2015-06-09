@@ -94,12 +94,16 @@
     self.monsterId = proto.monsterId;
     self.experience = proto.currentExp;
     self.level = proto.currentLvl;
-    self.curHealth = proto.currentHp;
+    //self.curHealth = proto.currentHp;
     self.offensiveSkillId = proto.offensiveSkillId;
     self.defensiveSkillId = proto.defensiveSkillId;
     self.isComplete = YES;
     
     self.researchUtil = researchUtil;
+    
+    // Don't use health in the snapshot..
+    Globals *gl = [Globals sharedGlobals];
+    self.curHealth = [gl calculateMaxHealthForMonster:self];
   }
   return self;
 }

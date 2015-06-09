@@ -317,7 +317,8 @@
     GameState *gs = [GameState sharedGameState];
     ClanMemberTeamDonationProto *donation = [gs.clanTeamDonateUtil myTeamDonation];
     UserMonsterSnapshotProto *snap = [donation.donationsList firstObject];
-    [self.clanRequestSlotView updateForClanUserMonster:donation.donatedMonster username:snap.user.name];
+    UserMonster *um = [donation donatedMonsterWithResearchUtil:gs.researchUtil];
+    [self.clanRequestSlotView updateForClanUserMonster:um username:snap.user.name];
     
     if (animated) {
       CATransition *animation = [CATransition animation];
@@ -605,7 +606,7 @@
   } else {
     GameState *gs = [GameState sharedGameState];
     ClanMemberTeamDonationProto *donation = [gs.clanTeamDonateUtil myTeamDonation];
-    UserMonster *um = donation.donatedMonster;
+    UserMonster *um = [donation donatedMonsterWithResearchUtil:gs.researchUtil];
     if (um) {
       [self openInfoForUserMonster:um allowSell:NO];
     }

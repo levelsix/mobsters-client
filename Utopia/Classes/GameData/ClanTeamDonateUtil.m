@@ -18,9 +18,8 @@
 
 @implementation ClanMemberTeamDonationProto (ChatObject)
 
-- (UserMonster *) donatedMonster {
-  GameState *gs = [GameState sharedGameState];
-  return self.donationsList.count ? [UserMonster userMonsterWithMonsterSnapshotProto:self.donationsList.firstObject researchUtil:gs.researchUtil] : nil;
+- (UserMonster *) donatedMonsterWithResearchUtil:(ResearchUtil *)ru {
+  return self.donationsList.count ? [UserMonster userMonsterWithMonsterSnapshotProto:self.donationsList.firstObject researchUtil:ru] : nil;
 }
 
 - (MSDate *) fulfilledDate

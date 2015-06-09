@@ -1041,7 +1041,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   if (withClanSlot) {
-    UserMonster *um = self.clanTeamDonateUtil.myTeamDonation.donatedMonster;
+    UserMonster *um = [self.clanTeamDonateUtil.myTeamDonation donatedMonsterWithResearchUtil:self.researchUtil];
     if (um) {
       Globals *gl = [Globals sharedGlobals];
       um.teamSlot = gl.maxTeamSize+1;

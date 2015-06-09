@@ -2667,7 +2667,8 @@
     if (bp.isClanMonster) {
       GameState *gs = [GameState sharedGameState];
       ClanMemberTeamDonationProto *donation = [gs.clanTeamDonateUtil myTeamDonation];
-      if ([donation.donatedMonster.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
+      UserMonster *um = [donation donatedMonsterWithResearchUtil:gs.researchUtil];
+      if ([um.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
         [[OutgoingEventController sharedOutgoingEventController] invalidateSolicitation:donation];
       }
     }

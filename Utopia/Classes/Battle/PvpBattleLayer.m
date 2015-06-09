@@ -681,7 +681,7 @@
     }];
     
     if (enemy.hasCmtd) {
-      UserMonster *um = enemy.cmtd.donatedMonster;
+      UserMonster *um = [enemy.cmtd donatedMonsterWithResearchUtil:ru];
       if (um) {
         BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
         bp.isClanMonster = YES;
