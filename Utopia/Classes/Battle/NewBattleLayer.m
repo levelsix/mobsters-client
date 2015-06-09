@@ -2835,7 +2835,9 @@
   int quantity = 0;
   
   for (UserBattleItem *ubi in gs.battleItemUtil.battleItems) {
-    quantity += ubi.quantity;
+    if ([self battleItemIsValid:ubi]) {
+      quantity += ubi.quantity;
+    }
   }
   
   self.hudView.itemsBadge.badgeNum = quantity;
