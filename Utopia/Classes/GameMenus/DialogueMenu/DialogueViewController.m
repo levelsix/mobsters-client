@@ -108,10 +108,26 @@
       img.originY = self.bottomGradient.height-img.height+10.f;
       img.originX = -42;
       
-      img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"minirocks.png"]];
+      if ([Globals isiPad]) {
+        UIImage *regImg = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"greyrocks@2x" ofType:@"png"]];
+        UIImage *scaledImage = [UIImage imageWithCGImage:[regImg CGImage]
+                                                   scale:[[UIScreen mainScreen] scale]
+                                             orientation:regImg.imageOrientation];
+        img.image = scaledImage;
+        img.size = img.image.size;
+        
+      } else {
+        img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"minirocks.png"]];
+      }
+      
       [self.bottomGradient addSubview:img];
-      img.originY = self.bottomGradient.height-img.height+10.f;
-      img.originX = -42;
+      if ([Globals isiPad]) {
+        img.originX = 0;
+        img.originY = img.superview.height - img.height;
+      } else {
+        img.originY = self.bottomGradient.height-img.height+10.f;
+        img.originX = -42;
+      }
       
       self.leftImageView.image = [Globals imageNamed:@"girl2.png"];
       self.leftImageView.originX = 3.f;
@@ -132,8 +148,9 @@
         self.itemSpeechBubble.centerX = 106.f;
         self.itemSpeechBubble.centerY = self.itemSpeechBubble.superview.height-35.f;
       } else {
-        self.itemSpeechBubble.centerX = 162.f;
-        self.itemSpeechBubble.centerY = self.itemSpeechBubble.superview.height-39.f;
+        //I'm making the assumption that [Globals isSmallestiPhone] will never return true on ipad
+        self.itemSpeechBubble.centerX = [Globals isiPad] ? 217.f : 162.f;
+        self.itemSpeechBubble.centerY = self.itemSpeechBubble.superview.height- ([Globals isiPad] ? 45.f : 39.f);
       }
     }
     
@@ -152,6 +169,10 @@
   
   self.speechBubble.center = ccpAdd(self.speechBubble.center, ccp(-self.speechBubble.frame.size.width/2,
                                                                   -self.speechBubble.frame.size.height*(0.5-self.speechBubble.layer.anchorPoint.y)));
+  
+  if ([Globals isiPad]) {
+    self.speechBubble.center = ccpAdd(self.speechBubble.center, ccp(-26.f ,0.f));
+  }
   
   self.view.hidden = YES;
 }
@@ -302,15 +323,15 @@
     self.buttonView.transform = CGAffineTransformMakeScale(-1, 1);
   }
   
-  CGPoint pt = self.leftImageView.center;
-  
   if ([Globals isiPad]) {
     CGSize s = self.leftImageView.image.size;
-    s.width *= 1.5f;
-    s.height *= 1.5f;
+    s.width *= _battleItem ? 1.f : 1.5f;
+    s.height *= _battleItem ? 1.f : 1.5f;
     self.leftImageView.size = s;
-    self.leftImageView.originY = self.view.height - self.leftImageView.height;
+    self.leftImageView.originY = self.leftImageView.superview.height - self.leftImageView.height;
   }
+  
+  CGPoint pt = self.leftImageView.center;
   
   self.leftImageView.center = ccpAdd(pt, ccp(-self.leftImageView.frame.size.width, self.leftImageView.frame.size.height/3));
   self.speechBubble.alpha = 0.f;
