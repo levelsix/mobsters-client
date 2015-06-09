@@ -390,7 +390,7 @@
   [self.mapScrollView addSubview:pos];
   
   [pos addSubview:iv];
-  pos.center = ccpAdd(icon.center, ccp(-16, -14));
+  pos.center = ccpAdd(icon.center, ccp(-iv.width * .5f, -iv.height * .5f));
   
   _myPositionIcon = icon;
   
