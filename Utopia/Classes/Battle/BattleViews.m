@@ -738,7 +738,7 @@
     NSString *league = pvpLeague.imgPrefix;
     int rank = pvp.pvpLeagueStats.rank;
     [self.leagueBgd setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[@"pvp" stringByAppendingString:[league stringByAppendingString:@"ribbon.png"]]]];
-    [self.leagueIcon setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:@"icon.png"]]];
+    [self.leagueIcon setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:[Globals isiPad] ? @"big.png" : @"icon.png"]]];
     self.leagueLabel.string = pvpLeague.leagueName;
     self.rankLabel.string = [Globals commafyNumber:rank];
     self.rankQualifierLabel.string = [Globals qualifierStringForNumber:rank];
@@ -753,7 +753,7 @@
     self.bubbleNode.position = ccpAdd(self.monsterBgd.parent.position, ccp(0, self.monsterBgd.contentSize.height/2+self.bubbleNode.contentSize.height/2+8));
     self.defendingMsgLabel.string = defMsg;
     
-    if (self.parent.contentSize.height < 321) {
+    if (self.parent.contentSize.height < 321 && ![Globals isiPad]) {
       self.mainNode.scale = 0.95f;
     }
     
@@ -764,6 +764,8 @@
     self.mainNode.position = ccp(self.contentSize.width, self.contentSize.height/2);
     self.mainNode.scale = 1.f;
   }
+  
+  NSLog(@"Attack button scale: %g", self.attackButtonNode.scale);
 }
 
 - (void) fadeInAnimationForIsRevenge:(BOOL)isRevenge {
@@ -773,7 +775,7 @@
     float left = self.nextButtonNode.position.x-self.nextButtonNode.contentSize.width/2;
     float right = self.attackButtonNode.position.x+self.attackButtonNode.contentSize.width/2;
     [self.nextButtonNode removeFromParent];
-    self.attackButtonNode.position = ccp(left+(right-left)/2, self.attackButtonNode.position.y);
+    self.attackButtonNode.position = ccp(lroundf(left+(right-left)/2), self.attackButtonNode.position.y);
   }
   
   NSArray *nodes = @[self.bubbleNode, self.monsterBgd.parent, self.nameLabel, self.cashNode, self.oilNode, self.leagueNode, self.nextButtonNode, self.attackButtonNode];
