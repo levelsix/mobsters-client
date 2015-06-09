@@ -220,7 +220,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       director.UIScaleFactor = 1.0 / scaleFactor;
       
       // Let CCFileUtils know that "~ipad" textures should be treated as having a contentScale of 2.0.
-      //[[CCFileUtils sharedFileUtils] setiPadContentScaleFactor:1.5];
+      [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor:1.5];
     }
     
     [director setProjection:CCDirectorProjection2D];
