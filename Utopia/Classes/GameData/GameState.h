@@ -172,7 +172,7 @@
 @property (nonatomic, retain) NSMutableDictionary *privateChatLanguages;
 @property (nonatomic, retain) NSMutableDictionary *privateTranslationOn;
 
-@property (nonatomic, retain) NSArray *leaderBoardPlacementMonsterIds;
+@property (nonatomic, retain) NSMutableArray *leaderBoardPlacement;
 @property (nonatomic, retain) NSMutableDictionary *staticItemPrices;
 
 + (GameState *) sharedGameState;
