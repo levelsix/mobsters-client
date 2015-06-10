@@ -123,7 +123,7 @@
     [self replaceRootWithViewController:vc fromRight:NO animated:NO];
   }
   
-  self.containerView.superview.layer.cornerRadius = [Globals isiPad] ? 10.f : 5.f;
+  self.containerView.superview.layer.cornerRadius = POPUP_CORNER_RADIUS;
   self.containerView.superview.clipsToBounds = YES;
 }
 

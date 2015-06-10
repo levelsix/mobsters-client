@@ -12,7 +12,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="requirementmet.png" highlightedImage="requirementfailed.png" id="nZn-sy-mzV">
-                    <rect key="frame" x="-1" y="9" width="16" height="14"/>
+                    <rect key="frame" x="-1" y="10" width="16" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LVL 2 Command Center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MVd-Sc-7Sg" customClass="NiceFontLabel9">
