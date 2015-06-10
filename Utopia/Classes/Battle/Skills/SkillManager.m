@@ -459,7 +459,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     {
       if ([Globals isiPad])
       {
-        _skillIndicatorEnemy.position = CGPointMake(_battleLayer.orbLayer.contentSize.width/2 + 15, _battleLayer.orbLayer.contentSize.height - 30);
+        _skillIndicatorEnemy.position = CGPointMake(_battleLayer.orbLayer.contentSize.width/2 + 15, _battleLayer.orbLayer.contentSize.height - 25);
       }
       else
       {
