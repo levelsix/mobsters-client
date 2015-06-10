@@ -47,7 +47,7 @@
   GameState *gs = [GameState sharedGameState];
   _cachedDailySpin = [gs hasDailyFreeSpin];
   
-  [self setUpCloseButton:NO];
+  [self setUpCloseButton:[Globals isiPad]]; // Place the close button on the right on iPad
   
   [[NSNotificationCenter defaultCenter] removeObserver:self.topBar];
   
@@ -121,8 +121,12 @@
   self.topBar.tokensView.centerX = [self.singleSpinContainer convertPoint:self.singleSpinButton.center toView:self.topBar].x;
   if ([Globals isSmallestiPhone]) self.topBar.tokensView.centerX += 13.f;
   
-  CGRect closeButtonFrame = [(UIView*)[self.navigationItem.leftBarButtonItem valueForKey:@"view"] frame]; // Magical way of getting the frame of a UIBarButtonItem
-  self.topBar.gemsView.centerX = (CGRectGetMaxX(closeButtonFrame) + self.navBar.originX) * .5f;
+  CGFloat leftAnchor = 0.f;
+  if (![Globals isiPad]) {
+    CGRect closeButtonFrame = [(UIView*)[self.navigationItem.leftBarButtonItem valueForKey:@"view"] frame]; // Magical way of getting the frame of a UIBarButtonItem
+    leftAnchor = CGRectGetMaxX(closeButtonFrame);
+  }
+  self.topBar.gemsView.centerX = (leftAnchor + self.navBar.originX) * .5f;
   if ([Globals isSmallestiPhone]) self.topBar.gemsView.hidden = YES;
 }
 
@@ -138,12 +142,6 @@
   
   [_tickerController performCleanUp];
   _tickerController = nil;
-}
-
-- (void) viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
-  
-//  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (void) layoutViews {
