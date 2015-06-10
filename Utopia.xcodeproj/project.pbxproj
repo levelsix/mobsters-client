@@ -12088,18 +12088,18 @@
 		291721081ACF81D90093F100 /* ScrollingUpgrade */ = {
 			isa = PBXGroup;
 			children = (
-				63F9FFD21B216792006B6D65 /* DetailsPrereqView~ipad.xib */,
-				63F9FFD31B216792006B6D65 /* DetailsProgressBarView~ipad.xib */,
-				63F9FFD41B216792006B6D65 /* DetailsStrengthView~ipad.xib */,
-				63F9FFD51B216792006B6D65 /* DetailsTitleBarView~ipad.xib */,
-				63F9FFCE1B21669F006B6D65 /* EmbeddedScrollingUpgradeView~ipad.xib */,
 				2917211B1ACF82110093F100 /* EmbeddedScrollingUpgradeView.h */,
 				2917211C1ACF82110093F100 /* EmbeddedScrollingUpgradeView.m */,
 				2917211D1ACF82110093F100 /* EmbeddedScrollingUpgradeView.xib */,
+				63F9FFCE1B21669F006B6D65 /* EmbeddedScrollingUpgradeView~ipad.xib */,
 				291721171ACF82110093F100 /* DetailsPrereqView.xib */,
+				63F9FFD21B216792006B6D65 /* DetailsPrereqView~ipad.xib */,
 				291721181ACF82110093F100 /* DetailsProgressBarView.xib */,
+				63F9FFD31B216792006B6D65 /* DetailsProgressBarView~ipad.xib */,
 				291721191ACF82110093F100 /* DetailsStrengthView.xib */,
+				63F9FFD41B216792006B6D65 /* DetailsStrengthView~ipad.xib */,
 				2917211A1ACF82110093F100 /* DetailsTitleBarView.xib */,
+				63F9FFD51B216792006B6D65 /* DetailsTitleBarView~ipad.xib */,
 			);
 			name = ScrollingUpgrade;
 			sourceTree = "<group>";
@@ -17715,15 +17715,15 @@
 		CFC8B4F718E3F58200CFD652 /* UpgradeMenu */ = {
 			isa = PBXGroup;
 			children = (
-				63F9FFE61B217A8E006B6D65 /* UpgradeUnlockView~ipad.xib */,
-				63F9FF701B2122ED006B6D65 /* UpgradeViewController~ipad.xib */,
 				291721091ACF81EB0093F100 /* DetailsMenu */,
 				291721081ACF81D90093F100 /* ScrollingUpgrade */,
 				CFFD311C18503E880091E315 /* UpgradeViewController.h */,
 				CFFD311D18503E880091E315 /* UpgradeViewController.m */,
 				CF4DB8D81807DA1E00062258 /* UpgradeViewController.xib */,
 				CFC8B4FB18E3F5CE00CFD652 /* UpgradeUnlockView.xib */,
+				63F9FFE61B217A8E006B6D65 /* UpgradeUnlockView~ipad.xib */,
 				CFA8FF5D19F9B31B00F9908C /* UpgradePrereqView.xib */,
+				63F9FF701B2122ED006B6D65 /* UpgradeViewController~ipad.xib */,
 			);
 			name = UpgradeMenu;
 			path = ../MainMap;
