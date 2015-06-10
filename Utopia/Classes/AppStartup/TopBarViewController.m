@@ -1227,23 +1227,15 @@
 - (void) displayHomeViewController:(HomeViewController *)hvc {
   [hvc displayInParentViewController:self];
   
-  // Move hvc's main view down a bit if we have space
-  
   if ([Globals isiPad]) {
-#warning guide me behhhhhhrouz
-    hvc.mainView.originY = 99;
-    hvc.mainView.height = 573;
+    [self.mainView insertSubview:hvc.view belowSubview:self.coinBarsView];
+  } else if (hvc.mainView.height < self.view.height-self.coinBarsView.height) {
+    // Move hvc's main view down a bit if we have space
+    hvc.mainView.originY = self.coinBarsView.height;
+    hvc.mainView.height = self.view.height-self.coinBarsView.height;
     
     // Move the coin bars above
     [self.mainView insertSubview:hvc.view belowSubview:self.coinBarsView];
-  } else {
-    if (hvc.mainView.height < self.view.height-self.coinBarsView.height) {
-      hvc.mainView.originY = self.coinBarsView.height;
-      hvc.mainView.height = self.view.height-self.coinBarsView.height;
-      
-      // Move the coin bars above
-      [self.mainView insertSubview:hvc.view belowSubview:self.coinBarsView];
-    }
   }
 }
 
