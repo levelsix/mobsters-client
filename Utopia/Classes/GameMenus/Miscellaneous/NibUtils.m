@@ -1373,7 +1373,7 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
   if      ([Globals isSmallestiPhone])  self.icon1.highlightedImage = [UIImage imageNamed:@"4basicgrabgachatabactive.png"];
   else if ([Globals isiPhone6])         self.icon1.highlightedImage = [UIImage imageNamed:@"6basicgrabgachatabactive.png"];
   else if ([Globals isiPhone6Plus])     self.icon1.highlightedImage = [UIImage imageNamed:@"6plusbasicgrabgachatabactive.png"];
-  else                                  self.icon1.highlightedImage = [UIImage imageNamed:@"5basicgrabgachatabactive.png"];
+  else if (![Globals isiPad])           self.icon1.highlightedImage = [UIImage imageNamed:@"5basicgrabgachatabactive.png"];
   
   self.rightTabShadow.transform = CGAffineTransformMakeScale(-1.f, 1.f);
   
