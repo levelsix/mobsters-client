@@ -444,7 +444,7 @@
   _skillIcon = [CCSprite node];
   [Globals imageNamed:iconName toReplaceSprite:_skillIcon completion:^(BOOL success) {
     if (success) {
-      _skillIcon.position = ccp(_skillIcon.contentSize.width/2, 35);
+      _skillIcon.position = ccp(round(_skillIcon.contentSize.width/2), 35);
       [self addChild:_skillIcon];
       
       [self setSkillButton];
