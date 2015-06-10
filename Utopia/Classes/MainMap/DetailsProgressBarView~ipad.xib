@@ -8,15 +8,15 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="lyC-vz-vUB" customClass="DetailsProgressBarView">
-            <rect key="frame" x="0.0" y="0.0" width="554" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="554" height="57"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="vLI-AD-JpY" userLabel="StatBarView">
-                    <rect key="frame" x="3" y="5" width="551" height="45"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="0.0" y="8" width="554" height="46"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="vaj-KF-7u4" customClass="SplitImageProgressBar">
-                            <rect key="frame" x="196" y="22" width="350" height="21"/>
+                            <rect key="frame" x="196" y="25" width="350" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarbgmiddle.png" id="Qou-0s-Vzx">
@@ -40,7 +40,7 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" id="9JW-Jz-o48" customClass="SplitImageProgressBar">
-                            <rect key="frame" x="196" y="22" width="350" height="21"/>
+                            <rect key="frame" x="196" y="25" width="350" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarnewmiddle.png" id="dtb-us-Nqy">
@@ -64,7 +64,7 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" id="A9j-Vg-ENk" customClass="SplitImageProgressBar">
-                            <rect key="frame" x="196" y="22" width="350" height="21"/>
+                            <rect key="frame" x="196" y="25" width="350" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="upgradebarcurrentmiddle.png" id="5lK-YB-LjC">
@@ -94,7 +94,7 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="clip" id="lUK-oP-vWa" customClass="NiceFontButton9">
                                     <rect key="frame" x="12" y="3" width="91" height="15"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <size key="titleShadowOffset" width="0.0" height="1"/>
                                     <state key="normal" title="Details »">
@@ -111,7 +111,7 @@
                                     </connections>
                                 </button>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="Ps5-YV-e5K">
-                                    <rect key="frame" x="2" y="2" width="4" height="16"/>
+                                    <rect key="frame" x="4" y="2" width="1" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                             </subviews>
@@ -119,16 +119,16 @@
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2% Increase" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="2no-oF-i1m" customClass="NiceFontLabel9">
                             <rect key="frame" x="196" y="0.0" width="209" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.027450980392156862" green="0.15294117647058825" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Capacity:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="r1y-cu-Vsp" customClass="NiceFontLabel9">
-                            <rect key="frame" x="25" y="0.0" width="163" height="21"/>
+                            <rect key="frame" x="19" y="0.0" width="163" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.2627450980392157" green="0.2627450980392157" blue="0.2627450980392157" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
@@ -179,7 +179,7 @@
     <resources>
         <image name="popuplinevertical.png" width="1" height="1"/>
         <image name="upgradebarbgcap.png" width="117" height="12"/>
-        <image name="upgradebarbgmiddle.png" width="117" height="12"/>
+        <image name="upgradebarbgmiddle.png" width="329" height="180"/>
         <image name="upgradebarcurrentcap.png" width="3" height="12"/>
         <image name="upgradebarcurrentmiddle.png" width="1" height="12"/>
         <image name="upgradebarnewcap.png" width="3" height="12"/>
