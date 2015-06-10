@@ -47,19 +47,19 @@
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="k2d-I9-p48" customClass="TouchableSubviewsView">
-                    <rect key="frame" x="47" y="70" width="930" height="629"/>
+                    <rect key="frame" x="47" y="99" width="930" height="573"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="kvk-Jf-EiS" customClass="PopupShadowView">
-                            <rect key="frame" x="27" y="17" width="876" height="595"/>
+                            <rect key="frame" x="27" y="17" width="876" height="539"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="MAy-fD-dTb">
-                                    <rect key="frame" x="0.0" y="0.0" width="876" height="595"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="876" height="539"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view clipsSubviews="YES" contentMode="scaleToFill" id="PQx-jD-nSH">
-                                            <rect key="frame" x="0.0" y="87" width="876" height="508"/>
+                                            <rect key="frame" x="0.0" y="87" width="876" height="452"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>

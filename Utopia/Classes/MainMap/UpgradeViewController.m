@@ -59,7 +59,6 @@
   BOOL isOil = nextSS.structInfo.buildResourceType == ResourceTypeOil;
   self.upgradeCashLabel.text = [Globals commafyNumber:nextSS.structInfo.buildCost];
   self.upgradeOilLabel.text = [Globals commafyNumber:nextSS.structInfo.buildCost];
-  UIView *superView = self.upgradeOilLabel.superview;
   [Globals adjustViewForCentering:self.upgradeOilLabel.superview withLabel:self.upgradeOilLabel];
   [Globals adjustViewForCentering:self.upgradeCashLabel.superview withLabel:self.upgradeCashLabel];
   self.oilButtonView.hidden = !isOil;
@@ -93,6 +92,7 @@
     self.bottomBgRightCap.image = [Globals imageNamed:@"functionalhomemenubottombarredcap.png"];
     self.bottomBgMiddle.image = [Globals imageNamed:@"functionalhomemenubottombarredmiddle.png"];
     
+    self.bottomBgdView.highlighted = YES;
     self.checkIcon.highlighted = YES;
     self.readyLabel.highlighted = YES;
     self.readySubLabel.highlighted = YES;
