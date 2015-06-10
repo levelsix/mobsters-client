@@ -88,6 +88,10 @@
     self.readyLabel.text = @"Woops!";
     self.readySubLabel.text = [NSString stringWithFormat:@"You are missing %d requirement%@ to upgrade.", numIncomplete, numIncomplete == 1 ? @"" : @"s"];
     
+    self.bottomBgLeftCap.image = [Globals imageNamed:@"functionalhomemenubottombarredcap.png"];
+    self.bottomBgRightCap.image = [Globals imageNamed:@"functionalhomemenubottombarredcap.png"];
+    self.bottomBgMiddle.image = [Globals imageNamed:@"functionalhomemenubottombarredmiddle.png"];
+    
     self.bottomBgdView.highlighted = YES;
     self.checkIcon.highlighted = YES;
     self.readyLabel.highlighted = YES;

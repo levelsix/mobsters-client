@@ -50,6 +50,10 @@
 @property (nonatomic, assign) IBOutlet UILabel *upgradeCashLabel;
 @property (nonatomic, assign) IBOutlet UILabel *upgradeOilLabel;
 
+@property (nonatomic, assign) IBOutlet UIImageView *bottomBgLeftCap;
+@property (nonatomic, assign) IBOutlet UIImageView *bottomBgMiddle;
+@property (nonatomic, assign) IBOutlet UIImageView *bottomBgRightCap;
+
 @property (nonatomic, assign) IBOutlet UIImageView *bottomBgdView;
 @property (nonatomic, assign) IBOutlet UIImageView *checkIcon;
 @property (nonatomic, assign) IBOutlet UILabel *readyLabel;
