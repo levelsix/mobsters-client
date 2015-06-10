@@ -55,6 +55,10 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="pew-Bw-IXW" userLabel="Item Image">
+                            <rect key="frame" x="28" y="152" width="70" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </imageView>
                     </subviews>
                 </view>
                 <view hidden="YES" autoresizesSubviews="NO" contentMode="center" id="QwW-jF-qmJ" userLabel="Enemy">
@@ -112,6 +116,7 @@
                 <outlet property="_avatarPlayer" destination="XOF-Jy-miL" id="jdZ-9O-0MH"/>
                 <outlet property="_imageEnemy" destination="PmX-mw-UZk" id="Xj2-nb-v2F"/>
                 <outlet property="_imagePlayer" destination="0KA-xH-FJl" id="Ytv-zN-Zr0"/>
+                <outlet property="_itemImagePlayer" destination="pew-Bw-IXW" id="KuI-r4-ksf"/>
                 <outlet property="_leavesImageEnemy" destination="zJL-oP-bsm" id="6cq-KP-cof"/>
                 <outlet property="_leavesImagePlayer" destination="qRQ-Rl-ymv" id="fEv-kc-sMN"/>
                 <outlet property="_rocksImageEnemy" destination="JZ7-Xt-SdZ" id="fyh-Hp-TUp"/>
