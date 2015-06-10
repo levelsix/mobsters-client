@@ -62,7 +62,7 @@ static float imgHeight = 42.f;
 
 @end
 
-static const CGFloat kNewGachaNavBarHeight = 46.f;
+#define NEW_GACHA_NAV_BAR_HEIGHT ([Globals isiPad] ? 97.f : 46.f)
 
 @implementation NewGachaNavBar
 
@@ -72,12 +72,12 @@ static const CGFloat kNewGachaNavBarHeight = 46.f;
   
   for (UIView* view in self.subviews)
     if ([view isKindOfClass:[CoinBar class]])
-      [view setFrame:CGRectMake(0, 0, self.frame.size.width, kNewGachaNavBarHeight)];
+      [view setFrame:CGRectMake(0, 0, self.frame.size.width, NEW_GACHA_NAV_BAR_HEIGHT)];
 }
 
 - (CGSize)sizeThatFits:(CGSize)size
 {
-  return CGSizeMake(self.frame.size.width, kNewGachaNavBarHeight);
+  return CGSizeMake(self.frame.size.width, NEW_GACHA_NAV_BAR_HEIGHT);
 }
 
 @end
