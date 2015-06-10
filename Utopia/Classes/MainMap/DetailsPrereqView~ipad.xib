@@ -8,17 +8,17 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="bQS-k9-BXR" customClass="DetailsPrereqView">
-            <rect key="frame" x="0.0" y="0.0" width="554" height="30"/>
+            <rect key="frame" x="0.0" y="0.0" width="554" height="32"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="requirementmet.png" highlightedImage="requirementfailed.png" id="nZn-sy-mzV">
-                    <rect key="frame" x="1" y="9" width="16" height="14"/>
+                    <rect key="frame" x="-1" y="9" width="16" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LVL 2 Command Center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MVd-Sc-7Sg" customClass="NiceFontLabel9">
                     <rect key="frame" x="196" y="0.0" width="290" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.33725490196078434" green="0.62352941176470589" blue="0.16078431372549021" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="highlightedColor" red="0.8980392814" green="0.0039215688589999999" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                 </label>
@@ -49,9 +49,9 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Requires:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FZT-eu-hnB" customClass="NiceFontLabel9">
-                    <rect key="frame" x="25" y="9" width="100" height="15"/>
+                    <rect key="frame" x="19" y="9" width="100" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.2627450980392157" green="0.2627450980392157" blue="0.2627450980392157" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="highlightedColor" red="0.8980392814" green="0.0039215688589999999" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                 </label>
