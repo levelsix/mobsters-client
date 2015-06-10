@@ -1328,7 +1328,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticResearch:proto.researchList];
   
   [self.staticItemPrices removeAllObjects];
-  [self addToStaticItemPricesP:proto.refreshMiniJobItemPricesList];
+  [self addToStaticItemPricesP:proto.structureItemPricesList];
   
   self.persistentEvents = proto.persistentEventsList;
   self.persistentClanEvents = proto.persistentClanEventsList;
