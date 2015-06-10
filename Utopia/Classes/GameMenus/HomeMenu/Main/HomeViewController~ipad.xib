@@ -101,8 +101,8 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CZd-cy-UK6" userLabel="Close Button" customClass="CloseButton">
-                                                    <rect key="frame" x="814" y="27" width="33" height="33"/>
+                                                <button opaque="NO" tag="4" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CZd-cy-UK6" userLabel="Close Button" customClass="CloseButton">
+                                                    <rect key="frame" x="814" y="27" width="37" height="37"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <state key="normal" image="menuclosex.png">
