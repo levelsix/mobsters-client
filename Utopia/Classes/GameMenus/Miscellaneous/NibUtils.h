@@ -607,8 +607,6 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *rightCap;
 @property (nonatomic, retain) IBOutlet UIImageView *middleBar;
 
-@property (nonatomic, retain) IBOutlet UIImageView *rightBgCap;
-
 @property (nonatomic, assign) float percentage;
 @property (nonatomic, assign) BOOL isRightToLeft;
 
