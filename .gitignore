@@ -5,6 +5,7 @@ build/
 xcuserdata
 xcshareddata
 xcuserstate
+*.xccheckout
 *.lock
 *.swp
 DerivedData/
