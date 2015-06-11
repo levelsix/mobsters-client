@@ -3675,6 +3675,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Tango Gifts
 
+- (void) updateTangoId:(NSString *)tangoId {
+#ifdef TOONSQUAD
+  [[SocketCommunication sharedSocketCommunication] sendUpdateTangleID:tangoId];
+#endif
+}
+
 - (void) sendTangoGiftsToTangoUsers:(NSArray *)tangoIds gemReward:(int)gemReward delegate:(id)delegate {
 #ifdef TOONSQUAD
   GameState *gs = [GameState sharedGameState];
@@ -3691,6 +3697,95 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemReward];
   [gs addUnrespondedUpdates:gu, nil];
 #endif
+}
+
+- (void) deleteUserGifts:(NSArray *)userGifts {
+  //is is simply a way to clean the gift off the server
+  //we don't remove the gift from gs.userGifts because we may still wish to display it for this session
+  if (userGifts.count == 0) {
+    [Globals popupMessage:@"Trying to clear 0 expired gifts."];
+    return;
+  }
+  for (UserGiftProto *ugp in userGifts) {
+    if (!ugp.isExpired && !ugp.hasBeenCollected) {
+      [Globals popupMessage:@"Trying to clear unexpired gifts."];
+      return;
+    }
+  }
+  
+  [[SocketCommunication sharedSocketCommunication] sendDeleteUserGifts:userGifts];
+}
+
+- (void) collectUserGifts:(NSArray *)userGifts delegate:(id)delegate{
+  GameState *gs = [GameState sharedGameState];
+  
+  if (userGifts.count == 0) {
+    [Globals popupMessage:@"Trying to collect 0 gifts."];
+    return;
+  }
+  for (UserGiftProto *ugp in userGifts) {
+    if (ugp.isExpired) {
+      [Globals popupMessage:@"Trying to collect expired gifts."];
+      return;
+    }
+  }
+  
+  //if any of these gifts are tango gifts we have to alert tango that they can clean up the gift notification
+  //and record all the gift ids
+  NSMutableArray *tangoGifts = [[NSMutableArray alloc] init];
+  NSMutableArray *giftIds = [[NSMutableArray alloc] init];
+  for (UserGiftProto *ugp in userGifts) {
+    [giftIds addObject:ugp.ugId];
+    
+    if (ugp.giftType == RewardProto_RewardTypeTangoGift) {
+      [tangoGifts addObject:ugp];
+    }
+  }
+  
+#ifdef TOONSQUAD
+  [TangoDelegate consumeUserGifts:tangoGifts];
+#endif
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendCollectUserGifts:giftIds clientTime:[self getCurrentMilliseconds]];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+  int gemReward = 0;
+  int cashReward = 0;
+  int oilReward = 0;
+  int tokenReward = 0;
+  
+  for (UserGiftProto *ugp in userGifts) {
+    
+    switch (ugp.rp.typ) {
+      case RewardProto_RewardTypeCash:
+        cashReward += ugp.rp.amt;
+        break;
+      case RewardProto_RewardTypeOil:
+        oilReward += ugp.rp.amt;
+        break;
+      case RewardProto_RewardTypeGems:
+        gemReward += ugp.rp.amt;
+        break;
+      case RewardProto_RewardTypeGachaCredits:
+        tokenReward += ugp.rp.amt;
+        break;
+      case RewardProto_RewardTypeItem:
+      case RewardProto_RewardTypeMonster:
+        //item and monsters are updated on the response
+      case RewardProto_RewardTypeNoReward:
+      case RewardProto_RewardTypeClanGift:
+      case RewardProto_RewardTypeTangoGift:
+        //byron says the reward type will never be set to typeClanGift
+        break;
+    }
+  }
+  
+  GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemReward];
+  CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashReward];
+  OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilReward];
+  TokensUpdate *tu = [TokensUpdate updateWithTag:tag change:tokenReward];
+  
+  [gs addUnrespondedUpdates:gu, cu, ou, tu, nil];
 }
 
 @end

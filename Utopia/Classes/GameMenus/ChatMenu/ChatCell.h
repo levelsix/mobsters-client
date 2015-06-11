@@ -183,3 +183,28 @@
 - (void) updateForTeamDonation:(ClanMemberTeamDonationProto *)donation;
 
 @end
+
+@interface ChatGiftView: UIView
+
+@property (nonatomic, retain) IBOutlet UIView *unOpenedView;
+@property (nonatomic, retain) IBOutlet UIView *openedView;
+
+@property (nonatomic, retain) IBOutlet UILabel *expireTimeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *openLabel;
+
+@property (nonatomic, retain) IBOutlet UIImageView *giftImage;
+@property (nonatomic, retain) IBOutlet UILabel *giftRarityLabel;
+@property (nonatomic, retain) IBOutlet UILabel *giftNameLabel;
+
+@property (nonatomic, retain) IBOutlet EmbeddedRewardView *embeddedRewardView;
+@property (nonatomic, retain) IBOutlet UILabel *rewardNameLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *rewardFitImageView;
+@property (nonatomic, retain) IBOutlet UIImageView *rewardCenterImageView;
+
+@property (nonatomic, retain) IBOutlet UIButton *collectButton;
+
+- (void) updateForClanGift:(id<ChatObject>)userGift;
+
+- (void) updateForExpireDate:(MSDate *)expireDate;
+
+@end

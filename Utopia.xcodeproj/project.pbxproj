@@ -1809,6 +1809,9 @@
 		63CE45EB1AD8564400C5D8C5 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CE45EA1AD8564400C5D8C5 /* Reward.proto */; };
 		63CE45EC1AD8564400C5D8C5 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CE45EA1AD8564400C5D8C5 /* Reward.proto */; };
 		63CE45ED1AD8564400C5D8C5 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CE45EA1AD8564400C5D8C5 /* Reward.proto */; };
+		63F9013C1B2A40C7006B6D65 /* ChatGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9013B1B2A40C7006B6D65 /* ChatGiftView.xib */; };
+		63F9013D1B2A40C7006B6D65 /* ChatGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9013B1B2A40C7006B6D65 /* ChatGiftView.xib */; };
+		63F9013E1B2A40C7006B6D65 /* ChatGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9013B1B2A40C7006B6D65 /* ChatGiftView.xib */; };
 		6B0783F91A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FA1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FB1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
@@ -7749,6 +7752,7 @@
 		63CDCF3F1AC0F13F00A00DB6 /* greysquadrewardcheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greysquadrewardcheck@2x.png"; sourceTree = "<group>"; };
 		63CDCF471AC0F6A500A00DB6 /* greycomplete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greycomplete@2x.png"; sourceTree = "<group>"; };
 		63CE45EA1AD8564400C5D8C5 /* Reward.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Reward.proto; sourceTree = "<group>"; };
+		63F9013B1B2A40C7006B6D65 /* ChatGiftView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatGiftView.xib; sourceTree = "<group>"; };
 		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		6B0783F61A82845B005CDFCF /* SkillCurse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillCurse.h; sourceTree = "<group>"; };
 		6B0783F81A828468005CDFCF /* SkillCurse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCurse.m; sourceTree = "<group>"; };
@@ -13176,6 +13180,7 @@
 		63959DF51B0AB31500E5E302 /* TangoGifts */ = {
 			isa = PBXGroup;
 			children = (
+				63F9013B1B2A40C7006B6D65 /* ChatGiftView.xib */,
 				63959DF61B0AB31500E5E302 /* TangoFriendViewCell.xib */,
 				63959DF71B0AB31500E5E302 /* TangoGiftViewController.h */,
 				63959DF81B0AB31500E5E302 /* TangoGiftViewController.m */,
@@ -19060,6 +19065,7 @@
 				CFA728B81A0B037900FF6031 /* nighteventbigbg@2x.png in Resources */,
 				6B1EA9CC1ACF5DCB00E0B642 /* VinesLeft06.png in Resources */,
 				CF0CF40B196F452900ECD301 /* newtext@2x.png in Resources */,
+				63F9013D1B2A40C7006B6D65 /* ChatGiftView.xib in Resources */,
 				CF6A64DE19D24F030002E05D /* 6lightsideways@2x.png in Resources */,
 				9B7AAB3D1AC0CDE300CA387F /* eventpointcounter@2x.png in Resources */,
 				2985E5D51A30045D0041ABF4 /* mini7.fnt in Resources */,
@@ -21027,6 +21033,7 @@
 				9BB5AF911AA79C85002076E3 /* holeobstacle@2x.png in Resources */,
 				9B2389C31A30048D00FA3743 /* itemssidearrow@2x.png in Resources */,
 				633CCAF01AA1444800C6649F /* ResearchInfoViewController.xib in Resources */,
+				63F9013C1B2A40C7006B6D65 /* ChatGiftView.xib in Resources */,
 				63B045051A92B9C600C74F0C /* AttackedAlertViewController.xib in Resources */,
 				29AE75EA1A6F36E000264070 /* Zark1T1RunNF@2x.plist in Resources */,
 				CFC4D29718D7BD04004681FD /* sfx_piece_fall_03.mp3 in Resources */,
@@ -23195,6 +23202,7 @@
 				6B5146921AA1487100B2844A /* 6lightlsorb-9@2x.png in Resources */,
 				63CA0AEA1AD5B8BB00E92774 /* flaggerman@2x.png in Resources */,
 				CF4822B919F7217F00041486 /* silverribbon@2x.png in Resources */,
+				63F9013E1B2A40C7006B6D65 /* ChatGiftView.xib in Resources */,
 				CF4822BB19F7217F00041486 /* sfx_points_fly_from_match_01.mp3 in Resources */,
 				CF4822BD19F7217F00041486 /* chatinputcap@2x.png in Resources */,
 				CF4822BE19F7217F00041486 /* profsenmessagebutton@2x.png in Resources */,

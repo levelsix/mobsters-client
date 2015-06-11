@@ -102,3 +102,16 @@
 - (BOOL) canAttack;
 
 @end
+
+@interface UserGiftProto (ChatObject) <ChatObject>
+
+- (BOOL) isExpired;
+- (MSDate *) expireDate;
+- (IBAction) collectClicked:(id)sender;
+- (NSString *) giftName;
+- (RewardProto *) reward;
+- (NSString *) giftImageName;
+
+@property (nonatomic, assign) BOOL isRedeemed;
+
+@end

@@ -467,6 +467,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     gs.mySecretGifts = [proto.giftsList mutableCopy];
     
+    //some gifts are removed from the server but left on the client for this session
+    [gs.userGifts removeAllObjects];
+    giftsToBeRemoved = [[NSMutableArray alloc] init];
+    for (UserGiftProto *ugp in proto.userGiftsList) {
+      if (ugp.hasBeenCollected) {
+        [giftsToBeRemoved addObject:ugp];
+        continue;
+      }
+      if (ugp.isExpired) {
+        [giftsToBeRemoved addObject:ugp];
+      }
+      [gs.userGifts addObject:ugp];
+    }
+    
+    if (giftsToBeRemoved.count > 0) {
+      [[OutgoingEventController sharedOutgoingEventController] deleteUserGifts:giftsToBeRemoved];
+    }
+    
     //    [Globals asyncDownloadBundles];
     [gs.myMonsters removeAllObjects];
     [gs addToMyMonsters:proto.usersMonstersList];
@@ -2630,5 +2648,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 #endif
 }
+
+
 
 @end
