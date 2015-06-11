@@ -19,6 +19,7 @@ static const float kContentStartOffset_iPhone6 = -7.5f;     // Magic number; do 
 static const float kContentStartOffset_iPhone6Plus = 28.5f; // Magic number; do not touch unless scroll bar width changes
 static const float kContentStartOffset_iPhone5 = 2.f;       // Magic number; do not touch unless scroll bar width changes
 static const float kContentStartOffset_iPhone4 = 14.5f;     // Magic number; do not touch unless scroll bar width changes
+static const float kContentStartOffset_iPad = 36.5f;        // Magic number; do not touch unless scroll bar width changes
 
 static const int   kTickerCollisionEdgeBegin = 3;           // Pixels
 static const int   kTickerCollisionEdgeEnd = 24;            // Pixels
