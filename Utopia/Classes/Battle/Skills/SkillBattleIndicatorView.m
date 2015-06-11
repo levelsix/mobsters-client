@@ -445,7 +445,7 @@
   [Globals imageNamed:iconName toReplaceSprite:_skillIcon completion:^(BOOL success) {
     if (success) {
       [_skillIcon setAnchorPoint:CGPointMake(0, 0)];
-      _skillIcon.position = ccp(0, 15);
+      _skillIcon.position = ccp(0, 20);
       [self addChild:_skillIcon];
       
       [self setSkillButton];
@@ -523,6 +523,7 @@
   _skillNameLabel = [CCLabelTTF labelWithString:[skillName uppercaseString] fontName:@"GothamNarrow-Ultra" fontSize:14.f dimensions:CGSizeMake(fullWidth - (_skillIcon.contentSize.width+10), 0)];
   [_skillNameLabel setAnchorPoint:CGPointMake(0, 0)];
   [_skillNameLabel setHorizontalAlignment:CCTextAlignmentLeft];
+  [_skillNameLabel setVerticalAlignment:CCVerticalTextAlignmentBottom];
   [_skillNameLabel setColor:[CCColor whiteColor]];
   [_skillNameLabel setPosition:ccp(_skillIcon.contentSize.width + 5, 15)];
   [_skillNameLabel setShadowBlurRadius:1.f];
