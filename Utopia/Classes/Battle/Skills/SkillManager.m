@@ -487,7 +487,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     if (_skillIndicatorPlayer)
     {
       if ([Globals isiPad]) {
-        _skillIndicatorPlayer.position = CGPointMake(0, _battleLayer.orbLayer.contentSize.height + _skillIndicatorPlayer.contentSize.height - 25);
+        _skillIndicatorPlayer.position = CGPointMake(1, _battleLayer.orbLayer.contentSize.height + _skillIndicatorPlayer.contentSize.height - 25);
       } else {
         _skillIndicatorPlayer.position = CGPointMake(-_skillIndicatorPlayer.contentSize.width/2 - 10,
                                                      UI_DEVICE_IS_IPHONE_4 ? 40 : [_battleLayer.orbLayer convertToNodeSpace:[_battleLayer convertToWorldSpace:_battleLayer.myPlayer.position]].y + 5);
