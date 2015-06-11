@@ -147,8 +147,6 @@
 @class CityExpansionCostProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
-@class ClanGiftProto;
-@class ClanGiftProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -169,10 +167,6 @@
 @class ClanRaidStageProto_Builder;
 @class ClanRaidStageRewardProto;
 @class ClanRaidStageRewardProto_Builder;
-@class CollectClanGiftsRequestProto;
-@class CollectClanGiftsRequestProto_Builder;
-@class CollectClanGiftsResponseProto;
-@class CollectClanGiftsResponseProto_Builder;
 @class CollectGiftRequestProto;
 @class CollectGiftRequestProto_Builder;
 @class CollectGiftResponseProto;
@@ -213,10 +207,6 @@
 @class CustomizePvpBoardObstacleResponseProto_Builder;
 @class DefaultLanguagesProto;
 @class DefaultLanguagesProto_Builder;
-@class DeleteClanGiftsRequestProto;
-@class DeleteClanGiftsRequestProto_Builder;
-@class DeleteClanGiftsResponseProto;
-@class DeleteClanGiftsResponseProto_Builder;
 @class DeleteGiftRequestProto;
 @class DeleteGiftRequestProto_Builder;
 @class DeleteGiftResponseProto;
@@ -269,8 +259,6 @@
 @class EnhancementWaitTimeCompleteRequestProto_Builder;
 @class EnhancementWaitTimeCompleteResponseProto;
 @class EnhancementWaitTimeCompleteResponseProto_Builder;
-@class EventProto;
-@class EventProto_Builder;
 @class EvoChamberProto;
 @class EvoChamberProto_Builder;
 @class EvolutionFinishedRequestProto;
@@ -325,6 +313,8 @@
 @class FullUserStructureProto_Builder;
 @class GeneralNotificationResponseProto;
 @class GeneralNotificationResponseProto_Builder;
+@class GiftProto;
+@class GiftProto_Builder;
 @class GiveClanHelpRequestProto;
 @class GiveClanHelpRequestProto_Builder;
 @class GiveClanHelpResponseProto;
@@ -410,8 +400,10 @@
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
+@class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevelForTournament;
 @class MinimumUserProtoWithLevelForTournament_Builder;
+@class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
@@ -521,18 +513,12 @@
 @class QueueUpResponseProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
-@class ReceivedClanGiftResponseProto;
-@class ReceivedClanGiftResponseProto_Builder;
 @class ReceivedGiftResponseProto;
 @class ReceivedGiftResponseProto_Builder;
 @class ReceivedGroupChatResponseProto;
 @class ReceivedGroupChatResponseProto_Builder;
 @class ReceivedRareBoosterPurchaseResponseProto;
 @class ReceivedRareBoosterPurchaseResponseProto_Builder;
-@class ReconnectRequestProto;
-@class ReconnectRequestProto_Builder;
-@class ReconnectResponseProto;
-@class ReconnectResponseProto_Builder;
 @class RecordClanRaidStatsRequestProto;
 @class RecordClanRaidStatsRequestProto_Builder;
 @class RecordClanRaidStatsResponseProto;
@@ -749,8 +735,6 @@
 @class SubmitMonsterEnhancementRequestProto_Builder;
 @class SubmitMonsterEnhancementResponseProto;
 @class SubmitMonsterEnhancementResponseProto_Builder;
-@class TangoGiftProto;
-@class TangoGiftProto_Builder;
 @class TaskMapElementProto;
 @class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
@@ -825,8 +809,6 @@
 @class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
-@class UserClanGiftProto;
-@class UserClanGiftProto_Builder;
 @class UserCreateRequestProto;
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
@@ -843,8 +825,6 @@
 @class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
-@class UserItemSecretGiftProto;
-@class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
 @class UserMiniEventGoalProto;
@@ -877,6 +857,8 @@
 @class UserResearchProto_Builder;
 @class UserRewardProto;
 @class UserRewardProto_Builder;
+@class UserSecretGiftProto;
+@class UserSecretGiftProto_Builder;
 @class UserTangoGiftProto;
 @class UserTangoGiftProto_Builder;
 @class UserTaskCompletedProto;
@@ -1014,12 +996,8 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCDeleteGiftEvent = 215,
   EventProtocolRequestCCollectGiftEvent = 216,
   EventProtocolRequestCRetrieveBattleReplayEvent = 217,
-  EventProtocolRequestCCollectClanGiftsEvent = 500,
-  EventProtocolRequestCDeleteClanGiftsEvent = 501,
-  EventProtocolRequestCReceivedClanGiftsEvent = 502,
   EventProtocolRequestCRetrieveStrengthLeaderBoardEvent = 503,
   EventProtocolRequestCPurchaseItemsWithGemsEvent = 504,
-  EventProtocolRequestCReconnectEvent = 505,
 };
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -1151,12 +1129,8 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSDeleteGiftEvent = 215,
   EventProtocolResponseSCollectGiftEvent = 216,
   EventProtocolResponseSRetrieveBattleReplayEvent = 217,
-  EventProtocolResponseSCollectClanGiftsEvent = 500,
-  EventProtocolResponseSDeleteClanGiftsEvent = 501,
-  EventProtocolResponseSReceivedClanGiftsEvent = 502,
   EventProtocolResponseSRetrieveStrengthLeaderBoardEvent = 503,
-  EventProtocolResponseSReconnectEvent = 504,
-  EventProtocolResponseSPurchaseItemsWithGemsEvent = 505,
+  EventProtocolResponseSPurchaseItemsWithGemsEvent = 504,
 };
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);
@@ -1166,82 +1140,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
-@end
-
-@interface EventProto : PBGeneratedMessage {
-@private
-  BOOL hasEventType_:1;
-  BOOL hasTagNum_:1;
-  BOOL hasEventUuid_:1;
-  BOOL hasEventBytes_:1;
-  int32_t eventType;
-  int32_t tagNum;
-  NSString* eventUuid;
-  NSData* eventBytes;
-}
-- (BOOL) hasEventType;
-- (BOOL) hasTagNum;
-- (BOOL) hasEventUuid;
-- (BOOL) hasEventBytes;
-@property (readonly) int32_t eventType;
-@property (readonly) int32_t tagNum;
-@property (readonly, strong) NSString* eventUuid;
-@property (readonly, strong) NSData* eventBytes;
-
-+ (EventProto*) defaultInstance;
-- (EventProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (EventProto_Builder*) builder;
-+ (EventProto_Builder*) builder;
-+ (EventProto_Builder*) builderWithPrototype:(EventProto*) prototype;
-- (EventProto_Builder*) toBuilder;
-
-+ (EventProto*) parseFromData:(NSData*) data;
-+ (EventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (EventProto*) parseFromInputStream:(NSInputStream*) input;
-+ (EventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (EventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (EventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface EventProto_Builder : PBGeneratedMessageBuilder {
-@private
-  EventProto* result;
-}
-
-- (EventProto*) defaultInstance;
-
-- (EventProto_Builder*) clear;
-- (EventProto_Builder*) clone;
-
-- (EventProto*) build;
-- (EventProto*) buildPartial;
-
-- (EventProto_Builder*) mergeFrom:(EventProto*) other;
-- (EventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (EventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasEventType;
-- (int32_t) eventType;
-- (EventProto_Builder*) setEventType:(int32_t) value;
-- (EventProto_Builder*) clearEventType;
-
-- (BOOL) hasTagNum;
-- (int32_t) tagNum;
-- (EventProto_Builder*) setTagNum:(int32_t) value;
-- (EventProto_Builder*) clearTagNum;
-
-- (BOOL) hasEventUuid;
-- (NSString*) eventUuid;
-- (EventProto_Builder*) setEventUuid:(NSString*) value;
-- (EventProto_Builder*) clearEventUuid;
-
-- (BOOL) hasEventBytes;
-- (NSData*) eventBytes;
-- (EventProto_Builder*) setEventBytes:(NSData*) value;
-- (EventProto_Builder*) clearEventBytes;
 @end
 
 

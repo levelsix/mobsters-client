@@ -31,8 +31,6 @@
 @class CityExpansionCostProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
-@class ClanGiftProto;
-@class ClanGiftProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -87,6 +85,8 @@
 @class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GiftProto;
+@class GiftProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
 @class HospitalProto;
@@ -112,6 +112,8 @@
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
+@class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
@@ -183,12 +185,6 @@
 @class ResourceStorageProto_Builder;
 @class RewardProto;
 @class RewardProto_Builder;
-@class SalesDisplayItemProto;
-@class SalesDisplayItemProto_Builder;
-@class SalesItemProto;
-@class SalesItemProto_Builder;
-@class SalesPackageProto;
-@class SalesPackageProto_Builder;
 @class SkillPropertyProto;
 @class SkillPropertyProto_Builder;
 @class SkillProto;
@@ -201,8 +197,6 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
-@class TangoGiftProto;
-@class TangoGiftProto_Builder;
 @class TaskMapElementProto;
 @class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
@@ -223,8 +217,6 @@
 @class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
-@class UserClanGiftProto;
-@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -237,8 +229,6 @@
 @class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
-@class UserItemSecretGiftProto;
-@class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
 @class UserMonsterCurrentExpProto;
@@ -265,6 +255,8 @@
 @class UserResearchProto_Builder;
 @class UserRewardProto;
 @class UserRewardProto_Builder;
+@class UserSecretGiftProto;
+@class UserSecretGiftProto_Builder;
 @class UserTangoGiftProto;
 @class UserTangoGiftProto_Builder;
 @class UserTaskCompletedProto;

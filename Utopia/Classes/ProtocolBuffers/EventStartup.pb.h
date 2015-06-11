@@ -52,8 +52,6 @@
 @class CityExpansionCostProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
-@class ClanGiftProto;
-@class ClanGiftProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -110,6 +108,8 @@
 @class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GiftProto;
+@class GiftProto_Builder;
 @class GoldSaleProto;
 @class GoldSaleProto_Builder;
 @class GroupChatMessageProto;
@@ -151,6 +151,8 @@
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
+@class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
@@ -206,10 +208,6 @@
 @class QuestJobProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
-@class ReconnectRequestProto;
-@class ReconnectRequestProto_Builder;
-@class ReconnectResponseProto;
-@class ReconnectResponseProto_Builder;
 @class ResearchHouseProto;
 @class ResearchHouseProto_Builder;
 @class ResearchPropertyProto;
@@ -286,8 +284,6 @@
 @class StrengthLeaderBoardProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
-@class TangoGiftProto;
-@class TangoGiftProto_Builder;
 @class TaskMapElementProto;
 @class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
@@ -308,8 +304,6 @@
 @class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
-@class UserClanGiftProto;
-@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -322,8 +316,6 @@
 @class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
-@class UserItemSecretGiftProto;
-@class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
 @class UserMiniEventGoalProto;
@@ -356,6 +348,8 @@
 @class UserResearchProto_Builder;
 @class UserRewardProto;
 @class UserRewardProto_Builder;
+@class UserSecretGiftProto;
+@class UserSecretGiftProto_Builder;
 @class UserTangoGiftProto;
 @class UserTangoGiftProto_Builder;
 @class UserTaskCompletedProto;
@@ -660,7 +654,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray * mutableUserClanInfoList;
   NSMutableArray * mutableUserQuestsList;
   NSMutableArray * mutableUserGiftsList;
-  NSMutableArray * mutableUserClanGiftsList;
   NSMutableArray * mutableTopStrengthLeaderBoardsList;
 }
 - (BOOL) hasServerTimeMillis;
@@ -736,7 +729,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) UserMiniEventProto* userMiniEvent;
 @property (readonly, strong) DefaultLanguagesProto* userDefaultLanguages;
 @property (readonly, strong) NSArray * userGiftsList;
-@property (readonly, strong) NSArray * userClanGiftsList;
 @property (readonly, strong) NSArray * topStrengthLeaderBoardsList;
 - (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
 - (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
@@ -766,14 +758,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index;
 - (ClanInviteProto*)clanInvitesAtIndex:(NSUInteger)index;
 - (UserItemUsageProto*)itemsInUseAtIndex:(NSUInteger)index;
-- (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index;
+- (UserSecretGiftProto*)giftsAtIndex:(NSUInteger)index;
 - (UserPvpBoardObstacleProto*)userPvpBoardObstaclesAtIndex:(NSUInteger)index;
 - (BattleItemQueueForUserProto*)battleItemQueueAtIndex:(NSUInteger)index;
 - (UserBattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (UserResearchProto*)userResearchsAtIndex:(NSUInteger)index;
 - (SalesPackageProto*)salesPackagesAtIndex:(NSUInteger)index;
 - (UserGiftProto*)userGiftsAtIndex:(NSUInteger)index;
-- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
 - (StrengthLeaderBoardProto*)topStrengthLeaderBoardsAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto*) defaultInstance;
@@ -2923,8 +2914,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder *)clearItemsInUse;
 
 - (NSMutableArray *)giftsList;
-- (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index;
-- (StartupResponseProto_Builder *)addGifts:(UserItemSecretGiftProto*)value;
+- (UserSecretGiftProto*)giftsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addGifts:(UserSecretGiftProto*)value;
 - (StartupResponseProto_Builder *)addAllGifts:(NSArray *)array;
 - (StartupResponseProto_Builder *)clearGifts;
 
@@ -2977,12 +2968,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder *)addUserGifts:(UserGiftProto*)value;
 - (StartupResponseProto_Builder *)addAllUserGifts:(NSArray *)array;
 - (StartupResponseProto_Builder *)clearUserGifts;
-
-- (NSMutableArray *)userClanGiftsList;
-- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
-- (StartupResponseProto_Builder *)addUserClanGifts:(UserClanGiftProto*)value;
-- (StartupResponseProto_Builder *)addAllUserClanGifts:(NSArray *)array;
-- (StartupResponseProto_Builder *)clearUserClanGifts;
 
 - (NSMutableArray *)topStrengthLeaderBoardsList;
 - (StrengthLeaderBoardProto*)topStrengthLeaderBoardsAtIndex:(NSUInteger)index;
@@ -3047,117 +3032,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (NSString*) udid;
 - (ForceLogoutResponseProto_Builder*) setUdid:(NSString*) value;
 - (ForceLogoutResponseProto_Builder*) clearUdid;
-@end
-
-@interface ReconnectRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasUdid_:1;
-  BOOL hasSender_:1;
-  NSString* udid;
-  MinimumUserProto* sender;
-}
-- (BOOL) hasSender;
-- (BOOL) hasUdid;
-@property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) NSString* udid;
-
-+ (ReconnectRequestProto*) defaultInstance;
-- (ReconnectRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ReconnectRequestProto_Builder*) builder;
-+ (ReconnectRequestProto_Builder*) builder;
-+ (ReconnectRequestProto_Builder*) builderWithPrototype:(ReconnectRequestProto*) prototype;
-- (ReconnectRequestProto_Builder*) toBuilder;
-
-+ (ReconnectRequestProto*) parseFromData:(NSData*) data;
-+ (ReconnectRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReconnectRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (ReconnectRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReconnectRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ReconnectRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface ReconnectRequestProto_Builder : PBGeneratedMessageBuilder {
-@private
-  ReconnectRequestProto* result;
-}
-
-- (ReconnectRequestProto*) defaultInstance;
-
-- (ReconnectRequestProto_Builder*) clear;
-- (ReconnectRequestProto_Builder*) clone;
-
-- (ReconnectRequestProto*) build;
-- (ReconnectRequestProto*) buildPartial;
-
-- (ReconnectRequestProto_Builder*) mergeFrom:(ReconnectRequestProto*) other;
-- (ReconnectRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ReconnectRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (ReconnectRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ReconnectRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (ReconnectRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (ReconnectRequestProto_Builder*) clearSender;
-
-- (BOOL) hasUdid;
-- (NSString*) udid;
-- (ReconnectRequestProto_Builder*) setUdid:(NSString*) value;
-- (ReconnectRequestProto_Builder*) clearUdid;
-@end
-
-@interface ReconnectResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  MinimumUserProto* sender;
-}
-- (BOOL) hasSender;
-@property (readonly, strong) MinimumUserProto* sender;
-
-+ (ReconnectResponseProto*) defaultInstance;
-- (ReconnectResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ReconnectResponseProto_Builder*) builder;
-+ (ReconnectResponseProto_Builder*) builder;
-+ (ReconnectResponseProto_Builder*) builderWithPrototype:(ReconnectResponseProto*) prototype;
-- (ReconnectResponseProto_Builder*) toBuilder;
-
-+ (ReconnectResponseProto*) parseFromData:(NSData*) data;
-+ (ReconnectResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReconnectResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (ReconnectResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReconnectResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ReconnectResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface ReconnectResponseProto_Builder : PBGeneratedMessageBuilder {
-@private
-  ReconnectResponseProto* result;
-}
-
-- (ReconnectResponseProto*) defaultInstance;
-
-- (ReconnectResponseProto_Builder*) clear;
-- (ReconnectResponseProto_Builder*) clone;
-
-- (ReconnectResponseProto*) build;
-- (ReconnectResponseProto*) buildPartial;
-
-- (ReconnectResponseProto_Builder*) mergeFrom:(ReconnectResponseProto*) other;
-- (ReconnectResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ReconnectResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (ReconnectResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ReconnectResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (ReconnectResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (ReconnectResponseProto_Builder*) clearSender;
 @end
 
 

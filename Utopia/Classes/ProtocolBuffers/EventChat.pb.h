@@ -21,6 +21,8 @@
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
+@class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
@@ -392,7 +394,7 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
   BOOL hasScope_:1;
   BOOL isAdmin_:1;
   NSString* chatMessage;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithLevel* sender;
   GroupChatMessageProto* message;
   ChatScope scope;
 }
@@ -401,7 +403,7 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (BOOL) hasMessage;
 - (BOOL) hasChatMessage;
 - (BOOL) hasIsAdmin;
-@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProtoWithLevel* sender;
 @property (readonly) ChatScope scope;
 @property (readonly, strong) GroupChatMessageProto* message;
 @property (readonly, strong) NSString* chatMessage;
@@ -443,10 +445,10 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (ReceivedGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (ReceivedGroupChatResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ReceivedGroupChatResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (ReceivedGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithLevel*) sender;
+- (ReceivedGroupChatResponseProto_Builder*) setSender:(MinimumUserProtoWithLevel*) value;
+- (ReceivedGroupChatResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (ReceivedGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProtoWithLevel*) value;
 - (ReceivedGroupChatResponseProto_Builder*) clearSender;
 
 - (BOOL) hasScope;

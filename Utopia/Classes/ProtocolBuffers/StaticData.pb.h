@@ -15,8 +15,6 @@
 #import "Prerequisite.pb.h"
 #import "Quest.pb.h"
 #import "Research.pb.h"
-#import "Sales.pb.h"
-#import "Reward.pb.h"
 #import "Skill.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
@@ -49,8 +47,6 @@
 @class CityExpansionCostProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
-@class ClanGiftProto;
-@class ClanGiftProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -105,6 +101,8 @@
 @class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GiftProto;
+@class GiftProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
 @class HospitalProto;
@@ -130,6 +128,8 @@
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
+@class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
@@ -199,12 +199,6 @@
 @class ResourceStorageProto_Builder;
 @class RewardProto;
 @class RewardProto_Builder;
-@class SalesDisplayItemProto;
-@class SalesDisplayItemProto_Builder;
-@class SalesItemProto;
-@class SalesItemProto_Builder;
-@class SalesPackageProto;
-@class SalesPackageProto_Builder;
 @class SkillPropertyProto;
 @class SkillPropertyProto_Builder;
 @class SkillProto;
@@ -217,8 +211,6 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
-@class TangoGiftProto;
-@class TangoGiftProto_Builder;
 @class TaskMapElementProto;
 @class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
@@ -239,8 +231,6 @@
 @class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
-@class UserClanGiftProto;
-@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -253,8 +243,6 @@
 @class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
-@class UserItemSecretGiftProto;
-@class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
 @class UserMonsterCurrentExpProto;
@@ -281,6 +269,8 @@
 @class UserResearchProto_Builder;
 @class UserRewardProto;
 @class UserRewardProto_Builder;
+@class UserSecretGiftProto;
+@class UserSecretGiftProto_Builder;
 @class UserTangoGiftProto;
 @class UserTangoGiftProto_Builder;
 @class UserTaskCompletedProto;
@@ -350,7 +340,6 @@
   NSMutableArray * mutableResearchList;
   NSMutableArray * mutableBattleItemList;
   NSMutableArray * mutablePvpBoardObstacleProtosList;
-  NSMutableArray * mutableClanGiftsList;
   NSMutableArray * mutableStructureItemPricesList;
 }
 - (BOOL) hasSender;
@@ -397,7 +386,6 @@
 @property (readonly, strong) NSArray * researchList;
 @property (readonly, strong) NSArray * battleItemList;
 @property (readonly, strong) NSArray * pvpBoardObstacleProtosList;
-@property (readonly, strong) NSArray * clanGiftsList;
 @property (readonly, strong) NSArray * structureItemPricesList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
@@ -439,7 +427,6 @@
 - (ResearchProto*)researchAtIndex:(NSUInteger)index;
 - (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
-- (ClanGiftProto*)clanGiftsAtIndex:(NSUInteger)index;
 - (ItemGemPriceProto*)structureItemPricesAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
@@ -730,12 +717,6 @@
 - (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value;
 - (StaticDataProto_Builder *)addAllPvpBoardObstacleProtos:(NSArray *)array;
 - (StaticDataProto_Builder *)clearPvpBoardObstacleProtos;
-
-- (NSMutableArray *)clanGiftsList;
-- (ClanGiftProto*)clanGiftsAtIndex:(NSUInteger)index;
-- (StaticDataProto_Builder *)addClanGifts:(ClanGiftProto*)value;
-- (StaticDataProto_Builder *)addAllClanGifts:(NSArray *)array;
-- (StaticDataProto_Builder *)clearClanGifts;
 
 - (NSMutableArray *)structureItemPricesList;
 - (ItemGemPriceProto*)structureItemPricesAtIndex:(NSUInteger)index;

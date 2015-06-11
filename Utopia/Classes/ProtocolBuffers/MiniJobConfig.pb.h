@@ -10,8 +10,6 @@
 
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
-@class ClanGiftProto;
-@class ClanGiftProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class ClanMemberTeamDonationProto;
@@ -26,6 +24,8 @@
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GiftProto;
+@class GiftProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
 @class ItemGemPriceProto;
@@ -49,6 +49,8 @@
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
+@class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
@@ -80,16 +82,12 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
-@class TangoGiftProto;
-@class TangoGiftProto_Builder;
 @class TeamCenterProto;
 @class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
-@class UserClanGiftProto;
-@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -102,8 +100,6 @@
 @class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
-@class UserItemSecretGiftProto;
-@class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
 @class UserMiniJobProto;
@@ -126,6 +122,8 @@
 @class UserPvpLeagueProto_Builder;
 @class UserRewardProto;
 @class UserRewardProto_Builder;
+@class UserSecretGiftProto;
+@class UserSecretGiftProto_Builder;
 @class UserTangoGiftProto;
 @class UserTangoGiftProto_Builder;
 #ifndef __has_feature

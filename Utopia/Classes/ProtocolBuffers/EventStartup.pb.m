@@ -989,7 +989,6 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @property (strong) UserMiniEventProto* userMiniEvent;
 @property (strong) DefaultLanguagesProto* userDefaultLanguages;
 @property (strong) NSMutableArray * mutableUserGiftsList;
-@property (strong) NSMutableArray * mutableUserClanGiftsList;
 @property (strong) NSMutableArray * mutableTopStrengthLeaderBoardsList;
 @end
 
@@ -1203,8 +1202,6 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @synthesize userDefaultLanguages;
 @synthesize mutableUserGiftsList;
 @dynamic userGiftsList;
-@synthesize mutableUserClanGiftsList;
-@dynamic userClanGiftsList;
 @synthesize mutableTopStrengthLeaderBoardsList;
 @dynamic topStrengthLeaderBoardsList;
 - (id) init {
@@ -1414,7 +1411,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (NSArray *)giftsList {
   return mutableGiftsList;
 }
-- (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index {
+- (UserSecretGiftProto*)giftsAtIndex:(NSUInteger)index {
   return [mutableGiftsList objectAtIndex:index];
 }
 - (NSArray *)userPvpBoardObstaclesList {
@@ -1452,12 +1449,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 }
 - (UserGiftProto*)userGiftsAtIndex:(NSUInteger)index {
   return [mutableUserGiftsList objectAtIndex:index];
-}
-- (NSArray *)userClanGiftsList {
-  return mutableUserClanGiftsList;
-}
-- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index {
-  return [mutableUserClanGiftsList objectAtIndex:index];
 }
 - (NSArray *)topStrengthLeaderBoardsList {
   return mutableTopStrengthLeaderBoardsList;
@@ -1613,7 +1604,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.itemsInUseList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:44 value:element];
   }];
-  [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+  [self.giftsList enumerateObjectsUsingBlock:^(UserSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:45 value:element];
   }];
   [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
@@ -1642,9 +1633,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   [self.userGiftsList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:54 value:element];
-  }];
-  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:500 value:element];
   }];
   [self.topStrengthLeaderBoardsList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:501 value:element];
@@ -1817,7 +1805,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.itemsInUseList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(44, element);
   }];
-  [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+  [self.giftsList enumerateObjectsUsingBlock:^(UserSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(45, element);
   }];
   [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
@@ -1846,9 +1834,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   [self.userGiftsList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(54, element);
-  }];
-  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(500, element);
   }];
   [self.topStrengthLeaderBoardsList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(501, element);
@@ -2116,7 +2101,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+  [self.giftsList enumerateObjectsUsingBlock:^(UserSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"gifts"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
@@ -2172,12 +2157,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   [self.userGiftsList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"userGifts"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
-  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"userClanGifts"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
@@ -2272,7 +2251,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
       self.hasUserDefaultLanguages == otherMessage.hasUserDefaultLanguages &&
       (!self.hasUserDefaultLanguages || [self.userDefaultLanguages isEqual:otherMessage.userDefaultLanguages]) &&
       [self.userGiftsList isEqualToArray:otherMessage.userGiftsList] &&
-      [self.userClanGiftsList isEqualToArray:otherMessage.userClanGiftsList] &&
       [self.topStrengthLeaderBoardsList isEqualToArray:otherMessage.topStrengthLeaderBoardsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
@@ -2410,7 +2388,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.itemsInUseList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+  [self.giftsList enumerateObjectsUsingBlock:^(UserSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
@@ -2438,9 +2416,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     hashCode = hashCode * 31 + [self.userDefaultLanguages hash];
   }
   [self.userGiftsList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
-  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.topStrengthLeaderBoardsList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
@@ -11671,13 +11646,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       [result.mutableUserGiftsList addObjectsFromArray:other.mutableUserGiftsList];
     }
   }
-  if (other.mutableUserClanGiftsList.count > 0) {
-    if (result.mutableUserClanGiftsList == nil) {
-      result.mutableUserClanGiftsList = [[NSMutableArray alloc] initWithArray:other.mutableUserClanGiftsList];
-    } else {
-      [result.mutableUserClanGiftsList addObjectsFromArray:other.mutableUserClanGiftsList];
-    }
-  }
   if (other.mutableTopStrengthLeaderBoardsList.count > 0) {
     if (result.mutableTopStrengthLeaderBoardsList == nil) {
       result.mutableTopStrengthLeaderBoardsList = [[NSMutableArray alloc] initWithArray:other.mutableTopStrengthLeaderBoardsList];
@@ -11984,7 +11952,7 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         break;
       }
       case 362: {
-        UserItemSecretGiftProto_Builder* subBuilder = [UserItemSecretGiftProto builder];
+        UserSecretGiftProto_Builder* subBuilder = [UserSecretGiftProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addGifts:[subBuilder buildPartial]];
         break;
@@ -12047,12 +12015,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         UserGiftProto_Builder* subBuilder = [UserGiftProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserGifts:[subBuilder buildPartial]];
-        break;
-      }
-      case 4002: {
-        UserClanGiftProto_Builder* subBuilder = [UserClanGiftProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUserClanGifts:[subBuilder buildPartial]];
         break;
       }
       case 4010: {
@@ -13149,10 +13111,10 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 - (NSMutableArray *)giftsList {
   return result.mutableGiftsList;
 }
-- (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index {
+- (UserSecretGiftProto*)giftsAtIndex:(NSUInteger)index {
   return [result giftsAtIndex:index];
 }
-- (StartupResponseProto_Builder *)addGifts:(UserItemSecretGiftProto*)value {
+- (StartupResponseProto_Builder *)addGifts:(UserSecretGiftProto*)value {
   if (result.mutableGiftsList == nil) {
     result.mutableGiftsList = [[NSMutableArray alloc]init];
   }
@@ -13372,30 +13334,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 }
 - (StartupResponseProto_Builder *)clearUserGifts {
   result.mutableUserGiftsList = nil;
-  return self;
-}
-- (NSMutableArray *)userClanGiftsList {
-  return result.mutableUserClanGiftsList;
-}
-- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index {
-  return [result userClanGiftsAtIndex:index];
-}
-- (StartupResponseProto_Builder *)addUserClanGifts:(UserClanGiftProto*)value {
-  if (result.mutableUserClanGiftsList == nil) {
-    result.mutableUserClanGiftsList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableUserClanGiftsList addObject:value];
-  return self;
-}
-- (StartupResponseProto_Builder *)addAllUserClanGifts:(NSArray *)array {
-  if (result.mutableUserClanGiftsList == nil) {
-    result.mutableUserClanGiftsList = [NSMutableArray array];
-  }
-  [result.mutableUserClanGiftsList addObjectsFromArray:array];
-  return self;
-}
-- (StartupResponseProto_Builder *)clearUserClanGifts {
-  result.mutableUserClanGiftsList = nil;
   return self;
 }
 - (NSMutableArray *)topStrengthLeaderBoardsList {
@@ -13666,496 +13604,6 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
 - (ForceLogoutResponseProto_Builder*) clearUdid {
   result.hasUdid = NO;
   result.udid = @"";
-  return self;
-}
-@end
-
-@interface ReconnectRequestProto ()
-@property (strong) MinimumUserProto* sender;
-@property (strong) NSString* udid;
-@end
-
-@implementation ReconnectRequestProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value_ {
-  hasSender_ = !!value_;
-}
-@synthesize sender;
-- (BOOL) hasUdid {
-  return !!hasUdid_;
-}
-- (void) setHasUdid:(BOOL) value_ {
-  hasUdid_ = !!value_;
-}
-@synthesize udid;
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-    self.udid = @"";
-  }
-  return self;
-}
-static ReconnectRequestProto* defaultReconnectRequestProtoInstance = nil;
-+ (void) initialize {
-  if (self == [ReconnectRequestProto class]) {
-    defaultReconnectRequestProtoInstance = [[ReconnectRequestProto alloc] init];
-  }
-}
-+ (ReconnectRequestProto*) defaultInstance {
-  return defaultReconnectRequestProtoInstance;
-}
-- (ReconnectRequestProto*) defaultInstance {
-  return defaultReconnectRequestProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  if (self.hasUdid) {
-    [output writeString:2 value:self.udid];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (SInt32) serializedSize {
-  __block SInt32 size_ = memoizedSerializedSize;
-  if (size_ != -1) {
-    return size_;
-  }
-
-  size_ = 0;
-  if (self.hasSender) {
-    size_ += computeMessageSize(1, self.sender);
-  }
-  if (self.hasUdid) {
-    size_ += computeStringSize(2, self.udid);
-  }
-  size_ += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size_;
-  return size_;
-}
-+ (ReconnectRequestProto*) parseFromData:(NSData*) data {
-  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromData:data] build];
-}
-+ (ReconnectRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (ReconnectRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromInputStream:input] build];
-}
-+ (ReconnectRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ReconnectRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (ReconnectRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ReconnectRequestProto_Builder*) builder {
-  return [[ReconnectRequestProto_Builder alloc] init];
-}
-+ (ReconnectRequestProto_Builder*) builderWithPrototype:(ReconnectRequestProto*) prototype {
-  return [[ReconnectRequestProto builder] mergeFrom:prototype];
-}
-- (ReconnectRequestProto_Builder*) builder {
-  return [ReconnectRequestProto builder];
-}
-- (ReconnectRequestProto_Builder*) toBuilder {
-  return [ReconnectRequestProto builderWithPrototype:self];
-}
-- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasSender) {
-    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
-    [self.sender writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
-  if (self.hasUdid) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"udid", self.udid];
-  }
-  [self.unknownFields writeDescriptionTo:output withIndent:indent];
-}
-- (BOOL) isEqual:(id)other {
-  if (other == self) {
-    return YES;
-  }
-  if (![other isKindOfClass:[ReconnectRequestProto class]]) {
-    return NO;
-  }
-  ReconnectRequestProto *otherMessage = other;
-  return
-      self.hasSender == otherMessage.hasSender &&
-      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasUdid == otherMessage.hasUdid &&
-      (!self.hasUdid || [self.udid isEqual:otherMessage.udid]) &&
-      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
-}
-- (NSUInteger) hash {
-  __block NSUInteger hashCode = 7;
-  if (self.hasSender) {
-    hashCode = hashCode * 31 + [self.sender hash];
-  }
-  if (self.hasUdid) {
-    hashCode = hashCode * 31 + [self.udid hash];
-  }
-  hashCode = hashCode * 31 + [self.unknownFields hash];
-  return hashCode;
-}
-@end
-
-@interface ReconnectRequestProto_Builder()
-@property (strong) ReconnectRequestProto* result;
-@end
-
-@implementation ReconnectRequestProto_Builder
-@synthesize result;
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[ReconnectRequestProto alloc] init];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (ReconnectRequestProto_Builder*) clear {
-  self.result = [[ReconnectRequestProto alloc] init];
-  return self;
-}
-- (ReconnectRequestProto_Builder*) clone {
-  return [ReconnectRequestProto builderWithPrototype:result];
-}
-- (ReconnectRequestProto*) defaultInstance {
-  return [ReconnectRequestProto defaultInstance];
-}
-- (ReconnectRequestProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (ReconnectRequestProto*) buildPartial {
-  ReconnectRequestProto* returnMe = result;
-  self.result = nil;
-  return returnMe;
-}
-- (ReconnectRequestProto_Builder*) mergeFrom:(ReconnectRequestProto*) other {
-  if (other == [ReconnectRequestProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.hasUdid) {
-    [self setUdid:other.udid];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (ReconnectRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (ReconnectRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    SInt32 tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 18: {
-        [self setUdid:[input readString]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (ReconnectRequestProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (ReconnectRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (ReconnectRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (ReconnectRequestProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasUdid {
-  return result.hasUdid;
-}
-- (NSString*) udid {
-  return result.udid;
-}
-- (ReconnectRequestProto_Builder*) setUdid:(NSString*) value {
-  result.hasUdid = YES;
-  result.udid = value;
-  return self;
-}
-- (ReconnectRequestProto_Builder*) clearUdid {
-  result.hasUdid = NO;
-  result.udid = @"";
-  return self;
-}
-@end
-
-@interface ReconnectResponseProto ()
-@property (strong) MinimumUserProto* sender;
-@end
-
-@implementation ReconnectResponseProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value_ {
-  hasSender_ = !!value_;
-}
-@synthesize sender;
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-  }
-  return self;
-}
-static ReconnectResponseProto* defaultReconnectResponseProtoInstance = nil;
-+ (void) initialize {
-  if (self == [ReconnectResponseProto class]) {
-    defaultReconnectResponseProtoInstance = [[ReconnectResponseProto alloc] init];
-  }
-}
-+ (ReconnectResponseProto*) defaultInstance {
-  return defaultReconnectResponseProtoInstance;
-}
-- (ReconnectResponseProto*) defaultInstance {
-  return defaultReconnectResponseProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (SInt32) serializedSize {
-  __block SInt32 size_ = memoizedSerializedSize;
-  if (size_ != -1) {
-    return size_;
-  }
-
-  size_ = 0;
-  if (self.hasSender) {
-    size_ += computeMessageSize(1, self.sender);
-  }
-  size_ += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size_;
-  return size_;
-}
-+ (ReconnectResponseProto*) parseFromData:(NSData*) data {
-  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromData:data] build];
-}
-+ (ReconnectResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (ReconnectResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromInputStream:input] build];
-}
-+ (ReconnectResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ReconnectResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (ReconnectResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ReconnectResponseProto_Builder*) builder {
-  return [[ReconnectResponseProto_Builder alloc] init];
-}
-+ (ReconnectResponseProto_Builder*) builderWithPrototype:(ReconnectResponseProto*) prototype {
-  return [[ReconnectResponseProto builder] mergeFrom:prototype];
-}
-- (ReconnectResponseProto_Builder*) builder {
-  return [ReconnectResponseProto builder];
-}
-- (ReconnectResponseProto_Builder*) toBuilder {
-  return [ReconnectResponseProto builderWithPrototype:self];
-}
-- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasSender) {
-    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
-    [self.sender writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
-  [self.unknownFields writeDescriptionTo:output withIndent:indent];
-}
-- (BOOL) isEqual:(id)other {
-  if (other == self) {
-    return YES;
-  }
-  if (![other isKindOfClass:[ReconnectResponseProto class]]) {
-    return NO;
-  }
-  ReconnectResponseProto *otherMessage = other;
-  return
-      self.hasSender == otherMessage.hasSender &&
-      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
-}
-- (NSUInteger) hash {
-  __block NSUInteger hashCode = 7;
-  if (self.hasSender) {
-    hashCode = hashCode * 31 + [self.sender hash];
-  }
-  hashCode = hashCode * 31 + [self.unknownFields hash];
-  return hashCode;
-}
-@end
-
-@interface ReconnectResponseProto_Builder()
-@property (strong) ReconnectResponseProto* result;
-@end
-
-@implementation ReconnectResponseProto_Builder
-@synthesize result;
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[ReconnectResponseProto alloc] init];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (ReconnectResponseProto_Builder*) clear {
-  self.result = [[ReconnectResponseProto alloc] init];
-  return self;
-}
-- (ReconnectResponseProto_Builder*) clone {
-  return [ReconnectResponseProto builderWithPrototype:result];
-}
-- (ReconnectResponseProto*) defaultInstance {
-  return [ReconnectResponseProto defaultInstance];
-}
-- (ReconnectResponseProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (ReconnectResponseProto*) buildPartial {
-  ReconnectResponseProto* returnMe = result;
-  self.result = nil;
-  return returnMe;
-}
-- (ReconnectResponseProto_Builder*) mergeFrom:(ReconnectResponseProto*) other {
-  if (other == [ReconnectResponseProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (ReconnectResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (ReconnectResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    SInt32 tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (ReconnectResponseProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (ReconnectResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (ReconnectResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (ReconnectResponseProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
 @end

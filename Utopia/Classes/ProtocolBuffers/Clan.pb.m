@@ -1131,7 +1131,7 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
 @end
 
 @interface MinimumUserProtoForClans ()
-@property (strong) MinimumUserProto* sender;
+@property (strong) MinimumUserProtoWithLevel* minUserProtoWithLevel;
 @property UserClanStatus clanStatus;
 @property Float32 raidContribution;
 @property int32_t battlesWon;
@@ -1141,13 +1141,13 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
 
 @implementation MinimumUserProtoForClans
 
-- (BOOL) hasSender {
-  return !!hasSender_;
+- (BOOL) hasMinUserProtoWithLevel {
+  return !!hasMinUserProtoWithLevel_;
 }
-- (void) setHasSender:(BOOL) value_ {
-  hasSender_ = !!value_;
+- (void) setHasMinUserProtoWithLevel:(BOOL) value_ {
+  hasMinUserProtoWithLevel_ = !!value_;
 }
-@synthesize sender;
+@synthesize minUserProtoWithLevel;
 - (BOOL) hasClanStatus {
   return !!hasClanStatus_;
 }
@@ -1185,7 +1185,7 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
 @synthesize numClanHelpsGiven;
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.minUserProtoWithLevel = [MinimumUserProtoWithLevel defaultInstance];
     self.clanStatus = UserClanStatusLeader;
     self.raidContribution = 0;
     self.battlesWon = 0;
@@ -1210,8 +1210,8 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
+  if (self.hasMinUserProtoWithLevel) {
+    [output writeMessage:1 value:self.minUserProtoWithLevel];
   }
   if (self.hasClanStatus) {
     [output writeEnum:2 value:self.clanStatus];
@@ -1237,8 +1237,8 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasSender) {
-    size_ += computeMessageSize(1, self.sender);
+  if (self.hasMinUserProtoWithLevel) {
+    size_ += computeMessageSize(1, self.minUserProtoWithLevel);
   }
   if (self.hasClanStatus) {
     size_ += computeEnumSize(2, self.clanStatus);
@@ -1290,9 +1290,9 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   return [MinimumUserProtoForClans builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasSender) {
-    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
-    [self.sender writeDescriptionTo:output
+  if (self.hasMinUserProtoWithLevel) {
+    [output appendFormat:@"%@%@ {\n", indent, @"minUserProtoWithLevel"];
+    [self.minUserProtoWithLevel writeDescriptionTo:output
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
@@ -1322,8 +1322,8 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   }
   MinimumUserProtoForClans *otherMessage = other;
   return
-      self.hasSender == otherMessage.hasSender &&
-      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasMinUserProtoWithLevel == otherMessage.hasMinUserProtoWithLevel &&
+      (!self.hasMinUserProtoWithLevel || [self.minUserProtoWithLevel isEqual:otherMessage.minUserProtoWithLevel]) &&
       self.hasClanStatus == otherMessage.hasClanStatus &&
       (!self.hasClanStatus || self.clanStatus == otherMessage.clanStatus) &&
       self.hasRaidContribution == otherMessage.hasRaidContribution &&
@@ -1338,8 +1338,8 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasSender) {
-    hashCode = hashCode * 31 + [self.sender hash];
+  if (self.hasMinUserProtoWithLevel) {
+    hashCode = hashCode * 31 + [self.minUserProtoWithLevel hash];
   }
   if (self.hasClanStatus) {
     hashCode = hashCode * 31 + self.clanStatus;
@@ -1399,8 +1399,8 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   if (other == [MinimumUserProtoForClans defaultInstance]) {
     return self;
   }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
+  if (other.hasMinUserProtoWithLevel) {
+    [self mergeMinUserProtoWithLevel:other.minUserProtoWithLevel];
   }
   if (other.hasClanStatus) {
     [self setClanStatus:other.clanStatus];
@@ -1439,12 +1439,12 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
+        MinimumUserProtoWithLevel_Builder* subBuilder = [MinimumUserProtoWithLevel builder];
+        if (self.hasMinUserProtoWithLevel) {
+          [subBuilder mergeFrom:self.minUserProtoWithLevel];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
+        [self setMinUserProtoWithLevel:[subBuilder buildPartial]];
         break;
       }
       case 16: {
@@ -1475,34 +1475,34 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
     }
   }
 }
-- (BOOL) hasSender {
-  return result.hasSender;
+- (BOOL) hasMinUserProtoWithLevel {
+  return result.hasMinUserProtoWithLevel;
 }
-- (MinimumUserProto*) sender {
-  return result.sender;
+- (MinimumUserProtoWithLevel*) minUserProtoWithLevel {
+  return result.minUserProtoWithLevel;
 }
-- (MinimumUserProtoForClans_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
+- (MinimumUserProtoForClans_Builder*) setMinUserProtoWithLevel:(MinimumUserProtoWithLevel*) value {
+  result.hasMinUserProtoWithLevel = YES;
+  result.minUserProtoWithLevel = value;
   return self;
 }
-- (MinimumUserProtoForClans_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
+- (MinimumUserProtoForClans_Builder*) setMinUserProtoWithLevel_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue {
+  return [self setMinUserProtoWithLevel:[builderForValue build]];
 }
-- (MinimumUserProtoForClans_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+- (MinimumUserProtoForClans_Builder*) mergeMinUserProtoWithLevel:(MinimumUserProtoWithLevel*) value {
+  if (result.hasMinUserProtoWithLevel &&
+      result.minUserProtoWithLevel != [MinimumUserProtoWithLevel defaultInstance]) {
+    result.minUserProtoWithLevel =
+      [[[MinimumUserProtoWithLevel builderWithPrototype:result.minUserProtoWithLevel] mergeFrom:value] buildPartial];
   } else {
-    result.sender = value;
+    result.minUserProtoWithLevel = value;
   }
-  result.hasSender = YES;
+  result.hasMinUserProtoWithLevel = YES;
   return self;
 }
-- (MinimumUserProtoForClans_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+- (MinimumUserProtoForClans_Builder*) clearMinUserProtoWithLevel {
+  result.hasMinUserProtoWithLevel = NO;
+  result.minUserProtoWithLevel = [MinimumUserProtoWithLevel defaultInstance];
   return self;
 }
 - (BOOL) hasClanStatus {

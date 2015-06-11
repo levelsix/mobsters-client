@@ -241,8 +241,6 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
     case RewardProto_RewardTypeOil:
     case RewardProto_RewardTypeGachaCredits:
     case RewardProto_RewardTypeMonster:
-    case RewardProto_RewardTypeClanGift:
-    case RewardProto_RewardTypeTangoGift:
     case RewardProto_RewardTypeReward:
       return YES;
     default:
@@ -459,7 +457,7 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
 @property int32_t cash;
 @property int32_t oil;
 @property int32_t gachaCredits;
-@property (strong) UserClanGiftProto* clanGift;
+@property (strong) NSMutableArray * mutableGiftList;
 @end
 
 @implementation UserRewardProto
@@ -496,20 +494,14 @@ BOOL RewardProto_RewardTypeIsValidValue(RewardProto_RewardType value) {
   hasGachaCredits_ = !!value_;
 }
 @synthesize gachaCredits;
-- (BOOL) hasClanGift {
-  return !!hasClanGift_;
-}
-- (void) setHasClanGift:(BOOL) value_ {
-  hasClanGift_ = !!value_;
-}
-@synthesize clanGift;
+@synthesize mutableGiftList;
+@dynamic giftList;
 - (id) init {
   if ((self = [super init])) {
     self.gems = 0;
     self.cash = 0;
     self.oil = 0;
     self.gachaCredits = 0;
-    self.clanGift = [UserClanGiftProto defaultInstance];
   }
   return self;
 }
@@ -537,6 +529,12 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
 - (UserItemProto*)updatedUserItemsAtIndex:(NSUInteger)index {
   return [mutableUpdatedUserItemsList objectAtIndex:index];
 }
+- (NSArray *)giftList {
+  return mutableGiftList;
+}
+- (UserGiftProto*)giftAtIndex:(NSUInteger)index {
+  return [mutableGiftList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -559,9 +557,9 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   if (self.hasGachaCredits) {
     [output writeInt32:6 value:self.gachaCredits];
   }
-  if (self.hasClanGift) {
-    [output writeMessage:7 value:self.clanGift];
-  }
+  [self.giftList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:7 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -589,9 +587,9 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   if (self.hasGachaCredits) {
     size_ += computeInt32Size(6, self.gachaCredits);
   }
-  if (self.hasClanGift) {
-    size_ += computeMessageSize(7, self.clanGift);
-  }
+  [self.giftList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(7, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -651,12 +649,12 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   if (self.hasGachaCredits) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gachaCredits", [NSNumber numberWithInteger:self.gachaCredits]];
   }
-  if (self.hasClanGift) {
-    [output appendFormat:@"%@%@ {\n", indent, @"clanGift"];
-    [self.clanGift writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+  [self.giftList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"gift"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
-  }
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -678,8 +676,7 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
       (!self.hasOil || self.oil == otherMessage.oil) &&
       self.hasGachaCredits == otherMessage.hasGachaCredits &&
       (!self.hasGachaCredits || self.gachaCredits == otherMessage.gachaCredits) &&
-      self.hasClanGift == otherMessage.hasClanGift &&
-      (!self.hasClanGift || [self.clanGift isEqual:otherMessage.clanGift]) &&
+      [self.giftList isEqualToArray:otherMessage.giftList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -702,9 +699,9 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   if (self.hasGachaCredits) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gachaCredits] hash];
   }
-  if (self.hasClanGift) {
-    hashCode = hashCode * 31 + [self.clanGift hash];
-  }
+  [self.giftList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -774,8 +771,12 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   if (other.hasGachaCredits) {
     [self setGachaCredits:other.gachaCredits];
   }
-  if (other.hasClanGift) {
-    [self mergeClanGift:other.clanGift];
+  if (other.mutableGiftList.count > 0) {
+    if (result.mutableGiftList == nil) {
+      result.mutableGiftList = [[NSMutableArray alloc] initWithArray:other.mutableGiftList];
+    } else {
+      [result.mutableGiftList addObjectsFromArray:other.mutableGiftList];
+    }
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -827,12 +828,9 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
         break;
       }
       case 58: {
-        UserClanGiftProto_Builder* subBuilder = [UserClanGiftProto builder];
-        if (self.hasClanGift) {
-          [subBuilder mergeFrom:self.clanGift];
-        }
+        UserGiftProto_Builder* subBuilder = [UserGiftProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setClanGift:[subBuilder buildPartial]];
+        [self addGift:[subBuilder buildPartial]];
         break;
       }
     }
@@ -950,55 +948,49 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   result.gachaCredits = 0;
   return self;
 }
-- (BOOL) hasClanGift {
-  return result.hasClanGift;
+- (NSMutableArray *)giftList {
+  return result.mutableGiftList;
 }
-- (UserClanGiftProto*) clanGift {
-  return result.clanGift;
+- (UserGiftProto*)giftAtIndex:(NSUInteger)index {
+  return [result giftAtIndex:index];
 }
-- (UserRewardProto_Builder*) setClanGift:(UserClanGiftProto*) value {
-  result.hasClanGift = YES;
-  result.clanGift = value;
-  return self;
-}
-- (UserRewardProto_Builder*) setClanGift_Builder:(UserClanGiftProto_Builder*) builderForValue {
-  return [self setClanGift:[builderForValue build]];
-}
-- (UserRewardProto_Builder*) mergeClanGift:(UserClanGiftProto*) value {
-  if (result.hasClanGift &&
-      result.clanGift != [UserClanGiftProto defaultInstance]) {
-    result.clanGift =
-      [[[UserClanGiftProto builderWithPrototype:result.clanGift] mergeFrom:value] buildPartial];
-  } else {
-    result.clanGift = value;
+- (UserRewardProto_Builder *)addGift:(UserGiftProto*)value {
+  if (result.mutableGiftList == nil) {
+    result.mutableGiftList = [[NSMutableArray alloc]init];
   }
-  result.hasClanGift = YES;
+  [result.mutableGiftList addObject:value];
   return self;
 }
-- (UserRewardProto_Builder*) clearClanGift {
-  result.hasClanGift = NO;
-  result.clanGift = [UserClanGiftProto defaultInstance];
+- (UserRewardProto_Builder *)addAllGift:(NSArray *)array {
+  if (result.mutableGiftList == nil) {
+    result.mutableGiftList = [NSMutableArray array];
+  }
+  [result.mutableGiftList addObjectsFromArray:array];
+  return self;
+}
+- (UserRewardProto_Builder *)clearGift {
+  result.mutableGiftList = nil;
   return self;
 }
 @end
 
-@interface ClanGiftProto ()
-@property int32_t clanGiftId;
+@interface GiftProto ()
+@property int32_t giftId;
 @property (strong) NSString* name;
 @property int32_t hoursUntilExpiration;
 @property (strong) NSString* imageName;
-@property Quality quality;
+@property GiftProto_GiftType giftType;
 @end
 
-@implementation ClanGiftProto
+@implementation GiftProto
 
-- (BOOL) hasClanGiftId {
-  return !!hasClanGiftId_;
+- (BOOL) hasGiftId {
+  return !!hasGiftId_;
 }
-- (void) setHasClanGiftId:(BOOL) value_ {
-  hasClanGiftId_ = !!value_;
+- (void) setHasGiftId:(BOOL) value_ {
+  hasGiftId_ = !!value_;
 }
-@synthesize clanGiftId;
+@synthesize giftId;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -1020,41 +1012,41 @@ static UserRewardProto* defaultUserRewardProtoInstance = nil;
   hasImageName_ = !!value_;
 }
 @synthesize imageName;
-- (BOOL) hasQuality {
-  return !!hasQuality_;
+- (BOOL) hasGiftType {
+  return !!hasGiftType_;
 }
-- (void) setHasQuality:(BOOL) value_ {
-  hasQuality_ = !!value_;
+- (void) setHasGiftType:(BOOL) value_ {
+  hasGiftType_ = !!value_;
 }
-@synthesize quality;
+@synthesize giftType;
 - (id) init {
   if ((self = [super init])) {
-    self.clanGiftId = 0;
+    self.giftId = 0;
     self.name = @"";
     self.hoursUntilExpiration = 0;
     self.imageName = @"";
-    self.quality = QualityNoQuality;
+    self.giftType = GiftProto_GiftTypeNoGift;
   }
   return self;
 }
-static ClanGiftProto* defaultClanGiftProtoInstance = nil;
+static GiftProto* defaultGiftProtoInstance = nil;
 + (void) initialize {
-  if (self == [ClanGiftProto class]) {
-    defaultClanGiftProtoInstance = [[ClanGiftProto alloc] init];
+  if (self == [GiftProto class]) {
+    defaultGiftProtoInstance = [[GiftProto alloc] init];
   }
 }
-+ (ClanGiftProto*) defaultInstance {
-  return defaultClanGiftProtoInstance;
++ (GiftProto*) defaultInstance {
+  return defaultGiftProtoInstance;
 }
-- (ClanGiftProto*) defaultInstance {
-  return defaultClanGiftProtoInstance;
+- (GiftProto*) defaultInstance {
+  return defaultGiftProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasClanGiftId) {
-    [output writeInt32:1 value:self.clanGiftId];
+  if (self.hasGiftId) {
+    [output writeInt32:1 value:self.giftId];
   }
   if (self.hasName) {
     [output writeString:2 value:self.name];
@@ -1065,8 +1057,8 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
   if (self.hasImageName) {
     [output writeString:4 value:self.imageName];
   }
-  if (self.hasQuality) {
-    [output writeEnum:5 value:self.quality];
+  if (self.hasGiftType) {
+    [output writeEnum:5 value:self.giftType];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1077,8 +1069,8 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasClanGiftId) {
-    size_ += computeInt32Size(1, self.clanGiftId);
+  if (self.hasGiftId) {
+    size_ += computeInt32Size(1, self.giftId);
   }
   if (self.hasName) {
     size_ += computeStringSize(2, self.name);
@@ -1089,46 +1081,46 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
   if (self.hasImageName) {
     size_ += computeStringSize(4, self.imageName);
   }
-  if (self.hasQuality) {
-    size_ += computeEnumSize(5, self.quality);
+  if (self.hasGiftType) {
+    size_ += computeEnumSize(5, self.giftType);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
 }
-+ (ClanGiftProto*) parseFromData:(NSData*) data {
-  return (ClanGiftProto*)[[[ClanGiftProto builder] mergeFromData:data] build];
++ (GiftProto*) parseFromData:(NSData*) data {
+  return (GiftProto*)[[[GiftProto builder] mergeFromData:data] build];
 }
-+ (ClanGiftProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClanGiftProto*)[[[ClanGiftProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (GiftProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GiftProto*)[[[GiftProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (ClanGiftProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ClanGiftProto*)[[[ClanGiftProto builder] mergeFromInputStream:input] build];
++ (GiftProto*) parseFromInputStream:(NSInputStream*) input {
+  return (GiftProto*)[[[GiftProto builder] mergeFromInputStream:input] build];
 }
-+ (ClanGiftProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClanGiftProto*)[[[ClanGiftProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (GiftProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GiftProto*)[[[GiftProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (ClanGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ClanGiftProto*)[[[ClanGiftProto builder] mergeFromCodedInputStream:input] build];
++ (GiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (GiftProto*)[[[GiftProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (ClanGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClanGiftProto*)[[[ClanGiftProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (GiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GiftProto*)[[[GiftProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (ClanGiftProto_Builder*) builder {
-  return [[ClanGiftProto_Builder alloc] init];
++ (GiftProto_Builder*) builder {
+  return [[GiftProto_Builder alloc] init];
 }
-+ (ClanGiftProto_Builder*) builderWithPrototype:(ClanGiftProto*) prototype {
-  return [[ClanGiftProto builder] mergeFrom:prototype];
++ (GiftProto_Builder*) builderWithPrototype:(GiftProto*) prototype {
+  return [[GiftProto builder] mergeFrom:prototype];
 }
-- (ClanGiftProto_Builder*) builder {
-  return [ClanGiftProto builder];
+- (GiftProto_Builder*) builder {
+  return [GiftProto builder];
 }
-- (ClanGiftProto_Builder*) toBuilder {
-  return [ClanGiftProto builderWithPrototype:self];
+- (GiftProto_Builder*) toBuilder {
+  return [GiftProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasClanGiftId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanGiftId", [NSNumber numberWithInteger:self.clanGiftId]];
+  if (self.hasGiftId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"giftId", [NSNumber numberWithInteger:self.giftId]];
   }
   if (self.hasName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"name", self.name];
@@ -1139,8 +1131,8 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
   if (self.hasImageName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"imageName", self.imageName];
   }
-  if (self.hasQuality) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"quality", [NSNumber numberWithInteger:self.quality]];
+  if (self.hasGiftType) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"giftType", [NSNumber numberWithInteger:self.giftType]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1148,27 +1140,27 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
   if (other == self) {
     return YES;
   }
-  if (![other isKindOfClass:[ClanGiftProto class]]) {
+  if (![other isKindOfClass:[GiftProto class]]) {
     return NO;
   }
-  ClanGiftProto *otherMessage = other;
+  GiftProto *otherMessage = other;
   return
-      self.hasClanGiftId == otherMessage.hasClanGiftId &&
-      (!self.hasClanGiftId || self.clanGiftId == otherMessage.clanGiftId) &&
+      self.hasGiftId == otherMessage.hasGiftId &&
+      (!self.hasGiftId || self.giftId == otherMessage.giftId) &&
       self.hasName == otherMessage.hasName &&
       (!self.hasName || [self.name isEqual:otherMessage.name]) &&
       self.hasHoursUntilExpiration == otherMessage.hasHoursUntilExpiration &&
       (!self.hasHoursUntilExpiration || self.hoursUntilExpiration == otherMessage.hoursUntilExpiration) &&
       self.hasImageName == otherMessage.hasImageName &&
       (!self.hasImageName || [self.imageName isEqual:otherMessage.imageName]) &&
-      self.hasQuality == otherMessage.hasQuality &&
-      (!self.hasQuality || self.quality == otherMessage.quality) &&
+      self.hasGiftType == otherMessage.hasGiftType &&
+      (!self.hasGiftType || self.giftType == otherMessage.giftType) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasClanGiftId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.clanGiftId] hash];
+  if (self.hasGiftId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.giftId] hash];
   }
   if (self.hasName) {
     hashCode = hashCode * 31 + [self.name hash];
@@ -1179,54 +1171,64 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
   if (self.hasImageName) {
     hashCode = hashCode * 31 + [self.imageName hash];
   }
-  if (self.hasQuality) {
-    hashCode = hashCode * 31 + self.quality;
+  if (self.hasGiftType) {
+    hashCode = hashCode * 31 + self.giftType;
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
 @end
 
-@interface ClanGiftProto_Builder()
-@property (strong) ClanGiftProto* result;
+BOOL GiftProto_GiftTypeIsValidValue(GiftProto_GiftType value) {
+  switch (value) {
+    case GiftProto_GiftTypeNoGift:
+    case GiftProto_GiftTypeClanGift:
+    case GiftProto_GiftTypeTangoGift:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface GiftProto_Builder()
+@property (strong) GiftProto* result;
 @end
 
-@implementation ClanGiftProto_Builder
+@implementation GiftProto_Builder
 @synthesize result;
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[ClanGiftProto alloc] init];
+    self.result = [[GiftProto alloc] init];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (ClanGiftProto_Builder*) clear {
-  self.result = [[ClanGiftProto alloc] init];
+- (GiftProto_Builder*) clear {
+  self.result = [[GiftProto alloc] init];
   return self;
 }
-- (ClanGiftProto_Builder*) clone {
-  return [ClanGiftProto builderWithPrototype:result];
+- (GiftProto_Builder*) clone {
+  return [GiftProto builderWithPrototype:result];
 }
-- (ClanGiftProto*) defaultInstance {
-  return [ClanGiftProto defaultInstance];
+- (GiftProto*) defaultInstance {
+  return [GiftProto defaultInstance];
 }
-- (ClanGiftProto*) build {
+- (GiftProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (ClanGiftProto*) buildPartial {
-  ClanGiftProto* returnMe = result;
+- (GiftProto*) buildPartial {
+  GiftProto* returnMe = result;
   self.result = nil;
   return returnMe;
 }
-- (ClanGiftProto_Builder*) mergeFrom:(ClanGiftProto*) other {
-  if (other == [ClanGiftProto defaultInstance]) {
+- (GiftProto_Builder*) mergeFrom:(GiftProto*) other {
+  if (other == [GiftProto defaultInstance]) {
     return self;
   }
-  if (other.hasClanGiftId) {
-    [self setClanGiftId:other.clanGiftId];
+  if (other.hasGiftId) {
+    [self setGiftId:other.giftId];
   }
   if (other.hasName) {
     [self setName:other.name];
@@ -1237,16 +1239,16 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
   if (other.hasImageName) {
     [self setImageName:other.imageName];
   }
-  if (other.hasQuality) {
-    [self setQuality:other.quality];
+  if (other.hasGiftType) {
+    [self setGiftType:other.giftType];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (ClanGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (GiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (ClanGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (GiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     SInt32 tag = [input readTag];
@@ -1262,7 +1264,7 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setClanGiftId:[input readInt32]];
+        [self setGiftId:[input readInt32]];
         break;
       }
       case 18: {
@@ -1278,9 +1280,9 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
         break;
       }
       case 40: {
-        Quality value = (Quality)[input readEnum];
-        if (QualityIsValidValue(value)) {
-          [self setQuality:value];
+        GiftProto_GiftType value = (GiftProto_GiftType)[input readEnum];
+        if (GiftProto_GiftTypeIsValidValue(value)) {
+          [self setGiftType:value];
         } else {
           [unknownFields mergeVarintField:5 value:value];
         }
@@ -1289,20 +1291,20 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasClanGiftId {
-  return result.hasClanGiftId;
+- (BOOL) hasGiftId {
+  return result.hasGiftId;
 }
-- (int32_t) clanGiftId {
-  return result.clanGiftId;
+- (int32_t) giftId {
+  return result.giftId;
 }
-- (ClanGiftProto_Builder*) setClanGiftId:(int32_t) value {
-  result.hasClanGiftId = YES;
-  result.clanGiftId = value;
+- (GiftProto_Builder*) setGiftId:(int32_t) value {
+  result.hasGiftId = YES;
+  result.giftId = value;
   return self;
 }
-- (ClanGiftProto_Builder*) clearClanGiftId {
-  result.hasClanGiftId = NO;
-  result.clanGiftId = 0;
+- (GiftProto_Builder*) clearGiftId {
+  result.hasGiftId = NO;
+  result.giftId = 0;
   return self;
 }
 - (BOOL) hasName {
@@ -1311,12 +1313,12 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
 - (NSString*) name {
   return result.name;
 }
-- (ClanGiftProto_Builder*) setName:(NSString*) value {
+- (GiftProto_Builder*) setName:(NSString*) value {
   result.hasName = YES;
   result.name = value;
   return self;
 }
-- (ClanGiftProto_Builder*) clearName {
+- (GiftProto_Builder*) clearName {
   result.hasName = NO;
   result.name = @"";
   return self;
@@ -1327,12 +1329,12 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
 - (int32_t) hoursUntilExpiration {
   return result.hoursUntilExpiration;
 }
-- (ClanGiftProto_Builder*) setHoursUntilExpiration:(int32_t) value {
+- (GiftProto_Builder*) setHoursUntilExpiration:(int32_t) value {
   result.hasHoursUntilExpiration = YES;
   result.hoursUntilExpiration = value;
   return self;
 }
-- (ClanGiftProto_Builder*) clearHoursUntilExpiration {
+- (GiftProto_Builder*) clearHoursUntilExpiration {
   result.hasHoursUntilExpiration = NO;
   result.hoursUntilExpiration = 0;
   return self;
@@ -1343,60 +1345,62 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
 - (NSString*) imageName {
   return result.imageName;
 }
-- (ClanGiftProto_Builder*) setImageName:(NSString*) value {
+- (GiftProto_Builder*) setImageName:(NSString*) value {
   result.hasImageName = YES;
   result.imageName = value;
   return self;
 }
-- (ClanGiftProto_Builder*) clearImageName {
+- (GiftProto_Builder*) clearImageName {
   result.hasImageName = NO;
   result.imageName = @"";
   return self;
 }
-- (BOOL) hasQuality {
-  return result.hasQuality;
+- (BOOL) hasGiftType {
+  return result.hasGiftType;
 }
-- (Quality) quality {
-  return result.quality;
+- (GiftProto_GiftType) giftType {
+  return result.giftType;
 }
-- (ClanGiftProto_Builder*) setQuality:(Quality) value {
-  result.hasQuality = YES;
-  result.quality = value;
+- (GiftProto_Builder*) setGiftType:(GiftProto_GiftType) value {
+  result.hasGiftType = YES;
+  result.giftType = value;
   return self;
 }
-- (ClanGiftProto_Builder*) clearQualityList {
-  result.hasQuality = NO;
-  result.quality = QualityNoQuality;
+- (GiftProto_Builder*) clearGiftTypeList {
+  result.hasGiftType = NO;
+  result.giftType = GiftProto_GiftTypeNoGift;
   return self;
 }
 @end
 
-@interface UserClanGiftProto ()
-@property (strong) NSString* userClanGiftId;
-@property (strong) NSString* receiverUserId;
+@interface UserGiftProto ()
+@property (strong) NSString* ugUuid;
+@property (strong) NSString* receiverUserUuid;
 @property (strong) MinimumUserProto* gifterUser;
-@property (strong) ClanGiftProto* clanGift;
+@property (strong) GiftProto* gift;
 @property int64_t timeReceived;
 @property (strong) RewardProto* reward;
 @property BOOL hasBeenCollected;
+@property int32_t minutesTillExpiration;
+@property (strong) UserTangoGiftProto* tangoGift;
 @end
 
-@implementation UserClanGiftProto
+@implementation UserGiftProto
 
-- (BOOL) hasUserClanGiftId {
-  return !!hasUserClanGiftId_;
+- (BOOL) hasUgUuid {
+  return !!hasUgUuid_;
 }
-- (void) setHasUserClanGiftId:(BOOL) value_ {
-  hasUserClanGiftId_ = !!value_;
+- (void) setHasUgUuid:(BOOL) value_ {
+  hasUgUuid_ = !!value_;
 }
-@synthesize userClanGiftId;
-- (BOOL) hasReceiverUserId {
-  return !!hasReceiverUserId_;
+@synthesize ugUuid;
+- (BOOL) hasReceiverUserUuid {
+  return !!hasReceiverUserUuid_;
 }
-- (void) setHasReceiverUserId:(BOOL) value_ {
-  hasReceiverUserId_ = !!value_;
+- (void) setHasReceiverUserUuid:(BOOL) value_ {
+  hasReceiverUserUuid_ = !!value_;
 }
-@synthesize receiverUserId;
+@synthesize receiverUserUuid;
 - (BOOL) hasGifterUser {
   return !!hasGifterUser_;
 }
@@ -1404,13 +1408,13 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
   hasGifterUser_ = !!value_;
 }
 @synthesize gifterUser;
-- (BOOL) hasClanGift {
-  return !!hasClanGift_;
+- (BOOL) hasGift {
+  return !!hasGift_;
 }
-- (void) setHasClanGift:(BOOL) value_ {
-  hasClanGift_ = !!value_;
+- (void) setHasGift:(BOOL) value_ {
+  hasGift_ = !!value_;
 }
-@synthesize clanGift;
+@synthesize gift;
 - (BOOL) hasTimeReceived {
   return !!hasTimeReceived_;
 }
@@ -1437,556 +1441,6 @@ static ClanGiftProto* defaultClanGiftProtoInstance = nil;
 - (void) setHasBeenCollected:(BOOL) value_ {
   hasBeenCollected_ = !!value_;
 }
-- (id) init {
-  if ((self = [super init])) {
-    self.userClanGiftId = @"";
-    self.receiverUserId = @"";
-    self.gifterUser = [MinimumUserProto defaultInstance];
-    self.clanGift = [ClanGiftProto defaultInstance];
-    self.timeReceived = 0L;
-    self.reward = [RewardProto defaultInstance];
-    self.hasBeenCollected = NO;
-  }
-  return self;
-}
-static UserClanGiftProto* defaultUserClanGiftProtoInstance = nil;
-+ (void) initialize {
-  if (self == [UserClanGiftProto class]) {
-    defaultUserClanGiftProtoInstance = [[UserClanGiftProto alloc] init];
-  }
-}
-+ (UserClanGiftProto*) defaultInstance {
-  return defaultUserClanGiftProtoInstance;
-}
-- (UserClanGiftProto*) defaultInstance {
-  return defaultUserClanGiftProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserClanGiftId) {
-    [output writeString:1 value:self.userClanGiftId];
-  }
-  if (self.hasReceiverUserId) {
-    [output writeString:2 value:self.receiverUserId];
-  }
-  if (self.hasGifterUser) {
-    [output writeMessage:3 value:self.gifterUser];
-  }
-  if (self.hasClanGift) {
-    [output writeMessage:4 value:self.clanGift];
-  }
-  if (self.hasTimeReceived) {
-    [output writeInt64:5 value:self.timeReceived];
-  }
-  if (self.hasReward) {
-    [output writeMessage:6 value:self.reward];
-  }
-  if (self.hasHasBeenCollected) {
-    [output writeBool:7 value:self.hasBeenCollected];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (SInt32) serializedSize {
-  __block SInt32 size_ = memoizedSerializedSize;
-  if (size_ != -1) {
-    return size_;
-  }
-
-  size_ = 0;
-  if (self.hasUserClanGiftId) {
-    size_ += computeStringSize(1, self.userClanGiftId);
-  }
-  if (self.hasReceiverUserId) {
-    size_ += computeStringSize(2, self.receiverUserId);
-  }
-  if (self.hasGifterUser) {
-    size_ += computeMessageSize(3, self.gifterUser);
-  }
-  if (self.hasClanGift) {
-    size_ += computeMessageSize(4, self.clanGift);
-  }
-  if (self.hasTimeReceived) {
-    size_ += computeInt64Size(5, self.timeReceived);
-  }
-  if (self.hasReward) {
-    size_ += computeMessageSize(6, self.reward);
-  }
-  if (self.hasHasBeenCollected) {
-    size_ += computeBoolSize(7, self.hasBeenCollected);
-  }
-  size_ += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size_;
-  return size_;
-}
-+ (UserClanGiftProto*) parseFromData:(NSData*) data {
-  return (UserClanGiftProto*)[[[UserClanGiftProto builder] mergeFromData:data] build];
-}
-+ (UserClanGiftProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (UserClanGiftProto*)[[[UserClanGiftProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (UserClanGiftProto*) parseFromInputStream:(NSInputStream*) input {
-  return (UserClanGiftProto*)[[[UserClanGiftProto builder] mergeFromInputStream:input] build];
-}
-+ (UserClanGiftProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (UserClanGiftProto*)[[[UserClanGiftProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (UserClanGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (UserClanGiftProto*)[[[UserClanGiftProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (UserClanGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (UserClanGiftProto*)[[[UserClanGiftProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (UserClanGiftProto_Builder*) builder {
-  return [[UserClanGiftProto_Builder alloc] init];
-}
-+ (UserClanGiftProto_Builder*) builderWithPrototype:(UserClanGiftProto*) prototype {
-  return [[UserClanGiftProto builder] mergeFrom:prototype];
-}
-- (UserClanGiftProto_Builder*) builder {
-  return [UserClanGiftProto builder];
-}
-- (UserClanGiftProto_Builder*) toBuilder {
-  return [UserClanGiftProto builderWithPrototype:self];
-}
-- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserClanGiftId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userClanGiftId", self.userClanGiftId];
-  }
-  if (self.hasReceiverUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"receiverUserId", self.receiverUserId];
-  }
-  if (self.hasGifterUser) {
-    [output appendFormat:@"%@%@ {\n", indent, @"gifterUser"];
-    [self.gifterUser writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
-  if (self.hasClanGift) {
-    [output appendFormat:@"%@%@ {\n", indent, @"clanGift"];
-    [self.clanGift writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
-  if (self.hasTimeReceived) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"timeReceived", [NSNumber numberWithLongLong:self.timeReceived]];
-  }
-  if (self.hasReward) {
-    [output appendFormat:@"%@%@ {\n", indent, @"reward"];
-    [self.reward writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }
-  if (self.hasHasBeenCollected) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"hasBeenCollected", [NSNumber numberWithBool:self.hasBeenCollected]];
-  }
-  [self.unknownFields writeDescriptionTo:output withIndent:indent];
-}
-- (BOOL) isEqual:(id)other {
-  if (other == self) {
-    return YES;
-  }
-  if (![other isKindOfClass:[UserClanGiftProto class]]) {
-    return NO;
-  }
-  UserClanGiftProto *otherMessage = other;
-  return
-      self.hasUserClanGiftId == otherMessage.hasUserClanGiftId &&
-      (!self.hasUserClanGiftId || [self.userClanGiftId isEqual:otherMessage.userClanGiftId]) &&
-      self.hasReceiverUserId == otherMessage.hasReceiverUserId &&
-      (!self.hasReceiverUserId || [self.receiverUserId isEqual:otherMessage.receiverUserId]) &&
-      self.hasGifterUser == otherMessage.hasGifterUser &&
-      (!self.hasGifterUser || [self.gifterUser isEqual:otherMessage.gifterUser]) &&
-      self.hasClanGift == otherMessage.hasClanGift &&
-      (!self.hasClanGift || [self.clanGift isEqual:otherMessage.clanGift]) &&
-      self.hasTimeReceived == otherMessage.hasTimeReceived &&
-      (!self.hasTimeReceived || self.timeReceived == otherMessage.timeReceived) &&
-      self.hasReward == otherMessage.hasReward &&
-      (!self.hasReward || [self.reward isEqual:otherMessage.reward]) &&
-      self.hasHasBeenCollected == otherMessage.hasHasBeenCollected &&
-      (!self.hasHasBeenCollected || self.hasBeenCollected == otherMessage.hasBeenCollected) &&
-      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
-}
-- (NSUInteger) hash {
-  __block NSUInteger hashCode = 7;
-  if (self.hasUserClanGiftId) {
-    hashCode = hashCode * 31 + [self.userClanGiftId hash];
-  }
-  if (self.hasReceiverUserId) {
-    hashCode = hashCode * 31 + [self.receiverUserId hash];
-  }
-  if (self.hasGifterUser) {
-    hashCode = hashCode * 31 + [self.gifterUser hash];
-  }
-  if (self.hasClanGift) {
-    hashCode = hashCode * 31 + [self.clanGift hash];
-  }
-  if (self.hasTimeReceived) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeReceived] hash];
-  }
-  if (self.hasReward) {
-    hashCode = hashCode * 31 + [self.reward hash];
-  }
-  if (self.hasHasBeenCollected) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.hasBeenCollected] hash];
-  }
-  hashCode = hashCode * 31 + [self.unknownFields hash];
-  return hashCode;
-}
-@end
-
-@interface UserClanGiftProto_Builder()
-@property (strong) UserClanGiftProto* result;
-@end
-
-@implementation UserClanGiftProto_Builder
-@synthesize result;
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[UserClanGiftProto alloc] init];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (UserClanGiftProto_Builder*) clear {
-  self.result = [[UserClanGiftProto alloc] init];
-  return self;
-}
-- (UserClanGiftProto_Builder*) clone {
-  return [UserClanGiftProto builderWithPrototype:result];
-}
-- (UserClanGiftProto*) defaultInstance {
-  return [UserClanGiftProto defaultInstance];
-}
-- (UserClanGiftProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (UserClanGiftProto*) buildPartial {
-  UserClanGiftProto* returnMe = result;
-  self.result = nil;
-  return returnMe;
-}
-- (UserClanGiftProto_Builder*) mergeFrom:(UserClanGiftProto*) other {
-  if (other == [UserClanGiftProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasUserClanGiftId) {
-    [self setUserClanGiftId:other.userClanGiftId];
-  }
-  if (other.hasReceiverUserId) {
-    [self setReceiverUserId:other.receiverUserId];
-  }
-  if (other.hasGifterUser) {
-    [self mergeGifterUser:other.gifterUser];
-  }
-  if (other.hasClanGift) {
-    [self mergeClanGift:other.clanGift];
-  }
-  if (other.hasTimeReceived) {
-    [self setTimeReceived:other.timeReceived];
-  }
-  if (other.hasReward) {
-    [self mergeReward:other.reward];
-  }
-  if (other.hasHasBeenCollected) {
-    [self setHasBeenCollected:other.hasBeenCollected];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (UserClanGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (UserClanGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    SInt32 tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        [self setUserClanGiftId:[input readString]];
-        break;
-      }
-      case 18: {
-        [self setReceiverUserId:[input readString]];
-        break;
-      }
-      case 26: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasGifterUser) {
-          [subBuilder mergeFrom:self.gifterUser];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setGifterUser:[subBuilder buildPartial]];
-        break;
-      }
-      case 34: {
-        ClanGiftProto_Builder* subBuilder = [ClanGiftProto builder];
-        if (self.hasClanGift) {
-          [subBuilder mergeFrom:self.clanGift];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setClanGift:[subBuilder buildPartial]];
-        break;
-      }
-      case 40: {
-        [self setTimeReceived:[input readInt64]];
-        break;
-      }
-      case 50: {
-        RewardProto_Builder* subBuilder = [RewardProto builder];
-        if (self.hasReward) {
-          [subBuilder mergeFrom:self.reward];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setReward:[subBuilder buildPartial]];
-        break;
-      }
-      case 56: {
-        [self setHasBeenCollected:[input readBool]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasUserClanGiftId {
-  return result.hasUserClanGiftId;
-}
-- (NSString*) userClanGiftId {
-  return result.userClanGiftId;
-}
-- (UserClanGiftProto_Builder*) setUserClanGiftId:(NSString*) value {
-  result.hasUserClanGiftId = YES;
-  result.userClanGiftId = value;
-  return self;
-}
-- (UserClanGiftProto_Builder*) clearUserClanGiftId {
-  result.hasUserClanGiftId = NO;
-  result.userClanGiftId = @"";
-  return self;
-}
-- (BOOL) hasReceiverUserId {
-  return result.hasReceiverUserId;
-}
-- (NSString*) receiverUserId {
-  return result.receiverUserId;
-}
-- (UserClanGiftProto_Builder*) setReceiverUserId:(NSString*) value {
-  result.hasReceiverUserId = YES;
-  result.receiverUserId = value;
-  return self;
-}
-- (UserClanGiftProto_Builder*) clearReceiverUserId {
-  result.hasReceiverUserId = NO;
-  result.receiverUserId = @"";
-  return self;
-}
-- (BOOL) hasGifterUser {
-  return result.hasGifterUser;
-}
-- (MinimumUserProto*) gifterUser {
-  return result.gifterUser;
-}
-- (UserClanGiftProto_Builder*) setGifterUser:(MinimumUserProto*) value {
-  result.hasGifterUser = YES;
-  result.gifterUser = value;
-  return self;
-}
-- (UserClanGiftProto_Builder*) setGifterUser_Builder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setGifterUser:[builderForValue build]];
-}
-- (UserClanGiftProto_Builder*) mergeGifterUser:(MinimumUserProto*) value {
-  if (result.hasGifterUser &&
-      result.gifterUser != [MinimumUserProto defaultInstance]) {
-    result.gifterUser =
-      [[[MinimumUserProto builderWithPrototype:result.gifterUser] mergeFrom:value] buildPartial];
-  } else {
-    result.gifterUser = value;
-  }
-  result.hasGifterUser = YES;
-  return self;
-}
-- (UserClanGiftProto_Builder*) clearGifterUser {
-  result.hasGifterUser = NO;
-  result.gifterUser = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasClanGift {
-  return result.hasClanGift;
-}
-- (ClanGiftProto*) clanGift {
-  return result.clanGift;
-}
-- (UserClanGiftProto_Builder*) setClanGift:(ClanGiftProto*) value {
-  result.hasClanGift = YES;
-  result.clanGift = value;
-  return self;
-}
-- (UserClanGiftProto_Builder*) setClanGift_Builder:(ClanGiftProto_Builder*) builderForValue {
-  return [self setClanGift:[builderForValue build]];
-}
-- (UserClanGiftProto_Builder*) mergeClanGift:(ClanGiftProto*) value {
-  if (result.hasClanGift &&
-      result.clanGift != [ClanGiftProto defaultInstance]) {
-    result.clanGift =
-      [[[ClanGiftProto builderWithPrototype:result.clanGift] mergeFrom:value] buildPartial];
-  } else {
-    result.clanGift = value;
-  }
-  result.hasClanGift = YES;
-  return self;
-}
-- (UserClanGiftProto_Builder*) clearClanGift {
-  result.hasClanGift = NO;
-  result.clanGift = [ClanGiftProto defaultInstance];
-  return self;
-}
-- (BOOL) hasTimeReceived {
-  return result.hasTimeReceived;
-}
-- (int64_t) timeReceived {
-  return result.timeReceived;
-}
-- (UserClanGiftProto_Builder*) setTimeReceived:(int64_t) value {
-  result.hasTimeReceived = YES;
-  result.timeReceived = value;
-  return self;
-}
-- (UserClanGiftProto_Builder*) clearTimeReceived {
-  result.hasTimeReceived = NO;
-  result.timeReceived = 0L;
-  return self;
-}
-- (BOOL) hasReward {
-  return result.hasReward;
-}
-- (RewardProto*) reward {
-  return result.reward;
-}
-- (UserClanGiftProto_Builder*) setReward:(RewardProto*) value {
-  result.hasReward = YES;
-  result.reward = value;
-  return self;
-}
-- (UserClanGiftProto_Builder*) setReward_Builder:(RewardProto_Builder*) builderForValue {
-  return [self setReward:[builderForValue build]];
-}
-- (UserClanGiftProto_Builder*) mergeReward:(RewardProto*) value {
-  if (result.hasReward &&
-      result.reward != [RewardProto defaultInstance]) {
-    result.reward =
-      [[[RewardProto builderWithPrototype:result.reward] mergeFrom:value] buildPartial];
-  } else {
-    result.reward = value;
-  }
-  result.hasReward = YES;
-  return self;
-}
-- (UserClanGiftProto_Builder*) clearReward {
-  result.hasReward = NO;
-  result.reward = [RewardProto defaultInstance];
-  return self;
-}
-- (BOOL) hasHasBeenCollected {
-  return result.hasHasBeenCollected;
-}
-- (BOOL) hasBeenCollected {
-  return result.hasBeenCollected;
-}
-- (UserClanGiftProto_Builder*) setHasBeenCollected:(BOOL) value {
-  result.hasHasBeenCollected = YES;
-  result.hasBeenCollected = value;
-  return self;
-}
-- (UserClanGiftProto_Builder*) clearHasBeenCollected {
-  result.hasHasBeenCollected = NO;
-  result.hasBeenCollected = NO;
-  return self;
-}
-@end
-
-@interface UserGiftProto ()
-@property (strong) NSString* ugId;
-@property (strong) NSString* receiverUserId;
-@property (strong) MinimumUserProto* gifterUser;
-@property RewardProto_RewardType giftType;
-@property int64_t timeReceived;
-@property (strong) RewardProto* rp;
-@property BOOL hasBeenCollected;
-@property int32_t minutesTillExpiration;
-@property (strong) ClanGiftProto* clanGift;
-@property (strong) UserTangoGiftProto* tangoGift;
-@end
-
-@implementation UserGiftProto
-
-- (BOOL) hasUgId {
-  return !!hasUgId_;
-}
-- (void) setHasUgId:(BOOL) value_ {
-  hasUgId_ = !!value_;
-}
-@synthesize ugId;
-- (BOOL) hasReceiverUserId {
-  return !!hasReceiverUserId_;
-}
-- (void) setHasReceiverUserId:(BOOL) value_ {
-  hasReceiverUserId_ = !!value_;
-}
-@synthesize receiverUserId;
-- (BOOL) hasGifterUser {
-  return !!hasGifterUser_;
-}
-- (void) setHasGifterUser:(BOOL) value_ {
-  hasGifterUser_ = !!value_;
-}
-@synthesize gifterUser;
-- (BOOL) hasGiftType {
-  return !!hasGiftType_;
-}
-- (void) setHasGiftType:(BOOL) value_ {
-  hasGiftType_ = !!value_;
-}
-@synthesize giftType;
-- (BOOL) hasTimeReceived {
-  return !!hasTimeReceived_;
-}
-- (void) setHasTimeReceived:(BOOL) value_ {
-  hasTimeReceived_ = !!value_;
-}
-@synthesize timeReceived;
-- (BOOL) hasRp {
-  return !!hasRp_;
-}
-- (void) setHasRp:(BOOL) value_ {
-  hasRp_ = !!value_;
-}
-@synthesize rp;
-- (BOOL) hasHasBeenCollected {
-  return !!hasHasBeenCollected_;
-}
-- (void) setHasHasBeenCollected:(BOOL) value_ {
-  hasHasBeenCollected_ = !!value_;
-}
-- (BOOL) hasBeenCollected {
-  return !!hasBeenCollected_;
-}
-- (void) setHasBeenCollected:(BOOL) value_ {
-  hasBeenCollected_ = !!value_;
-}
 - (BOOL) hasMinutesTillExpiration {
   return !!hasMinutesTillExpiration_;
 }
@@ -1994,13 +1448,6 @@ static UserClanGiftProto* defaultUserClanGiftProtoInstance = nil;
   hasMinutesTillExpiration_ = !!value_;
 }
 @synthesize minutesTillExpiration;
-- (BOOL) hasClanGift {
-  return !!hasClanGift_;
-}
-- (void) setHasClanGift:(BOOL) value_ {
-  hasClanGift_ = !!value_;
-}
-@synthesize clanGift;
 - (BOOL) hasTangoGift {
   return !!hasTangoGift_;
 }
@@ -2010,15 +1457,14 @@ static UserClanGiftProto* defaultUserClanGiftProtoInstance = nil;
 @synthesize tangoGift;
 - (id) init {
   if ((self = [super init])) {
-    self.ugId = @"";
-    self.receiverUserId = @"";
+    self.ugUuid = @"";
+    self.receiverUserUuid = @"";
     self.gifterUser = [MinimumUserProto defaultInstance];
-    self.giftType = RewardProto_RewardTypeNoReward;
+    self.gift = [GiftProto defaultInstance];
     self.timeReceived = 0L;
-    self.rp = [RewardProto defaultInstance];
+    self.reward = [RewardProto defaultInstance];
     self.hasBeenCollected = NO;
     self.minutesTillExpiration = 0;
-    self.clanGift = [ClanGiftProto defaultInstance];
     self.tangoGift = [UserTangoGiftProto defaultInstance];
   }
   return self;
@@ -2039,23 +1485,23 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUgId) {
-    [output writeString:1 value:self.ugId];
+  if (self.hasUgUuid) {
+    [output writeString:1 value:self.ugUuid];
   }
-  if (self.hasReceiverUserId) {
-    [output writeString:2 value:self.receiverUserId];
+  if (self.hasReceiverUserUuid) {
+    [output writeString:2 value:self.receiverUserUuid];
   }
   if (self.hasGifterUser) {
     [output writeMessage:3 value:self.gifterUser];
   }
-  if (self.hasGiftType) {
-    [output writeEnum:4 value:self.giftType];
+  if (self.hasGift) {
+    [output writeMessage:4 value:self.gift];
   }
   if (self.hasTimeReceived) {
     [output writeInt64:5 value:self.timeReceived];
   }
-  if (self.hasRp) {
-    [output writeMessage:6 value:self.rp];
+  if (self.hasReward) {
+    [output writeMessage:6 value:self.reward];
   }
   if (self.hasHasBeenCollected) {
     [output writeBool:7 value:self.hasBeenCollected];
@@ -2063,11 +1509,8 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
   if (self.hasMinutesTillExpiration) {
     [output writeInt32:8 value:self.minutesTillExpiration];
   }
-  if (self.hasClanGift) {
-    [output writeMessage:9 value:self.clanGift];
-  }
   if (self.hasTangoGift) {
-    [output writeMessage:10 value:self.tangoGift];
+    [output writeMessage:9 value:self.tangoGift];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2078,23 +1521,23 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUgId) {
-    size_ += computeStringSize(1, self.ugId);
+  if (self.hasUgUuid) {
+    size_ += computeStringSize(1, self.ugUuid);
   }
-  if (self.hasReceiverUserId) {
-    size_ += computeStringSize(2, self.receiverUserId);
+  if (self.hasReceiverUserUuid) {
+    size_ += computeStringSize(2, self.receiverUserUuid);
   }
   if (self.hasGifterUser) {
     size_ += computeMessageSize(3, self.gifterUser);
   }
-  if (self.hasGiftType) {
-    size_ += computeEnumSize(4, self.giftType);
+  if (self.hasGift) {
+    size_ += computeMessageSize(4, self.gift);
   }
   if (self.hasTimeReceived) {
     size_ += computeInt64Size(5, self.timeReceived);
   }
-  if (self.hasRp) {
-    size_ += computeMessageSize(6, self.rp);
+  if (self.hasReward) {
+    size_ += computeMessageSize(6, self.reward);
   }
   if (self.hasHasBeenCollected) {
     size_ += computeBoolSize(7, self.hasBeenCollected);
@@ -2102,11 +1545,8 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
   if (self.hasMinutesTillExpiration) {
     size_ += computeInt32Size(8, self.minutesTillExpiration);
   }
-  if (self.hasClanGift) {
-    size_ += computeMessageSize(9, self.clanGift);
-  }
   if (self.hasTangoGift) {
-    size_ += computeMessageSize(10, self.tangoGift);
+    size_ += computeMessageSize(9, self.tangoGift);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2143,11 +1583,11 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
   return [UserGiftProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUgId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"ugId", self.ugId];
+  if (self.hasUgUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"ugUuid", self.ugUuid];
   }
-  if (self.hasReceiverUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"receiverUserId", self.receiverUserId];
+  if (self.hasReceiverUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"receiverUserUuid", self.receiverUserUuid];
   }
   if (self.hasGifterUser) {
     [output appendFormat:@"%@%@ {\n", indent, @"gifterUser"];
@@ -2155,15 +1595,18 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasGiftType) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"giftType", [NSNumber numberWithInteger:self.giftType]];
+  if (self.hasGift) {
+    [output appendFormat:@"%@%@ {\n", indent, @"gift"];
+    [self.gift writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasTimeReceived) {
     [output appendFormat:@"%@%@: %@\n", indent, @"timeReceived", [NSNumber numberWithLongLong:self.timeReceived]];
   }
-  if (self.hasRp) {
-    [output appendFormat:@"%@%@ {\n", indent, @"rp"];
-    [self.rp writeDescriptionTo:output
+  if (self.hasReward) {
+    [output appendFormat:@"%@%@ {\n", indent, @"reward"];
+    [self.reward writeDescriptionTo:output
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
@@ -2172,12 +1615,6 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
   }
   if (self.hasMinutesTillExpiration) {
     [output appendFormat:@"%@%@: %@\n", indent, @"minutesTillExpiration", [NSNumber numberWithInteger:self.minutesTillExpiration]];
-  }
-  if (self.hasClanGift) {
-    [output appendFormat:@"%@%@ {\n", indent, @"clanGift"];
-    [self.clanGift writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasTangoGift) {
     [output appendFormat:@"%@%@ {\n", indent, @"tangoGift"];
@@ -2196,56 +1633,51 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
   }
   UserGiftProto *otherMessage = other;
   return
-      self.hasUgId == otherMessage.hasUgId &&
-      (!self.hasUgId || [self.ugId isEqual:otherMessage.ugId]) &&
-      self.hasReceiverUserId == otherMessage.hasReceiverUserId &&
-      (!self.hasReceiverUserId || [self.receiverUserId isEqual:otherMessage.receiverUserId]) &&
+      self.hasUgUuid == otherMessage.hasUgUuid &&
+      (!self.hasUgUuid || [self.ugUuid isEqual:otherMessage.ugUuid]) &&
+      self.hasReceiverUserUuid == otherMessage.hasReceiverUserUuid &&
+      (!self.hasReceiverUserUuid || [self.receiverUserUuid isEqual:otherMessage.receiverUserUuid]) &&
       self.hasGifterUser == otherMessage.hasGifterUser &&
       (!self.hasGifterUser || [self.gifterUser isEqual:otherMessage.gifterUser]) &&
-      self.hasGiftType == otherMessage.hasGiftType &&
-      (!self.hasGiftType || self.giftType == otherMessage.giftType) &&
+      self.hasGift == otherMessage.hasGift &&
+      (!self.hasGift || [self.gift isEqual:otherMessage.gift]) &&
       self.hasTimeReceived == otherMessage.hasTimeReceived &&
       (!self.hasTimeReceived || self.timeReceived == otherMessage.timeReceived) &&
-      self.hasRp == otherMessage.hasRp &&
-      (!self.hasRp || [self.rp isEqual:otherMessage.rp]) &&
+      self.hasReward == otherMessage.hasReward &&
+      (!self.hasReward || [self.reward isEqual:otherMessage.reward]) &&
       self.hasHasBeenCollected == otherMessage.hasHasBeenCollected &&
       (!self.hasHasBeenCollected || self.hasBeenCollected == otherMessage.hasBeenCollected) &&
       self.hasMinutesTillExpiration == otherMessage.hasMinutesTillExpiration &&
       (!self.hasMinutesTillExpiration || self.minutesTillExpiration == otherMessage.minutesTillExpiration) &&
-      self.hasClanGift == otherMessage.hasClanGift &&
-      (!self.hasClanGift || [self.clanGift isEqual:otherMessage.clanGift]) &&
       self.hasTangoGift == otherMessage.hasTangoGift &&
       (!self.hasTangoGift || [self.tangoGift isEqual:otherMessage.tangoGift]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUgId) {
-    hashCode = hashCode * 31 + [self.ugId hash];
+  if (self.hasUgUuid) {
+    hashCode = hashCode * 31 + [self.ugUuid hash];
   }
-  if (self.hasReceiverUserId) {
-    hashCode = hashCode * 31 + [self.receiverUserId hash];
+  if (self.hasReceiverUserUuid) {
+    hashCode = hashCode * 31 + [self.receiverUserUuid hash];
   }
   if (self.hasGifterUser) {
     hashCode = hashCode * 31 + [self.gifterUser hash];
   }
-  if (self.hasGiftType) {
-    hashCode = hashCode * 31 + self.giftType;
+  if (self.hasGift) {
+    hashCode = hashCode * 31 + [self.gift hash];
   }
   if (self.hasTimeReceived) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeReceived] hash];
   }
-  if (self.hasRp) {
-    hashCode = hashCode * 31 + [self.rp hash];
+  if (self.hasReward) {
+    hashCode = hashCode * 31 + [self.reward hash];
   }
   if (self.hasHasBeenCollected) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.hasBeenCollected] hash];
   }
   if (self.hasMinutesTillExpiration) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.minutesTillExpiration] hash];
-  }
-  if (self.hasClanGift) {
-    hashCode = hashCode * 31 + [self.clanGift hash];
   }
   if (self.hasTangoGift) {
     hashCode = hashCode * 31 + [self.tangoGift hash];
@@ -2293,32 +1725,29 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
   if (other == [UserGiftProto defaultInstance]) {
     return self;
   }
-  if (other.hasUgId) {
-    [self setUgId:other.ugId];
+  if (other.hasUgUuid) {
+    [self setUgUuid:other.ugUuid];
   }
-  if (other.hasReceiverUserId) {
-    [self setReceiverUserId:other.receiverUserId];
+  if (other.hasReceiverUserUuid) {
+    [self setReceiverUserUuid:other.receiverUserUuid];
   }
   if (other.hasGifterUser) {
     [self mergeGifterUser:other.gifterUser];
   }
-  if (other.hasGiftType) {
-    [self setGiftType:other.giftType];
+  if (other.hasGift) {
+    [self mergeGift:other.gift];
   }
   if (other.hasTimeReceived) {
     [self setTimeReceived:other.timeReceived];
   }
-  if (other.hasRp) {
-    [self mergeRp:other.rp];
+  if (other.hasReward) {
+    [self mergeReward:other.reward];
   }
   if (other.hasHasBeenCollected) {
     [self setHasBeenCollected:other.hasBeenCollected];
   }
   if (other.hasMinutesTillExpiration) {
     [self setMinutesTillExpiration:other.minutesTillExpiration];
-  }
-  if (other.hasClanGift) {
-    [self mergeClanGift:other.clanGift];
   }
   if (other.hasTangoGift) {
     [self mergeTangoGift:other.tangoGift];
@@ -2345,11 +1774,11 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
         break;
       }
       case 10: {
-        [self setUgId:[input readString]];
+        [self setUgUuid:[input readString]];
         break;
       }
       case 18: {
-        [self setReceiverUserId:[input readString]];
+        [self setReceiverUserUuid:[input readString]];
         break;
       }
       case 26: {
@@ -2361,13 +1790,13 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
         [self setGifterUser:[subBuilder buildPartial]];
         break;
       }
-      case 32: {
-        RewardProto_RewardType value = (RewardProto_RewardType)[input readEnum];
-        if (RewardProto_RewardTypeIsValidValue(value)) {
-          [self setGiftType:value];
-        } else {
-          [unknownFields mergeVarintField:4 value:value];
+      case 34: {
+        GiftProto_Builder* subBuilder = [GiftProto builder];
+        if (self.hasGift) {
+          [subBuilder mergeFrom:self.gift];
         }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setGift:[subBuilder buildPartial]];
         break;
       }
       case 40: {
@@ -2376,11 +1805,11 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
       }
       case 50: {
         RewardProto_Builder* subBuilder = [RewardProto builder];
-        if (self.hasRp) {
-          [subBuilder mergeFrom:self.rp];
+        if (self.hasReward) {
+          [subBuilder mergeFrom:self.reward];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setRp:[subBuilder buildPartial]];
+        [self setReward:[subBuilder buildPartial]];
         break;
       }
       case 56: {
@@ -2392,15 +1821,6 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
         break;
       }
       case 74: {
-        ClanGiftProto_Builder* subBuilder = [ClanGiftProto builder];
-        if (self.hasClanGift) {
-          [subBuilder mergeFrom:self.clanGift];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setClanGift:[subBuilder buildPartial]];
-        break;
-      }
-      case 82: {
         UserTangoGiftProto_Builder* subBuilder = [UserTangoGiftProto builder];
         if (self.hasTangoGift) {
           [subBuilder mergeFrom:self.tangoGift];
@@ -2412,36 +1832,36 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUgId {
-  return result.hasUgId;
+- (BOOL) hasUgUuid {
+  return result.hasUgUuid;
 }
-- (NSString*) ugId {
-  return result.ugId;
+- (NSString*) ugUuid {
+  return result.ugUuid;
 }
-- (UserGiftProto_Builder*) setUgId:(NSString*) value {
-  result.hasUgId = YES;
-  result.ugId = value;
+- (UserGiftProto_Builder*) setUgUuid:(NSString*) value {
+  result.hasUgUuid = YES;
+  result.ugUuid = value;
   return self;
 }
-- (UserGiftProto_Builder*) clearUgId {
-  result.hasUgId = NO;
-  result.ugId = @"";
+- (UserGiftProto_Builder*) clearUgUuid {
+  result.hasUgUuid = NO;
+  result.ugUuid = @"";
   return self;
 }
-- (BOOL) hasReceiverUserId {
-  return result.hasReceiverUserId;
+- (BOOL) hasReceiverUserUuid {
+  return result.hasReceiverUserUuid;
 }
-- (NSString*) receiverUserId {
-  return result.receiverUserId;
+- (NSString*) receiverUserUuid {
+  return result.receiverUserUuid;
 }
-- (UserGiftProto_Builder*) setReceiverUserId:(NSString*) value {
-  result.hasReceiverUserId = YES;
-  result.receiverUserId = value;
+- (UserGiftProto_Builder*) setReceiverUserUuid:(NSString*) value {
+  result.hasReceiverUserUuid = YES;
+  result.receiverUserUuid = value;
   return self;
 }
-- (UserGiftProto_Builder*) clearReceiverUserId {
-  result.hasReceiverUserId = NO;
-  result.receiverUserId = @"";
+- (UserGiftProto_Builder*) clearReceiverUserUuid {
+  result.hasReceiverUserUuid = NO;
+  result.receiverUserUuid = @"";
   return self;
 }
 - (BOOL) hasGifterUser {
@@ -2474,20 +1894,34 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
   result.gifterUser = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasGiftType {
-  return result.hasGiftType;
+- (BOOL) hasGift {
+  return result.hasGift;
 }
-- (RewardProto_RewardType) giftType {
-  return result.giftType;
+- (GiftProto*) gift {
+  return result.gift;
 }
-- (UserGiftProto_Builder*) setGiftType:(RewardProto_RewardType) value {
-  result.hasGiftType = YES;
-  result.giftType = value;
+- (UserGiftProto_Builder*) setGift:(GiftProto*) value {
+  result.hasGift = YES;
+  result.gift = value;
   return self;
 }
-- (UserGiftProto_Builder*) clearGiftTypeList {
-  result.hasGiftType = NO;
-  result.giftType = RewardProto_RewardTypeNoReward;
+- (UserGiftProto_Builder*) setGift_Builder:(GiftProto_Builder*) builderForValue {
+  return [self setGift:[builderForValue build]];
+}
+- (UserGiftProto_Builder*) mergeGift:(GiftProto*) value {
+  if (result.hasGift &&
+      result.gift != [GiftProto defaultInstance]) {
+    result.gift =
+      [[[GiftProto builderWithPrototype:result.gift] mergeFrom:value] buildPartial];
+  } else {
+    result.gift = value;
+  }
+  result.hasGift = YES;
+  return self;
+}
+- (UserGiftProto_Builder*) clearGift {
+  result.hasGift = NO;
+  result.gift = [GiftProto defaultInstance];
   return self;
 }
 - (BOOL) hasTimeReceived {
@@ -2506,34 +1940,34 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
   result.timeReceived = 0L;
   return self;
 }
-- (BOOL) hasRp {
-  return result.hasRp;
+- (BOOL) hasReward {
+  return result.hasReward;
 }
-- (RewardProto*) rp {
-  return result.rp;
+- (RewardProto*) reward {
+  return result.reward;
 }
-- (UserGiftProto_Builder*) setRp:(RewardProto*) value {
-  result.hasRp = YES;
-  result.rp = value;
+- (UserGiftProto_Builder*) setReward:(RewardProto*) value {
+  result.hasReward = YES;
+  result.reward = value;
   return self;
 }
-- (UserGiftProto_Builder*) setRp_Builder:(RewardProto_Builder*) builderForValue {
-  return [self setRp:[builderForValue build]];
+- (UserGiftProto_Builder*) setReward_Builder:(RewardProto_Builder*) builderForValue {
+  return [self setReward:[builderForValue build]];
 }
-- (UserGiftProto_Builder*) mergeRp:(RewardProto*) value {
-  if (result.hasRp &&
-      result.rp != [RewardProto defaultInstance]) {
-    result.rp =
-      [[[RewardProto builderWithPrototype:result.rp] mergeFrom:value] buildPartial];
+- (UserGiftProto_Builder*) mergeReward:(RewardProto*) value {
+  if (result.hasReward &&
+      result.reward != [RewardProto defaultInstance]) {
+    result.reward =
+      [[[RewardProto builderWithPrototype:result.reward] mergeFrom:value] buildPartial];
   } else {
-    result.rp = value;
+    result.reward = value;
   }
-  result.hasRp = YES;
+  result.hasReward = YES;
   return self;
 }
-- (UserGiftProto_Builder*) clearRp {
-  result.hasRp = NO;
-  result.rp = [RewardProto defaultInstance];
+- (UserGiftProto_Builder*) clearReward {
+  result.hasReward = NO;
+  result.reward = [RewardProto defaultInstance];
   return self;
 }
 - (BOOL) hasHasBeenCollected {
@@ -2566,36 +2000,6 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
 - (UserGiftProto_Builder*) clearMinutesTillExpiration {
   result.hasMinutesTillExpiration = NO;
   result.minutesTillExpiration = 0;
-  return self;
-}
-- (BOOL) hasClanGift {
-  return result.hasClanGift;
-}
-- (ClanGiftProto*) clanGift {
-  return result.clanGift;
-}
-- (UserGiftProto_Builder*) setClanGift:(ClanGiftProto*) value {
-  result.hasClanGift = YES;
-  result.clanGift = value;
-  return self;
-}
-- (UserGiftProto_Builder*) setClanGift_Builder:(ClanGiftProto_Builder*) builderForValue {
-  return [self setClanGift:[builderForValue build]];
-}
-- (UserGiftProto_Builder*) mergeClanGift:(ClanGiftProto*) value {
-  if (result.hasClanGift &&
-      result.clanGift != [ClanGiftProto defaultInstance]) {
-    result.clanGift =
-      [[[ClanGiftProto builderWithPrototype:result.clanGift] mergeFrom:value] buildPartial];
-  } else {
-    result.clanGift = value;
-  }
-  result.hasClanGift = YES;
-  return self;
-}
-- (UserGiftProto_Builder*) clearClanGift {
-  result.hasClanGift = NO;
-  result.clanGift = [ClanGiftProto defaultInstance];
   return self;
 }
 - (BOOL) hasTangoGift {
@@ -2631,39 +2035,30 @@ static UserGiftProto* defaultUserGiftProtoInstance = nil;
 @end
 
 @interface UserTangoGiftProto ()
-@property (strong) NSString* userGiftId;
-@property (strong) NSString* gifterTangoUserId;
-@property (strong) TangoGiftProto* tangoGift;
+@property (strong) NSString* userGiftUuid;
+@property (strong) NSString* gifterTangoName;
 @end
 
 @implementation UserTangoGiftProto
 
-- (BOOL) hasUserGiftId {
-  return !!hasUserGiftId_;
+- (BOOL) hasUserGiftUuid {
+  return !!hasUserGiftUuid_;
 }
-- (void) setHasUserGiftId:(BOOL) value_ {
-  hasUserGiftId_ = !!value_;
+- (void) setHasUserGiftUuid:(BOOL) value_ {
+  hasUserGiftUuid_ = !!value_;
 }
-@synthesize userGiftId;
-- (BOOL) hasGifterTangoUserId {
-  return !!hasGifterTangoUserId_;
+@synthesize userGiftUuid;
+- (BOOL) hasGifterTangoName {
+  return !!hasGifterTangoName_;
 }
-- (void) setHasGifterTangoUserId:(BOOL) value_ {
-  hasGifterTangoUserId_ = !!value_;
+- (void) setHasGifterTangoName:(BOOL) value_ {
+  hasGifterTangoName_ = !!value_;
 }
-@synthesize gifterTangoUserId;
-- (BOOL) hasTangoGift {
-  return !!hasTangoGift_;
-}
-- (void) setHasTangoGift:(BOOL) value_ {
-  hasTangoGift_ = !!value_;
-}
-@synthesize tangoGift;
+@synthesize gifterTangoName;
 - (id) init {
   if ((self = [super init])) {
-    self.userGiftId = @"";
-    self.gifterTangoUserId = @"";
-    self.tangoGift = [TangoGiftProto defaultInstance];
+    self.userGiftUuid = @"";
+    self.gifterTangoName = @"";
   }
   return self;
 }
@@ -2683,14 +2078,11 @@ static UserTangoGiftProto* defaultUserTangoGiftProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserGiftId) {
-    [output writeString:1 value:self.userGiftId];
+  if (self.hasUserGiftUuid) {
+    [output writeString:1 value:self.userGiftUuid];
   }
-  if (self.hasGifterTangoUserId) {
-    [output writeString:2 value:self.gifterTangoUserId];
-  }
-  if (self.hasTangoGift) {
-    [output writeMessage:3 value:self.tangoGift];
+  if (self.hasGifterTangoName) {
+    [output writeString:2 value:self.gifterTangoName];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2701,14 +2093,11 @@ static UserTangoGiftProto* defaultUserTangoGiftProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserGiftId) {
-    size_ += computeStringSize(1, self.userGiftId);
+  if (self.hasUserGiftUuid) {
+    size_ += computeStringSize(1, self.userGiftUuid);
   }
-  if (self.hasGifterTangoUserId) {
-    size_ += computeStringSize(2, self.gifterTangoUserId);
-  }
-  if (self.hasTangoGift) {
-    size_ += computeMessageSize(3, self.tangoGift);
+  if (self.hasGifterTangoName) {
+    size_ += computeStringSize(2, self.gifterTangoName);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2745,17 +2134,11 @@ static UserTangoGiftProto* defaultUserTangoGiftProtoInstance = nil;
   return [UserTangoGiftProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserGiftId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userGiftId", self.userGiftId];
+  if (self.hasUserGiftUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userGiftUuid", self.userGiftUuid];
   }
-  if (self.hasGifterTangoUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"gifterTangoUserId", self.gifterTangoUserId];
-  }
-  if (self.hasTangoGift) {
-    [output appendFormat:@"%@%@ {\n", indent, @"tangoGift"];
-    [self.tangoGift writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
+  if (self.hasGifterTangoName) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"gifterTangoName", self.gifterTangoName];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -2768,24 +2151,19 @@ static UserTangoGiftProto* defaultUserTangoGiftProtoInstance = nil;
   }
   UserTangoGiftProto *otherMessage = other;
   return
-      self.hasUserGiftId == otherMessage.hasUserGiftId &&
-      (!self.hasUserGiftId || [self.userGiftId isEqual:otherMessage.userGiftId]) &&
-      self.hasGifterTangoUserId == otherMessage.hasGifterTangoUserId &&
-      (!self.hasGifterTangoUserId || [self.gifterTangoUserId isEqual:otherMessage.gifterTangoUserId]) &&
-      self.hasTangoGift == otherMessage.hasTangoGift &&
-      (!self.hasTangoGift || [self.tangoGift isEqual:otherMessage.tangoGift]) &&
+      self.hasUserGiftUuid == otherMessage.hasUserGiftUuid &&
+      (!self.hasUserGiftUuid || [self.userGiftUuid isEqual:otherMessage.userGiftUuid]) &&
+      self.hasGifterTangoName == otherMessage.hasGifterTangoName &&
+      (!self.hasGifterTangoName || [self.gifterTangoName isEqual:otherMessage.gifterTangoName]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserGiftId) {
-    hashCode = hashCode * 31 + [self.userGiftId hash];
+  if (self.hasUserGiftUuid) {
+    hashCode = hashCode * 31 + [self.userGiftUuid hash];
   }
-  if (self.hasGifterTangoUserId) {
-    hashCode = hashCode * 31 + [self.gifterTangoUserId hash];
-  }
-  if (self.hasTangoGift) {
-    hashCode = hashCode * 31 + [self.tangoGift hash];
+  if (self.hasGifterTangoName) {
+    hashCode = hashCode * 31 + [self.gifterTangoName hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2830,14 +2208,11 @@ static UserTangoGiftProto* defaultUserTangoGiftProtoInstance = nil;
   if (other == [UserTangoGiftProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserGiftId) {
-    [self setUserGiftId:other.userGiftId];
+  if (other.hasUserGiftUuid) {
+    [self setUserGiftUuid:other.userGiftUuid];
   }
-  if (other.hasGifterTangoUserId) {
-    [self setGifterTangoUserId:other.gifterTangoUserId];
-  }
-  if (other.hasTangoGift) {
-    [self mergeTangoGift:other.tangoGift];
+  if (other.hasGifterTangoName) {
+    [self setGifterTangoName:other.gifterTangoName];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2861,162 +2236,135 @@ static UserTangoGiftProto* defaultUserTangoGiftProtoInstance = nil;
         break;
       }
       case 10: {
-        [self setUserGiftId:[input readString]];
+        [self setUserGiftUuid:[input readString]];
         break;
       }
       case 18: {
-        [self setGifterTangoUserId:[input readString]];
-        break;
-      }
-      case 26: {
-        TangoGiftProto_Builder* subBuilder = [TangoGiftProto builder];
-        if (self.hasTangoGift) {
-          [subBuilder mergeFrom:self.tangoGift];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setTangoGift:[subBuilder buildPartial]];
+        [self setGifterTangoName:[input readString]];
         break;
       }
     }
   }
 }
-- (BOOL) hasUserGiftId {
-  return result.hasUserGiftId;
+- (BOOL) hasUserGiftUuid {
+  return result.hasUserGiftUuid;
 }
-- (NSString*) userGiftId {
-  return result.userGiftId;
+- (NSString*) userGiftUuid {
+  return result.userGiftUuid;
 }
-- (UserTangoGiftProto_Builder*) setUserGiftId:(NSString*) value {
-  result.hasUserGiftId = YES;
-  result.userGiftId = value;
+- (UserTangoGiftProto_Builder*) setUserGiftUuid:(NSString*) value {
+  result.hasUserGiftUuid = YES;
+  result.userGiftUuid = value;
   return self;
 }
-- (UserTangoGiftProto_Builder*) clearUserGiftId {
-  result.hasUserGiftId = NO;
-  result.userGiftId = @"";
+- (UserTangoGiftProto_Builder*) clearUserGiftUuid {
+  result.hasUserGiftUuid = NO;
+  result.userGiftUuid = @"";
   return self;
 }
-- (BOOL) hasGifterTangoUserId {
-  return result.hasGifterTangoUserId;
+- (BOOL) hasGifterTangoName {
+  return result.hasGifterTangoName;
 }
-- (NSString*) gifterTangoUserId {
-  return result.gifterTangoUserId;
+- (NSString*) gifterTangoName {
+  return result.gifterTangoName;
 }
-- (UserTangoGiftProto_Builder*) setGifterTangoUserId:(NSString*) value {
-  result.hasGifterTangoUserId = YES;
-  result.gifterTangoUserId = value;
+- (UserTangoGiftProto_Builder*) setGifterTangoName:(NSString*) value {
+  result.hasGifterTangoName = YES;
+  result.gifterTangoName = value;
   return self;
 }
-- (UserTangoGiftProto_Builder*) clearGifterTangoUserId {
-  result.hasGifterTangoUserId = NO;
-  result.gifterTangoUserId = @"";
-  return self;
-}
-- (BOOL) hasTangoGift {
-  return result.hasTangoGift;
-}
-- (TangoGiftProto*) tangoGift {
-  return result.tangoGift;
-}
-- (UserTangoGiftProto_Builder*) setTangoGift:(TangoGiftProto*) value {
-  result.hasTangoGift = YES;
-  result.tangoGift = value;
-  return self;
-}
-- (UserTangoGiftProto_Builder*) setTangoGift_Builder:(TangoGiftProto_Builder*) builderForValue {
-  return [self setTangoGift:[builderForValue build]];
-}
-- (UserTangoGiftProto_Builder*) mergeTangoGift:(TangoGiftProto*) value {
-  if (result.hasTangoGift &&
-      result.tangoGift != [TangoGiftProto defaultInstance]) {
-    result.tangoGift =
-      [[[TangoGiftProto builderWithPrototype:result.tangoGift] mergeFrom:value] buildPartial];
-  } else {
-    result.tangoGift = value;
-  }
-  result.hasTangoGift = YES;
-  return self;
-}
-- (UserTangoGiftProto_Builder*) clearTangoGift {
-  result.hasTangoGift = NO;
-  result.tangoGift = [TangoGiftProto defaultInstance];
+- (UserTangoGiftProto_Builder*) clearGifterTangoName {
+  result.hasGifterTangoName = NO;
+  result.gifterTangoName = @"";
   return self;
 }
 @end
 
-@interface TangoGiftProto ()
-@property int32_t tangoGiftId;
-@property (strong) NSString* name;
-@property int32_t hoursUntilExpiration;
-@property (strong) NSString* imageName;
+@interface UserSecretGiftProto ()
+@property (strong) NSString* uisgUuid;
+@property (strong) NSString* userUuid;
+@property int32_t secsTillCollection;
+@property int32_t rewardId;
+@property int64_t createTime;
 @end
 
-@implementation TangoGiftProto
+@implementation UserSecretGiftProto
 
-- (BOOL) hasTangoGiftId {
-  return !!hasTangoGiftId_;
+- (BOOL) hasUisgUuid {
+  return !!hasUisgUuid_;
 }
-- (void) setHasTangoGiftId:(BOOL) value_ {
-  hasTangoGiftId_ = !!value_;
+- (void) setHasUisgUuid:(BOOL) value_ {
+  hasUisgUuid_ = !!value_;
 }
-@synthesize tangoGiftId;
-- (BOOL) hasName {
-  return !!hasName_;
+@synthesize uisgUuid;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasName:(BOOL) value_ {
-  hasName_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize name;
-- (BOOL) hasHoursUntilExpiration {
-  return !!hasHoursUntilExpiration_;
+@synthesize userUuid;
+- (BOOL) hasSecsTillCollection {
+  return !!hasSecsTillCollection_;
 }
-- (void) setHasHoursUntilExpiration:(BOOL) value_ {
-  hasHoursUntilExpiration_ = !!value_;
+- (void) setHasSecsTillCollection:(BOOL) value_ {
+  hasSecsTillCollection_ = !!value_;
 }
-@synthesize hoursUntilExpiration;
-- (BOOL) hasImageName {
-  return !!hasImageName_;
+@synthesize secsTillCollection;
+- (BOOL) hasRewardId {
+  return !!hasRewardId_;
 }
-- (void) setHasImageName:(BOOL) value_ {
-  hasImageName_ = !!value_;
+- (void) setHasRewardId:(BOOL) value_ {
+  hasRewardId_ = !!value_;
 }
-@synthesize imageName;
+@synthesize rewardId;
+- (BOOL) hasCreateTime {
+  return !!hasCreateTime_;
+}
+- (void) setHasCreateTime:(BOOL) value_ {
+  hasCreateTime_ = !!value_;
+}
+@synthesize createTime;
 - (id) init {
   if ((self = [super init])) {
-    self.tangoGiftId = 0;
-    self.name = @"";
-    self.hoursUntilExpiration = 0;
-    self.imageName = @"";
+    self.uisgUuid = @"";
+    self.userUuid = @"";
+    self.secsTillCollection = 0;
+    self.rewardId = 0;
+    self.createTime = 0L;
   }
   return self;
 }
-static TangoGiftProto* defaultTangoGiftProtoInstance = nil;
+static UserSecretGiftProto* defaultUserSecretGiftProtoInstance = nil;
 + (void) initialize {
-  if (self == [TangoGiftProto class]) {
-    defaultTangoGiftProtoInstance = [[TangoGiftProto alloc] init];
+  if (self == [UserSecretGiftProto class]) {
+    defaultUserSecretGiftProtoInstance = [[UserSecretGiftProto alloc] init];
   }
 }
-+ (TangoGiftProto*) defaultInstance {
-  return defaultTangoGiftProtoInstance;
++ (UserSecretGiftProto*) defaultInstance {
+  return defaultUserSecretGiftProtoInstance;
 }
-- (TangoGiftProto*) defaultInstance {
-  return defaultTangoGiftProtoInstance;
+- (UserSecretGiftProto*) defaultInstance {
+  return defaultUserSecretGiftProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasTangoGiftId) {
-    [output writeInt32:1 value:self.tangoGiftId];
+  if (self.hasUisgUuid) {
+    [output writeString:1 value:self.uisgUuid];
   }
-  if (self.hasName) {
-    [output writeString:2 value:self.name];
+  if (self.hasUserUuid) {
+    [output writeString:2 value:self.userUuid];
   }
-  if (self.hasHoursUntilExpiration) {
-    [output writeInt32:3 value:self.hoursUntilExpiration];
+  if (self.hasSecsTillCollection) {
+    [output writeInt32:3 value:self.secsTillCollection];
   }
-  if (self.hasImageName) {
-    [output writeString:4 value:self.imageName];
+  if (self.hasRewardId) {
+    [output writeInt32:4 value:self.rewardId];
+  }
+  if (self.hasCreateTime) {
+    [output writeInt64:5 value:self.createTime];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3027,64 +2375,70 @@ static TangoGiftProto* defaultTangoGiftProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasTangoGiftId) {
-    size_ += computeInt32Size(1, self.tangoGiftId);
+  if (self.hasUisgUuid) {
+    size_ += computeStringSize(1, self.uisgUuid);
   }
-  if (self.hasName) {
-    size_ += computeStringSize(2, self.name);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(2, self.userUuid);
   }
-  if (self.hasHoursUntilExpiration) {
-    size_ += computeInt32Size(3, self.hoursUntilExpiration);
+  if (self.hasSecsTillCollection) {
+    size_ += computeInt32Size(3, self.secsTillCollection);
   }
-  if (self.hasImageName) {
-    size_ += computeStringSize(4, self.imageName);
+  if (self.hasRewardId) {
+    size_ += computeInt32Size(4, self.rewardId);
+  }
+  if (self.hasCreateTime) {
+    size_ += computeInt64Size(5, self.createTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
 }
-+ (TangoGiftProto*) parseFromData:(NSData*) data {
-  return (TangoGiftProto*)[[[TangoGiftProto builder] mergeFromData:data] build];
++ (UserSecretGiftProto*) parseFromData:(NSData*) data {
+  return (UserSecretGiftProto*)[[[UserSecretGiftProto builder] mergeFromData:data] build];
 }
-+ (TangoGiftProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (TangoGiftProto*)[[[TangoGiftProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (UserSecretGiftProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserSecretGiftProto*)[[[UserSecretGiftProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (TangoGiftProto*) parseFromInputStream:(NSInputStream*) input {
-  return (TangoGiftProto*)[[[TangoGiftProto builder] mergeFromInputStream:input] build];
++ (UserSecretGiftProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserSecretGiftProto*)[[[UserSecretGiftProto builder] mergeFromInputStream:input] build];
 }
-+ (TangoGiftProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (TangoGiftProto*)[[[TangoGiftProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (UserSecretGiftProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserSecretGiftProto*)[[[UserSecretGiftProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (TangoGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (TangoGiftProto*)[[[TangoGiftProto builder] mergeFromCodedInputStream:input] build];
++ (UserSecretGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserSecretGiftProto*)[[[UserSecretGiftProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (TangoGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (TangoGiftProto*)[[[TangoGiftProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (UserSecretGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserSecretGiftProto*)[[[UserSecretGiftProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (TangoGiftProto_Builder*) builder {
-  return [[TangoGiftProto_Builder alloc] init];
++ (UserSecretGiftProto_Builder*) builder {
+  return [[UserSecretGiftProto_Builder alloc] init];
 }
-+ (TangoGiftProto_Builder*) builderWithPrototype:(TangoGiftProto*) prototype {
-  return [[TangoGiftProto builder] mergeFrom:prototype];
++ (UserSecretGiftProto_Builder*) builderWithPrototype:(UserSecretGiftProto*) prototype {
+  return [[UserSecretGiftProto builder] mergeFrom:prototype];
 }
-- (TangoGiftProto_Builder*) builder {
-  return [TangoGiftProto builder];
+- (UserSecretGiftProto_Builder*) builder {
+  return [UserSecretGiftProto builder];
 }
-- (TangoGiftProto_Builder*) toBuilder {
-  return [TangoGiftProto builderWithPrototype:self];
+- (UserSecretGiftProto_Builder*) toBuilder {
+  return [UserSecretGiftProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasTangoGiftId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"tangoGiftId", [NSNumber numberWithInteger:self.tangoGiftId]];
+  if (self.hasUisgUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"uisgUuid", self.uisgUuid];
   }
-  if (self.hasName) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"name", self.name];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
-  if (self.hasHoursUntilExpiration) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"hoursUntilExpiration", [NSNumber numberWithInteger:self.hoursUntilExpiration]];
+  if (self.hasSecsTillCollection) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"secsTillCollection", [NSNumber numberWithInteger:self.secsTillCollection]];
   }
-  if (self.hasImageName) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"imageName", self.imageName];
+  if (self.hasRewardId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"rewardId", [NSNumber numberWithInteger:self.rewardId]];
+  }
+  if (self.hasCreateTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"createTime", [NSNumber numberWithLongLong:self.createTime]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -3092,97 +2446,105 @@ static TangoGiftProto* defaultTangoGiftProtoInstance = nil;
   if (other == self) {
     return YES;
   }
-  if (![other isKindOfClass:[TangoGiftProto class]]) {
+  if (![other isKindOfClass:[UserSecretGiftProto class]]) {
     return NO;
   }
-  TangoGiftProto *otherMessage = other;
+  UserSecretGiftProto *otherMessage = other;
   return
-      self.hasTangoGiftId == otherMessage.hasTangoGiftId &&
-      (!self.hasTangoGiftId || self.tangoGiftId == otherMessage.tangoGiftId) &&
-      self.hasName == otherMessage.hasName &&
-      (!self.hasName || [self.name isEqual:otherMessage.name]) &&
-      self.hasHoursUntilExpiration == otherMessage.hasHoursUntilExpiration &&
-      (!self.hasHoursUntilExpiration || self.hoursUntilExpiration == otherMessage.hoursUntilExpiration) &&
-      self.hasImageName == otherMessage.hasImageName &&
-      (!self.hasImageName || [self.imageName isEqual:otherMessage.imageName]) &&
+      self.hasUisgUuid == otherMessage.hasUisgUuid &&
+      (!self.hasUisgUuid || [self.uisgUuid isEqual:otherMessage.uisgUuid]) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
+      self.hasSecsTillCollection == otherMessage.hasSecsTillCollection &&
+      (!self.hasSecsTillCollection || self.secsTillCollection == otherMessage.secsTillCollection) &&
+      self.hasRewardId == otherMessage.hasRewardId &&
+      (!self.hasRewardId || self.rewardId == otherMessage.rewardId) &&
+      self.hasCreateTime == otherMessage.hasCreateTime &&
+      (!self.hasCreateTime || self.createTime == otherMessage.createTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasTangoGiftId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.tangoGiftId] hash];
+  if (self.hasUisgUuid) {
+    hashCode = hashCode * 31 + [self.uisgUuid hash];
   }
-  if (self.hasName) {
-    hashCode = hashCode * 31 + [self.name hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
-  if (self.hasHoursUntilExpiration) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.hoursUntilExpiration] hash];
+  if (self.hasSecsTillCollection) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.secsTillCollection] hash];
   }
-  if (self.hasImageName) {
-    hashCode = hashCode * 31 + [self.imageName hash];
+  if (self.hasRewardId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.rewardId] hash];
+  }
+  if (self.hasCreateTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.createTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
 @end
 
-@interface TangoGiftProto_Builder()
-@property (strong) TangoGiftProto* result;
+@interface UserSecretGiftProto_Builder()
+@property (strong) UserSecretGiftProto* result;
 @end
 
-@implementation TangoGiftProto_Builder
+@implementation UserSecretGiftProto_Builder
 @synthesize result;
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[TangoGiftProto alloc] init];
+    self.result = [[UserSecretGiftProto alloc] init];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (TangoGiftProto_Builder*) clear {
-  self.result = [[TangoGiftProto alloc] init];
+- (UserSecretGiftProto_Builder*) clear {
+  self.result = [[UserSecretGiftProto alloc] init];
   return self;
 }
-- (TangoGiftProto_Builder*) clone {
-  return [TangoGiftProto builderWithPrototype:result];
+- (UserSecretGiftProto_Builder*) clone {
+  return [UserSecretGiftProto builderWithPrototype:result];
 }
-- (TangoGiftProto*) defaultInstance {
-  return [TangoGiftProto defaultInstance];
+- (UserSecretGiftProto*) defaultInstance {
+  return [UserSecretGiftProto defaultInstance];
 }
-- (TangoGiftProto*) build {
+- (UserSecretGiftProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (TangoGiftProto*) buildPartial {
-  TangoGiftProto* returnMe = result;
+- (UserSecretGiftProto*) buildPartial {
+  UserSecretGiftProto* returnMe = result;
   self.result = nil;
   return returnMe;
 }
-- (TangoGiftProto_Builder*) mergeFrom:(TangoGiftProto*) other {
-  if (other == [TangoGiftProto defaultInstance]) {
+- (UserSecretGiftProto_Builder*) mergeFrom:(UserSecretGiftProto*) other {
+  if (other == [UserSecretGiftProto defaultInstance]) {
     return self;
   }
-  if (other.hasTangoGiftId) {
-    [self setTangoGiftId:other.tangoGiftId];
+  if (other.hasUisgUuid) {
+    [self setUisgUuid:other.uisgUuid];
   }
-  if (other.hasName) {
-    [self setName:other.name];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
-  if (other.hasHoursUntilExpiration) {
-    [self setHoursUntilExpiration:other.hoursUntilExpiration];
+  if (other.hasSecsTillCollection) {
+    [self setSecsTillCollection:other.secsTillCollection];
   }
-  if (other.hasImageName) {
-    [self setImageName:other.imageName];
+  if (other.hasRewardId) {
+    [self setRewardId:other.rewardId];
+  }
+  if (other.hasCreateTime) {
+    [self setCreateTime:other.createTime];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (TangoGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (UserSecretGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (TangoGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (UserSecretGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     SInt32 tag = [input readTag];
@@ -3197,87 +2559,107 @@ static TangoGiftProto* defaultTangoGiftProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setTangoGiftId:[input readInt32]];
+      case 10: {
+        [self setUisgUuid:[input readString]];
         break;
       }
       case 18: {
-        [self setName:[input readString]];
+        [self setUserUuid:[input readString]];
         break;
       }
       case 24: {
-        [self setHoursUntilExpiration:[input readInt32]];
+        [self setSecsTillCollection:[input readInt32]];
         break;
       }
-      case 34: {
-        [self setImageName:[input readString]];
+      case 32: {
+        [self setRewardId:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setCreateTime:[input readInt64]];
         break;
       }
     }
   }
 }
-- (BOOL) hasTangoGiftId {
-  return result.hasTangoGiftId;
+- (BOOL) hasUisgUuid {
+  return result.hasUisgUuid;
 }
-- (int32_t) tangoGiftId {
-  return result.tangoGiftId;
+- (NSString*) uisgUuid {
+  return result.uisgUuid;
 }
-- (TangoGiftProto_Builder*) setTangoGiftId:(int32_t) value {
-  result.hasTangoGiftId = YES;
-  result.tangoGiftId = value;
+- (UserSecretGiftProto_Builder*) setUisgUuid:(NSString*) value {
+  result.hasUisgUuid = YES;
+  result.uisgUuid = value;
   return self;
 }
-- (TangoGiftProto_Builder*) clearTangoGiftId {
-  result.hasTangoGiftId = NO;
-  result.tangoGiftId = 0;
+- (UserSecretGiftProto_Builder*) clearUisgUuid {
+  result.hasUisgUuid = NO;
+  result.uisgUuid = @"";
   return self;
 }
-- (BOOL) hasName {
-  return result.hasName;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (NSString*) name {
-  return result.name;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (TangoGiftProto_Builder*) setName:(NSString*) value {
-  result.hasName = YES;
-  result.name = value;
+- (UserSecretGiftProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (TangoGiftProto_Builder*) clearName {
-  result.hasName = NO;
-  result.name = @"";
+- (UserSecretGiftProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
-- (BOOL) hasHoursUntilExpiration {
-  return result.hasHoursUntilExpiration;
+- (BOOL) hasSecsTillCollection {
+  return result.hasSecsTillCollection;
 }
-- (int32_t) hoursUntilExpiration {
-  return result.hoursUntilExpiration;
+- (int32_t) secsTillCollection {
+  return result.secsTillCollection;
 }
-- (TangoGiftProto_Builder*) setHoursUntilExpiration:(int32_t) value {
-  result.hasHoursUntilExpiration = YES;
-  result.hoursUntilExpiration = value;
+- (UserSecretGiftProto_Builder*) setSecsTillCollection:(int32_t) value {
+  result.hasSecsTillCollection = YES;
+  result.secsTillCollection = value;
   return self;
 }
-- (TangoGiftProto_Builder*) clearHoursUntilExpiration {
-  result.hasHoursUntilExpiration = NO;
-  result.hoursUntilExpiration = 0;
+- (UserSecretGiftProto_Builder*) clearSecsTillCollection {
+  result.hasSecsTillCollection = NO;
+  result.secsTillCollection = 0;
   return self;
 }
-- (BOOL) hasImageName {
-  return result.hasImageName;
+- (BOOL) hasRewardId {
+  return result.hasRewardId;
 }
-- (NSString*) imageName {
-  return result.imageName;
+- (int32_t) rewardId {
+  return result.rewardId;
 }
-- (TangoGiftProto_Builder*) setImageName:(NSString*) value {
-  result.hasImageName = YES;
-  result.imageName = value;
+- (UserSecretGiftProto_Builder*) setRewardId:(int32_t) value {
+  result.hasRewardId = YES;
+  result.rewardId = value;
   return self;
 }
-- (TangoGiftProto_Builder*) clearImageName {
-  result.hasImageName = NO;
-  result.imageName = @"";
+- (UserSecretGiftProto_Builder*) clearRewardId {
+  result.hasRewardId = NO;
+  result.rewardId = 0;
+  return self;
+}
+- (BOOL) hasCreateTime {
+  return result.hasCreateTime;
+}
+- (int64_t) createTime {
+  return result.createTime;
+}
+- (UserSecretGiftProto_Builder*) setCreateTime:(int64_t) value {
+  result.hasCreateTime = YES;
+  result.createTime = value;
+  return self;
+}
+- (UserSecretGiftProto_Builder*) clearCreateTime {
+  result.hasCreateTime = NO;
+  result.createTime = 0L;
   return self;
 }
 @end

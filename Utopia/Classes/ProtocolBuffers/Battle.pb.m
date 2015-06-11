@@ -35,7 +35,7 @@ BOOL BattleResultIsValidValue(BattleResult value) {
   }
 }
 @interface PvpProto ()
-@property (strong) MinimumUserProto* defender;
+@property (strong) MinimumUserProtoWithLevel* defender;
 @property (strong) NSMutableArray * mutableDefenderMonstersList;
 @property int32_t prospectiveCashWinnings;
 @property int32_t prospectiveOilWinnings;
@@ -106,7 +106,7 @@ BOOL BattleResultIsValidValue(BattleResult value) {
 @dynamic userResearchList;
 - (id) init {
   if ((self = [super init])) {
-    self.defender = [MinimumUserProto defaultInstance];
+    self.defender = [MinimumUserProtoWithLevel defaultInstance];
     self.prospectiveCashWinnings = 0;
     self.prospectiveOilWinnings = 0;
     self.pvpLeagueStats = [UserPvpLeagueProto defaultInstance];
@@ -471,7 +471,7 @@ static PvpProto* defaultPvpProtoInstance = nil;
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithLevel_Builder* subBuilder = [MinimumUserProtoWithLevel builder];
         if (self.hasDefender) {
           [subBuilder mergeFrom:self.defender];
         }
@@ -537,22 +537,22 @@ static PvpProto* defaultPvpProtoInstance = nil;
 - (BOOL) hasDefender {
   return result.hasDefender;
 }
-- (MinimumUserProto*) defender {
+- (MinimumUserProtoWithLevel*) defender {
   return result.defender;
 }
-- (PvpProto_Builder*) setDefender:(MinimumUserProto*) value {
+- (PvpProto_Builder*) setDefender:(MinimumUserProtoWithLevel*) value {
   result.hasDefender = YES;
   result.defender = value;
   return self;
 }
-- (PvpProto_Builder*) setDefender_Builder:(MinimumUserProto_Builder*) builderForValue {
+- (PvpProto_Builder*) setDefender_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue {
   return [self setDefender:[builderForValue build]];
 }
-- (PvpProto_Builder*) mergeDefender:(MinimumUserProto*) value {
+- (PvpProto_Builder*) mergeDefender:(MinimumUserProtoWithLevel*) value {
   if (result.hasDefender &&
-      result.defender != [MinimumUserProto defaultInstance]) {
+      result.defender != [MinimumUserProtoWithLevel defaultInstance]) {
     result.defender =
-      [[[MinimumUserProto builderWithPrototype:result.defender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithLevel builderWithPrototype:result.defender] mergeFrom:value] buildPartial];
   } else {
     result.defender = value;
   }
@@ -561,7 +561,7 @@ static PvpProto* defaultPvpProtoInstance = nil;
 }
 - (PvpProto_Builder*) clearDefender {
   result.hasDefender = NO;
-  result.defender = [MinimumUserProto defaultInstance];
+  result.defender = [MinimumUserProtoWithLevel defaultInstance];
   return self;
 }
 - (NSMutableArray *)defenderMonstersList {
@@ -2516,7 +2516,7 @@ static PvpLeagueProto* defaultPvpLeagueProtoInstance = nil;
 @interface PvpClanAvengeProto ()
 @property (strong) NSString* clanAvengeUuid;
 @property (strong) NSMutableArray * mutableUsersAvengingList;
-@property (strong) MinimumUserProto* attacker;
+@property (strong) MinimumUserProtoWithLevel* attacker;
 @property (strong) MinimumUserProto* defender;
 @property int64_t battleEndTime;
 @property int64_t avengeRequestTime;
@@ -2572,7 +2572,7 @@ static PvpLeagueProto* defaultPvpLeagueProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.clanAvengeUuid = @"";
-    self.attacker = [MinimumUserProto defaultInstance];
+    self.attacker = [MinimumUserProtoWithLevel defaultInstance];
     self.defender = [MinimumUserProto defaultInstance];
     self.battleEndTime = 0L;
     self.avengeRequestTime = 0L;
@@ -2867,7 +2867,7 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
         break;
       }
       case 26: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithLevel_Builder* subBuilder = [MinimumUserProtoWithLevel builder];
         if (self.hasAttacker) {
           [subBuilder mergeFrom:self.attacker];
         }
@@ -2942,22 +2942,22 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
 - (BOOL) hasAttacker {
   return result.hasAttacker;
 }
-- (MinimumUserProto*) attacker {
+- (MinimumUserProtoWithLevel*) attacker {
   return result.attacker;
 }
-- (PvpClanAvengeProto_Builder*) setAttacker:(MinimumUserProto*) value {
+- (PvpClanAvengeProto_Builder*) setAttacker:(MinimumUserProtoWithLevel*) value {
   result.hasAttacker = YES;
   result.attacker = value;
   return self;
 }
-- (PvpClanAvengeProto_Builder*) setAttacker_Builder:(MinimumUserProto_Builder*) builderForValue {
+- (PvpClanAvengeProto_Builder*) setAttacker_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue {
   return [self setAttacker:[builderForValue build]];
 }
-- (PvpClanAvengeProto_Builder*) mergeAttacker:(MinimumUserProto*) value {
+- (PvpClanAvengeProto_Builder*) mergeAttacker:(MinimumUserProtoWithLevel*) value {
   if (result.hasAttacker &&
-      result.attacker != [MinimumUserProto defaultInstance]) {
+      result.attacker != [MinimumUserProtoWithLevel defaultInstance]) {
     result.attacker =
-      [[[MinimumUserProto builderWithPrototype:result.attacker] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithLevel builderWithPrototype:result.attacker] mergeFrom:value] buildPartial];
   } else {
     result.attacker = value;
   }
@@ -2966,7 +2966,7 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
 }
 - (PvpClanAvengeProto_Builder*) clearAttacker {
   result.hasAttacker = NO;
-  result.attacker = [MinimumUserProto defaultInstance];
+  result.attacker = [MinimumUserProtoWithLevel defaultInstance];
   return self;
 }
 - (BOOL) hasDefender {
