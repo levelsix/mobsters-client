@@ -96,6 +96,7 @@
 @property (nonatomic, retain) IBOutlet UIButton* skillPopupCloseButton;
 
 @property (nonatomic, retain) IBOutlet UILabel *enemyNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *enemyLevelLabel;
 
 @property (nonatomic, assign) CGPoint schedulePosition;
 
