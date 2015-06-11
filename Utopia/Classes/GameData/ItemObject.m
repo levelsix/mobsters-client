@@ -83,15 +83,15 @@
       
     case ItemTypeRefreshMiniJob:
     case ItemTypeItemGachaCredit:
+    case ItemTypeItemCash:
+    case ItemTypeItemOil:
+    case ItemTypeSpeedUp:
       if (self.useGemsButton) {
         return [NSString stringWithFormat:@"%d",[self costToPurchase]];
       } else {
         return @"Use";
       }
       
-    case ItemTypeItemCash:
-    case ItemTypeItemOil:
-    case ItemTypeSpeedUp:
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
     case ItemTypeGachaMultiSpin:
@@ -101,14 +101,13 @@
 
 - (BOOL) useGemsButton {
   switch (self.staticItem.itemType) {
-      
+    case ItemTypeItemCash:
+    case ItemTypeItemOil:
+    case ItemTypeSpeedUp:
     case ItemTypeRefreshMiniJob:
     case ItemTypeItemGachaCredit:
       return !self.isValid;
       
-    case ItemTypeItemCash:
-    case ItemTypeItemOil:
-    case ItemTypeSpeedUp:
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
     case ItemTypeGachaMultiSpin:
@@ -151,15 +150,15 @@
   
   switch (self.staticItem.itemType) {
       
-    case ItemTypeRefreshMiniJob:
-      return [miniJobCenter itemGemPriceForItemId:self.staticItem.itemId];
-      
     case ItemTypeItemGachaCredit:
       return [gl calculateGemConversionForResourceType:ResourceTypeGachaCredits amount:self.staticItem.amount];
       
+    case ItemTypeRefreshMiniJob:
     case ItemTypeItemCash:
     case ItemTypeItemOil:
     case ItemTypeSpeedUp:
+      return [gs priceForItemId:self.itemId];
+      
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:
     case ItemTypeGachaMultiSpin:
@@ -266,20 +265,6 @@
 
 - (GameActionType)gameActionType {
   return GameActionTypeNoHelp;
-}
-
-@end
-
-@implementation MiniJobCenterProto (ItemPrices)
-
-- (int) itemGemPriceForItemId:(int)itemId {
-#warning fix this
-//  for (ItemGemPriceProto *igpp in self.refreshMiniJobItemPricesList) {
-//    if (igpp.itemId == itemId) {
-//      return igpp.gemPrice;
-//    }
-//  }
-  return 0;
 }
 
 @end

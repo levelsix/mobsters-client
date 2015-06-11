@@ -9,6 +9,7 @@
 #import "ResourceItemsFiller.h"
 
 #import "GameState.h"
+#import "GenericPopupController.h"
 
 @implementation ResourceItemsFiller
 
@@ -21,6 +22,7 @@
     _itemType = _resourceType == ResourceTypeCash ? ItemTypeItemCash : ItemTypeItemOil;
     
     self.usedItems = [NSMutableDictionary dictionary];
+    self.nonPurchasedItemsUsed = [[NSMutableSet alloc] init];
   }
   return self;
 }
@@ -75,8 +77,8 @@
     if ([obj1 isKindOfClass:[UserItem class]] && [obj2 isKindOfClass:[UserItem class]]) {
       // Put items that were used at the top of the list too so that it doesn't look weird flying down
       // And to prevent misclicking if you're using them fast
-      BOOL anyOwned1 = [obj1 numOwned] > 0 || self.usedItems[@([obj1 itemId])];
-      BOOL anyOwned2 = [obj2 numOwned] > 0 || self.usedItems[@([obj2 itemId])];
+      BOOL anyOwned1 = [obj1 numOwned] > 0 || [self.nonPurchasedItemsUsed containsObject:@([obj1 itemId])];
+      BOOL anyOwned2 = [obj2 numOwned] > 0 || [self.nonPurchasedItemsUsed containsObject:@([obj2 itemId])];
       
       if (anyOwned1 != anyOwned2) {
         return [@(anyOwned2) compare:@(anyOwned1)];
@@ -129,24 +131,33 @@
 }
 
 - (void) itemSelected:(id<ItemObject>)io viewController:(id)viewController {
+  GameState *gs = [GameState sharedGameState];
+  
   if ([io isKindOfClass:[UserItem class]]) {
     UserItem *ui = (UserItem *)io;
     int numUsed = [self.usedItems[@(ui.itemId)] intValue];
-    if ([io numOwned] > 0) {
-      self.usedItems[@(ui.itemId)] = @(numUsed+1);
-      
-      if (!_accumulate) {
-        [self.delegate resourceItemUsed:io viewController:viewController];
-      } else {
-        if ([self currentAmount] >= _requiredAmount) {
-          [self.delegate resourceItemsUsed:self.usedItems];
-          [viewController closeClicked:nil];
-        } else {
-          [viewController reloadDataAnimated:YES];
-        }
+    self.usedItems[@(ui.itemId)] = @(numUsed+1);
+    
+    if (ui.numOwned > 0) {
+      [self.nonPurchasedItemsUsed addObject:@(ui.itemId)];
+    } else if (gs.gems >= [ui costToPurchase]) {
+      if (_accumulate) {
+        [gs changeFakeGemTotal:-[ui costToPurchase]];
       }
     } else {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@ packages.", ui.name]];
+      [GenericPopupController displayNotEnoughGemsView];
+      return;
+    }
+    
+    if (!_accumulate) {
+      [self.delegate resourceItemUsed:io viewController:viewController];
+    } else {
+      if ([self currentAmount] >= _requiredAmount) {
+        [self.delegate resourceItemsUsed:self.usedItems];
+        [viewController closeClicked:nil];
+      } else {
+        [viewController reloadDataAnimated:YES];
+      }
     }
   } else {
     // Gem object - delegate should recalculate how many gems should be sent..
@@ -161,6 +172,8 @@
 }
 
 - (void) itemSelectClosed:(id)viewController {
+  GameState *gs = [GameState sharedGameState];
+  [gs disableFakeGemTotal];
   [self.delegate itemSelectClosed:viewController];
 }
 

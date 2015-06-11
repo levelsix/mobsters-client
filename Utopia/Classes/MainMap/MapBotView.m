@@ -97,6 +97,12 @@
   return button;
 }
 
++ (id) leaderBoardButton {
+  MapBotViewButton *button = [self button];
+  [button updateWithImageName:@"buildingleaderboard.png" actionText:@"Leaderboard" config:MapBotViewButtonLeaderBoard];
+  return button;
+}
+
 + (id) clanHelpButton {
   MapBotViewButton *button = [self button];
   [button.bgdButton setImage:[Globals imageNamed:@"buildinggethelpbutton.png"] forState:UIControlStateNormal];

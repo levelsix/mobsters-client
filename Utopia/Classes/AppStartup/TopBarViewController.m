@@ -34,6 +34,7 @@
 #import "MiniEventManager.h"
 #import "MiniEventViewController.h"
 #import "SpriteAnimationImageView.h"
+#import "LeaderBoardViewController.h"
 
 #define EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT 3
 
@@ -1038,7 +1039,6 @@
   if (nextSecretGiftDate) {
     if (nextSecretGiftDate.timeIntervalSinceNow > 0) {
       [Globals addAlertNotification:@"Your Secret Gift is not yet available."];
-      
       [SoundEngine generalButtonClick];
     } else {
       SecretGiftViewController *sgvc = [[SecretGiftViewController alloc] initWithSecretGift:[gs nextSecretGift]];

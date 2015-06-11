@@ -9,12 +9,14 @@
 #import "SpeedupItemsFiller.h"
 
 #import "GameState.h"
+#import "GenericPopupController.h"
 
 @implementation SpeedupItemsFiller
 
 - (id) initWithGameActionType:(GameActionType)gameActionType {
   if ((self = [super init])) {
     self.usedItems = [NSMutableSet set];
+    self.nonPurchasedItemsUsed = [[NSMutableSet alloc] init];
     _gameActionType = gameActionType;
   }
   return self;
@@ -40,11 +42,10 @@
   GemsItemObject *gio = [[GemsItemObject alloc] init];
   gio.delegate = self;
   [userItems addObject:gio];
-  
   [userItems sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
     if ([obj1 isKindOfClass:[UserItem class]] && [obj2 isKindOfClass:[UserItem class]]) {
-      BOOL anyOwned1 = [obj1 numOwned] > 0 || [self.usedItems containsObject:@([obj1 itemId])];
-      BOOL anyOwned2 = [obj2 numOwned] > 0 || [self.usedItems containsObject:@([obj2 itemId])];
+      BOOL anyOwned1 = [obj1 numOwned] > 0 || [self.nonPurchasedItemsUsed containsObject:@([obj1 itemId])];
+      BOOL anyOwned2 = [obj2 numOwned] > 0 || [self.nonPurchasedItemsUsed containsObject:@([obj2 itemId])];
       
       GameActionType gameAction1 = [obj1 gameActionType];
       GameActionType gameAction2 = [obj2 gameActionType];
@@ -65,7 +66,7 @@
     }
     return NSOrderedSame;
   }];
-  
+
   return userItems;
 }
 
@@ -96,15 +97,22 @@
 }
 
 - (void) itemSelected:(id<ItemObject>)io viewController:(id)viewController {
-    if (![io isKindOfClass:[UserItem class]] || [io numOwned] > 0) {
-      if ([io isKindOfClass:[UserItem class]]) {
-        [self.usedItems addObject:@([(UserItem *)io itemId])];
-      }
-      [self.delegate speedupItemUsed:io viewController:viewController];
+  GameState *gs = [GameState sharedGameState];
+  
+  if ([io isKindOfClass:[UserItem class]]) {
+    UserItem *item = (UserItem *)io;
+    [self.usedItems addObject:@([item itemId])];
+    if (item.numOwned > 0) {
+      [self.nonPurchasedItemsUsed addObject:@(item.itemId)];
+    } else if (gs.gems >= [item costToPurchase]) {
+      [gs changeFakeGemTotal:-[item costToPurchase]];
     } else {
-      UserItem *ui = (UserItem *)io;
-      [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@s.", ui.name]];
+      [GenericPopupController displayNotEnoughGemsView];
+      return;
     }
+  }
+
+  [self.delegate speedupItemUsed:io viewController:viewController];
 }
 
 - (NSString *) titleName {
@@ -112,6 +120,8 @@
 }
 
 - (void) itemSelectClosed:(id)viewController {
+  GameState *gs = [GameState sharedGameState];
+  [gs disableFakeGemTotal];
   [self.delegate itemSelectClosed:viewController];
 }
 

@@ -31,6 +31,7 @@ typedef enum {
   MapBotViewButtonClanHelp,
   MapBotViewButtonPvpBoard,
   MapBotViewButtonItemFactory,
+  MapBotViewButtonLeaderBoard,
 } MapBotViewButtonConfig;
 
 @protocol MapBotViewButtonDelegate <NSObject>
@@ -69,6 +70,7 @@ typedef enum {
 + (id) clanHelpButton;
 + (id) pvpBoardButton;
 + (id) itemFactoryButton;
++ (id) leaderBoardButton;
 + (id) upgradeButtonWithResourceType:(ResourceType)type buildCost:(int)buildCost;
 + (id) fixButtonWithResourceType:(ResourceType)type buildCost:(int)buildCost;
 + (id) fixButtonWithIapString:(NSString *)str;

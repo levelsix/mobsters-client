@@ -47,6 +47,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticBoards = [[NSMutableDictionary alloc] init];
     _staticBattleItems = [[NSMutableDictionary alloc] init];
     _staticResearches = [[NSMutableDictionary alloc] init];
+    _staticItemPrices = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
@@ -77,6 +78,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _unrespondedUpdates = [[NSMutableArray alloc] init];
     
     _requestedClans = [[NSMutableArray alloc] init];
+    
+    _leaderBoardPlacement = [[NSMutableArray alloc] init];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedClanHelpNotification:) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedSpeedupNotification:) name:SPEEDUP_USED_NOTIFICATION object:nil];
@@ -1324,6 +1327,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.staticResearches removeAllObjects];
   [self addToStaticResearch:proto.researchList];
   
+  [self.staticItemPrices removeAllObjects];
+  [self addToStaticItemPricesP:proto.structureItemPricesList];
+  
   self.persistentEvents = proto.persistentEventsList;
   self.persistentClanEvents = proto.persistentClanEventsList;
   
@@ -1412,6 +1418,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticResearch:(NSArray *)arr {
   for (ResearchProto *r in arr) {
     [self.staticResearches setObject:r forKey:@(r.researchId)];
+  }
+}
+
+- (void) addToStaticItemPricesP:(NSArray *)arr {
+  for (ItemGemPriceProto *price in arr) {
+    if (![self.staticItemPrices objectForKey:@(price.itemId)]) {
+      [self.staticItemPrices setObject:[[NSMutableArray alloc] init] forKey:@(price.itemId)];
+    }
+    
+    NSMutableArray *itemArray = [self.staticItemPrices objectForKey:@(price.itemId)];
+    [itemArray addObject:price];
   }
 }
 
@@ -2347,6 +2364,43 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (NSTimeInterval) timeLeftOnMoneyTree {
   // Will give the starter pack time
   return [self timeLeftOnSale:nil];
+}
+
+- (void) changeFakeGemTotal:(int)change {
+  [self enableFakeGemTotal];
+  self.gems += change;
+  [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+}
+
+- (void) enableFakeGemTotal {
+  if (!_fakeGemsEnabled) {
+    _savedGemState = self.gems;
+    _fakeGemsEnabled = YES;
+  }
+}
+
+- (void) disableFakeGemTotal {
+  if (_fakeGemsEnabled) {
+    self.gems = _savedGemState;
+    _fakeGemsEnabled = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  }
+}
+
+- (int) priceForItemId:(int)itemId {
+  NSMutableArray *itemArray = [self.staticItemPrices objectForKey:@(itemId)];
+  
+  for (UserStruct *us in self.myStructs) {
+    for (ItemGemPriceProto *igpp in itemArray) {
+      if (igpp.structId == 0 || us.structId == igpp.structId) {
+        return igpp.gemPrice;
+      }
+    }
+  }
+  
+  [Globals popupMessage:@"No gem price found for requested Item"];
+  
+  return 0;
 }
 
 @end

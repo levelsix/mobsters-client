@@ -29,6 +29,8 @@
   NSTimer *_avengeTimer;
   NSTimer *_battleItemTimer;
   NSTimer *_researchTimer;
+  int _savedGemState;
+  BOOL _fakeGemsEnabled;
 }
 
 @property (nonatomic, assign) BOOL isTutorial;
@@ -169,6 +171,9 @@
 @property (nonatomic, assign) BOOL globalTranslationOn;
 @property (nonatomic, retain) NSMutableDictionary *privateChatLanguages;
 @property (nonatomic, retain) NSMutableDictionary *privateTranslationOn;
+
+@property (nonatomic, retain) NSMutableArray *leaderBoardPlacement;
+@property (nonatomic, retain) NSMutableDictionary *staticItemPrices;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
@@ -355,5 +360,11 @@
 
 - (NSTimeInterval) timeLeftOnSale:(SalesPackageProto *)sale;
 - (NSTimeInterval) timeLeftOnMoneyTree;
+
+- (void) changeFakeGemTotal:(int)change;
+- (void) enableFakeGemTotal;
+- (void) disableFakeGemTotal;
+
+- (int) priceForItemId:(int)itemId;
 
 @end

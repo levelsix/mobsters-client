@@ -1620,6 +1620,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) tradeItemForSpeedup:(NSArray *)uiups {
   // Assume that they all have the same itemId
+  
   if (uiups.count > 0) {
     UserItemUsageProto *uiup = uiups[0];
     int itemId = uiup.itemId;
@@ -1634,17 +1635,33 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     GameState *gs = [GameState sharedGameState];
     UserItem *ui = [gs.itemUtil getUserItemForItemId:itemId];
     
-    if (ui.quantity <= 0) {
-      [Globals popupMessage:@"Trying to use item with no quantity."];
-    } else {
-      ui.quantity--;
-      
-      [[SocketCommunication sharedSocketCommunication] tradeItemForSpeedups:uiups updatedUserItem:[ui toProto]];
-      
-      [gs.itemUtil addToMyItemUsages:uiups];
-      
-      [[NSNotificationCenter defaultCenter] postNotificationName:SPEEDUP_USED_NOTIFICATION object:self userInfo:@{SPEEDUP_NOTIFICATION_KEY : uiup}];
+    //create a fake item to send to the server
+    //but don't store it in item util
+    if(!ui) {
+      ui = [[UserItem alloc] init];
+      ui.itemId = itemId;
+      ui.userUuid = gs.userUuid;
     }
+    
+    int gemsSpent = [ui costToPurchase] * ((int)uiups.count - ui.quantity);
+    
+    if (gemsSpent == 0 && ui.quantity == 0) {
+      [Globals popupMessage:@"Trying to use item with no quantity."];
+      return;
+    }
+    
+    if (gemsSpent > gs.gems) {
+      [Globals popupMessage:@"Trying to spend more gems than you have for items.."];
+      return;
+    }
+    
+    ui.quantity--;
+    
+    [[SocketCommunication sharedSocketCommunication] tradeItemForSpeedups:uiups gemsSpent:gemsSpent updatedUserItem:[ui toProto]];
+    
+    [gs.itemUtil addToMyItemUsages:uiups];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:SPEEDUP_USED_NOTIFICATION object:self userInfo:@{SPEEDUP_NOTIFICATION_KEY : uiup}];
   }
 }
 
@@ -1834,7 +1851,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) tradeItemIdsForResources:(NSDictionary *)itemIdsToQuantity {
   GameState *gs = [GameState sharedGameState];
   
-  int cashGained = 0, oilGained = 0, tokensGained = 0;
+  int cashGained = 0, oilGained = 0, tokensGained = 0, gemsSpent = 0;
   
   NSMutableArray *itemIdsUsed = [NSMutableArray array];
   NSMutableArray *changedUserItems = [NSMutableArray array];
@@ -1846,12 +1863,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       ItemProto *ip = [gs itemForId:itemId];
       UserItem *ui = [gs.itemUtil getUserItemForItemId:itemId];
       
+      //create a fake item to send to the server
+      //but don't store it in item util
+      if(!ui) {
+        ui = [[UserItem alloc] init];
+        ui.itemId = itemId;
+        ui.userUuid = gs.userUuid;
+      }
+      
       if (quantity <= ui.quantity) {
         ui.quantity -= quantity;
         [changedUserItems addObject:[ui toProto]];
       } else {
-        [Globals popupMessage:@"Trying to use invalid items.."];
-        return;
+        gemsSpent += ui.costToPurchase * (quantity - ui.quantity);
+        ui.quantity = 0;
       }
       
       if (ip.itemType == ItemTypeItemOil) {
@@ -1868,14 +1893,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
+  if (gemsSpent > gs.gems) {
+    [Globals popupMessage:@"Trying to spend more gems than you have for items.."];
+  }
+  
   // Might just be a gem usage so check that we're actually using an item
-  if (itemIdsUsed.count) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendTradeItemForResourcesMessage:itemIdsUsed updatedUserItems:changedUserItems clientTime:[self getCurrentMilliseconds]];
+  if (itemIdsUsed.count || gemsSpent > 0) {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendTradeItemForResourcesMessage:itemIdsUsed updatedUserItems:changedUserItems gemsSpent:gemsSpent clientTime:[self getCurrentMilliseconds]];
     
     CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashGained enforceMax:NO];
     OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilGained enforceMax:NO];
     TokensUpdate *tu = [TokensUpdate updateWithTag:tag change:tokensGained];
-    [gs addUnrespondedUpdates:cu, ou, tu, nil];
+    GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemsSpent];
+    [gs addUnrespondedUpdates:cu, ou, tu, gu, nil];
   }
 }
 
@@ -1883,20 +1913,28 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) tradeItemForResources:(int)itemId {
   GameState *gs = [GameState sharedGameState];
   
-  int cashGained = 0, oilGained = 0, tokensGained = 0;
+  int cashGained = 0, oilGained = 0, tokensGained = 0, gemsSpent = 0;
   UserItemProto *changedItem = nil;
   
   ItemProto *ip = [gs itemForId:itemId];
   UserItem *ui = [gs.itemUtil getUserItemForItemId:itemId];
   int quantity = 1;
   
+  //create a fake item to send to the server
+  //but don't store it in item util
+  if(!ui) {
+    ui = [[UserItem alloc] init];
+    ui.itemId = itemId;
+    ui.userUuid = gs.userUuid;
+  }
+  
   if (quantity <= ui.quantity) {
     ui.quantity -= quantity;
-    changedItem = [ui toProto];
   } else {
-    [Globals popupMessage:@"Trying to use invalid items.."];
-    return;
+    gemsSpent = ui.costToPurchase;
   }
+  
+  changedItem = [ui toProto];
   
   if (ip.itemType == ItemTypeItemOil) {
     oilGained += ip.amount*quantity;
@@ -1906,12 +1944,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     tokensGained += ip.amount*quantity;
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] tradeItemForResources:itemId updatedUserItem:changedItem clientTime:[self getCurrentMilliseconds]];
+  if (gemsSpent > gs.gems) {
+    [Globals popupMessage:@"Trying to spend more gems than you have for items.."];
+    return;
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] tradeItemForResources:itemId updatedUserItem:changedItem gemsSpent:gemsSpent clientTime:[self getCurrentMilliseconds]];
   
   CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashGained enforceMax:NO];
   OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilGained enforceMax:NO];
   TokensUpdate *tu = [TokensUpdate updateWithTag:tag change:tokensGained];
-  [gs addUnrespondedUpdates:cu, ou, tu, nil];
+  GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemsSpent];
+  [gs addUnrespondedUpdates:cu, ou, tu, gu, nil];
 }
 
 #pragma mark - Secret Gift
@@ -3691,6 +3735,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemReward];
   [gs addUnrespondedUpdates:gu, nil];
 #endif
+}
+
+#pragma mark - Leader Board
+
+//1st place is rank 0
+//to get the top 25 players min = 0, max = 24
+- (void) retrieveStrengthLeaderBoardBetweenMinRank:(int)minRank maxRank:(int)maxRank delegate:(id)delegate{
+  
+  if (maxRank - minRank <= 0) {
+    [Globals popupMessage:@"Tried to retrieve inverse rank range"];
+    return;
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStrengthLeaderBoarderMessage:minRank maxRank:maxRank];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
 @end

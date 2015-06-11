@@ -49,6 +49,8 @@
 
 - (UserItemProto *) toProto;
 
+- (int) costToPurchase;
+
 @end
 
 @interface UserItemUsage : NSObject
@@ -75,11 +77,5 @@
 @interface GemsItemObject : NSObject <ItemObject>
 
 @property (nonatomic, weak) id<GemsItemDelegate> delegate;
-
-@end
-
-@interface MiniJobCenterProto (ItemPrices)
-
-- (int) itemGemPriceForItemId:(int)itemId;
 
 @end

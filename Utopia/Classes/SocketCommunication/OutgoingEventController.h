@@ -187,4 +187,6 @@
 
 - (void) sendTangoGiftsToTangoUsers:(NSArray *)tangoIds gemReward:(int)gemReward delegate:(id)delegate;
 
+- (void) retrieveStrengthLeaderBoardBetweenMinRank:(int)minRank maxRank:(int)maxRank delegate:(id)delegate;
+
 @end

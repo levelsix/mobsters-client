@@ -31,7 +31,8 @@
 #import "PullRefreshTableViewController.h"
 #import "cocos2d.h"
 
-#define REFRESH_HEADER_HEIGHT 55.0f
+//add more dynamic code
+//#define REFRESH_HEADER_HEIGHT 18.0f
 
 @implementation PullRefreshTableViewController
 
@@ -52,11 +53,25 @@
 }
 
 - (void)addPullToRefreshHeader:(UITableView *)tableView {
+  [self addPullToRefreshHeader:tableView style:UIActivityIndicatorViewStyleWhite];
+}
+
+- (void)addPullToRefreshHeader:(UITableView *)tableView style:(UIActivityIndicatorViewStyle)style {
   self.tableView = tableView;
-  refreshSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-  refreshSpinner.frame = refreshArrow.frame;
-  refreshSpinner.hidesWhenStopped = YES;
-  [refreshHeaderView addSubview:refreshSpinner];
+  
+  //if a spinner isn't provided in the xib, add one
+  if (!refreshSpinner) {
+    refreshSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
+    refreshSpinner.frame = refreshArrow.frame;
+    refreshSpinner.hidesWhenStopped = YES;
+    [refreshHeaderView addSubview:refreshSpinner];
+  }
+  
+  //actually add the refresh header view in the function called add[..]header
+  [tableView addSubview:refreshHeaderView];
+  CGRect newFrame = refreshHeaderView.frame;
+  newFrame.origin = CGPointMake(0, -refreshHeaderView.frame.size.height);
+  refreshHeaderView.frame = newFrame;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -65,13 +80,13 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-  refreshHeaderView.alpha = clampf(scrollView.contentOffset.y/-REFRESH_HEADER_HEIGHT, 0.f, 1.f);
+  refreshHeaderView.alpha = clampf(scrollView.contentOffset.y/-refreshHeaderView.bounds.size.height, 0.f, 1.f);
   if (isLoading) {
     refreshHeaderView.alpha = 1.f;
   } else if (isDragging && scrollView.contentOffset.y < 0) {
     // Update the arrow direction and label
     [UIView beginAnimations:nil context:NULL];
-    if (scrollView.contentOffset.y < -REFRESH_HEADER_HEIGHT) {
+    if (scrollView.contentOffset.y < -refreshHeaderView.bounds.size.height) {
       // User is scrolling above the header
       refreshLabel.text = self.textRelease;
       [refreshArrow layer].transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
@@ -86,19 +101,19 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
   if (isLoading) return;
   isDragging = NO;
-  if (scrollView.contentOffset.y <= -REFRESH_HEADER_HEIGHT) {
+  if (scrollView.contentOffset.y <= -refreshHeaderView.bounds.size.height) {
     // Released above the header
     [self startLoading];
   }
 }
 
-- (void) displayLoading {
+- (void)displayLoading {
   isLoading = YES;
   
   // Show the header
   [UIView beginAnimations:nil context:NULL];
   [UIView setAnimationDuration:0.3];
-  self.tableView.contentInset = UIEdgeInsetsMake(REFRESH_HEADER_HEIGHT, 0, 0, 0);
+  self.tableView.contentInset = UIEdgeInsetsMake(refreshHeaderView.bounds.size.height, 0, 0, 0);
   refreshLabel.text = self.textLoading;
   refreshArrow.hidden = YES;
   refreshHeaderView.alpha = 1.f;

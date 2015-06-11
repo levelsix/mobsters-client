@@ -683,7 +683,7 @@
     if (item.quantity > 0) {
       itemId = item.itemId;
     } else {
-      gems = [miniJobCenter itemGemPriceForItemId:item.staticItem.itemId];
+      gems = [gs priceForItemId:item.itemId];
       if (gems > gs.gems) {
         [GenericPopupController displayNotEnoughGemsView];
         return;
