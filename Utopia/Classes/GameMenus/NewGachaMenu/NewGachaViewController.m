@@ -26,7 +26,7 @@
 @implementation NewGachaViewController
 
 #define NUM_COLS INT_MAX/700000
-#define TABLE_CELL_WIDTH 57
+#define TABLE_CELL_WIDTH ([Globals isiPad] ? 95 : 57)
 
 - (id) initWithBoosterPack:(BoosterPackProto *)bpp {
   if ((self = [super init])) {
@@ -146,7 +146,8 @@
 
 - (void) layoutViews {
   const CGFloat navBarHeight = self.topBar.height;
-  const CGFloat deviceScale = [Globals screenSize].width / 667.f;
+  CGFloat deviceScale = [Globals screenSize].width / 667.f;
+  if ([Globals isiPad]) deviceScale *= 1.2f;
   
   const CGSize bgTopLeftScaledSize = CGSizeMake(self.gachaBgTopLeft.image.size.width * deviceScale, self.gachaBgTopLeft.image.size.height * deviceScale);
   [self.gachaBgTopLeft setFrame:CGRectMake(0.f,
@@ -156,14 +157,23 @@
   [self.gachaBgTopLeft setContentMode:UIViewContentModeScaleToFill];
   const CGSize bgBottomRightScaledSize = CGSizeMake(self.gachaBgBottomRight.image.size.width * deviceScale, self.gachaBgBottomRight.image.size.height * deviceScale);
   [self.gachaBgBottomRight setFrame:CGRectMake(self.view.width - bgBottomRightScaledSize.width,
-                                              self.view.height - bgBottomRightScaledSize.height,
-                                              bgBottomRightScaledSize.width,
+                                               self.view.height - bgBottomRightScaledSize.height,
+                                               bgBottomRightScaledSize.width,
                                                bgBottomRightScaledSize.height)];
   [self.gachaBgBottomRight setContentMode:UIViewContentModeScaleToFill];
-  
+
   UIView *featuredContainer = self.focusScrollView.superview;
-  featuredContainer.height = CGRectGetMaxY(featuredContainer.frame) - navBarHeight;
-  featuredContainer.originY = navBarHeight;
+  
+  if ([Globals isiPad])
+  {
+    self.gachaBgTopLeft.layer.transform = CATransform3DMakeScale(1.f, -1.f, 1.f);
+    self.logoSeparatorImage.hidden = YES;
+  }
+  else
+  {
+    featuredContainer.height = CGRectGetMaxY(featuredContainer.frame) - navBarHeight;
+    featuredContainer.originY = navBarHeight;
+  }
   
   if ([Globals isSmallestiPhone])
   {
@@ -178,7 +188,7 @@
     
     self.machineImage.superview.originX -= 15.f;
   }
-  else
+  else if (![Globals isiPad])
   {
     UIImageView* leftGradient = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gachagradientbarleft.png"]];
     {
@@ -295,6 +305,7 @@
             indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   CGFloat deviceScale = MIN([Globals screenSize].height / 375.f, 1.1f); // These images are designed for iPhone 6
+  if (![Globals isiPad])
   {
     const CGPoint oldCenter = self.logoImage.center;
     self.logoImage.size = CGSizeMake(self.logoImage.image.size.width * deviceScale, self.logoImage.image.size.height * deviceScale);
