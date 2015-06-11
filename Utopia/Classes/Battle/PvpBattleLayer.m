@@ -19,6 +19,7 @@
 #import "AchievementUtil.h"
 #import "ChartboostDelegate.h"
 #import "MiniEventManager.h"
+#import "SkillManager.h"
 
 @implementation PvpBattleLayer
 
@@ -567,6 +568,8 @@
 }
 
 - (void) begin {
+  [skillManager flushPersistentSkills];
+  
   [Kamcord startRecording];
   
   [self deployMyTeam];
