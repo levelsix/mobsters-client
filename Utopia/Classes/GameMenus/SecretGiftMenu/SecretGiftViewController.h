@@ -31,10 +31,10 @@
 
 @property (nonatomic, retain) IBOutlet HomeTitleView *homeTitleView;
 
-@property (nonatomic, strong) UserItemSecretGiftProto *secretGift;
+@property (nonatomic, strong) UserSecretGiftProto *secretGift;
 @property (nonatomic, strong) BoosterItemProto *boosterItem;
 
-- (id) initWithSecretGift:(UserItemSecretGiftProto *)sg;
+- (id) initWithSecretGift:(UserSecretGiftProto *)sg;
 - (id) initWithBoosterItem:(BoosterItemProto *)bi;
 
 @end

@@ -183,7 +183,7 @@
 - (void) tradeItemIdsForResources:(NSDictionary *)itemIdsToQuantity;
 - (void) tradeItemForResources:(int)itemId;
 
-- (void) redeemSecretGift:(UserItemSecretGiftProto *)sg;
+- (void) redeemSecretGift:(UserSecretGiftProto *)sg;
 
 - (void) sendTangoGiftsToTangoUsers:(NSArray *)tangoIds gemReward:(int)gemReward delegate:(id)delegate;
 

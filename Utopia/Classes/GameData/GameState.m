@@ -1687,16 +1687,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 #pragma mark - Secret Gift
 
-- (UserItemSecretGiftProto *) nextSecretGift {
+- (UserSecretGiftProto *) nextSecretGift {
   // Find the gift with the earliest time
-  [self.mySecretGifts sortUsingComparator:^NSComparisonResult(UserItemSecretGiftProto *obj1, UserItemSecretGiftProto *obj2) {
+  [self.mySecretGifts sortUsingComparator:^NSComparisonResult(UserSecretGiftProto *obj1, UserSecretGiftProto *obj2) {
     return [@(obj1.createTime) compare:@(obj2.createTime)];
   }];
   return [self.mySecretGifts firstObject];
 }
 
 - (MSDate *) nextSecretGiftOpenDate {
-  UserItemSecretGiftProto *next = [self nextSecretGift];
+  UserSecretGiftProto *next = [self nextSecretGift];
   
   if (next && self.lastSecretGiftCollectTime) {
     return [self.lastSecretGiftCollectTime dateByAddingTimeInterval:next.secsTillCollection];

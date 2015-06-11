@@ -1916,7 +1916,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Secret Gift
 
-- (void) redeemSecretGift:(UserItemSecretGiftProto *)sg {
+- (void) redeemSecretGift:(UserSecretGiftProto *)sg {
   GameState *gs = [GameState sharedGameState];
   
   if (!sg) {
@@ -2218,7 +2218,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (isRevenge) {
     PvpHistoryProto *pvp = nil;
     for (PvpHistoryProto *potential in gs.battleHistory) {
-      if ([potential.attacker.userUuid isEqualToString:proto.defender.userUuid] &&
+      if ([potential.attacker.userUuid isEqualToString:proto.defender.minUserProto.userUuid] &&
           potential.battleEndTime == previousBattleTime) {
         pvp = potential;
       }
@@ -2253,7 +2253,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.userUuid userAttacked:userAttacked userWon:userWon oilChange:oilGained cashChange:cashGained clientTime:[self getCurrentMilliseconds] monsterDropIds:monsterDropIds];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.minUserProto.userUuid userAttacked:userAttacked userWon:userWon oilChange:oilGained cashChange:cashGained clientTime:[self getCurrentMilliseconds] monsterDropIds:monsterDropIds];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   [gs addUnrespondedUpdates:[OilUpdate updateWithTag:tag change:oilGained], [CashUpdate updateWithTag:tag change:cashGained], nil];
   

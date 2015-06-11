@@ -13,14 +13,14 @@
 
 - (MinimumUserProto *) otherUser {
   GameState *gs = [GameState sharedGameState];
-  return ![self.poster.userUuid isEqualToString:gs.userUuid] ? self.poster : self.recipient;
+  return ![self.poster.minUserProto.userUuid isEqualToString:gs.userUuid] ? self.poster.minUserProto : self.recipient.minUserProto;
 }
 
 - (BOOL) isUnread {
   GameState *gs = [GameState sharedGameState];
-  if (![self.poster.userUuid isEqualToString:gs.userUuid]) {
+  if (![self.poster.minUserProto.userUuid isEqualToString:gs.userUuid]) {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.userUuid];
+    NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.minUserProto.userUuid];
     uint64_t curTime = [[ud objectForKey:key] longLongValue];
     
     uint64_t thisTime = self.timeOfPost;
@@ -34,9 +34,9 @@
 - (void) markAsRead {
   GameState *gs = [GameState sharedGameState];
   // Only need to do this if you are not the poster
-  if (![self.poster.userUuid isEqualToString:gs.userUuid]) {
+  if (![self.poster.minUserProto.userUuid isEqualToString:gs.userUuid]) {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.userUuid];
+    NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.minUserProto.userUuid];
     uint64_t maxTime = [[ud objectForKey:key] longLongValue];
     
     uint64_t curTime = [[MSDate date] timeIntervalSince1970]*1000.;

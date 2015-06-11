@@ -17,7 +17,7 @@
 
 @implementation SecretGiftViewController
 
-- (id) initWithSecretGift:(UserItemSecretGiftProto *)sg {
+- (id) initWithSecretGift:(UserSecretGiftProto *)sg {
   if ((self = [super init])) {
     self.secretGift = sg;
   }
