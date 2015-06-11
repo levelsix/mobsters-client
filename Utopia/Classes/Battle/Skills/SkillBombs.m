@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import <CCTextureCache.h>
 #import "SoundEngine.h"
+#import "SkillManager.h"
 
 @implementation SkillBombs
 
@@ -83,6 +84,9 @@
 
 - (NSInteger)updateSpecialOrbs
 {
+  if ([skillManager.enemySkillControler isKindOfClass:[SkillBombs class]] && self != skillManager.enemySkillControler)
+    return 0;
+  
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
   _currDamage = 0;

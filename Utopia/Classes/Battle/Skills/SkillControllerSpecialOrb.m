@@ -189,6 +189,7 @@
     
     // Update orb
     [self performBlockAfterDelay:.5f block:^{
+      orb.damageMultiplier = 1;
       OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
       [orbSprite reloadSprite:YES];
     }];

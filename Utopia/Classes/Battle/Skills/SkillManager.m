@@ -235,11 +235,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 {
   BOOL generated = NO;
   
-  if (_playerSkillController)
+  if (_playerSkillController && _player.curHealth > 0)
     generated = [_playerSkillController generateSpecialOrb:orb atColumn:column row:row];
   
   if (! generated)
-    if (_enemySkillController)
+    if (_enemySkillController && _enemy.curHealth > 0)
       generated = [_enemySkillController generateSpecialOrb:orb atColumn:column row:row];
   
   return generated;
