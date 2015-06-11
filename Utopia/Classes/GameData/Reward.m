@@ -160,13 +160,13 @@
     [rewards addObject:r];
   }
   
-  if (pvp.prospectiveCashWinnings) {
-    Reward *r = [[Reward alloc] initWithCashAmount:pvp.prospectiveCashWinnings];
+  if (pvp.cashWinnings) {
+    Reward *r = [[Reward alloc] initWithCashAmount:pvp.cashWinnings];
     [rewards addObject:r];
   }
   
-  if (pvp.prospectiveOilWinnings) {
-    Reward *r = [[Reward alloc] initWithOilAmount:pvp.prospectiveOilWinnings];
+  if (pvp.oilWinnings) {
+    Reward *r = [[Reward alloc] initWithOilAmount:pvp.oilWinnings];
     [rewards addObject:r];
   }
   
@@ -465,6 +465,56 @@
   }
   
   return quantity;
+}
+
+@end
+
+@implementation PvpProto (Rewards)
+
+- (NSArray *) userStructs {
+  ResearchUtil *ru = [[ResearchUtil alloc] initWithResearches:self.userResearchList];
+  NSMutableArray *structs = [NSMutableArray array];
+  
+  for (FullUserStructureProto *fusp in self.userStructureList) {
+    UserStruct *us = [UserStruct userStructWithProto:fusp researchUtil:ru];
+    [structs addObject:us];
+  }
+  
+  return structs;
+}
+
+- (int) oilWinnings {
+  int baseOil = self.prospectiveOilStolenFromStorage;
+  
+  NSArray *structs = [self userStructs];
+  for (UserStruct *us in structs) {
+    ResourceGeneratorProto *gen = (ResourceGeneratorProto *)us.staticStruct;
+    
+    if (gen.structInfo.structType == StructureInfoProto_StructTypeResourceGenerator &&
+        gen.resourceType == ResourceTypeOil &&
+        us.isComplete) {
+      baseOil += us.numResourcesAvailable * self.percentageToStealFromGenerator;
+    }
+  }
+  
+  return baseOil;
+}
+
+- (int) cashWinnings {
+  int baseCash = self.prospectiveCashStolenFromStorage;
+  
+  NSArray *structs = [self userStructs];
+  for (UserStruct *us in structs) {
+    ResourceGeneratorProto *gen = (ResourceGeneratorProto *)us.staticStruct;
+    
+    if (gen.structInfo.structType == StructureInfoProto_StructTypeResourceGenerator &&
+        gen.resourceType == ResourceTypeCash &&
+        us.isComplete) {
+      baseCash += us.numResourcesAvailable * self.percentageToStealFromGenerator;
+    }
+  }
+  
+  return baseCash;
 }
 
 @end

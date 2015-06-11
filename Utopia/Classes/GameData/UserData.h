@@ -164,7 +164,9 @@
 @property (nonatomic, assign) StructOrientation orientation;
 @property (nonatomic, assign) BOOL hasShownFreeSpeedup;
 
-+ (id) userStructWithProto:(FullUserStructureProto *)proto;
+@property (nonatomic, retain) ResearchUtil *researchUtil;
+
++ (id) userStructWithProto:(FullUserStructureProto *)proto researchUtil:(ResearchUtil *)researchUtil;
 + (id) userStructWithTutorialStructProto:(TutorialStructProto *)proto;
 - (id<StaticStructure>) staticStructForPrevLevel;
 - (id<StaticStructure>) staticStruct;

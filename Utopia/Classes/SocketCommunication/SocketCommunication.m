@@ -1186,14 +1186,17 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginPvpBattleEvent];
 }
 
-- (int) sendEndPvpBattleMessage:(NSString *)defenderUuid userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilChange:(int)oilChange cashChange:(int)cashChange clientTime:(uint64_t)clientTime monsterDropIds:(NSArray *)monsterDropIds {
-  EndPvpBattleRequestProto *req = [[[[[[[[[[EndPvpBattleRequestProto builder]
-                                           setSender:[self senderWithMaxResources]]
-                                          setDefenderUuid:defenderUuid]
-                                         setUserAttacked:userAttacked]
-                                        setUserWon:userWon]
-                                       setOilChange:oilChange]
-                                      setCashChange:cashChange]
+- (int) sendEndPvpBattleMessage:(NSString *)defenderUuid userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilStolenFromStorage:(int)oilStolenFromStorage cashStolenFromStorage:(int)cashStolenFromStorage oilStolenFromGenerators:(int)oilStolenFromGenerators cashStolenFromGenerators:(int)cashStolenFromGenerators structStolens:(NSArray *)structStolens clientTime:(uint64_t)clientTime monsterDropIds:(NSArray *)monsterDropIds {
+  EndPvpBattleRequestProto *req = [[[[[[[[[[[[[EndPvpBattleRequestProto builder]
+                                              setSender:[self senderWithMaxResources]]
+                                             setDefenderUuid:defenderUuid]
+                                            setUserAttacked:userAttacked]
+                                           setUserWon:userWon]
+                                          setOilStolenFromStorage:oilStolenFromStorage]
+                                         setCashStolenFromStorage:cashStolenFromStorage]
+                                        setOilStolenFromGenerator:oilStolenFromGenerators]
+                                       setCashStolenFromGenerator:cashStolenFromGenerators]
+                                      addAllStructStolen:structStolens]
                                      setClientTime:clientTime]
                                     addAllMonsterDropIds:monsterDropIds]
                                    build];

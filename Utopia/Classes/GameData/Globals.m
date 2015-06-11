@@ -1799,7 +1799,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft allowFreeSpeedup:(BOOL)free {
   // 5 mins are free
-  if (free && timeLeft < self.maxMinutesForFreeSpeedUp*60) {
+  if (free && timeLeft < self.maxMinutesForFreeSpeedUp*60+1) {
     return 0;
   }
   

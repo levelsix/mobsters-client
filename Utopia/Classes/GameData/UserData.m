@@ -700,7 +700,7 @@
 
 @implementation UserStruct
 
-- (id) initWithStructProto:(FullUserStructureProto *)proto {
+- (id) initWithStructProto:(FullUserStructureProto *)proto researchUtil:(ResearchUtil *)researchUtil {
   if ((self = [super init])) {
     self.userStructUuid = proto.userStructUuid;
     self.userUuid = proto.userUuid;
@@ -711,12 +711,14 @@
     self.purchaseTime = proto.hasPurchaseTime ? [MSDate dateWithTimeIntervalSince1970:proto.purchaseTime/1000.0] : nil;
     self.lastRetrieved = proto.hasLastRetrieved ? [MSDate dateWithTimeIntervalSince1970:proto.lastRetrieved/1000.0] : nil;
     self.fbInviteStructLvl = proto.fbInviteStructLvl;
+    
+    self.researchUtil = researchUtil;
   }
   return self;
 }
 
-+ (id) userStructWithProto:(FullUserStructureProto *)proto {
-  return [[self alloc] initWithStructProto:proto];
++ (id) userStructWithProto:(FullUserStructureProto *)proto researchUtil:(ResearchUtil *)researchUtil {
+  return [[self alloc] initWithStructProto:proto researchUtil:researchUtil];
 }
 
 - (id) initWithTutorialStructProto:(TutorialStructProto *)proto {
@@ -876,24 +878,21 @@
     ResourceStorageProto *rgp = (ResourceStorageProto *)ss;
     int baseStorage = rgp.capacity;
     
-    GameState *gs = [GameState sharedGameState];
-    float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceStorage resType:rgp.resourceType];
+    float researchFactor = 1.f+[self.researchUtil percentageBenefitForType:ResearchTypeResourceStorage resType:rgp.resourceType];
     
     return roundf(baseStorage*researchFactor);
   } else if ([ss isKindOfClass:[ResourceGeneratorProto class]]) {
     ResourceGeneratorProto *rgp = (ResourceGeneratorProto *)ss;
     int baseStorage = rgp.capacity;
     
-    GameState *gs = [GameState sharedGameState];
-    float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceGeneratorStorage resType:rgp.resourceType];
+    float researchFactor = 1.f+[self.researchUtil percentageBenefitForType:ResearchTypeResourceGeneratorStorage resType:rgp.resourceType];
     
     return roundf(baseStorage*researchFactor);
   } else if ([ss isKindOfClass:[MoneyTreeProto class]]) {
     MoneyTreeProto *rgp = (MoneyTreeProto *)ss;
     int baseStorage = rgp.capacity;
     
-    GameState *gs = [GameState sharedGameState];
-    float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceGeneratorStorage resType:ResourceTypeGems];
+    float researchFactor = 1.f+[self.researchUtil percentageBenefitForType:ResearchTypeResourceGeneratorStorage resType:ResourceTypeGems];
     
     return roundf(baseStorage*researchFactor);
   }
@@ -906,8 +905,7 @@
   if ([gen isKindOfClass:[ResourceGeneratorProto class]]) {
     float base = gen.productionRate;
     
-    GameState *gs = [GameState sharedGameState];
-    float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceProduction resType:gen.resourceType];
+    float researchFactor = 1.f+[self.researchUtil percentageBenefitForType:ResearchTypeResourceProduction resType:gen.resourceType];
     
     return roundf(base*researchFactor);
   } else if ([gen isKindOfClass:[MoneyTreeProto class]]) {
@@ -915,8 +913,7 @@
     
     float base = mtp.productionRate;
     
-    GameState *gs = [GameState sharedGameState];
-    float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeResourceProduction resType:ResourceTypeGems];
+    float researchFactor = 1.f+[self.researchUtil percentageBenefitForType:ResearchTypeResourceProduction resType:ResourceTypeGems];
     
     return base*researchFactor;
   }

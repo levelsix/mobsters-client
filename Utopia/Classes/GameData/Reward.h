@@ -64,3 +64,11 @@ typedef enum {
 - (int) quantity;
 
 @end
+
+@interface PvpProto (Rewards)
+
+- (NSArray *) userStructs;
+- (int) oilWinnings;
+- (int) cashWinnings;
+
+@end

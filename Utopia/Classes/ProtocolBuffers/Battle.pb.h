@@ -159,44 +159,51 @@ BOOL BattleResultIsValidValue(BattleResult value);
 
 @interface PvpProto : PBGeneratedMessage {
 @private
-  BOOL hasProspectiveCashWinnings_:1;
-  BOOL hasProspectiveOilWinnings_:1;
+  BOOL hasPercentageToStealFromGenerator_:1;
+  BOOL hasProspectiveCashStolenFromStorage_:1;
+  BOOL hasProspectiveOilStolenFromStorage_:1;
   BOOL hasMonsterIdDropped_:1;
   BOOL hasDefenderMsg_:1;
   BOOL hasDefender_:1;
   BOOL hasPvpLeagueStats_:1;
   BOOL hasCmtd_:1;
-  int32_t prospectiveCashWinnings;
-  int32_t prospectiveOilWinnings;
+  Float32 percentageToStealFromGenerator;
+  int32_t prospectiveCashStolenFromStorage;
+  int32_t prospectiveOilStolenFromStorage;
   int32_t monsterIdDropped;
   NSString* defenderMsg;
-  MinimumUserProto* defender;
+  FullUserProto* defender;
   UserPvpLeagueProto* pvpLeagueStats;
   ClanMemberTeamDonationProto* cmtd;
   NSMutableArray * mutableDefenderMonstersList;
   NSMutableArray * mutableUserBoardObstaclesList;
   NSMutableArray * mutableUserResearchList;
+  NSMutableArray * mutableUserStructureList;
 }
 - (BOOL) hasDefender;
-- (BOOL) hasProspectiveCashWinnings;
-- (BOOL) hasProspectiveOilWinnings;
+- (BOOL) hasProspectiveCashStolenFromStorage;
+- (BOOL) hasProspectiveOilStolenFromStorage;
 - (BOOL) hasPvpLeagueStats;
 - (BOOL) hasDefenderMsg;
 - (BOOL) hasCmtd;
 - (BOOL) hasMonsterIdDropped;
-@property (readonly, strong) MinimumUserProto* defender;
+- (BOOL) hasPercentageToStealFromGenerator;
+@property (readonly, strong) FullUserProto* defender;
 @property (readonly, strong) NSArray * defenderMonstersList;
-@property (readonly) int32_t prospectiveCashWinnings;
-@property (readonly) int32_t prospectiveOilWinnings;
+@property (readonly) int32_t prospectiveCashStolenFromStorage;
+@property (readonly) int32_t prospectiveOilStolenFromStorage;
 @property (readonly, strong) UserPvpLeagueProto* pvpLeagueStats;
 @property (readonly, strong) NSString* defenderMsg;
 @property (readonly, strong) ClanMemberTeamDonationProto* cmtd;
 @property (readonly) int32_t monsterIdDropped;
 @property (readonly, strong) NSArray * userBoardObstaclesList;
 @property (readonly, strong) NSArray * userResearchList;
+@property (readonly, strong) NSArray * userStructureList;
+@property (readonly) Float32 percentageToStealFromGenerator;
 - (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
 - (UserPvpBoardObstacleProto*)userBoardObstaclesAtIndex:(NSUInteger)index;
 - (UserResearchProto*)userResearchAtIndex:(NSUInteger)index;
+- (FullUserStructureProto*)userStructureAtIndex:(NSUInteger)index;
 
 + (PvpProto*) defaultInstance;
 - (PvpProto*) defaultInstance;
@@ -234,10 +241,10 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasDefender;
-- (MinimumUserProto*) defender;
-- (PvpProto_Builder*) setDefender:(MinimumUserProto*) value;
-- (PvpProto_Builder*) setDefender_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (PvpProto_Builder*) mergeDefender:(MinimumUserProto*) value;
+- (FullUserProto*) defender;
+- (PvpProto_Builder*) setDefender:(FullUserProto*) value;
+- (PvpProto_Builder*) setDefender_Builder:(FullUserProto_Builder*) builderForValue;
+- (PvpProto_Builder*) mergeDefender:(FullUserProto*) value;
 - (PvpProto_Builder*) clearDefender;
 
 - (NSMutableArray *)defenderMonstersList;
@@ -246,15 +253,15 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpProto_Builder *)addAllDefenderMonsters:(NSArray *)array;
 - (PvpProto_Builder *)clearDefenderMonsters;
 
-- (BOOL) hasProspectiveCashWinnings;
-- (int32_t) prospectiveCashWinnings;
-- (PvpProto_Builder*) setProspectiveCashWinnings:(int32_t) value;
-- (PvpProto_Builder*) clearProspectiveCashWinnings;
+- (BOOL) hasProspectiveCashStolenFromStorage;
+- (int32_t) prospectiveCashStolenFromStorage;
+- (PvpProto_Builder*) setProspectiveCashStolenFromStorage:(int32_t) value;
+- (PvpProto_Builder*) clearProspectiveCashStolenFromStorage;
 
-- (BOOL) hasProspectiveOilWinnings;
-- (int32_t) prospectiveOilWinnings;
-- (PvpProto_Builder*) setProspectiveOilWinnings:(int32_t) value;
-- (PvpProto_Builder*) clearProspectiveOilWinnings;
+- (BOOL) hasProspectiveOilStolenFromStorage;
+- (int32_t) prospectiveOilStolenFromStorage;
+- (PvpProto_Builder*) setProspectiveOilStolenFromStorage:(int32_t) value;
+- (PvpProto_Builder*) clearProspectiveOilStolenFromStorage;
 
 - (BOOL) hasPvpLeagueStats;
 - (UserPvpLeagueProto*) pvpLeagueStats;
@@ -291,6 +298,17 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpProto_Builder *)addUserResearch:(UserResearchProto*)value;
 - (PvpProto_Builder *)addAllUserResearch:(NSArray *)array;
 - (PvpProto_Builder *)clearUserResearch;
+
+- (NSMutableArray *)userStructureList;
+- (FullUserStructureProto*)userStructureAtIndex:(NSUInteger)index;
+- (PvpProto_Builder *)addUserStructure:(FullUserStructureProto*)value;
+- (PvpProto_Builder *)addAllUserStructure:(NSArray *)array;
+- (PvpProto_Builder *)clearUserStructure;
+
+- (BOOL) hasPercentageToStealFromGenerator;
+- (Float32) percentageToStealFromGenerator;
+- (PvpProto_Builder*) setPercentageToStealFromGenerator:(Float32) value;
+- (PvpProto_Builder*) clearPercentageToStealFromGenerator;
 @end
 
 @interface PvpMonsterProto : PBGeneratedMessage {

@@ -2234,11 +2234,42 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
-  int oilGained = userWon ? proto.prospectiveOilWinnings : 0;
-  int cashGained = userWon ? proto.prospectiveCashWinnings : 0;
+  int oilStolenFromStorage = 0;
+  int cashStolenFromStorage = 0;
+  int oilStolenFromGenerators = 0;
+  int cashStolenFromGenerators = 0;
+  NSMutableArray *structStolens = [NSMutableArray array];
+  uint64_t ms = [self getCurrentMilliseconds];
   
   NSMutableArray *monsterDropIds = [NSMutableArray array];
   if (userWon) {
+    oilStolenFromStorage = proto.prospectiveOilStolenFromStorage;
+    cashStolenFromStorage = proto.prospectiveCashStolenFromStorage;
+    
+    NSArray *userStructs = [proto userStructs];
+    
+    
+    for (UserStruct *us in userStructs) {
+      ResourceGeneratorProto *gen = (ResourceGeneratorProto *)us.staticStruct;
+      
+      if (gen.structInfo.structType == StructureInfoProto_StructTypeResourceGenerator &&
+          us.isComplete) {
+        int numRes = us.numResourcesAvailable;
+        int amtStolen = numRes * proto.percentageToStealFromGenerator;
+        
+        if (gen.resourceType == ResourceTypeCash) {
+          cashStolenFromGenerators += amtStolen;
+        } else if (gen.resourceType == ResourceTypeOil) {
+          oilStolenFromGenerators += amtStolen;
+        }
+        
+        EndPvpBattleRequestProto_StructStolen_Builder *bldr = [EndPvpBattleRequestProto_StructStolen builder];
+        bldr.userStructUuid = us.userStructUuid;
+        bldr.timeOfRetrieval = ms - (int)((numRes-amtStolen)/us.productionRate*3600*1000);
+        [structStolens addObject:bldr.build];
+      }
+    }
+    
     for (int i = 0; i < proto.defenderMonstersList.count; i++) {
       PvpMonsterProto *mon = proto.defenderMonstersList[i];
       
@@ -2253,8 +2284,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.userUuid userAttacked:userAttacked userWon:userWon oilChange:oilGained cashChange:cashGained clientTime:[self getCurrentMilliseconds] monsterDropIds:monsterDropIds];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.userUuid userAttacked:userAttacked userWon:userWon oilStolenFromStorage:oilStolenFromStorage cashStolenFromStorage:cashStolenFromStorage oilStolenFromGenerators:oilStolenFromGenerators cashStolenFromGenerators:cashStolenFromGenerators structStolens:structStolens clientTime:[self getCurrentMilliseconds] monsterDropIds:monsterDropIds];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+  int oilGained = oilStolenFromGenerators+oilStolenFromStorage;
+  int cashGained = cashStolenFromGenerators+cashStolenFromStorage;
   [gs addUnrespondedUpdates:[OilUpdate updateWithTag:tag change:oilGained], [CashUpdate updateWithTag:tag change:cashGained], nil];
   
   if (userWon) {

@@ -28,6 +28,8 @@
 @class CustomizePvpBoardObstacleResponseProto_Builder;
 @class EndPvpBattleRequestProto;
 @class EndPvpBattleRequestProto_Builder;
+@class EndPvpBattleRequestProto_StructStolen;
+@class EndPvpBattleRequestProto_StructStolen_Builder;
 @class EndPvpBattleResponseProto;
 @class EndPvpBattleResponseProto_Builder;
 @class EvoChamberProto;
@@ -521,8 +523,10 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
   BOOL hasUserWon_:1;
   BOOL hasNuPvpDmgMultiplier_:1;
   BOOL hasClientTime_:1;
-  BOOL hasOilChange_:1;
-  BOOL hasCashChange_:1;
+  BOOL hasOilStolenFromStorage_:1;
+  BOOL hasCashStolenFromStorage_:1;
+  BOOL hasOilStolenFromGenerator_:1;
+  BOOL hasCashStolenFromGenerator_:1;
   BOOL hasDefenderUuid_:1;
   BOOL hasSender_:1;
   BOOL hasReplay_:1;
@@ -530,33 +534,42 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
   BOOL userWon_:1;
   Float32 nuPvpDmgMultiplier;
   int64_t clientTime;
-  int32_t oilChange;
-  int32_t cashChange;
+  int32_t oilStolenFromStorage;
+  int32_t cashStolenFromStorage;
+  int32_t oilStolenFromGenerator;
+  int32_t cashStolenFromGenerator;
   NSString* defenderUuid;
   MinimumUserProtoWithMaxResources* sender;
   NSData* replay;
   PBAppendableArray * mutableMonsterDropIdsList;
+  NSMutableArray * mutableStructStolenList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasDefenderUuid;
 - (BOOL) hasUserAttacked;
 - (BOOL) hasUserWon;
 - (BOOL) hasClientTime;
-- (BOOL) hasOilChange;
-- (BOOL) hasCashChange;
+- (BOOL) hasOilStolenFromStorage;
+- (BOOL) hasCashStolenFromStorage;
 - (BOOL) hasNuPvpDmgMultiplier;
 - (BOOL) hasReplay;
+- (BOOL) hasOilStolenFromGenerator;
+- (BOOL) hasCashStolenFromGenerator;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) NSString* defenderUuid;
 - (BOOL) userAttacked;
 - (BOOL) userWon;
 @property (readonly) int64_t clientTime;
-@property (readonly) int32_t oilChange;
-@property (readonly) int32_t cashChange;
+@property (readonly) int32_t oilStolenFromStorage;
+@property (readonly) int32_t cashStolenFromStorage;
 @property (readonly) Float32 nuPvpDmgMultiplier;
 @property (readonly, strong) PBArray * monsterDropIdsList;
 @property (readonly, strong) NSData* replay;
+@property (readonly) int32_t oilStolenFromGenerator;
+@property (readonly) int32_t cashStolenFromGenerator;
+@property (readonly, strong) NSArray * structStolenList;
 - (int32_t)monsterDropIdsAtIndex:(NSUInteger)index;
+- (EndPvpBattleRequestProto_StructStolen*)structStolenAtIndex:(NSUInteger)index;
 
 + (EndPvpBattleRequestProto*) defaultInstance;
 - (EndPvpBattleRequestProto*) defaultInstance;
@@ -574,6 +587,64 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
 + (EndPvpBattleRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (EndPvpBattleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (EndPvpBattleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EndPvpBattleRequestProto_StructStolen : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfRetrieval_:1;
+  BOOL hasUserStructUuid_:1;
+  int64_t timeOfRetrieval;
+  NSString* userStructUuid;
+}
+- (BOOL) hasUserStructUuid;
+- (BOOL) hasTimeOfRetrieval;
+@property (readonly, strong) NSString* userStructUuid;
+@property (readonly) int64_t timeOfRetrieval;
+
++ (EndPvpBattleRequestProto_StructStolen*) defaultInstance;
+- (EndPvpBattleRequestProto_StructStolen*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EndPvpBattleRequestProto_StructStolen_Builder*) builder;
++ (EndPvpBattleRequestProto_StructStolen_Builder*) builder;
++ (EndPvpBattleRequestProto_StructStolen_Builder*) builderWithPrototype:(EndPvpBattleRequestProto_StructStolen*) prototype;
+- (EndPvpBattleRequestProto_StructStolen_Builder*) toBuilder;
+
++ (EndPvpBattleRequestProto_StructStolen*) parseFromData:(NSData*) data;
++ (EndPvpBattleRequestProto_StructStolen*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndPvpBattleRequestProto_StructStolen*) parseFromInputStream:(NSInputStream*) input;
++ (EndPvpBattleRequestProto_StructStolen*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndPvpBattleRequestProto_StructStolen*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EndPvpBattleRequestProto_StructStolen*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EndPvpBattleRequestProto_StructStolen_Builder : PBGeneratedMessageBuilder {
+@private
+  EndPvpBattleRequestProto_StructStolen* result;
+}
+
+- (EndPvpBattleRequestProto_StructStolen*) defaultInstance;
+
+- (EndPvpBattleRequestProto_StructStolen_Builder*) clear;
+- (EndPvpBattleRequestProto_StructStolen_Builder*) clone;
+
+- (EndPvpBattleRequestProto_StructStolen*) build;
+- (EndPvpBattleRequestProto_StructStolen*) buildPartial;
+
+- (EndPvpBattleRequestProto_StructStolen_Builder*) mergeFrom:(EndPvpBattleRequestProto_StructStolen*) other;
+- (EndPvpBattleRequestProto_StructStolen_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EndPvpBattleRequestProto_StructStolen_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (EndPvpBattleRequestProto_StructStolen_Builder*) setUserStructUuid:(NSString*) value;
+- (EndPvpBattleRequestProto_StructStolen_Builder*) clearUserStructUuid;
+
+- (BOOL) hasTimeOfRetrieval;
+- (int64_t) timeOfRetrieval;
+- (EndPvpBattleRequestProto_StructStolen_Builder*) setTimeOfRetrieval:(int64_t) value;
+- (EndPvpBattleRequestProto_StructStolen_Builder*) clearTimeOfRetrieval;
 @end
 
 @interface EndPvpBattleRequestProto_Builder : PBGeneratedMessageBuilder {
@@ -620,15 +691,15 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
 - (EndPvpBattleRequestProto_Builder*) setClientTime:(int64_t) value;
 - (EndPvpBattleRequestProto_Builder*) clearClientTime;
 
-- (BOOL) hasOilChange;
-- (int32_t) oilChange;
-- (EndPvpBattleRequestProto_Builder*) setOilChange:(int32_t) value;
-- (EndPvpBattleRequestProto_Builder*) clearOilChange;
+- (BOOL) hasOilStolenFromStorage;
+- (int32_t) oilStolenFromStorage;
+- (EndPvpBattleRequestProto_Builder*) setOilStolenFromStorage:(int32_t) value;
+- (EndPvpBattleRequestProto_Builder*) clearOilStolenFromStorage;
 
-- (BOOL) hasCashChange;
-- (int32_t) cashChange;
-- (EndPvpBattleRequestProto_Builder*) setCashChange:(int32_t) value;
-- (EndPvpBattleRequestProto_Builder*) clearCashChange;
+- (BOOL) hasCashStolenFromStorage;
+- (int32_t) cashStolenFromStorage;
+- (EndPvpBattleRequestProto_Builder*) setCashStolenFromStorage:(int32_t) value;
+- (EndPvpBattleRequestProto_Builder*) clearCashStolenFromStorage;
 
 - (BOOL) hasNuPvpDmgMultiplier;
 - (Float32) nuPvpDmgMultiplier;
@@ -646,6 +717,22 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
 - (NSData*) replay;
 - (EndPvpBattleRequestProto_Builder*) setReplay:(NSData*) value;
 - (EndPvpBattleRequestProto_Builder*) clearReplay;
+
+- (BOOL) hasOilStolenFromGenerator;
+- (int32_t) oilStolenFromGenerator;
+- (EndPvpBattleRequestProto_Builder*) setOilStolenFromGenerator:(int32_t) value;
+- (EndPvpBattleRequestProto_Builder*) clearOilStolenFromGenerator;
+
+- (BOOL) hasCashStolenFromGenerator;
+- (int32_t) cashStolenFromGenerator;
+- (EndPvpBattleRequestProto_Builder*) setCashStolenFromGenerator:(int32_t) value;
+- (EndPvpBattleRequestProto_Builder*) clearCashStolenFromGenerator;
+
+- (NSMutableArray *)structStolenList;
+- (EndPvpBattleRequestProto_StructStolen*)structStolenAtIndex:(NSUInteger)index;
+- (EndPvpBattleRequestProto_Builder *)addStructStolen:(EndPvpBattleRequestProto_StructStolen*)value;
+- (EndPvpBattleRequestProto_Builder *)addAllStructStolen:(NSArray *)array;
+- (EndPvpBattleRequestProto_Builder *)clearStructStolen;
 @end
 
 @interface EndPvpBattleResponseProto : PBGeneratedMessage {

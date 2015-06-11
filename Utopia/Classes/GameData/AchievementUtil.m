@@ -238,8 +238,8 @@
 + (void) checkAchievementsForPvpBattleWithOrbCounts:(int[])orbCounts powerupCounts:(int[])powerupCounts comboCount:(int)comboCount damageTaken:(int)damageTaken pvpInfo:(PvpProto *)pvpInfo wonBattle:(BOOL)wonBattle {
   NSMutableSet *changed = [NSMutableSet set];
   
-  int cashAmount = wonBattle ? pvpInfo.prospectiveCashWinnings : 0;
-  int oilAmount = wonBattle ? pvpInfo.prospectiveOilWinnings : 0;
+  int cashAmount = wonBattle ? pvpInfo.cashWinnings : 0;
+  int oilAmount = wonBattle ? pvpInfo.oilWinnings : 0;
   NSSet *gen = [self checkAchievementsForBattleCompleteWithOrbCounts:orbCounts powerupCounts:powerupCounts comboCount:comboCount damageTaken:damageTaken];
   [changed unionSet:gen];
   [changed unionSet:[self stealResource:ResourceTypeCash amount:cashAmount]];

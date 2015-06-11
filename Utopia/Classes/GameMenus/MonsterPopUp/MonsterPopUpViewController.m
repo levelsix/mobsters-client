@@ -238,7 +238,7 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
   
   float maxX = 0;
   for (UserResearch *ur in userResearches) {
-    ResearchProto *rp = ur.staticResearch;
+    ResearchProto *rp = ur.staticResearchForBenefitLevel;
     
     UIImageView *iv = [[UIImageView alloc] init];
     iv.contentMode = UIViewContentModeScaleAspectFit;

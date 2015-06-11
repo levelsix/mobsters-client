@@ -259,6 +259,8 @@
 @class EndDungeonResponseProto_Builder;
 @class EndPvpBattleRequestProto;
 @class EndPvpBattleRequestProto_Builder;
+@class EndPvpBattleRequestProto_StructStolen;
+@class EndPvpBattleRequestProto_StructStolen_Builder;
 @class EndPvpBattleResponseProto;
 @class EndPvpBattleResponseProto_Builder;
 @class EnhanceMonsterRequestProto;

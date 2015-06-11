@@ -706,8 +706,8 @@
 
 - (void) updateForPvpProto:(PvpProto *)pvp {
   self.nameLabel.string = [Globals fullNameWithName:pvp.defender.name clanTag:pvp.defender.clan.tag];
-  self.cashLabel.string = [Globals cashStringForNumber:pvp.prospectiveCashWinnings];
-  self.oilLabel.string = [Globals commafyNumber:pvp.prospectiveOilWinnings];
+  self.cashLabel.string = [Globals cashStringForNumber:pvp.cashWinnings];
+  self.oilLabel.string = [Globals commafyNumber:pvp.oilWinnings];
   
   GameState *gs = [GameState sharedGameState];
   TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;

@@ -218,7 +218,7 @@
       }
     }
     
-    [[MiniEventManager sharedInstance] checkPvpResourceWinningsWithCash:pvp.prospectiveCashWinnings oil:pvp.prospectiveOilWinnings];
+    [[MiniEventManager sharedInstance] checkPvpResourceWinningsWithCash:pvp.cashWinnings oil:pvp.oilWinnings];
     
     if (_isRevenge) {
       [[MiniEventManager sharedInstance] checkRevengeWin];

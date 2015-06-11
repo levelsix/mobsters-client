@@ -35,16 +35,18 @@ BOOL BattleResultIsValidValue(BattleResult value) {
   }
 }
 @interface PvpProto ()
-@property (strong) MinimumUserProto* defender;
+@property (strong) FullUserProto* defender;
 @property (strong) NSMutableArray * mutableDefenderMonstersList;
-@property int32_t prospectiveCashWinnings;
-@property int32_t prospectiveOilWinnings;
+@property int32_t prospectiveCashStolenFromStorage;
+@property int32_t prospectiveOilStolenFromStorage;
 @property (strong) UserPvpLeagueProto* pvpLeagueStats;
 @property (strong) NSString* defenderMsg;
 @property (strong) ClanMemberTeamDonationProto* cmtd;
 @property int32_t monsterIdDropped;
 @property (strong) NSMutableArray * mutableUserBoardObstaclesList;
 @property (strong) NSMutableArray * mutableUserResearchList;
+@property (strong) NSMutableArray * mutableUserStructureList;
+@property Float32 percentageToStealFromGenerator;
 @end
 
 @implementation PvpProto
@@ -58,20 +60,20 @@ BOOL BattleResultIsValidValue(BattleResult value) {
 @synthesize defender;
 @synthesize mutableDefenderMonstersList;
 @dynamic defenderMonstersList;
-- (BOOL) hasProspectiveCashWinnings {
-  return !!hasProspectiveCashWinnings_;
+- (BOOL) hasProspectiveCashStolenFromStorage {
+  return !!hasProspectiveCashStolenFromStorage_;
 }
-- (void) setHasProspectiveCashWinnings:(BOOL) value_ {
-  hasProspectiveCashWinnings_ = !!value_;
+- (void) setHasProspectiveCashStolenFromStorage:(BOOL) value_ {
+  hasProspectiveCashStolenFromStorage_ = !!value_;
 }
-@synthesize prospectiveCashWinnings;
-- (BOOL) hasProspectiveOilWinnings {
-  return !!hasProspectiveOilWinnings_;
+@synthesize prospectiveCashStolenFromStorage;
+- (BOOL) hasProspectiveOilStolenFromStorage {
+  return !!hasProspectiveOilStolenFromStorage_;
 }
-- (void) setHasProspectiveOilWinnings:(BOOL) value_ {
-  hasProspectiveOilWinnings_ = !!value_;
+- (void) setHasProspectiveOilStolenFromStorage:(BOOL) value_ {
+  hasProspectiveOilStolenFromStorage_ = !!value_;
 }
-@synthesize prospectiveOilWinnings;
+@synthesize prospectiveOilStolenFromStorage;
 - (BOOL) hasPvpLeagueStats {
   return !!hasPvpLeagueStats_;
 }
@@ -104,15 +106,25 @@ BOOL BattleResultIsValidValue(BattleResult value) {
 @dynamic userBoardObstaclesList;
 @synthesize mutableUserResearchList;
 @dynamic userResearchList;
+@synthesize mutableUserStructureList;
+@dynamic userStructureList;
+- (BOOL) hasPercentageToStealFromGenerator {
+  return !!hasPercentageToStealFromGenerator_;
+}
+- (void) setHasPercentageToStealFromGenerator:(BOOL) value_ {
+  hasPercentageToStealFromGenerator_ = !!value_;
+}
+@synthesize percentageToStealFromGenerator;
 - (id) init {
   if ((self = [super init])) {
-    self.defender = [MinimumUserProto defaultInstance];
-    self.prospectiveCashWinnings = 0;
-    self.prospectiveOilWinnings = 0;
+    self.defender = [FullUserProto defaultInstance];
+    self.prospectiveCashStolenFromStorage = 0;
+    self.prospectiveOilStolenFromStorage = 0;
     self.pvpLeagueStats = [UserPvpLeagueProto defaultInstance];
     self.defenderMsg = @"";
     self.cmtd = [ClanMemberTeamDonationProto defaultInstance];
     self.monsterIdDropped = 0;
+    self.percentageToStealFromGenerator = 0;
   }
   return self;
 }
@@ -146,6 +158,12 @@ static PvpProto* defaultPvpProtoInstance = nil;
 - (UserResearchProto*)userResearchAtIndex:(NSUInteger)index {
   return [mutableUserResearchList objectAtIndex:index];
 }
+- (NSArray *)userStructureList {
+  return mutableUserStructureList;
+}
+- (FullUserStructureProto*)userStructureAtIndex:(NSUInteger)index {
+  return [mutableUserStructureList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -156,11 +174,11 @@ static PvpProto* defaultPvpProtoInstance = nil;
   [self.defenderMonstersList enumerateObjectsUsingBlock:^(PvpMonsterProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:3 value:element];
   }];
-  if (self.hasProspectiveCashWinnings) {
-    [output writeInt32:4 value:self.prospectiveCashWinnings];
+  if (self.hasProspectiveCashStolenFromStorage) {
+    [output writeInt32:4 value:self.prospectiveCashStolenFromStorage];
   }
-  if (self.hasProspectiveOilWinnings) {
-    [output writeInt32:5 value:self.prospectiveOilWinnings];
+  if (self.hasProspectiveOilStolenFromStorage) {
+    [output writeInt32:5 value:self.prospectiveOilStolenFromStorage];
   }
   if (self.hasPvpLeagueStats) {
     [output writeMessage:6 value:self.pvpLeagueStats];
@@ -180,6 +198,12 @@ static PvpProto* defaultPvpProtoInstance = nil;
   [self.userResearchList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:11 value:element];
   }];
+  [self.userStructureList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:12 value:element];
+  }];
+  if (self.hasPercentageToStealFromGenerator) {
+    [output writeFloat:13 value:self.percentageToStealFromGenerator];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -195,11 +219,11 @@ static PvpProto* defaultPvpProtoInstance = nil;
   [self.defenderMonstersList enumerateObjectsUsingBlock:^(PvpMonsterProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(3, element);
   }];
-  if (self.hasProspectiveCashWinnings) {
-    size_ += computeInt32Size(4, self.prospectiveCashWinnings);
+  if (self.hasProspectiveCashStolenFromStorage) {
+    size_ += computeInt32Size(4, self.prospectiveCashStolenFromStorage);
   }
-  if (self.hasProspectiveOilWinnings) {
-    size_ += computeInt32Size(5, self.prospectiveOilWinnings);
+  if (self.hasProspectiveOilStolenFromStorage) {
+    size_ += computeInt32Size(5, self.prospectiveOilStolenFromStorage);
   }
   if (self.hasPvpLeagueStats) {
     size_ += computeMessageSize(6, self.pvpLeagueStats);
@@ -219,6 +243,12 @@ static PvpProto* defaultPvpProtoInstance = nil;
   [self.userResearchList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(11, element);
   }];
+  [self.userStructureList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(12, element);
+  }];
+  if (self.hasPercentageToStealFromGenerator) {
+    size_ += computeFloatSize(13, self.percentageToStealFromGenerator);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -266,11 +296,11 @@ static PvpProto* defaultPvpProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  if (self.hasProspectiveCashWinnings) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"prospectiveCashWinnings", [NSNumber numberWithInteger:self.prospectiveCashWinnings]];
+  if (self.hasProspectiveCashStolenFromStorage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"prospectiveCashStolenFromStorage", [NSNumber numberWithInteger:self.prospectiveCashStolenFromStorage]];
   }
-  if (self.hasProspectiveOilWinnings) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"prospectiveOilWinnings", [NSNumber numberWithInteger:self.prospectiveOilWinnings]];
+  if (self.hasProspectiveOilStolenFromStorage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"prospectiveOilStolenFromStorage", [NSNumber numberWithInteger:self.prospectiveOilStolenFromStorage]];
   }
   if (self.hasPvpLeagueStats) {
     [output appendFormat:@"%@%@ {\n", indent, @"pvpLeagueStats"];
@@ -302,6 +332,15 @@ static PvpProto* defaultPvpProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.userStructureList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"userStructure"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  if (self.hasPercentageToStealFromGenerator) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"percentageToStealFromGenerator", [NSNumber numberWithFloat:self.percentageToStealFromGenerator]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -316,10 +355,10 @@ static PvpProto* defaultPvpProtoInstance = nil;
       self.hasDefender == otherMessage.hasDefender &&
       (!self.hasDefender || [self.defender isEqual:otherMessage.defender]) &&
       [self.defenderMonstersList isEqualToArray:otherMessage.defenderMonstersList] &&
-      self.hasProspectiveCashWinnings == otherMessage.hasProspectiveCashWinnings &&
-      (!self.hasProspectiveCashWinnings || self.prospectiveCashWinnings == otherMessage.prospectiveCashWinnings) &&
-      self.hasProspectiveOilWinnings == otherMessage.hasProspectiveOilWinnings &&
-      (!self.hasProspectiveOilWinnings || self.prospectiveOilWinnings == otherMessage.prospectiveOilWinnings) &&
+      self.hasProspectiveCashStolenFromStorage == otherMessage.hasProspectiveCashStolenFromStorage &&
+      (!self.hasProspectiveCashStolenFromStorage || self.prospectiveCashStolenFromStorage == otherMessage.prospectiveCashStolenFromStorage) &&
+      self.hasProspectiveOilStolenFromStorage == otherMessage.hasProspectiveOilStolenFromStorage &&
+      (!self.hasProspectiveOilStolenFromStorage || self.prospectiveOilStolenFromStorage == otherMessage.prospectiveOilStolenFromStorage) &&
       self.hasPvpLeagueStats == otherMessage.hasPvpLeagueStats &&
       (!self.hasPvpLeagueStats || [self.pvpLeagueStats isEqual:otherMessage.pvpLeagueStats]) &&
       self.hasDefenderMsg == otherMessage.hasDefenderMsg &&
@@ -330,6 +369,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
       (!self.hasMonsterIdDropped || self.monsterIdDropped == otherMessage.monsterIdDropped) &&
       [self.userBoardObstaclesList isEqualToArray:otherMessage.userBoardObstaclesList] &&
       [self.userResearchList isEqualToArray:otherMessage.userResearchList] &&
+      [self.userStructureList isEqualToArray:otherMessage.userStructureList] &&
+      self.hasPercentageToStealFromGenerator == otherMessage.hasPercentageToStealFromGenerator &&
+      (!self.hasPercentageToStealFromGenerator || self.percentageToStealFromGenerator == otherMessage.percentageToStealFromGenerator) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -340,11 +382,11 @@ static PvpProto* defaultPvpProtoInstance = nil;
   [self.defenderMonstersList enumerateObjectsUsingBlock:^(PvpMonsterProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  if (self.hasProspectiveCashWinnings) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.prospectiveCashWinnings] hash];
+  if (self.hasProspectiveCashStolenFromStorage) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.prospectiveCashStolenFromStorage] hash];
   }
-  if (self.hasProspectiveOilWinnings) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.prospectiveOilWinnings] hash];
+  if (self.hasProspectiveOilStolenFromStorage) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.prospectiveOilStolenFromStorage] hash];
   }
   if (self.hasPvpLeagueStats) {
     hashCode = hashCode * 31 + [self.pvpLeagueStats hash];
@@ -364,6 +406,12 @@ static PvpProto* defaultPvpProtoInstance = nil;
   [self.userResearchList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  [self.userStructureList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  if (self.hasPercentageToStealFromGenerator) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.percentageToStealFromGenerator] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -417,11 +465,11 @@ static PvpProto* defaultPvpProtoInstance = nil;
       [result.mutableDefenderMonstersList addObjectsFromArray:other.mutableDefenderMonstersList];
     }
   }
-  if (other.hasProspectiveCashWinnings) {
-    [self setProspectiveCashWinnings:other.prospectiveCashWinnings];
+  if (other.hasProspectiveCashStolenFromStorage) {
+    [self setProspectiveCashStolenFromStorage:other.prospectiveCashStolenFromStorage];
   }
-  if (other.hasProspectiveOilWinnings) {
-    [self setProspectiveOilWinnings:other.prospectiveOilWinnings];
+  if (other.hasProspectiveOilStolenFromStorage) {
+    [self setProspectiveOilStolenFromStorage:other.prospectiveOilStolenFromStorage];
   }
   if (other.hasPvpLeagueStats) {
     [self mergePvpLeagueStats:other.pvpLeagueStats];
@@ -449,6 +497,16 @@ static PvpProto* defaultPvpProtoInstance = nil;
       [result.mutableUserResearchList addObjectsFromArray:other.mutableUserResearchList];
     }
   }
+  if (other.mutableUserStructureList.count > 0) {
+    if (result.mutableUserStructureList == nil) {
+      result.mutableUserStructureList = [[NSMutableArray alloc] initWithArray:other.mutableUserStructureList];
+    } else {
+      [result.mutableUserStructureList addObjectsFromArray:other.mutableUserStructureList];
+    }
+  }
+  if (other.hasPercentageToStealFromGenerator) {
+    [self setPercentageToStealFromGenerator:other.percentageToStealFromGenerator];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -471,7 +529,7 @@ static PvpProto* defaultPvpProtoInstance = nil;
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        FullUserProto_Builder* subBuilder = [FullUserProto builder];
         if (self.hasDefender) {
           [subBuilder mergeFrom:self.defender];
         }
@@ -486,11 +544,11 @@ static PvpProto* defaultPvpProtoInstance = nil;
         break;
       }
       case 32: {
-        [self setProspectiveCashWinnings:[input readInt32]];
+        [self setProspectiveCashStolenFromStorage:[input readInt32]];
         break;
       }
       case 40: {
-        [self setProspectiveOilWinnings:[input readInt32]];
+        [self setProspectiveOilStolenFromStorage:[input readInt32]];
         break;
       }
       case 50: {
@@ -531,28 +589,38 @@ static PvpProto* defaultPvpProtoInstance = nil;
         [self addUserResearch:[subBuilder buildPartial]];
         break;
       }
+      case 98: {
+        FullUserStructureProto_Builder* subBuilder = [FullUserStructureProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserStructure:[subBuilder buildPartial]];
+        break;
+      }
+      case 109: {
+        [self setPercentageToStealFromGenerator:[input readFloat]];
+        break;
+      }
     }
   }
 }
 - (BOOL) hasDefender {
   return result.hasDefender;
 }
-- (MinimumUserProto*) defender {
+- (FullUserProto*) defender {
   return result.defender;
 }
-- (PvpProto_Builder*) setDefender:(MinimumUserProto*) value {
+- (PvpProto_Builder*) setDefender:(FullUserProto*) value {
   result.hasDefender = YES;
   result.defender = value;
   return self;
 }
-- (PvpProto_Builder*) setDefender_Builder:(MinimumUserProto_Builder*) builderForValue {
+- (PvpProto_Builder*) setDefender_Builder:(FullUserProto_Builder*) builderForValue {
   return [self setDefender:[builderForValue build]];
 }
-- (PvpProto_Builder*) mergeDefender:(MinimumUserProto*) value {
+- (PvpProto_Builder*) mergeDefender:(FullUserProto*) value {
   if (result.hasDefender &&
-      result.defender != [MinimumUserProto defaultInstance]) {
+      result.defender != [FullUserProto defaultInstance]) {
     result.defender =
-      [[[MinimumUserProto builderWithPrototype:result.defender] mergeFrom:value] buildPartial];
+      [[[FullUserProto builderWithPrototype:result.defender] mergeFrom:value] buildPartial];
   } else {
     result.defender = value;
   }
@@ -561,7 +629,7 @@ static PvpProto* defaultPvpProtoInstance = nil;
 }
 - (PvpProto_Builder*) clearDefender {
   result.hasDefender = NO;
-  result.defender = [MinimumUserProto defaultInstance];
+  result.defender = [FullUserProto defaultInstance];
   return self;
 }
 - (NSMutableArray *)defenderMonstersList {
@@ -588,36 +656,36 @@ static PvpProto* defaultPvpProtoInstance = nil;
   result.mutableDefenderMonstersList = nil;
   return self;
 }
-- (BOOL) hasProspectiveCashWinnings {
-  return result.hasProspectiveCashWinnings;
+- (BOOL) hasProspectiveCashStolenFromStorage {
+  return result.hasProspectiveCashStolenFromStorage;
 }
-- (int32_t) prospectiveCashWinnings {
-  return result.prospectiveCashWinnings;
+- (int32_t) prospectiveCashStolenFromStorage {
+  return result.prospectiveCashStolenFromStorage;
 }
-- (PvpProto_Builder*) setProspectiveCashWinnings:(int32_t) value {
-  result.hasProspectiveCashWinnings = YES;
-  result.prospectiveCashWinnings = value;
+- (PvpProto_Builder*) setProspectiveCashStolenFromStorage:(int32_t) value {
+  result.hasProspectiveCashStolenFromStorage = YES;
+  result.prospectiveCashStolenFromStorage = value;
   return self;
 }
-- (PvpProto_Builder*) clearProspectiveCashWinnings {
-  result.hasProspectiveCashWinnings = NO;
-  result.prospectiveCashWinnings = 0;
+- (PvpProto_Builder*) clearProspectiveCashStolenFromStorage {
+  result.hasProspectiveCashStolenFromStorage = NO;
+  result.prospectiveCashStolenFromStorage = 0;
   return self;
 }
-- (BOOL) hasProspectiveOilWinnings {
-  return result.hasProspectiveOilWinnings;
+- (BOOL) hasProspectiveOilStolenFromStorage {
+  return result.hasProspectiveOilStolenFromStorage;
 }
-- (int32_t) prospectiveOilWinnings {
-  return result.prospectiveOilWinnings;
+- (int32_t) prospectiveOilStolenFromStorage {
+  return result.prospectiveOilStolenFromStorage;
 }
-- (PvpProto_Builder*) setProspectiveOilWinnings:(int32_t) value {
-  result.hasProspectiveOilWinnings = YES;
-  result.prospectiveOilWinnings = value;
+- (PvpProto_Builder*) setProspectiveOilStolenFromStorage:(int32_t) value {
+  result.hasProspectiveOilStolenFromStorage = YES;
+  result.prospectiveOilStolenFromStorage = value;
   return self;
 }
-- (PvpProto_Builder*) clearProspectiveOilWinnings {
-  result.hasProspectiveOilWinnings = NO;
-  result.prospectiveOilWinnings = 0;
+- (PvpProto_Builder*) clearProspectiveOilStolenFromStorage {
+  result.hasProspectiveOilStolenFromStorage = NO;
+  result.prospectiveOilStolenFromStorage = 0;
   return self;
 }
 - (BOOL) hasPvpLeagueStats {
@@ -758,6 +826,46 @@ static PvpProto* defaultPvpProtoInstance = nil;
 }
 - (PvpProto_Builder *)clearUserResearch {
   result.mutableUserResearchList = nil;
+  return self;
+}
+- (NSMutableArray *)userStructureList {
+  return result.mutableUserStructureList;
+}
+- (FullUserStructureProto*)userStructureAtIndex:(NSUInteger)index {
+  return [result userStructureAtIndex:index];
+}
+- (PvpProto_Builder *)addUserStructure:(FullUserStructureProto*)value {
+  if (result.mutableUserStructureList == nil) {
+    result.mutableUserStructureList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUserStructureList addObject:value];
+  return self;
+}
+- (PvpProto_Builder *)addAllUserStructure:(NSArray *)array {
+  if (result.mutableUserStructureList == nil) {
+    result.mutableUserStructureList = [NSMutableArray array];
+  }
+  [result.mutableUserStructureList addObjectsFromArray:array];
+  return self;
+}
+- (PvpProto_Builder *)clearUserStructure {
+  result.mutableUserStructureList = nil;
+  return self;
+}
+- (BOOL) hasPercentageToStealFromGenerator {
+  return result.hasPercentageToStealFromGenerator;
+}
+- (Float32) percentageToStealFromGenerator {
+  return result.percentageToStealFromGenerator;
+}
+- (PvpProto_Builder*) setPercentageToStealFromGenerator:(Float32) value {
+  result.hasPercentageToStealFromGenerator = YES;
+  result.percentageToStealFromGenerator = value;
+  return self;
+}
+- (PvpProto_Builder*) clearPercentageToStealFromGenerator {
+  result.hasPercentageToStealFromGenerator = NO;
+  result.percentageToStealFromGenerator = 0;
   return self;
 }
 @end

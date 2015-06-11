@@ -479,7 +479,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToMyStructs:(NSArray *)structs {
   for (FullUserStructureProto *st in structs) {
-    UserStruct *us = [UserStruct userStructWithProto:st];
+    UserStruct *us = [UserStruct userStructWithProto:st researchUtil:self.researchUtil];
     id<StaticStructure> ss = us.staticStruct;
     if ([ss structInfo].structType == StructureInfoProto_StructTypeMoneyTree) {
       if (us.isNoLongerValidForRenewal) {
