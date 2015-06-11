@@ -813,23 +813,14 @@ typedef void (^RevealAnimCompletionBlock)(void);
 @implementation NewGachaFeaturedView
 
 - (void) awakeFromNib {
-  self.coverGradient.alpha = 0.f;
-  
   if ([Globals isiPhone6Plus]) {
     self.imageContainerView.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
     self.imageContainerView.centerX -= 10.f;
   }
-  
-  self.offensiveSkill = nil;
-  self.defensiveSkill = nil;
-}
-
--(void)layoutSubviews
-{
-  [super layoutSubviews];
-  
-  self.offensiveSkillView.origin = ccp(self.nameLabel.originX, self.attackLabel.originY + self.attackLabel.height + 5);
-  self.defensiveSkillView.origin = ccpAdd(self.offensiveSkillView.origin, ccp(self.offensiveSkillView.width+8.f, 0));
+  else if (![Globals isiPad]) {
+    self.offensiveSkillView.origin = ccp(self.nameLabel.originX, self.attackLabel.originY + self.attackLabel.height + 5);
+    self.defensiveSkillView.origin = ccpAdd(self.offensiveSkillView.origin, ccp(self.offensiveSkillView.width+8.f, 0));
+  }
   
   _leftSkillViewOrigin = self.offensiveSkillView.origin;
   _rightSkillViewOrigin = self.defensiveSkillView.origin;
@@ -889,16 +880,19 @@ typedef void (^RevealAnimCompletionBlock)(void);
   _curMonsterElement = proto.monsterElement;
   
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES useiPhone6Prefix:YES useiPadSuffix:YES];
   
   UserMonster *um = [[UserMonster alloc] init];
   um.monsterId = monsterId;
   um.level = proto.maxLevel;
   um.offensiveSkillId = proto.baseOffensiveSkillId;
   um.defensiveSkillId = proto.baseDefensiveSkillId;
+  um.isComplete = YES; // To get the strength
   self.attackLabel.text = [Globals commafyNumber:[gl calculateTotalDamageForMonster:um]];
   self.hpLabel.text = [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]];
   self.speedLabel.text = [Globals commafyNumber:um.speed];
+  self.strengthLabel.text = [Globals commafyNumber:[gl calculateStrengthForMonster:um]];
+  self.strengthIcon.originX = CGRectGetMaxX(self.strengthLabel.frame) - [self.strengthLabel.text getSizeWithFont:self.strengthLabel.font].width - self.strengthIcon.width;
   
   [self updateSkillsForMonster:um];
 }
@@ -910,10 +904,13 @@ typedef void (^RevealAnimCompletionBlock)(void);
   self.offensiveSkill = nil;
   self.defensiveSkill = nil;
   
+  self.offensiveSkillView.origin = _leftSkillViewOrigin;
+  self.defensiveSkillView.origin = _rightSkillViewOrigin;
+  
   if (monster.offensiveSkillId == 0)
   {
     self.offensiveSkillView.hidden = YES;
-    self.defensiveSkillView.origin = _leftSkillViewOrigin;
+    if (![Globals isiPad]) self.defensiveSkillView.origin = _leftSkillViewOrigin;
   }
   else
   {
@@ -923,7 +920,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
       [Globals imageNamed:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
                  withView:self.offensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
       self.offensiveSkillView.hidden = NO;
-      self.defensiveSkillView.origin = _rightSkillViewOrigin;
       self.offensiveSkill = skillProto;
     }
   }
@@ -931,6 +927,7 @@ typedef void (^RevealAnimCompletionBlock)(void);
   if (monster.defensiveSkillId == 0)
   {
     self.defensiveSkillView.hidden = YES;
+    if ([Globals isiPad]) self.offensiveSkillView.origin = _rightSkillViewOrigin;
   }
   else
   {
@@ -942,6 +939,12 @@ typedef void (^RevealAnimCompletionBlock)(void);
       self.defensiveSkillView.hidden = NO;
       self.defensiveSkill = skillProto;
     }
+  }
+  
+  if (self.offensiveSkillView.hidden && self.defensiveSkillView.hidden)
+  {
+    self.skillsLabel.hidden = YES;
+    self.skillsSeparator.hidden = YES;
   }
 }
 

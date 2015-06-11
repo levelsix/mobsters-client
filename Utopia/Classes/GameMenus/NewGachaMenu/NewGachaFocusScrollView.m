@@ -52,8 +52,10 @@
     }
     self.pageControl.numberOfPages = _numItems;
     
-    UIView* viewContainer = self.pageControl.superview.superview;
-    self.pageControl.centerX = [viewContainer convertPoint:viewContainer.center toView:self.pageControl.superview].x;
+    if (![Globals isiPad]) {
+      UIView* viewContainer = self.pageControl.superview.superview;
+      self.pageControl.centerX = [viewContainer convertPoint:viewContainer.center toView:self.pageControl.superview].x;
+    }
     
     [self scrollViewDidScroll:self.scrollView];
   }
