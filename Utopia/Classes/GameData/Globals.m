@@ -1649,7 +1649,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSString *key = [NSString stringWithFormat:@"%p", s];
   
   [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
-  [self checkAndLoadFile:imageName useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
+  [self checkAndLoadFile:imageName useiPhone6Prefix:NO useiPadSuffix:[Globals isiPad] completion:^(BOOL success) {
     NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
     if (success && [str isEqual:imageName]) {
       [s setSpriteFrame:[CCSpriteFrame frameWithImageNamed:imageName]];

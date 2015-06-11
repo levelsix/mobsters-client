@@ -731,36 +731,16 @@
   self.hudView.battleScheduleView.delegate = self;
   [self.hudView.battleScheduleView setOrdering:ids showEnemyBands:enemyBands playerTurns:playerTurns];
   
-  self.hudView.enemyNameLabel.attributedText = [self upperCaseAttributedStringFromAttributedString:self.enemyPlayerObject.attrName];
   
-}
-
-// Copied from http://stackoverflow.com/questions/6716699/how-to-change-characters-case-to-upper-in-nsattributedstring
-// All because NSAttributedString won't let you access the string. Fuck me, right?
-- (NSAttributedString *)upperCaseAttributedStringFromAttributedString:(NSAttributedString *)inAttrString {
-  // Make a mutable copy of your input string
-  NSMutableAttributedString *attrString = [inAttrString mutableCopy];
-  
-  // Make an array to save the attributes in
-  NSMutableArray *attributes = [NSMutableArray array];
-  
-  // Add each set of attributes to the array in a dictionary containing the attributes and range
-  [attrString enumerateAttributesInRange:NSMakeRange(0, [attrString length]) options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
-    [attributes addObject:@{@"attrs":attrs, @"range":[NSValue valueWithRange:range]}];
-  }];
-  
-  // Make a plain uppercase string
-  NSString *string = [[attrString string]uppercaseString];
-  
-  // Replace the characters with the uppercase ones
-  [attrString replaceCharactersInRange:NSMakeRange(0, [attrString length]) withString:string];
-  
-  // Reapply each attribute
-  for (NSDictionary *attribute in attributes) {
-    [attrString setAttributes:attribute[@"attrs"] range:[attribute[@"range"] rangeValue]];
+  if ([Globals isiPad]) {
+    [self.hudView.enemyNameLabel setText:[[[GameState sharedGameState] monsterWithId:self.enemyPlayerObject.monsterId].displayName uppercaseString]];
+    [self.hudView.enemyLevelLabel setText:[NSString stringWithFormat:@"L%i", self.enemyPlayerObject.level*100]];
+    
+    [self.hudView.enemyLevelLabel setWidth:[self.hudView.enemyLevelLabel.text getSizeWithFont:self.hudView.enemyLevelLabel.font].width];
+    [self.hudView.enemyLevelLabel setOriginX:181 - self.hudView.enemyLevelLabel.width];
+    [self.hudView.enemyNameLabel setWidth:173 - self.hudView.enemyLevelLabel.width];
   }
   
-  return attrString;
 }
 
 - (void) beginNextTurn {
@@ -2590,7 +2570,7 @@
   self.hudView.battleLayerDelegate = self;
   
   // Make the bottom view flush with the board
-  float bottomDist = ORB_LAYER_DIST_FROM_SIDE-2;
+  float bottomDist = ORB_LAYER_DIST_FROM_SIDE - ([Globals isiPad] ? 5 : 2);
   self.hudView.bottomView.originY = self.hudView.bottomView.superview.height-self.hudView.bottomView.height-bottomDist;
   self.hudView.swapView.originY = self.hudView.swapView.superview.height-self.hudView.swapView.height-bottomDist;
   

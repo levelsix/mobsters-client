@@ -133,7 +133,7 @@
 
 #elif defined(USE_LOCAL)
 
-#define HOST_NAME @"10.0.1.189"
+#define HOST_NAME @"192.168.150.122"
 #define HOST_PORT 5672
 #define USE_SSL 0
 #define MQ_USERNAME @"lvl6client"
