@@ -39,6 +39,7 @@
     if      ([Globals isiPhone6Plus])     _contentStartOffset = kContentStartOffset_iPhone6Plus;
     else if ([Globals isiPhone6])         _contentStartOffset = kContentStartOffset_iPhone6;
     else if ([Globals isSmallestiPhone])  _contentStartOffset = kContentStartOffset_iPhone4;
+    else if ([Globals isiPad])            _contentStartOffset = kContentStartOffset_iPad;
   }
   return self;
 }

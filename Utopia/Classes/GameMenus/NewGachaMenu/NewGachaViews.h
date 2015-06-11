@@ -122,8 +122,10 @@
 @property (nonatomic, retain) IBOutlet UILabel *hpLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *speedLabel;
-
-@property (nonatomic, retain) IBOutlet UIImageView *coverGradient;
+@property (nonatomic, retain) IBOutlet UILabel *strengthLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *strengthIcon;
+@property (nonatomic, retain) IBOutlet UILabel *skillsLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *skillsSeparator;
 
 @property (weak, nonatomic) IBOutlet UIView *offensiveSkillView;
 @property (weak, nonatomic) IBOutlet UIView *defensiveSkillView;
