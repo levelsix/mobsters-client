@@ -444,7 +444,8 @@
   _skillIcon = [CCSprite node];
   [Globals imageNamed:iconName toReplaceSprite:_skillIcon completion:^(BOOL success) {
     if (success) {
-      _skillIcon.position = ccp(round(_skillIcon.contentSize.width/2), 35);
+      [_skillIcon setAnchorPoint:CGPointMake(0, 0)];
+      _skillIcon.position = ccp(0, 15);
       [self addChild:_skillIcon];
       
       [self setSkillButton];
@@ -458,17 +459,13 @@
 
   //This is going to actually be the left cap, for easier parenting and such
   _skillCounterBg = [CCSprite spriteWithImageNamed:@"skillcounterbarbgcap.png"];
-  //    [_skillCounterBg setScaleX:60];
   [_skillCounterBg setPosition:ccp(0, 0)];
-  
-  //Skill counter should be 56 retina pixels.
-  //    [_skillCounterBg setScale:1.5];
   
   _skillCounterBgMiddle = [CCSprite spriteWithImageNamed:@"skillcounterbarbgmiddle.png"];
   _skillCounterBgMiddle.anchorPoint = ccp(0,0);
   [_skillCounterBgMiddle setPosition:ccp(_skillCounterBg.contentSize.width, 0)];
   
-  float fullWidth = skillManager.battleLayer.orbLayer.contentSize.width/2 - 8;
+  float fullWidth = skillManager.battleLayer.orbLayer.contentSize.width/2 - 10;
   float centerWidth = (fullWidth - _skillCounterBg.contentSize.width*2) / _skillCounterBgMiddle.contentSize.width;
   [_skillCounterBgMiddle setScaleX:centerWidth];
   
@@ -503,8 +500,9 @@
   [self addChild:_skillCounterBg z:10];
   
   
-  NSString* orbImg = [NSString stringWithFormat:@"mini%@.png", [Globals imageNameForElement:element suffix:@""]];
+  NSString* orbImg = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:element suffix:@"orb"]];
   _skillOrbIcon = [CCSprite spriteWithImageNamed:orbImg];
+  [_skillOrbIcon setScale:.4];
   [_skillOrbIcon setPosition:ccp(13, _skillCounterBg.contentSize.height * .5f)];
   [_skillCounterBg addChild:_skillOrbIcon];
   
@@ -512,7 +510,7 @@
   [_skillCounterLabel setColor:[CCColor whiteColor]];
   [_skillCounterLabel setShadowBlurRadius:1.f];
   [_skillCounterLabel setShadowOffset:ccp(0.f, -1.f)];
-  [_skillCounterLabel setShadowColor:[CCColor blackColor]];
+  [_skillCounterLabel setShadowColor:[CCColor colorWithRed:0 green:0 blue:0 alpha:.6]];
   [_skillCounterLabel setPosition:ccp(fullWidth/2, _skillCounterBg.contentSize.height * .5f)];
   [_skillCounterBg addChild:_skillCounterLabel];
   
@@ -529,7 +527,7 @@
   [_skillNameLabel setPosition:ccp(_skillIcon.contentSize.width + 5, 15)];
   [_skillNameLabel setShadowBlurRadius:1.f];
   [_skillNameLabel setShadowOffset:ccp(0.f, -1.f)];
-  [_skillNameLabel setShadowColor:[CCColor blackColor]];
+  [_skillNameLabel setShadowColor:[CCColor colorWithRed:0 green:0 blue:0 alpha:.6]];
   [self addChild:_skillNameLabel];
   
   _skillOwnerLabel = [CCLabelTTF labelWithString:self.skillController.belongsToPlayer ? @"YOUR SKILL" : @"ENEMY SKILL" fontName:@"GothamNarrow-Ultra" fontSize:9.f];
@@ -538,7 +536,7 @@
   [_skillOwnerLabel setPosition:ccp(0, _skillNameLabel.contentSize.height - 2)];
   [_skillOwnerLabel setShadowBlurRadius:1.f];
   [_skillOwnerLabel setShadowOffset:ccp(0.f, -1.f)];
-  [_skillOwnerLabel setShadowColor:[CCColor blackColor]];
+  [_skillOwnerLabel setShadowColor:[CCColor colorWithRed:0 green:0 blue:0 alpha:.6]];
   [_skillNameLabel addChild:_skillOwnerLabel];
   
   if ([self.skillController isKindOfClass:[SkillControllerActive class]])
@@ -556,7 +554,7 @@
     [_skillOrbIcon setVisible:NO];
   }
   
-  self.contentSize = CGSizeMake(fullWidth, _skillIcon.position.x + _skillIcon.contentSize.height);
+//  self.contentSize = CGSizeMake(fullWidth, _skillIcon.position.x + _skillIcon.contentSize.height);
 }
 
 - (void) setSkillPercentage:(float)percentage
