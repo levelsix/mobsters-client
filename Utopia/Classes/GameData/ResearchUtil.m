@@ -138,7 +138,8 @@
   
   if ((!rp.hasElement || rp.element == element) &&
       (!rp.hasEvoTier || rp.evoTier == evoTier) &&
-      (!rp.hasResourceType || rp.resourceType == resType)) {
+      (!rp.hasResourceType || rp.resourceType == resType) &&
+      rp.level > 0) {
     return YES;
   }
   
