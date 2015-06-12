@@ -16,6 +16,7 @@
 - (BOOL) shouldLoopItems;
 - (UIView *) viewForItemNum:(int)itemNum reusableView:(id)view;
 - (CGFloat) scaleForOutOfFocusView;
+- (CGFloat) fadeOutSpeedForOutOfFocusView;
 
 @end
 
