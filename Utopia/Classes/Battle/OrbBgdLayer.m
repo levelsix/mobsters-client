@@ -16,7 +16,7 @@
 #define IPHONE_5_TILE_SIZE 36
 #define IPHONE_6_TILE_SIZE 42
 #define IPHONE_6_PLUS_TILE_SIZE 47
-#define IPAD_TILE_SIZE 53
+//Note: iPad-retina uses IPHONE_5_TILE_SIZE
 
 #define CORNER_SIZE 12
 #define BORDER_WIDTH 2
@@ -26,7 +26,7 @@
 - (int) tileSize {
   int initialSize = [Globals isiPhone6] ? IPHONE_6_TILE_SIZE : [Globals isiPhone6Plus] ? IPHONE_6_PLUS_TILE_SIZE : IPHONE_5_TILE_SIZE;
   
-  if (_layout.numColumns == 9 || _layout.numRows == 9) {
+  if (![Globals isiPad] && (_layout.numColumns == 9 || _layout.numRows == 9)) {
     initialSize = initialSize - 2 - [Globals isiPhone6Plus];
   }
   

@@ -445,7 +445,12 @@
   [Globals imageNamed:iconName toReplaceSprite:_skillIcon completion:^(BOOL success) {
     if (success) {
       [_skillIcon setAnchorPoint:CGPointMake(0, 0)];
-      _skillIcon.position = ccp(0, 20);
+      _skillIcon.position = ccp(0, 17);
+      
+      if (_skillNameLabel) {
+        [_skillNameLabel setPosition:ccp(_skillIcon.contentSize.width + 5, 15)];
+      }
+      
       [self addChild:_skillIcon];
       
       [self setSkillButton];
