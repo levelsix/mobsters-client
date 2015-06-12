@@ -207,7 +207,7 @@
     iv.alpha = 0.6;
     iv.size = mmv.size;
     
-    THLabel *label = [[THLabel alloc] initWithFrame:CGRectMake(1, mmv.frame.size.height-15, mmv.frame.size.width, 15)];
+    THLabel *label = [[THLabel alloc] initWithFrame:CGRectMake(1, mmv.frame.size.height-18, mmv.frame.size.width, 17)];
     label.font = [UIFont fontWithName:@"GothamNarrow-Ultra" size:[Globals isiPad] ? 12 : 8];
     label.textAlignment = NSTextAlignmentCenter;
     label.gradientStartColor = [UIColor colorWithRed:255/255.f green:182/255.f blue:0.f alpha:1.f];
