@@ -241,23 +241,25 @@
     
     self.multiSpinTapToUnlockLabel.hidden = YES;
     
-    self.multiSpinActionLabel.font = [UIFont fontWithName:self.multiSpinActionLabel.font.fontName size:11.f];
+    self.multiSpinActionLabel.font = [UIFont fontWithName:self.multiSpinActionLabel.font.fontName size:[Globals isiPad] ? 18.f : 11.f];
     self.multiSpinActionLabel.centerY = self.multiSpinView.height * .5f - 3;
     
-    self.multiSpinView.originX = 6;
+    self.multiSpinView.originX = [Globals isiPad] ? 2 : 6;
     self.multiSpinGemCostView.centerY = self.multiSpinActionLabel.centerY - 3;
     
     const CGPoint gemCostIconCenter = self.multiSpinGemCostIcon.center;
-    self.multiSpinGemCostIcon.size = CGSizeMake(20, 20);
+    self.multiSpinGemCostIcon.size = [Globals isiPad] ? CGSizeMake(38, 38) : CGSizeMake(20, 20);
     self.multiSpinGemCostIcon.centerX = gemCostIconCenter.x;
     
-    self.multiSpinGemCostLabel.font = [UIFont fontWithName:self.multiSpinGemCostLabel.font.fontName size:11.f];
+    self.multiSpinGemCostLabel.font = [UIFont fontWithName:self.multiSpinGemCostLabel.font.fontName size:[Globals isiPad] ? 18.f : 11.f];
     self.multiSpinGemCostLabel.originY = 4;
   } else {
-    self.multiSpinGemCostView.centerY = self.multiSpinActionLabel.centerY - 4;
-    self.multiSpinTapToUnlockLabel.originY = -1;
-    self.multiSpinActionLabel.originY = self.multiSpinView.height - self.multiSpinActionLabel.height - 4;
-    self.multiSpinGemCostLabel.originY = 2;
+    self.multiSpinGemCostView.centerY = self.multiSpinActionLabel.centerY - ([Globals isiPad] ? 8 : 4);
+    self.multiSpinTapToUnlockLabel.originY = [Globals isiPad] ? 0 : -1;
+    self.multiSpinActionLabel.originY = self.multiSpinView.height - self.multiSpinActionLabel.height - ([Globals isiPad] ? 8 : 4);
+    self.multiSpinGemCostLabel.originY = [Globals isiPad] ? 3 : 2;
+    
+    if ([Globals isiPad]) { self.multiSpinView.originX -= 5; self.multiSpinTapToUnlockLabel.originX += 5; }
   }
   
   self.multiSpinGemCostView.originX = (self.multiSpinView.centerX - self.multiSpinView.originX) + 8;
@@ -321,10 +323,10 @@
   const BOOL regularGrab = (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId);
   if (regularGrab) {
     self.multiSpinContainer.hidden = YES;
-    self.singleSpinContainer.centerY = self.multiSpinContainer.centerY - 12;
+    self.singleSpinContainer.centerY = self.multiSpinContainer.centerY - ([Globals isiPad] ? -4 : 12);
   } else {
     self.multiSpinContainer.hidden = NO;
-    self.singleSpinContainer.centerY = self.multiSpinContainer.centerY - 41;
+    self.singleSpinContainer.centerY = self.multiSpinContainer.centerY - ([Globals isiPad] ? 77 : 41);
   }
   
   [self updateSingleSpinButton];
@@ -337,8 +339,8 @@
   const BOOL regularGrab = (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId);
   
   const CGPoint spinButtonCenter = self.singleSpinButton.center;
-  [self.singleSpinButton setImage:[Globals imageNamed:regularGrab ? @"bigspinpurple.png" : @"minibuttonpurple.png"] forState:UIControlStateNormal];
-  [self.singleSpinButton setImage:[Globals imageNamed:regularGrab ? @"bigspinpurplepressed.png" : @"minibuttonpurplepressed.png"] forState:UIControlStateHighlighted];
+  [self.singleSpinButton setImage:[Globals imageNamed:regularGrab ? @"bigspinpurple.png" : @"smallspinpurple.png"] forState:UIControlStateNormal];
+  [self.singleSpinButton setImage:[Globals imageNamed:regularGrab ? @"bigspinpurplepressed.png" : @"smallspinpurplepressed.png"] forState:UIControlStateHighlighted];
   self.singleSpinButton.size = self.singleSpinButton.imageView.image.size;
   self.singleSpinButton.center = spinButtonCenter;
   
@@ -351,16 +353,23 @@
   self.singleSpinGemCostView.originX = (self.singleSpinView.centerX - self.singleSpinView.originX) + (regularGrab ? 6 : 3);
   self.singleSpinGemCostView.originY = (self.singleSpinView.height - self.singleSpinGemCostView.height) * .5f - 4;
   
-  self.singleSpinActionLabel.font = [UIFont fontWithName:self.singleSpinActionLabel.font.fontName size:regularGrab ? 11.f : 9.f];
+  const CGFloat labelFontSize = [Globals isiPad] ? (regularGrab ? 20.f : 15.f) : (regularGrab ? 11.f : 9.f);
+  const CGSize iconSize = [Globals isiPad] ? (regularGrab ? CGSizeMake(32, 32) : CGSizeMake(25, 25)) : (regularGrab ? CGSizeMake(20, 20) : CGSizeMake(14, 14));
+  
+  self.singleSpinActionLabel.font = [UIFont fontWithName:self.singleSpinActionLabel.font.fontName size:labelFontSize];
+  self.singleSpinActionLabel.height = floorf(self.singleSpinActionLabel.height * (self.singleSpinButton.width / self.singleSpinActionLabel.width));
   self.singleSpinActionLabel.width = self.singleSpinButton.width;
   self.singleSpinActionLabel.centerX = self.singleSpinActionLabel.superview.width * .5f;
-  self.singleSpinActionLabel.centerY = [self.singleSpinButton.superview convertPoint:self.singleSpinButton.center toView:self.singleSpinActionLabel.superview].y - 3;
+  self.singleSpinActionLabel.centerY = [self.singleSpinButton.superview convertPoint:self.singleSpinButton.center
+                                                                              toView:self.singleSpinActionLabel.superview].y - ([Globals isiPad] ? 5 : 3);
   
   const CGPoint gemCostIconCenter = self.singleSpinGemCostIcon.center;
-  self.singleSpinGemCostIcon.size = regularGrab ? CGSizeMake(20, 20) : CGSizeMake(14, 14);
+  self.singleSpinGemCostIcon.size = iconSize;
   self.singleSpinGemCostIcon.center = CGPointMake(gemCostIconCenter.x, self.singleSpinActionLabel.centerY + 1);
   
-  self.singleSpinGemCostLabel.font = [UIFont fontWithName:self.singleSpinGemCostLabel.font.fontName size:regularGrab ? 11.f : 9.f];
+  self.singleSpinGemCostLabel.font = [UIFont fontWithName:self.singleSpinGemCostLabel.font.fontName size:labelFontSize];
+  self.singleSpinGemCostLabel.width = floorf(self.singleSpinGemCostLabel.width * (self.singleSpinActionLabel.height / self.singleSpinGemCostLabel.height));
+  self.singleSpinGemCostLabel.height = self.singleSpinActionLabel.height;
   self.singleSpinGemCostLabel.centerY = self.singleSpinActionLabel.centerY + 1;
   self.singleSpinGemCostLabel.originX = CGRectGetMaxX(self.singleSpinGemCostIcon.frame) + 1;
 }
@@ -1078,6 +1087,10 @@
 
 - (CGFloat) scaleForOutOfFocusView {
   return 0.5f;
+}
+
+- (CGFloat) fadeOutSpeedForOutOfFocusView {
+  return [Globals isiPad] ? 1.3f : 1.f;
 }
 
 - (BOOL) shouldLoopItems {
