@@ -194,6 +194,10 @@
     CGPoint afterScale = [self.bgdContainer convertToNodeSpace:basePt];
     CGPoint diff = ccpSub(afterScale, beforeScale);
     self.bgdContainer.position = ccpAdd(self.bgdContainer.position, ccpMult(diff, self.bgdContainer.scale));
+    if ([Globals isiPad])
+    {
+      self.bgdContainer.position = ccpAdd((self.bgdContainer.position), ccp(0, -63));
+    }
     
     [self setupUI];
     
