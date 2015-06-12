@@ -38,7 +38,7 @@
   
   BOOL        _skillActive;
   
-  BOOL        _cursed;
+  @protected BOOL        _cursed;
   
   CCSprite*   _orbCounter;
   
