@@ -442,7 +442,7 @@
 - (void) setSkillIcon:(NSString*)iconName
 {
   _skillIcon = [CCSprite node];
-  [Globals imageNamed:iconName toReplaceSprite:_skillIcon completion:^(BOOL success) {
+  [Globals imageNamed:iconName toReplaceSprite:_skillIcon canBeiPad:YES completion:^(BOOL success) {
     if (success) {
       [_skillIcon setAnchorPoint:CGPointMake(0, 0)];
       _skillIcon.position = ccp(0, 17);
@@ -599,6 +599,42 @@
   
   [skillManager displaySkillCounterPopupForController:self.skillController withProto:_skillProto atPosition:orbCounterPosition];
   
+}
+
+- (void) setCurse:(BOOL)curse
+{
+  _cursed = curse;
+  if (curse)
+  {
+    [_skillCounterLabel runAction:[CCActionSequence actions:
+                                   [CCActionScaleTo actionWithDuration:CURSE_SCALE_TIME scale:0],
+                                   [CCActionCallBlock actionWithBlock:^{
+      //[_skillCounterLabel setPosition:ccp(27, _skillCounterBg.contentSize.height * .5f)];
+      [_skillCounterLabel setString:@"CURSED"];
+    }],
+                                   [CCActionScaleTo actionWithDuration:CURSE_SCALE_TIME scale:1],
+                                   nil]];
+    
+    if (!_skillActive)
+      [_skillOrbIcon runAction:[CCActionScaleTo actionWithDuration:CURSE_SCALE_TIME scale:0]];
+    
+  }
+  else
+  {
+    
+    [_skillCounterLabel runAction:[CCActionSequence actions:
+                                   [CCActionScaleTo actionWithDuration:CURSE_SCALE_TIME scale:0],
+                                   [CCActionCallBlock actionWithBlock:^{
+      //[_skillCounterLabel setPosition:ccp([_skillController isKindOfClass:[SkillControllerActive class]] ? 32 : 27, _skillCounterBg.contentSize.height * .5f)];
+      [self update];
+    }],
+                                   [CCActionScaleTo actionWithDuration:CURSE_SCALE_TIME scale:1],
+                                   nil]];
+    [_skillOrbIcon runAction:[CCActionSequence actions:
+                              [CCActionDelay actionWithDuration:CURSE_SCALE_TIME],
+                              [CCActionScaleTo actionWithDuration:CURSE_SCALE_TIME scale:.4],
+                              nil]];
+  }
 }
 
 @end
