@@ -90,7 +90,7 @@
 
 - (OrbSprite*) createOrbSpriteForOrb:(BattleOrb*)orb
 {
-  NSString *suffix = self.layout.numColumns == 9 || self.layout.numRows == 9 ? @"-9" : @"";
+  NSString *suffix = ![Globals isiPad] && (self.layout.numColumns == 9 || self.layout.numRows == 9) ? @"-9" : @"";
   OrbSprite* orbLayer = [OrbSprite orbSpriteWithOrb:orb suffix:suffix];
   orbLayer.position = [self pointForColumn:orb.column row:orb.row];
   [self addChild:orbLayer z:0 name:ORB_NAME_TAG(orb)];
