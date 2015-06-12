@@ -127,6 +127,7 @@
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
   CGFloat width = [self.delegate widthPerItem];
   CGFloat scaleFactorForOutOfFocus = [self.delegate scaleForOutOfFocusView];
+  CGFloat fadeOutSpeedForOutOfFocusView = [self.delegate fadeOutSpeedForOutOfFocusView];
   
   [self checkViewsForCurrentPosition];
   
@@ -138,7 +139,7 @@
 //  distFactor = MAX(0.f, (distFactor-0.2)/0.8);
     
     float alphaBase = focusCenter.x > curCenter ? 0.f : 0.6f;
-    focus.alpha = alphaBase+(1-alphaBase)*(1-distFactor);
+    focus.alpha = alphaBase+(1-alphaBase)*(1-(distFactor*fadeOutSpeedForOutOfFocusView));
 //  [[focus viewWithTag:GRADIENT_TAG] setAlpha:distFactor];
     
     float scale = scaleFactorForOutOfFocus+(1-scaleFactorForOutOfFocus)*(1-distFactor);
