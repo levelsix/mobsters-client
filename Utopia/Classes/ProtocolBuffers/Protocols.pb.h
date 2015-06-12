@@ -259,8 +259,6 @@
 @class EndDungeonResponseProto_Builder;
 @class EndPvpBattleRequestProto;
 @class EndPvpBattleRequestProto_Builder;
-@class EndPvpBattleRequestProto_StructStolen;
-@class EndPvpBattleRequestProto_StructStolen_Builder;
 @class EndPvpBattleResponseProto;
 @class EndPvpBattleResponseProto_Builder;
 @class EnhanceMonsterRequestProto;
@@ -745,6 +743,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StrengthLeaderBoardProto;
 @class StrengthLeaderBoardProto_Builder;
+@class StructStolen;
+@class StructStolen_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
 @class SubmitMonsterEnhancementRequestProto;

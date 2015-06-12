@@ -1609,7 +1609,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
 - (NSArray *)structStolenList {
   return mutableStructStolenList;
 }
-- (EndPvpBattleRequestProto_StructStolen*)structStolenAtIndex:(NSUInteger)index {
+- (StructStolen*)structStolenAtIndex:(NSUInteger)index {
   return [mutableStructStolenList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
@@ -1656,7 +1656,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasCashStolenFromGenerator) {
     [output writeInt32:12 value:self.cashStolenFromGenerator];
   }
-  [self.structStolenList enumerateObjectsUsingBlock:^(EndPvpBattleRequestProto_StructStolen *element, NSUInteger idx, BOOL *stop) {
+  [self.structStolenList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:13 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
@@ -1711,7 +1711,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasCashStolenFromGenerator) {
     size_ += computeInt32Size(12, self.cashStolenFromGenerator);
   }
-  [self.structStolenList enumerateObjectsUsingBlock:^(EndPvpBattleRequestProto_StructStolen *element, NSUInteger idx, BOOL *stop) {
+  [self.structStolenList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(13, element);
   }];
   size_ += self.unknownFields.serializedSize;
@@ -1788,7 +1788,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasCashStolenFromGenerator) {
     [output appendFormat:@"%@%@: %@\n", indent, @"cashStolenFromGenerator", [NSNumber numberWithInteger:self.cashStolenFromGenerator]];
   }
-  [self.structStolenList enumerateObjectsUsingBlock:^(EndPvpBattleRequestProto_StructStolen *element, NSUInteger idx, BOOL *stop) {
+  [self.structStolenList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"structStolen"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
@@ -1869,257 +1869,11 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasCashStolenFromGenerator) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.cashStolenFromGenerator] hash];
   }
-  [self.structStolenList enumerateObjectsUsingBlock:^(EndPvpBattleRequestProto_StructStolen *element, NSUInteger idx, BOOL *stop) {
+  [self.structStolenList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
-}
-@end
-
-@interface EndPvpBattleRequestProto_StructStolen ()
-@property (strong) NSString* userStructUuid;
-@property int64_t timeOfRetrieval;
-@end
-
-@implementation EndPvpBattleRequestProto_StructStolen
-
-- (BOOL) hasUserStructUuid {
-  return !!hasUserStructUuid_;
-}
-- (void) setHasUserStructUuid:(BOOL) value_ {
-  hasUserStructUuid_ = !!value_;
-}
-@synthesize userStructUuid;
-- (BOOL) hasTimeOfRetrieval {
-  return !!hasTimeOfRetrieval_;
-}
-- (void) setHasTimeOfRetrieval:(BOOL) value_ {
-  hasTimeOfRetrieval_ = !!value_;
-}
-@synthesize timeOfRetrieval;
-- (id) init {
-  if ((self = [super init])) {
-    self.userStructUuid = @"";
-    self.timeOfRetrieval = 0L;
-  }
-  return self;
-}
-static EndPvpBattleRequestProto_StructStolen* defaultEndPvpBattleRequestProto_StructStolenInstance = nil;
-+ (void) initialize {
-  if (self == [EndPvpBattleRequestProto_StructStolen class]) {
-    defaultEndPvpBattleRequestProto_StructStolenInstance = [[EndPvpBattleRequestProto_StructStolen alloc] init];
-  }
-}
-+ (EndPvpBattleRequestProto_StructStolen*) defaultInstance {
-  return defaultEndPvpBattleRequestProto_StructStolenInstance;
-}
-- (EndPvpBattleRequestProto_StructStolen*) defaultInstance {
-  return defaultEndPvpBattleRequestProto_StructStolenInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserStructUuid) {
-    [output writeString:1 value:self.userStructUuid];
-  }
-  if (self.hasTimeOfRetrieval) {
-    [output writeInt64:2 value:self.timeOfRetrieval];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (SInt32) serializedSize {
-  __block SInt32 size_ = memoizedSerializedSize;
-  if (size_ != -1) {
-    return size_;
-  }
-
-  size_ = 0;
-  if (self.hasUserStructUuid) {
-    size_ += computeStringSize(1, self.userStructUuid);
-  }
-  if (self.hasTimeOfRetrieval) {
-    size_ += computeInt64Size(2, self.timeOfRetrieval);
-  }
-  size_ += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size_;
-  return size_;
-}
-+ (EndPvpBattleRequestProto_StructStolen*) parseFromData:(NSData*) data {
-  return (EndPvpBattleRequestProto_StructStolen*)[[[EndPvpBattleRequestProto_StructStolen builder] mergeFromData:data] build];
-}
-+ (EndPvpBattleRequestProto_StructStolen*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EndPvpBattleRequestProto_StructStolen*)[[[EndPvpBattleRequestProto_StructStolen builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (EndPvpBattleRequestProto_StructStolen*) parseFromInputStream:(NSInputStream*) input {
-  return (EndPvpBattleRequestProto_StructStolen*)[[[EndPvpBattleRequestProto_StructStolen builder] mergeFromInputStream:input] build];
-}
-+ (EndPvpBattleRequestProto_StructStolen*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EndPvpBattleRequestProto_StructStolen*)[[[EndPvpBattleRequestProto_StructStolen builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (EndPvpBattleRequestProto_StructStolen*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (EndPvpBattleRequestProto_StructStolen*)[[[EndPvpBattleRequestProto_StructStolen builder] mergeFromCodedInputStream:input] build];
-}
-+ (EndPvpBattleRequestProto_StructStolen*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EndPvpBattleRequestProto_StructStolen*)[[[EndPvpBattleRequestProto_StructStolen builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (EndPvpBattleRequestProto_StructStolen_Builder*) builder {
-  return [[EndPvpBattleRequestProto_StructStolen_Builder alloc] init];
-}
-+ (EndPvpBattleRequestProto_StructStolen_Builder*) builderWithPrototype:(EndPvpBattleRequestProto_StructStolen*) prototype {
-  return [[EndPvpBattleRequestProto_StructStolen builder] mergeFrom:prototype];
-}
-- (EndPvpBattleRequestProto_StructStolen_Builder*) builder {
-  return [EndPvpBattleRequestProto_StructStolen builder];
-}
-- (EndPvpBattleRequestProto_StructStolen_Builder*) toBuilder {
-  return [EndPvpBattleRequestProto_StructStolen builderWithPrototype:self];
-}
-- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserStructUuid) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
-  }
-  if (self.hasTimeOfRetrieval) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"timeOfRetrieval", [NSNumber numberWithLongLong:self.timeOfRetrieval]];
-  }
-  [self.unknownFields writeDescriptionTo:output withIndent:indent];
-}
-- (BOOL) isEqual:(id)other {
-  if (other == self) {
-    return YES;
-  }
-  if (![other isKindOfClass:[EndPvpBattleRequestProto_StructStolen class]]) {
-    return NO;
-  }
-  EndPvpBattleRequestProto_StructStolen *otherMessage = other;
-  return
-      self.hasUserStructUuid == otherMessage.hasUserStructUuid &&
-      (!self.hasUserStructUuid || [self.userStructUuid isEqual:otherMessage.userStructUuid]) &&
-      self.hasTimeOfRetrieval == otherMessage.hasTimeOfRetrieval &&
-      (!self.hasTimeOfRetrieval || self.timeOfRetrieval == otherMessage.timeOfRetrieval) &&
-      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
-}
-- (NSUInteger) hash {
-  __block NSUInteger hashCode = 7;
-  if (self.hasUserStructUuid) {
-    hashCode = hashCode * 31 + [self.userStructUuid hash];
-  }
-  if (self.hasTimeOfRetrieval) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfRetrieval] hash];
-  }
-  hashCode = hashCode * 31 + [self.unknownFields hash];
-  return hashCode;
-}
-@end
-
-@interface EndPvpBattleRequestProto_StructStolen_Builder()
-@property (strong) EndPvpBattleRequestProto_StructStolen* result;
-@end
-
-@implementation EndPvpBattleRequestProto_StructStolen_Builder
-@synthesize result;
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[EndPvpBattleRequestProto_StructStolen alloc] init];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (EndPvpBattleRequestProto_StructStolen_Builder*) clear {
-  self.result = [[EndPvpBattleRequestProto_StructStolen alloc] init];
-  return self;
-}
-- (EndPvpBattleRequestProto_StructStolen_Builder*) clone {
-  return [EndPvpBattleRequestProto_StructStolen builderWithPrototype:result];
-}
-- (EndPvpBattleRequestProto_StructStolen*) defaultInstance {
-  return [EndPvpBattleRequestProto_StructStolen defaultInstance];
-}
-- (EndPvpBattleRequestProto_StructStolen*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (EndPvpBattleRequestProto_StructStolen*) buildPartial {
-  EndPvpBattleRequestProto_StructStolen* returnMe = result;
-  self.result = nil;
-  return returnMe;
-}
-- (EndPvpBattleRequestProto_StructStolen_Builder*) mergeFrom:(EndPvpBattleRequestProto_StructStolen*) other {
-  if (other == [EndPvpBattleRequestProto_StructStolen defaultInstance]) {
-    return self;
-  }
-  if (other.hasUserStructUuid) {
-    [self setUserStructUuid:other.userStructUuid];
-  }
-  if (other.hasTimeOfRetrieval) {
-    [self setTimeOfRetrieval:other.timeOfRetrieval];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (EndPvpBattleRequestProto_StructStolen_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (EndPvpBattleRequestProto_StructStolen_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    SInt32 tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        [self setUserStructUuid:[input readString]];
-        break;
-      }
-      case 16: {
-        [self setTimeOfRetrieval:[input readInt64]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasUserStructUuid {
-  return result.hasUserStructUuid;
-}
-- (NSString*) userStructUuid {
-  return result.userStructUuid;
-}
-- (EndPvpBattleRequestProto_StructStolen_Builder*) setUserStructUuid:(NSString*) value {
-  result.hasUserStructUuid = YES;
-  result.userStructUuid = value;
-  return self;
-}
-- (EndPvpBattleRequestProto_StructStolen_Builder*) clearUserStructUuid {
-  result.hasUserStructUuid = NO;
-  result.userStructUuid = @"";
-  return self;
-}
-- (BOOL) hasTimeOfRetrieval {
-  return result.hasTimeOfRetrieval;
-}
-- (int64_t) timeOfRetrieval {
-  return result.timeOfRetrieval;
-}
-- (EndPvpBattleRequestProto_StructStolen_Builder*) setTimeOfRetrieval:(int64_t) value {
-  result.hasTimeOfRetrieval = YES;
-  result.timeOfRetrieval = value;
-  return self;
-}
-- (EndPvpBattleRequestProto_StructStolen_Builder*) clearTimeOfRetrieval {
-  result.hasTimeOfRetrieval = NO;
-  result.timeOfRetrieval = 0L;
-  return self;
 }
 @end
 
@@ -2283,7 +2037,7 @@ static EndPvpBattleRequestProto_StructStolen* defaultEndPvpBattleRequestProto_St
         break;
       }
       case 106: {
-        EndPvpBattleRequestProto_StructStolen_Builder* subBuilder = [EndPvpBattleRequestProto_StructStolen builder];
+        StructStolen_Builder* subBuilder = [StructStolen builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addStructStolen:[subBuilder buildPartial]];
         break;
@@ -2512,10 +2266,10 @@ static EndPvpBattleRequestProto_StructStolen* defaultEndPvpBattleRequestProto_St
 - (NSMutableArray *)structStolenList {
   return result.mutableStructStolenList;
 }
-- (EndPvpBattleRequestProto_StructStolen*)structStolenAtIndex:(NSUInteger)index {
+- (StructStolen*)structStolenAtIndex:(NSUInteger)index {
   return [result structStolenAtIndex:index];
 }
-- (EndPvpBattleRequestProto_Builder *)addStructStolen:(EndPvpBattleRequestProto_StructStolen*)value {
+- (EndPvpBattleRequestProto_Builder *)addStructStolen:(StructStolen*)value {
   if (result.mutableStructStolenList == nil) {
     result.mutableStructStolenList = [[NSMutableArray alloc]init];
   }
@@ -2545,6 +2299,7 @@ static EndPvpBattleRequestProto_StructStolen* defaultEndPvpBattleRequestProto_St
 @property (strong) PvpHistoryProto* battleThatJustEnded;
 @property (strong) UserPvpLeagueProto* statsBefore;
 @property (strong) UserPvpLeagueProto* statsAfter;
+@property (strong) NSMutableArray * mutableUpdatedUserStructsList;
 @end
 
 @implementation EndPvpBattleResponseProto
@@ -2617,6 +2372,8 @@ static EndPvpBattleRequestProto_StructStolen* defaultEndPvpBattleRequestProto_St
   hasStatsAfter_ = !!value_;
 }
 @synthesize statsAfter;
+@synthesize mutableUpdatedUserStructsList;
+@dynamic updatedUserStructsList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
@@ -2647,6 +2404,12 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
 }
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index {
   return [mutableUpdatedOrNewList objectAtIndex:index];
+}
+- (NSArray *)updatedUserStructsList {
+  return mutableUpdatedUserStructsList;
+}
+- (StructStolen*)updatedUserStructsAtIndex:(NSUInteger)index {
+  return [mutableUpdatedUserStructsList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -2679,6 +2442,9 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasStatsAfter) {
     [output writeMessage:13 value:self.statsAfter];
   }
+  [self.updatedUserStructsList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:14 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2715,6 +2481,9 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasStatsAfter) {
     size_ += computeMessageSize(13, self.statsAfter);
   }
+  [self.updatedUserStructsList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(14, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -2792,6 +2561,12 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  [self.updatedUserStructsList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"updatedUserStructs"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2820,6 +2595,7 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
       (!self.hasStatsBefore || [self.statsBefore isEqual:otherMessage.statsBefore]) &&
       self.hasStatsAfter == otherMessage.hasStatsAfter &&
       (!self.hasStatsAfter || [self.statsAfter isEqual:otherMessage.statsAfter]) &&
+      [self.updatedUserStructsList isEqualToArray:otherMessage.updatedUserStructsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2851,6 +2627,9 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasStatsAfter) {
     hashCode = hashCode * 31 + [self.statsAfter hash];
   }
+  [self.updatedUserStructsList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -2935,6 +2714,13 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
   if (other.hasStatsAfter) {
     [self mergeStatsAfter:other.statsAfter];
   }
+  if (other.mutableUpdatedUserStructsList.count > 0) {
+    if (result.mutableUpdatedUserStructsList == nil) {
+      result.mutableUpdatedUserStructsList = [[NSMutableArray alloc] initWithArray:other.mutableUpdatedUserStructsList];
+    } else {
+      [result.mutableUpdatedUserStructsList addObjectsFromArray:other.mutableUpdatedUserStructsList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3017,6 +2803,12 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setStatsAfter:[subBuilder buildPartial]];
+        break;
+      }
+      case 114: {
+        StructStolen_Builder* subBuilder = [StructStolen builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUpdatedUserStructs:[subBuilder buildPartial]];
         break;
       }
     }
@@ -3228,6 +3020,276 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (EndPvpBattleResponseProto_Builder*) clearStatsAfter {
   result.hasStatsAfter = NO;
   result.statsAfter = [UserPvpLeagueProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)updatedUserStructsList {
+  return result.mutableUpdatedUserStructsList;
+}
+- (StructStolen*)updatedUserStructsAtIndex:(NSUInteger)index {
+  return [result updatedUserStructsAtIndex:index];
+}
+- (EndPvpBattleResponseProto_Builder *)addUpdatedUserStructs:(StructStolen*)value {
+  if (result.mutableUpdatedUserStructsList == nil) {
+    result.mutableUpdatedUserStructsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUpdatedUserStructsList addObject:value];
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder *)addAllUpdatedUserStructs:(NSArray *)array {
+  if (result.mutableUpdatedUserStructsList == nil) {
+    result.mutableUpdatedUserStructsList = [NSMutableArray array];
+  }
+  [result.mutableUpdatedUserStructsList addObjectsFromArray:array];
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder *)clearUpdatedUserStructs {
+  result.mutableUpdatedUserStructsList = nil;
+  return self;
+}
+@end
+
+@interface StructStolen ()
+@property (strong) NSString* userStructUuid;
+@property int64_t timeOfRetrieval;
+@end
+
+@implementation StructStolen
+
+- (BOOL) hasUserStructUuid {
+  return !!hasUserStructUuid_;
+}
+- (void) setHasUserStructUuid:(BOOL) value_ {
+  hasUserStructUuid_ = !!value_;
+}
+@synthesize userStructUuid;
+- (BOOL) hasTimeOfRetrieval {
+  return !!hasTimeOfRetrieval_;
+}
+- (void) setHasTimeOfRetrieval:(BOOL) value_ {
+  hasTimeOfRetrieval_ = !!value_;
+}
+@synthesize timeOfRetrieval;
+- (id) init {
+  if ((self = [super init])) {
+    self.userStructUuid = @"";
+    self.timeOfRetrieval = 0L;
+  }
+  return self;
+}
+static StructStolen* defaultStructStolenInstance = nil;
++ (void) initialize {
+  if (self == [StructStolen class]) {
+    defaultStructStolenInstance = [[StructStolen alloc] init];
+  }
+}
++ (StructStolen*) defaultInstance {
+  return defaultStructStolenInstance;
+}
+- (StructStolen*) defaultInstance {
+  return defaultStructStolenInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserStructUuid) {
+    [output writeString:1 value:self.userStructUuid];
+  }
+  if (self.hasTimeOfRetrieval) {
+    [output writeInt64:2 value:self.timeOfRetrieval];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasUserStructUuid) {
+    size_ += computeStringSize(1, self.userStructUuid);
+  }
+  if (self.hasTimeOfRetrieval) {
+    size_ += computeInt64Size(2, self.timeOfRetrieval);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (StructStolen*) parseFromData:(NSData*) data {
+  return (StructStolen*)[[[StructStolen builder] mergeFromData:data] build];
+}
++ (StructStolen*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StructStolen*)[[[StructStolen builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StructStolen*) parseFromInputStream:(NSInputStream*) input {
+  return (StructStolen*)[[[StructStolen builder] mergeFromInputStream:input] build];
+}
++ (StructStolen*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StructStolen*)[[[StructStolen builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StructStolen*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StructStolen*)[[[StructStolen builder] mergeFromCodedInputStream:input] build];
+}
++ (StructStolen*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StructStolen*)[[[StructStolen builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StructStolen_Builder*) builder {
+  return [[StructStolen_Builder alloc] init];
+}
++ (StructStolen_Builder*) builderWithPrototype:(StructStolen*) prototype {
+  return [[StructStolen builder] mergeFrom:prototype];
+}
+- (StructStolen_Builder*) builder {
+  return [StructStolen builder];
+}
+- (StructStolen_Builder*) toBuilder {
+  return [StructStolen builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasUserStructUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
+  }
+  if (self.hasTimeOfRetrieval) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"timeOfRetrieval", [NSNumber numberWithLongLong:self.timeOfRetrieval]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[StructStolen class]]) {
+    return NO;
+  }
+  StructStolen *otherMessage = other;
+  return
+      self.hasUserStructUuid == otherMessage.hasUserStructUuid &&
+      (!self.hasUserStructUuid || [self.userStructUuid isEqual:otherMessage.userStructUuid]) &&
+      self.hasTimeOfRetrieval == otherMessage.hasTimeOfRetrieval &&
+      (!self.hasTimeOfRetrieval || self.timeOfRetrieval == otherMessage.timeOfRetrieval) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasUserStructUuid) {
+    hashCode = hashCode * 31 + [self.userStructUuid hash];
+  }
+  if (self.hasTimeOfRetrieval) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfRetrieval] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface StructStolen_Builder()
+@property (strong) StructStolen* result;
+@end
+
+@implementation StructStolen_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[StructStolen alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StructStolen_Builder*) clear {
+  self.result = [[StructStolen alloc] init];
+  return self;
+}
+- (StructStolen_Builder*) clone {
+  return [StructStolen builderWithPrototype:result];
+}
+- (StructStolen*) defaultInstance {
+  return [StructStolen defaultInstance];
+}
+- (StructStolen*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StructStolen*) buildPartial {
+  StructStolen* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (StructStolen_Builder*) mergeFrom:(StructStolen*) other {
+  if (other == [StructStolen defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserStructUuid) {
+    [self setUserStructUuid:other.userStructUuid];
+  }
+  if (other.hasTimeOfRetrieval) {
+    [self setTimeOfRetrieval:other.timeOfRetrieval];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StructStolen_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StructStolen_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setUserStructUuid:[input readString]];
+        break;
+      }
+      case 16: {
+        [self setTimeOfRetrieval:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserStructUuid {
+  return result.hasUserStructUuid;
+}
+- (NSString*) userStructUuid {
+  return result.userStructUuid;
+}
+- (StructStolen_Builder*) setUserStructUuid:(NSString*) value {
+  result.hasUserStructUuid = YES;
+  result.userStructUuid = value;
+  return self;
+}
+- (StructStolen_Builder*) clearUserStructUuid {
+  result.hasUserStructUuid = NO;
+  result.userStructUuid = @"";
+  return self;
+}
+- (BOOL) hasTimeOfRetrieval {
+  return result.hasTimeOfRetrieval;
+}
+- (int64_t) timeOfRetrieval {
+  return result.timeOfRetrieval;
+}
+- (StructStolen_Builder*) setTimeOfRetrieval:(int64_t) value {
+  result.hasTimeOfRetrieval = YES;
+  result.timeOfRetrieval = value;
+  return self;
+}
+- (StructStolen_Builder*) clearTimeOfRetrieval {
+  result.hasTimeOfRetrieval = NO;
+  result.timeOfRetrieval = 0L;
   return self;
 }
 @end

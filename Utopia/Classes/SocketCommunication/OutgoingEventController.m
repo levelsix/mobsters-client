@@ -2263,7 +2263,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           oilStolenFromGenerators += amtStolen;
         }
         
-        EndPvpBattleRequestProto_StructStolen_Builder *bldr = [EndPvpBattleRequestProto_StructStolen builder];
+        StructStolen_Builder *bldr = [StructStolen builder];
         bldr.userStructUuid = us.userStructUuid;
         bldr.timeOfRetrieval = ms - (int)((numRes-amtStolen)/us.productionRate*3600*1000);
         [structStolens addObject:bldr.build];

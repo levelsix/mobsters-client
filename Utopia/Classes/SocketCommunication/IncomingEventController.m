@@ -1924,8 +1924,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleQueueUpResponseProto:(FullEvent *)fe {
   QueueUpResponseProto *proto = (QueueUpResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Queue up response received with status %d.", (int)proto.status);
-  
+  LNLog(@"Queue up response received with status %d.", (int)proto.status);    
   GameState *gs = [GameState sharedGameState];
   if (proto.status == QueueUpResponseProto_QueueUpStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1967,6 +1966,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         [gs.battleHistory addObject:proto.battleThatJustEnded];
         [[NSNotificationCenter defaultCenter] postNotificationName:NEW_BATTLE_HISTORY_NOTIFICATION object:proto.battleThatJustEnded];
       }
+      
+      for (StructStolen *ss in proto.updatedUserStructsList) {
+        UserStruct *us = [gs myStructWithUuid:ss.userStructUuid];
+        us.lastRetrieved = [MSDate dateWithTimeIntervalSince1970:ss.timeOfRetrieval/1000.];
+      }
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
