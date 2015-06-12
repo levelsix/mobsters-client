@@ -297,7 +297,9 @@
 + (void) imageNamedWithiPadSuffix:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s;
++ (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s canBeiPad:(BOOL)canBeiPad;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s completion:(void(^)(BOOL success))completion;
++ (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s canBeiPad:(BOOL)canBeiPad completion:(void (^)(BOOL))completion;
 
 + (NSString *) flagImageNameForLanguage:(TranslateLanguages)language;
 + (NSString *) languageNameForLanguage:(TranslateLanguages)language;
