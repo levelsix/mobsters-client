@@ -112,7 +112,7 @@
     CCSprite* cloudLayer = [CCSprite node];
     cloudLayer.position = ccp(.5f, .5f);
     cloudLayer.positionType = CCPositionTypeNormalized;
-    [Globals imageNamed:[NSString stringWithFormat:@"%@cloud%d.png", resPrefix, i] toReplaceSprite:cloudLayer];
+    [Globals imageNamed:[NSString stringWithFormat:@"%@cloud%d.png", resPrefix, i] toReplaceSprite:cloudLayer canBeiPad:YES];
     [_orbSprite addChild:cloudLayer];
   }
 }

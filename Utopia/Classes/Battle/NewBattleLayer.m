@@ -196,7 +196,8 @@
     self.bgdContainer.position = ccpAdd(self.bgdContainer.position, ccpMult(diff, self.bgdContainer.scale));
     if ([Globals isiPad])
     {
-      self.bgdContainer.position = ccpAdd((self.bgdContainer.position), ccp(0, -63));
+      //Cooper wanted this, however it causes the area on the top-left to show the black behind the scrolling backgrounds
+//      self.bgdContainer.position = ccpAdd((self.bgdContainer.position), ccp(0, -63));
     }
     
     [self setupUI];
