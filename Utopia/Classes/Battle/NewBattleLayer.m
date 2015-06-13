@@ -739,7 +739,7 @@
   
   if ([Globals isiPad]) {
     [self.hudView.enemyNameLabel setText:[[[GameState sharedGameState] monsterWithId:self.enemyPlayerObject.monsterId].displayName uppercaseString]];
-    [self.hudView.enemyLevelLabel setText:[NSString stringWithFormat:@"L%i", self.enemyPlayerObject.level*100]];
+    [self.hudView.enemyLevelLabel setText:[NSString stringWithFormat:@"L%i", self.enemyPlayerObject.level]];
     
     [self.hudView.enemyLevelLabel setWidth:[self.hudView.enemyLevelLabel.text getSizeWithFont:self.hudView.enemyLevelLabel.font].width];
     [self.hudView.enemyLevelLabel setOriginX:181 - self.hudView.enemyLevelLabel.width];
