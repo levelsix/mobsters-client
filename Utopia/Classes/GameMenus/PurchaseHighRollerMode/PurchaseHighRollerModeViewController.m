@@ -29,8 +29,10 @@
   
   NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.paragraghLabel.text];
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-  [paragraphStyle setLineSpacing:1.5f];
+  [paragraphStyle setLineSpacing:[Globals isiPad] ? 6.f : 1.5f];
+  [paragraphStyle setAlignment:NSTextAlignmentCenter];
   [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, self.paragraghLabel.text.length)];
+  [self.paragraghLabel setAttributedText:attributedString];
 }
 
 - (void) updateForPurchaseMode:(BOOL)purchaseMode withHeadline:(NSString *)headline andMessage:(NSString *)message {
