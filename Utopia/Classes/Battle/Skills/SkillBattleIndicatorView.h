@@ -20,15 +20,17 @@
 
 @interface SkillBattleIndicatorView : CCNode
 {
-  CCSprite    *_skillIcon;
-  CCDrawNode  *_stencilNode;
-  CCSprite    *_skillLabel;
-  CCSprite    *_skillCounterBg;
-  CCSprite    *_skillOrbIcon;
-  CCLabelTTF  *_skillCounterLabel;
-  CCSprite    *_skillActiveIcon;
-  CCButton    *_skillButton;
-  CCParticleSystem* _chargedEffect;
+  @protected  CCSprite    *_skillIcon;
+  @protected  CCDrawNode  *_stencilNode;
+  @protected  CCSprite    *_skillLabel;
+  @protected  CCSprite    *_skillCounterBg;
+  @protected  CCSprite    *_skillOrbIcon;
+  @protected  CCLabelTTF  *_skillCounterLabel;
+  @protected  CCLabelTTF  *_skillOwnerLabel;
+  @protected  CCLabelTTF  *_skillNameLabel;
+  @protected  CCSprite    *_skillActiveIcon;
+  @protected  CCButton    *_skillButton;
+  @protected  CCParticleSystem* _chargedEffect;
   
   BOOL        _enemy;
   
@@ -36,14 +38,14 @@
   
   BOOL        _skillActive;
   
-  BOOL        _cursed;
+  @protected BOOL        _cursed;
   
   CCSprite*   _orbCounter;
   
   SkillProto* _skillProto;
 }
 
-@property (nonatomic, readonly) float percentage;
+@property (nonatomic) float percentage;
 @property (nonatomic, weak) id<SkillBattleIndicatorViewDelegate> delegate;
 
 - (instancetype) initWithSkillController:(SkillController*)skillController enemy:(BOOL)enemy;
@@ -53,4 +55,12 @@
 - (void) enableSkillButton:(BOOL)active;
 - (void) popupOrbCounter;
 
+@end
+
+@interface SkillBattleIndicatoriPadView : SkillBattleIndicatorView {
+  CCSprite    *_skillCounterBgMiddle;
+  CCSprite    *_skillBarLeftCap;
+  CCSprite    *_skillBarRightCap;
+  CCSprite    *_skillBarMiddle;
+}
 @end

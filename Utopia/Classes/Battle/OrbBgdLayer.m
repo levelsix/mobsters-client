@@ -16,8 +16,9 @@
 #define IPHONE_5_TILE_SIZE 36
 #define IPHONE_6_TILE_SIZE 42
 #define IPHONE_6_PLUS_TILE_SIZE 47
+//Note: iPad-retina uses IPHONE_5_TILE_SIZE
 
-#define CORNER_SIZE 6
+#define CORNER_SIZE 12
 #define BORDER_WIDTH 2
 
 @implementation OrbBgdLayer
@@ -25,7 +26,7 @@
 - (int) tileSize {
   int initialSize = [Globals isiPhone6] ? IPHONE_6_TILE_SIZE : [Globals isiPhone6Plus] ? IPHONE_6_PLUS_TILE_SIZE : IPHONE_5_TILE_SIZE;
   
-  if (_layout.numColumns == 9 || _layout.numRows == 9) {
+  if (![Globals isiPad] && (_layout.numColumns == 9 || _layout.numRows == 9)) {
     initialSize = initialSize - 2 - [Globals isiPhone6Plus];
   }
   
@@ -92,6 +93,7 @@
     [_tilesLayerMain addChild:square];
     square.position = ccp((i+0.5)*tileSize, (j+0.5)*tileSize);
     square.scale = tileSize;
+    [self iPadScaleSprite:square];
     
     TileSprite* spriteTop = [TileSprite tileSpriteWithTile:tile depth:TileDepthTop];
     TileSprite* spriteBottom = [TileSprite tileSpriteWithTile:tile depth:TileDepthBottom];
@@ -174,9 +176,11 @@
         
         float scale = tileSize - (noCorners ? 0 : CORNER_SIZE);
         
+//        leftBorder.scaleX = .75;
         leftBorder.scaleY = scale;
         leftBorder.anchorPoint = ccp(!mHole, 0);
         leftBorder.position = ccpAdd(basePt, ccp(0, CORNER_SIZE/2));
+        [self iPadScaleSprite:leftBorder xRatio:1 yRatio:1.5];
         
         [_borderNode addChild:leftBorder];
       }
@@ -190,6 +194,7 @@
         topBorder.scaleY = scale;
         topBorder.rotation = 90;
         topBorder.position = ccpAdd(basePt, ccp(tileSize-CORNER_SIZE/2-scale/2, tileSize+(!mHole*2-1)*BORDER_WIDTH/2));
+        [self iPadScaleSprite:topBorder xRatio:1 yRatio:1.5];
         
         [_borderNode addChild:topBorder];
       }
@@ -205,6 +210,10 @@
         corner.flipX = YES;
         corner.flipY = YES;
         corner.anchorPoint = ccp(1, 1);
+//        [self iPadScaleSprite:corner];
+        if ([Globals isiPad]) {
+//          corner.position = ccpAdd(corner.position, ccp(0, isColor ? .5 : -.5));
+        }
         
         [_borderNode addChild:corner];
       }
@@ -216,6 +225,10 @@
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(-BORDER_WIDTH, BORDER_WIDTH));
         corner.flipY = YES;
         corner.anchorPoint = ccp(0, 1);
+//        [self iPadScaleSprite:corner];
+        if ([Globals isiPad]) {
+//          corner.position = ccpAdd(corner.position, ccp(0, isColor ? .5 : -.5));
+        }
         
         [_borderNode addChild:corner];
       }
@@ -226,6 +239,10 @@
         
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(-BORDER_WIDTH, -BORDER_WIDTH));
         corner.anchorPoint = ccp(0, 0);
+//        [self iPadScaleSprite:corner];
+        if ([Globals isiPad]) {
+//          corner.position = ccpAdd(corner.position, ccp(0, isColor ? -.5 : .5));
+        }
         
         [_borderNode addChild:corner];
       }
@@ -237,6 +254,10 @@
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(BORDER_WIDTH, -BORDER_WIDTH));
         corner.flipX = YES;
         corner.anchorPoint = ccp(1, 0);
+//        [self iPadScaleSprite:corner];
+        if ([Globals isiPad]) {
+//          corner.position = ccpAdd(corner.position, ccp(0, isColor ? -.5 : .5));
+        }
         
         [_borderNode addChild:corner];
       }
@@ -380,6 +401,23 @@
                       [CCActionAnimate actionWithAnimation:anim.reversedAnimation],
                       [CCActionRemove action],
                       nil]];
+}
+
+#pragma mark - Util
+
+- (void) iPadScaleSprite:(CCSprite*)sprite {
+  [self iPadScaleSprite:sprite ratio:1.5];
+}
+
+- (void) iPadScaleSprite:(CCSprite*)sprite ratio:(float)ratio {
+  [self iPadScaleSprite:sprite xRatio:ratio yRatio:ratio];
+}
+
+- (void) iPadScaleSprite:(CCSprite*)sprite xRatio:(float)xRatio yRatio:(float)yRatio {
+  if ([Globals isiPad]) {
+    sprite.scaleX *= xRatio;
+    sprite.scaleY *= yRatio;
+  }
 }
 
 @end

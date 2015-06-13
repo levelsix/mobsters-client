@@ -15,6 +15,7 @@
 #import "BattleHudView.h"
 #import "SkillSideEffect.h"
 #import "SkillProtoHelper.h"
+#import "CCNode.h"
 
 @implementation SkillManager
 
@@ -450,11 +451,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     BOOL existedBefore = (_skillIndicatorEnemy != nil && _skillIndicatorEnemy.parent);
     if ( existedBefore )
       [_skillIndicatorEnemy removeFromParent];
-    _skillIndicatorEnemy = [[SkillBattleIndicatorView alloc] initWithSkillController:_enemySkillController enemy:YES];
+    if ([Globals isiPad])
+      _skillIndicatorEnemy = [[SkillBattleIndicatoriPadView alloc] initWithSkillController:_enemySkillController enemy:YES];
+    else
+      _skillIndicatorEnemy = [[SkillBattleIndicatorView alloc] initWithSkillController:_enemySkillController enemy:YES];
     if (_skillIndicatorEnemy)
     {
-      _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2 - 10,
+      if ([Globals isiPad])
+      {
+        _skillIndicatorEnemy.position = CGPointMake(_battleLayer.orbLayer.contentSize.width/2 + 15, _battleLayer.orbLayer.contentSize.height - 25);
+      }
+      else
+      {
+        _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2 - 10,
                                                   UI_DEVICE_IS_IPHONE_4 ? 85 : [_battleLayer.orbLayer convertToNodeSpace:[_battleLayer convertToWorldSpace:_battleLayer.currentEnemy.position]].y + 5);
+      }
       [_skillIndicatorEnemy update];
       [_battleLayer.orbLayer addChild:_skillIndicatorEnemy z:-10];
       [_skillIndicatorEnemy appear:existedBefore];
@@ -469,11 +480,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   if (_playerSkillType != SkillTypeNoSkill)
   {
-    _skillIndicatorPlayer = [[SkillBattleIndicatorView alloc] initWithSkillController:_playerSkillController enemy:NO];
+    if ([Globals isiPad])
+      _skillIndicatorPlayer = [[SkillBattleIndicatoriPadView alloc] initWithSkillController:_playerSkillController enemy:NO];
+    else
+      _skillIndicatorPlayer = [[SkillBattleIndicatorView alloc] initWithSkillController:_playerSkillController enemy:NO];
     if (_skillIndicatorPlayer)
     {
-      _skillIndicatorPlayer.position = CGPointMake(-_skillIndicatorPlayer.contentSize.width/2 - 10,
-                                                   UI_DEVICE_IS_IPHONE_4 ? 40 : [_battleLayer.orbLayer convertToNodeSpace:[_battleLayer convertToWorldSpace:_battleLayer.myPlayer.position]].y + 5);
+      if ([Globals isiPad]) {
+        _skillIndicatorPlayer.position = CGPointMake(1, _battleLayer.orbLayer.contentSize.height + _skillIndicatorPlayer.contentSize.height - 25);
+      } else {
+        _skillIndicatorPlayer.position = CGPointMake(-_skillIndicatorPlayer.contentSize.width/2 - 10,
+                                                     UI_DEVICE_IS_IPHONE_4 ? 40 : [_battleLayer.orbLayer convertToNodeSpace:[_battleLayer convertToWorldSpace:_battleLayer.myPlayer.position]].y + 5);
+      }
+      
       [_skillIndicatorPlayer update];
       [_battleLayer.orbLayer addChild:_skillIndicatorPlayer z:-10];
     }

@@ -26,7 +26,7 @@
 
 //#define USE_PROD
 //#define USE_STAGING
-#define USE_LOCAL
+//#define USE_LOCAL
 
 //#define FORCE_TUTORIAL TutorialStepGuideGreeting
 //#define FORCE_TUTORIAL TutorialStepEnteredBattle
@@ -133,7 +133,7 @@
 
 #elif defined(USE_LOCAL)
 
-#define HOST_NAME @"10.0.1.11"
+#define HOST_NAME @"192.168.150.122"
 #define HOST_PORT 5672
 #define USE_SSL 0
 #define MQ_USERNAME @"lvl6client"
@@ -143,7 +143,7 @@
 
 #else
 
-#define HOST_NAME @"54.148.68.13"
+#define HOST_NAME @"dev2mobsters.lvl6.com"
 #define HOST_PORT 5672
 #define USE_SSL 0
 #define MQ_USERNAME @"lvl6client"

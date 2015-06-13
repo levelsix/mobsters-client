@@ -185,7 +185,7 @@ static UIImage *img = nil;
   [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   if (element != ElementNoElement) {
-    NSString *suffix = self.bgdIcon.frame.size.width > 45 ? @"mediumsquare.png" : @"smallsquare.png";
+    NSString *suffix = self.bgdIcon.frame.size.width >= 74 ? @"square.png" : self.bgdIcon.frame.size.width > 45 ? @"mediumsquare.png" : @"smallsquare.png";
     file = !greyscale ? [Globals imageNameForElement:element suffix:suffix] : [@"grey" stringByAppendingString:suffix];
     [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   }
@@ -204,7 +204,11 @@ static UIImage *img = nil;
     if ([sideEffectView viewWithTag:7910] == nil)
     {
       UIImageView* sideEffectSymbol = [[UIImageView alloc] initWithImage:[Globals imageNamed:icon]];
-      [sideEffectSymbol setFrame:CGRectMake(1.f, 1.f, 13.f, 14.f)];
+      if ([Globals isiPad]) {
+        [sideEffectSymbol setFrame:CGRectMake(1.f, 1.f, 20.f, 21.f)];
+      } else {
+        [sideEffectSymbol setFrame:CGRectMake(1.f, 1.f, 13.f, 14.f)];
+      }
       [sideEffectSymbol setContentMode:UIViewContentModeScaleAspectFit];
       [sideEffectSymbol setTag:7910];
       [sideEffectView addSubview:sideEffectSymbol];

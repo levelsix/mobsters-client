@@ -31,14 +31,7 @@
 @implementation BattleScheduleView
 
 - (void) awakeFromNib {
-  if (![Globals isSmallestiPhone]) {
-    if ([Globals isiPhone6] || [Globals isiPhone6Plus])
-      self.numSlots = 6;
-    else
-      self.numSlots = 5;
-  } else {
-    self.numSlots = 3;
-  }
+  [self setSlotCount];
   
   _battleSchedule = nil;
   _upcomingSideEffectTurns = [NSMutableDictionary dictionary];
@@ -50,6 +43,17 @@
   self.overlayView = img;
   img.alpha = 0.f;
   _reorderingInProgress = NO;
+}
+
+- (void) setSlotCount {
+  if (![Globals isSmallestiPhone]) {
+    if ([Globals isiPhone6] || [Globals isiPhone6Plus])
+      self.numSlots = 6;
+    else
+      self.numSlots = 5;
+  } else {
+    self.numSlots = 3;
+  }
 }
 
 - (void) setFrame:(CGRect)frame {
@@ -105,11 +109,11 @@
     int monsterId = num.intValue;
     BOOL showEnemyBand = enemyBand.boolValue;
     BOOL isPlayersTurn = playersTurn.boolValue;
-    MiniMonsterView *mmv = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand player:isPlayersTurn];
+    UIView *mmv = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand player:isPlayersTurn];
     [self.monsterViews addObject:mmv];
     
     if (i < oldArr.count) {
-      MiniMonsterView *ommv = oldArr[i];
+      UIView *ommv = oldArr[i];
       
       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (self.numSlots-i-1)*0.05f*NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if (i == 0)
@@ -142,20 +146,24 @@
 }
 
 - (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player{
-  MiniMonsterView *first = [self.monsterViews firstObject];
-  MiniMonsterView *new = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand player:player];
+  UIView *first = [self.monsterViews firstObject];
+  UIView *new = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand player:player];
   
   [self.monsterViews removeObject:first];
   [self.monsterViews addObject:new];
   
   UIView *v = [[UIView alloc] initWithFrame:new.frame];
-  v.center = ccp(-new.frame.size.width/2, self.containerView.frame.size.height/2);
+  if ([Globals isiPad]) {
+    v.center = ccp(self.containerView.frame.size.width + new.frame.size.width/2, self.containerView.frame.size.height/2);
+  } else {
+    v.center = ccp(-new.frame.size.width/2, self.containerView.frame.size.height/2);
+  }
   [v addSubview:new];
   [self.containerView addSubview:v];
   
   [UIView animateWithDuration:0.3f animations:^{
     for (int i = 0; i < self.monsterViews.count; i++) {
-      MiniMonsterView *mmv = self.monsterViews[i];
+      UIView *mmv = self.monsterViews[i];
       mmv.superview.center = [self centerForIndex:i width:mmv.frame.size.width];
     }
     
@@ -182,12 +190,13 @@
 }
 
 - (CGPoint) centerForIndex:(int)i width:(float)width {
+  
   return ccp(self.containerView.frame.size.width-VIEW_SPACING*(i+1)-width*(i+0.5),
              self.containerView.frame.size.height/2);
 }
 
 - (MiniMonsterView *) monsterViewForMonsterId:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player {
-  MiniMonsterView *mmv = [[NSBundle mainBundle] loadNibNamed:@"MiniMonsterView" owner:self options:nil][0];
+  MiniMonsterView *mmv = [[NSBundle mainBundle] loadNibNamed:([Globals isiPad] ? @"MiniMonsterViewiPadSchedule" : @"MiniMonsterView") owner:self options:nil][0];
   [mmv updateForMonsterId:monsterId];
   mmv.evoBadge.hidden = YES;
   mmv.belongsToPlayer = player;
@@ -196,9 +205,10 @@
     UIImageView *iv = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"enemystripes.png"]];
     [mmv insertSubview:iv aboveSubview:mmv.bgdIcon];
     iv.alpha = 0.6;
+    iv.size = mmv.size;
     
-    THLabel *label = [[THLabel alloc] initWithFrame:CGRectMake(1, mmv.frame.size.height-15, mmv.frame.size.width, 15)];
-    label.font = [UIFont fontWithName:@"GothamNarrow-Ultra" size:8];
+    THLabel *label = [[THLabel alloc] initWithFrame:CGRectMake(1, mmv.frame.size.height-18, mmv.frame.size.width, 17)];
+    label.font = [UIFont fontWithName:@"GothamNarrow-Ultra" size:[Globals isiPad] ? 12 : 8];
     label.textAlignment = NSTextAlignmentCenter;
     label.gradientStartColor = [UIColor colorWithRed:255/255.f green:182/255.f blue:0.f alpha:1.f];
     label.gradientEndColor = [UIColor colorWithRed:255/255.f green:53/255.f blue:0.f alpha:1.f];
@@ -282,5 +292,20 @@
   else
     [mv removeSideEffectIconWithKey:key];
 }
+
+@end
+
+@implementation BattleScheduleiPadView
+
+- (void)setSlotCount
+{
+  self.numSlots = 7;
+}
+
+- (CGPoint)centerForIndex:(int)i width:(float)width
+{
+  return ccp(13*(i+1)+width*(i+0.5), self.containerView.frame.size.height/2);
+}
+
 
 @end

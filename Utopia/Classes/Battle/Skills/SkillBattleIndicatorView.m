@@ -51,7 +51,7 @@
   
 //[self setSkillLabel];
   
-  [self setSkillCounter];
+  [self setSkillCounter:_skillProto.name];
   
   return self;
 }
@@ -64,7 +64,7 @@
       _skillIcon.position = ccp(0, 28);
       [self addChild:_skillIcon];
       
-      if (_skillController.activationType != SkillActivationTypePassive)
+      if (_skillController.activationType != SkillActivationTypePassive && ![Globals isiPad])
       {
         // Greyscale image
         UIImage *image = [Globals imageNamed:iconName];
@@ -115,7 +115,7 @@
   [self addChild:_skillLabel];
 }
 
-- (void) setSkillCounter
+- (void) setSkillCounter:(NSString*)skillName
 {
   const Element element = (Element)_skillController.orbColor;
   
@@ -238,7 +238,7 @@
   if ([_skillController isKindOfClass:[SkillControllerActive class]])
   {
     SkillControllerActive* activeSkill = (SkillControllerActive*)_skillController;
-    [self setPercentage:1.0 - (float)activeSkill.orbCounter/(float)activeSkill.orbRequirement];
+    [self setSkillPercentage:1.0 - (float)activeSkill.orbCounter/(float)activeSkill.orbRequirement];
     
     if (!_skillController.userPlayer.isCursed)
       [_skillCounterLabel setString:[NSString stringWithFormat:@"%d/%d",
@@ -256,7 +256,7 @@
     [self disappear];
 }
 
-- (void) setPercentage:(float)percentage
+- (void) setSkillPercentage:(float)percentage
 {
   if (_percentage == percentage)
     return;
@@ -273,6 +273,11 @@
   }
   
   // Enable/disable charged effect
+  [self checkChargeEffect];
+}
+
+- (void) checkChargeEffect
+{
   if (_skillController.activationType != SkillActivationTypePassive)
   {
     if (_percentage == 1.0)
@@ -395,6 +400,241 @@
   
   [skillManager displaySkillCounterPopupForController:_skillController withProto:_skillProto atPosition:orbCounterPosition];
   
+}
+
+@end
+
+#pragma mark - iPad
+
+@implementation SkillBattleIndicatoriPadView
+
+#pragma mark - Animations
+
+- (void) appear:(BOOL)instantly
+{
+  if (instantly) {
+    self.position = CGPointMake(self.position.x, self.position.y + self.contentSize.height);
+  } else {
+    [self runAction:[CCActionSequence actions:
+                     [CCActionEaseOut actionWithAction:
+                      [CCActionSpawn actionOne:
+                       [CCActionMoveBy actionWithDuration:0.3 position:CGPointMake(0., self.contentSize.height)] two:
+                       [CCActionFadeIn actionWithDuration:0.3]]],
+                     nil]];
+    
+  }
+}
+
+- (void) disappear
+{
+  [self runAction:[CCActionSequence actions:
+                   [CCActionEaseIn actionWithAction:
+                    [CCActionSpawn actionOne:
+                     [CCActionMoveBy actionWithDuration:0.3 position:CGPointMake(0., -self.contentSize.height)] two:
+                     [CCActionFadeOut actionWithDuration:0.3]]],
+                   [CCActionRemove action],
+                   nil]];
+}
+
+#pragma mark - Overrides
+
+//Cuts out all of the grayscale/clipping stuff
+- (void) setSkillIcon:(NSString*)iconName
+{
+  _skillIcon = [CCSprite node];
+  [Globals imageNamed:iconName toReplaceSprite:_skillIcon canBeiPad:YES completion:^(BOOL success) {
+    if (success) {
+      [_skillIcon setAnchorPoint:CGPointMake(0, 0)];
+      _skillIcon.position = ccp(0, 17);
+      
+      if (_skillNameLabel) {
+        [_skillNameLabel setPosition:ccp(_skillIcon.contentSize.width + 5, 15)];
+      }
+      
+      [self addChild:_skillIcon];
+      
+      [self setSkillButton];
+    }
+  }];
+}
+
+- (void) setSkillCounter:(NSString*)skillName
+{
+  const Element element = (Element)self.skillController.orbColor;
+
+  //This is going to actually be the left cap, for easier parenting and such
+  _skillCounterBg = [CCSprite spriteWithImageNamed:@"skillcounterbarbgcap.png"];
+  [_skillCounterBg setPosition:ccp(0, 0)];
+  
+  _skillCounterBgMiddle = [CCSprite spriteWithImageNamed:@"skillcounterbarbgmiddle.png"];
+  _skillCounterBgMiddle.anchorPoint = ccp(0,0);
+  [_skillCounterBgMiddle setPosition:ccp(_skillCounterBg.contentSize.width, 0)];
+  
+  float fullWidth = skillManager.battleLayer.orbLayer.contentSize.width/2 - 10;
+  float centerWidth = (fullWidth - _skillCounterBg.contentSize.width*2) / _skillCounterBgMiddle.contentSize.width;
+  [_skillCounterBgMiddle setScaleX:centerWidth];
+  
+  [_skillCounterBg addChild:_skillCounterBgMiddle];
+  
+  CCSprite *rightCap = [CCSprite spriteWithImageNamed:@"skillcounterbarbgcap.png"];
+  rightCap.anchorPoint = ccp(0, 0);
+  rightCap.flipX = YES;
+  [rightCap setPosition:ccp(fullWidth - rightCap.contentSize.width, 0)];
+  [_skillCounterBg addChild:rightCap];
+  
+  
+  //Ipad version also needs a bar
+  _skillBarLeftCap = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:element suffix:@"skillcounterbarcap"]]];
+  _skillBarRightCap = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:element suffix:@"skillcounterbarcap"]]];
+  _skillBarMiddle = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:element suffix:@"skillcounterbarmiddle"]]];
+  
+  [_skillCounterBg addChild:_skillBarLeftCap];
+  [_skillCounterBg addChild:_skillBarRightCap];
+  [_skillCounterBg addChild:_skillBarMiddle];
+  
+  _skillBarLeftCap.anchorPoint = ccp(0,0);
+  _skillBarRightCap.anchorPoint = ccp(0,0);
+  _skillBarMiddle.anchorPoint = ccp(0,0);
+  
+  _skillBarRightCap.flipX = YES;
+  _skillBarRightCap.position = ccp(fullWidth - _skillBarRightCap.contentSize.width * 2, 0);
+  _skillBarMiddle.position = ccp(_skillBarLeftCap.contentSize.width, 0);
+  _skillBarMiddle.scaleX = centerWidth;
+  
+  self.percentage = -1;
+  [self addChild:_skillCounterBg z:10];
+  
+  
+  NSString* orbImg = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:element suffix:@"orb"]];
+  _skillOrbIcon = [CCSprite spriteWithImageNamed:orbImg];
+  [_skillOrbIcon setScale:.4];
+  [_skillOrbIcon setPosition:ccp(13, _skillCounterBg.contentSize.height * .5f)];
+  [_skillCounterBg addChild:_skillOrbIcon];
+  
+  _skillCounterLabel = [CCLabelTTF labelWithString:@"" fontName:@"Gotham-Ultra" fontSize:8.f];
+  [_skillCounterLabel setColor:[CCColor whiteColor]];
+  [_skillCounterLabel setShadowBlurRadius:1.f];
+  [_skillCounterLabel setShadowOffset:ccp(0.f, -1.f)];
+  [_skillCounterLabel setShadowColor:[CCColor colorWithRed:0 green:0 blue:0 alpha:.6]];
+  [_skillCounterLabel setPosition:ccp(fullWidth/2, _skillCounterBg.contentSize.height * .5f)];
+  [_skillCounterBg addChild:_skillCounterLabel];
+  
+  _skillActiveIcon = [CCSprite spriteWithImageNamed:@"maptaskdonecheck.png"];
+  [_skillActiveIcon setPosition:ccp(fullWidth/2+7, _skillCounterBg.contentSize.height * .5f)];
+  [_skillActiveIcon setScale:.7f * .1f];
+  [_skillActiveIcon setOpacity:0.f];
+  [_skillCounterBg addChild:_skillActiveIcon];
+  
+  _skillNameLabel = [CCLabelTTF labelWithString:[skillName uppercaseString] fontName:@"GothamNarrow-Ultra" fontSize:14.f dimensions:CGSizeMake(fullWidth - (_skillIcon.contentSize.width+10), 0)];
+  [_skillNameLabel setAnchorPoint:CGPointMake(0, 0)];
+  [_skillNameLabel setHorizontalAlignment:CCTextAlignmentLeft];
+  [_skillNameLabel setVerticalAlignment:CCVerticalTextAlignmentBottom];
+  [_skillNameLabel setColor:[CCColor whiteColor]];
+  [_skillNameLabel setPosition:ccp(_skillIcon.contentSize.width + 5, 15)];
+  [_skillNameLabel setShadowBlurRadius:1.f];
+  [_skillNameLabel setShadowOffset:ccp(0.f, -1.f)];
+  [_skillNameLabel setShadowColor:[CCColor colorWithRed:0 green:0 blue:0 alpha:.6]];
+  [self addChild:_skillNameLabel];
+  
+  _skillOwnerLabel = [CCLabelTTF labelWithString:self.skillController.belongsToPlayer ? @"YOUR SKILL" : @"ENEMY SKILL" fontName:@"GothamNarrow-Ultra" fontSize:9.f];
+  [_skillOwnerLabel setAnchorPoint:CGPointMake(0, 0)];
+  [_skillOwnerLabel setColor:[CCColor whiteColor]];
+  [_skillOwnerLabel setPosition:ccp(0, _skillNameLabel.contentSize.height - 2)];
+  [_skillOwnerLabel setShadowBlurRadius:1.f];
+  [_skillOwnerLabel setShadowOffset:ccp(0.f, -1.f)];
+  [_skillOwnerLabel setShadowColor:[CCColor colorWithRed:0 green:0 blue:0 alpha:.6]];
+  [_skillNameLabel addChild:_skillOwnerLabel];
+  
+  if ([self.skillController isKindOfClass:[SkillControllerActive class]])
+  {
+    SkillControllerActive* activeController = (SkillControllerActive*)self.skillController;
+    [_skillCounterLabel setString:[NSString stringWithFormat:@"%d/%d",
+                                   (int)(activeController.orbRequirement - activeController.orbCounter),
+                                   (int)(activeController.orbRequirement)]];
+    [_skillCounterLabel setFontSize:9.f];
+    [_skillCounterLabel setPosition:ccpAdd(_skillCounterLabel.position, ccp(5.f, 0.f))];
+  }
+  else
+  {
+    [_skillCounterLabel setString:@"PASSIVE"];
+    [_skillOrbIcon setVisible:NO];
+  }
+  
+//  self.contentSize = CGSizeMake(fullWidth, _skillIcon.position.x + _skillIcon.contentSize.height);
+}
+
+- (void) setSkillPercentage:(float)percentage
+{
+  if (self.percentage == percentage)
+    return;
+  
+  self.percentage = percentage;
+  
+  float totalWidth = self.percentage * _skillCounterBgMiddle.scaleX;
+  
+  CGRect r;
+  
+  r = _skillBarLeftCap.textureRect;
+  r.size.width = MIN(totalWidth/2, _skillBarLeftCap.contentSize.width);
+  [_skillBarLeftCap setTextureRect:r rotated:NO untrimmedSize:_skillBarLeftCap.contentSize];
+  
+  r = _skillBarRightCap.textureRect;
+  r.size.width = _skillBarLeftCap.textureRect.size.width;
+  [_skillBarRightCap setTextureRect:r rotated:NO untrimmedSize:_skillBarRightCap.contentSize];
+  
+  _skillBarMiddle.position = ccp(_skillBarLeftCap.textureRect.size.width, 0);
+  _skillBarMiddle.scaleX = MAX(0, totalWidth);
+  
+  _skillBarRightCap.position = ccp(totalWidth * _skillBarMiddle.contentSize.width + _skillBarRightCap.contentSize.width, 0);
+  
+  [self checkChargeEffect];
+}
+
+- (void) popupOrbCounter
+{
+  CGPoint orbCounterPosition = [self convertToWorldSpace:_skillIcon.position];
+  orbCounterPosition = ccp((orbCounterPosition.x + _skillIcon.contentSize.width/2) * 1.5, [Globals screenSize].height - (orbCounterPosition.y + _skillIcon.contentSize.height/2) * 1.5);
+  
+//  orbCounterPosition = ccp(orbCounterPosition.x * 1.5, orbCounterPosition.y * .66 - _skillIcon.contentSize.height);
+  
+  [skillManager displaySkillCounterPopupForController:self.skillController withProto:_skillProto atPosition:orbCounterPosition];
+  
+}
+
+- (void) setCurse:(BOOL)curse
+{
+  _cursed = curse;
+  if (curse)
+  {
+    [_skillCounterLabel runAction:[CCActionSequence actions:
+                                   [CCActionScaleTo actionWithDuration:CURSE_SCALE_TIME scale:0],
+                                   [CCActionCallBlock actionWithBlock:^{
+      //[_skillCounterLabel setPosition:ccp(27, _skillCounterBg.contentSize.height * .5f)];
+      [_skillCounterLabel setString:@"CURSED"];
+    }],
+                                   [CCActionScaleTo actionWithDuration:CURSE_SCALE_TIME scale:1],
+                                   nil]];
+    
+    if (!_skillActive)
+      [_skillOrbIcon runAction:[CCActionScaleTo actionWithDuration:CURSE_SCALE_TIME scale:0]];
+    
+  }
+  else
+  {
+    
+    [_skillCounterLabel runAction:[CCActionSequence actions:
+                                   [CCActionScaleTo actionWithDuration:CURSE_SCALE_TIME scale:0],
+                                   [CCActionCallBlock actionWithBlock:^{
+      //[_skillCounterLabel setPosition:ccp([_skillController isKindOfClass:[SkillControllerActive class]] ? 32 : 27, _skillCounterBg.contentSize.height * .5f)];
+      [self update];
+    }],
+                                   [CCActionScaleTo actionWithDuration:CURSE_SCALE_TIME scale:1],
+                                   nil]];
+    [_skillOrbIcon runAction:[CCActionSequence actions:
+                              [CCActionDelay actionWithDuration:CURSE_SCALE_TIME],
+                              [CCActionScaleTo actionWithDuration:CURSE_SCALE_TIME scale:.4],
+                              nil]];
+  }
 }
 
 @end

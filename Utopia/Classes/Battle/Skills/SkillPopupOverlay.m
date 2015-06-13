@@ -79,7 +79,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
 }
 
 - (void) animate:(SkillPopupData*)data withCompletion:(SkillPopupBlock)completion {
-  [self animate:data.player withImage:[Globals imageNamed:data.imageName] topText:data.topText bottomText:data.bottomText miniPopup:data.miniPopup item:data.item stacks:data.stacks withCompletion:completion];
+  [self animate:data.player withImage:[Globals imageNamed:data.imageName useiPhone6Prefix:[Globals isiPad] useiPadSuffix:NO] topText:data.topText bottomText:data.bottomText miniPopup:data.miniPopup item:data.item stacks:data.stacks withCompletion:completion];
 }
 
 - (void) animate:(BOOL)player withImage:(UIImage*)characterImage topText:(NSString*)topText bottomText:(NSString*)bottomtext

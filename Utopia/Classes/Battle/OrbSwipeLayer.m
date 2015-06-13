@@ -90,7 +90,7 @@
 
 - (OrbSprite*) createOrbSpriteForOrb:(BattleOrb*)orb
 {
-  NSString *suffix = self.layout.numColumns == 9 || self.layout.numRows == 9 ? @"-9" : @"";
+  NSString *suffix = ![Globals isiPad] && (self.layout.numColumns == 9 || self.layout.numRows == 9) ? @"-9" : @"";
   OrbSprite* orbLayer = [OrbSprite orbSpriteWithOrb:orb suffix:suffix];
   orbLayer.position = [self pointForColumn:orb.column row:orb.row];
   [self addChild:orbLayer z:0 name:ORB_NAME_TAG(orb)];
@@ -618,6 +618,8 @@
     spr.opacity = 0.f;
     //spr.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
     spr.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
+    if ([Globals isiPad])
+      spr.scale = 1.0/1.5;
     
     float pulseDur = 0.4f;
     float numTimes = 4;

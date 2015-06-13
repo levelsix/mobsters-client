@@ -1641,15 +1641,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s {
-  [Globals imageNamed:imageName toReplaceSprite:s completion:nil];
+  [Globals imageNamed:imageName toReplaceSprite:s canBeiPad:NO completion:nil];
+}
+
++ (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s canBeiPad:(BOOL)canBeiPad {
+  [Globals imageNamed:imageName toReplaceSprite:s canBeiPad:canBeiPad completion:nil];
 }
 
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s completion:(void(^)(BOOL success))completion {
+  [Globals imageNamed:imageName toReplaceSprite:s canBeiPad:NO completion:completion];
+}
+
++ (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s canBeiPad:(BOOL)canBeiPad completion:(void (^)(BOOL))completion {
   Globals *gl = [Globals sharedGlobals];
   NSString *key = [NSString stringWithFormat:@"%p", s];
   
   [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
-  [self checkAndLoadFile:imageName useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
+  [self checkAndLoadFile:imageName useiPhone6Prefix:NO useiPadSuffix:canBeiPad ? [Globals isiPad] : NO completion:^(BOOL success) {
     NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
     if (success && [str isEqual:imageName]) {
       [s setSpriteFrame:[CCSpriteFrame frameWithImageNamed:imageName]];

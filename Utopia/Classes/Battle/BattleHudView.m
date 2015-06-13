@@ -206,10 +206,13 @@
   
   self.elementView.center = ccp(CGRectGetMaxX(self.elementButton.frame), self.elementView.center.y);
   
-  self.waveNumLabel.shadowBlur = 1.f;
-  self.waveNumLabel.gradientStartColor = [UIColor whiteColor];
-  self.waveNumLabel.gradientEndColor = [UIColor colorWithWhite:233/255.f alpha:1.f];
-  self.waveNumLabel.alpha = 0.f;
+  //On ipad, waveNumLabel label isn't THLabel
+  if ([self.waveNumLabel isKindOfClass:[THLabel class]]) {
+    self.waveNumLabel.shadowBlur = 1.f;
+    self.waveNumLabel.gradientStartColor = [UIColor whiteColor];
+    self.waveNumLabel.gradientEndColor = [UIColor colorWithWhite:233/255.f alpha:1.f];
+    self.waveNumLabel.alpha = 0.f;
+  }
   
   self.swapLabel.text = [NSString stringWithFormat:@"SELECT A %@ TO DEPLOY", MONSTER_NAME.uppercaseString];
   self.swapLabel.shadowBlur = 1.f;
@@ -223,7 +226,8 @@
 - (void) removeButtons {
   [self removeSwapButtonAnimated:YES];
   [self removeDeployView];
-  self.forfeitButtonView.hidden = YES;
+  if (![Globals isiPad])
+    self.forfeitButtonView.hidden = YES;
   self.elementButton.hidden = YES;
   [self.elementView close];
   [self disableItemsView];
@@ -242,7 +246,10 @@
   self.swapView.hidden = NO;
   self.swapView.center = ccp(-self.swapView.frame.size.width/2, self.swapView.center.y);
   [UIView animateWithDuration:ANIMATION_TIME animations:^{
-    self.swapView.center = ccp(self.swapView.frame.size.width/2, self.swapView.center.y);
+    if ([Globals isiPad])
+      self.swapView.center = ccp(self.swapView.frame.size.width/2 + 15, self.swapView.center.y);
+    else
+      self.swapView.center = ccp(self.swapView.frame.size.width/2, self.swapView.center.y);
   }];
 }
 
