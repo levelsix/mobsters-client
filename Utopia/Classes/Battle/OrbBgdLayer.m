@@ -18,10 +18,15 @@
 #define IPHONE_6_PLUS_TILE_SIZE 47
 //Note: iPad-retina uses IPHONE_5_TILE_SIZE
 
-#define CORNER_SIZE 12
+#define CORNER_SIZE_IPHONE 6
+#define CORNER_SIZE_IPAD 12
 #define BORDER_WIDTH 2
 
 @implementation OrbBgdLayer
+
+- (int) cornerSize {
+  return [Globals isiPad] ? CORNER_SIZE_IPAD : CORNER_SIZE_IPHONE;
+}
 
 - (int) tileSize {
   int initialSize = [Globals isiPhone6] ? IPHONE_6_TILE_SIZE : [Globals isiPhone6Plus] ? IPHONE_6_PLUS_TILE_SIZE : IPHONE_5_TILE_SIZE;
@@ -174,12 +179,12 @@
       if (leftLine) {
         CCSprite *leftBorder = [CCSprite spriteWithImageNamed:@"borderstraight.png"];
         
-        float scale = tileSize - (noCorners ? 0 : CORNER_SIZE);
+        float scale = tileSize - (noCorners ? 0 : [self cornerSize]);
         
 //        leftBorder.scaleX = .75;
         leftBorder.scaleY = scale;
         leftBorder.anchorPoint = ccp(!mHole, 0);
-        leftBorder.position = ccpAdd(basePt, ccp(0, CORNER_SIZE/2));
+        leftBorder.position = ccpAdd(basePt, ccp(0, [self cornerSize]/2));
         [self iPadScaleSprite:leftBorder xRatio:1 yRatio:1.5];
         
         [_borderNode addChild:leftBorder];
@@ -188,12 +193,12 @@
       if (topLine) {
         CCSprite *topBorder = [CCSprite spriteWithImageNamed:@"borderstraight.png"];
         
-        float scale = tileSize - (noCorners ? 0 : CORNER_SIZE);
+        float scale = tileSize - (noCorners ? 0 : [self cornerSize]);
         
         // Can't use the anchor point like above since we need to rotate and scale.. gets all screwy
         topBorder.scaleY = scale;
         topBorder.rotation = 90;
-        topBorder.position = ccpAdd(basePt, ccp(tileSize-CORNER_SIZE/2-scale/2, tileSize+(!mHole*2-1)*BORDER_WIDTH/2));
+        topBorder.position = ccpAdd(basePt, ccp(tileSize-[self cornerSize]/2-scale/2, tileSize+(!mHole*2-1)*BORDER_WIDTH/2));
         [self iPadScaleSprite:topBorder xRatio:1 yRatio:1.5];
         
         [_borderNode addChild:topBorder];
