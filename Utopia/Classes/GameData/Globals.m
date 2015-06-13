@@ -2841,23 +2841,48 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (BOOL) isSmallestiPhone {
-  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 480.0);
+  static BOOL isSet = NO, isSmallestiPhone;
+  if (!isSet) {
+    isSmallestiPhone = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 480.0);
+    isSet = YES;
+  }
+  return isSmallestiPhone;
 }
 
 + (BOOL) isiPhone5orSmaller {
-  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width <= 650.0);
+  static BOOL isSet = NO, isiPhone5orSmaller;
+  if (!isSet) {
+    isiPhone5orSmaller = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width <= 650.0);
+    isSet = YES;
+  }
+  return isiPhone5orSmaller;
 }
 
 + (BOOL) isiPhone6 {
-  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 667.0);
+  static BOOL isSet = NO, isiPhone6;
+  if (!isSet) {
+    isiPhone6 = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 667.0);
+    isSet = YES;
+  }
+  return isiPhone6;
 }
 
 + (BOOL) isiPhone6Plus {
-  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 736.0);
+  static BOOL isSet = NO, isiPhone6Plus;
+  if (!isSet) {
+    isiPhone6Plus = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 736.0);
+    isSet = YES;
+  }
+  return isiPhone6Plus;
 }
 
 + (BOOL) isiPad {
-  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
+  static BOOL isSet = NO, isiPad;
+  if (!isSet) {
+    isiPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
+    isSet = YES;
+  }
+  return isiPad;
 }
 
 #pragma mark Colors
