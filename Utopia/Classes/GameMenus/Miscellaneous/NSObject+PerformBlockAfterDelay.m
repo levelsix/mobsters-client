@@ -9,7 +9,7 @@
 
 @implementation NSObject (PerformBlockAfterDelay)
 
-- (void)performAfterDelay:(NSTimeInterval)delay block:(void (^)(void))block
+- (void)performBlockAfterDelay:(NSTimeInterval)delay block:(void (^)(void))block
 {
   block = [block copy];
   [self performSelector:@selector(fireBlockAfterDelay:) withObject:block afterDelay:delay];

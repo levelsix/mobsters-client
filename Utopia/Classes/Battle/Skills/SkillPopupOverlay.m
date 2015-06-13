@@ -181,7 +181,7 @@ typedef void (^ShakeAnimCompletionBlock)(void);
     [skillView.layer setTransform:CATransform3DIdentity];
   } completion:^(BOOL finished) {
     [self shakeView:mainView withKey:@"SkillPopupShakeAnimation" smallShake:mini completion:^{
-      [self performAfterDelay:mini ? POPUP_STAY_DURATION_LONG : POPUP_STAY_DURATION_SHORT block:^{
+      [self performBlockAfterDelay:mini ? POPUP_STAY_DURATION_LONG : POPUP_STAY_DURATION_SHORT block:^{
         completion();
       }];
     }];

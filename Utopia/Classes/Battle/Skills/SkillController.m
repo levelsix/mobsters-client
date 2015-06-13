@@ -273,7 +273,7 @@
 
 - (void) dealPoisonDamage
 {
-  [self performAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+  [self performBlockAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
     
     [self showSkillPopupAilmentOverlay:@"POISONED" bottomText:[NSString stringWithFormat:@"%i POISON DMG", [self poisonDamage]] priority:0];
     
@@ -369,7 +369,7 @@
 // Puts a delay inbetween the quick attack and releasing the skill trigger for melee toons
 - (void) preFinishQuickAttack
 {
-  [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? 1 : 0 block:^{
+  [self performBlockAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? 1 : 0 block:^{
     [self onFinishQuickAttack];
   }];
 }

@@ -94,7 +94,7 @@
     if (execute)
     {
       [self removeSpecialOrbs];
-      [self performAfterDelay:.3f block:^{
+      [self performBlockAfterDelay:.3f block:^{
         [self skillTriggerFinished];
       }];
     }
@@ -174,7 +174,7 @@
     {
       if (n == count - 1)
         if (target && selector)
-          [self performAfterDelay:.5f block:^{
+          [self performBlockAfterDelay:.5f block:^{
             SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING([target performSelector:selector withObject:nil];);
           }];
       continue;
@@ -188,7 +188,7 @@
     [bgdLayer updateTile:tile keepLit:NO withTarget:(n == count - 1) ? target : nil andCallback:selector];
     
     // Update orb
-    [self performAfterDelay:.5f block:^{
+    [self performBlockAfterDelay:.5f block:^{
       OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
       [orbSprite reloadSprite:YES];
     }];

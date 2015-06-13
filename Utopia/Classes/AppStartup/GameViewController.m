@@ -72,6 +72,8 @@
 
 #define EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT 3
 
+#define RECONNECT_NOTIFICATION_DELAY 1.f
+
 @implementation GameViewController
 
 - (id) init {
@@ -405,8 +407,16 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) reconnectToServer {
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self clearMessages:NO];
   
-  self.reconnectViewController = [[ReconnectViewController alloc] init];
-  [self.notificationController addNotification:self.reconnectViewController];
+  if (!self.reconnectViewController) {
+    self.reconnectViewController = [[ReconnectViewController alloc] init];
+    
+    // 2 second delay before displaying reconnect vc
+    [self performBlockAfterDelay:RECONNECT_NOTIFICATION_DELAY block:^{
+      if (self.reconnectViewController) {
+        [self.notificationController addNotification:self.reconnectViewController];
+      }
+    }];
+  }
 }
 
 - (void) amqpDisconnected {
@@ -487,6 +497,8 @@ static const CGSize FIXED_SIZE = {568, 384};
     [Analytics connectStep:ConnectStepAmqpConnected];
   } else if (self.tutController) {
     gs.connected = YES;
+    
+    [self connectedToUserIdQueue];
     
     [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
   } else if (_isFromFacebook || !_isFreshRestart) {

@@ -764,7 +764,7 @@
     }];
     
     // To allow the schedule cards to refresh before the bump of the last
-    [self performAfterDelay:delay2 block:^{
+    [self performBlockAfterDelay:delay2 block:^{
       
       if (_firstTurn) {
         // Trigger skills when new enemy joins the battle
@@ -841,7 +841,7 @@
     [self.hudView prepareForMyTurn];
     [self updateItemsBadge];
     
-    [self performAfterDelay:0.5 block:^{
+    [self performBlockAfterDelay:0.5 block:^{
       [self.hudView.battleScheduleView bounceLastView];
     }];
   }];
@@ -849,7 +849,7 @@
 
 - (void) endMyTurnAfterDelay:(NSTimeInterval)delay
 {
-  [self performAfterDelay:delay block:^{
+  [self performBlockAfterDelay:delay block:^{
     _enemyShouldAttack = YES;
     [self checkEnemyHealthAndStartNewTurn];
   }];
@@ -862,14 +862,14 @@
   BOOL needToBounce = YES;
   if (! [skillManager willEnemySkillTrigger:SkillTriggerPointStartOfEnemyTurn])
   {
-    [self performAfterDelay:0.5 block:^{
+    [self performBlockAfterDelay:0.5 block:^{
       [self.hudView.battleScheduleView bounceLastView];
     }];
     needToBounce = NO;
   }
   
   // Skills trigger for enemy turn started
-  [self performAfterDelay:delay block:^{
+  [self performBlockAfterDelay:delay block:^{
     
     SkillLogStart(@"TRIGGER STARTED: beginning of enemy turn");
     [skillManager triggerSkills:SkillTriggerPointStartOfEnemyTurn withCompletion:^(BOOL triggered, id params) {
@@ -882,7 +882,7 @@
         {
           if (needToBounce)
             [self.hudView.battleScheduleView bounceLastView];
-          [self performAfterDelay:0.5 block:^{
+          [self performBlockAfterDelay:0.5 block:^{
             _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
             _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
             _enemyDamageDealtUnmodified = _enemyDamageDealt;
@@ -892,7 +892,7 @@
             if (self.enemyPlayerObject.isStunned)
             {
               [[skillManager playerSkillControler] showSkillPopupAilmentOverlay:@"STUNNED" bottomText:@"TURN LOST"];
-              [self performAfterDelay:1.5 block:^{
+              [self performBlockAfterDelay:1.5 block:^{
                 [self endEnemyTurn];
               }];
               return;

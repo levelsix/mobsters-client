@@ -423,7 +423,7 @@
     }
   }];
   
-  [self performAfterDelay:delay block:^(void) { [SoundEngine nextTask]; }];
+  [self performBlockAfterDelay:delay block:^(void) { [SoundEngine nextTask]; }];
   
   [self.myPositionView.superview bringSubviewToFront:self.myPositionView];
   

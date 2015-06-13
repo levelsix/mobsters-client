@@ -489,7 +489,9 @@ static int descriptionWidthChange = 50;
 
 - (void) changeAvatar {
   GameState *gs = [GameState sharedGameState];
-  if ([self.monster.userUuid isEqualToString:gs.userUuid]) {
+  if (!self.monster.isComplete) {
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You must fully own this %@ before making it your avatar.", MONSTER_NAME]];
+  } else if ([self.monster.userUuid isEqualToString:gs.userUuid]) {
     [[OutgoingEventController sharedOutgoingEventController] setAvatarMonster:self.monster.monsterId];
     self.avatarButton.enabled = NO;
   }

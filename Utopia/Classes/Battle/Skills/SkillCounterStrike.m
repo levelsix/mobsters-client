@@ -57,7 +57,7 @@
       if (execute){
         float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
         if (rand < _chance){
-          [self performAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+          [self performBlockAfterDelay:self.opponentSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
             [self dealQuickAttack];
             [self tickDuration];
           }];

@@ -293,9 +293,9 @@
   if ([self isTileDarkened:tile])
   {
     [self turnTheLightForTile:tile on:YES instantly:NO];
-    [self performAfterDelay:0.5 block:^{
+    [self performBlockAfterDelay:0.5 block:^{
       [self updateTileInternal:tile];
-      [self performAfterDelay:keepLit?0.0:0.3 block:^{
+      [self performBlockAfterDelay:keepLit?0.0:0.3 block:^{
         if (! keepLit)
           [self turnTheLightForTile:tile on:NO instantly:NO];
         if (target && callback)

@@ -73,7 +73,7 @@
 - (void) removeFromParent
 {
   [self stopSystem];
-  [self performAfterDelay:2.0 block:^{
+  [self performBlockAfterDelay:2.0 block:^{
     [super removeFromParent];
   }];
 }
@@ -94,7 +94,7 @@
 - (void) removeFromParent
 {
   [self stopSystem];
-  [self performAfterDelay:2.f block:^{
+  [self performBlockAfterDelay:2.f block:^{
     [super removeFromParent];
   }];
 }

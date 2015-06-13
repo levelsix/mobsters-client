@@ -119,7 +119,7 @@
   [self performSelector:@selector(updateOwnerSprite) withObject:nil afterDelay:0.3];
   
   // Finish trigger execution
-  [self performAfterDelay:0.6 block:^{
+  [self performBlockAfterDelay:0.6 block:^{
     [self skillTriggerFinished:YES];
   }];
 }

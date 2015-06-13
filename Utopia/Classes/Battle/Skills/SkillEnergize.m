@@ -102,7 +102,7 @@
   
   [self updateSkillOwnerSpeed];
   
-  [self performAfterDelay:.3 block:^{
+  [self performBlockAfterDelay:.3 block:^{
     [self resetDuration];
   }];
   

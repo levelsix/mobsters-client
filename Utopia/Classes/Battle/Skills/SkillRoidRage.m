@@ -67,7 +67,7 @@
   [super addVisualEffects:NO];
   
   if (skillTriggerFinished)
-    [self performAfterDelay:0.3 block:^{
+    [self performBlockAfterDelay:0.3 block:^{
       [self skillTriggerFinished:YES];
     }];
 }

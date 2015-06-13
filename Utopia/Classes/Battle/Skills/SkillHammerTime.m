@@ -117,7 +117,7 @@
     [self addStunAnimations];
   
   // Finish trigger execution
-  [self performAfterDelay:0.3 block:^{
+  [self performBlockAfterDelay:0.3 block:^{
     [self skillTriggerFinished];
   }];
 }

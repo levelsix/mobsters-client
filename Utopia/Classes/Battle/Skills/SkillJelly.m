@@ -96,7 +96,7 @@
 {
   if (_currentTrigger == SkillTriggerPointStartOfEnemyTurn) // This is to let jellies update before we'll proceed
   {
-    [self performAfterDelay:0.7 block:^{
+    [self performBlockAfterDelay:0.7 block:^{
       [super skillTriggerFinished];
     }];
   }

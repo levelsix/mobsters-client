@@ -46,7 +46,7 @@
   
   [self.wifiIcon stopAnimating];
   
-  [self performAfterDelay:1.f block:^{
+  [self performBlockAfterDelay:1.f block:^{
     UIView *v = self.notificationView;
     [UIView animateWithDuration:0.3f animations:^{
       v.center = ccp(v.centerX, -v.height/2);

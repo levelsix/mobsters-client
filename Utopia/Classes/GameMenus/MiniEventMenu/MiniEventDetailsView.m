@@ -74,11 +74,8 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   self.eventInfoMyPoints.shadowOffset = CGSizeMake(0, .5);
   self.eventInfoMyPoints.shadowBlur   = 1.2f;
   
-  self.eventInfoPointsEearned.gradientStartColor = [UIColor colorWithHexString:@"CAF45A"];
-  self.eventInfoPointsEearned.gradientEndColor   = [UIColor colorWithHexString:@"AEEE3A"];
   self.eventInfoPointsEearned.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
   self.eventInfoPointsEearned.shadowOffset = CGSizeMake(0, 1);
-  self.eventInfoPointsEearned.shadowBlur   = 1.2f;
   
   self.collectRewardView = nil;
 }

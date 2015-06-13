@@ -77,7 +77,7 @@
     self.battleLayer.shouldDisplayNewSchedule = YES;
     
     // Eat the cake animation
-    [self performAfterDelay:1.5 block:^{
+    [self performBlockAfterDelay:1.5 block:^{
       
       _startedEating = NO;
       
@@ -167,7 +167,7 @@
     if (execute)
     {
       [self destroyAllCakes];
-      [self performAfterDelay:0.3 block:^{
+      [self performBlockAfterDelay:0.3 block:^{
         [self skillTriggerFinished];
       }];
     }
@@ -213,7 +213,7 @@
     [bgdLayer updateTile:tile keepLit:YES withTarget:((n==_initialCakes-1)?self:nil) andCallback:@selector(skillTriggerFinished)]; // returning from the skill
     
     // Update orb
-    [self performAfterDelay:0.5 block:^{
+    [self performBlockAfterDelay:0.5 block:^{
       OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
       [orbSprite reloadSprite:YES];
     }];

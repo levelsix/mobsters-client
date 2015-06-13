@@ -79,7 +79,7 @@
           _currentShieldHp += _shieldHp;
           
           // Create sprite
-          [self performAfterDelay:0.3 block:^{
+          [self performBlockAfterDelay:0.3 block:^{
             [self createShieldSprite];
             [self showShieldHp];
           }];
@@ -148,7 +148,7 @@ static const NSInteger permanentActionTag = 100;
 
 - (void) startPermanentAnimationsAfterDelay:(float)delay withPop:(BOOL)shouldPop
 {
-  [self performAfterDelay:delay block:^{
+  [self performBlockAfterDelay:delay block:^{
     [self createPermanentAnimation:_backSprite withPop:shouldPop];
     [self createPermanentAnimation:_frontSprite withPop:shouldPop];
     [self createPermanentAnimation:_glowSprite withPop:shouldPop];

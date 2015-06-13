@@ -282,9 +282,9 @@
   {
     if (execute)
     {
-      [self performAfterDelay:.8f block:^{
+      [self performBlockAfterDelay:.8f block:^{
         [self.opponentSprite playStatusAntidoteEffect];
-        [self performAfterDelay:.9f block:^{
+        [self performBlockAfterDelay:.9f block:^{
           [self onCureStatus];
           [self.battleLayer moveComplete];
         }];

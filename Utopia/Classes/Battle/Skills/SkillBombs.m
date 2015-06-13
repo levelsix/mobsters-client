@@ -62,7 +62,7 @@
   [self.playerSprite performFarFlinchAnimationWithDelay:delay];
   
   //Deal damage
-  [self.battleLayer performAfterDelay:delay block:^{
+  [self.battleLayer performBlockAfterDelay:delay block:^{
     self.battleLayer.enemyDamageDealt = (int)_currDamage;
     [self.battleLayer dealDamage:(int)_currDamage enemyIsAttacker:YES usingAbility:YES withTarget:nil withSelector:nil];
   }];
@@ -156,7 +156,7 @@
          [bomb removeFromParentAndCleanup:YES];
          
          if (i == bombCount-1) {
-           [self performAfterDelay:0.5 block:^{
+           [self performBlockAfterDelay:0.5 block:^{
              [self skillTriggerFinished];
            }];
          }

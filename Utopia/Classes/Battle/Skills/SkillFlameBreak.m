@@ -156,8 +156,8 @@
   }
   
   // Finish trigger execution
-  [self performAfterDelay:.3f block:^{
-    [self performAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
+  [self performBlockAfterDelay:.3f block:^{
+    [self performBlockAfterDelay:self.userSprite.animationType == MonsterProto_AnimationTypeMelee ? .5 : 0 block:^{
       [self resetDuration];
     }];
   }];

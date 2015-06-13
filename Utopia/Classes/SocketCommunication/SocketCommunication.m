@@ -32,8 +32,8 @@
 #define READING_HEADER_TAG -1
 #define HEADER_SIZE 4
 
-#define RECONNECT_TIMEOUT 0.5f
-#define NUM_SILENT_RECONNECTS 1
+#define RECONNECT_TIMEOUT 1.f
+#define NUM_SILENT_RECONNECTS 15
 
 #define CONNECTED_TO_HOST_DELEGATE_TAG 999998
 #define CLAN_EVENT_DELEGATE_TAG 999999
@@ -182,6 +182,12 @@ static NSString *udid = nil;
 }
 
 - (void) tryConnect {
+  // Close the old one just in case
+  if (self.webSocket) {
+    [self.webSocket close];
+  }
+  
+  
   NSURL *url = [NSURL URLWithString:HOST_NAME];
   self.webSocket = [[SRWebSocket alloc] initWithURL:url];
   self.webSocket.delegate = self;
@@ -228,11 +234,14 @@ static NSString *udid = nil;
       [self.unrespondedMessages removeAllObjects];
     }
   } else {
-    // Send reconnect msg at front
-    NSMutableArray *oldQueuedMsgs = self.queuedMessages;
-    self.queuedMessages = [NSMutableArray array];
-    [self sendReconnectMessage];
-    [self.queuedMessages addObjectsFromArray:oldQueuedMsgs];
+    GameState *gs = [GameState sharedGameState];
+    if (!gs.isTutorial) {
+      // Send reconnect msg at front
+      NSMutableArray *oldQueuedMsgs = self.queuedMessages;
+      self.queuedMessages = [NSMutableArray array];
+      [self sendReconnectMessage];
+      [self.queuedMessages addObjectsFromArray:oldQueuedMsgs];
+    }
     
     [self.queuedMessages addObjectsFromArray:self.unrespondedMessages];
     [self.unrespondedMessages removeAllObjects];
@@ -315,7 +324,11 @@ static NSString *udid = nil;
       [self callSelectorOnHostDelegate:@selector(unableToConnectToHost:)];
     } else {
       LNLog(@"Silently reconnecting..");
-      [self tryConnect];
+      [self performBlockAfterDelay:RECONNECT_TIMEOUT block:^{
+        if (_shouldReconnect) {
+          [self tryConnect];
+        }
+      }];
     }
   }
 }
@@ -2154,6 +2167,8 @@ static NSString *udid = nil;
   
   if (webSocket != self.webSocket) {
     LNLog(@"Somehow there are 2 websockets: %@, %@", self.webSocket, webSocket);
+    webSocket.delegate = nil;
+    [webSocket close];
   } else {
     [self connectedToHost];
   }

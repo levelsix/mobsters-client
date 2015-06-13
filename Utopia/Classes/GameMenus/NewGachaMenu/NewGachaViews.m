@@ -565,7 +565,7 @@ typedef void (^RevealAnimCompletionBlock)(void);
   // Play the Gacha reveal SFX for the next character (if any) with a head start
   _startedNextRevealSoundEffect = NO;
   const NSTimeInterval t = (kRevealAnimDuration + kStatsScaleAnimDuration + kScreenShakeAnimDuration) + kRevealDelayInBetweenAnims - kSoundEffectAnimHeadStart;
-  [self performAfterDelay:t block:^{
+  [self performBlockAfterDelay:t block:^{
     if (!_skippingAnimations && _currentCharacterIndex < _characterDescriptors.count - 1)
     {
       _startedNextRevealSoundEffect = YES;

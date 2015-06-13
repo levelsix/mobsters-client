@@ -25,7 +25,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView* eventInfoTimerBackground;
 @property (nonatomic, retain) IBOutlet THLabel* eventInfoEventEnded;
 @property (nonatomic, retain) IBOutlet THLabel* eventInfoMyPoints;
-@property (nonatomic, retain) IBOutlet THLabel* eventInfoPointsEearned;
+@property (nonatomic, retain) IBOutlet UILabel* eventInfoPointsEearned;
 @property (nonatomic, retain) IBOutlet UITableView* eventActionList;
 
 @end

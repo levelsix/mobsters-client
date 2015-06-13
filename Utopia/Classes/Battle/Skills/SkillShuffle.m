@@ -44,7 +44,7 @@
     {
       _logoShown = YES;
       [self showSkillPopupOverlay:YES withCompletion:^(){
-        [self performAfterDelay:.5f block:^{
+        [self performBlockAfterDelay:.5f block:^{
           [self skillTriggerFinished];
         }];
       }];
