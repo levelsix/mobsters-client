@@ -50,7 +50,7 @@
                                 </subviews>
                             </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="24 Hour Speedup" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="9LT-3N-ULB" customClass="NiceFontLabel10">
-                                <rect key="frame" x="78" y="9" width="119" height="21"/>
+                                <rect key="frame" x="78" y="12" width="135" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -62,7 +62,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Owned: 5" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1lb-hZ-ubW" customClass="NiceFontLabel9">
-                                <rect key="frame" x="78" y="37" width="112" height="21"/>
+                                <rect key="frame" x="78" y="40" width="135" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.396078431372549" green="0.396078431372549" blue="0.396078431372549" alpha="1" colorSpace="calibratedRGB"/>
@@ -96,7 +96,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="dwa-Aj-ZpG" userLabel="Gems View">
-                                <rect key="frame" x="195" y="25" width="83" height="48"/>
+                                <rect key="frame" x="227" y="13" width="83" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TdK-ZZ-3cn" customClass="GemsButton">
@@ -110,7 +110,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Free!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="fFD-hE-wqg" customClass="NiceFontLabel12">
-                                        <rect key="frame" x="26" y="14" width="30" height="21"/>
+                                        <rect key="frame" x="11" y="4" width="60" height="42"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -119,20 +119,20 @@
                                         <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" id="yiZ-5j-R0U">
-                                        <rect key="frame" x="23" y="16" width="36" height="16"/>
+                                        <rect key="frame" x="5" y="8" width="72" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="kqb-en-epa" customClass="NiceFontLabel12">
-                                                <rect key="frame" x="24" y="-3" width="24" height="21"/>
+                                                <rect key="frame" x="24" y="0.0" width="40" height="32"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
                                                 <size key="shadowOffset" width="0.0" height="1"/>
                                             </label>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="diamond.png" id="bn5-Jg-Yn5">
-                                                <rect key="frame" x="-5" y="-4" width="25" height="25"/>
+                                                <rect key="frame" x="-5" y="4" width="25" height="25"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </imageView>
                                         </subviews>
