@@ -24,6 +24,11 @@
             <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" id="3Ka-h6-TT1">
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                </view>
                 <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4d8-ge-6TP" userLabel="Close Button" customClass="CloseButton">
                     <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -39,11 +44,6 @@
                         <action selector="closeClicked:" destination="-1" eventType="touchUpInside" id="gos-Ob-ChW"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" id="3Ka-h6-TT1">
-                    <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
-                </view>
                 <view contentMode="scaleToFill" id="1ok-cB-71x">
                     <rect key="frame" x="382" y="246" width="340" height="302"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -63,7 +63,7 @@
                                     </connections>
                                 </tableView>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" id="cRQ-qH-e4y" userLabel="Header View">
-                                    <rect key="frame" x="0.0" y="0.0" width="318" height="46"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="318" height="65"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="itemsheaderbg.png" id="x2S-x6-22G">

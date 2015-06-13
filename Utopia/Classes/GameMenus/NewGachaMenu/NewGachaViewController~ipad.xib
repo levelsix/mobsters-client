@@ -665,52 +665,52 @@
             <point key="canvasLocation" x="633" y="1013.5"/>
         </view>
         <view contentMode="scaleToFill" id="R1D-O9-H9q" customClass="BattleSkillCounterPopupView">
-            <rect key="frame" x="0.0" y="0.0" width="220" height="129"/>
+            <rect key="frame" x="0.0" y="0.0" width="330" height="194"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="earthskilldescription.png" id="BT0-yH-eZH" userLabel="Popup Background Image">
-                    <rect key="frame" x="0.0" y="0.0" width="220" height="129"/>
+                    <rect key="frame" x="0.0" y="0.0" width="330" height="194"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="4bf-28-foV" userLabel="Skill Name Label" customClass="NiceFontLabel18B">
-                    <rect key="frame" x="8" y="0.0" width="204" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <rect key="frame" x="16" y="8" width="297" height="37"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skilldescriptionline.png" id="1sk-d3-DaR" userLabel="Separator Line">
-                    <rect key="frame" x="16" y="29" width="187" height="1"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="16" y="44" width="297" height="1"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OdT-zW-9Qa" userLabel="Skill Description Label" customClass="NiceFontLabel2B">
-                    <rect key="frame" x="8" y="29" width="204" height="64"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OdT-zW-9Qa" userLabel="Skill Description Label" customClass="NiceFontLabel2B">
+                    <rect key="frame" x="16" y="44" width="297" height="96"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="poa-Mq-dCK" userLabel="Orbs Description Label" customClass="NiceFontLabel2B">
-                    <rect key="frame" x="8" y="96" width="204" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <rect key="frame" x="16" y="146.00000053313042" width="297" height="27"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fireorb.png" id="Vbd-SE-qCo" userLabel="Orb Icon">
-                    <rect key="frame" x="82" y="96" width="17" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="123" y="146.00000113097599" width="26" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00/00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UXO-Wx-Okv" userLabel="Orbs Counter Label" customClass="NiceFontLabel18B">
-                    <rect key="frame" x="105" y="96" width="55" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <rect key="frame" x="157" y="146.00000113097596" width="83" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
@@ -730,7 +730,7 @@
                 <outlet property="orbIcon" destination="Vbd-SE-qCo" id="QaH-N7-A8F"/>
                 <outlet property="parentView" destination="-1" id="ybD-hE-kiO"/>
             </connections>
-            <point key="canvasLocation" x="485" y="941.5"/>
+            <point key="canvasLocation" x="406" y="1231"/>
         </view>
         <view contentMode="scaleToFill" id="Kon-Hh-eje" customClass="NewGachaPrizeView">
             <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
@@ -937,27 +937,41 @@
             <point key="canvasLocation" x="633.5" y="189.5"/>
         </view>
         <view contentMode="scaleToFill" id="Oop-Hy-MU3" userLabel="Footer View">
-            <rect key="frame" x="0.0" y="0.0" width="241" height="63"/>
+            <rect key="frame" x="0.0" y="0.0" width="318" height="83"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="donateenhancebottombar.png" id="ffg-w1-wr9">
-                    <rect key="frame" x="6" y="0.0" width="229" height="57"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="TITLE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qw9-2X-L6x" customClass="NiceFontLabel12">
-                    <rect key="frame" x="18" y="2" width="123" height="27"/>
+                <view contentMode="scaleToFill" id="Ray-Pg-CSs" userLabel="BGview">
+                    <rect key="frame" x="6" y="0.0" width="306" height="77"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="functionalhomemenubottombarcap.png" id="mKV-V4-q8o">
+                            <rect key="frame" x="0.0" y="0.0" width="14" height="77"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="functionalhomemenubottombarmiddle.png" id="cbu-Q7-QHF">
+                            <rect key="frame" x="14" y="0.0" width="278" height="77"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="functionalhomemenubottombarcap.png" id="3cY-O7-Vyh" customClass="FlipImageView">
+                            <rect key="frame" x="292" y="0.0" width="14" height="77"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
+                        </imageView>
+                    </subviews>
+                </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="TITLE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qw9-2X-L6x" customClass="NiceFontLabel12">
+                    <rect key="frame" x="18" y="8" width="159" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <view contentMode="scaleToFill" id="I2Z-t9-bw1" userLabel="PackagesView">
-                    <rect key="frame" x="144" y="3" width="84" height="51"/>
+                    <rect key="frame" x="185" y="4" width="120" height="69"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Rgr-pO-GvT" customClass="GeneralButton">
-                            <rect key="frame" x="2" y="6" width="80" height="40"/>
+                            <rect key="frame" x="2" y="6" width="116" height="58"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" image="greenmenuoption.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -967,22 +981,22 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Packages" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TLw-og-k6q" customClass="NiceFontLabel12T">
-                            <rect key="frame" x="0.0" y="15" width="78" height="21"/>
+                            <rect key="frame" x="15" y="21" width="80" height="27"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.87058823529999996" green="1" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="squadrewardsgoarrow.png" id="9Eo-bF-chc">
-                            <rect key="frame" x="69" y="22" width="6" height="10"/>
+                            <rect key="frame" x="93" y="27" width="10" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                     </subviews>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Ahe-NO-gg7" customClass="NiceFontLabel2">
-                    <rect key="frame" x="18" y="22" width="123" height="30"/>
+                    <rect key="frame" x="18" y="35" width="159" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.20000001789999999" green="0.20000001789999999" blue="0.20000001789999999" alpha="1" colorSpace="deviceRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -991,7 +1005,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="780.5" y="941.5"/>
+            <point key="canvasLocation" x="867" y="1175.5"/>
         </view>
     </objects>
     <resources>
@@ -1005,9 +1019,10 @@
         <image name="bigspingrey.png" width="144" height="47"/>
         <image name="bigspingreypressed.png" width="144" height="47"/>
         <image name="diamond.png" width="28" height="28"/>
-        <image name="donateenhancebottombar.png" width="229" height="57"/>
         <image name="earthskilldescription.png" width="219" height="129"/>
         <image name="fireorb.png" width="27" height="34"/>
+        <image name="functionalhomemenubottombarcap.png" width="10" height="8"/>
+        <image name="functionalhomemenubottombarmiddle.png" width="10" height="8"/>
         <image name="gachaallarrow.png" width="47" height="47"/>
         <image name="gachaallarrowdisabled.png" width="47" height="47"/>
         <image name="gachabg.png" width="550" height="375"/>
