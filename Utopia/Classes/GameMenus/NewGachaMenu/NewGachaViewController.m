@@ -56,7 +56,7 @@
   [self.skillPopup setHidden:YES];
   [self.view addSubview:self.skillPopup];
   
-  self.itemSelectFooterView.layer.cornerRadius = 5.f;
+  self.itemSelectFooterView.layer.cornerRadius = POPUP_CORNER_RADIUS;
   
   _tickerController = [[NewGachaTicker alloc] initWithImageView:self.ticker
                                                       cellWidth:TABLE_CELL_WIDTH
