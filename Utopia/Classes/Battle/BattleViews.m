@@ -765,7 +765,7 @@
     self.mainNode.scale = 1.f;
   }
   
-  NSLog(@"Attack button scale: %g", self.attackButtonNode.scale);
+//NSLog(@"Attack button scale: %g", self.attackButtonNode.scale);
 }
 
 - (void) fadeInAnimationForIsRevenge:(BOOL)isRevenge {
