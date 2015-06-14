@@ -218,6 +218,11 @@
       }
     }
     
+    if (pvp.hasCmtd && pvp.hasMonsterIdDropped && pvp.monsterIdDropped > 0) {
+      MonsterProto *mp = [gs monsterWithId:pvp.monsterIdDropped];
+      [[MiniEventManager sharedInstance] checkPvpCaughtMonster:mp.quality];
+    }
+    
     [[MiniEventManager sharedInstance] checkPvpResourceWinningsWithCash:pvp.cashWinnings oil:pvp.oilWinnings];
     
     if (_isRevenge) {

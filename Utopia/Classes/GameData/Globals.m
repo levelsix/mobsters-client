@@ -1934,7 +1934,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
       
     default:
-      return 1;
+    {
+      NSArray *prereqs = [ss.structInfo prereqs];
+      
+//      for (PrereqProto *pp in prereqs) {
+//        if (pp.prereqGameType == GameTypeStructure) {
+//          if (<#condition#>) {
+//            <#statements#>
+//          }
+//        }
+//      }
+    }
   }
   return 0;
 }

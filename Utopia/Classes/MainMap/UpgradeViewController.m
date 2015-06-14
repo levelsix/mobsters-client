@@ -134,6 +134,7 @@
     }
   }
   
+  // Remove duplicates, i.e. only use the max level one
   NSMutableArray *toRemove = [NSMutableArray array];
   for (StructureInfoProto *sip in arr) {
     StructureInfoProto *check = sip;
