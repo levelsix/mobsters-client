@@ -314,6 +314,7 @@
   
   if (proto.status == ResponseStatusSuccess) {
     NSMutableSet *set = [NSMutableSet set];
+    NSMutableSet *skills = [NSMutableSet set];
     NSMutableSet *skillSideEffects = [NSMutableSet set];
     NSMutableArray *enemyTeam = [NSMutableArray array];
     _isFirstTime = ![gs isTaskCompleted:proto.taskId];
@@ -332,6 +333,11 @@
       if (bp.spritePrefix) {
         [set addObject:bp.spritePrefix];
       }
+      
+      if (bp.defensiveSkillId) {
+        [skills addObject:[[GameState sharedGameState].staticSkills objectForKey:@(bp.defensiveSkillId)]];
+      }
+      
       [skillSideEffects addObjectsFromArray:[Globals skillSideEffectProtosForBattlePlayer:bp enemy:YES]];
     }
     self.enemyTeam = enemyTeam;
@@ -340,6 +346,11 @@
       if (bp.spritePrefix) {
         [set addObject:bp.spritePrefix];
       }
+      
+      if (bp.offensiveSkillId) {
+        [skills addObject:[[GameState sharedGameState].staticSkills objectForKey:@(bp.offensiveSkillId)]];
+      }
+      
       [skillSideEffects addObjectsFromArray:[Globals skillSideEffectProtosForBattlePlayer:bp enemy:NO]];
     }
     
@@ -347,8 +358,10 @@
     
     _isDownloading = YES;
     [Globals downloadAllFilesForSpritePrefixes:set.allObjects completion:^{
-      [Globals downloadAllAssetsForSkillSideEffects:skillSideEffects completion:^{
-        _isDownloading = NO;
+      [Globals downloadAllFilesForSkills:skills completion:^{
+        [Globals downloadAllAssetsForSkillSideEffects:skillSideEffects completion:^{
+          _isDownloading = NO;
+        }];
       }];
     }];
   } else {
