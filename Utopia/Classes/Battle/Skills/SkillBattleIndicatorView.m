@@ -47,7 +47,7 @@
   GameState* gs = [GameState sharedGameState];
   _skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillController.skillId]];
   
-  [self setSkillIcon:[_skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]];
+  [self setupSkillIcon:[_skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]];
   
 //[self setSkillLabel];
   
@@ -56,7 +56,7 @@
   return self;
 }
 
-- (void) setSkillIcon:(NSString*)iconName
+- (void) setupSkillIcon:(NSString*)iconName
 {
   _skillIcon = [CCSprite node];
   [Globals imageNamed:iconName toReplaceSprite:_skillIcon completion:^(BOOL success) {
@@ -439,19 +439,19 @@
 #pragma mark - Overrides
 
 //Cuts out all of the grayscale/clipping stuff
-- (void) setSkillIcon:(NSString*)iconName
+- (void) setupSkillIcon:(NSString*)iconName
 {
-  _skillIcon = [CCSprite node];
-  [Globals imageNamed:iconName toReplaceSprite:_skillIcon canBeiPad:YES completion:^(BOOL success) {
+  self.skillIcon = [CCSprite node];
+  [Globals imageNamed:iconName toReplaceSprite:self.skillIcon canBeiPad:YES completion:^(BOOL success) {
     if (success) {
-      [_skillIcon setAnchorPoint:CGPointMake(0, 0)];
-      _skillIcon.position = ccp(0, 17);
+      [self.skillIcon setAnchorPoint:CGPointMake(0, 0)];
+      self.skillIcon.position = ccp(0, 17);
       
       if (_skillNameLabel) {
-        [_skillNameLabel setPosition:ccp(_skillIcon.contentSize.width + 5, 15)];
+        [_skillNameLabel setPosition:ccp(self.skillIcon.contentSize.width + 5, 15)];
       }
       
-      [self addChild:_skillIcon];
+      [self addChild:self.skillIcon];
       
       [self setSkillButton];
     }
@@ -525,12 +525,12 @@
   [_skillActiveIcon setOpacity:0.f];
   [_skillCounterBg addChild:_skillActiveIcon];
   
-  _skillNameLabel = [CCLabelTTF labelWithString:[skillName uppercaseString] fontName:@"GothamNarrow-Ultra" fontSize:14.f dimensions:CGSizeMake(fullWidth - (_skillIcon.contentSize.width+10), 0)];
+  _skillNameLabel = [CCLabelTTF labelWithString:[skillName uppercaseString] fontName:@"GothamNarrow-Ultra" fontSize:14.f dimensions:CGSizeMake(fullWidth - (self.skillIcon.contentSize.width+10), 0)];
   [_skillNameLabel setAnchorPoint:CGPointMake(0, 0)];
   [_skillNameLabel setHorizontalAlignment:CCTextAlignmentLeft];
   [_skillNameLabel setVerticalAlignment:CCVerticalTextAlignmentBottom];
   [_skillNameLabel setColor:[CCColor whiteColor]];
-  [_skillNameLabel setPosition:ccp(_skillIcon.contentSize.width + 5, 15)];
+  [_skillNameLabel setPosition:ccp(self.skillIcon.contentSize.width + 5, 15)];
   [_skillNameLabel setShadowBlurRadius:1.f];
   [_skillNameLabel setShadowOffset:ccp(0.f, -1.f)];
   [_skillNameLabel setShadowColor:[CCColor colorWithRed:0 green:0 blue:0 alpha:.6]];
@@ -592,8 +592,8 @@
 
 - (void) popupOrbCounter
 {
-  CGPoint orbCounterPosition = [self convertToWorldSpace:_skillIcon.position];
-  orbCounterPosition = ccp((orbCounterPosition.x + _skillIcon.contentSize.width/2) * 1.5, [Globals screenSize].height - (orbCounterPosition.y + _skillIcon.contentSize.height/2) * 1.5);
+  CGPoint orbCounterPosition = [self convertToWorldSpace:self.skillIcon.position];
+  orbCounterPosition = ccp((orbCounterPosition.x + self.skillIcon.contentSize.width/2) * 1.5, [Globals screenSize].height - (orbCounterPosition.y + self.skillIcon.contentSize.height/2) * 1.5);
   
 //  orbCounterPosition = ccp(orbCounterPosition.x * 1.5, orbCounterPosition.y * .66 - _skillIcon.contentSize.height);
   
