@@ -181,7 +181,6 @@
         
         float scale = tileSize - (noCorners ? 0 : [self cornerSize]);
         
-//        leftBorder.scaleX = .75;
         leftBorder.scaleY = scale;
         leftBorder.anchorPoint = ccp(!mHole, 0);
         leftBorder.position = ccpAdd(basePt, ccp(0, [self cornerSize]/2));
@@ -215,10 +214,6 @@
         corner.flipX = YES;
         corner.flipY = YES;
         corner.anchorPoint = ccp(1, 1);
-//        [self iPadScaleSprite:corner];
-//        if ([Globals isiPad]) {
-//          corner.position = ccpAdd(corner.position, ccp(0, isColor ? .5 : -.5));
-//        }
         
         [_borderNode addChild:corner];
       }
@@ -230,10 +225,6 @@
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(-BORDER_WIDTH, BORDER_WIDTH));
         corner.flipY = YES;
         corner.anchorPoint = ccp(0, 1);
-//        [self iPadScaleSprite:corner];
-//        if ([Globals isiPad]) {
-//          corner.position = ccpAdd(corner.position, ccp(0, isColor ? .5 : -.5));
-//        }
         
         [_borderNode addChild:corner];
       }
@@ -244,10 +235,6 @@
         
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(-BORDER_WIDTH, -BORDER_WIDTH));
         corner.anchorPoint = ccp(0, 0);
-//        [self iPadScaleSprite:corner];
-//        if ([Globals isiPad]) {
-//          corner.position = ccpAdd(corner.position, ccp(0, isColor ? -.5 : .5));
-//        }
         
         [_borderNode addChild:corner];
       }
@@ -259,10 +246,6 @@
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(BORDER_WIDTH, -BORDER_WIDTH));
         corner.flipX = YES;
         corner.anchorPoint = ccp(1, 0);
-//        [self iPadScaleSprite:corner];
-//        if ([Globals isiPad]) {
-//          corner.position = ccpAdd(corner.position, ccp(0, isColor ? -.5 : .5));
-//        }
         
         [_borderNode addChild:corner];
       }
