@@ -271,6 +271,7 @@
 
 + (void) backgroundDownloadFiles:(NSArray *)fileNames;
 + (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed;
++ (void) downloadAllFilesForSkills:(NSSet*)skills completion:(void (^)(void))completed;
 + (void) downloadAllAssetsForSkillSideEffects:(NSSet*)skillSideEffects completion:(void (^)(void))completed;
 
 + (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix;

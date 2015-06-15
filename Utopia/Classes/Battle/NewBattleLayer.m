@@ -2829,8 +2829,15 @@
   
   [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered, id params) {
     SkillBattleIndicatorView *enemyIndicatorView = [skillManager enemySkillIndicatorView];
-    CGPoint enemyIndicatorPos = [skillManager enemySkillIndicatorPosition];
-    enemyIndicatorPos = ccpAdd(enemyIndicatorPos, ccp(-enemyIndicatorView.contentSize.width, 0));
+    CGPoint enemyIndicatorPos;
+    
+    if ([Globals isiPad]) {
+      enemyIndicatorPos = [skillManager enemySkillIndicatorPosition];
+      enemyIndicatorPos = ccpAdd(enemyIndicatorPos, ccp(enemyIndicatorView.skillIcon.contentSize.width/2, enemyIndicatorView.contentSize.height + enemyIndicatorView.skillIcon.contentSize.height/2));
+    } else {
+      enemyIndicatorPos = [skillManager enemySkillIndicatorPosition];
+      enemyIndicatorPos = ccpAdd(enemyIndicatorPos, ccp(-enemyIndicatorView.contentSize.width, 0));
+    }
     CGPoint worldCCSpacePoint = [enemyIndicatorView.parent convertToWorldSpace:enemyIndicatorPos];
     CGPoint worldUISpace = [[CCDirector sharedDirector] convertToUI:worldCCSpacePoint];
     CGPoint localUISpace = [self.forcedSkillInnerView.superview convertPoint:worldUISpace fromView:[CCDirector sharedDirector].view];

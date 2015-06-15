@@ -1374,6 +1374,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }];
 }
 
++ (void) downloadAllFilesForSkills:(NSSet*)skills completion:(void (^)(void))completed
+{
+  NSMutableArray *arr = [NSMutableArray array];
+  for (SkillProto* proto in skills)
+  {
+    if (proto.imgNamePrefix && ![proto.imgNamePrefix isEqualToString:@""])
+    {
+      [arr addObject:[proto.imgNamePrefix stringByAppendingString:[Globals isiPad] ? @"icon@2x~ipad.png" : @"icon@2x.png"]];
+    }
+  }
+  [self checkAndLoadFiles:arr completion:^(BOOL success) {
+    completed();
+  }];
+}
+
 + (void) downloadAllAssetsForSkillSideEffects:(NSSet*)skillSideEffects completion:(void (^)(void))completed
 {
   NSMutableArray *arr = [NSMutableArray array];

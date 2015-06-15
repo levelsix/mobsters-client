@@ -20,7 +20,6 @@
 
 @interface SkillBattleIndicatorView : CCNode
 {
-  @protected  CCSprite    *_skillIcon;
   @protected  CCDrawNode  *_stencilNode;
   @protected  CCSprite    *_skillLabel;
   @protected  CCSprite    *_skillCounterBg;
@@ -44,6 +43,8 @@
   
   SkillProto* _skillProto;
 }
+
+@property (nonatomic, retain) CCSprite *skillIcon;
 
 @property (nonatomic) float percentage;
 @property (nonatomic, weak) id<SkillBattleIndicatorViewDelegate> delegate;
