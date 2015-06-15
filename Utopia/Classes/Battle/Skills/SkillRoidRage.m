@@ -54,7 +54,7 @@
 - (void) addVisualEffects:(BOOL)skillTriggerFinished
 {
   // Size player and make him blue
-  [self.userSprite runAction:[CCActionEaseBounceIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3 scale:1.25]]];
+  [self.userSprite runAction:[CCActionEaseBounceIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3 scale:_sizeMultiplier]]];
   
   [self.userSprite.sprite stopActionByTag:1914];
   CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
