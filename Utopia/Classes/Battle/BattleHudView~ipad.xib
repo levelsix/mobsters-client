@@ -966,7 +966,7 @@
         <image name="deploymiddle.png" width="1" height="88"/>
         <image name="deploysep.png" width="1" height="1"/>
         <image name="earthskilldescription.png" width="219" height="129"/>
-        <image name="earthsquare.png" width="120" height="120"/>
+        <image name="earthsquare.png" width="74" height="74"/>
         <image name="elementreeicon.png" width="19" height="19"/>
         <image name="elementtree2.png" width="227" height="109"/>
         <image name="evobadge2.png" width="12" height="12"/>
