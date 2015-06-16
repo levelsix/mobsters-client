@@ -112,6 +112,11 @@
   for (id<StaticStructure> ss in gs.staticStructs.allValues) {
     StructureInfoProto *sip = ss.structInfo;
     
+    // Don't worry abt the TH's
+    if (sip.structType == StructureInfoProto_StructTypeTownHall) {
+      continue;
+    }
+    
     // This is outside because when we check prereqs, we want to make sure that the building even has quantity to be built
     // (i.e. Lvl 2 University requires Lvl 3 Residence which requires Lvl 4 TH, but Lvl 1 University requires Lvl 9 TH. Prob shouldn't happen data-wise though..)
     int afterQuant = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:nextTh];
@@ -119,7 +124,6 @@
       int beforeQuant = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:curTh];
       
       if (beforeQuant < afterQuant) {
-        NSLog(@"1: %@", sip.name);
         [arr addObject:sip];
       }
     } else {
@@ -127,7 +131,6 @@
       BOOL unlockAfter = [gl checkPrereqsOfStructId:sip.structId forPredecessorOfStructId:nextTh.structInfo.structId];
       
       if (!unlockBefore && unlockAfter && afterQuant >= 1) {
-        NSLog(@"2: %@", sip.name);
         [arr addObject:sip];
       }
     }
@@ -150,6 +153,10 @@
     }
   }
   [arr removeObjectsInArray:toRemove];
+  
+  [arr sortUsingComparator:^NSComparisonResult(StructureInfoProto *obj1, StructureInfoProto *obj2) {
+    return [@(obj1.structId) compare:@(obj2.structId)];
+  }];
   
   return arr;
 }
