@@ -16,8 +16,6 @@
 		<string>https://github.com/cocos2d/cocos2d-iphone.git</string>
 		<key>999D2B244F4BEADDDD09CD5EE2574031B24F399A</key>
 		<string>https://github.com/slembcke/Chipmunk2D.git</string>
-		<key>ABB939127996C66F7E852A780552ADEEF03C6B13</key>
-		<string>https://github.com/square/SocketRocket.git</string>
 		<key>D8D0758649B2B09DA86837D71827DEDB21D17D04</key>
 		<string>ssh://github.com/levelsix/mobsters-client.git</string>
 		<key>EEA221C9B6A837D428041D6F289901A649911E43</key>
@@ -33,8 +31,6 @@
 		<string>../Utopia/libs/cocos2d-iphone</string>
 		<key>999D2B244F4BEADDDD09CD5EE2574031B24F399A</key>
 		<string>../Utopia/libs/cocos2d-iphone/external/Chipmunk</string>
-		<key>ABB939127996C66F7E852A780552ADEEF03C6B13</key>
-		<string>../Utopia/libs/SocketRocket</string>
 		<key>D8D0758649B2B09DA86837D71827DEDB21D17D04</key>
 		<string>..</string>
 		<key>EEA221C9B6A837D428041D6F289901A649911E43</key>
@@ -79,14 +75,6 @@
 			<string>0188F2A2CDE1E23FB54BA7DEC720DB0076A94A2D</string>
 			<key>IDESourceControlWCCName</key>
 			<string>protobuf-objc</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>ABB939127996C66F7E852A780552ADEEF03C6B13</string>
-			<key>IDESourceControlWCCName</key>
-			<string>SocketRocket</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>

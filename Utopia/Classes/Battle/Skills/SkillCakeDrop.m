@@ -9,6 +9,7 @@
 #import "SkillCakeDrop.h"
 #import "NewBattleLayer.h"
 #import "SoundEngine.h"
+#import "SkillManager.h"
 
 @implementation SkillCakeDrop
 
@@ -113,6 +114,7 @@
   {
     orb.specialOrbType = SpecialOrbTypeCake;
     orb.orbColor = OrbColorNone;
+    orb.damageMultiplier = 1;
     return YES;
   }
   
@@ -206,6 +208,7 @@
     // Update data
     orb.specialOrbType = SpecialOrbTypeCake;
     orb.orbColor = OrbColorNone;
+    orb.damageMultiplier = 1;
     
     // Update tile
     OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
@@ -303,6 +306,8 @@
         do {
           orb.orbColor = [layout generateRandomOrbColor];
         } while ([layout hasChainAtColumn:column row:row]);
+        
+        [skillManager generateSpecialOrb:orb atColumn:column row:row];
         
         OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
         [orbSprite reloadSprite:YES];

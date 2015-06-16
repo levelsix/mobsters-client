@@ -195,10 +195,8 @@
 - (void) loadLockElements {
   NSString *resPrefix = [Globals isiPhone6] || [Globals isiPhone6Plus] ? @"6" : @"";
   
-  _lockedSpriteLeft = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:@"lockedorbleft.png"]];
-  [self addChild:_lockedSpriteLeft];
-  _lockedSpriteRight = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:@"lockedorbright.png"]];
-  [self addChild:_lockedSpriteRight];
+  _lockedSprite = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:@"lockedorb.png"]];
+  [self addChild:_lockedSprite];
 }
 
 - (void) loadVinesElements {
@@ -240,7 +238,7 @@
   
   CCActionEaseInOut *fadeOut = [CCActionEaseInOut actionWithAction:[CCActionFadeOut actionWithDuration:LOCK_REMOVE_TIME]];
   
-  [_lockedSpriteRight runAction:
+  [_lockedSprite runAction:
    [CCActionSequence actions:
     fadeOut,
     [CCActionCallBlock actionWithBlock:
@@ -249,10 +247,6 @@
          completion();
        }
      }], [CCActionRemove action], nil]];
-  
-  [_lockedSpriteLeft runAction:
-   [CCActionSequence actions:
-    fadeOut, [CCActionRemove action], nil]];
 }
 
 - (void) removeVineElementsWithBlock:(dispatch_block_t)completion {
