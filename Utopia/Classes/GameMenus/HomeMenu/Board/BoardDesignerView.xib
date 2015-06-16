@@ -15,11 +15,13 @@
                 <outlet property="descriptionImage" destination="Jv6-5T-TVr" id="10h-Ti-dE2"/>
                 <outlet property="descriptionTitle" destination="9Z3-ur-mUq" id="mP4-vt-OwU"/>
                 <outlet property="homeTitleView" destination="sCa-jF-tnM" id="c1q-vx-dzI"/>
+                <outlet property="leftArrowButton" destination="sa5-gW-acX" id="NVy-fF-wsD"/>
                 <outlet property="mainView" destination="4w7-i8-FHr" id="SOl-aA-aow"/>
                 <outlet property="obstaclesScrollView" destination="pgY-oT-Gzc" id="bV1-tA-CKs"/>
                 <outlet property="powerLabel" destination="NCD-wb-0ZO" id="6ij-MF-t9u"/>
                 <outlet property="powerProgressBar" destination="DwL-qB-zXZ" id="QfA-zO-BdN"/>
                 <outlet property="progressBarBgd" destination="TGS-fh-eSF" id="rHX-pZ-2Me"/>
+                <outlet property="rightArrowButton" destination="89q-Xa-jxG" id="Szb-gb-LUY"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -51,7 +53,7 @@
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="4w7-i8-FHr" customClass="TouchableSubviewsView">
-                    <rect key="frame" x="50" y="33" width="250" height="310"/>
+                    <rect key="frame" x="50" y="33" width="265" height="310"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="oWJ-vj-c5E" customClass="PopupShadowView">
@@ -116,10 +118,6 @@
                                                     <nil key="highlightedColor"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
-                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="pgY-oT-Gzc">
-                                                    <rect key="frame" x="10" y="100" width="230" height="85"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                </scrollView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="obstaclespowerbarbgmiddle.png" id="TGS-fh-eSF">
                                                     <rect key="frame" x="14" y="198" width="222" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -156,6 +154,10 @@
                                                     <nil key="highlightedColor"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
+                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="pgY-oT-Gzc">
+                                                    <rect key="frame" x="10" y="100" width="230" height="85"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                </scrollView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -195,6 +197,32 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="89q-Xa-jxG" userLabel="Right arrow">
+                            <rect key="frame" x="230" y="177" width="34" height="66"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <accessibility key="accessibilityConfiguration">
+                                <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
+                            </accessibility>
+                            <state key="normal" image="homenavrnextarrow.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="rightArrowClicked:" destination="-1" eventType="touchUpInside" id="ySo-Fe-4NB"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sa5-gW-acX" userLabel="Left arrow" customClass="FlipButton">
+                            <rect key="frame" x="-10" y="177" width="34" height="66"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <accessibility key="accessibilityConfiguration">
+                                <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
+                            </accessibility>
+                            <state key="normal" image="homenavrnextarrow.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="leftArrowClicked:" destination="-1" eventType="touchUpInside" id="gaP-9E-aBG"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -210,6 +238,7 @@
         <image name="boardbuildermenuheader.png" width="68" height="74"/>
         <image name="girl2.png" width="62" height="88"/>
         <image name="homemenutop.png" width="1" height="57"/>
+        <image name="homenavrnextarrow.png" width="24" height="38"/>
         <image name="menuclosex.png" width="17" height="17"/>
         <image name="obstaclesdescriptionmiddle.png" width="1" height="79"/>
         <image name="obstaclespowerbarbgmiddle.png" width="1" height="34"/>

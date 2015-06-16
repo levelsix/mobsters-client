@@ -42,9 +42,11 @@ static const int kBoardMarginLeft = 10;
     [self.descriptionImage setHidden:YES];
     [self.descriptionTitle setOriginX:self.descriptionTitle.originX - 75];
     [self.descriptionBody setOriginX:self.descriptionBody.originX - 75];
+    [self.rightArrowButton setOriginX:self.rightArrowButton.originX - 90];
     
     [self.homeTitleView setOriginX:self.homeTitleView.originX - 40];
     [self.closeButton setOriginX:self.closeButton.originX - 10];
+    [self.obstaclesScrollView setOriginX:self.obstaclesScrollView.originX - 1];
   }
   
   UIImageView* descriptionCapLeft = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"obstaclesdescriptioncap.png"]];
@@ -124,6 +126,7 @@ static const int kBoardMarginLeft = 10;
                                              object:nil];
   
   _draggingObstacle = NO;
+  [self focusOnObstacle:0];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -145,6 +148,59 @@ static const int kBoardMarginLeft = 10;
   
   // Current board layout will be saved locally (in GameState) and sent to the server
   [self saveCurrentBoard];
+}
+
+- (IBAction) rightArrowClicked:(id)sender
+{
+  [self focusOnObstacle:_currObstacleFocusIndex+1];
+}
+
+- (IBAction) leftArrowClicked:(id)sender
+{
+  [self focusOnObstacle:_currObstacleFocusIndex-1];
+}
+
+- (void) focusOnObstacle:(int)obstacleIndex
+{
+  _currObstacleFocusIndex = obstacleIndex;
+  if (obstacleIndex == 0 && self.leftArrowButton.enabled)
+  {
+    [self.leftArrowButton setEnabled:NO];
+    [UIView animateWithDuration:0.3f animations:^{
+      [self.leftArrowButton setAlpha:0];
+    }];
+  }
+  else if (!self.leftArrowButton.enabled)
+  {
+    [self.leftArrowButton setEnabled:YES];
+    [UIView animateWithDuration:0.3f animations:^{
+      [self.leftArrowButton setAlpha:1];
+    }];
+  }
+  
+  int obstaclesInView = [Globals isSmallestiPhone] ? 2 : 3;
+  if (obstacleIndex + obstaclesInView == [_obstacleViews count] && self.rightArrowButton.alpha) {
+    [self.rightArrowButton setEnabled:NO];
+    [UIView animateWithDuration:0.3f animations:^{
+      [self.rightArrowButton setAlpha:0];
+    }];
+  } else if (!self.rightArrowButton.enabled) {
+    [UIView animateWithDuration:0.3f animations:^{
+      [self.rightArrowButton setEnabled:YES];
+      [self.rightArrowButton setAlpha:1];
+    }];
+  }
+  
+  if ([_obstacleViews count])
+  {
+    BoardDesignerObstacleView *someObstacleView = _obstacleViews[0];
+    const int spacePerObstacle = someObstacleView.width + 10;
+    CGPoint destination = CGPointMake(spacePerObstacle * _currObstacleFocusIndex, 0);
+    
+    [UIView animateWithDuration:0.3f animations:^{
+      [self.obstaclesScrollView setContentOffset:destination];
+    }];
+  }
 }
 
 - (void) loadObstaclesInScrollView
@@ -454,9 +510,6 @@ static const int kBoardMarginLeft = 10;
               draggedObstacleAnchorPoint = CGPointMake(localPoint.x / obstacleView.obstacleImageView.width, localPoint.y / obstacleView.obstacleImageView.height);
               
               _dragOriginatedFromBoard = NO;
-              
-              // Valid drag gesture detected; disable scrolling
-              [self.obstaclesScrollView setScrollEnabled:NO];
             }
             else
             {
@@ -585,9 +638,6 @@ static const int kBoardMarginLeft = 10;
       }
       
       _draggingObstacle = NO;
-      
-      // Drag gesture ended; re-enable scrolling
-      [self.obstaclesScrollView setScrollEnabled:YES];
     }
   }
 }
