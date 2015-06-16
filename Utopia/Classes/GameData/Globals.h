@@ -439,6 +439,7 @@
 - (int) baseStructIdForStructId:(int)structId;
 - (int) calculateMaxQuantityOfStructId:(int)structId;
 - (int) calculateMaxQuantityOfStructId:(int)structId withTownHall:(TownHallProto *)thp;
+- (BOOL) checkPrereqsOfStructId:(int)structId forPredecessorOfStructId:(int)prereqStructId;
 - (TownHallProto *) calculateNextTownHallForQuantityIncreaseForStructId:(int)structId;
 - (ResearchProto *) calculateNextResearchForQuantityIncreaseForStructId:(int)structId;
 - (int) calculateNumberOfUnpurchasedStructs;

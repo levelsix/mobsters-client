@@ -76,7 +76,7 @@
   
   int resLevel = res.structInfo.level;
   int usFbLevel = us.fbInviteStructLvl;
-  int usCurLevel = us.staticStruct.structInfo.level;
+  int usCurLevel = us.staticStructForCurrentConstructionLevel.structInfo.level;
   if (resLevel <= usFbLevel) {
     self.claimedIcon.hidden = NO;
     self.arrowIcon.hidden = NO;
@@ -329,9 +329,10 @@
 }
 
 - (void) fbInviteAccepted {
-  if (self.userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeResidence) {
+  ResidenceProto *rp = (ResidenceProto *)self.userStruct.staticStructForNextFbLevel;
+  if (rp.structInfo.structType == StructureInfoProto_StructTypeResidence) {
     [self.bonusView updateForUserStruct:self.userStruct];
-    [self.bonusView updateAddSlotsViewForResidence:(ResidenceProto *)self.userStruct.staticStructForNextFbLevel];
+    [self.bonusView updateAddSlotsViewForResidence:rp];
   }
 }
 
@@ -439,7 +440,7 @@
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
   
   ResidenceProto *rp = self.bonusView.staticStructs[indexPath.row];
-  if (rp.structInfo.level == self.userStruct.fbInviteStructLvl+1 && rp.structInfo.level <= self.userStruct.staticStruct.structInfo.level) {
+  if (rp.structInfo.level == self.userStruct.fbInviteStructLvl+1 && rp.structInfo.level <= self.userStruct.staticStructForCurrentConstructionLevel.structInfo.level) {
     [self loadAddSlotsView];
   } else if (rp.structInfo.level < self.userStruct.fbInviteStructLvl+1) {
     [self loadAlreadyHiredViewForResidence:rp];

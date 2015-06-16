@@ -1933,20 +1933,58 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       break;
     }
       
+    case StructureInfoProto_StructTypeMoneyTree:
+      return 1;
+      
     default:
     {
-      NSArray *prereqs = [ss.structInfo prereqs];
-      
-//      for (PrereqProto *pp in prereqs) {
-//        if (pp.prereqGameType == GameTypeStructure) {
-//          if (<#condition#>) {
-//            <#statements#>
-//          }
-//        }
-//      }
+      // Use the base struct since that actually determines quantity
+      return [self checkPrereqsOfStructId:[self baseStructIdForStructId:structId] forPredecessorOfStructId:thp.structInfo.structId];
     }
   }
   return 0;
+}
+
+// This method is a recursive way of figuring out if a certain CC structId is in the prereq chain
+- (BOOL) checkPrereqsOfStructId:(int)structId forPredecessorOfStructId:(int)prereqStructId {
+  GameState *gs = [GameState sharedGameState];
+  NSArray *prereqs = [gs prerequisitesForGameType:GameTypeStructure gameEntityId:structId];
+  
+  // If there are no prereqs, assume it is in the prereq chain, i.e. has no prereqs
+  if (prereqs.count == 0) {
+    return YES;
+  }
+  
+  BOOL isInPrereqChain = NO;
+  for (PrereqProto *pp in prereqs) {
+    if (pp.prereqGameType == GameTypeStructure) {
+      id<StaticStructure> ss = [gs structWithId:pp.prereqGameEntityId];
+      
+      // Check all the successors to see if it is one of the descendants
+      StructureInfoProto *fsp = [ss structInfo];
+      do {
+        if (fsp.structId == prereqStructId) {
+          return YES;
+        }
+        
+        fsp = [fsp successor];
+      } while (fsp);
+      
+      // Now check the preds of the prereq.. If the prereq is one of the preds that means it needs to be upgraded one more level before it is "unlocked"
+      fsp = [ss structInfo];
+      while ((fsp = [fsp predecessor])) {
+        if (fsp.structId == prereqStructId) {
+          return NO;
+        }
+      }
+      
+      if (!isInPrereqChain) {
+        isInPrereqChain = [self checkPrereqsOfStructId:pp.prereqGameEntityId forPredecessorOfStructId:prereqStructId];
+      }
+    }
+  }
+  
+  return isInPrereqChain;
 }
 
 - (int) calculateMaxQuantityOfStructId:(int)structId {
@@ -2896,26 +2934,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   img.alpha = 0.f;
   [UIView animateWithDuration:0.3f delay:0.f options:UIViewAnimationOptionCurveLinear animations:^{
     img.alpha = 1.f;
-   } completion:^(BOOL finished) {
-     if (pulseAlpha && finished) {
-       [UIView animateWithDuration:0.3f delay:3.f options:UIViewAnimationOptionOverrideInheritedOptions animations:^{
-         img.alpha = 0.00321f;
-       } completion:^(BOOL finished) {
-         if(finished) {
-           [UIView animateWithDuration:0.f delay:5.f options:UIViewAnimationOptionOverrideInheritedOptions animations:^{
-             //this is a hacky way to get the animation to wait 5 seconds before restarting
-             //can't use delayed code blocks because those can't be remotely cancled
-             img.alpha = 0.001f;
-           } completion:^(BOOL finished) {
-             if (finished && view.superview) {
-               [self removeUIArrowFromViewRecursively:view.superview];
-               [self createPulsingUIArrowForView:view atAngle:angle];
-             }
-           }];
-         }
-       }];
-     }
-   }];
+  } completion:^(BOOL finished) {
+    if (pulseAlpha && finished) {
+      [UIView animateWithDuration:0.3f delay:3.f options:UIViewAnimationOptionOverrideInheritedOptions animations:^{
+        img.alpha = 0.00321f;
+      } completion:^(BOOL finished) {
+        if(finished) {
+          [UIView animateWithDuration:0.f delay:5.f options:UIViewAnimationOptionOverrideInheritedOptions animations:^{
+            //this is a hacky way to get the animation to wait 5 seconds before restarting
+            //can't use delayed code blocks because those can't be remotely cancled
+            img.alpha = 0.001f;
+          } completion:^(BOOL finished) {
+            if (finished && view.superview) {
+              [self removeUIArrowFromViewRecursively:view.superview];
+              [self createPulsingUIArrowForView:view atAngle:angle];
+            }
+          }];
+        }
+      }];
+    }
+  }];
   
   UIImageView *light = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"arrowlight.png"]];
   [img addSubview:light];

@@ -111,37 +111,41 @@
   Globals *gl = [Globals sharedGlobals];
   for (id<StaticStructure> ss in gs.staticStructs.allValues) {
     StructureInfoProto *sip = ss.structInfo;
+    
+    // This is outside because when we check prereqs, we want to make sure that the building even has quantity to be built
+    // (i.e. Lvl 2 University requires Lvl 3 Residence which requires Lvl 4 TH, but Lvl 1 University requires Lvl 9 TH. Prob shouldn't happen data-wise though..)
+    int afterQuant = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:nextTh];
     if (!sip.predecessorStructId) {
-      int before = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:curTh];
-      int after = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:nextTh];
+      int beforeQuant = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:curTh];
       
-      if (before < after) {
+      if (beforeQuant < afterQuant) {
+        NSLog(@"1: %@", sip.name);
         [arr addObject:sip];
       }
     } else {
-      NSArray *prereqs = [gs prerequisitesForGameType:GameTypeStructure gameEntityId:sip.structId];
-      BOOL unlocks = NO;
+      BOOL unlockBefore = [gl checkPrereqsOfStructId:sip.structId forPredecessorOfStructId:curTh.structInfo.structId];
+      BOOL unlockAfter = [gl checkPrereqsOfStructId:sip.structId forPredecessorOfStructId:nextTh.structInfo.structId];
       
-      for (PrereqProto *pp in prereqs) {
-        if (pp.prereqGameType == GameTypeStructure && pp.prereqGameEntityId == nextTh.structInfo.structId) {
-          unlocks = YES;
-        }
-      }
-      
-      if (unlocks) {
+      if (!unlockBefore && unlockAfter && afterQuant >= 1) {
+        NSLog(@"2: %@", sip.name);
         [arr addObject:sip];
       }
     }
   }
   
-  // Remove duplicates, i.e. only use the max level one
+  // Remove duplicates, i.e. only use the max level one, for example if lvl 6 TH unlocks lvl 4 and lvl 5 cash generator, we only should mention lvl 5 one
   NSMutableArray *toRemove = [NSMutableArray array];
   for (StructureInfoProto *sip in arr) {
     StructureInfoProto *check = sip;
     while (check.predecessorStructId) {
       check = [[gs structWithId:check.predecessorStructId] structInfo];
       if ([arr containsObject:check]) {
-        [toRemove addObject:check];
+        // Remove the higher one only in the case that this is a new building, i.e. check has no predId
+        if (!check.predecessorStructId) {
+          [toRemove addObject:sip];
+        } else {
+          [toRemove addObject:check];
+        }
       }
     }
   }
