@@ -284,6 +284,8 @@
 + (NSString*) getDeviceAdjustedImage:(NSString*)path useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix;
 + (UIImage *) nonDeviceAdjustedImageFromBundle:(NSString *)name ofType:(NSString *)ext;
 + (UIImage *) imageNamed:(NSString *)path;
++ (UIImage *) imageNamedWithiPhone6Prefix:(NSString *)path;
++ (UIImage *) imageNamedWithiPadSuffix:(NSString *)path;
 + (UIImage *) imageNamed:(NSString *)path useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix;
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;

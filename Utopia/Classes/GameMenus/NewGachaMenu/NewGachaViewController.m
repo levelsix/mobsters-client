@@ -667,19 +667,22 @@
       }
       
       NSMutableArray* assetsToDownload = [NSMutableArray array];
+      NSMutableArray* deviceSpecificAssetsToDownload = [NSMutableArray array];
       for (NSNumber* monsterElement in monsterElements) {
         const NSString* elementStr = [[Globals stringForElement:(Element)[monsterElement intValue]] lowercaseString];
-        [assetsToDownload addObjectsFromArray:@[ [elementStr stringByAppendingString:@"grbackground.jpg"],
-                                                 [elementStr stringByAppendingString:@"grbigflash1.png"],
-                                                 [elementStr stringByAppendingString:@"grglow2glowblend.png"],
-                                                 [elementStr stringByAppendingString:@"lightsflashlow1.png"] ]];
+        [deviceSpecificAssetsToDownload addObject:[elementStr stringByAppendingString:@"grbackground.jpg"]];
+        [assetsToDownload addObjectsFromArray:@[  [elementStr stringByAppendingString:@"grbigflash1.png"],
+                                                  [elementStr stringByAppendingString:@"grglow2glowblend.png"],
+                                                  [elementStr stringByAppendingString:@"lightsflashlow1.png"] ]];
       }
-      [Globals checkAndLoadFiles:assetsToDownload useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
-        if (success) {
+      
+      [Globals checkAndLoadFiles:deviceSpecificAssetsToDownload useiPhone6Prefix:NO useiPadSuffix:YES completion:^(BOOL success) {
+        [Globals checkAndLoadFiles:assetsToDownload useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
           [self.prizeView preloadWithMonsterIds:monsterIds];
           [self completeGachaSpinWithKnownPrizes:prizes isMultiSpin:prizes.count > 1];
-        }
-        [tlv stop];
+          
+          [tlv stop];
+        }];
       }];
     }
     else {
