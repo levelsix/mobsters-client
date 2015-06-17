@@ -70,6 +70,10 @@
 }
 
 - (IBAction)clickedClose:(id)sender {
+  [self close];
+}
+
+- (void) close {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   GameViewController *gvc = [GameViewController baseController];
   
@@ -81,17 +85,12 @@
     
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
+    
     if ((numAlerts%7 == 0) && ![defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
       [gvc openPushNotificationRequestWithMessage:@"Would you like to recieve push notifications when you've been attacked?"];
     }
-  }];
-}
-
-- (void) close {
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgView completion:^{
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-    if(_completion) {
+    
+    if (_completion) {
       _completion();
     }
   }];
@@ -136,7 +135,7 @@
 }
 
 - (NotificationPriority) priority {
-  return NotificationPriorityRegular;
+  return NotificationPriorityFirst;
 }
 
 - (void) animateWithCompletionBlock:(dispatch_block_t)completion {

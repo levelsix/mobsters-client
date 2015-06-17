@@ -57,6 +57,7 @@
 #import "IAPHelper.h"
 #import "SalePurchasedViewController.h"
 #import "TangoGiftViewController.h"
+#import "NotificationShopViewController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -73,6 +74,11 @@
 #define EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT 3
 
 #define RECONNECT_NOTIFICATION_DELAY 1.f
+
+#define LAST_SHOWN_SALE_TIME @"LastShownSaleTime"
+#define LAST_SHOWN_SALE_ID @"LastShownSaleId"
+#define HOURS_AFTER_CREATE_TIME_TO_SHOW_SALE 48
+#define HOURS_BEFORE_RESHOWING_SALE 4
 
 @implementation GameViewController
 
@@ -569,21 +575,6 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     [self showTopBarDuration:0.f completion:nil];
     
-    if (self.resumeUserTask) {
-      GameState *gs = [GameState sharedGameState];
-      FullTaskProto *task = [gs taskWithId:self.resumeUserTask.taskId];
-      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
-      bl.dungeonType = task.description;
-      [bl resumeFromUserTask:self.resumeUserTask stages:self.resumeTaskStages];
-      bl.delegate = self;
-      [self beginBattleLayer:bl];
-      
-      self.resumeUserTask = nil;
-      self.resumeTaskStages = nil;
-    } else {
-      [self.notificationController resumeNotifications];
-    }
-    
     
     GameState *gs = [GameState sharedGameState];
     
@@ -593,7 +584,26 @@ static const CGSize FIXED_SIZE = {568, 384};
       hoursSinceLastTangoGift = -[gs.lastTangoGiftSentTime timeIntervalSinceNow] / 3600.f;
     }
     
-    if (/*gs.tasksCompleted >= 2 && */(!gs.lastTangoGiftSentTime || hoursSinceLastTangoGift > 24)) {
+    // Show sales if its been 48 hrs after create time, or its been 4 hrs after last shown time, or its a new sale than last time
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSDate *lastDate = [def objectForKey:LAST_SHOWN_SALE_TIME];
+    //int lastSaleId = (int)[def integerForKey:LAST_SHOWN_SALE_ID];
+    SalesPackageProto *spp = [gs.mySales firstObject];
+    
+    if (spp &&
+        -gs.createTime.timeIntervalSinceNow > HOURS_AFTER_CREATE_TIME_TO_SHOW_SALE*3600 &&
+        (//spp.salesPackageId != lastSaleId ||
+         !lastDate ||
+         -lastDate.timeIntervalSinceNow > HOURS_BEFORE_RESHOWING_SALE*3600))
+    {
+      
+      NotificationShopViewController *svc = [[NotificationShopViewController alloc] initWithSalesPackage:spp];
+      [self.notificationController addNotification:svc];
+      
+      [def setObject:[NSDate date] forKey:LAST_SHOWN_SALE_TIME];
+      [def setInteger:spp.salesPackageId forKey:LAST_SHOWN_SALE_ID];
+      
+    } else if (/*gs.tasksCompleted >= 2 && */(!gs.lastTangoGiftSentTime || hoursSinceLastTangoGift > 24)) {
 #ifdef TOONSQUAD
       if ([TangoDelegate isTangoAvailable] && [TangoDelegate isTangoAuthenticated] && [TangoDelegate getMyId]) {
         [TangoDelegate fetchInvitableProfiles:^(NSArray *friends) {
@@ -626,6 +636,21 @@ static const CGSize FIXED_SIZE = {568, 384};
     // Check to see if user has a daily free speedup
     if ([gs hasDailyFreeSpin]) {
       [Globals addBlueAlertNotification:@"Your daily free Basic Grab is available. Click on Shop to claim!"];
+    }
+    
+    if (self.resumeUserTask) {
+      GameState *gs = [GameState sharedGameState];
+      FullTaskProto *task = [gs taskWithId:self.resumeUserTask.taskId];
+      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeamWithClanSlot:YES] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
+      bl.dungeonType = task.description;
+      [bl resumeFromUserTask:self.resumeUserTask stages:self.resumeTaskStages];
+      bl.delegate = self;
+      [self beginBattleLayer:bl];
+      
+      self.resumeUserTask = nil;
+      self.resumeTaskStages = nil;
+    } else {
+      [self.notificationController resumeNotifications];
     }
     
     //[[CCDirector sharedDirector] startAnimation];

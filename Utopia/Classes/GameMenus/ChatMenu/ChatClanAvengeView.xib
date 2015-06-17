@@ -17,7 +17,7 @@
                 </imageView>
                 <view contentMode="scaleToFill" id="cUw-tN-63x" userLabel="Revenge View">
                     <rect key="frame" x="216" y="15" width="68" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="s9C-iK-BPg" customClass="GeneralButton">
                             <rect key="frame" x="0.0" y="0.0" width="68" height="30"/>

@@ -1280,6 +1280,9 @@
 		29C4822A1ACB92C100170422 /* MonsterPopUpResearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29C482291ACB92C100170422 /* MonsterPopUpResearchView.xib */; };
 		29C4822B1ACB92C100170422 /* MonsterPopUpResearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29C482291ACB92C100170422 /* MonsterPopUpResearchView.xib */; };
 		29C4822C1ACB92C100170422 /* MonsterPopUpResearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29C482291ACB92C100170422 /* MonsterPopUpResearchView.xib */; };
+		29D1A5101B32317B00A7144D /* NotificationShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29D1A50F1B32317B00A7144D /* NotificationShopViewController.m */; };
+		29D1A5111B32317B00A7144D /* NotificationShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29D1A50F1B32317B00A7144D /* NotificationShopViewController.m */; };
+		29D1A5121B32317B00A7144D /* NotificationShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29D1A50F1B32317B00A7144D /* NotificationShopViewController.m */; };
 		29DCCF941A8A9D6B003176FD /* TutorialEnhanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DCCF931A8A9D6B003176FD /* TutorialEnhanceController.m */; };
 		29DCCF951A8A9D6B003176FD /* TutorialEnhanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DCCF931A8A9D6B003176FD /* TutorialEnhanceController.m */; };
 		29DCCF961A8A9D6B003176FD /* TutorialEnhanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DCCF931A8A9D6B003176FD /* TutorialEnhanceController.m */; };
@@ -7515,6 +7518,8 @@
 		29C3CA861A956B6C005407E9 /* ToonSquad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ToonSquad-Info.plist"; path = "Utopia/ToonSquad-Info.plist"; sourceTree = SOURCE_ROOT; };
 		29C3CA871A956B78005407E9 /* TangoToonSquad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TangoToonSquad-Info.plist"; path = "Utopia/TangoToonSquad-Info.plist"; sourceTree = SOURCE_ROOT; };
 		29C482291ACB92C100170422 /* MonsterPopUpResearchView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonsterPopUpResearchView.xib; sourceTree = "<group>"; };
+		29D1A50E1B32317B00A7144D /* NotificationShopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationShopViewController.h; sourceTree = "<group>"; };
+		29D1A50F1B32317B00A7144D /* NotificationShopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationShopViewController.m; sourceTree = "<group>"; };
 		29DCCF921A8A9D6B003176FD /* TutorialEnhanceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialEnhanceController.h; sourceTree = "<group>"; };
 		29DCCF931A8A9D6B003176FD /* TutorialEnhanceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialEnhanceController.m; sourceTree = "<group>"; };
 		29DCCFA81A8AA114003176FD /* TutorialEnhanceChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialEnhanceChooserViewController.h; sourceTree = "<group>"; };
@@ -11069,6 +11074,8 @@
 				CF60466119BF9E59003D91F8 /* StageCompleteNode.m */,
 				CF5BD68619C92C6F006C4B4C /* PvpRankUpNode.h */,
 				CF5BD68719C92C6F006C4B4C /* PvpRankUpNode.m */,
+				29D1A50E1B32317B00A7144D /* NotificationShopViewController.h */,
+				29D1A50F1B32317B00A7144D /* NotificationShopViewController.m */,
 			);
 			name = "Full Screen";
 			sourceTree = "<group>";
@@ -24089,6 +24096,7 @@
 				CF0CED81196F452900ECD301 /* TutorialHomeMap.m in Sources */,
 				CF0CED82196F452900ECD301 /* TutorialController.m in Sources */,
 				CF60466319BF9E59003D91F8 /* StageCompleteNode.m in Sources */,
+				29D1A5111B32317B00A7144D /* NotificationShopViewController.m in Sources */,
 				CF0CED83196F452900ECD301 /* SellViewController.m in Sources */,
 				29AAE5E51A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */,
 				CF0CED86196F452900ECD301 /* GachaChooserViewController.m in Sources */,
@@ -24305,6 +24313,7 @@
 				CFFEB17E18358FC0007C4BA3 /* CAKeyFrameAnimation+Jumping.m in Sources */,
 				CFF9DD5819B7F78F00CA9A8E /* EnhanceQueueViewController+Animations.m in Sources */,
 				6BA24E091A7AEA6E00BEF920 /* SkillTakeAim.m in Sources */,
+				29D1A5101B32317B00A7144D /* NotificationShopViewController.m in Sources */,
 				DA07DFD019AD63AE009860CE /* GachaViews.m in Sources */,
 				29AAE5F11A7C389800E4F022 /* ClanTeamDonateUtil.m in Sources */,
 				CF6574BD1909CAF200ABF1F4 /* InAppPurchase.pb.m in Sources */,
@@ -24850,6 +24859,7 @@
 				CF48192A19F7217F00041486 /* SettingsViewController.m in Sources */,
 				CF48192B19F7217F00041486 /* TutorialHomeMap.m in Sources */,
 				CF48192C19F7217F00041486 /* TutorialController.m in Sources */,
+				29D1A5121B32317B00A7144D /* NotificationShopViewController.m in Sources */,
 				CF48192D19F7217F00041486 /* StageCompleteNode.m in Sources */,
 				CF48192E19F7217F00041486 /* SellViewController.m in Sources */,
 				29AAE5E61A7B0FDB00E4F022 /* DonateMsgViewController.m in Sources */,

@@ -2186,8 +2186,11 @@ static NSString *udid = nil;
 }
 
 - (void) webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
-  LNLog(@"websocket closed. %@", reason);
-  if (!_purposefulClose) {
+  LNLog(@"websocket closed. %ld:%@ clean=%d", (long)code, reason, wasClean);
+  
+  if (webSocket != self.webSocket) {
+    LNLog(@"Somehow there are 2 websockets: %@, %@", self.webSocket, webSocket);
+  } else if (!_purposefulClose) {
     [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
   }
 }

@@ -1220,11 +1220,11 @@
 }
 
 - (void) sendShopViewAboveCoinBars:(ShopViewController *)svc {
-  [self.mainView insertSubview:self.shopViewController.view aboveSubview:self.coinBarsView];
+  [self.mainView insertSubview:svc.view aboveSubview:self.coinBarsView];
 }
 
-- (void) sendShopViewUnderCoinBars:(id)svc {
-  [self.mainView insertSubview:self.shopViewController.view belowSubview:self.coinBarsView];
+- (void) sendShopViewUnderCoinBars:(ShopViewController *)svc {
+  [self.mainView insertSubview:svc.view belowSubview:self.coinBarsView];
 }
 
 #pragma mark - Add home view
