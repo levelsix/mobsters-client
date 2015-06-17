@@ -1449,11 +1449,14 @@ static BeginPvpBattleResponseProto* defaultBeginPvpBattleResponseProtoInstance =
 @property BOOL userAttacked;
 @property BOOL userWon;
 @property int64_t clientTime;
-@property int32_t oilChange;
-@property int32_t cashChange;
+@property int32_t oilStolenFromStorage;
+@property int32_t cashStolenFromStorage;
 @property Float32 nuPvpDmgMultiplier;
 @property (strong) PBAppendableArray * mutableMonsterDropIdsList;
 @property (strong) NSData* replay;
+@property int32_t oilStolenFromGenerator;
+@property int32_t cashStolenFromGenerator;
+@property (strong) NSMutableArray * mutableStructStolenList;
 @end
 
 @implementation EndPvpBattleRequestProto
@@ -1503,20 +1506,20 @@ static BeginPvpBattleResponseProto* defaultBeginPvpBattleResponseProtoInstance =
   hasClientTime_ = !!value_;
 }
 @synthesize clientTime;
-- (BOOL) hasOilChange {
-  return !!hasOilChange_;
+- (BOOL) hasOilStolenFromStorage {
+  return !!hasOilStolenFromStorage_;
 }
-- (void) setHasOilChange:(BOOL) value_ {
-  hasOilChange_ = !!value_;
+- (void) setHasOilStolenFromStorage:(BOOL) value_ {
+  hasOilStolenFromStorage_ = !!value_;
 }
-@synthesize oilChange;
-- (BOOL) hasCashChange {
-  return !!hasCashChange_;
+@synthesize oilStolenFromStorage;
+- (BOOL) hasCashStolenFromStorage {
+  return !!hasCashStolenFromStorage_;
 }
-- (void) setHasCashChange:(BOOL) value_ {
-  hasCashChange_ = !!value_;
+- (void) setHasCashStolenFromStorage:(BOOL) value_ {
+  hasCashStolenFromStorage_ = !!value_;
 }
-@synthesize cashChange;
+@synthesize cashStolenFromStorage;
 - (BOOL) hasNuPvpDmgMultiplier {
   return !!hasNuPvpDmgMultiplier_;
 }
@@ -1533,6 +1536,22 @@ static BeginPvpBattleResponseProto* defaultBeginPvpBattleResponseProtoInstance =
   hasReplay_ = !!value_;
 }
 @synthesize replay;
+- (BOOL) hasOilStolenFromGenerator {
+  return !!hasOilStolenFromGenerator_;
+}
+- (void) setHasOilStolenFromGenerator:(BOOL) value_ {
+  hasOilStolenFromGenerator_ = !!value_;
+}
+@synthesize oilStolenFromGenerator;
+- (BOOL) hasCashStolenFromGenerator {
+  return !!hasCashStolenFromGenerator_;
+}
+- (void) setHasCashStolenFromGenerator:(BOOL) value_ {
+  hasCashStolenFromGenerator_ = !!value_;
+}
+@synthesize cashStolenFromGenerator;
+@synthesize mutableStructStolenList;
+@dynamic structStolenList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
@@ -1540,10 +1559,12 @@ static BeginPvpBattleResponseProto* defaultBeginPvpBattleResponseProtoInstance =
     self.userAttacked = NO;
     self.userWon = NO;
     self.clientTime = 0L;
-    self.oilChange = 0;
-    self.cashChange = 0;
+    self.oilStolenFromStorage = 0;
+    self.cashStolenFromStorage = 0;
     self.nuPvpDmgMultiplier = 0;
     self.replay = [NSData data];
+    self.oilStolenFromGenerator = 0;
+    self.cashStolenFromGenerator = 0;
   }
   return self;
 }
@@ -1565,6 +1586,12 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
 - (int32_t)monsterDropIdsAtIndex:(NSUInteger)index {
   return [mutableMonsterDropIdsList int32AtIndex:index];
 }
+- (NSArray *)structStolenList {
+  return mutableStructStolenList;
+}
+- (StructStolen*)structStolenAtIndex:(NSUInteger)index {
+  return [mutableStructStolenList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1584,11 +1611,11 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasClientTime) {
     [output writeInt64:5 value:self.clientTime];
   }
-  if (self.hasOilChange) {
-    [output writeInt32:6 value:self.oilChange];
+  if (self.hasOilStolenFromStorage) {
+    [output writeInt32:6 value:self.oilStolenFromStorage];
   }
-  if (self.hasCashChange) {
-    [output writeInt32:7 value:self.cashChange];
+  if (self.hasCashStolenFromStorage) {
+    [output writeInt32:7 value:self.cashStolenFromStorage];
   }
   if (self.hasNuPvpDmgMultiplier) {
     [output writeFloat:8 value:self.nuPvpDmgMultiplier];
@@ -1603,6 +1630,15 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasReplay) {
     [output writeData:10 value:self.replay];
   }
+  if (self.hasOilStolenFromGenerator) {
+    [output writeInt32:11 value:self.oilStolenFromGenerator];
+  }
+  if (self.hasCashStolenFromGenerator) {
+    [output writeInt32:12 value:self.cashStolenFromGenerator];
+  }
+  [self.structStolenList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:13 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1627,11 +1663,11 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasClientTime) {
     size_ += computeInt64Size(5, self.clientTime);
   }
-  if (self.hasOilChange) {
-    size_ += computeInt32Size(6, self.oilChange);
+  if (self.hasOilStolenFromStorage) {
+    size_ += computeInt32Size(6, self.oilStolenFromStorage);
   }
-  if (self.hasCashChange) {
-    size_ += computeInt32Size(7, self.cashChange);
+  if (self.hasCashStolenFromStorage) {
+    size_ += computeInt32Size(7, self.cashStolenFromStorage);
   }
   if (self.hasNuPvpDmgMultiplier) {
     size_ += computeFloatSize(8, self.nuPvpDmgMultiplier);
@@ -1649,6 +1685,15 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasReplay) {
     size_ += computeDataSize(10, self.replay);
   }
+  if (self.hasOilStolenFromGenerator) {
+    size_ += computeInt32Size(11, self.oilStolenFromGenerator);
+  }
+  if (self.hasCashStolenFromGenerator) {
+    size_ += computeInt32Size(12, self.cashStolenFromGenerator);
+  }
+  [self.structStolenList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(13, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -1702,11 +1747,11 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
   }
-  if (self.hasOilChange) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"oilChange", [NSNumber numberWithInteger:self.oilChange]];
+  if (self.hasOilStolenFromStorage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"oilStolenFromStorage", [NSNumber numberWithInteger:self.oilStolenFromStorage]];
   }
-  if (self.hasCashChange) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"cashChange", [NSNumber numberWithInteger:self.cashChange]];
+  if (self.hasCashStolenFromStorage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"cashStolenFromStorage", [NSNumber numberWithInteger:self.cashStolenFromStorage]];
   }
   if (self.hasNuPvpDmgMultiplier) {
     [output appendFormat:@"%@%@: %@\n", indent, @"nuPvpDmgMultiplier", [NSNumber numberWithFloat:self.nuPvpDmgMultiplier]];
@@ -1717,6 +1762,18 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasReplay) {
     [output appendFormat:@"%@%@: %@\n", indent, @"replay", self.replay];
   }
+  if (self.hasOilStolenFromGenerator) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"oilStolenFromGenerator", [NSNumber numberWithInteger:self.oilStolenFromGenerator]];
+  }
+  if (self.hasCashStolenFromGenerator) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"cashStolenFromGenerator", [NSNumber numberWithInteger:self.cashStolenFromGenerator]];
+  }
+  [self.structStolenList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"structStolen"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1738,15 +1795,20 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
       (!self.hasUserWon || self.userWon == otherMessage.userWon) &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
-      self.hasOilChange == otherMessage.hasOilChange &&
-      (!self.hasOilChange || self.oilChange == otherMessage.oilChange) &&
-      self.hasCashChange == otherMessage.hasCashChange &&
-      (!self.hasCashChange || self.cashChange == otherMessage.cashChange) &&
+      self.hasOilStolenFromStorage == otherMessage.hasOilStolenFromStorage &&
+      (!self.hasOilStolenFromStorage || self.oilStolenFromStorage == otherMessage.oilStolenFromStorage) &&
+      self.hasCashStolenFromStorage == otherMessage.hasCashStolenFromStorage &&
+      (!self.hasCashStolenFromStorage || self.cashStolenFromStorage == otherMessage.cashStolenFromStorage) &&
       self.hasNuPvpDmgMultiplier == otherMessage.hasNuPvpDmgMultiplier &&
       (!self.hasNuPvpDmgMultiplier || self.nuPvpDmgMultiplier == otherMessage.nuPvpDmgMultiplier) &&
       [self.monsterDropIdsList isEqualToArray:otherMessage.monsterDropIdsList] &&
       self.hasReplay == otherMessage.hasReplay &&
       (!self.hasReplay || [self.replay isEqual:otherMessage.replay]) &&
+      self.hasOilStolenFromGenerator == otherMessage.hasOilStolenFromGenerator &&
+      (!self.hasOilStolenFromGenerator || self.oilStolenFromGenerator == otherMessage.oilStolenFromGenerator) &&
+      self.hasCashStolenFromGenerator == otherMessage.hasCashStolenFromGenerator &&
+      (!self.hasCashStolenFromGenerator || self.cashStolenFromGenerator == otherMessage.cashStolenFromGenerator) &&
+      [self.structStolenList isEqualToArray:otherMessage.structStolenList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1766,11 +1828,11 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
   }
-  if (self.hasOilChange) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.oilChange] hash];
+  if (self.hasOilStolenFromStorage) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.oilStolenFromStorage] hash];
   }
-  if (self.hasCashChange) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.cashChange] hash];
+  if (self.hasCashStolenFromStorage) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.cashStolenFromStorage] hash];
   }
   if (self.hasNuPvpDmgMultiplier) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.nuPvpDmgMultiplier] hash];
@@ -1781,6 +1843,15 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasReplay) {
     hashCode = hashCode * 31 + [self.replay hash];
   }
+  if (self.hasOilStolenFromGenerator) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.oilStolenFromGenerator] hash];
+  }
+  if (self.hasCashStolenFromGenerator) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.cashStolenFromGenerator] hash];
+  }
+  [self.structStolenList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -1839,11 +1910,11 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
   }
-  if (other.hasOilChange) {
-    [self setOilChange:other.oilChange];
+  if (other.hasOilStolenFromStorage) {
+    [self setOilStolenFromStorage:other.oilStolenFromStorage];
   }
-  if (other.hasCashChange) {
-    [self setCashChange:other.cashChange];
+  if (other.hasCashStolenFromStorage) {
+    [self setCashStolenFromStorage:other.cashStolenFromStorage];
   }
   if (other.hasNuPvpDmgMultiplier) {
     [self setNuPvpDmgMultiplier:other.nuPvpDmgMultiplier];
@@ -1857,6 +1928,19 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   }
   if (other.hasReplay) {
     [self setReplay:other.replay];
+  }
+  if (other.hasOilStolenFromGenerator) {
+    [self setOilStolenFromGenerator:other.oilStolenFromGenerator];
+  }
+  if (other.hasCashStolenFromGenerator) {
+    [self setCashStolenFromGenerator:other.cashStolenFromGenerator];
+  }
+  if (other.mutableStructStolenList.count > 0) {
+    if (result.mutableStructStolenList == nil) {
+      result.mutableStructStolenList = [[NSMutableArray alloc] initWithArray:other.mutableStructStolenList];
+    } else {
+      [result.mutableStructStolenList addObjectsFromArray:other.mutableStructStolenList];
+    }
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1905,11 +1989,11 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
         break;
       }
       case 48: {
-        [self setOilChange:[input readInt32]];
+        [self setOilStolenFromStorage:[input readInt32]];
         break;
       }
       case 56: {
-        [self setCashChange:[input readInt32]];
+        [self setCashStolenFromStorage:[input readInt32]];
         break;
       }
       case 69: {
@@ -1922,6 +2006,20 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
       }
       case 82: {
         [self setReplay:[input readData]];
+        break;
+      }
+      case 88: {
+        [self setOilStolenFromGenerator:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setCashStolenFromGenerator:[input readInt32]];
+        break;
+      }
+      case 106: {
+        StructStolen_Builder* subBuilder = [StructStolen builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addStructStolen:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2021,36 +2119,36 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   result.clientTime = 0L;
   return self;
 }
-- (BOOL) hasOilChange {
-  return result.hasOilChange;
+- (BOOL) hasOilStolenFromStorage {
+  return result.hasOilStolenFromStorage;
 }
-- (int32_t) oilChange {
-  return result.oilChange;
+- (int32_t) oilStolenFromStorage {
+  return result.oilStolenFromStorage;
 }
-- (EndPvpBattleRequestProto_Builder*) setOilChange:(int32_t) value {
-  result.hasOilChange = YES;
-  result.oilChange = value;
+- (EndPvpBattleRequestProto_Builder*) setOilStolenFromStorage:(int32_t) value {
+  result.hasOilStolenFromStorage = YES;
+  result.oilStolenFromStorage = value;
   return self;
 }
-- (EndPvpBattleRequestProto_Builder*) clearOilChange {
-  result.hasOilChange = NO;
-  result.oilChange = 0;
+- (EndPvpBattleRequestProto_Builder*) clearOilStolenFromStorage {
+  result.hasOilStolenFromStorage = NO;
+  result.oilStolenFromStorage = 0;
   return self;
 }
-- (BOOL) hasCashChange {
-  return result.hasCashChange;
+- (BOOL) hasCashStolenFromStorage {
+  return result.hasCashStolenFromStorage;
 }
-- (int32_t) cashChange {
-  return result.cashChange;
+- (int32_t) cashStolenFromStorage {
+  return result.cashStolenFromStorage;
 }
-- (EndPvpBattleRequestProto_Builder*) setCashChange:(int32_t) value {
-  result.hasCashChange = YES;
-  result.cashChange = value;
+- (EndPvpBattleRequestProto_Builder*) setCashStolenFromStorage:(int32_t) value {
+  result.hasCashStolenFromStorage = YES;
+  result.cashStolenFromStorage = value;
   return self;
 }
-- (EndPvpBattleRequestProto_Builder*) clearCashChange {
-  result.hasCashChange = NO;
-  result.cashChange = 0;
+- (EndPvpBattleRequestProto_Builder*) clearCashStolenFromStorage {
+  result.hasCashStolenFromStorage = NO;
+  result.cashStolenFromStorage = 0;
   return self;
 }
 - (BOOL) hasNuPvpDmgMultiplier {
@@ -2113,6 +2211,62 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   result.replay = [NSData data];
   return self;
 }
+- (BOOL) hasOilStolenFromGenerator {
+  return result.hasOilStolenFromGenerator;
+}
+- (int32_t) oilStolenFromGenerator {
+  return result.oilStolenFromGenerator;
+}
+- (EndPvpBattleRequestProto_Builder*) setOilStolenFromGenerator:(int32_t) value {
+  result.hasOilStolenFromGenerator = YES;
+  result.oilStolenFromGenerator = value;
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) clearOilStolenFromGenerator {
+  result.hasOilStolenFromGenerator = NO;
+  result.oilStolenFromGenerator = 0;
+  return self;
+}
+- (BOOL) hasCashStolenFromGenerator {
+  return result.hasCashStolenFromGenerator;
+}
+- (int32_t) cashStolenFromGenerator {
+  return result.cashStolenFromGenerator;
+}
+- (EndPvpBattleRequestProto_Builder*) setCashStolenFromGenerator:(int32_t) value {
+  result.hasCashStolenFromGenerator = YES;
+  result.cashStolenFromGenerator = value;
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) clearCashStolenFromGenerator {
+  result.hasCashStolenFromGenerator = NO;
+  result.cashStolenFromGenerator = 0;
+  return self;
+}
+- (NSMutableArray *)structStolenList {
+  return result.mutableStructStolenList;
+}
+- (StructStolen*)structStolenAtIndex:(NSUInteger)index {
+  return [result structStolenAtIndex:index];
+}
+- (EndPvpBattleRequestProto_Builder *)addStructStolen:(StructStolen*)value {
+  if (result.mutableStructStolenList == nil) {
+    result.mutableStructStolenList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableStructStolenList addObject:value];
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder *)addAllStructStolen:(NSArray *)array {
+  if (result.mutableStructStolenList == nil) {
+    result.mutableStructStolenList = [NSMutableArray array];
+  }
+  [result.mutableStructStolenList addObjectsFromArray:array];
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder *)clearStructStolen {
+  result.mutableStructStolenList = nil;
+  return self;
+}
 @end
 
 @interface EndPvpBattleResponseProto ()
@@ -2125,6 +2279,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
 @property (strong) PvpHistoryProto* battleThatJustEnded;
 @property (strong) UserPvpLeagueProto* statsBefore;
 @property (strong) UserPvpLeagueProto* statsAfter;
+@property (strong) NSMutableArray * mutableUpdatedUserStructsList;
 @end
 
 @implementation EndPvpBattleResponseProto
@@ -2197,6 +2352,8 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   hasStatsAfter_ = !!value_;
 }
 @synthesize statsAfter;
+@synthesize mutableUpdatedUserStructsList;
+@dynamic updatedUserStructsList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
@@ -2227,6 +2384,12 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
 }
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index {
   return [mutableUpdatedOrNewList objectAtIndex:index];
+}
+- (NSArray *)updatedUserStructsList {
+  return mutableUpdatedUserStructsList;
+}
+- (StructStolen*)updatedUserStructsAtIndex:(NSUInteger)index {
+  return [mutableUpdatedUserStructsList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -2259,6 +2422,9 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasStatsAfter) {
     [output writeMessage:13 value:self.statsAfter];
   }
+  [self.updatedUserStructsList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:14 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2295,6 +2461,9 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasStatsAfter) {
     size_ += computeMessageSize(13, self.statsAfter);
   }
+  [self.updatedUserStructsList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(14, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -2372,6 +2541,12 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  [self.updatedUserStructsList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"updatedUserStructs"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2400,6 +2575,7 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
       (!self.hasStatsBefore || [self.statsBefore isEqual:otherMessage.statsBefore]) &&
       self.hasStatsAfter == otherMessage.hasStatsAfter &&
       (!self.hasStatsAfter || [self.statsAfter isEqual:otherMessage.statsAfter]) &&
+      [self.updatedUserStructsList isEqualToArray:otherMessage.updatedUserStructsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2431,6 +2607,9 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasStatsAfter) {
     hashCode = hashCode * 31 + [self.statsAfter hash];
   }
+  [self.updatedUserStructsList enumerateObjectsUsingBlock:^(StructStolen *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -2504,6 +2683,13 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   }
   if (other.hasStatsAfter) {
     [self mergeStatsAfter:other.statsAfter];
+  }
+  if (other.mutableUpdatedUserStructsList.count > 0) {
+    if (result.mutableUpdatedUserStructsList == nil) {
+      result.mutableUpdatedUserStructsList = [[NSMutableArray alloc] initWithArray:other.mutableUpdatedUserStructsList];
+    } else {
+      [result.mutableUpdatedUserStructsList addObjectsFromArray:other.mutableUpdatedUserStructsList];
+    }
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2587,6 +2773,12 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setStatsAfter:[subBuilder buildPartial]];
+        break;
+      }
+      case 114: {
+        StructStolen_Builder* subBuilder = [StructStolen builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUpdatedUserStructs:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2798,6 +2990,276 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
 - (EndPvpBattleResponseProto_Builder*) clearStatsAfter {
   result.hasStatsAfter = NO;
   result.statsAfter = [UserPvpLeagueProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)updatedUserStructsList {
+  return result.mutableUpdatedUserStructsList;
+}
+- (StructStolen*)updatedUserStructsAtIndex:(NSUInteger)index {
+  return [result updatedUserStructsAtIndex:index];
+}
+- (EndPvpBattleResponseProto_Builder *)addUpdatedUserStructs:(StructStolen*)value {
+  if (result.mutableUpdatedUserStructsList == nil) {
+    result.mutableUpdatedUserStructsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUpdatedUserStructsList addObject:value];
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder *)addAllUpdatedUserStructs:(NSArray *)array {
+  if (result.mutableUpdatedUserStructsList == nil) {
+    result.mutableUpdatedUserStructsList = [NSMutableArray array];
+  }
+  [result.mutableUpdatedUserStructsList addObjectsFromArray:array];
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder *)clearUpdatedUserStructs {
+  result.mutableUpdatedUserStructsList = nil;
+  return self;
+}
+@end
+
+@interface StructStolen ()
+@property (strong) NSString* userStructUuid;
+@property int64_t timeOfRetrieval;
+@end
+
+@implementation StructStolen
+
+- (BOOL) hasUserStructUuid {
+  return !!hasUserStructUuid_;
+}
+- (void) setHasUserStructUuid:(BOOL) value_ {
+  hasUserStructUuid_ = !!value_;
+}
+@synthesize userStructUuid;
+- (BOOL) hasTimeOfRetrieval {
+  return !!hasTimeOfRetrieval_;
+}
+- (void) setHasTimeOfRetrieval:(BOOL) value_ {
+  hasTimeOfRetrieval_ = !!value_;
+}
+@synthesize timeOfRetrieval;
+- (id) init {
+  if ((self = [super init])) {
+    self.userStructUuid = @"";
+    self.timeOfRetrieval = 0L;
+  }
+  return self;
+}
+static StructStolen* defaultStructStolenInstance = nil;
++ (void) initialize {
+  if (self == [StructStolen class]) {
+    defaultStructStolenInstance = [[StructStolen alloc] init];
+  }
+}
++ (StructStolen*) defaultInstance {
+  return defaultStructStolenInstance;
+}
+- (StructStolen*) defaultInstance {
+  return defaultStructStolenInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserStructUuid) {
+    [output writeString:1 value:self.userStructUuid];
+  }
+  if (self.hasTimeOfRetrieval) {
+    [output writeInt64:2 value:self.timeOfRetrieval];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasUserStructUuid) {
+    size_ += computeStringSize(1, self.userStructUuid);
+  }
+  if (self.hasTimeOfRetrieval) {
+    size_ += computeInt64Size(2, self.timeOfRetrieval);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (StructStolen*) parseFromData:(NSData*) data {
+  return (StructStolen*)[[[StructStolen builder] mergeFromData:data] build];
+}
++ (StructStolen*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StructStolen*)[[[StructStolen builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StructStolen*) parseFromInputStream:(NSInputStream*) input {
+  return (StructStolen*)[[[StructStolen builder] mergeFromInputStream:input] build];
+}
++ (StructStolen*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StructStolen*)[[[StructStolen builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StructStolen*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StructStolen*)[[[StructStolen builder] mergeFromCodedInputStream:input] build];
+}
++ (StructStolen*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StructStolen*)[[[StructStolen builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StructStolen_Builder*) builder {
+  return [[StructStolen_Builder alloc] init];
+}
++ (StructStolen_Builder*) builderWithPrototype:(StructStolen*) prototype {
+  return [[StructStolen builder] mergeFrom:prototype];
+}
+- (StructStolen_Builder*) builder {
+  return [StructStolen builder];
+}
+- (StructStolen_Builder*) toBuilder {
+  return [StructStolen builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasUserStructUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
+  }
+  if (self.hasTimeOfRetrieval) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"timeOfRetrieval", [NSNumber numberWithLongLong:self.timeOfRetrieval]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[StructStolen class]]) {
+    return NO;
+  }
+  StructStolen *otherMessage = other;
+  return
+      self.hasUserStructUuid == otherMessage.hasUserStructUuid &&
+      (!self.hasUserStructUuid || [self.userStructUuid isEqual:otherMessage.userStructUuid]) &&
+      self.hasTimeOfRetrieval == otherMessage.hasTimeOfRetrieval &&
+      (!self.hasTimeOfRetrieval || self.timeOfRetrieval == otherMessage.timeOfRetrieval) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasUserStructUuid) {
+    hashCode = hashCode * 31 + [self.userStructUuid hash];
+  }
+  if (self.hasTimeOfRetrieval) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfRetrieval] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface StructStolen_Builder()
+@property (strong) StructStolen* result;
+@end
+
+@implementation StructStolen_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[StructStolen alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StructStolen_Builder*) clear {
+  self.result = [[StructStolen alloc] init];
+  return self;
+}
+- (StructStolen_Builder*) clone {
+  return [StructStolen builderWithPrototype:result];
+}
+- (StructStolen*) defaultInstance {
+  return [StructStolen defaultInstance];
+}
+- (StructStolen*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StructStolen*) buildPartial {
+  StructStolen* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (StructStolen_Builder*) mergeFrom:(StructStolen*) other {
+  if (other == [StructStolen defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserStructUuid) {
+    [self setUserStructUuid:other.userStructUuid];
+  }
+  if (other.hasTimeOfRetrieval) {
+    [self setTimeOfRetrieval:other.timeOfRetrieval];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StructStolen_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StructStolen_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setUserStructUuid:[input readString]];
+        break;
+      }
+      case 16: {
+        [self setTimeOfRetrieval:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserStructUuid {
+  return result.hasUserStructUuid;
+}
+- (NSString*) userStructUuid {
+  return result.userStructUuid;
+}
+- (StructStolen_Builder*) setUserStructUuid:(NSString*) value {
+  result.hasUserStructUuid = YES;
+  result.userStructUuid = value;
+  return self;
+}
+- (StructStolen_Builder*) clearUserStructUuid {
+  result.hasUserStructUuid = NO;
+  result.userStructUuid = @"";
+  return self;
+}
+- (BOOL) hasTimeOfRetrieval {
+  return result.hasTimeOfRetrieval;
+}
+- (int64_t) timeOfRetrieval {
+  return result.timeOfRetrieval;
+}
+- (StructStolen_Builder*) setTimeOfRetrieval:(int64_t) value {
+  result.hasTimeOfRetrieval = YES;
+  result.timeOfRetrieval = value;
+  return self;
+}
+- (StructStolen_Builder*) clearTimeOfRetrieval {
+  result.hasTimeOfRetrieval = NO;
+  result.timeOfRetrieval = 0L;
   return self;
 }
 @end
