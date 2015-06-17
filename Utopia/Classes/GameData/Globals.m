@@ -1414,7 +1414,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   __block int i = 0;
   __block BOOL finalSuccess = YES;
   for (NSString *fileName in fileNames) {
-    if (![self isFileDownloaded:fileName useiPhone6Prefix:NO useiPadSuffix:NO]) {
+    if (![self isFileDownloaded:fileName useiPhone6Prefix:prefix useiPadSuffix:suffix]) {
       i++;
       
       id comp = ^(BOOL success) {
@@ -1503,13 +1503,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [self imageNamed:path useiPhone6Prefix:NO useiPadSuffix:NO];
 }
 
++ (UIImage *) imageNamedWithiPhone6Prefix:(NSString *)path {
+  return [self imageNamed:path useiPhone6Prefix:YES useiPadSuffix:NO];
+}
+
++ (UIImage *) imageNamedWithiPadSuffix:(NSString *)path {
+  return [self imageNamed:path useiPhone6Prefix:NO useiPadSuffix:YES];
+}
+
 + (UIImage *) imageNamed:(NSString *)path useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix {
-  if (!path) {
+  if (!path || path.length == 0) {
     return nil;
   }
   
+  NSString *deviceAdjustedImageName = [self getDeviceAdjustedImage:path useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix];
+  
   Globals *gl = [Globals sharedGlobals];
-  UIImage *cachedImage = [gl.imageCache objectForKey:path];
+  UIImage *cachedImage = [gl.imageCache objectForKey:deviceAdjustedImageName];
   if (cachedImage) {
     return cachedImage;
   }
@@ -1518,7 +1528,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   UIImage *image = [UIImage imageWithContentsOfFile:fullPath];
   
   if (image) {
-    [gl.imageCache setObject:image forKey:path];
+    [gl.imageCache setObject:image forKey:deviceAdjustedImageName];
   }
   
   return image;
@@ -1548,7 +1558,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO useiPadSuffix:YES];
 }
 
-+ (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix {
++ (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color greyscale:(BOOL)greyscale
+          indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix {
   // If imageName is null, it will clear the view's pre-downloading stuff
   // If view is null, it will download image without worrying about the view
   Globals *gl = [Globals sharedGlobals];
@@ -1556,7 +1567,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
   
-  NSString *greyImageKey = [imageName stringByAppendingString:@"greyscale"];
+  NSString *deviceAdjustedImageName = [self getDeviceAdjustedImage:imageName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix];
+  
+  NSString *greyImageKey = [deviceAdjustedImageName stringByAppendingString:@"greyscale"];
   
   // Remove possible previous spinner
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
@@ -1572,7 +1585,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return;
   }
   
-  UIImage *cachedImage = imageName ? [gl.imageCache objectForKey:imageName] : nil;
+  UIImage *cachedImage = imageName ? [gl.imageCache objectForKey:deviceAdjustedImageName] : nil;
   if (cachedImage) {
     if (color) {
       cachedImage = [self maskImage:cachedImage withColor:color];
@@ -1631,7 +1644,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
           UIImage *img = [UIImage imageWithContentsOfFile:path];
           
           if (img) {
-            [gl.imageCache setObject:img forKey:imageName];
+            [gl.imageCache setObject:img forKey:deviceAdjustedImageName];
             if (color) {
               img = [self maskImage:img withColor:color];
             } else if (greyscale) {
@@ -1745,7 +1758,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (NSString*) getDeviceAdjustedImage:(NSString*)path useiPhone6Prefix:(BOOL)iPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix {
-  if ([path rangeOfString:@"http"].location != NSNotFound) {
+  if (!path || path.length == 0 || [path rangeOfString:@"http"].location != NSNotFound) {
     return path;
   }
   
@@ -1786,7 +1799,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }
   
-  if (iPadSuffix && [self isiPad]) {
+  if (iPadSuffix && [self isiPad] && [adjustedPath rangeOfString:@"~ipad"].location == NSNotFound) {
     NSRange r = [adjustedPath rangeOfString:@"." options:NSBackwardsSearch]; // Find the last occurrence of '.'
     if (r.location == NSNotFound) // Why u no hav extension?
       adjustedPath = [adjustedPath stringByAppendingString:@"~ipad"];

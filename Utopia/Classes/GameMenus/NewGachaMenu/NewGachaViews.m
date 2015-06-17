@@ -77,8 +77,10 @@ typedef void (^RevealAnimCompletionBlock)(void);
   self.nextButton.layer.transform = CATransform3DMakeScale(-1, 1, 1);
   
   const CGFloat deviceScale = [Globals screenSize].width / 667.f;
+  const CGPoint pos = CGPointMake([Globals isiPad] ? 210.f : 140.f, [Globals isiPad] ? 290.f : 250.f);
+  const CGSize size = CGSizeMake([Globals isiPad] ? 125.f : 100.f, [Globals isiPad] ? 25.f : 20.f);
   UIEffectDesignerView* effectView = [UIEffectDesignerView effectWithFile:@"NewGachaSmoke.ped"];
-  [effectView setFrame:CGRectMake(140.f * deviceScale, 250.f * deviceScale, 100.f * deviceScale, 20.f * deviceScale)];
+  [effectView setFrame:CGRectMake(pos.x * deviceScale, pos.y * deviceScale, size.width * deviceScale, size.height * deviceScale)];
   [effectView.emitter setEmitterSize:CGSizeMake(effectView.width, effectView.height)];
   [effectView.emitter setEmitterPosition:CGPointMake(effectView.emitter.emitterPosition.x - effectView.width * .5f, effectView.emitter.emitterPosition.y)];
   [self insertSubview:effectView aboveSubview:self.contentScrollView];
@@ -107,14 +109,11 @@ typedef void (^RevealAnimCompletionBlock)(void);
   //
   
   MonsterProto *proto = [gs monsterWithId:[monsterIds[0] intValue]];
-  [Globals imageNamedWithiPhone6Prefix:[proto.imagePrefix stringByAppendingString:@"Character.png"]
-                              withView:self.character
-                           maskedColor:nil
-                             indicator:UIActivityIndicatorViewStyleWhite
-              clearImageDuringDownload:YES];
+  [Globals imageNamed:[proto.imagePrefix stringByAppendingString:@"Character.png"] withView:self.character maskedColor:nil greyscale:NO
+            indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES useiPhone6Prefix:YES useiPadSuffix:YES];
   
   const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
-  self.background.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.jpg"]];
+  self.background.image = [Globals imageNamedWithiPadSuffix:[elementStr stringByAppendingString:@"grbackground.jpg"]];
 
   _characterBackgrounds = [NSMutableArray array];
   [_characterBackgrounds addObject:self.background.image];
@@ -126,8 +125,8 @@ typedef void (^RevealAnimCompletionBlock)(void);
   self.characterScrollView.contentSize = CGSizeMake(self.width * monsterIds.count, self.height);
   self.characterScrollView.contentOffset = CGPointZero;
   
-  const CGFloat wR = _firstTimeLoadingFromNib ? [Globals screenSize].width  / 667.f : 1.f;
-  const CGFloat hR = _firstTimeLoadingFromNib ? [Globals screenSize].height / 375.f : 1.f;
+  const CGFloat wR = (_firstTimeLoadingFromNib && ![Globals isiPad]) ? [Globals screenSize].width  / 667.f : 1.f;
+  const CGFloat hR = (_firstTimeLoadingFromNib && ![Globals isiPad]) ? [Globals screenSize].height / 375.f : 1.f;
   const CGRect adjustedFrame = CGRectMake(self.character.frame.origin.x * wR,
                                           self.character.frame.origin.y * hR,
                                           self.character.size.width  * wR,
@@ -140,14 +139,11 @@ typedef void (^RevealAnimCompletionBlock)(void);
     characterImageView.originX += (self.width * wR) * i;
     
     MonsterProto *proto = [gs monsterWithId:[monsterIds[i] intValue]];
-    [Globals imageNamedWithiPhone6Prefix:[proto.imagePrefix stringByAppendingString:@"Character.png"]
-                                withView:characterImageView
-                             maskedColor:nil
-                               indicator:UIActivityIndicatorViewStyleWhite
-                clearImageDuringDownload:YES];
+    [Globals imageNamed:[proto.imagePrefix stringByAppendingString:@"Character.png"] withView:characterImageView maskedColor:nil greyscale:NO
+              indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES useiPhone6Prefix:YES useiPadSuffix:YES];
     
     const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
-    [_characterBackgrounds addObject:[Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.jpg"]]];
+    [_characterBackgrounds addObject:[Globals imageNamedWithiPadSuffix:[elementStr stringByAppendingString:@"grbackground.jpg"]]];
     
     [self.characterScrollView addSubview:characterImageView];
     [_characterImageViews addObject:characterImageView];
@@ -271,8 +267,7 @@ typedef void (^RevealAnimCompletionBlock)(void);
 
   if (numPuzzlePieces > 0)
   {
-    [Globals imageNamed:[@"gacha" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"piece.png"]]
-               withView:characterStatsView.pieceIcon
+    [Globals imageNamed:[@"gacha" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"piece.png"]] withView:characterStatsView.pieceIcon
             maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     characterStatsView.pieceLabel.text = [NSString stringWithFormat:@"1 PIECE (%d/%d)", numPuzzlePieces, proto.numPuzzlePieces];
   }
@@ -298,8 +293,8 @@ typedef void (^RevealAnimCompletionBlock)(void);
     SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:monster.offensiveSkillId]];
     if (skillProto)
     {
-      [Globals imageNamed:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
-                 withView:characterStatsView.offensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+      [Globals imageNamedWithiPadSuffix:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
+                               withView:characterStatsView.offensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
       characterStatsView.offensiveSkillName.text = skillProto.name;
       characterStatsView.offensiveSkillView.hidden = NO;
       characterStatsView.defensiveSkillView.originY = CGRectGetMaxY(characterStatsView.offensiveSkillView.frame) + 8.f;
@@ -315,8 +310,8 @@ typedef void (^RevealAnimCompletionBlock)(void);
     SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:monster.defensiveSkillId]];
     if (skillProto)
     {
-      [Globals imageNamed:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
-                 withView:characterStatsView.defensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+      [Globals imageNamedWithiPadSuffix:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
+                               withView:characterStatsView.defensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
       characterStatsView.defensiveSkillName.text = skillProto.name;
       characterStatsView.defensiveSkillView.hidden = NO;
     }
@@ -749,7 +744,8 @@ typedef void (^RevealAnimCompletionBlock)(void);
   const int p0  = clampf(floorf(n) + (dx > 0.f), 0, characterCount - 1); // Page swiping from
   const int p1  = clampf(floorf(n) + (dx < 0.f), 0, characterCount - 1); // Page swiping to
   
-  self.background.image = _characterBackgrounds[p0]; _backgroundDuplicate.image = _characterBackgrounds[p1];
+  self.background.image = _characterBackgrounds[p0];
+  _backgroundDuplicate.image = _characterBackgrounds[p1];
   
   const float t = (n - p0) * (p1 - p0);
   self.background.alpha = 1. - t; _backgroundDuplicate.alpha = t;

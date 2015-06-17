@@ -65,7 +65,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="EWj-RU-bBZ" customClass="NewGachaFocusScrollView">
-                            <rect key="frame" x="61" y="0.0" width="631" height="300"/>
+                            <rect key="frame" x="61" y="0.0" width="631.00000000000011" height="300"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <connections>
@@ -128,7 +128,7 @@
                                     </connections>
                                 </button>
                                 <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="huN-Fb-DR1">
-                                    <rect key="frame" x="43" y="9" width="20" height="20"/>
+                                    <rect key="frame" x="43" y="7" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
                                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="V5u-wm-3RB" userLabel="Spin View">
@@ -186,7 +186,7 @@
                                     </connections>
                                 </button>
                                 <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="cF6-me-sb4">
-                                    <rect key="frame" x="107" y="28" width="20" height="20"/>
+                                    <rect key="frame" x="107" y="26" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
                                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="0yf-bM-bBG" userLabel="Spin View">
@@ -695,7 +695,7 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="poa-Mq-dCK" userLabel="Orbs Description Label" customClass="NiceFontLabel2B">
-                    <rect key="frame" x="16" y="146.00000053313042" width="297" height="27"/>
+                    <rect key="frame" x="16" y="146.00000053313045" width="297" height="27"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -704,11 +704,11 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fireorb.png" id="Vbd-SE-qCo" userLabel="Orb Icon">
-                    <rect key="frame" x="123" y="146.00000113097599" width="26" height="27"/>
+                    <rect key="frame" x="123" y="146.00000053313045" width="26" height="27"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00/00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UXO-Wx-Okv" userLabel="Orbs Counter Label" customClass="NiceFontLabel18B">
-                    <rect key="frame" x="157" y="146.00000113097596" width="83" height="27"/>
+                    <rect key="frame" x="157" y="146.00000053313045" width="83" height="27"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -733,109 +733,109 @@
             <point key="canvasLocation" x="406" y="1231"/>
         </view>
         <view contentMode="scaleToFill" id="Kon-Hh-eje" customClass="NewGachaPrizeView">
-            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="rWm-mQ-HOW" userLabel="Animation Container View">
-                    <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Ktg-Kc-5nS">
-                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grshadow.png" id="UHT-5V-yU1">
-                            <rect key="frame" x="88" y="217" width="206" height="80"/>
+                            <rect key="frame" x="159" y="447" width="370" height="144"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="vGz-OA-v4w" userLabel="Character Scroll View">
-                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="yCm-lw-FrN" userLabel="Character">
-                                    <rect key="frame" x="39" y="1" width="313" height="278"/>
+                                    <rect key="frame" x="70" y="-15" width="563" height="570"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 </imageView>
                             </subviews>
                         </scrollView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="5sD-0O-mjs">
-                            <rect key="frame" x="0.0" y="0.0" width="613" height="375"/>
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlightcircle1.png" id="d4v-iV-V6M">
-                            <rect key="frame" x="34" y="104" width="287" height="184"/>
+                            <rect key="frame" x="62" y="243" width="516" height="331"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="whitegrlightcircle2.png" id="iIu-iy-lRu">
-                            <rect key="frame" x="67" y="150" width="263" height="205"/>
+                            <rect key="frame" x="121" y="326" width="472" height="369"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grdarkrim.png" id="JGh-sl-9S6">
-                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="WOr-oc-t3x">
-                            <rect key="frame" x="3" y="248" width="383" height="128"/>
+                            <rect key="frame" x="6" y="502" width="688" height="231"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lights.png" id="17H-aq-e2P">
-                            <rect key="frame" x="-6" y="6" width="634" height="280"/>
+                            <rect key="frame" x="-10" y="67" width="1140" height="504"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grglow2.png" id="eWo-Wb-kiQ">
-                            <rect key="frame" x="0.0" y="0.0" width="475" height="375"/>
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="9jg-Qv-ser">
-                            <rect key="frame" x="0.0" y="0.0" width="468" height="375"/>
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grcrystalglow.png" id="Cgl-AX-fM9">
-                            <rect key="frame" x="6" y="144" width="439" height="205"/>
+                            <rect key="frame" x="11" y="315" width="790" height="369"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb7.png" id="H2t-cl-Vfg">
-                            <rect key="frame" x="154" y="7" width="175" height="284"/>
+                            <rect key="frame" x="277" y="12" width="316" height="512"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb6.png" id="L00-AN-Wjd">
-                            <rect key="frame" x="153" y="3" width="183" height="288"/>
+                            <rect key="frame" x="276" y="6" width="328" height="519"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb5.png" id="6Ve-lf-u15">
-                            <rect key="frame" x="146" y="2" width="193" height="289"/>
+                            <rect key="frame" x="264" y="3" width="346" height="521"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb4.png" id="ogr-yW-sDJ">
-                            <rect key="frame" x="146" y="2" width="196" height="289"/>
+                            <rect key="frame" x="264" y="3" width="351" height="521"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb3.png" id="Jhk-eH-A55">
-                            <rect key="frame" x="152" y="2" width="188" height="289"/>
+                            <rect key="frame" x="274" y="3" width="338" height="521"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb2.png" id="dZp-Xb-ksW">
-                            <rect key="frame" x="222" y="2" width="119" height="207"/>
+                            <rect key="frame" x="399" y="4" width="215" height="371"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb1.png" id="FnT-0y-KUt">
-                            <rect key="frame" x="263" y="2" width="71" height="108"/>
+                            <rect key="frame" x="474" y="5" width="127" height="194"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grbigafterglow.png" id="gEH-nj-SiE">
-                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="jc7-g8-rCa" userLabel="Content Scroll View">
-                    <rect key="frame" x="0.0" y="0.0" width="667" height="376"/>
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="7iV-Jc-8I6" customClass="NewGachaPrizeStatsView">
-                            <rect key="frame" x="390" y="50" width="216" height="276"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <rect key="frame" x="682" y="147" width="324" height="475"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                     </subviews>
@@ -844,18 +844,18 @@
                     </connections>
                 </scrollView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1/1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nxi-8h-5sD" customClass="NiceFontLabel2">
-                    <rect key="frame" x="208" y="328" width="250" height="21"/>
+                    <rect key="frame" x="387" y="718" width="250" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="1" id="kM9-cf-7KM">
-                    <rect key="frame" x="208" y="337" width="250" height="37"/>
+                    <rect key="frame" x="387" y="731" width="250" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </pageControl>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bBb-5F-ZEJ" userLabel="Previous Button">
-                    <rect key="frame" x="18" y="164" width="47" height="47"/>
+                    <rect key="frame" x="18" y="347" width="74" height="74"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="gachaallarrow.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -866,7 +866,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8J4-TD-Egl" userLabel="Next Button">
-                    <rect key="frame" x="602" y="164" width="47" height="47"/>
+                    <rect key="frame" x="932" y="347" width="74" height="74"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="gachaallarrow.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -877,9 +877,9 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RSL-Th-WdW" customClass="NiceFontButton2">
-                    <rect key="frame" x="579" y="8" width="80" height="30"/>
+                    <rect key="frame" x="936" y="8" width="80" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <state key="normal" title="SKIP ALL">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -889,7 +889,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BCO-Vq-WKh" userLabel="Close Button" customClass="CloseButton">
-                    <rect key="frame" x="622" y="0.0" width="45" height="45"/>
+                    <rect key="frame" x="969" y="10" width="45" height="45"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="gacharevealclosex.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -934,7 +934,7 @@
                 <outlet property="statsContainerView" destination="7iV-Jc-8I6" id="RCJ-eB-CaT"/>
                 <outlet property="whiteLightCircle" destination="iIu-iy-lRu" id="IeH-0n-GxI"/>
             </connections>
-            <point key="canvasLocation" x="633.5" y="189.5"/>
+            <point key="canvasLocation" x="633" y="-204"/>
         </view>
         <view contentMode="scaleToFill" id="Oop-Hy-MU3" userLabel="Footer View">
             <rect key="frame" x="0.0" y="0.0" width="318" height="83"/>
