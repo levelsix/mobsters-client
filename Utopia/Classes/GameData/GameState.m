@@ -1496,7 +1496,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   TagLog(@"Added %@ for tag %d%@", NSStringFromClass([up class]), up.tag,
-         [up isKindOfClass:[FullUserUpdate class]] ? [NSString stringWithFormat:@", delta %d", [(FullUserUpdate *)up change] : @"");
+         [up isKindOfClass:[FullUserUpdate class]] ? [NSString stringWithFormat:@", delta %d", [(FullUserUpdate *)up change]] : @"");
   
   [self recalculateStrength];
   
@@ -1618,6 +1618,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   TownHallProto *thp = (TownHallProto *)th.staticStruct;
   slots += thp.numMonsterSlots;
   return slots;
+}
+
+- (int) currentlyUsedInventorySlots {
+  // Basically don't count monsters that are enhancing
+  int numEnhancing = (int)self.userEnhancement.feeders.count;
+  int numMonsters = (int)self.myMonsters.count;
+  
+  return numMonsters-numEnhancing;
 }
 
 - (int) expNeededForLevel:(int)level {
@@ -1822,10 +1830,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   NSMutableArray *arr = [NSMutableArray array];
   for (BattleItemQueueObject *item in biq.queueObjects) {
-      MSDate *endTime = item.expectedEndTime;
-      if (endTime && [endTime timeIntervalSinceNow] <= TIMER_EPSILON) {
-        [arr addObject:item];
-      }
+    MSDate *endTime = item.expectedEndTime;
+    if (endTime && [endTime timeIntervalSinceNow] <= TIMER_EPSILON) {
+      [arr addObject:item];
+    }
   }
   
   if (arr.count > 0) {

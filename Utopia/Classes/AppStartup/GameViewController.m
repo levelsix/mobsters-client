@@ -523,11 +523,11 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   BOOL checkTango = NO;
 #ifdef TOONSQUAD
-//  static BOOL attemptedTango = NO;
-//  if (!attemptedTango) {
-//    checkTango = [TangoDelegate attemptInitialLogin];
-//    attemptedTango = YES;
-//  }
+  //  static BOOL attemptedTango = NO;
+  //  if (!attemptedTango) {
+  //    checkTango = [TangoDelegate attemptInitialLogin];
+  //    attemptedTango = YES;
+  //  }
 #endif
   
   StartupResponseProto *proto = (StartupResponseProto *)fe.event;
@@ -734,7 +734,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   GameState *gs = [GameState sharedGameState];
   id<StaticStructure> ss = [gs structWithId:structId];
   StructureInfoProto *fsp = [ss structInfo];
-
+  
   if (fsp.structType != StructureInfoProto_StructTypeMoneyTree) {
     if (self.currentMap.cityId != 0) {
       [self visitCityClicked:0];
@@ -780,6 +780,23 @@ static const CGSize FIXED_SIZE = {568, 384};
     // Some of these may not be view controllers but since we're just comparing objects, it's okay.
     if (closeOpenViews) {
       [self removeAllViewControllersWithExceptions:self.notificationController.currentNotifications];
+    }
+  }
+}
+
+- (void) pointArrowOnEnhanceOrSell {
+  if (self.currentMap.cityId != 0) {
+    [self visitCityClicked:0];
+  }
+  
+  if ([self.currentMap isKindOfClass:[HomeMap class]]) {
+    GameState *gs = [GameState sharedGameState];
+    UserStruct *lab = gs.myLaboratory;
+    if (((lab.isComplete && lab.staticStruct.structInfo.level > 0) || lab.staticStruct.structInfo.level > 1) &&
+        !gs.userEnhancement) {
+      [(HomeMap *)self.currentMap pointArrowOnEnhanceMobsters];
+    } else {
+      [self pointArrowOnSellMobsters];
     }
   }
 }
@@ -1057,9 +1074,9 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   // Check if scenes have been dl'ed
   NSArray *arr = @[[task.groundImgPrefix stringByAppendingString:@"scene.jpg"]];
-//                   [task.groundImgPrefix stringByAppendingString:@"scene2left.png"],
-//                   [task.groundImgPrefix stringByAppendingString:@"scene1right.png"],
-//                   [task.groundImgPrefix stringByAppendingString:@"scene2right.png"]];
+  //                   [task.groundImgPrefix stringByAppendingString:@"scene2left.png"],
+  //                   [task.groundImgPrefix stringByAppendingString:@"scene1right.png"],
+  //                   [task.groundImgPrefix stringByAppendingString:@"scene2right.png"]];
   [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
     if (success) {
       
@@ -1151,8 +1168,8 @@ static const CGSize FIXED_SIZE = {568, 384};
   if (dir.runningScene) {
     //    [dir pushScene:scene withTransition:[CCTransition transitionFadeWithColor:[CCColor blackColor] duration:0.6f]];
   }// else {
-   //    [dir replaceScene:scene];
-   //  }
+  //    [dir replaceScene:scene];
+  //  }
   [dir pushScene:scene];
   [dir drawScene];
   
@@ -1272,28 +1289,28 @@ static const CGSize FIXED_SIZE = {568, 384};
     }
     
     //check if the user can add mobsters to their team
-//    NSArray *myTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:NO];
-//    BOOL hasFullTeam = myTeam.count >= gl.maxTeamSize;
-//    BOOL hasAvailMobsters = NO;
-//    
-//    for (UserMonster *um in gs.myMonsters) {
-//      if ([um isAvailable] && !um.teamSlot && um.curHealth > 0 && [gl currentBattleReadyTeamHasCostFor:um]) {
-//        hasAvailMobsters = YES;
-//      }
-//    }
-//    
-//    if (!hasFullTeam && hasAvailMobsters && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
-//      [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView.superview];
-//      [self pointArrowOnManageTeamWithPulsingAlpha:YES closeOpenViews:NO];
-//      return;
-//    }
-//    
-//    if(!hurtToons && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
-//      
-//      [hm removeArrowOnBuilding];
-//      [self.topBarViewController showArrowToAttackButton];
-//      return;
-//    }
+    //    NSArray *myTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:NO];
+    //    BOOL hasFullTeam = myTeam.count >= gl.maxTeamSize;
+    //    BOOL hasAvailMobsters = NO;
+    //
+    //    for (UserMonster *um in gs.myMonsters) {
+    //      if ([um isAvailable] && !um.teamSlot && um.curHealth > 0 && [gl currentBattleReadyTeamHasCostFor:um]) {
+    //        hasAvailMobsters = YES;
+    //      }
+    //    }
+    //
+    //    if (!hasFullTeam && hasAvailMobsters && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
+    //      [Globals removeUIArrowFromViewRecursively:self.topBarViewController.attackView.superview];
+    //      [self pointArrowOnManageTeamWithPulsingAlpha:YES closeOpenViews:NO];
+    //      return;
+    //    }
+    //
+    //    if(!hurtToons && gs.tasksCompleted < EARLY_TUTORIAL_STAGES_COMPLETE_LIMIT) {
+    //
+    //      [hm removeArrowOnBuilding];
+    //      [self.topBarViewController showArrowToAttackButton];
+    //      return;
+    //    }
     
   }
 }
@@ -1607,7 +1624,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 #pragma mark - Level Up
-  
+
 - (void) checkLevelUp {
   //[self checkPvpRankUp];
   

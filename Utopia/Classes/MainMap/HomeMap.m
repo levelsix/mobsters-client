@@ -677,7 +677,7 @@
 - (void) reloadBubblesOnMiscBuildings {
   GameState *gs = [GameState sharedGameState];
   
-  int numOverInv = (int)gs.myMonsters.count - [gs maxInventorySlots];
+  int numOverInv = [gs currentlyUsedInventorySlots] - [gs maxInventorySlots];
   for (Building *b in [self childrenOfClassType:[ResidenceBuilding class]]) {
     [b setBubbleType:(numOverInv > 0 ? BuildingBubbleTypeSell : BuildingBubbleTypeNone)  withNum:numOverInv];
   }
@@ -859,6 +859,21 @@
   
   if (b) {
     [self pointArrowOnBuilding:b config:MapBotViewButtonSell];
+  }
+}
+
+- (void) pointArrowOnEnhanceMobsters {
+  HomeBuilding *b = nil;
+  NSArray *arr = [self childrenOfClassType:[LabBuilding class]];
+  for (HomeBuilding *x in arr) {
+    if (!b || (x.userStruct.isComplete > b.userStruct.isComplete) ||
+        (x.userStruct.isComplete == b.userStruct.isComplete && x.userStruct.staticStruct.structInfo.level < b.userStruct.staticStruct.structInfo.level)) {
+      b = x;
+    }
+  }
+  
+  if (b) {
+    [self pointArrowOnBuilding:b config:MapBotViewButtonEnhance];
   }
 }
 

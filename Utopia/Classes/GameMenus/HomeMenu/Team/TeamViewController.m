@@ -341,11 +341,6 @@
   return gs.myMonsters;
 }
 
-- (int) maxInventorySlots {
-  GameState *gs = [GameState sharedGameState];
-  return gs.maxInventorySlots;
-}
-
 - (void) openInfoForUserMonster:(UserMonster *)um allowSell:(BOOL)allowSell {
   MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:um allowSell:allowSell];
   UIViewController *parent = [GameViewController baseController];

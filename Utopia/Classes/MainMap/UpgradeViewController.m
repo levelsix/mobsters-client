@@ -169,8 +169,6 @@
   TownHallProto *curSS = (TownHallProto *)us.staticStruct;
   TownHallProto *nextSS = (TownHallProto *)us.staticStructForNextLevel;
   
-//  self.cityHallUnlocksLabel.text = [NSString stringWithFormat:@"Level %d %@ Unlocks", curSS.structInfo.level+1, curSS.structInfo.name];
-  
   // Find new buildings, then find buildings that increase in quantity, then level
   NSMutableArray *unlockViews = [NSMutableArray array];
   

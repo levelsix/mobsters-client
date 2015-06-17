@@ -303,6 +303,7 @@
 - (int) maxCash;
 - (int) maxOil;
 - (int) maxInventorySlots;
+- (int) currentlyUsedInventorySlots;
 - (int) maxTeamCost;
 
 - (int) expNeededForLevel:(int)level;

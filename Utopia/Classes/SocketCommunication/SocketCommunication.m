@@ -207,6 +207,7 @@ static NSString *udid = nil;
   
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
+  _purposefulClose = NO;
   
   _pauseFlushTimer = NO;
   
@@ -2148,6 +2149,7 @@ static NSString *udid = nil;
   
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
+  _purposefulClose = YES;
   
   [self.webSocket close];
   self.webSocket = nil;
@@ -2176,7 +2178,7 @@ static NSString *udid = nil;
 
 - (void) webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
   LNLog(@"websocket failed.");
-  if (_canSendPreDbEvents) {
+  if (!_purposefulClose) {
     [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
   } else if (_shouldReconnect) {
     [self unableToConnectToHost:error.localizedDescription];
@@ -2185,7 +2187,7 @@ static NSString *udid = nil;
 
 - (void) webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
   LNLog(@"websocket closed. %@", reason);
-  if (_canSendPreDbEvents) {
+  if (!_purposefulClose) {
     [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
   }
 }

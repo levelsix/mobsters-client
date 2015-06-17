@@ -27,6 +27,7 @@
   int _numDisconnects;
   BOOL _canSendRegularEvents;
   BOOL _canSendPreDbEvents;
+  BOOL _purposefulClose;
   
   BOOL _healingQueuePotentiallyChanged;
   int _healingQueueCashChange;

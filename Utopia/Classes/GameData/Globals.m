@@ -1938,8 +1938,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       
     default:
     {
-      // Use the base struct since that actually determines quantity
-      return [self checkPrereqsOfStructId:[self baseStructIdForStructId:structId] forPredecessorOfStructId:thp.structInfo.structId];
+      if (!self.ignorePrerequisites) {
+        // Use the base struct since that actually determines quantity
+        return [self checkPrereqsOfStructId:[self baseStructIdForStructId:structId] forPredecessorOfStructId:thp.structInfo.structId];
+      } else {
+        return 1;
+      }
     }
   }
   return 0;
@@ -3109,7 +3113,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (BOOL) checkEnteringDungeon {
-  return [self checkEnteringDungeonWithTarget:[GameViewController baseController] noTeamSelector:@selector(pointArrowOnManageTeam) inventoryFullSelector:@selector(pointArrowOnSellMobsters)];
+  return [self checkEnteringDungeonWithTarget:[GameViewController baseController] noTeamSelector:@selector(pointArrowOnManageTeam) inventoryFullSelector:@selector(pointArrowOnEnhanceOrSell)];
 }
 
 #pragma clang diagnostic push
@@ -3172,7 +3176,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   // Check that inventory is not full
-  NSInteger curInvSize = gs.myMonsters.count;
+  NSInteger curInvSize = [gs currentlyUsedInventorySlots];
   if (curInvSize > gs.maxInventorySlots) {
     // Let the selector control the notification
     // NSString *description = [NSString stringWithFormat:@"Your residences are full. Sell %@s to free up space.", MONSTER_NAME];

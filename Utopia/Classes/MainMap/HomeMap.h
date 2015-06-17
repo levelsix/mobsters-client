@@ -75,6 +75,7 @@
 - (void) purchaseBuildingWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems;
 
 - (void) pointArrowOnManageTeamWithPulsingAlpha:(BOOL)pulsing;
+- (void) pointArrowOnEnhanceMobsters;
 - (void) pointArrowOnSellMobsters;
 - (void) pointArrowOnUpgradeResidence;
 - (void) pointArrowOnHospitalWithPulsingAlpha:(BOOL)pulsing;

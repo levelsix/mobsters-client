@@ -93,6 +93,7 @@ typedef enum {
 - (void) tutorialFinished;
 
 - (BOOL) buildingPurchased:(int)structId;
+- (void) pointArrowOnEnhanceOrSell;
 - (void) pointArrowOnSellMobsters;
 - (void) pointArrowOnManageTeam;
 - (void) pointArrowOnManageTeamWithPulsingAlpha:(BOOL)pulsing closeOpenViews:(BOOL)closeOpenViews;

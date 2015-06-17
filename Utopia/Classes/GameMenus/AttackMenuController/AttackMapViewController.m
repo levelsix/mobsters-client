@@ -51,6 +51,12 @@
     self.multiplayerView.center = ccp(self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y);
     self.pveView.center = ccp(self.view.frame.size.width-self.pveView.frame.size.width/2, self.pveView.center.y);
   } completion:nil];
+  
+  GameState *gs = [GameState sharedGameState];
+  // On first open of 
+  if (!gs.userHasEnteredBattleThisSession) {
+    [self setPrevMapElement:0];
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
