@@ -601,7 +601,7 @@
 - (float) getRandomValue
 {
   [self preseedRandomization];
-  return rand()/((float)RAND_MAX);
+  return (rand() % 100) / 100.0f;
 }
 
 - (BOOL) randomWithChance:(float)chance

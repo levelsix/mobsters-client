@@ -1096,13 +1096,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       } else if ([code isEqualToString:UNLOCK_PREREQS_CODE]) {
         gl.ignorePrerequisites = !gl.ignorePrerequisites;
         msg = [NSString stringWithFormat:@"Prerequisites turned %@.", !gl.ignorePrerequisites ? @"on" : @"off"];
-      } else if ([code isEqualToString:REPLAY_CODE]) {
+      } else if ((r = [code rangeOfString:REPLAY_CODE]).length > 0) {
+        
+        r.length++;
         
         Globals *gl = [Globals sharedGlobals];
-        if (gl.lastReplay)
+        
+        if (code.length > r.length)
         {
-          PvpHistoryProto *lastBattle = [gs.battleHistory lastObject];
-          [[OutgoingEventController sharedOutgoingEventController] viewBattleReplay:lastBattle.replayId];
+          code = [code stringByReplacingCharactersInRange:r withString:@""];
+          [[OutgoingEventController sharedOutgoingEventController] viewBattleReplay:code];
+          msg = @"Starting that replay";
+        }
+        else if (gl.lastReplay)
+        {
+          [[GameViewController baseController] beginReplay:gl.lastReplay];
           msg = @"Starting replay...";
         }
         else
