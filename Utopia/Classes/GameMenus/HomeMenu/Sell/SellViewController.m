@@ -95,7 +95,7 @@
   NSMutableArray *avail = [NSMutableArray array];
   
   for (UserMonster *um in gs.myMonsters) {
-    if ((um.isAvailableForSelling || (um.isAvailable && um.isProtected)) && ![self.sellQueue containsObject:um]) {
+    if ((um.isAvailable || !um.isComplete) && ![self.sellQueue containsObject:um]) {
       [avail addObject:um];
     }
   }
