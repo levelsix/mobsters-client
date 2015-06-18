@@ -468,7 +468,7 @@ static NSString *udid = nil;
   
   // Delete this eventUuid from unresponded messages
   for (FullEvent *fe in self.unrespondedMessages.copy) {
-    if ([fe.eventUuid isEqualToString:eventUuid]) {
+    if ([fe.eventUuid isEqualToString:eventUuid] && ![fe.event isKindOfClass:[ForceLogoutResponseProto class]]) {
       [self.unrespondedMessages removeObject:fe];
     }
   }

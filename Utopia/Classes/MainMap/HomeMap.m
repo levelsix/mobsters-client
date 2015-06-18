@@ -277,8 +277,8 @@
 
   [arr addObjectsFromArray:[self refreshForExpansion]];
   
-  LeaderBoardBuilding *leaderBoardBuilding = [[LeaderBoardBuilding alloc] initWithFile:@"leaderboardbuilding.png" location:CGRectMake(41, 17, 2, 2) map:self];
-  [self addChild:leaderBoardBuilding z:0 name:@"leaderBoard?"];
+  LeaderBoardBuilding *leaderBoardBuilding = [[LeaderBoardBuilding alloc] initWithFile:@"leaderboardstatue.png" location:CGRectMake(42, 18.5, 2, 2) map:self];
+  [self addChild:leaderBoardBuilding z:0 name:@"leaderboard"];
   [arr addObject:leaderBoardBuilding];
   
   [self setupTeamSprites];
@@ -1072,13 +1072,11 @@
       
       _canMove = YES;
     }
-  } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
+  } else if ([self.selected isKindOfClass:[ObstacleSprite class]] ||
+             [self.selected isKindOfClass:[LeaderBoardBuilding class]]) {
     _canMove = NO;
     
     self.bottomOptionView = self.buildBotView;
-  } else if ([self.selected isKindOfClass:[LeaderBoardBuilding class]]) {
-    self.bottomOptionView = self.buildBotView;
-    _canMove = NO;
   } else {
     // Remove any arrows
     self.bottomOptionView = nil;

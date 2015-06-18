@@ -296,8 +296,8 @@
 - (void) destroyAllCakes
 {
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  for (NSInteger column = 0; column < layout.numColumns; column++)
-    for (NSInteger row = 0; row < layout.numRows; row++)
+  for (int column = 0; column < layout.numColumns; column++)
+    for (int row = 0; row < layout.numRows; row++)
     {
       BattleOrb* orb = [layout orbAtColumn:column row:row];
       if (orb.specialOrbType == SpecialOrbTypeCake)

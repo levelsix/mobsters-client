@@ -23,7 +23,7 @@
 
 @end
 
-@interface LeaderBoardViewCell: UITableViewCell
+@interface LeaderBoardViewCell : UITableViewCell
 
 - (void)updateWithLeaderBoardObject:(id<LeaderBoardObject>)leaderInfo scoreIcon:(NSString *)scoreIcon;
 - (void) updateWithRank:(int)rank score:(long)score userName:(NSString *)userName scoreIcon:(NSString *)scoreIcon;
@@ -38,7 +38,7 @@
 
 @end
 
-@interface LeaderBoardViewController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource, ChatPopoverDelegate> {
+@interface LeaderBoardViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ChatPopoverDelegate> {
   CGFloat _cellHeight;
   NSString *_scoreName;
   NSString *_scoreIcon;
@@ -51,9 +51,11 @@
 
 @property (nonatomic, retain) id<LeaderBoardObject> ownRanking;
 @property (nonatomic, retain) NSMutableArray *leaderList;
+@property (nonatomic, retain) UIRefreshControl *refreshControl;
 
 @property (nonatomic, retain) IBOutlet UIView *yourRankingHeader;
 @property (nonatomic, retain) IBOutlet UIView *LeaderBoardHeaderView;
+@property (nonatomic, retain) IBOutlet UIView *topHeaderView;
 @property (nonatomic, retain) IBOutlet UITableViewCell *loadingViewCell;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *loadingViewIndicator;
 @property (nonatomic, retain) IBOutlet UILabel *scoreLabel;

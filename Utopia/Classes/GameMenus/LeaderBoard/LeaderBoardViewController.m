@@ -52,7 +52,7 @@
 }
 
 - (void) animateIn:(dispatch_block_t)completion {
-  CGPoint pt = ccp(self.superview.center.x, self.superview.frame.size.height - (self.frame.size.height/2) - 3);
+  CGPoint pt = ccp(self.superview.center.x, self.superview.frame.size.height - (self.frame.size.height/2));
   self.center = ccp(pt.x, self.superview.frame.size.height + (self.frame.size.height/2));
   
   [UIView animateWithDuration:0.3f animations:^{
@@ -66,7 +66,7 @@
 
 - (void) animateOut:(dispatch_block_t)completion {
   [UIView animateWithDuration:0.3f animations:^{
-    self.center = ccp(self.center.x, self.center.y + self.frame.size.height + 10);
+    self.center = ccp(self.center.x, self.center.y + self.frame.size.height);
   } completion:^(BOOL finished) {
     if (completion) {
       completion();
@@ -132,11 +132,21 @@
   _highestRankToShow = HIGHEST_RANK_INCREMENT;
   _moreScoresAvailable = YES;
   
-  self.containerView.superview.layer.cornerRadius = 5.f;
-  self.containerView.superview.clipsToBounds = YES;
+  self.containerView.layer.cornerRadius = 5.f;
+  
   self.tableView.hidden = YES;
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  
+  UIRefreshControl *ref = [[UIRefreshControl alloc] init];
+  [ref addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+  
+  UITableViewController *tvc = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
+  [self addChildViewController:tvc];
+  tvc.tableView = self.tableView;
+  tvc.refreshControl = ref;
+  self.refreshControl = ref;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -144,8 +154,6 @@
   
   self.scoreLabel.text = _scoreName;
   self.tableLoadingIndicator.hidden = NO;
-  [self addPullToRefreshHeader:self.tableView];
-  refreshSpinner.transform = CGAffineTransformMakeScale(0.75, 0.75);
   self.loadingViewIndicator.transform = CGAffineTransformMakeScale(0.75, 0.75);
   
   [self.view addSubview:self.popoverView];
@@ -166,7 +174,7 @@
 }
 
 - (void) stopLoading {
-  [super stopLoading];
+  [self.refreshControl endRefreshing];
   
   id<LeaderBoardObject> lastObject = [self.leaderList lastObject];
   if (lastObject.rank < _highestRankToShow) {
@@ -214,13 +222,14 @@
   if (!cell)
   {
     cell = [[NSBundle mainBundle] loadNibNamed:@"LeaderBoardCell" owner:self options:nil][0];
+    //cell.reuseIdentifier = @"LeaderBoardCell";
   }
   
   if (indexPath.section == 0) {
     [cell updateWithRank:self.ownRanking.rank score:_ownScore userName:gs.name scoreIcon:_scoreIcon];
   } else if(indexPath.row < self.leaderList.count) {
     [cell updateWithLeaderBoardObject:self.leaderList[indexPath.row] scoreIcon:_scoreIcon];
-  } else if(self.leaderList.count > 0) {
+  } else if (self.leaderList.count > 0) {
     _highestRankToShow += HIGHEST_RANK_INCREMENT;
     [self refresh];
     return self.loadingViewCell;
@@ -241,8 +250,6 @@
 }
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
-  [super scrollViewDidScroll:scrollView];
-  
   if (!self.popoverView.hidden) {
     [self.popoverView close];
   }
@@ -270,7 +277,6 @@
 
 - (void) profileClicked {
   if (_clickedLeader) {
-    [self close];
     [self profileClicked:_clickedLeader.mup.userUuid];
   }
 }

@@ -14,13 +14,15 @@
 @implementation LeaderBoardBuilding
 
 - (void) reloadCharacterSprites {
-  GameState *gs = [GameState sharedGameState];
-  
-  NSArray *leaderList = gs.leaderBoardPlacement;
-
-  for (StrengthLeaderBoardProto *slbp in leaderList) {
-    [self setPodiumWithMonster:[gs monsterWithId:slbp.mup.avatarMonsterId] placement:slbp.rank];
-  }
+  // Do nothing
+  return;
+//  GameState *gs = [GameState sharedGameState];
+//  
+//  NSArray *leaderList = gs.leaderBoardPlacement;
+//
+//  for (StrengthLeaderBoardProto *slbp in leaderList) {
+//    [self setPodiumWithMonster:[gs monsterWithId:slbp.mup.avatarMonsterId] placement:slbp.rank];
+//  }
 }
 
 - (void) setPodiumWithMonster:(MonsterProto *)monster placement:(int)placement {

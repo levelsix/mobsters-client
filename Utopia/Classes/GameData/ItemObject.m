@@ -146,8 +146,6 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  MiniJobCenterProto *miniJobCenter = (MiniJobCenterProto *)gs.myMiniJobCenter.staticStruct;
-  
   switch (self.staticItem.itemType) {
       
     case ItemTypeItemGachaCredit:

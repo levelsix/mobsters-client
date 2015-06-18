@@ -820,6 +820,8 @@ static const CGSize FIXED_SIZE = {568, 384};
     UserStruct *lab = gs.myLaboratory;
     if (((lab.isComplete && lab.staticStruct.structInfo.level > 0) || lab.staticStruct.structInfo.level > 1) &&
         !gs.userEnhancement) {
+      NSString *alertDescription = [NSString stringWithFormat:@"Your residences are full. Enhance %@s to free up space.", MONSTER_NAME];
+      [Globals addAlertNotification:alertDescription];
       [(HomeMap *)self.currentMap pointArrowOnEnhanceMobsters];
     } else {
       [self pointArrowOnSellMobsters];

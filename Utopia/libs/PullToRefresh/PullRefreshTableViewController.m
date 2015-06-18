@@ -110,15 +110,17 @@
 - (void)displayLoading {
   isLoading = YES;
   
+  self.tableView.contentOffset = CGPointMake(self.tableView.contentOffset.x, self.tableView.contentOffset.y+refreshHeaderView.bounds.size.height);
+  
   // Show the header
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:0.3];
-  self.tableView.contentInset = UIEdgeInsetsMake(refreshHeaderView.bounds.size.height, 0, 0, 0);
-  refreshLabel.text = self.textLoading;
-  refreshArrow.hidden = YES;
-  refreshHeaderView.alpha = 1.f;
-  [refreshSpinner startAnimating];
-  [UIView commitAnimations];
+//  [UIView beginAnimations:nil context:NULL];
+//  [UIView setAnimationDuration:0.3];
+//  self.tableView.contentInset = UIEdgeInsetsMake(refreshHeaderView.bounds.size.height, 0, 0, 0);
+//  refreshLabel.text = self.textLoading;
+//  refreshArrow.hidden = YES;
+//  refreshHeaderView.alpha = 1.f;
+//  [refreshSpinner startAnimating];
+//  [UIView commitAnimations];
   
 }
 
