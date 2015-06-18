@@ -95,8 +95,12 @@
         }
       }
     }
-    
-    [self setOrb:orb column:column row:row];
+    if ((orb.orbColor == OrbColorNone && orb.powerupType == PowerupTypeNone && orb.specialOrbType == SpecialOrbTypeNone)) {
+      [self setOrb:nil column:column row:row];
+      return nil;
+    } else {
+      [self setOrb:orb column:column row:row];
+    }
   }
   
   return orb;
