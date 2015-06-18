@@ -322,7 +322,7 @@
       UserMonster *um = [UserMonster userMonsterWithTaskStageMonsterProto:tsm];
       BattlePlayer *bp = [BattlePlayer playerWithMonster:um dmgMultiplier:tsm.dmgMultiplier monsterType:tsm.monsterType];
       [enemyTeam addObject:bp];
-      [enemyTeamSnapshots addObject:[self monsterSnapshot:um isOffensive:NO loot:tsm.puzzlePieceMonsterId]];
+      [enemyTeamSnapshots addObject:[self monsterSnapshot:um isOffensive:NO loot:tsm.puzzlePieceDropped ? tsm.puzzlePieceMonsterId : 0]];
       
       if (_isFirstTime) {
         bp.dialogue = !tsm.hasInitialD ? nil : tsm.initialD;
