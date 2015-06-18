@@ -237,8 +237,8 @@ static float buttonInitialWidth = 159.f;
   self.msgLabel.text = [NSString stringWithFormat:@"Your %@ %@",php.userIsAttacker ? @"Offense" : @"Defense", php.userWon ? @"Won" : @"Lost" ];
   self.msgLabel.textColor = php.userWon ? [UIColor colorWithHexString:GREEN] : [UIColor colorWithHexString:RED];
   self.timeLabel.textColor = php.userWon ? [UIColor colorWithHexString:GREEN] : [UIColor colorWithHexString:RED];
-  int oilChange = php.userIsAttacker ? php.attackerOilChange : php.defenderOilChange;
-  int cashChange = php.userIsAttacker ? php.attackerCashChange : php.defenderCashChange;
+  int oilChange = php.oilStolenFromGenerators+php.oilStolenFromStorage;
+  int cashChange = php.cashStolenFromGenerators+php.cashStolenFromStorage;
   if (oilChange == 0 && cashChange == 0) {
     self.oilLabel.superview.hidden = YES;
     self.cashLabel.superview.hidden = YES;
@@ -455,13 +455,11 @@ static float buttonInitialWidth = 159.f;
     
     self.rankLabel.highlighted = YES;
     
-    if ([pvp userIsAttacker]) {
-      self.cashLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:ABS(pvp.attackerCashChange)]];
-      self.oilLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:ABS(pvp.attackerOilChange)]];
-    } else {
-      self.cashLabel.text = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:ABS(pvp.defenderCashChange)]];
-      self.oilLabel.text = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:ABS(pvp.defenderOilChange)]];
-    }
+    NSString *sign = [pvp userIsAttacker] ? @"+" : @"-";
+    int oilStolen = pvp.oilStolenFromGenerators+pvp.oilStolenFromStorage;
+    int cashStolen = pvp.cashStolenFromGenerators+pvp.cashStolenFromStorage;
+    self.cashLabel.text = [NSString stringWithFormat:@"%@%@", sign, [Globals commafyNumber:ABS(oilStolen)]];
+    self.oilLabel.text = [NSString stringWithFormat:@"%@%@", sign, [Globals commafyNumber:ABS(cashStolen)]];
     
     UILabel *label = self.cashLabel;
     CGSize size = [label.text getSizeWithFont:label.font constrainedToSize:label.frame.size lineBreakMode:label.lineBreakMode];

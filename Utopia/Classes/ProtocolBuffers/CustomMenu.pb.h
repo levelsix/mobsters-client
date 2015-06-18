@@ -32,12 +32,16 @@
   BOOL hasPositionX_:1;
   BOOL hasPositionY_:1;
   BOOL hasPositionZ_:1;
+  BOOL hasIpadPositionX_:1;
+  BOOL hasIpadPositionY_:1;
   BOOL hasImageName_:1;
   BOOL isJiggle_:1;
   int32_t customMenuId;
   int32_t positionX;
   int32_t positionY;
   int32_t positionZ;
+  int32_t ipadPositionX;
+  int32_t ipadPositionY;
   NSString* imageName;
 }
 - (BOOL) hasCustomMenuId;
@@ -46,12 +50,16 @@
 - (BOOL) hasPositionZ;
 - (BOOL) hasIsJiggle;
 - (BOOL) hasImageName;
+- (BOOL) hasIpadPositionX;
+- (BOOL) hasIpadPositionY;
 @property (readonly) int32_t customMenuId;
 @property (readonly) int32_t positionX;
 @property (readonly) int32_t positionY;
 @property (readonly) int32_t positionZ;
 - (BOOL) isJiggle;
 @property (readonly, strong) NSString* imageName;
+@property (readonly) int32_t ipadPositionX;
+@property (readonly) int32_t ipadPositionY;
 
 + (CustomMenuProto*) defaultInstance;
 - (CustomMenuProto*) defaultInstance;
@@ -117,6 +125,16 @@
 - (NSString*) imageName;
 - (CustomMenuProto_Builder*) setImageName:(NSString*) value;
 - (CustomMenuProto_Builder*) clearImageName;
+
+- (BOOL) hasIpadPositionX;
+- (int32_t) ipadPositionX;
+- (CustomMenuProto_Builder*) setIpadPositionX:(int32_t) value;
+- (CustomMenuProto_Builder*) clearIpadPositionX;
+
+- (BOOL) hasIpadPositionY;
+- (int32_t) ipadPositionY;
+- (CustomMenuProto_Builder*) setIpadPositionY:(int32_t) value;
+- (CustomMenuProto_Builder*) clearIpadPositionY;
 @end
 
 

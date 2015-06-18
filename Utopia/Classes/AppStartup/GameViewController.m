@@ -413,7 +413,8 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) reconnectToServer {
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self clearMessages:NO];
   
-  if (!self.reconnectViewController) {
+  GameState *gs = [GameState sharedGameState];
+  if (!self.reconnectViewController && gs.connected) {
     self.reconnectViewController = [[ReconnectViewController alloc] init];
     
     // 2 second delay before displaying reconnect vc

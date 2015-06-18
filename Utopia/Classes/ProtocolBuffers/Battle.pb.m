@@ -1157,6 +1157,10 @@ static PvpMonsterProto* defaultPvpMonsterProtoInstance = nil;
 @property int32_t attackerOilChange;
 @property BOOL clanAvenged;
 @property (strong) NSString* replayId;
+@property int32_t cashStolenFromStorage;
+@property int32_t cashStolenFromGenerators;
+@property int32_t oilStolenFromStorage;
+@property int32_t oilStolenFromGenerators;
 @end
 
 @implementation PvpHistoryProto
@@ -1297,6 +1301,34 @@ static PvpMonsterProto* defaultPvpMonsterProtoInstance = nil;
   hasReplayId_ = !!value_;
 }
 @synthesize replayId;
+- (BOOL) hasCashStolenFromStorage {
+  return !!hasCashStolenFromStorage_;
+}
+- (void) setHasCashStolenFromStorage:(BOOL) value_ {
+  hasCashStolenFromStorage_ = !!value_;
+}
+@synthesize cashStolenFromStorage;
+- (BOOL) hasCashStolenFromGenerators {
+  return !!hasCashStolenFromGenerators_;
+}
+- (void) setHasCashStolenFromGenerators:(BOOL) value_ {
+  hasCashStolenFromGenerators_ = !!value_;
+}
+@synthesize cashStolenFromGenerators;
+- (BOOL) hasOilStolenFromStorage {
+  return !!hasOilStolenFromStorage_;
+}
+- (void) setHasOilStolenFromStorage:(BOOL) value_ {
+  hasOilStolenFromStorage_ = !!value_;
+}
+@synthesize oilStolenFromStorage;
+- (BOOL) hasOilStolenFromGenerators {
+  return !!hasOilStolenFromGenerators_;
+}
+- (void) setHasOilStolenFromGenerators:(BOOL) value_ {
+  hasOilStolenFromGenerators_ = !!value_;
+}
+@synthesize oilStolenFromGenerators;
 - (id) init {
   if ((self = [super init])) {
     self.battleEndTime = 0L;
@@ -1316,6 +1348,10 @@ static PvpMonsterProto* defaultPvpMonsterProtoInstance = nil;
     self.attackerOilChange = 0;
     self.clanAvenged = NO;
     self.replayId = @"";
+    self.cashStolenFromStorage = 0;
+    self.cashStolenFromGenerators = 0;
+    self.oilStolenFromStorage = 0;
+    self.oilStolenFromGenerators = 0;
   }
   return self;
 }
@@ -1395,6 +1431,18 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   if (self.hasReplayId) {
     [output writeString:19 value:self.replayId];
   }
+  if (self.hasCashStolenFromStorage) {
+    [output writeInt32:20 value:self.cashStolenFromStorage];
+  }
+  if (self.hasCashStolenFromGenerators) {
+    [output writeInt32:21 value:self.cashStolenFromGenerators];
+  }
+  if (self.hasOilStolenFromStorage) {
+    [output writeInt32:22 value:self.oilStolenFromStorage];
+  }
+  if (self.hasOilStolenFromGenerators) {
+    [output writeInt32:23 value:self.oilStolenFromGenerators];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1457,6 +1505,18 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   }
   if (self.hasReplayId) {
     size_ += computeStringSize(19, self.replayId);
+  }
+  if (self.hasCashStolenFromStorage) {
+    size_ += computeInt32Size(20, self.cashStolenFromStorage);
+  }
+  if (self.hasCashStolenFromGenerators) {
+    size_ += computeInt32Size(21, self.cashStolenFromGenerators);
+  }
+  if (self.hasOilStolenFromStorage) {
+    size_ += computeInt32Size(22, self.oilStolenFromStorage);
+  }
+  if (self.hasOilStolenFromGenerators) {
+    size_ += computeInt32Size(23, self.oilStolenFromGenerators);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1568,6 +1628,18 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   if (self.hasReplayId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"replayId", self.replayId];
   }
+  if (self.hasCashStolenFromStorage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"cashStolenFromStorage", [NSNumber numberWithInteger:self.cashStolenFromStorage]];
+  }
+  if (self.hasCashStolenFromGenerators) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"cashStolenFromGenerators", [NSNumber numberWithInteger:self.cashStolenFromGenerators]];
+  }
+  if (self.hasOilStolenFromStorage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"oilStolenFromStorage", [NSNumber numberWithInteger:self.oilStolenFromStorage]];
+  }
+  if (self.hasOilStolenFromGenerators) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"oilStolenFromGenerators", [NSNumber numberWithInteger:self.oilStolenFromGenerators]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1614,6 +1686,14 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
       (!self.hasClanAvenged || self.clanAvenged == otherMessage.clanAvenged) &&
       self.hasReplayId == otherMessage.hasReplayId &&
       (!self.hasReplayId || [self.replayId isEqual:otherMessage.replayId]) &&
+      self.hasCashStolenFromStorage == otherMessage.hasCashStolenFromStorage &&
+      (!self.hasCashStolenFromStorage || self.cashStolenFromStorage == otherMessage.cashStolenFromStorage) &&
+      self.hasCashStolenFromGenerators == otherMessage.hasCashStolenFromGenerators &&
+      (!self.hasCashStolenFromGenerators || self.cashStolenFromGenerators == otherMessage.cashStolenFromGenerators) &&
+      self.hasOilStolenFromStorage == otherMessage.hasOilStolenFromStorage &&
+      (!self.hasOilStolenFromStorage || self.oilStolenFromStorage == otherMessage.oilStolenFromStorage) &&
+      self.hasOilStolenFromGenerators == otherMessage.hasOilStolenFromGenerators &&
+      (!self.hasOilStolenFromGenerators || self.oilStolenFromGenerators == otherMessage.oilStolenFromGenerators) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1671,6 +1751,18 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   }
   if (self.hasReplayId) {
     hashCode = hashCode * 31 + [self.replayId hash];
+  }
+  if (self.hasCashStolenFromStorage) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.cashStolenFromStorage] hash];
+  }
+  if (self.hasCashStolenFromGenerators) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.cashStolenFromGenerators] hash];
+  }
+  if (self.hasOilStolenFromStorage) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.oilStolenFromStorage] hash];
+  }
+  if (self.hasOilStolenFromGenerators) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.oilStolenFromGenerators] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1772,6 +1864,18 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   }
   if (other.hasReplayId) {
     [self setReplayId:other.replayId];
+  }
+  if (other.hasCashStolenFromStorage) {
+    [self setCashStolenFromStorage:other.cashStolenFromStorage];
+  }
+  if (other.hasCashStolenFromGenerators) {
+    [self setCashStolenFromGenerators:other.cashStolenFromGenerators];
+  }
+  if (other.hasOilStolenFromStorage) {
+    [self setOilStolenFromStorage:other.oilStolenFromStorage];
+  }
+  if (other.hasOilStolenFromGenerators) {
+    [self setOilStolenFromGenerators:other.oilStolenFromGenerators];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1896,6 +2000,22 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
       }
       case 154: {
         [self setReplayId:[input readString]];
+        break;
+      }
+      case 160: {
+        [self setCashStolenFromStorage:[input readInt32]];
+        break;
+      }
+      case 168: {
+        [self setCashStolenFromGenerators:[input readInt32]];
+        break;
+      }
+      case 176: {
+        [self setOilStolenFromStorage:[input readInt32]];
+        break;
+      }
+      case 184: {
+        [self setOilStolenFromGenerators:[input readInt32]];
         break;
       }
     }
@@ -2279,6 +2399,70 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
 - (PvpHistoryProto_Builder*) clearReplayId {
   result.hasReplayId = NO;
   result.replayId = @"";
+  return self;
+}
+- (BOOL) hasCashStolenFromStorage {
+  return result.hasCashStolenFromStorage;
+}
+- (int32_t) cashStolenFromStorage {
+  return result.cashStolenFromStorage;
+}
+- (PvpHistoryProto_Builder*) setCashStolenFromStorage:(int32_t) value {
+  result.hasCashStolenFromStorage = YES;
+  result.cashStolenFromStorage = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearCashStolenFromStorage {
+  result.hasCashStolenFromStorage = NO;
+  result.cashStolenFromStorage = 0;
+  return self;
+}
+- (BOOL) hasCashStolenFromGenerators {
+  return result.hasCashStolenFromGenerators;
+}
+- (int32_t) cashStolenFromGenerators {
+  return result.cashStolenFromGenerators;
+}
+- (PvpHistoryProto_Builder*) setCashStolenFromGenerators:(int32_t) value {
+  result.hasCashStolenFromGenerators = YES;
+  result.cashStolenFromGenerators = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearCashStolenFromGenerators {
+  result.hasCashStolenFromGenerators = NO;
+  result.cashStolenFromGenerators = 0;
+  return self;
+}
+- (BOOL) hasOilStolenFromStorage {
+  return result.hasOilStolenFromStorage;
+}
+- (int32_t) oilStolenFromStorage {
+  return result.oilStolenFromStorage;
+}
+- (PvpHistoryProto_Builder*) setOilStolenFromStorage:(int32_t) value {
+  result.hasOilStolenFromStorage = YES;
+  result.oilStolenFromStorage = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearOilStolenFromStorage {
+  result.hasOilStolenFromStorage = NO;
+  result.oilStolenFromStorage = 0;
+  return self;
+}
+- (BOOL) hasOilStolenFromGenerators {
+  return result.hasOilStolenFromGenerators;
+}
+- (int32_t) oilStolenFromGenerators {
+  return result.oilStolenFromGenerators;
+}
+- (PvpHistoryProto_Builder*) setOilStolenFromGenerators:(int32_t) value {
+  result.hasOilStolenFromGenerators = YES;
+  result.oilStolenFromGenerators = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearOilStolenFromGenerators {
+  result.hasOilStolenFromGenerators = NO;
+  result.oilStolenFromGenerators = 0;
   return self;
 }
 @end

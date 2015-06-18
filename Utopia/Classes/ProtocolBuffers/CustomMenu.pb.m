@@ -27,6 +27,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t positionZ;
 @property BOOL isJiggle;
 @property (strong) NSString* imageName;
+@property int32_t ipadPositionX;
+@property int32_t ipadPositionY;
 @end
 
 @implementation CustomMenuProto
@@ -78,6 +80,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasImageName_ = !!value_;
 }
 @synthesize imageName;
+- (BOOL) hasIpadPositionX {
+  return !!hasIpadPositionX_;
+}
+- (void) setHasIpadPositionX:(BOOL) value_ {
+  hasIpadPositionX_ = !!value_;
+}
+@synthesize ipadPositionX;
+- (BOOL) hasIpadPositionY {
+  return !!hasIpadPositionY_;
+}
+- (void) setHasIpadPositionY:(BOOL) value_ {
+  hasIpadPositionY_ = !!value_;
+}
+@synthesize ipadPositionY;
 - (id) init {
   if ((self = [super init])) {
     self.customMenuId = 0;
@@ -86,6 +102,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.positionZ = 0;
     self.isJiggle = NO;
     self.imageName = @"";
+    self.ipadPositionX = 0;
+    self.ipadPositionY = 0;
   }
   return self;
 }
@@ -123,6 +141,12 @@ static CustomMenuProto* defaultCustomMenuProtoInstance = nil;
   if (self.hasImageName) {
     [output writeString:6 value:self.imageName];
   }
+  if (self.hasIpadPositionX) {
+    [output writeInt32:7 value:self.ipadPositionX];
+  }
+  if (self.hasIpadPositionY) {
+    [output writeInt32:8 value:self.ipadPositionY];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -149,6 +173,12 @@ static CustomMenuProto* defaultCustomMenuProtoInstance = nil;
   }
   if (self.hasImageName) {
     size_ += computeStringSize(6, self.imageName);
+  }
+  if (self.hasIpadPositionX) {
+    size_ += computeInt32Size(7, self.ipadPositionX);
+  }
+  if (self.hasIpadPositionY) {
+    size_ += computeInt32Size(8, self.ipadPositionY);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -203,6 +233,12 @@ static CustomMenuProto* defaultCustomMenuProtoInstance = nil;
   if (self.hasImageName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"imageName", self.imageName];
   }
+  if (self.hasIpadPositionX) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"ipadPositionX", [NSNumber numberWithInteger:self.ipadPositionX]];
+  }
+  if (self.hasIpadPositionY) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"ipadPositionY", [NSNumber numberWithInteger:self.ipadPositionY]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -226,6 +262,10 @@ static CustomMenuProto* defaultCustomMenuProtoInstance = nil;
       (!self.hasIsJiggle || self.isJiggle == otherMessage.isJiggle) &&
       self.hasImageName == otherMessage.hasImageName &&
       (!self.hasImageName || [self.imageName isEqual:otherMessage.imageName]) &&
+      self.hasIpadPositionX == otherMessage.hasIpadPositionX &&
+      (!self.hasIpadPositionX || self.ipadPositionX == otherMessage.ipadPositionX) &&
+      self.hasIpadPositionY == otherMessage.hasIpadPositionY &&
+      (!self.hasIpadPositionY || self.ipadPositionY == otherMessage.ipadPositionY) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -247,6 +287,12 @@ static CustomMenuProto* defaultCustomMenuProtoInstance = nil;
   }
   if (self.hasImageName) {
     hashCode = hashCode * 31 + [self.imageName hash];
+  }
+  if (self.hasIpadPositionX) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.ipadPositionX] hash];
+  }
+  if (self.hasIpadPositionY) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.ipadPositionY] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -309,6 +355,12 @@ static CustomMenuProto* defaultCustomMenuProtoInstance = nil;
   if (other.hasImageName) {
     [self setImageName:other.imageName];
   }
+  if (other.hasIpadPositionX) {
+    [self setIpadPositionX:other.ipadPositionX];
+  }
+  if (other.hasIpadPositionY) {
+    [self setIpadPositionY:other.ipadPositionY];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -352,6 +404,14 @@ static CustomMenuProto* defaultCustomMenuProtoInstance = nil;
       }
       case 50: {
         [self setImageName:[input readString]];
+        break;
+      }
+      case 56: {
+        [self setIpadPositionX:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setIpadPositionY:[input readInt32]];
         break;
       }
     }
@@ -451,6 +511,38 @@ static CustomMenuProto* defaultCustomMenuProtoInstance = nil;
 - (CustomMenuProto_Builder*) clearImageName {
   result.hasImageName = NO;
   result.imageName = @"";
+  return self;
+}
+- (BOOL) hasIpadPositionX {
+  return result.hasIpadPositionX;
+}
+- (int32_t) ipadPositionX {
+  return result.ipadPositionX;
+}
+- (CustomMenuProto_Builder*) setIpadPositionX:(int32_t) value {
+  result.hasIpadPositionX = YES;
+  result.ipadPositionX = value;
+  return self;
+}
+- (CustomMenuProto_Builder*) clearIpadPositionX {
+  result.hasIpadPositionX = NO;
+  result.ipadPositionX = 0;
+  return self;
+}
+- (BOOL) hasIpadPositionY {
+  return result.hasIpadPositionY;
+}
+- (int32_t) ipadPositionY {
+  return result.ipadPositionY;
+}
+- (CustomMenuProto_Builder*) setIpadPositionY:(int32_t) value {
+  result.hasIpadPositionY = YES;
+  result.ipadPositionY = value;
+  return self;
+}
+- (CustomMenuProto_Builder*) clearIpadPositionY {
+  result.hasIpadPositionY = NO;
+  result.ipadPositionY = 0;
   return self;
 }
 @end

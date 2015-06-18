@@ -4,7 +4,7 @@
 
 package com.lvl6.proto;
 
-option java_outer_classname = "CustomMenuesProto";
+option java_outer_classname = "CustomMenusProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 
 
@@ -17,4 +17,6 @@ message CustomMenuProto {
 	optional int32 positionZ = 4;
 	optional bool isJiggle = 5;
 	optional string imageName = 6;
+	optional int32 ipadPositionX = 7;
+	optional int32 ipadPositionY = 8;
 }

@@ -236,7 +236,7 @@
   [self hideTopLiveHelp];
 }
 
-- (IBAction)closeClicked:(id)sender {
+- (IBAction) closeClicked:(id)sender {
   // Check if we are editing
   if (sender && _isEditing) {
     [self.view endEditing:YES];

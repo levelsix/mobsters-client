@@ -237,11 +237,15 @@ static NSString *udid = nil;
   } else {
     GameState *gs = [GameState sharedGameState];
     if (!gs.isTutorial) {
-      // Send reconnect msg at front
-      NSMutableArray *oldQueuedMsgs = self.queuedMessages;
-      self.queuedMessages = [NSMutableArray array];
-      [self sendReconnectMessage];
-      [self.queuedMessages addObjectsFromArray:oldQueuedMsgs];
+      // Check if first event is already a reconnect
+      FullEvent *fe = [self.queuedMessages firstObject];
+      if (![fe.event isKindOfClass:[ReconnectRequestProto class]]) {
+        // Send reconnect msg at front
+        NSMutableArray *oldQueuedMsgs = self.queuedMessages;
+        self.queuedMessages = [NSMutableArray array];
+        [self sendReconnectMessage];
+        [self.queuedMessages addObjectsFromArray:oldQueuedMsgs];
+      }
     }
     
     [self.queuedMessages addObjectsFromArray:self.unrespondedMessages];
@@ -2178,15 +2182,15 @@ static NSString *udid = nil;
 
 - (void) webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
   LNLog(@"websocket failed.");
-  if (!_purposefulClose) {
-    [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
-  } else if (_shouldReconnect) {
+  if (_shouldReconnect) {
     [self unableToConnectToHost:error.localizedDescription];
+  } else if (!_purposefulClose) {
+    [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
   }
 }
 
 - (void) webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
-  LNLog(@"websocket closed. %ld:%@ clean=%d", (long)code, reason, wasClean);
+  LNLog(@"websocket closed. %@ code=%d clean=%d", reason, (int)code, wasClean);
   
   if (webSocket != self.webSocket) {
     LNLog(@"Somehow there are 2 websockets: %@, %@", self.webSocket, webSocket);

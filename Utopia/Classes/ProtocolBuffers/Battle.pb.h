@@ -381,6 +381,10 @@ BOOL BattleResultIsValidValue(BattleResult value);
   BOOL hasProspectiveOilWinnings_:1;
   BOOL hasAttackerCashChange_:1;
   BOOL hasAttackerOilChange_:1;
+  BOOL hasCashStolenFromStorage_:1;
+  BOOL hasCashStolenFromGenerators_:1;
+  BOOL hasOilStolenFromStorage_:1;
+  BOOL hasOilStolenFromGenerators_:1;
   BOOL hasReplayId_:1;
   BOOL hasAttacker_:1;
   BOOL hasAttackerBefore_:1;
@@ -398,6 +402,10 @@ BOOL BattleResultIsValidValue(BattleResult value);
   int32_t prospectiveOilWinnings;
   int32_t attackerCashChange;
   int32_t attackerOilChange;
+  int32_t cashStolenFromStorage;
+  int32_t cashStolenFromGenerators;
+  int32_t oilStolenFromStorage;
+  int32_t oilStolenFromGenerators;
   NSString* replayId;
   FullUserProto* attacker;
   UserPvpLeagueProto* attackerBefore;
@@ -426,6 +434,10 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (BOOL) hasAttackerOilChange;
 - (BOOL) hasClanAvenged;
 - (BOOL) hasReplayId;
+- (BOOL) hasCashStolenFromStorage;
+- (BOOL) hasCashStolenFromGenerators;
+- (BOOL) hasOilStolenFromStorage;
+- (BOOL) hasOilStolenFromGenerators;
 @property (readonly) int64_t battleEndTime;
 @property (readonly, strong) FullUserProto* attacker;
 @property (readonly, strong) NSArray * attackersMonstersList;
@@ -444,6 +456,10 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @property (readonly) int32_t attackerOilChange;
 - (BOOL) clanAvenged;
 @property (readonly, strong) NSString* replayId;
+@property (readonly) int32_t cashStolenFromStorage;
+@property (readonly) int32_t cashStolenFromGenerators;
+@property (readonly) int32_t oilStolenFromStorage;
+@property (readonly) int32_t oilStolenFromGenerators;
 - (PvpMonsterProto*)attackersMonstersAtIndex:(NSUInteger)index;
 
 + (PvpHistoryProto*) defaultInstance;
@@ -583,6 +599,26 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (NSString*) replayId;
 - (PvpHistoryProto_Builder*) setReplayId:(NSString*) value;
 - (PvpHistoryProto_Builder*) clearReplayId;
+
+- (BOOL) hasCashStolenFromStorage;
+- (int32_t) cashStolenFromStorage;
+- (PvpHistoryProto_Builder*) setCashStolenFromStorage:(int32_t) value;
+- (PvpHistoryProto_Builder*) clearCashStolenFromStorage;
+
+- (BOOL) hasCashStolenFromGenerators;
+- (int32_t) cashStolenFromGenerators;
+- (PvpHistoryProto_Builder*) setCashStolenFromGenerators:(int32_t) value;
+- (PvpHistoryProto_Builder*) clearCashStolenFromGenerators;
+
+- (BOOL) hasOilStolenFromStorage;
+- (int32_t) oilStolenFromStorage;
+- (PvpHistoryProto_Builder*) setOilStolenFromStorage:(int32_t) value;
+- (PvpHistoryProto_Builder*) clearOilStolenFromStorage;
+
+- (BOOL) hasOilStolenFromGenerators;
+- (int32_t) oilStolenFromGenerators;
+- (PvpHistoryProto_Builder*) setOilStolenFromGenerators:(int32_t) value;
+- (PvpHistoryProto_Builder*) clearOilStolenFromGenerators;
 @end
 
 @interface PvpLeagueProto : PBGeneratedMessage {

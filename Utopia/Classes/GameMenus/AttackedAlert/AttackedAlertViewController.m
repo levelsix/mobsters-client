@@ -54,8 +54,8 @@
   _rankLost = 0;
   
   for( PvpHistoryProto *pvp in _curDefenses) {
-    _oilLost += pvp.defenderOilChange;
-    _cashLost += pvp.defenderCashChange;
+    _oilLost += pvp.oilStolenFromStorage+pvp.oilStolenFromGenerators;
+    _cashLost += pvp.cashStolenFromStorage+pvp.cashStolenFromGenerators;
     int change = pvp.defenderBefore.rank - pvp.defenderAfter.rank;
     _rankLost += change;
   }
