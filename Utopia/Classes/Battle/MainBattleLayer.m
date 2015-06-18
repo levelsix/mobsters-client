@@ -157,9 +157,31 @@
   GameState *gs = [GameState sharedGameState];
   NSNumber *skillNumber = [NSNumber numberWithInteger:isOffensive ? um.offensiveSkillId : um.defensiveSkillId];
   
-  return [[[[[[[[[CombatReplayMonsterSnapshot builder]
+  return [[[[[[[[[[CombatReplayMonsterSnapshot builder]
+                  setDidDropLoot:loot]
                  setDroppedLoot:loot]
                 setMonsterId:um.monsterId]
+               setStartingHealth:um.curHealth]
+              setMaxHealth:[gl calculateMaxHealthForMonster:um]]
+             setSkillSnapshot:[gs.staticSkills objectForKey:skillNumber]]
+            setLevel:um.level]
+           setSlotNum:um.teamSlot] build];
+}
+
+- (CombatReplayMonsterSnapshot *)monsterSnapshot:(UserMonster *)um withTaskStageMonster:(TaskStageMonsterProto*)tsmp {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  NSNumber *skillNumber = [NSNumber numberWithInteger:tsmp.defensiveSkillId];
+  
+  CombatReplayMonsterSnapshot_Builder *builder = [CombatReplayMonsterSnapshot builder];
+  
+  if (tsmp.puzzlePieceDropped) {
+    [[[builder setDidDropLoot:YES] setDroppedLoot:tsmp.puzzlePieceMonsterId] setPuzzlePieceMonsterDropLvl:tsmp.puzzlePieceMonsterDropLvl];
+  } else if (tsmp.itemId) {
+    [builder setItemId:tsmp.itemId];
+  }
+  
+  return [[[[[[[builder setMonsterId:um.monsterId]
                setStartingHealth:um.curHealth]
               setMaxHealth:[gl calculateMaxHealthForMonster:um]]
              setSkillSnapshot:[gs.staticSkills objectForKey:skillNumber]]

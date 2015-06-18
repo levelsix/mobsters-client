@@ -97,4 +97,7 @@ message CombatReplayMonsterSnapshot {
     optional int32 level = 5;
     optional int32 slotNum = 6;
     optional int32 droppedLoot = 7;
+    optional bool didDropLoot = 8;
+    optional int32 itemId = 9;
+    optional int32 puzzlePieceMonsterDropLvl = 10;
 }

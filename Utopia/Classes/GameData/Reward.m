@@ -179,8 +179,10 @@
   for (int i = 0; i < replay.enemyTeamList.count && i < stageNum; i++) {
     if (![droplessStageNums containsObject:@(i)]) {
       CombatReplayMonsterSnapshot *crms = replay.enemyTeamList[i];
-      if (crms.droppedLoot) {
+      if (crms.didDropLoot) {
         [rewards addObject:[[Reward alloc] initWithMonsterId:crms.droppedLoot monsterLvl:crms.level]];
+      } else if (crms.itemId) {
+        [rewards addObject:[[Reward alloc] initWithItemId:crms.itemId quantity:1]];
       }
     }
   }

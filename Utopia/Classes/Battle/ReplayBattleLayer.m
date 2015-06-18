@@ -401,6 +401,32 @@
 
 #pragma mark - Overrides
 
+- (CCSprite *) getCurrentEnemyLoot {
+  GameState *gs = [GameState sharedGameState];
+  
+  CombatReplayMonsterSnapshot *monster;
+  for (CombatReplayMonsterSnapshot *crms in _replay.enemyTeamList) {
+    if (crms.slotNum == self.enemyPlayerObject.slotNum) {
+      monster = crms;
+      break;
+    }
+  }
+  
+  CCSprite *ed = nil;
+  if (monster.didDropLoot) {
+    BOOL isComplete = monster.puzzlePieceMonsterDropLvl > 0;
+    
+    MonsterProto *mp = [gs monsterWithId:monster.droppedLoot];
+    NSString *fileName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:(isComplete ? @"ball.png" : @"piece.png")]];
+    ed = [CCSprite spriteWithImageNamed:fileName];
+  } else if (monster.hasItemId) {
+    ItemProto *item = [gs itemForId:monster.itemId];
+    ed = [CCSprite spriteWithImageNamed:item.imgName];
+  }
+  return ed;
+  return nil;
+}
+
 - (void)itemsClicked:(id)sender{
   [self nextTimeScale];
 }

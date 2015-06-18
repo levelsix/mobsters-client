@@ -2957,6 +2957,9 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
 @property int32_t level;
 @property int32_t slotNum;
 @property int32_t droppedLoot;
+@property BOOL didDropLoot;
+@property int32_t itemId;
+@property int32_t puzzlePieceMonsterDropLvl;
 @end
 
 @implementation CombatReplayMonsterSnapshot
@@ -3010,6 +3013,32 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
   hasDroppedLoot_ = !!value_;
 }
 @synthesize droppedLoot;
+- (BOOL) hasDidDropLoot {
+  return !!hasDidDropLoot_;
+}
+- (void) setHasDidDropLoot:(BOOL) value_ {
+  hasDidDropLoot_ = !!value_;
+}
+- (BOOL) didDropLoot {
+  return !!didDropLoot_;
+}
+- (void) setDidDropLoot:(BOOL) value_ {
+  didDropLoot_ = !!value_;
+}
+- (BOOL) hasItemId {
+  return !!hasItemId_;
+}
+- (void) setHasItemId:(BOOL) value_ {
+  hasItemId_ = !!value_;
+}
+@synthesize itemId;
+- (BOOL) hasPuzzlePieceMonsterDropLvl {
+  return !!hasPuzzlePieceMonsterDropLvl_;
+}
+- (void) setHasPuzzlePieceMonsterDropLvl:(BOOL) value_ {
+  hasPuzzlePieceMonsterDropLvl_ = !!value_;
+}
+@synthesize puzzlePieceMonsterDropLvl;
 - (id) init {
   if ((self = [super init])) {
     self.monsterId = 0;
@@ -3019,6 +3048,9 @@ static CombatReplayOrbProto* defaultCombatReplayOrbProtoInstance = nil;
     self.level = 0;
     self.slotNum = 0;
     self.droppedLoot = 0;
+    self.didDropLoot = NO;
+    self.itemId = 0;
+    self.puzzlePieceMonsterDropLvl = 0;
   }
   return self;
 }
@@ -3059,6 +3091,15 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   if (self.hasDroppedLoot) {
     [output writeInt32:7 value:self.droppedLoot];
   }
+  if (self.hasDidDropLoot) {
+    [output writeBool:8 value:self.didDropLoot];
+  }
+  if (self.hasItemId) {
+    [output writeInt32:9 value:self.itemId];
+  }
+  if (self.hasPuzzlePieceMonsterDropLvl) {
+    [output writeInt32:10 value:self.puzzlePieceMonsterDropLvl];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3088,6 +3129,15 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   }
   if (self.hasDroppedLoot) {
     size_ += computeInt32Size(7, self.droppedLoot);
+  }
+  if (self.hasDidDropLoot) {
+    size_ += computeBoolSize(8, self.didDropLoot);
+  }
+  if (self.hasItemId) {
+    size_ += computeInt32Size(9, self.itemId);
+  }
+  if (self.hasPuzzlePieceMonsterDropLvl) {
+    size_ += computeInt32Size(10, self.puzzlePieceMonsterDropLvl);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3148,6 +3198,15 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   if (self.hasDroppedLoot) {
     [output appendFormat:@"%@%@: %@\n", indent, @"droppedLoot", [NSNumber numberWithInteger:self.droppedLoot]];
   }
+  if (self.hasDidDropLoot) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"didDropLoot", [NSNumber numberWithBool:self.didDropLoot]];
+  }
+  if (self.hasItemId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
+  }
+  if (self.hasPuzzlePieceMonsterDropLvl) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"puzzlePieceMonsterDropLvl", [NSNumber numberWithInteger:self.puzzlePieceMonsterDropLvl]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3173,6 +3232,12 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
       (!self.hasSlotNum || self.slotNum == otherMessage.slotNum) &&
       self.hasDroppedLoot == otherMessage.hasDroppedLoot &&
       (!self.hasDroppedLoot || self.droppedLoot == otherMessage.droppedLoot) &&
+      self.hasDidDropLoot == otherMessage.hasDidDropLoot &&
+      (!self.hasDidDropLoot || self.didDropLoot == otherMessage.didDropLoot) &&
+      self.hasItemId == otherMessage.hasItemId &&
+      (!self.hasItemId || self.itemId == otherMessage.itemId) &&
+      self.hasPuzzlePieceMonsterDropLvl == otherMessage.hasPuzzlePieceMonsterDropLvl &&
+      (!self.hasPuzzlePieceMonsterDropLvl || self.puzzlePieceMonsterDropLvl == otherMessage.puzzlePieceMonsterDropLvl) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3197,6 +3262,15 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   }
   if (self.hasDroppedLoot) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.droppedLoot] hash];
+  }
+  if (self.hasDidDropLoot) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.didDropLoot] hash];
+  }
+  if (self.hasItemId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
+  }
+  if (self.hasPuzzlePieceMonsterDropLvl) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.puzzlePieceMonsterDropLvl] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3262,6 +3336,15 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
   if (other.hasDroppedLoot) {
     [self setDroppedLoot:other.droppedLoot];
   }
+  if (other.hasDidDropLoot) {
+    [self setDidDropLoot:other.didDropLoot];
+  }
+  if (other.hasItemId) {
+    [self setItemId:other.itemId];
+  }
+  if (other.hasPuzzlePieceMonsterDropLvl) {
+    [self setPuzzlePieceMonsterDropLvl:other.puzzlePieceMonsterDropLvl];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3314,6 +3397,18 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
       }
       case 56: {
         [self setDroppedLoot:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setDidDropLoot:[input readBool]];
+        break;
+      }
+      case 72: {
+        [self setItemId:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setPuzzlePieceMonsterDropLvl:[input readInt32]];
         break;
       }
     }
@@ -3443,6 +3538,54 @@ static CombatReplayMonsterSnapshot* defaultCombatReplayMonsterSnapshotInstance =
 - (CombatReplayMonsterSnapshot_Builder*) clearDroppedLoot {
   result.hasDroppedLoot = NO;
   result.droppedLoot = 0;
+  return self;
+}
+- (BOOL) hasDidDropLoot {
+  return result.hasDidDropLoot;
+}
+- (BOOL) didDropLoot {
+  return result.didDropLoot;
+}
+- (CombatReplayMonsterSnapshot_Builder*) setDidDropLoot:(BOOL) value {
+  result.hasDidDropLoot = YES;
+  result.didDropLoot = value;
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) clearDidDropLoot {
+  result.hasDidDropLoot = NO;
+  result.didDropLoot = NO;
+  return self;
+}
+- (BOOL) hasItemId {
+  return result.hasItemId;
+}
+- (int32_t) itemId {
+  return result.itemId;
+}
+- (CombatReplayMonsterSnapshot_Builder*) setItemId:(int32_t) value {
+  result.hasItemId = YES;
+  result.itemId = value;
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) clearItemId {
+  result.hasItemId = NO;
+  result.itemId = 0;
+  return self;
+}
+- (BOOL) hasPuzzlePieceMonsterDropLvl {
+  return result.hasPuzzlePieceMonsterDropLvl;
+}
+- (int32_t) puzzlePieceMonsterDropLvl {
+  return result.puzzlePieceMonsterDropLvl;
+}
+- (CombatReplayMonsterSnapshot_Builder*) setPuzzlePieceMonsterDropLvl:(int32_t) value {
+  result.hasPuzzlePieceMonsterDropLvl = YES;
+  result.puzzlePieceMonsterDropLvl = value;
+  return self;
+}
+- (CombatReplayMonsterSnapshot_Builder*) clearPuzzlePieceMonsterDropLvl {
+  result.hasPuzzlePieceMonsterDropLvl = NO;
+  result.puzzlePieceMonsterDropLvl = 0;
   return self;
 }
 @end

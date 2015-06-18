@@ -178,6 +178,7 @@
 
 - (CombatReplayMonsterSnapshot*) monsterSnapshot:(UserMonster*)um isOffensive:(BOOL)isOffensive;
 - (CombatReplayMonsterSnapshot*) monsterSnapshot:(UserMonster *)um isOffensive:(BOOL)isOffensive loot:(int)loot;
+- (CombatReplayMonsterSnapshot*) monsterSnapshot:(UserMonster *)um withTaskStageMonster:(TaskStageMonsterProto*)tsmp;
 
 - (void) setupStateMachine;
 

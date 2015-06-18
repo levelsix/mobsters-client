@@ -724,19 +724,25 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 
 @interface CombatReplayMonsterSnapshot : PBGeneratedMessage {
 @private
+  BOOL hasDidDropLoot_:1;
   BOOL hasMonsterId_:1;
   BOOL hasStartingHealth_:1;
   BOOL hasMaxHealth_:1;
   BOOL hasLevel_:1;
   BOOL hasSlotNum_:1;
   BOOL hasDroppedLoot_:1;
+  BOOL hasItemId_:1;
+  BOOL hasPuzzlePieceMonsterDropLvl_:1;
   BOOL hasSkillSnapshot_:1;
+  BOOL didDropLoot_:1;
   int32_t monsterId;
   int32_t startingHealth;
   int32_t maxHealth;
   int32_t level;
   int32_t slotNum;
   int32_t droppedLoot;
+  int32_t itemId;
+  int32_t puzzlePieceMonsterDropLvl;
   SkillProto* skillSnapshot;
 }
 - (BOOL) hasMonsterId;
@@ -746,6 +752,9 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (BOOL) hasLevel;
 - (BOOL) hasSlotNum;
 - (BOOL) hasDroppedLoot;
+- (BOOL) hasDidDropLoot;
+- (BOOL) hasItemId;
+- (BOOL) hasPuzzlePieceMonsterDropLvl;
 @property (readonly) int32_t monsterId;
 @property (readonly) int32_t startingHealth;
 @property (readonly) int32_t maxHealth;
@@ -753,6 +762,9 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 @property (readonly) int32_t level;
 @property (readonly) int32_t slotNum;
 @property (readonly) int32_t droppedLoot;
+- (BOOL) didDropLoot;
+@property (readonly) int32_t itemId;
+@property (readonly) int32_t puzzlePieceMonsterDropLvl;
 
 + (CombatReplayMonsterSnapshot*) defaultInstance;
 - (CombatReplayMonsterSnapshot*) defaultInstance;
@@ -825,6 +837,21 @@ BOOL CombatReplayStepTypeIsValidValue(CombatReplayStepType value);
 - (int32_t) droppedLoot;
 - (CombatReplayMonsterSnapshot_Builder*) setDroppedLoot:(int32_t) value;
 - (CombatReplayMonsterSnapshot_Builder*) clearDroppedLoot;
+
+- (BOOL) hasDidDropLoot;
+- (BOOL) didDropLoot;
+- (CombatReplayMonsterSnapshot_Builder*) setDidDropLoot:(BOOL) value;
+- (CombatReplayMonsterSnapshot_Builder*) clearDidDropLoot;
+
+- (BOOL) hasItemId;
+- (int32_t) itemId;
+- (CombatReplayMonsterSnapshot_Builder*) setItemId:(int32_t) value;
+- (CombatReplayMonsterSnapshot_Builder*) clearItemId;
+
+- (BOOL) hasPuzzlePieceMonsterDropLvl;
+- (int32_t) puzzlePieceMonsterDropLvl;
+- (CombatReplayMonsterSnapshot_Builder*) setPuzzlePieceMonsterDropLvl:(int32_t) value;
+- (CombatReplayMonsterSnapshot_Builder*) clearPuzzlePieceMonsterDropLvl;
 @end
 
 
