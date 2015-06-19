@@ -285,6 +285,7 @@
 + (BOOL) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix completion:(void (^)(BOOL success))completion;
 + (BOOL) checkAndLoadFiles:(NSArray *)fileNames useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix completion:(void (^)(BOOL success))completion;
 + (BOOL) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion;
++ (BOOL) checkAndLoadSpriteSheet:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix completion:(void (^)(BOOL success))completion;
 + (NSBundle *) bundleNamed:(NSString *)bundleName;
 + (NSString*) getDeviceAdjustedImage:(NSString*)path useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix;
 + (UIImage *) nonDeviceAdjustedImageFromBundle:(NSString *)name ofType:(NSString *)ext;
