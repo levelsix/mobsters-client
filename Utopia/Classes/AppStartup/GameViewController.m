@@ -273,6 +273,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector], self.topBarViewController.timerViewController];
     if (self.loadingViewController) acceptable = [acceptable arrayByAddingObject:self.loadingViewController];
+    if (self.reconnectViewController) acceptable = [acceptable arrayByAddingObject:self.reconnectViewController];
     if (exceptions) acceptable = [acceptable arrayByAddingObjectsFromArray:exceptions];
     
     // Add all top bar vcs as well since home menus go in there too
@@ -414,7 +415,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self clearMessages:NO];
   
   GameState *gs = [GameState sharedGameState];
-  if (!self.reconnectViewController && gs.connected) {
+  if (!self.reconnectViewController && gs.connected && !gs.isTutorial) {
     self.reconnectViewController = [[ReconnectViewController alloc] init];
     
     // 2 second delay before displaying reconnect vc

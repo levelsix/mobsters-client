@@ -43,6 +43,7 @@
   NSString *_scoreName;
   NSString *_scoreIcon;
   id<LeaderBoardObject> _clickedLeader;
+  int _highestRankShown;
   int _highestRankToShow;
   long _ownScore;
   BOOL _moreScoresAvailable;
@@ -54,7 +55,7 @@
 @property (nonatomic, retain) UIRefreshControl *refreshControl;
 
 @property (nonatomic, retain) IBOutlet UIView *yourRankingHeader;
-@property (nonatomic, retain) IBOutlet UIView *LeaderBoardHeaderView;
+@property (nonatomic, retain) IBOutlet UIView *leaderboardHeaderView;
 @property (nonatomic, retain) IBOutlet UIView *topHeaderView;
 @property (nonatomic, retain) IBOutlet UITableViewCell *loadingViewCell;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *loadingViewIndicator;

@@ -189,9 +189,6 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCDeleteGiftEvent:
     case EventProtocolRequestCCollectGiftEvent:
     case EventProtocolRequestCRetrieveBattleReplayEvent:
-    case EventProtocolRequestCCollectClanGiftsEvent:
-    case EventProtocolRequestCDeleteClanGiftsEvent:
-    case EventProtocolRequestCReceivedClanGiftsEvent:
     case EventProtocolRequestCRetrieveStrengthLeaderBoardEvent:
     case EventProtocolRequestCPurchaseItemsWithGemsEvent:
     case EventProtocolRequestCReconnectEvent:
@@ -328,9 +325,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSDeleteGiftEvent:
     case EventProtocolResponseSCollectGiftEvent:
     case EventProtocolResponseSRetrieveBattleReplayEvent:
-    case EventProtocolResponseSCollectClanGiftsEvent:
-    case EventProtocolResponseSDeleteClanGiftsEvent:
-    case EventProtocolResponseSReceivedClanGiftsEvent:
     case EventProtocolResponseSRetrieveStrengthLeaderBoardEvent:
     case EventProtocolResponseSReconnectEvent:
     case EventProtocolResponseSPurchaseItemsWithGemsEvent:

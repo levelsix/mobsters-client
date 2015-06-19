@@ -52,8 +52,6 @@
 @class CityExpansionCostProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
-@class ClanGiftProto;
-@class ClanGiftProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -110,6 +108,8 @@
 @class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GiftProto;
+@class GiftProto_Builder;
 @class GoldSaleProto;
 @class GoldSaleProto_Builder;
 @class GroupChatMessageProto;
@@ -286,8 +286,6 @@
 @class StrengthLeaderBoardProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
-@class TangoGiftProto;
-@class TangoGiftProto_Builder;
 @class TaskMapElementProto;
 @class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
@@ -308,8 +306,6 @@
 @class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
-@class UserClanGiftProto;
-@class UserClanGiftProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -322,8 +318,6 @@
 @class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
-@class UserItemSecretGiftProto;
-@class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
 @class UserMiniEventGoalProto;
@@ -356,6 +350,8 @@
 @class UserResearchProto_Builder;
 @class UserRewardProto;
 @class UserRewardProto_Builder;
+@class UserSecretGiftProto;
+@class UserSecretGiftProto_Builder;
 @class UserTangoGiftProto;
 @class UserTangoGiftProto_Builder;
 @class UserTaskCompletedProto;
@@ -660,7 +656,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray * mutableUserClanInfoList;
   NSMutableArray * mutableUserQuestsList;
   NSMutableArray * mutableUserGiftsList;
-  NSMutableArray * mutableUserClanGiftsList;
   NSMutableArray * mutableTopStrengthLeaderBoardsList;
 }
 - (BOOL) hasServerTimeMillis;
@@ -736,7 +731,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) UserMiniEventProto* userMiniEvent;
 @property (readonly, strong) DefaultLanguagesProto* userDefaultLanguages;
 @property (readonly, strong) NSArray * userGiftsList;
-@property (readonly, strong) NSArray * userClanGiftsList;
 @property (readonly, strong) NSArray * topStrengthLeaderBoardsList;
 - (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
 - (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
@@ -766,14 +760,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index;
 - (ClanInviteProto*)clanInvitesAtIndex:(NSUInteger)index;
 - (UserItemUsageProto*)itemsInUseAtIndex:(NSUInteger)index;
-- (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index;
+- (UserSecretGiftProto*)giftsAtIndex:(NSUInteger)index;
 - (UserPvpBoardObstacleProto*)userPvpBoardObstaclesAtIndex:(NSUInteger)index;
 - (BattleItemQueueForUserProto*)battleItemQueueAtIndex:(NSUInteger)index;
 - (UserBattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (UserResearchProto*)userResearchsAtIndex:(NSUInteger)index;
 - (SalesPackageProto*)salesPackagesAtIndex:(NSUInteger)index;
 - (UserGiftProto*)userGiftsAtIndex:(NSUInteger)index;
-- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
 - (StrengthLeaderBoardProto*)topStrengthLeaderBoardsAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto*) defaultInstance;
@@ -2923,8 +2916,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder *)clearItemsInUse;
 
 - (NSMutableArray *)giftsList;
-- (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index;
-- (StartupResponseProto_Builder *)addGifts:(UserItemSecretGiftProto*)value;
+- (UserSecretGiftProto*)giftsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addGifts:(UserSecretGiftProto*)value;
 - (StartupResponseProto_Builder *)addAllGifts:(NSArray *)array;
 - (StartupResponseProto_Builder *)clearGifts;
 
@@ -2977,12 +2970,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder *)addUserGifts:(UserGiftProto*)value;
 - (StartupResponseProto_Builder *)addAllUserGifts:(NSArray *)array;
 - (StartupResponseProto_Builder *)clearUserGifts;
-
-- (NSMutableArray *)userClanGiftsList;
-- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index;
-- (StartupResponseProto_Builder *)addUserClanGifts:(UserClanGiftProto*)value;
-- (StartupResponseProto_Builder *)addAllUserClanGifts:(NSArray *)array;
-- (StartupResponseProto_Builder *)clearUserClanGifts;
 
 - (NSMutableArray *)topStrengthLeaderBoardsList;
 - (StrengthLeaderBoardProto*)topStrengthLeaderBoardsAtIndex:(NSUInteger)index;

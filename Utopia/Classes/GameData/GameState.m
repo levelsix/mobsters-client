@@ -1328,7 +1328,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticResearch:proto.researchList];
   
   [self.staticItemPrices removeAllObjects];
-  [self addToStaticItemPricesP:proto.structureItemPricesList];
+  [self addToStaticItemPrices:proto.structureItemPricesList];
   
   self.persistentEvents = proto.persistentEventsList;
   self.persistentClanEvents = proto.persistentClanEventsList;
@@ -1421,7 +1421,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) addToStaticItemPricesP:(NSArray *)arr {
+- (void) addToStaticItemPrices:(NSArray *)arr {
   for (ItemGemPriceProto *price in arr) {
     if (![self.staticItemPrices objectForKey:@(price.itemId)]) {
       [self.staticItemPrices setObject:[[NSMutableArray alloc] init] forKey:@(price.itemId)];
@@ -1712,16 +1712,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 #pragma mark - Secret Gift
 
-- (UserItemSecretGiftProto *) nextSecretGift {
+- (UserSecretGiftProto *) nextSecretGift {
   // Find the gift with the earliest time
-  [self.mySecretGifts sortUsingComparator:^NSComparisonResult(UserItemSecretGiftProto *obj1, UserItemSecretGiftProto *obj2) {
+  [self.mySecretGifts sortUsingComparator:^NSComparisonResult(UserSecretGiftProto *obj1, UserSecretGiftProto *obj2) {
     return [@(obj1.createTime) compare:@(obj2.createTime)];
   }];
   return [self.mySecretGifts firstObject];
 }
 
 - (MSDate *) nextSecretGiftOpenDate {
-  UserItemSecretGiftProto *next = [self nextSecretGift];
+  UserSecretGiftProto *next = [self nextSecretGift];
   
   if (next && self.lastSecretGiftCollectTime) {
     return [self.lastSecretGiftCollectTime dateByAddingTimeInterval:next.secsTillCollection];
@@ -2405,8 +2405,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       }
     }
   }
-  
-  [Globals popupMessage:@"No gem price found for requested Item"];
   
   return 0;
 }

@@ -353,7 +353,7 @@
 - (void) currentLeagueWasShown;
 - (BOOL) hasShownCurrentLeague;
 
-- (UserItemSecretGiftProto *) nextSecretGift;
+- (UserSecretGiftProto *) nextSecretGift;
 - (MSDate *) nextSecretGiftOpenDate;
 
 - (BOOL) hasBeatFirstBoss;

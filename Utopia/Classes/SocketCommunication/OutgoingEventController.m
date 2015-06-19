@@ -1960,7 +1960,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Secret Gift
 
-- (void) redeemSecretGift:(UserItemSecretGiftProto *)sg {
+- (void) redeemSecretGift:(UserSecretGiftProto *)sg delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
   if (!sg) {
@@ -1968,13 +1968,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     uint64_t clientTime = [self getCurrentMilliseconds];
     int tag = [[SocketCommunication sharedSocketCommunication] sendRedeemSecretGiftMessage:@[sg.uisgUuid] clientTime:clientTime];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     LastSecretGiftUpdate *gu = [LastSecretGiftUpdate updateWithTag:tag change:clientTime/1000.-gs.lastSecretGiftCollectTime.timeIntervalSince1970];
     [gs addUnrespondedUpdate:gu];
     
     [gs.mySecretGifts removeObject:sg];
-    
-    [gs.itemUtil incrementItemId:sg.itemId quantity:1];
   }
 }
 

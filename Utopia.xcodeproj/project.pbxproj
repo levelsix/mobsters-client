@@ -3114,7 +3114,6 @@
 		CF0CED29196F452900ECD301 /* SocketCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265D41538ACC400E0C1AD /* SocketCommunication.m */; };
 		CF0CED2A196F452900ECD301 /* AnimatedSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8AD1807DA1E00062258 /* AnimatedSprite.m */; };
 		CF0CED2B196F452900ECD301 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3764FA182DD6BD00D0A77E /* ChatViewController.m */; };
-		CF0CED2C196F452900ECD301 /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1267461538ACC500E0C1AD /* PullRefreshTableViewController.m */; };
 		CF0CED2D196F452900ECD301 /* RequestsFacebookTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC4D23F18D6DEFE004681FD /* RequestsFacebookTableController.m */; };
 		CF0CED2E196F452900ECD301 /* GameCenterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEF25DA18CAB86500FB867A /* GameCenterDelegate.m */; };
 		CF0CED2F196F452900ECD301 /* TutorialQuestLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA25018D09C88003277D1 /* TutorialQuestLogViewController.m */; };
@@ -4074,7 +4073,6 @@
 		CF126D831538ACCA00E0C1AD /* IncomingEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265D01538ACC400E0C1AD /* IncomingEventController.m */; };
 		CF126D841538ACCA00E0C1AD /* OutgoingEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265D21538ACC400E0C1AD /* OutgoingEventController.m */; };
 		CF126D851538ACCA00E0C1AD /* SocketCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265D41538ACC400E0C1AD /* SocketCommunication.m */; };
-		CF126E201538ACCA00E0C1AD /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1267461538ACC500E0C1AD /* PullRefreshTableViewController.m */; };
 		CF126E211538ACCA00E0C1AD /* SBDoubleSidedLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12674A1538ACC500E0C1AD /* SBDoubleSidedLayer.m */; };
 		CF126E221538ACCA00E0C1AD /* SBGradientOverlayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12674C1538ACC500E0C1AD /* SBGradientOverlayLayer.m */; };
 		CF126E231538ACCA00E0C1AD /* SBTickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12674E1538ACC500E0C1AD /* SBTickerView.m */; };
@@ -4403,7 +4401,6 @@
 		CF4818CF19F7217F00041486 /* AnimatedSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8AD1807DA1E00062258 /* AnimatedSprite.m */; };
 		CF4818D019F7217F00041486 /* SkillJelly.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0FC58519B65F2A00393BF4 /* SkillJelly.m */; };
 		CF4818D119F7217F00041486 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3764FA182DD6BD00D0A77E /* ChatViewController.m */; };
-		CF4818D219F7217F00041486 /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1267461538ACC500E0C1AD /* PullRefreshTableViewController.m */; };
 		CF4818D319F7217F00041486 /* RequestsFacebookTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC4D23F18D6DEFE004681FD /* RequestsFacebookTableController.m */; };
 		CF4818D419F7217F00041486 /* GameCenterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEF25DA18CAB86500FB867A /* GameCenterDelegate.m */; };
 		CF4818D519F7217F00041486 /* TutorialQuestLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA25018D09C88003277D1 /* TutorialQuestLogViewController.m */; };
@@ -8441,8 +8438,6 @@
 		CF1265D21538ACC400E0C1AD /* OutgoingEventController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OutgoingEventController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CF1265D31538ACC400E0C1AD /* SocketCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketCommunication.h; sourceTree = "<group>"; };
 		CF1265D41538ACC400E0C1AD /* SocketCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketCommunication.m; sourceTree = "<group>"; };
-		CF1267451538ACC500E0C1AD /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRefreshTableViewController.h; sourceTree = "<group>"; };
-		CF1267461538ACC500E0C1AD /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRefreshTableViewController.m; sourceTree = "<group>"; };
 		CF1267471538ACC500E0C1AD /* LNSynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNSynthesizeSingleton.h; sourceTree = "<group>"; };
 		CF1267491538ACC500E0C1AD /* SBDoubleSidedLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBDoubleSidedLayer.h; sourceTree = "<group>"; };
 		CF12674A1538ACC500E0C1AD /* SBDoubleSidedLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBDoubleSidedLayer.m; sourceTree = "<group>"; };
@@ -14473,21 +14468,11 @@
 				CF20F22C180FCDCB005551B5 /* EasyTableView */,
 				CF689C0B15C3B89400F2E50E /* JSON */,
 				CF41D192158BFAE900A4DBC3 /* OpenUDID */,
-				CF1267441538ACC500E0C1AD /* PullToRefresh */,
 				CF1267471538ACC500E0C1AD /* LNSynthesizeSingleton.h */,
 				CF1267481538ACC500E0C1AD /* TickerView */,
 				9B2EFDA71AD35E8B005B7B83 /* CAWTexturePackerSprites */,
 			);
 			path = libs;
-			sourceTree = "<group>";
-		};
-		CF1267441538ACC500E0C1AD /* PullToRefresh */ = {
-			isa = PBXGroup;
-			children = (
-				CF1267451538ACC500E0C1AD /* PullRefreshTableViewController.h */,
-				CF1267461538ACC500E0C1AD /* PullRefreshTableViewController.m */,
-			);
-			path = PullToRefresh;
 			sourceTree = "<group>";
 		};
 		CF1267481538ACC500E0C1AD /* TickerView */ = {
@@ -24135,7 +24120,6 @@
 				63B045031A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */,
 				CF0CED2B196F452900ECD301 /* ChatViewController.m in Sources */,
 				63F900AA1B263FC8006B6D65 /* LeaderBoardObject.m in Sources */,
-				CF0CED2C196F452900ECD301 /* PullRefreshTableViewController.m in Sources */,
 				3E1A0C051A645B4B00DF00AD /* Board.pb.m in Sources */,
 				2991FC101A806287009BB1D8 /* TeamDonateMonstersFiller.m in Sources */,
 				CF0CED2D196F452900ECD301 /* RequestsFacebookTableController.m in Sources */,
@@ -24536,7 +24520,6 @@
 				CF126D851538ACCA00E0C1AD /* SocketCommunication.m in Sources */,
 				CF4DB8DA1807DA1F00062258 /* AnimatedSprite.m in Sources */,
 				CF3764FC182DD6BD00D0A77E /* ChatViewController.m in Sources */,
-				CF126E201538ACCA00E0C1AD /* PullRefreshTableViewController.m in Sources */,
 				CFC4D24018D6DEFE004681FD /* RequestsFacebookTableController.m in Sources */,
 				CFEF25DB18CAB86500FB867A /* GameCenterDelegate.m in Sources */,
 				9BDA8C541A60B4A500C7AC27 /* CustomIndicatorPageControl.m in Sources */,
@@ -24906,7 +24889,6 @@
 				63F900AB1B263FC8006B6D65 /* LeaderBoardObject.m in Sources */,
 				63B045041A92B9C600C74F0C /* AttackedAlertViewController.m in Sources */,
 				CF4818D119F7217F00041486 /* ChatViewController.m in Sources */,
-				CF4818D219F7217F00041486 /* PullRefreshTableViewController.m in Sources */,
 				3E1A0C061A645B4B00DF00AD /* Board.pb.m in Sources */,
 				9BC189261AC1EF6A001B8E88 /* MiniEventDetailsView.m in Sources */,
 				2991FC111A806287009BB1D8 /* TeamDonateMonstersFiller.m in Sources */,

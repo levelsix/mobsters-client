@@ -129,7 +129,7 @@
                                     </connections>
                                 </button>
                                 <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="huN-Fb-DR1">
-                                    <rect key="frame" x="43" y="9" width="20" height="20"/>
+                                    <rect key="frame" x="43" y="7" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
                                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="V5u-wm-3RB" userLabel="Spin View">

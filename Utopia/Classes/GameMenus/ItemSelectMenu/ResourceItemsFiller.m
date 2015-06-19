@@ -53,7 +53,7 @@
         UserItem *realItem = [realItems objectAtIndex:idx];
         
         if (_accumulate) {
-          ui.quantity = realItem.quantity-numUsed;
+          ui.quantity = MAX(0, realItem.quantity-numUsed);
         } else {
           ui.quantity = realItem.quantity;
         }
@@ -140,12 +140,17 @@
     
     if (ui.numOwned > 0) {
       [self.nonPurchasedItemsUsed addObject:@(ui.itemId)];
-    } else if (gs.gems >= [ui costToPurchase]) {
-      if (_accumulate) {
-        [gs changeFakeGemTotal:-[ui costToPurchase]];
+    } else if ([ui useGemsButton]) {
+      if (gs.gems >= [ui costToPurchase]) {
+        if (_accumulate) {
+          [gs changeFakeGemTotal:-[ui costToPurchase]];
+        }
+      } else {
+        [GenericPopupController displayNotEnoughGemsView];
+        return;
       }
     } else {
-      [GenericPopupController displayNotEnoughGemsView];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@ packages.", ui.name]];
       return;
     }
     

@@ -29,6 +29,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutableTangoUserIdsList;
 @property (strong) NSString* senderTangoUserId;
 @property int32_t gemReward;
+@property (strong) NSString* senderTangoName;
 @end
 
 @implementation SendTangoGiftRequestProto
@@ -63,12 +64,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasGemReward_ = !!value_;
 }
 @synthesize gemReward;
+- (BOOL) hasSenderTangoName {
+  return !!hasSenderTangoName_;
+}
+- (void) setHasSenderTangoName:(BOOL) value_ {
+  hasSenderTangoName_ = !!value_;
+}
+@synthesize senderTangoName;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.clientTime = 0L;
     self.senderTangoUserId = @"";
     self.gemReward = 0;
+    self.senderTangoName = @"";
   }
   return self;
 }
@@ -109,6 +118,9 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
   if (self.hasGemReward) {
     [output writeInt32:5 value:self.gemReward];
   }
+  if (self.hasSenderTangoName) {
+    [output writeString:6 value:self.senderTangoName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -138,6 +150,9 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
   }
   if (self.hasGemReward) {
     size_ += computeInt32Size(5, self.gemReward);
+  }
+  if (self.hasSenderTangoName) {
+    size_ += computeStringSize(6, self.senderTangoName);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -192,6 +207,9 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
   if (self.hasGemReward) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gemReward", [NSNumber numberWithInteger:self.gemReward]];
   }
+  if (self.hasSenderTangoName) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"senderTangoName", self.senderTangoName];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -212,6 +230,8 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
       (!self.hasSenderTangoUserId || [self.senderTangoUserId isEqual:otherMessage.senderTangoUserId]) &&
       self.hasGemReward == otherMessage.hasGemReward &&
       (!self.hasGemReward || self.gemReward == otherMessage.gemReward) &&
+      self.hasSenderTangoName == otherMessage.hasSenderTangoName &&
+      (!self.hasSenderTangoName || [self.senderTangoName isEqual:otherMessage.senderTangoName]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -230,6 +250,9 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
   }
   if (self.hasGemReward) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemReward] hash];
+  }
+  if (self.hasSenderTangoName) {
+    hashCode = hashCode * 31 + [self.senderTangoName hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -293,6 +316,9 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
   if (other.hasGemReward) {
     [self setGemReward:other.gemReward];
   }
+  if (other.hasSenderTangoName) {
+    [self setSenderTangoName:other.senderTangoName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -337,6 +363,10 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
       }
       case 40: {
         [self setGemReward:[input readInt32]];
+        break;
+      }
+      case 50: {
+        [self setSenderTangoName:[input readString]];
         break;
       }
     }
@@ -442,6 +472,22 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
 - (SendTangoGiftRequestProto_Builder*) clearGemReward {
   result.hasGemReward = NO;
   result.gemReward = 0;
+  return self;
+}
+- (BOOL) hasSenderTangoName {
+  return result.hasSenderTangoName;
+}
+- (NSString*) senderTangoName {
+  return result.senderTangoName;
+}
+- (SendTangoGiftRequestProto_Builder*) setSenderTangoName:(NSString*) value {
+  result.hasSenderTangoName = YES;
+  result.senderTangoName = value;
+  return self;
+}
+- (SendTangoGiftRequestProto_Builder*) clearSenderTangoName {
+  result.hasSenderTangoName = NO;
+  result.senderTangoName = @"";
   return self;
 }
 @end
@@ -2432,6 +2478,750 @@ BOOL CollectGiftResponseProto_CollectGiftStatusIsValidValue(CollectGiftResponseP
 - (CollectGiftResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = CollectGiftResponseProto_CollectGiftStatusSuccess;
+  return self;
+}
+@end
+
+@interface RedeemSecretGiftRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property int64_t clientTime;
+@property (strong) NSMutableArray * mutableUisgUuidList;
+@end
+
+@implementation RedeemSecretGiftRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
+@synthesize mutableUisgUuidList;
+@dynamic uisgUuidList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.clientTime = 0L;
+  }
+  return self;
+}
+static RedeemSecretGiftRequestProto* defaultRedeemSecretGiftRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RedeemSecretGiftRequestProto class]) {
+    defaultRedeemSecretGiftRequestProtoInstance = [[RedeemSecretGiftRequestProto alloc] init];
+  }
+}
++ (RedeemSecretGiftRequestProto*) defaultInstance {
+  return defaultRedeemSecretGiftRequestProtoInstance;
+}
+- (RedeemSecretGiftRequestProto*) defaultInstance {
+  return defaultRedeemSecretGiftRequestProtoInstance;
+}
+- (NSArray *)uisgUuidList {
+  return mutableUisgUuidList;
+}
+- (NSString*)uisgUuidAtIndex:(NSUInteger)index {
+  return [mutableUisgUuidList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:2 value:self.clientTime];
+  }
+  [self.uisgUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:3 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(2, self.clientTime);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.uisgUuidList.count;
+    [self.uisgUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (RedeemSecretGiftRequestProto*) parseFromData:(NSData*) data {
+  return (RedeemSecretGiftRequestProto*)[[[RedeemSecretGiftRequestProto builder] mergeFromData:data] build];
+}
++ (RedeemSecretGiftRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemSecretGiftRequestProto*)[[[RedeemSecretGiftRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RedeemSecretGiftRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RedeemSecretGiftRequestProto*)[[[RedeemSecretGiftRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RedeemSecretGiftRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemSecretGiftRequestProto*)[[[RedeemSecretGiftRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RedeemSecretGiftRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RedeemSecretGiftRequestProto*)[[[RedeemSecretGiftRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RedeemSecretGiftRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemSecretGiftRequestProto*)[[[RedeemSecretGiftRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RedeemSecretGiftRequestProto_Builder*) builder {
+  return [[RedeemSecretGiftRequestProto_Builder alloc] init];
+}
++ (RedeemSecretGiftRequestProto_Builder*) builderWithPrototype:(RedeemSecretGiftRequestProto*) prototype {
+  return [[RedeemSecretGiftRequestProto builder] mergeFrom:prototype];
+}
+- (RedeemSecretGiftRequestProto_Builder*) builder {
+  return [RedeemSecretGiftRequestProto builder];
+}
+- (RedeemSecretGiftRequestProto_Builder*) toBuilder {
+  return [RedeemSecretGiftRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
+  [self.uisgUuidList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"uisgUuid", obj];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[RedeemSecretGiftRequestProto class]]) {
+    return NO;
+  }
+  RedeemSecretGiftRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
+      [self.uisgUuidList isEqualToArray:otherMessage.uisgUuidList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
+  [self.uisgUuidList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface RedeemSecretGiftRequestProto_Builder()
+@property (strong) RedeemSecretGiftRequestProto* result;
+@end
+
+@implementation RedeemSecretGiftRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[RedeemSecretGiftRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RedeemSecretGiftRequestProto_Builder*) clear {
+  self.result = [[RedeemSecretGiftRequestProto alloc] init];
+  return self;
+}
+- (RedeemSecretGiftRequestProto_Builder*) clone {
+  return [RedeemSecretGiftRequestProto builderWithPrototype:result];
+}
+- (RedeemSecretGiftRequestProto*) defaultInstance {
+  return [RedeemSecretGiftRequestProto defaultInstance];
+}
+- (RedeemSecretGiftRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RedeemSecretGiftRequestProto*) buildPartial {
+  RedeemSecretGiftRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (RedeemSecretGiftRequestProto_Builder*) mergeFrom:(RedeemSecretGiftRequestProto*) other {
+  if (other == [RedeemSecretGiftRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  if (other.mutableUisgUuidList.count > 0) {
+    if (result.mutableUisgUuidList == nil) {
+      result.mutableUisgUuidList = [[NSMutableArray alloc] initWithArray:other.mutableUisgUuidList];
+    } else {
+      [result.mutableUisgUuidList addObjectsFromArray:other.mutableUisgUuidList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RedeemSecretGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RedeemSecretGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 26: {
+        [self addUisgUuid:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RedeemSecretGiftRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RedeemSecretGiftRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RedeemSecretGiftRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RedeemSecretGiftRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (RedeemSecretGiftRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (RedeemSecretGiftRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+- (NSMutableArray *)uisgUuidList {
+  return result.mutableUisgUuidList;
+}
+- (NSString*)uisgUuidAtIndex:(NSUInteger)index {
+  return [result uisgUuidAtIndex:index];
+}
+- (RedeemSecretGiftRequestProto_Builder *)addUisgUuid:(NSString*)value {
+  if (result.mutableUisgUuidList == nil) {
+    result.mutableUisgUuidList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUisgUuidList addObject:value];
+  return self;
+}
+- (RedeemSecretGiftRequestProto_Builder *)addAllUisgUuid:(NSArray *)array {
+  if (result.mutableUisgUuidList == nil) {
+    result.mutableUisgUuidList = [NSMutableArray array];
+  }
+  [result.mutableUisgUuidList addObjectsFromArray:array];
+  return self;
+}
+- (RedeemSecretGiftRequestProto_Builder *)clearUisgUuid {
+  result.mutableUisgUuidList = nil;
+  return self;
+}
+@end
+
+@interface RedeemSecretGiftResponseProto ()
+@property (strong) MinimumUserProto* mup;
+@property (strong) NSMutableArray * mutableNuGiftsList;
+@property RedeemSecretGiftResponseProto_RedeemSecretGiftStatus status;
+@property (strong) UserRewardProto* reward;
+@end
+
+@implementation RedeemSecretGiftResponseProto
+
+- (BOOL) hasMup {
+  return !!hasMup_;
+}
+- (void) setHasMup:(BOOL) value_ {
+  hasMup_ = !!value_;
+}
+@synthesize mup;
+@synthesize mutableNuGiftsList;
+@dynamic nuGiftsList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (BOOL) hasReward {
+  return !!hasReward_;
+}
+- (void) setHasReward:(BOOL) value_ {
+  hasReward_ = !!value_;
+}
+@synthesize reward;
+- (id) init {
+  if ((self = [super init])) {
+    self.mup = [MinimumUserProto defaultInstance];
+    self.status = RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess;
+    self.reward = [UserRewardProto defaultInstance];
+  }
+  return self;
+}
+static RedeemSecretGiftResponseProto* defaultRedeemSecretGiftResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RedeemSecretGiftResponseProto class]) {
+    defaultRedeemSecretGiftResponseProtoInstance = [[RedeemSecretGiftResponseProto alloc] init];
+  }
+}
++ (RedeemSecretGiftResponseProto*) defaultInstance {
+  return defaultRedeemSecretGiftResponseProtoInstance;
+}
+- (RedeemSecretGiftResponseProto*) defaultInstance {
+  return defaultRedeemSecretGiftResponseProtoInstance;
+}
+- (NSArray *)nuGiftsList {
+  return mutableNuGiftsList;
+}
+- (UserSecretGiftProto*)nuGiftsAtIndex:(NSUInteger)index {
+  return [mutableNuGiftsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMup) {
+    [output writeMessage:1 value:self.mup];
+  }
+  [self.nuGiftsList enumerateObjectsUsingBlock:^(UserSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  if (self.hasReward) {
+    [output writeMessage:4 value:self.reward];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasMup) {
+    size_ += computeMessageSize(1, self.mup);
+  }
+  [self.nuGiftsList enumerateObjectsUsingBlock:^(UserSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
+  if (self.hasStatus) {
+    size_ += computeEnumSize(3, self.status);
+  }
+  if (self.hasReward) {
+    size_ += computeMessageSize(4, self.reward);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (RedeemSecretGiftResponseProto*) parseFromData:(NSData*) data {
+  return (RedeemSecretGiftResponseProto*)[[[RedeemSecretGiftResponseProto builder] mergeFromData:data] build];
+}
++ (RedeemSecretGiftResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemSecretGiftResponseProto*)[[[RedeemSecretGiftResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RedeemSecretGiftResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RedeemSecretGiftResponseProto*)[[[RedeemSecretGiftResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RedeemSecretGiftResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemSecretGiftResponseProto*)[[[RedeemSecretGiftResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RedeemSecretGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RedeemSecretGiftResponseProto*)[[[RedeemSecretGiftResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RedeemSecretGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemSecretGiftResponseProto*)[[[RedeemSecretGiftResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RedeemSecretGiftResponseProto_Builder*) builder {
+  return [[RedeemSecretGiftResponseProto_Builder alloc] init];
+}
++ (RedeemSecretGiftResponseProto_Builder*) builderWithPrototype:(RedeemSecretGiftResponseProto*) prototype {
+  return [[RedeemSecretGiftResponseProto builder] mergeFrom:prototype];
+}
+- (RedeemSecretGiftResponseProto_Builder*) builder {
+  return [RedeemSecretGiftResponseProto builder];
+}
+- (RedeemSecretGiftResponseProto_Builder*) toBuilder {
+  return [RedeemSecretGiftResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasMup) {
+    [output appendFormat:@"%@%@ {\n", indent, @"mup"];
+    [self.mup writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.nuGiftsList enumerateObjectsUsingBlock:^(UserSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"nuGifts"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  if (self.hasReward) {
+    [output appendFormat:@"%@%@ {\n", indent, @"reward"];
+    [self.reward writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[RedeemSecretGiftResponseProto class]]) {
+    return NO;
+  }
+  RedeemSecretGiftResponseProto *otherMessage = other;
+  return
+      self.hasMup == otherMessage.hasMup &&
+      (!self.hasMup || [self.mup isEqual:otherMessage.mup]) &&
+      [self.nuGiftsList isEqualToArray:otherMessage.nuGiftsList] &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      self.hasReward == otherMessage.hasReward &&
+      (!self.hasReward || [self.reward isEqual:otherMessage.reward]) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasMup) {
+    hashCode = hashCode * 31 + [self.mup hash];
+  }
+  [self.nuGiftsList enumerateObjectsUsingBlock:^(UserSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  if (self.hasReward) {
+    hashCode = hashCode * 31 + [self.reward hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecretGiftResponseProto_RedeemSecretGiftStatus value) {
+  switch (value) {
+    case RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess:
+    case RedeemSecretGiftResponseProto_RedeemSecretGiftStatusFailItemsNonexistent:
+    case RedeemSecretGiftResponseProto_RedeemSecretGiftStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RedeemSecretGiftResponseProto_Builder()
+@property (strong) RedeemSecretGiftResponseProto* result;
+@end
+
+@implementation RedeemSecretGiftResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[RedeemSecretGiftResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RedeemSecretGiftResponseProto_Builder*) clear {
+  self.result = [[RedeemSecretGiftResponseProto alloc] init];
+  return self;
+}
+- (RedeemSecretGiftResponseProto_Builder*) clone {
+  return [RedeemSecretGiftResponseProto builderWithPrototype:result];
+}
+- (RedeemSecretGiftResponseProto*) defaultInstance {
+  return [RedeemSecretGiftResponseProto defaultInstance];
+}
+- (RedeemSecretGiftResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RedeemSecretGiftResponseProto*) buildPartial {
+  RedeemSecretGiftResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (RedeemSecretGiftResponseProto_Builder*) mergeFrom:(RedeemSecretGiftResponseProto*) other {
+  if (other == [RedeemSecretGiftResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasMup) {
+    [self mergeMup:other.mup];
+  }
+  if (other.mutableNuGiftsList.count > 0) {
+    if (result.mutableNuGiftsList == nil) {
+      result.mutableNuGiftsList = [[NSMutableArray alloc] initWithArray:other.mutableNuGiftsList];
+    } else {
+      [result.mutableNuGiftsList addObjectsFromArray:other.mutableNuGiftsList];
+    }
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.hasReward) {
+    [self mergeReward:other.reward];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RedeemSecretGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RedeemSecretGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasMup) {
+          [subBuilder mergeFrom:self.mup];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMup:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        UserSecretGiftProto_Builder* subBuilder = [UserSecretGiftProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addNuGifts:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        RedeemSecretGiftResponseProto_RedeemSecretGiftStatus value = (RedeemSecretGiftResponseProto_RedeemSecretGiftStatus)[input readEnum];
+        if (RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 34: {
+        UserRewardProto_Builder* subBuilder = [UserRewardProto builder];
+        if (self.hasReward) {
+          [subBuilder mergeFrom:self.reward];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setReward:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMup {
+  return result.hasMup;
+}
+- (MinimumUserProto*) mup {
+  return result.mup;
+}
+- (RedeemSecretGiftResponseProto_Builder*) setMup:(MinimumUserProto*) value {
+  result.hasMup = YES;
+  result.mup = value;
+  return self;
+}
+- (RedeemSecretGiftResponseProto_Builder*) setMup_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setMup:[builderForValue build]];
+}
+- (RedeemSecretGiftResponseProto_Builder*) mergeMup:(MinimumUserProto*) value {
+  if (result.hasMup &&
+      result.mup != [MinimumUserProto defaultInstance]) {
+    result.mup =
+      [[[MinimumUserProto builderWithPrototype:result.mup] mergeFrom:value] buildPartial];
+  } else {
+    result.mup = value;
+  }
+  result.hasMup = YES;
+  return self;
+}
+- (RedeemSecretGiftResponseProto_Builder*) clearMup {
+  result.hasMup = NO;
+  result.mup = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)nuGiftsList {
+  return result.mutableNuGiftsList;
+}
+- (UserSecretGiftProto*)nuGiftsAtIndex:(NSUInteger)index {
+  return [result nuGiftsAtIndex:index];
+}
+- (RedeemSecretGiftResponseProto_Builder *)addNuGifts:(UserSecretGiftProto*)value {
+  if (result.mutableNuGiftsList == nil) {
+    result.mutableNuGiftsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableNuGiftsList addObject:value];
+  return self;
+}
+- (RedeemSecretGiftResponseProto_Builder *)addAllNuGifts:(NSArray *)array {
+  if (result.mutableNuGiftsList == nil) {
+    result.mutableNuGiftsList = [NSMutableArray array];
+  }
+  [result.mutableNuGiftsList addObjectsFromArray:array];
+  return self;
+}
+- (RedeemSecretGiftResponseProto_Builder *)clearNuGifts {
+  result.mutableNuGiftsList = nil;
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RedeemSecretGiftResponseProto_RedeemSecretGiftStatus) status {
+  return result.status;
+}
+- (RedeemSecretGiftResponseProto_Builder*) setStatus:(RedeemSecretGiftResponseProto_RedeemSecretGiftStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RedeemSecretGiftResponseProto_Builder*) clearStatusList {
+  result.hasStatus = NO;
+  result.status = RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess;
+  return self;
+}
+- (BOOL) hasReward {
+  return result.hasReward;
+}
+- (UserRewardProto*) reward {
+  return result.reward;
+}
+- (RedeemSecretGiftResponseProto_Builder*) setReward:(UserRewardProto*) value {
+  result.hasReward = YES;
+  result.reward = value;
+  return self;
+}
+- (RedeemSecretGiftResponseProto_Builder*) setReward_Builder:(UserRewardProto_Builder*) builderForValue {
+  return [self setReward:[builderForValue build]];
+}
+- (RedeemSecretGiftResponseProto_Builder*) mergeReward:(UserRewardProto*) value {
+  if (result.hasReward &&
+      result.reward != [UserRewardProto defaultInstance]) {
+    result.reward =
+      [[[UserRewardProto builderWithPrototype:result.reward] mergeFrom:value] buildPartial];
+  } else {
+    result.reward = value;
+  }
+  result.hasReward = YES;
+  return self;
+}
+- (RedeemSecretGiftResponseProto_Builder*) clearReward {
+  result.hasReward = NO;
+  result.reward = [UserRewardProto defaultInstance];
   return self;
 }
 @end

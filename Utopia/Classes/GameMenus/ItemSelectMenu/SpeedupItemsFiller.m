@@ -53,7 +53,7 @@
       if (anyOwned1 != anyOwned2) {
         return [@(anyOwned2) compare:@(anyOwned1)];
       } else if (gameAction1 != gameAction2) {
-          return gameAction1 != GameActionTypeNoHelp ? NSOrderedAscending : NSOrderedDescending;
+        return gameAction1 != GameActionTypeNoHelp ? NSOrderedAscending : NSOrderedDescending;
       } else {
         ItemProto *ip1 = [gs itemForId:[obj1 itemId]];
         ItemProto *ip2 = [gs itemForId:[obj2 itemId]];
@@ -66,7 +66,7 @@
     }
     return NSOrderedSame;
   }];
-
+  
   return userItems;
 }
 
@@ -104,14 +104,19 @@
     [self.usedItems addObject:@([item itemId])];
     if (item.numOwned > 0) {
       [self.nonPurchasedItemsUsed addObject:@(item.itemId)];
-    } else if (gs.gems >= [item costToPurchase]) {
-      [gs changeFakeGemTotal:-[item costToPurchase]];
+    } else if ([item useGemsButton]) {
+      if (gs.gems >= [item costToPurchase]) {
+        [gs changeFakeGemTotal:-[item costToPurchase]];
+      } else {
+        [GenericPopupController displayNotEnoughGemsView];
+        return;
+      }
     } else {
-      [GenericPopupController displayNotEnoughGemsView];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@s.", item.name]];
       return;
     }
   }
-
+  
   [self.delegate speedupItemUsed:io viewController:viewController];
 }
 

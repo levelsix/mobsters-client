@@ -7,10 +7,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LeaderBoardViewController">
             <connections>
-                <outlet property="LeaderBoardHeaderView" destination="eVf-85-5CD" id="OvW-rh-h0e"/>
                 <outlet property="bgdView" destination="QLR-WQ-T09" id="Hxh-Dl-51I"/>
                 <outlet property="botBar" destination="y5l-RO-wiF" id="KD1-vo-hrZ"/>
                 <outlet property="containerView" destination="LY6-5P-3pp" id="ud8-4x-CXb"/>
+                <outlet property="leaderboardHeaderView" destination="eVf-85-5CD" id="Jvd-D1-AI8"/>
                 <outlet property="loadingViewCell" destination="53X-dh-GBv" id="v1Z-sj-fCm"/>
                 <outlet property="loadingViewIndicator" destination="DxK-A7-e2V" id="wR5-fg-BuB"/>
                 <outlet property="mainView" destination="xQQ-Pe-F3n" id="hpB-2E-7pm"/>
@@ -161,7 +161,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="63" y="414"/>
+            <point key="canvasLocation" x="-126" y="414"/>
         </view>
         <view contentMode="scaleToFill" id="eVf-85-5CD">
             <rect key="frame" x="0.0" y="0.0" width="430" height="18"/>
@@ -188,7 +188,7 @@
                     <color key="textColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.64999999999999969" contentMode="scaleToFill" image="popupline.png" id="GfN-k0-0j5">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.64999999999999969" contentMode="scaleToFill" image="popupline.png" id="GfN-k0-0j5" customClass="VerticalFlipImageView">
                     <rect key="frame" x="0.0" y="17" width="450" height="1"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
@@ -263,7 +263,7 @@
                     <color key="textColor" red="0.14901960780000001" green="0.14901960780000001" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="DxK-A7-e2V">
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" id="DxK-A7-e2V">
                     <rect key="frame" x="171" y="5" width="20" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
@@ -271,7 +271,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="611" y="467"/>
+            <point key="canvasLocation" x="-108" y="691"/>
         </view>
         <view contentMode="scaleToFill" id="mrP-yL-vJE" userLabel="Popover View" customClass="ChatPopoverView">
             <rect key="frame" x="0.0" y="0.0" width="153" height="51"/>

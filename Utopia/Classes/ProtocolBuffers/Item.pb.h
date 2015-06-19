@@ -11,8 +11,6 @@
 @class ItemProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
-@class UserItemSecretGiftProto;
-@class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
 #ifndef __has_feature
@@ -117,7 +115,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
 @interface ItemProto : PBGeneratedMessage {
 @private
   BOOL hasAlwaysDisplayToUser_:1;
-  BOOL hasSecretGiftChance_:1;
   BOOL hasItemId_:1;
   BOOL hasStaticDataId_:1;
   BOOL hasAmount_:1;
@@ -128,7 +125,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
   BOOL hasGameActionType_:1;
   BOOL hasQuality_:1;
   BOOL alwaysDisplayToUser_:1;
-  Float32 secretGiftChance;
   int32_t itemId;
   int32_t staticDataId;
   int32_t amount;
@@ -145,7 +141,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) hasItemType;
 - (BOOL) hasStaticDataId;
 - (BOOL) hasAmount;
-- (BOOL) hasSecretGiftChance;
 - (BOOL) hasAlwaysDisplayToUser;
 - (BOOL) hasGameActionType;
 - (BOOL) hasShortName;
@@ -156,7 +151,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
 @property (readonly) ItemType itemType;
 @property (readonly) int32_t staticDataId;
 @property (readonly) int32_t amount;
-@property (readonly) Float32 secretGiftChance;
 - (BOOL) alwaysDisplayToUser;
 @property (readonly) GameActionType gameActionType;
 @property (readonly, strong) NSString* shortName;
@@ -226,11 +220,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (int32_t) amount;
 - (ItemProto_Builder*) setAmount:(int32_t) value;
 - (ItemProto_Builder*) clearAmount;
-
-- (BOOL) hasSecretGiftChance;
-- (Float32) secretGiftChance;
-- (ItemProto_Builder*) setSecretGiftChance:(Float32) value;
-- (ItemProto_Builder*) clearSecretGiftChance;
 
 - (BOOL) hasAlwaysDisplayToUser;
 - (BOOL) alwaysDisplayToUser;
@@ -345,91 +334,6 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (GameActionType) actionType;
 - (UserItemUsageProto_Builder*) setActionType:(GameActionType) value;
 - (UserItemUsageProto_Builder*) clearActionTypeList;
-@end
-
-@interface UserItemSecretGiftProto : PBGeneratedMessage {
-@private
-  BOOL hasCreateTime_:1;
-  BOOL hasSecsTillCollection_:1;
-  BOOL hasItemId_:1;
-  BOOL hasUisgUuid_:1;
-  BOOL hasUserUuid_:1;
-  int64_t createTime;
-  int32_t secsTillCollection;
-  int32_t itemId;
-  NSString* uisgUuid;
-  NSString* userUuid;
-}
-- (BOOL) hasUisgUuid;
-- (BOOL) hasUserUuid;
-- (BOOL) hasSecsTillCollection;
-- (BOOL) hasItemId;
-- (BOOL) hasCreateTime;
-@property (readonly, strong) NSString* uisgUuid;
-@property (readonly, strong) NSString* userUuid;
-@property (readonly) int32_t secsTillCollection;
-@property (readonly) int32_t itemId;
-@property (readonly) int64_t createTime;
-
-+ (UserItemSecretGiftProto*) defaultInstance;
-- (UserItemSecretGiftProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (UserItemSecretGiftProto_Builder*) builder;
-+ (UserItemSecretGiftProto_Builder*) builder;
-+ (UserItemSecretGiftProto_Builder*) builderWithPrototype:(UserItemSecretGiftProto*) prototype;
-- (UserItemSecretGiftProto_Builder*) toBuilder;
-
-+ (UserItemSecretGiftProto*) parseFromData:(NSData*) data;
-+ (UserItemSecretGiftProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (UserItemSecretGiftProto*) parseFromInputStream:(NSInputStream*) input;
-+ (UserItemSecretGiftProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (UserItemSecretGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (UserItemSecretGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface UserItemSecretGiftProto_Builder : PBGeneratedMessageBuilder {
-@private
-  UserItemSecretGiftProto* result;
-}
-
-- (UserItemSecretGiftProto*) defaultInstance;
-
-- (UserItemSecretGiftProto_Builder*) clear;
-- (UserItemSecretGiftProto_Builder*) clone;
-
-- (UserItemSecretGiftProto*) build;
-- (UserItemSecretGiftProto*) buildPartial;
-
-- (UserItemSecretGiftProto_Builder*) mergeFrom:(UserItemSecretGiftProto*) other;
-- (UserItemSecretGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (UserItemSecretGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasUisgUuid;
-- (NSString*) uisgUuid;
-- (UserItemSecretGiftProto_Builder*) setUisgUuid:(NSString*) value;
-- (UserItemSecretGiftProto_Builder*) clearUisgUuid;
-
-- (BOOL) hasUserUuid;
-- (NSString*) userUuid;
-- (UserItemSecretGiftProto_Builder*) setUserUuid:(NSString*) value;
-- (UserItemSecretGiftProto_Builder*) clearUserUuid;
-
-- (BOOL) hasSecsTillCollection;
-- (int32_t) secsTillCollection;
-- (UserItemSecretGiftProto_Builder*) setSecsTillCollection:(int32_t) value;
-- (UserItemSecretGiftProto_Builder*) clearSecsTillCollection;
-
-- (BOOL) hasItemId;
-- (int32_t) itemId;
-- (UserItemSecretGiftProto_Builder*) setItemId:(int32_t) value;
-- (UserItemSecretGiftProto_Builder*) clearItemId;
-
-- (BOOL) hasCreateTime;
-- (int64_t) createTime;
-- (UserItemSecretGiftProto_Builder*) setCreateTime:(int64_t) value;
-- (UserItemSecretGiftProto_Builder*) clearCreateTime;
 @end
 
 @interface ItemGemPriceProto : PBGeneratedMessage {

@@ -17,7 +17,7 @@
 
 @implementation SecretGiftViewController
 
-- (id) initWithSecretGift:(UserItemSecretGiftProto *)sg {
+- (id) initWithSecretGift:(UserSecretGiftProto *)sg {
   if ((self = [super init])) {
     self.secretGift = sg;
   }
@@ -48,8 +48,6 @@
   
   self.iconLabel.strokeSize = 1.5f;
   self.iconLabel.strokeColor = [UIColor colorWithHexString:@"ebebeb"];
-  
-  [self reload];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -64,6 +62,8 @@
     self.homeTitleView.titleLabel.text = @"ITEM OPENED!";
     self.homeTitleView.titleLabel.font = [UIFont fontWithName:self.homeTitleView.titleLabel.font.fontName size:16.f];
     self.homeTitleView.titleLabel.centerY -= 16.f;
+    
+    self.receivedLabel.text = @"You received an item!";
   }
   
   [SoundEngine secretGiftClicked];
@@ -74,52 +74,84 @@
 - (void) viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
   
-//  [[GameViewController baseController] showEarlyGameTutorialArrow];
+  //  [[GameViewController baseController] showEarlyGameTutorialArrow];
 }
 
 - (void) reload {
-  UserItem *ui = [[UserItem alloc] init];
+  Reward *reward = nil;
   
   if (self.secretGift) {
-    // Create a UserItem so we can use ItemObject protocol
-    ui.itemId = self.secretGift.itemId;
-    ui.quantity = 1;
-  } else if (self.boosterItem.reward.typ == RewardProto_RewardTypeItem) {
-    ui.itemId = self.boosterItem.reward.staticDataId;
-    ui.quantity = self.boosterItem.reward.amt;
+    reward = [[Reward alloc] initWithReward:self.secretGift.reward];
+  } else if (self.boosterItem) {
+    reward = [[Reward alloc] initWithReward:self.boosterItem.reward];
   }
   
-  self.itemNameLabel.text = [NSString stringWithFormat:@"%d x %@", ui.quantity, [[ui name] uppercaseString]];
-  self.iconLabel.text = [ui iconText];
-  self.itemQuantityLabel.text = [NSString stringWithFormat:@"%dx", ui.quantity];
+  int quantity = reward.quantity;
+  NSString *shorterName = [reward shorterName];
   
-  [Globals imageNamed:[ui iconImageName] withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  self.itemNameLabel.text = [NSString stringWithFormat:@"%d x %@", quantity, [[reward name] uppercaseString]];
+  
+  if (shorterName) {
+    self.iconLabel.text = shorterName;
+  } else {
+    self.iconLabel.hidden = YES;
+  }
+  
+  if (quantity > 1) {
+    self.itemQuantityLabel.text = [NSString stringWithFormat:@"%dx", reward.quantity];
+  } else {
+    self.itemQuantityLabel.superview.hidden = YES;
+  }
+  
+  [Globals imageNamed:[reward imgName] withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 - (IBAction)collectClicked:(id)sender {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSInteger giftsCollected = [defaults integerForKey:SECRET_GIFTS_ACCEPTED_KEY];
+  if (_isSpinning) {
+    return;
+  }
+  
   if (self.secretGift) {
-    [[OutgoingEventController sharedOutgoingEventController] redeemSecretGift:self.secretGift];
+    [[OutgoingEventController sharedOutgoingEventController] redeemSecretGift:self.secretGift delegate:self];
+    
+    self.spinner.hidden = NO;
+    [self.spinner startAnimating];
+    self.collectLabel.hidden = YES;
+    
+    _isSpinning = YES;
+  } else {
+    [self close];
+  }
+}
+
+- (void) handleRedeemSecretGiftResponseProto:(FullEvent *)fe {
+  RedeemSecretGiftResponseProto *proto = (RedeemSecretGiftResponseProto *)fe.event;
+  
+  if (proto.status == RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSInteger giftsCollected = [defaults integerForKey:SECRET_GIFTS_ACCEPTED_KEY];
     
     giftsCollected++;
     [defaults setInteger:giftsCollected forKey:SECRET_GIFTS_ACCEPTED_KEY];
+    
+    self.spinner.hidden = YES;
+    self.collectLabel.hidden = NO;
+    
+    [self closeWithGiftCount:giftsCollected];
+  } else {
+    [self close];
   }
-  
-  [self closeWithGiftCount:giftsCollected];
 }
 
 - (void) closeWithGiftCount:(NSInteger)giftsCollected {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   GameViewController *gvc = [GameViewController baseController];
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-    if ((giftsCollected == 2 || giftsCollected == 40) && ![defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
-      [gvc openPushNotificationRequestWithMessage:@"Would you like to recieve push notifications when your secret gift is ready?"];
-    }
-  }];
+  
+  [self close];
+  
+  if ((giftsCollected == 2 || giftsCollected == 40) && ![defaults boolForKey:[Globals userConfimredPushNotificationsKey]]) {
+    [gvc openPushNotificationRequestWithMessage:@"Would you like to recieve push notifications when your secret gift is ready?"];
+  }
 }
 
 - (void) close {

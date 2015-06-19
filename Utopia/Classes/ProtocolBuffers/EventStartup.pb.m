@@ -989,7 +989,6 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @property (strong) UserMiniEventProto* userMiniEvent;
 @property (strong) DefaultLanguagesProto* userDefaultLanguages;
 @property (strong) NSMutableArray * mutableUserGiftsList;
-@property (strong) NSMutableArray * mutableUserClanGiftsList;
 @property (strong) NSMutableArray * mutableTopStrengthLeaderBoardsList;
 @end
 
@@ -1203,8 +1202,6 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @synthesize userDefaultLanguages;
 @synthesize mutableUserGiftsList;
 @dynamic userGiftsList;
-@synthesize mutableUserClanGiftsList;
-@dynamic userClanGiftsList;
 @synthesize mutableTopStrengthLeaderBoardsList;
 @dynamic topStrengthLeaderBoardsList;
 - (id) init {
@@ -1414,7 +1411,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (NSArray *)giftsList {
   return mutableGiftsList;
 }
-- (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index {
+- (UserSecretGiftProto*)giftsAtIndex:(NSUInteger)index {
   return [mutableGiftsList objectAtIndex:index];
 }
 - (NSArray *)userPvpBoardObstaclesList {
@@ -1452,12 +1449,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 }
 - (UserGiftProto*)userGiftsAtIndex:(NSUInteger)index {
   return [mutableUserGiftsList objectAtIndex:index];
-}
-- (NSArray *)userClanGiftsList {
-  return mutableUserClanGiftsList;
-}
-- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index {
-  return [mutableUserClanGiftsList objectAtIndex:index];
 }
 - (NSArray *)topStrengthLeaderBoardsList {
   return mutableTopStrengthLeaderBoardsList;
@@ -1613,7 +1604,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.itemsInUseList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:44 value:element];
   }];
-  [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+  [self.giftsList enumerateObjectsUsingBlock:^(UserSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:45 value:element];
   }];
   [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
@@ -1642,9 +1633,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   [self.userGiftsList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:54 value:element];
-  }];
-  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:500 value:element];
   }];
   [self.topStrengthLeaderBoardsList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:501 value:element];
@@ -1817,7 +1805,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.itemsInUseList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(44, element);
   }];
-  [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+  [self.giftsList enumerateObjectsUsingBlock:^(UserSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(45, element);
   }];
   [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
@@ -1846,9 +1834,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   [self.userGiftsList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(54, element);
-  }];
-  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(500, element);
   }];
   [self.topStrengthLeaderBoardsList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(501, element);
@@ -2116,7 +2101,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+  [self.giftsList enumerateObjectsUsingBlock:^(UserSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"gifts"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
@@ -2172,12 +2157,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   [self.userGiftsList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"userGifts"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
-  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"userClanGifts"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
@@ -2272,7 +2251,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
       self.hasUserDefaultLanguages == otherMessage.hasUserDefaultLanguages &&
       (!self.hasUserDefaultLanguages || [self.userDefaultLanguages isEqual:otherMessage.userDefaultLanguages]) &&
       [self.userGiftsList isEqualToArray:otherMessage.userGiftsList] &&
-      [self.userClanGiftsList isEqualToArray:otherMessage.userClanGiftsList] &&
       [self.topStrengthLeaderBoardsList isEqualToArray:otherMessage.topStrengthLeaderBoardsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
@@ -2410,7 +2388,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.itemsInUseList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+  [self.giftsList enumerateObjectsUsingBlock:^(UserSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
@@ -2438,9 +2416,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     hashCode = hashCode * 31 + [self.userDefaultLanguages hash];
   }
   [self.userGiftsList enumerateObjectsUsingBlock:^(UserGiftProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
-  [self.userClanGiftsList enumerateObjectsUsingBlock:^(UserClanGiftProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.topStrengthLeaderBoardsList enumerateObjectsUsingBlock:^(StrengthLeaderBoardProto *element, NSUInteger idx, BOOL *stop) {
@@ -11671,13 +11646,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       [result.mutableUserGiftsList addObjectsFromArray:other.mutableUserGiftsList];
     }
   }
-  if (other.mutableUserClanGiftsList.count > 0) {
-    if (result.mutableUserClanGiftsList == nil) {
-      result.mutableUserClanGiftsList = [[NSMutableArray alloc] initWithArray:other.mutableUserClanGiftsList];
-    } else {
-      [result.mutableUserClanGiftsList addObjectsFromArray:other.mutableUserClanGiftsList];
-    }
-  }
   if (other.mutableTopStrengthLeaderBoardsList.count > 0) {
     if (result.mutableTopStrengthLeaderBoardsList == nil) {
       result.mutableTopStrengthLeaderBoardsList = [[NSMutableArray alloc] initWithArray:other.mutableTopStrengthLeaderBoardsList];
@@ -11984,7 +11952,7 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         break;
       }
       case 362: {
-        UserItemSecretGiftProto_Builder* subBuilder = [UserItemSecretGiftProto builder];
+        UserSecretGiftProto_Builder* subBuilder = [UserSecretGiftProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addGifts:[subBuilder buildPartial]];
         break;
@@ -12047,12 +12015,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         UserGiftProto_Builder* subBuilder = [UserGiftProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserGifts:[subBuilder buildPartial]];
-        break;
-      }
-      case 4002: {
-        UserClanGiftProto_Builder* subBuilder = [UserClanGiftProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUserClanGifts:[subBuilder buildPartial]];
         break;
       }
       case 4010: {
@@ -13149,10 +13111,10 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 - (NSMutableArray *)giftsList {
   return result.mutableGiftsList;
 }
-- (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index {
+- (UserSecretGiftProto*)giftsAtIndex:(NSUInteger)index {
   return [result giftsAtIndex:index];
 }
-- (StartupResponseProto_Builder *)addGifts:(UserItemSecretGiftProto*)value {
+- (StartupResponseProto_Builder *)addGifts:(UserSecretGiftProto*)value {
   if (result.mutableGiftsList == nil) {
     result.mutableGiftsList = [[NSMutableArray alloc]init];
   }
@@ -13372,30 +13334,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 }
 - (StartupResponseProto_Builder *)clearUserGifts {
   result.mutableUserGiftsList = nil;
-  return self;
-}
-- (NSMutableArray *)userClanGiftsList {
-  return result.mutableUserClanGiftsList;
-}
-- (UserClanGiftProto*)userClanGiftsAtIndex:(NSUInteger)index {
-  return [result userClanGiftsAtIndex:index];
-}
-- (StartupResponseProto_Builder *)addUserClanGifts:(UserClanGiftProto*)value {
-  if (result.mutableUserClanGiftsList == nil) {
-    result.mutableUserClanGiftsList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableUserClanGiftsList addObject:value];
-  return self;
-}
-- (StartupResponseProto_Builder *)addAllUserClanGifts:(NSArray *)array {
-  if (result.mutableUserClanGiftsList == nil) {
-    result.mutableUserClanGiftsList = [NSMutableArray array];
-  }
-  [result.mutableUserClanGiftsList addObjectsFromArray:array];
-  return self;
-}
-- (StartupResponseProto_Builder *)clearUserClanGifts {
-  result.mutableUserClanGiftsList = nil;
   return self;
 }
 - (NSMutableArray *)topStrengthLeaderBoardsList {

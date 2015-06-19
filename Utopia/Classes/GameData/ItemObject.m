@@ -106,7 +106,7 @@
     case ItemTypeSpeedUp:
     case ItemTypeRefreshMiniJob:
     case ItemTypeItemGachaCredit:
-      return !self.isValid;
+      return !self.isValid && self.costToPurchase > 0;
       
     case ItemTypeBoosterPack:
     case ItemTypeBuilder:

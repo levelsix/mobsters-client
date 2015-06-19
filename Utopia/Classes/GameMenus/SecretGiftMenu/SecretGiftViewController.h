@@ -16,7 +16,9 @@
 
 #define SECRET_GIFTS_ACCEPTED_KEY @"secretGiftsAccepted"
 
-@interface SecretGiftViewController : UIViewController
+@interface SecretGiftViewController : UIViewController {
+  BOOL _isSpinning;
+}
 
 @property (nonatomic, strong) IBOutlet THLabel *congratsLabel;
 @property (nonatomic, strong) IBOutlet THLabel *receivedLabel;
@@ -29,12 +31,15 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet UIView *containerView;
 
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic, strong) IBOutlet UILabel *collectLabel;
+
 @property (nonatomic, retain) IBOutlet HomeTitleView *homeTitleView;
 
-@property (nonatomic, strong) UserItemSecretGiftProto *secretGift;
+@property (nonatomic, strong) UserSecretGiftProto *secretGift;
 @property (nonatomic, strong) BoosterItemProto *boosterItem;
 
-- (id) initWithSecretGift:(UserItemSecretGiftProto *)sg;
+- (id) initWithSecretGift:(UserSecretGiftProto *)sg;
 - (id) initWithBoosterItem:(BoosterItemProto *)bi;
 
 @end

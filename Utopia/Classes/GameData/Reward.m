@@ -269,8 +269,6 @@
         self.rewardQuantity = reward.amt;
         break;
         
-      case RewardProto_RewardTypeClanGift:
-      case RewardProto_RewardTypeTangoGift:
       case RewardProto_RewardTypeNoReward:
         break;
     }
@@ -356,7 +354,7 @@
     case RewardTypeMonster:
     {
       MonsterProto* monster = [gs monsterWithId:reward.monsterId];
-      name  = [NSString stringWithFormat:@"%@%@", monster.displayName, reward.monsterLvl == 0 ? @" Piece" : [NSString stringWithFormat:@" LVL %d", reward.monsterLvl]];
+      name  = [NSString stringWithFormat:@"%@%@", monster.displayName, reward.monsterLvl == 0 ? @" Piece" : reward.monsterLvl > 1 ? [NSString stringWithFormat:@" LVL %d", reward.monsterLvl] : @""];
       break;
     }
       
@@ -430,8 +428,18 @@
       ui.itemId = reward.itemId;
       
       name = ui.iconText;
+      
+      break;
     }
     case RewardTypeMonster:
+    {
+      if (reward.monsterLvl == 0) {
+        name = @"Piece";
+      }
+      
+      break;
+    }
+      
     case RewardTypePvpLeague:
     case RewardTypeReward:
       break;

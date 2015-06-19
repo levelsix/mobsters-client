@@ -398,6 +398,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [Globals popupMessage:@"Your time is out of sync! Please fix in Settings->General->Date & Time."];
 }
 
+- (void) updateGameStateForUserRewardProto:(UserRewardProto *)reward {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (reward.updatedOrNewMonstersList) {
+    [gs addToMyMonsters:reward.updatedOrNewMonstersList];
+  }
+  
+  if (reward.updatedUserItemsList) {
+    [gs.itemUtil addToMyItems:reward.updatedUserItemsList];
+  }
+}
+
 #pragma mark - Startup
 
 - (void) handleUserCreateResponseProto:(FullEvent *)fe {
@@ -674,13 +686,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [gs removeNonFullUserUpdatesForTag:tag];
     
-    if (proto.rewards.updatedOrNewMonstersList) {
-      [gs addToMyMonsters:proto.rewards.updatedOrNewMonstersList];
-    }
-    
-    if (proto.rewards.updatedUserItemsList) {
-      [gs.itemUtil addToMyItems:proto.rewards.updatedUserItemsList];
-    }
+    [self updateGameStateForUserRewardProto:proto.rewards];
     
     if (proto.updatedMoneyTreeList) {
       [gs addToMyStructs:proto.updatedMoneyTreeList];
@@ -1707,6 +1713,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess) {
     [gs.mySecretGifts addObjectsFromArray:proto.nuGiftsList];
+    
+    [self updateGameStateForUserRewardProto:proto.reward];
   } else {
     [Globals popupMessage:@"Server failed to redeem secret gift response."];
     
@@ -1830,13 +1838,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
     // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
-    if (proto.reward.updatedOrNewMonstersList.count) {
-      [gs addToMyMonsters:proto.reward.updatedOrNewMonstersList];
-    }
     
-    if (proto.reward.updatedUserItemsList) {
-      [gs.itemUtil addToMyItems:proto.reward.updatedUserItemsList];
-    }
+    [self updateGameStateForUserRewardProto:proto.reward];
 
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1854,13 +1857,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess) {
     // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
-    if (proto.rewards.updatedOrNewMonstersList.count) {
-      [gs addToMyMonsters:proto.rewards.updatedOrNewMonstersList];
-    }
     
-    if (proto.rewards.updatedUserItemsList) {
-      [gs.itemUtil addToMyItems:proto.rewards.updatedUserItemsList];
-    }
+    [self updateGameStateForUserRewardProto:proto.rewards];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2486,13 +2484,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess) {
-    if (proto.rewards.updatedOrNewMonstersList) {
-      [gs addToMyMonsters:proto.rewards.updatedOrNewMonstersList];
-    }
     
-    if (proto.rewards.updatedUserItemsList) {
-      [gs.itemUtil addToMyItems:proto.rewards.updatedUserItemsList];
-    }
+    [self updateGameStateForUserRewardProto:proto.rewards];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2656,17 +2649,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   LNLog(@"Retrieve strength leader board recieved with status %d", (int)proto.status);
   
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess && proto.leaderBoardInfoList.count >= 3) {
-    [gs.leaderBoardPlacement removeAllObjects];
-    gs.leaderBoardPlacement = [NSMutableArray arrayWithObjects:
-                               proto.leaderBoardInfoList[0],
-                               proto.leaderBoardInfoList[1],
-                               proto.leaderBoardInfoList[2],
-                               nil];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:LEADERBOARD_UPDATE_NOTIFICATION object:nil];
-  }
+  // No longer showing the 3 guys
+//  GameState *gs = [GameState sharedGameState];
+//  if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess && proto.leaderBoardInfoList.count >= 3) {
+//    [gs.leaderBoardPlacement removeAllObjects];
+//    gs.leaderBoardPlacement = [NSMutableArray arrayWithObjects:
+//                               proto.leaderBoardInfoList[0],
+//                               proto.leaderBoardInfoList[1],
+//                               proto.leaderBoardInfoList[2],
+//                               nil];
+//    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:LEADERBOARD_UPDATE_NOTIFICATION object:nil];
+//  }
 }
 
 @end

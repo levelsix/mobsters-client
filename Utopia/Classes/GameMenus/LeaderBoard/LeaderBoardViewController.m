@@ -129,9 +129,6 @@
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  _highestRankToShow = HIGHEST_RANK_INCREMENT;
-  _moreScoresAvailable = YES;
-  
   self.containerView.layer.cornerRadius = 5.f;
   
   self.tableView.hidden = YES;
@@ -140,7 +137,7 @@
   
   
   UIRefreshControl *ref = [[UIRefreshControl alloc] init];
-  [ref addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+  [ref addTarget:self action:@selector(refreshFromScratch) forControlEvents:UIControlEventValueChanged];
   
   UITableViewController *tvc = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
   [self addChildViewController:tvc];
@@ -159,7 +156,7 @@
   [self.view addSubview:self.popoverView];
   self.popoverView.hidden = YES;
   
-  [self refresh];
+  [self refreshFromScratch];
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -176,8 +173,7 @@
 - (void) stopLoading {
   [self.refreshControl endRefreshing];
   
-  id<LeaderBoardObject> lastObject = [self.leaderList lastObject];
-  if (lastObject.rank < _highestRankToShow) {
+  if (_highestRankShown < _highestRankToShow) {
     _moreScoresAvailable = NO;
   }
   
@@ -195,7 +191,7 @@
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return self.LeaderBoardHeaderView.bounds.size.height;
+  return self.leaderboardHeaderView.bounds.size.height;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -211,7 +207,7 @@
   if (section == 0) {
     return self.yourRankingHeader;
   } else {
-    return self.LeaderBoardHeaderView;
+    return self.leaderboardHeaderView;
   }
 }
 
@@ -222,7 +218,6 @@
   if (!cell)
   {
     cell = [[NSBundle mainBundle] loadNibNamed:@"LeaderBoardCell" owner:self options:nil][0];
-    //cell.reuseIdentifier = @"LeaderBoardCell";
   }
   
   if (indexPath.section == 0) {
@@ -232,6 +227,7 @@
   } else if (self.leaderList.count > 0) {
     _highestRankToShow += HIGHEST_RANK_INCREMENT;
     [self refresh];
+    [self.loadingViewIndicator startAnimating];
     return self.loadingViewCell;
   }
   
@@ -262,7 +258,7 @@
 - (void) displayPopoverOverCell:(UITableViewCell *)cell {
   self.popoverView.layer.anchorPoint = ccp(0.5, 1);
   CGPoint pt = [self.popoverView.superview convertPoint:cell.frame.origin fromView:cell.superview];
-  pt.x += self.popoverView.layer.anchorPoint.x*self.popoverView.frame.size.width;
+  pt.x += self.popoverView.layer.anchorPoint.x*self.popoverView.frame.size.width + 10.f;
   [self.popoverView openAtPoint:pt];
   self.popoverView.delegate = self;
   
@@ -277,7 +273,11 @@
 
 - (void) profileClicked {
   if (_clickedLeader) {
-    [self profileClicked:_clickedLeader.mup.userUuid];
+    UIViewController *gvc = [GameViewController baseController];
+    ProfileViewController *pvc = [[ProfileViewController alloc] initWithUserUuid:_clickedLeader.mup.userUuid];
+    [gvc addChildViewController:pvc];
+    pvc.view.frame = gvc.view.bounds;
+    [gvc.view addSubview:pvc.view];
   }
 }
 
@@ -302,6 +302,13 @@
 
 #pragma mark - server events
 
+- (void) refreshFromScratch {
+  _highestRankShown = 0;
+  _highestRankToShow = HIGHEST_RANK_INCREMENT;
+  _moreScoresAvailable = YES;
+  [self refresh];
+}
+
 - (void) refresh {
   if (_waitingOnServer) {
     return;
@@ -309,7 +316,7 @@
   GameState *gs = [GameState sharedGameState];
   
   //when we add more types of leader boards, we can just add a switch here
-  [[OutgoingEventController sharedOutgoingEventController] retrieveStrengthLeaderBoardBetweenMinRank:1 maxRank:_highestRankToShow delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveStrengthLeaderBoardBetweenMinRank:_highestRankShown+1 maxRank:_highestRankToShow delegate:self];
   _waitingOnServer = YES;
   
   _ownScore = gs.totalStrength;
@@ -318,8 +325,16 @@
 - (void) handleRetrieveStrengthLeaderBoardResponseProto:(FullEvent *)fe {
   RetrieveStrengthLeaderBoardResponseProto *proto = (RetrieveStrengthLeaderBoardResponseProto *)fe.event;
   
-  self.leaderList = [NSMutableArray arrayWithArray:proto.leaderBoardInfoList];
+  // Basically, add to the list if highest rank shown is > 1 since it means we're loading more
+  if (_highestRankShown == 0) {
+    self.leaderList = [NSMutableArray arrayWithArray:proto.leaderBoardInfoList];
+  } else {
+    [self.leaderList addObjectsFromArray:proto.leaderBoardInfoList];
+  }
+  
   self.ownRanking = proto.senderLeaderBoardInfo;
+  
+  _highestRankShown = [[self.leaderList lastObject] rank];
   
   [self stopLoading];
 }

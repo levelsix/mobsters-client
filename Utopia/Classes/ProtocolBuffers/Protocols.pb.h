@@ -147,8 +147,6 @@
 @class CityExpansionCostProto_Builder;
 @class ClanDataProto;
 @class ClanDataProto_Builder;
-@class ClanGiftProto;
-@class ClanGiftProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -169,10 +167,6 @@
 @class ClanRaidStageProto_Builder;
 @class ClanRaidStageRewardProto;
 @class ClanRaidStageRewardProto_Builder;
-@class CollectClanGiftsRequestProto;
-@class CollectClanGiftsRequestProto_Builder;
-@class CollectClanGiftsResponseProto;
-@class CollectClanGiftsResponseProto_Builder;
 @class CollectGiftRequestProto;
 @class CollectGiftRequestProto_Builder;
 @class CollectGiftResponseProto;
@@ -213,10 +207,6 @@
 @class CustomizePvpBoardObstacleResponseProto_Builder;
 @class DefaultLanguagesProto;
 @class DefaultLanguagesProto_Builder;
-@class DeleteClanGiftsRequestProto;
-@class DeleteClanGiftsRequestProto_Builder;
-@class DeleteClanGiftsResponseProto;
-@class DeleteClanGiftsResponseProto_Builder;
 @class DeleteGiftRequestProto;
 @class DeleteGiftRequestProto_Builder;
 @class DeleteGiftResponseProto;
@@ -325,6 +315,8 @@
 @class FullUserStructureProto_Builder;
 @class GeneralNotificationResponseProto;
 @class GeneralNotificationResponseProto_Builder;
+@class GiftProto;
+@class GiftProto_Builder;
 @class GiveClanHelpRequestProto;
 @class GiveClanHelpRequestProto_Builder;
 @class GiveClanHelpResponseProto;
@@ -521,8 +513,6 @@
 @class QueueUpResponseProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
-@class ReceivedClanGiftResponseProto;
-@class ReceivedClanGiftResponseProto_Builder;
 @class ReceivedGiftResponseProto;
 @class ReceivedGiftResponseProto_Builder;
 @class ReceivedGroupChatResponseProto;
@@ -751,8 +741,6 @@
 @class SubmitMonsterEnhancementRequestProto_Builder;
 @class SubmitMonsterEnhancementResponseProto;
 @class SubmitMonsterEnhancementResponseProto_Builder;
-@class TangoGiftProto;
-@class TangoGiftProto_Builder;
 @class TaskMapElementProto;
 @class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
@@ -827,8 +815,6 @@
 @class UserBattleItemProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
-@class UserClanGiftProto;
-@class UserClanGiftProto_Builder;
 @class UserCreateRequestProto;
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
@@ -845,8 +831,6 @@
 @class UserGiftProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
-@class UserItemSecretGiftProto;
-@class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
 @class UserMiniEventGoalProto;
@@ -879,6 +863,8 @@
 @class UserResearchProto_Builder;
 @class UserRewardProto;
 @class UserRewardProto_Builder;
+@class UserSecretGiftProto;
+@class UserSecretGiftProto_Builder;
 @class UserTangoGiftProto;
 @class UserTangoGiftProto_Builder;
 @class UserTaskCompletedProto;
@@ -1016,9 +1002,6 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCDeleteGiftEvent = 215,
   EventProtocolRequestCCollectGiftEvent = 216,
   EventProtocolRequestCRetrieveBattleReplayEvent = 217,
-  EventProtocolRequestCCollectClanGiftsEvent = 500,
-  EventProtocolRequestCDeleteClanGiftsEvent = 501,
-  EventProtocolRequestCReceivedClanGiftsEvent = 502,
   EventProtocolRequestCRetrieveStrengthLeaderBoardEvent = 503,
   EventProtocolRequestCPurchaseItemsWithGemsEvent = 504,
   EventProtocolRequestCReconnectEvent = 505,
@@ -1153,9 +1136,6 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSDeleteGiftEvent = 215,
   EventProtocolResponseSCollectGiftEvent = 216,
   EventProtocolResponseSRetrieveBattleReplayEvent = 217,
-  EventProtocolResponseSCollectClanGiftsEvent = 500,
-  EventProtocolResponseSDeleteClanGiftsEvent = 501,
-  EventProtocolResponseSReceivedClanGiftsEvent = 502,
   EventProtocolResponseSRetrieveStrengthLeaderBoardEvent = 503,
   EventProtocolResponseSReconnectEvent = 504,
   EventProtocolResponseSPurchaseItemsWithGemsEvent = 505,
