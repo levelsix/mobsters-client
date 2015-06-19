@@ -237,8 +237,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   GameState *gs = [GameState sharedGameState];
   for (SalesPackageProto *spp in gs.mySales) {
     for (CustomMenuProto *cmp in spp.cmpList) {
-      if (![Globals isFileDownloaded:cmp.imageName useiPhone6Prefix:NO useiPadSuffix:NO]) {
-        NSString *fileName = [self getDeviceAdjustedImage:cmp.imageName useiPhone6Prefix:NO useiPadSuffix:NO];
+      if (![Globals isFileDownloaded:cmp.imageName useiPhone6Prefix:NO useiPadSuffix:YES]) {
+        NSString *fileName = [self getDeviceAdjustedImage:cmp.imageName useiPhone6Prefix:NO useiPadSuffix:YES];
         
         BgdFileDownload *bgd = [[BgdFileDownload alloc] init];
         bgd.fileName = fileName;
@@ -1426,9 +1426,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       };
       
       if ([fileName.pathExtension isEqualToString:@"plist"]) {
-        [self checkAndLoadSpriteSheet:fileName completion:comp];
+        [self checkAndLoadSpriteSheet:fileName useiPhone6Prefix:prefix useiPadSuffix:suffix completion:comp];
       } else {
-        [self checkAndLoadFile:fileName completion:comp];
+        [self checkAndLoadFile:fileName useiPhone6Prefix:prefix useiPadSuffix:suffix completion:comp];
       }
     }
   }
@@ -1460,12 +1460,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (BOOL) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion {
-  return [self checkAndLoadFile:fileName completion:^(BOOL success) {
+  return [self checkAndLoadSpriteSheet:fileName useiPhone6Prefix:NO useiPadSuffix:NO completion:completion];
+}
+
++ (BOOL) checkAndLoadSpriteSheet:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix completion:(void (^)(BOOL success))completion {
+  return [self checkAndLoadFile:fileName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix completion:^(BOOL success) {
     if (success) {
-      NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[self pathToFile:fileName useiPhone6Prefix:NO useiPadSuffix:NO]];
+      NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[self pathToFile:fileName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix]];
       NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
       NSString *texturePath = [metadataDict objectForKey:@"textureFileName"];
-      [self checkAndLoadFile:texturePath completion:^(BOOL success) {
+      [self checkAndLoadFile:texturePath useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix completion:^(BOOL success) {
         completion(success);
       }];
     } else {
