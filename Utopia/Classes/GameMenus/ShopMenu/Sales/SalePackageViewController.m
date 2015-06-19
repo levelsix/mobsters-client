@@ -13,6 +13,9 @@
 #import "IAPHelper.h"
 #import "InAppPurchaseData.h"
 
+static const CGFloat kCustomMenuImagePhoneToTabletUpscaleWidth  = 2.0833333333f;
+static const CGFloat kCustomMenuImagePhoneToTabletUpscaleHeight = 2.0753138075f;
+
 @implementation SalePackageCell
 
 - (void) updateForDisplayItem:(SalesDisplayItemProto *)display isSpecial:(BOOL)isSpecial {
@@ -136,9 +139,9 @@ static NSString *nibName = @"SalePackageCell";
 }
 
 - (void) loadCustomMenuProto:(NSArray *)cmps {
-  NSMutableArray *arr = [NSMutableArray array];
+  NSMutableDictionary *images = [NSMutableDictionary dictionary];
   for (CustomMenuProto *cmp in cmps) {
-    [arr addObject:cmp.imageName];
+    [images setObject:@(NO) forKey:cmp.imageName]; // Value of YES indicates the image needs to be scaled up
   }
   
   cmps = [cmps sortedArrayUsingComparator:^NSComparisonResult(CustomMenuProto *obj1, CustomMenuProto *obj2) {
@@ -151,43 +154,73 @@ static NSString *nibName = @"SalePackageCell";
     }
     return [@(obj1.positionZ) compare:@(obj2.positionZ)];
   }];
-  
-  BOOL success = [Globals checkAndLoadFiles:arr useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
-    [self.loadingView removeFromSuperview];
-    self.loadingView = nil;
-    
-    self.containerView.hidden = NO;
+
+  BOOL success = [Globals checkAndLoadFiles:[images allKeys] useiPhone6Prefix:NO useiPadSuffix:YES completion:^(BOOL success) {
+    void(^completionBlock)(BOOL success) = ^(BOOL success) {
+      [self.loadingView removeFromSuperview];
+      self.loadingView = nil;
+      
+      self.containerView.hidden = NO;
+      
+      if (success) {
+        for (int i = 0; i < cmps.count; i++) {
+          CustomMenuProto *cmp = cmps[i];
+          
+          const BOOL scaleUpImage = [[images objectForKey:cmp.imageName] boolValue];
+          const BOOL useiPadOffsets = [Globals isiPad] && !scaleUpImage;
+          
+          UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:cmp.imageName]];
+          img.originX = (useiPadOffsets ? cmp.ipadPositionX : cmp.positionX)+self.infoView.originX;
+          img.originY = (useiPadOffsets ? cmp.ipadPositionY : cmp.positionY)+self.infoView.originY;
+          img.tag = cmp.positionZ;
+          
+          if (scaleUpImage) {
+            // Reusing iPhone assets but enlarging them by just over 2x
+            img.frame = CGRectMake(ceilf(((img.originX - self.infoView.originX) * kCustomMenuImagePhoneToTabletUpscaleWidth ) + self.infoView.originX),
+                                   ceilf(((img.originY - self.infoView.originY) * kCustomMenuImagePhoneToTabletUpscaleHeight) + self.infoView.originY),
+                                   ceilf(img.width  * kCustomMenuImagePhoneToTabletUpscaleWidth ),
+                                   ceilf(img.height * kCustomMenuImagePhoneToTabletUpscaleHeight));
+          }
+          
+          if (cmp.positionZ < 0) {
+            [self.containerView insertSubview:img belowSubview:self.infoView];
+          } else {
+            [self.containerView insertSubview:img aboveSubview:self.infoView];
+          }
+          
+          // Popup shadow view
+          // Assume the bottom most view is a bgd
+          if (i == 0) {
+            img.layer.cornerRadius = POPUP_CORNER_RADIUS;
+            img.clipsToBounds = YES;
+          }
+        }
+        
+        // Create darkened view
+        
+        UIImage *img = [Globals maskImage:[Globals snapShotView:self.containerView] withColor:DARKEN_VIEW_COLOR];
+        UIView *v = [[UIImageView alloc] initWithImage:img];
+        v.tag = DARKEN_VIEW_TAG;
+        v.alpha = 0.f;
+        [self.containerView addSubview:v];
+      }
+    };
     
     if (success) {
-      for (int i = 0; i < cmps.count; i++) {
-        CustomMenuProto *cmp = cmps[i];
-        
-        UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:cmp.imageName]];
-        img.originX = cmp.positionX+self.infoView.originX;
-        img.originY = cmp.positionY+self.infoView.originY;
-        img.tag = cmp.positionZ;
-        
-        if (cmp.positionZ < 0) {
-          [self.containerView insertSubview:img belowSubview:self.infoView];
-        } else {
-          [self.containerView insertSubview:img aboveSubview:self.infoView];
-        }
-        
-        // Popup shadow view
-        // Assume the bottom most view is a bgd
-        if (i == 0) {
-          img.layer.cornerRadius = POPUP_CORNER_RADIUS;
-          img.clipsToBounds = YES;
+      completionBlock(success);
+    }
+    else if ([Globals isiPad]) {
+      // If any iPad-specific asset fails to download, use its iPhone equivalent but blow it up
+      NSMutableArray* failedImages = [NSMutableArray array];
+      for (NSString* imageName in [images allKeys]) {
+        if (![Globals isFileDownloaded:imageName useiPhone6Prefix:NO useiPadSuffix:YES]) {
+          [failedImages addObject:imageName];
+          [images setObject:@(YES) forKey:imageName]; // Hinting to the completion block that this image will use an iPhone asset and so needs to be scaled up
         }
       }
-      
-      // Create darkened view
-      
-      UIImage *img = [Globals maskImage:[Globals snapShotView:self.containerView] withColor:DARKEN_VIEW_COLOR];
-      UIView *v = [[UIImageView alloc] initWithImage:img];
-      v.tag = DARKEN_VIEW_TAG;
-      v.alpha = 0.f;
-      [self.containerView addSubview:v];
+      [Globals checkAndLoadFiles:failedImages useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
+        completionBlock(success);
+      }];
     }
   }];
   
