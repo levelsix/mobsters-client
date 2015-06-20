@@ -217,7 +217,7 @@
   if (!index) {
     return @"Queue Size";
   } else {
-    return @"Multiplier";
+    return @"Xp Multiplier";
   }
 }
 
