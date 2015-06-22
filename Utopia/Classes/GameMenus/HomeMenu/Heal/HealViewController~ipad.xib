@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HealViewController">
+            <connections>
+                <outlet property="hospitalLeftArrow" destination="AU2-kO-Tpx" id="8Cy-zD-BKV"/>
+                <outlet property="hospitalRightArrow" destination="K1R-4C-CeF" id="7e2-Hm-s0s"/>
+                <outlet property="hospitalSwitcherView" destination="VI7-e5-s5t" id="80v-yW-l96"/>
+                <outlet property="listView" destination="Tap-sr-g1c" id="gLH-eb-P4x"/>
+                <outlet property="noMobstersLabel" destination="QRG-Md-zX9" id="54h-qp-9W0"/>
+                <outlet property="view" destination="qnR-jB-HCb" id="bZm-ip-mG1"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="qnR-jB-HCb">
+            <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="Tap-sr-g1c" customClass="ListCollectionView">
+                    <rect key="frame" x="0.0" y="0.0" width="430" height="183"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="wmV-3y-kPj" customClass="CancellableCollectionView">
+                            <rect key="frame" x="0.0" y="0.0" width="430" height="183"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="9" id="5EU-Sq-vbK">
+                                <size key="itemSize" width="74" height="92"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="11" minY="13" maxX="11" maxY="13"/>
+                            </collectionViewFlowLayout>
+                            <cells/>
+                            <connections>
+                                <outlet property="dataSource" destination="Tap-sr-g1c" id="fuY-ce-M4z"/>
+                                <outlet property="delegate" destination="Tap-sr-g1c" id="EMq-JK-Os9"/>
+                            </connections>
+                        </collectionView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no injured mobsters." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="QRG-Md-zX9" customClass="NiceFontLabel7">
+                            <rect key="frame" x="74" y="55" width="283" height="74"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="collectionView" destination="wmV-3y-kPj" id="x1C-zD-31D"/>
+                        <outlet property="delegate" destination="-1" id="K52-2Y-kgI"/>
+                        <outlet property="emptyListView" destination="QRG-Md-zX9" id="xSY-Dy-h7F"/>
+                        <outlet property="notEmptyListView" destination="wmV-3y-kPj" id="Pey-rm-BvW"/>
+                    </connections>
+                </view>
+                <view contentMode="scaleToFill" id="VI7-e5-s5t" customClass="TouchableSubviewsView">
+                    <rect key="frame" x="-24" y="185" width="478" height="51"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="AU2-kO-Tpx" customClass="FlipButton">
+                            <rect key="frame" x="5" y="-1" width="37" height="49"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="homenavrnextarrow.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="leftArrowClicked:" destination="-1" eventType="touchUpInside" id="OIT-4W-Wpf"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="K1R-4C-CeF">
+                            <rect key="frame" x="436" y="-1" width="37" height="49"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="homenavrnextarrow.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="rightArrowClicked:" destination="-1" eventType="touchUpInside" id="hJQ-us-3wz"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="homenavrnextarrow.png" width="24" height="38"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
