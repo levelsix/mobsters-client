@@ -176,6 +176,15 @@
     }
   } else {
     [self.clanRequestView removeFromSuperview];
+    
+    if ([Globals isiPad]) {
+      static const CGFloat extraWidth = 90.f;
+      int i = 0;
+      for (TeamSlotView *slot in self.teamSlotViews) {
+        slot.originX += i++ * extraWidth;
+        slot.width += extraWidth;
+      }
+    }
   }
   
   self.titleImageName = @"manageteammenuheader.png";
@@ -300,19 +309,21 @@
   BOOL wasOpen = CGSizeEqualToSize(slot.size, [slot maximizedSize]);
   
   if (_showsClanDonateToonView) {
-    [UIView animateWithDuration:animated*0.3f animations:^{
-      float curOrigin = [[self.teamSlotViews firstObject] originX];
-      for (TeamSlotView *slot in self.teamSlotViews) {
-        if (slot.tag == openedSlot) {
-          slot.size = [slot maximizedSize];
-        } else {
-          slot.size = [slot minimizedSize];
+    if (![Globals isiPad]) {
+      [UIView animateWithDuration:animated*0.3f animations:^{
+        float curOrigin = [[self.teamSlotViews firstObject] originX];
+        for (TeamSlotView *slot in self.teamSlotViews) {
+          if (slot.tag == openedSlot) {
+            slot.size = [slot maximizedSize];
+          } else {
+            slot.size = [slot minimizedSize];
+          }
+          
+          slot.originX = curOrigin;
+          curOrigin += slot.width;
         }
-        
-        slot.originX = curOrigin;
-        curOrigin += slot.width;
-      }
-    }];
+      }];
+    }
     
     GameState *gs = [GameState sharedGameState];
     ClanMemberTeamDonationProto *donation = [gs.clanTeamDonateUtil myTeamDonation];
