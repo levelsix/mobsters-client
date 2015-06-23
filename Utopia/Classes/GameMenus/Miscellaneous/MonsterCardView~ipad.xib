@@ -84,7 +84,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="jsd-hb-GiH" customClass="EvoBadge">
-                            <rect key="frame" x="3" y="76" width="15" height="15"/>
+                            <rect key="frame" x="4" y="58" width="15" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="5kq-nB-m4h">
