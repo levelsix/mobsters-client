@@ -101,7 +101,7 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
   CGRect rect = [self.topLabel.attributedText boundingRectWithSize:CGSizeMake(self.topLabel.width, 9999) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
   self.topLabel.height = ceilf(rect.size.height);
   
-  self.height = CGRectGetMaxY(self.topLabel.frame)+11.f;
+  self.height = CGRectGetMaxY(self.topLabel.frame)+([Globals isiPad]?19.f:11.f);
 }
 
 @end
@@ -141,9 +141,9 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
   
   self.backButtonView.hidden = YES;
   
-  self.mainView.layer.cornerRadius = 6.f;
-  self.container.layer.cornerRadius = 6.f;
-  self.bottomBgView.layer.cornerRadius = 6.f;
+  self.mainView.layer.cornerRadius = POPUP_CORNER_RADIUS;
+  self.container.layer.cornerRadius = POPUP_CORNER_RADIUS;
+  self.bottomBgView.layer.cornerRadius = POPUP_CORNER_RADIUS;
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
@@ -219,7 +219,7 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
   self.elementLabel.textColor = [Globals colorForElementOnLightBackground:mp.monsterElement];
   
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES useiPhone6Prefix:YES useiPadSuffix:YES];
   
   self.elementType.image = [Globals imageNamed:[Globals imageNameForElement:mp.monsterElement suffix:@"orb.png"]];
   [Globals adjustViewForCentering:self.monsterNameLabel.superview withLabel:self.monsterNameLabel];
