@@ -373,13 +373,13 @@
     BOOL lowEnoughtCost1 = [gl currentBattleReadyTeamHasCostFor:obj1];
     BOOL lowEnoughtCost2 = [gl currentBattleReadyTeamHasCostFor:obj2];
     
-    
     if (isNotAddable1 != isNotAddable2) {
       return [@(isNotAddable1) compare:@(isNotAddable2)];
     } else if (lowEnoughtCost1 != lowEnoughtCost2) {
       return [@(lowEnoughtCost2) compare:@(lowEnoughtCost1)];
     } else {
-      return [obj1 compare:obj2];
+      NSComparisonResult c = [obj1 compare:obj2];
+      return c;
     }
   };
   [avail sortUsingComparator:comp];

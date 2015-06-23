@@ -3770,6 +3770,84 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 #endif
 }
 
+#pragma mark - Clan Gifts
+
+- (void) collectGift:(NSArray *)userClanGifts delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (userClanGifts.count == 0) {
+    [Globals popupMessage:@"Trying to collect 0 gifts."];
+    return;
+  }
+  
+  NSMutableArray *giftUuids = [NSMutableArray array];
+  for (UserGiftProto *ucgp in userClanGifts) {
+    if (ucgp.expireDate.timeIntervalSinceNow <= 0) {
+      [Globals popupMessage:@"Trying to collect expired gifts."];
+      return;
+    } else {
+      [giftUuids addObject:ucgp.ugUuid];
+    }
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendCollectGiftMessage:giftUuids];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+  int gemReward = 0;
+  int cashReward = 0;
+  int oilReward = 0;
+  int gachaCredits = 0;
+  
+  for (UserGiftProto *ucgp in userClanGifts) {
+    
+    switch (ucgp.reward.typ) {
+      case RewardProto_RewardTypeCash:
+        cashReward += ucgp.reward.amt;
+        break;
+      case RewardProto_RewardTypeOil:
+        oilReward += ucgp.reward.amt;
+        break;
+      case RewardProto_RewardTypeGems:
+        gemReward += ucgp.reward.amt;
+        break;
+      case RewardProto_RewardTypeGachaCredits:
+        gachaCredits += ucgp.reward.amt;
+        break;
+      case RewardProto_RewardTypeItem:
+      case RewardProto_RewardTypeMonster:
+        //item and monsters are updated on the response
+      case RewardProto_RewardTypeNoReward:
+      case RewardProto_RewardTypeGift:
+      case RewardProto_RewardTypeReward:
+        //byron says the reward type will never be set to typeClanGift
+        break;
+    }
+  }
+  
+  GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemReward];
+  CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashReward];
+  OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilReward];
+  OilUpdate *tu = [TokensUpdate updateWithTag:tag change:gachaCredits];
+  
+  [gs addUnrespondedUpdates:gu, cu, ou, tu, nil];
+}
+
+- (void) clearGifts:(NSArray *)userGifts {
+  if (userGifts.count == 0) {
+    [Globals popupMessage:@"Trying to clear 0 expired gifts."];
+    return;
+  }
+  
+  for (UserGiftProto *ucgp in userGifts) {
+    if (!ucgp.isExpired && !ucgp.hasBeenCollected) {
+      [Globals popupMessage:@"Trying to clear unexpired gifts."];
+      return;
+    }
+  }
+  
+  [[SocketCommunication sharedSocketCommunication] sendDeleteGiftsMessage:userGifts];
+}
+
 #pragma mark - Leader Board
 
 //1st place is rank 0

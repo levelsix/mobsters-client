@@ -2392,6 +2392,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
+  
   GameState *gs = [GameState sharedGameState];
   LabProto *lab = (LabProto *)[[gs myLaboratory] staticStruct];
   
@@ -2399,11 +2400,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   UserMonster *um = feeder.userMonster;
   MonsterProto *baseMp = base.staticMonster;
   
+  float researchBonus = [gs.researchUtil percentageBenefitForType:ResearchTypeXpBonus element:baseMp.monsterElement evoTier:baseMp.evolutionLevel];
+  
+  return [self calculateUserMonsterExperienceIncrease:base feeder:um lab:lab researchBonus:researchBonus];
+}
+
+// This method is around to optimize the search algo in enhance queue
+- (int) calculateUserMonsterExperienceIncrease:(UserMonster *)base feeder:(UserMonster *)um lab:(LabProto *)lab researchBonus:(float)researchBonus {
+  
   float multiplier1 = lab.pointsMultiplier ?: 1;
-  float multiplier2 = baseMp.monsterElement == um.staticMonster.monsterElement ? 1.5 : 1;
+  float multiplier2 = base.staticMonster.monsterElement == um.staticMonster.monsterElement ? 1.5 : 1;
   float exp = um.feederExp*multiplier1*multiplier2;
   
-  float researchFactor = 1.f+[gs.researchUtil percentageBenefitForType:ResearchTypeXpBonus element:baseMp.monsterElement evoTier:baseMp.evolutionLevel];
+  float researchFactor = 1.f+researchBonus;
   
   float finalExp = exp*researchFactor;
   
@@ -2690,6 +2699,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   GameViewController *gvc = [GameViewController baseController];
   if(!gvc.chatViewController) {
     PrivateMessageNotificationViewController *pmn = [[PrivateMessageNotificationViewController alloc] initWithMessages:messages isImmediate:NO];
+    [gvc.notificationController addNotification:pmn];
+  }
+}
+
++ (void) addGiftNotification:(NSArray *)userGifts {
+  GameViewController *gvc = [GameViewController baseController];
+  if(!gvc.chatViewController) {
+    PrivateMessageNotificationViewController *pmn = [[PrivateMessageNotificationViewController alloc] initWithGifts:userGifts isImmediate:NO];
     [gvc.notificationController addNotification:pmn];
   }
 }

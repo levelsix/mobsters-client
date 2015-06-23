@@ -12,6 +12,8 @@
 #import "UnreadNotifications.h"
 #import "ClanHelp.h"
 #import "GameViewController.h"
+#import "RewardsView.h"
+#import "Reward.h"
 
 #define GREY_CHECK @"greycheck.png"
 #define GREEN_CHECK @"greencheck.png"
@@ -616,6 +618,72 @@ static float buttonInitialWidth = 159.f;
   self.donateSpinner.hidden = YES;
   self.donateLabel.hidden = NO;
   self.donateButton.userInteractionEnabled = YES;
+}
+
+@end
+
+@implementation ChatGiftView
+
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  self.openedView.frame = self.unOpenedView.frame;
+  [self.unOpenedView.superview addSubview:self.openedView];
+  
+  RewardView *rv = [[NSBundle mainBundle] loadNibNamed:@"MiniJobsRewardView" owner:self options:nil][0];
+  [self.rewardViewContainer addSubview:rv];
+  self.rewardViewContainer.backgroundColor = [UIColor clearColor];
+}
+
+- (void) updateForGift:(UserGiftProto *)userGift {
+  
+  if (userGift.isRedeemed) {
+    self.unOpenedView.hidden = YES;
+    self.openedView.hidden = NO;
+  } else {
+    self.openedView.hidden = YES;
+    self.unOpenedView.hidden = NO;
+  }
+  
+  Reward *reward = [[Reward alloc] initWithReward:userGift.reward];
+  [self.rewardView loadForReward:reward];
+  
+  NSString *rewardImageName = [reward imgName];
+  NSString *rewardName = [reward name];
+  
+  self.giftRarityLabel.text = rewardName;
+  self.giftNameLabel.text = userGift.giftName;
+  
+  [self updateForExpireDate:userGift.expireDate];
+  
+  self.rewardNameLabel.text = [NSString stringWithFormat:@"Opened from the %@",userGift.giftName];
+  
+  if (userGift.reward.typ == RewardProto_RewardTypeMonster) {
+    self.rewardFitImageView.hidden = NO;
+    self.rewardCenterImageView.hidden = YES;
+    
+    [Globals imageNamed:rewardImageName withView:self.rewardFitImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+  } else {
+    self.rewardFitImageView.hidden = YES;
+    self.rewardCenterImageView.hidden = NO;
+    
+    [Globals imageNamed:rewardImageName withView:self.rewardCenterImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+  }
+  [Globals imageNamed:userGift.giftImageName withView:self.giftImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  [self.collectButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+  [self.collectButton addTarget:userGift action:@selector(collectClicked:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void) updateForExpireDate:(MSDate *)expireDate {
+  long expireTime = expireDate.timeIntervalSinceNow;
+  
+  if (expireTime <= 0) {
+    self.expireTimeLabel.text = @"Expired";
+    self.collectButton.superview.hidden = YES;
+  } else {
+    self.expireTimeLabel.text = [[Globals convertTimeToShortString:(int)expireTime withAllDenominations:YES] uppercaseString];
+    self.collectButton.superview.hidden = NO;
+  }
 }
 
 @end

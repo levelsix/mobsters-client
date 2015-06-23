@@ -387,6 +387,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrieveStrengthLeaderBoardEvent:
       responseClass = [RetrieveStrengthLeaderBoardResponseProto class];
       break;
+    case EventProtocolResponseSCollectGiftEvent:
+      responseClass = [CollectGiftResponseProto class];
+      break;
+    case EventProtocolResponseSDeleteGiftEvent:
+      responseClass = [DeleteGiftResponseProto class];
+      break;
+    case EventProtocolResponseSReceivedGiftEvent:
+      responseClass = [ReceivedGiftResponseProto class];
+      break;
+    case EventProtocolResponseSSetTangoIdEvent:
+      responseClass = [SetTangoIdResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -555,6 +567,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.battleHistory = [proto.recentNbattlesList mutableCopy];
     } else {
       gs.battleHistory = [NSMutableArray array];
+    }
+    
+    [gs.myGifts removeAllObjects];
+    NSMutableArray *giftsToBeRemoved = [[NSMutableArray alloc] init];
+    for (UserGiftProto *ucgp in proto.userGiftsList) {
+      if (ucgp.hasBeenCollected) {
+        [giftsToBeRemoved addObject:ucgp];
+        continue;
+      }
+      if (ucgp.isExpired) {
+        [giftsToBeRemoved addObject:ucgp];
+      }
+      [gs.myGifts addObject:ucgp];
+    }
+    
+    if (giftsToBeRemoved.count > 0) {
+      [[OutgoingEventController sharedOutgoingEventController] clearGifts:giftsToBeRemoved];
     }
     
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
@@ -2572,7 +2601,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
+    // In case someone clicks collect twice, this won't popup in prod.
+#ifndef APPSTORE
     [Globals popupMessage:@"Server failed to redeem mini event reward."];
+#endif
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -2625,9 +2657,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 #pragma mark - Tango Gift
 
-// This is all temporary until we have time to make a better UX experience
 - (void) handleSendTangoGiftResponseProto:(FullEvent *)fe {
-#ifdef TOONSQUAD
   SendTangoGiftResponseProto *proto = (SendTangoGiftResponseProto *)fe.event;
   int tag = fe.tag;
   
@@ -2639,7 +2669,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
-#endif
 }
 
 #pragma mark - LeaderBoard
@@ -2661,6 +2690,58 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 //    
 //    [[NSNotificationCenter defaultCenter] postNotificationName:LEADERBOARD_UPDATE_NOTIFICATION object:nil];
 //  }
+}
+
+#pragma mark - Clan Gifts
+
+- (void) handleReceivedGiftResponseProto:(FullEvent *)fe {
+  ReceivedGiftResponseProto *proto = (ReceivedGiftResponseProto *)fe.event;
+  
+  LNLog(@"Recieved gift.");
+  
+  GameState *gs = [GameState sharedGameState];
+  if (![proto.sender.userUuid isEqualToString:gs.userUuid]) {
+    
+    [gs.myGifts addObjectsFromArray:proto.userGiftsList];
+    [Globals addGiftNotification:proto.userGiftsList];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GIFTS_CHANGED_NOTIFICATION object:nil];
+  }
+  
+}
+
+- (void) handleCollectGiftResponseProto:(FullEvent *)fe {
+  CollectGiftResponseProto *proto = (CollectGiftResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Collect Clan Gifts response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CollectGiftResponseProto_CollectGiftStatusSuccess) {
+    // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
+    if (proto.reward.updatedOrNewMonstersList.count) {
+      [gs addToMyMonsters:proto.reward.updatedOrNewMonstersList];
+    }
+    
+    if (proto.reward.updatedUserItemsList.count) {
+      [gs.itemUtil addToMyItems:proto.reward.updatedUserItemsList];
+    }
+  } else {
+    [Globals popupMessage:@"Server failed to redeem clan gift(s)."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleDeleteGiftResponseProto:(FullEvent *)fe {
+  DeleteGiftResponseProto *proto = (DeleteGiftResponseProto *)fe.event;
+  
+  LNLog(@"Clear expired gifts received with status %d.", (int)proto.status);
+  
+  if (proto.status == DeleteGiftResponseProto_DeleteGiftStatusSuccess) {
+    
+  } else {
+    [Globals popupMessage:@"Server fail to clear expired gift(s)."];
+  }
 }
 
 @end

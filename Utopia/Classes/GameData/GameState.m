@@ -66,6 +66,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _completedTaskData = [[NSMutableDictionary alloc] init];
     _mySales = [[NSMutableArray alloc] init];
     _battleHistory = [NSMutableArray array];
+    _myGifts = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -800,6 +801,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   //  for (PvpHistoryProto *php in self.battleHistory) {
   //    [self overwriteChatObjectInArray:arr chatObject:php];
   //  }
+  for (UserGiftProto *ugp in self.myGifts) {
+    [self overwriteChatObjectInArray:arr chatObject:ugp];
+  }
   
   for (RequestFromFriend *req in self.fbUnacceptedRequestsFromFriends) {
     [self overwriteChatObjectInArray:arr chatObject:req];

@@ -23,8 +23,6 @@
     self.allClanHelps = [NSMutableArray array];
     
     [self addClanHelpProtos:clanHelps fromUser:nil];
-    
-    [self cleanupRogueClanHelps];
   }
   return self;
 }

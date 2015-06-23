@@ -1351,6 +1351,9 @@
 		29E00D7B1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */; };
 		29E00D7C1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */; };
 		29E00D7D1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */; };
+		29F636371B34F4A2006CF318 /* ChatGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29F636361B34F4A2006CF318 /* ChatGiftView.xib */; };
+		29F636381B34F4A2006CF318 /* ChatGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29F636361B34F4A2006CF318 /* ChatGiftView.xib */; };
+		29F636391B34F4A2006CF318 /* ChatGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29F636361B34F4A2006CF318 /* ChatGiftView.xib */; };
 		29FC5EB11A89427B00A50FA7 /* buysale@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5E921A89427B00A50FA7 /* buysale@2x.png */; };
 		29FC5EB21A89427B00A50FA7 /* buysale@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5E921A89427B00A50FA7 /* buysale@2x.png */; };
 		29FC5EB31A89427B00A50FA7 /* buysale@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FC5E921A89427B00A50FA7 /* buysale@2x.png */; };
@@ -7597,6 +7600,7 @@
 		29E00D5F1A79B52D00F34D51 /* donateenhancebottombar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donateenhancebottombar@2x.png"; sourceTree = "<group>"; };
 		29E00D611A79B52D00F34D51 /* fulldonatearro@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fulldonatearro@2x.png"; sourceTree = "<group>"; };
 		29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "opendonatearrow@2x.png"; sourceTree = "<group>"; };
+		29F636361B34F4A2006CF318 /* ChatGiftView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatGiftView.xib; sourceTree = "<group>"; };
 		29FC5E921A89427B00A50FA7 /* buysale@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buysale@2x.png"; sourceTree = "<group>"; };
 		29FC5EA41A89427B00A50FA7 /* saleiconbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saleiconbg@2x.png"; sourceTree = "<group>"; };
 		29FC5EA51A89427B00A50FA7 /* saleoranagebar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saleoranagebar@2x.png"; sourceTree = "<group>"; };
@@ -13162,6 +13166,7 @@
 				29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */,
 				29FFD9621A37E5100063C17C /* ChatClanAvengeView.xib */,
 				2991FBF11A800693009BB1D8 /* ChatTeamDonateView.xib */,
+				29F636361B34F4A2006CF318 /* ChatGiftView.xib */,
 			);
 			name = ChatCell;
 			sourceTree = "<group>";
@@ -18516,6 +18521,7 @@
 				CF0CF096196F452900ECD301 /* sfx_cancel_x_button.mp3 in Resources */,
 				CFF2A64D1974997A00269084 /* pvpbronzeribbon@2x.png in Resources */,
 				6B1EAA201ACF5DCC00E0B642 /* VinesRight04.png in Resources */,
+				29F636381B34F4A2006CF318 /* ChatGiftView.xib in Resources */,
 				9BB948B11A69F463006EE920 /* lights@2x.png in Resources */,
 				CF0CF0A5196F452900ECD301 /* sfx_character_bounce.mp3 in Resources */,
 				CF0CF0A6196F452900ECD301 /* AttackMapViewController.xib in Resources */,
@@ -20124,6 +20130,7 @@
 				CF812EE519E67A3C00D91157 /* ClanHelpCell.xib in Resources */,
 				CF06B5D7193699FC008BF892 /* buildtime@2x.png in Resources */,
 				CFC04DC2188FE8D400F2DB59 /* wonlostspinner@2x.png in Resources */,
+				29F636371B34F4A2006CF318 /* ChatGiftView.xib in Resources */,
 				6B5146991AA1487100B2844A /* 6nightlsorb@2x.png in Resources */,
 				29AF48D71AAA93DA0034927C /* itembaginfobarmiddle@2x.png in Resources */,
 				29C3CA741A955BD0005407E9 /* push_notification.mp3 in Resources */,
@@ -22773,6 +22780,7 @@
 				9B7AAB441AC0CDE300CA387F /* eventtabshadow@2x.png in Resources */,
 				CF481F3B19F7217F00041486 /* fullachievementstar@2x.png in Resources */,
 				9BB5AFAA1AA7FEC7002076E3 /* boardeditorcorner@2x.png in Resources */,
+				29F636391B34F4A2006CF318 /* ChatGiftView.xib in Resources */,
 				CF481F3F19F7217F00041486 /* lockedcity@2x.png in Resources */,
 				CFA8FF4119F899B200F9908C /* requirementgo@2x.png in Resources */,
 				633CCB201AA6735600C6649F /* ResearchButtonView.xib in Resources */,

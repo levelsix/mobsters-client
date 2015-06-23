@@ -270,6 +270,7 @@
         break;
         
       case RewardProto_RewardTypeNoReward:
+      case RewardProto_RewardTypeGift:
         break;
     }
   }

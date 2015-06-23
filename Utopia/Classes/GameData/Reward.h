@@ -43,6 +43,8 @@ typedef enum {
 @property (nonatomic, retain) Reward *innerReward;
 @property (nonatomic, assign) int rewardQuantity;
 
+@property (nonatomic, retain) GiftProto *gift;
+
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto droplessStageNums:(NSArray *)droplessStageNums;
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto tillStage:(int)stageNum droplessStageNums:(NSArray *)droplessStageNums;
 + (NSArray *) createRewardsForQuest:(FullQuestProto *)quest;

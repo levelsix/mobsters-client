@@ -242,6 +242,8 @@
 - (int) sendRedeemMiniEventRewardRequestProtoMessage:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId clientTime:(uint64_t)clientTime;
 
 - (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId gemReward:(int32_t)gemReward clientTime:(int64_t)clientTime;
+- (int) sendCollectGiftMessage:(NSArray *)userClanGifts;
+- (int) sendDeleteGiftsMessage:(NSArray *)userClanGifts;
 
 - (int) sendRetrieveStrengthLeaderBoarderMessage:(int)minRank maxRank:(int)maxRank;
 

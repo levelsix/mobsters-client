@@ -33,6 +33,7 @@
   id<ChatObject> _messageFromSingleUser;
 }
 
+- (id) initWithGifts:(NSArray *)userClanGifts isImmediate:(BOOL)isImmediate;;
 - (id) initWithMessages:(NSArray *)messages isImmediate:(BOOL)isImmediate;
 
 @property (nonatomic, retain) IBOutlet PrivateMessageNotificationView *notificationView;

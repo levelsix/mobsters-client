@@ -175,6 +175,8 @@
 @property (nonatomic, retain) NSMutableArray *leaderBoardPlacement;
 @property (nonatomic, retain) NSMutableDictionary *staticItemPrices;
 
+@property (nonatomic, retain) NSMutableArray *myGifts;
+
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 

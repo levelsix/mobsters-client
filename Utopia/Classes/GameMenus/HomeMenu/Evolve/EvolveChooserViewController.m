@@ -156,14 +156,16 @@
   
   // Now go through every array in validMonsters and pair up with highest and lowest monsters (first and last object).
   for (NSMutableArray *arr in validMonsters.allValues) {
-    while (arr.count) {
-      UserMonster *um1 = [arr firstObject];
-      UserMonster *um2 = arr.count > 1 ? [arr lastObject] : nil;
+    int a = 0, b = (int)arr.count-1;
+    while (a <= b) {
+      UserMonster *um1 = arr[a];
+      UserMonster *um2 = a < b ? arr[b] : nil;
       UserMonster *cata = nil;
       
       // Go backwards through the cata array since its ordered from highest to lowest
       NSMutableArray *catas = catalysts[@(um1.staticMonster.evolutionCatalystMonsterId)];
-      for (UserMonster *um in catas.reverseObjectEnumerator) {
+      for (int i = (int)catas.count-1; i >= 0; i--) {
+        UserMonster *um = catas[i];
         if (![um.userMonsterUuid isEqualToString:um1.userMonsterUuid] &&
             ![um.userMonsterUuid isEqualToString:um2.userMonsterUuid]) {
           cata = um;
@@ -171,15 +173,15 @@
         }
       }
       
-      [arr removeObject:um1];
-      [arr removeObject:um2];
-      
       EvoItem *evo = [[EvoItem alloc] initWithUserMonster:um1 andUserMonster:um2 catalystMonster:cata suggestedMonster:nil];
       if ([evo isReadyForEvolution]) {
         [ready addObject:evo];
       } else {
         [notReady addObject:evo];
       }
+      
+      a++;
+      b--;
     }
   }
   

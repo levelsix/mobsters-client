@@ -513,3 +513,115 @@
 }
 
 @end
+
+@implementation UserGiftProto (ChatObject)
+
+- (NSString *) giftImageName {
+  return self.gift.imageName;
+}
+
+- (NSString *) giftName {
+  return self.gift.name;
+}
+
+- (MinimumUserProto *) otherUser {
+  return self.gifterUser;
+}
+
+- (MinimumUserProto *) sender {
+  return self.gifterUser;
+}
+
+- (NSString *) message {
+  return @"Sent you a gift!";
+}
+
+- (MSDate *) date {
+  return [MSDate dateWithTimeIntervalSince1970:(self.timeReceived/1000.)];
+}
+
+- (UIColor *) bottomViewTextColor {
+  //green a4f100
+  //red ff9b9b
+  if (!self.isExpired && !self.isRedeemed) {
+    return [UIColor colorWithHexString:@"A4F100"];
+  } else if (self.isExpired && !self.isRedeemed){
+    return [UIColor colorWithHexString:@"FF9B9B"];
+  } else {
+    return [UIColor whiteColor];
+  }
+}
+
+- (PrivateChatPostProto *) privateChat {
+  GameState *gs = [GameState sharedGameState];
+  PrivateChatPostProto_Builder *bldr = [PrivateChatPostProto builder];
+  bldr.poster = [self sender];
+  bldr.recipient = [gs minUser];
+  bldr.timeOfPost = [[self date] timeIntervalSince1970]*1000.;
+  PrivateChatPostProto *pcpp = [bldr build];
+  return pcpp;
+}
+
+- (BOOL) isRead {
+  return self.isRedeemed || self.isExpired || [[self privateChat] isRead];
+}
+
+- (void) markAsRead {
+  // Do nothing
+  return [[self privateChat] markAsRead];
+}
+
+- (BOOL) isExpired {
+  return self.expireDate.timeIntervalSinceNow <= 0;
+}
+
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag language:(TranslateLanguages)language{
+  NSString *nibName = @"ChatGiftView";
+  ChatGiftView *v = [chatCell dequeueChatSubview:nibName];
+  
+  if (!v) {
+    v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
+  }
+  
+  [v updateForGift:self];
+  
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
+}
+
+- (MSDate *) expireDate {
+  long expireTime = (self.timeReceived/1000.) + (self.gift.hoursUntilExpiration * 60 * 60);
+  return [MSDate dateWithTimeIntervalSince1970:expireTime];
+}
+
+- (IBAction)collectClicked:(id)sender {
+  Reward *rew = [[Reward alloc] initWithReward:self.reward];
+  
+  NSString *alert = [NSString stringWithFormat:@"You just collected %@ from the %@.", [rew name], self.gift.name];
+  [Globals addPurpleAlertNotification:alert isImmediate:YES];
+  
+  [self setIsRedeemed:YES];
+  [[NSNotificationCenter defaultCenter] postNotificationName:GIFTS_CHANGED_NOTIFICATION object:nil];
+  
+  [[OutgoingEventController sharedOutgoingEventController] collectGift:@[self] delegate:nil];
+}
+
+- (void) setIsRedeemed:(BOOL)isRedeemed {
+  hasBeenCollected_ = isRedeemed;
+}
+
+- (BOOL) isRedeemed {
+  return self.hasBeenCollected;
+}
+
+- (BOOL) updateForTimeInChatCell:(ChatCell *)chatCell {
+  ChatGiftView *v = (ChatGiftView *)chatCell.currentChatSubview;
+  [v updateForExpireDate:self.expireDate];
+  return NO;
+}
+
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
+  [self updateInChatCell:chatCell showsClanTag:YES language:language];
+  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
+}
+
+@end

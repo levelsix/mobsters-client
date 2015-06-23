@@ -295,9 +295,12 @@
 }
 
 - (NSComparisonResult) compare:(UserMonster *)um {
+  int i = 1;
+  NSLog(@"%d", i++);
   if (self.isComplete != um.isComplete) {
     return [@(!self.isComplete) compare:@(!um.isComplete)];
   }
+  NSLog(@"%d", i++);
   if (!self.isComplete) {
     // Both are incomplete
     if (self.isCombining != um.isCombining) {
@@ -313,8 +316,10 @@
   }
   
   // Both are complete; check if healing or enhancing, then compare stats
+  NSLog(@"%d", i++);
   int selfScore = ![self isAvailable] ? 1 : 0;
   int umScore = ![um isAvailable] ? 1 : 0;
+  NSLog(@"%d", i++);
   
   if (selfScore != umScore) {
     return [@(selfScore) compare:@(umScore)];
@@ -323,6 +328,7 @@
     Globals *gl = [Globals sharedGlobals];
     int selfStrength = [gl calculateStrengthForMonster:self];
     int umStrength = [gl calculateStrengthForMonster:um];
+    NSLog(@"%d", i++);
     
     // Ordering now becomes strength, curHp, rarity
     if (selfStrength != umStrength) {

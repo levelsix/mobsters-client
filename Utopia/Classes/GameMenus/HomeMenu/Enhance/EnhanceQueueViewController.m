@@ -376,17 +376,20 @@
   
   Globals *gl = [Globals sharedGlobals];
   UserEnhancement *ue = self.currentEnhancement;
+  
+  LabProto *lab = (LabProto *)[[gs myLaboratory] staticStruct];
+  UserMonster *base = ue.baseMonster.userMonster;
+  MonsterProto *baseMp = base.staticMonster;
+  float researchBonus = [gs.researchUtil percentageBenefitForType:ResearchTypeXpBonus element:baseMp.monsterElement evoTier:baseMp.evolutionLevel];
+  
   [arr sortUsingComparator:^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
     if (obj1.isProtected != obj2.isProtected) {
       return [@(obj1.isProtected) compare:@(obj2.isProtected)];
     }
     
-    EnhancementItem *ei = [[EnhancementItem alloc] init];
-    ei.userMonsterUuid = obj1.userMonsterUuid;
-    float exp1 = [gl calculateExperienceIncrease:ue.baseMonster feeder:ei];
+    float exp1 = [gl calculateUserMonsterExperienceIncrease:base feeder:obj1 lab:lab researchBonus:researchBonus];
+    float exp2 = [gl calculateUserMonsterExperienceIncrease:base feeder:obj2 lab:lab researchBonus:researchBonus];
     
-    ei.userMonsterUuid = obj2.userMonsterUuid;
-    float exp2 = [gl calculateExperienceIncrease:ue.baseMonster feeder:ei];
     if (exp1 != exp2) {
       return [@(exp2) compare:@(exp1)];
     } else {

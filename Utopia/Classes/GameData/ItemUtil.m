@@ -21,8 +21,6 @@
     
     [self addToMyItems:items];
     [self addToMyItemUsages:itemUsages];
-    
-    [self cleanupRogueItemUsages];
   }
   return self;
 }

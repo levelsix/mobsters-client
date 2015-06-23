@@ -55,6 +55,8 @@
 #define CLAN_CHAT_VIEWED_NOTIFICATION @"ClanChatViewedNotification"
 #define STRENGTH_CHANGED_NOTIFICATION @"StrengthChangedNotification"
 
+#define GIFTS_CHANGED_NOTIFICATION @"GiftsChangedNotification"
+
 #define CHAT_LANGUAGE_CHANGED @"ChatLanguageChanged"
 
 #define RECEIVED_CLAN_HELP_NOTIFICATION @"ReceivedClanHelpNotification"
@@ -347,6 +349,7 @@
 + (void) addOrangeAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate;
 + (void) addBlueAlertNotification:(NSString *)msg;
 + (void) addPrivateMessageNotification:(NSArray *)messages;
++ (void) addGiftNotification:(NSArray *)userGifts;
 + (void) addMiniEventGoalNotificationWithGoalString:(NSString *)goalStr pointsStr:(NSString *)pointsStr image:(NSString *)img;
 
 + (void) bounceView:(UIView *)view;
@@ -471,6 +474,7 @@
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue;
 - (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
+- (int) calculateUserMonsterExperienceIncrease:(UserMonster *)base feeder:(UserMonster *)um lab:(LabProto *)lab researchBonus:(float)researchBonus;
 - (float) calculateLevelForMonster:(int)monsterId experience:(float)experience;
 - (int) calculateExperienceRequiredForMonster:(int)monsterId level:(int)level;
 

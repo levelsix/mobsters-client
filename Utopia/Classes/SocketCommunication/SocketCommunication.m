@@ -1765,6 +1765,24 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveStrengthLeaderBoardEvent];
 }
 
+- (int) sendCollectGiftMessage:(NSArray *)userClanGifts {
+  CollectGiftRequestProto *req = [[[[CollectGiftRequestProto builder]
+                                         setSender:[self senderWithMaxResources]]
+                                        addAllUgUuids:userClanGifts]
+                                       build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCCollectGiftEvent];
+}
+
+- (int) sendDeleteGiftsMessage:(NSArray *)userClanGifts {
+  DeleteGiftRequestProto *req = [[[[DeleteGiftRequestProto builder]
+                                        setSender:_sender]
+                                       addAllExpiredGifts:userClanGifts]
+                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCDeleteGiftEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {
@@ -2209,10 +2227,12 @@ static NSString *udid = nil;
 - (void) webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
   LNLog(@"websocket closed. %@ code=%d clean=%d", reason, (int)code, wasClean);
   
-  if (webSocket != self.webSocket) {
-    LNLog(@"Somehow there are 2 websockets: %@, %@", self.webSocket, webSocket);
-  } else if (!_purposefulClose) {
-    [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
+  if (!_purposefulClose) {
+    if (webSocket != self.webSocket) {
+      LNLog(@"Somehow there are 2 websockets: %@, %@", self.webSocket, webSocket);
+    } else {
+      [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
+    }
   }
 }
 

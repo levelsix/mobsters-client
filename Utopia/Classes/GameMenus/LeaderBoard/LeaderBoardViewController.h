@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PullRefreshTableViewController.h"
 #import "LeaderBoardObject.h"
 #import "ChatView.h"
 

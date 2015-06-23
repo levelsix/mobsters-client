@@ -809,6 +809,12 @@
     }
   }
   
+  // Check for gifts
+  for (UserGiftProto *ucgp in gs.myGifts) {
+    if ([ucgp.gifterUser.userUuid isEqualToString:self.curUserUuid]) {
+      [arr addObject:ucgp];
+    }
+  }
   
   // Check for fb requests
   for (RequestFromFriend *req in gs.fbUnacceptedRequestsFromFriends) {
@@ -821,12 +827,14 @@
   
   NSInteger pathIndex = [self.chats indexOfObject:_clickedCell];
   if (self.chats.count) {
-    if(!_clickedCell || pathIndex == NSNotFound) {
-      NSIndexPath *path = [NSIndexPath indexPathForRow:self.chats.count-1 inSection:0];
-      [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:animated];
+    if (!_clickedCell || pathIndex == NSNotFound) {
+//      NSIndexPath *path = [NSIndexPath indexPathForRow:self.chats.count-1 inSection:0];
+//      [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:animated];
     } else {
       NSIndexPath *path = [NSIndexPath indexPathForRow:pathIndex inSection:0];
-      [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:animated];
+      NSInteger height = [self tableView:self.chatTable heightForRowAtIndexPath:path];
+      UITableViewScrollPosition pos = height > self.chatTable.height ? UITableViewScrollPositionBottom : UITableViewScrollPositionMiddle;
+      [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:pos animated:animated];
     }
   }
   _clickedCell = nil;
@@ -954,10 +962,10 @@
   }
   
   TranslateLanguages displayLanguage = TranslateLanguagesNoTranslation;
-  if(_chatMode == PrivateChatModeAllMessages) {
+  if(_chatMode == PrivateChatModeAllMessages && [self.displayedChatList[indexPath.row] isKindOfClass:[PrivateChatPostProto class]]) {
     PrivateChatPostProto *pcpp = self.displayedChatList[indexPath.row];
-    if ([pcpp isKindOfClass:[PrivateChatPostProto class]] && ![pcpp.poster.userUuid isEqualToString:gs.userUuid] && [gs translateOnForUser:pcpp.poster.userUuid]) {
-      TranslateLanguages savedLanguage = [gs languageForUser:pcpp.poster.userUuid];
+    if ([pcpp isKindOfClass:[PrivateChatPostProto class]] && ![pcpp.sender.userUuid isEqualToString:gs.userUuid] && [gs translateOnForUser:pcpp.sender.userUuid]) {
+      TranslateLanguages savedLanguage = [gs languageForUser:pcpp.sender.userUuid];
       displayLanguage = savedLanguage == pcpp.originalContentLanguage ? TranslateLanguagesNoTranslation : savedLanguage;
     }
   }

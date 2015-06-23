@@ -68,7 +68,15 @@
 
 @implementation PrivateMessageNotificationViewController
 
+- (id) initWithGifts:(NSArray *)userGifts isImmediate:(BOOL)isImmediate {
+  return [self initWithMessages:userGifts isImmediate:isImmediate isAllGifts:YES];
+}
+
 - (id) initWithMessages:(NSArray *)allMessages isImmediate:(BOOL)isImmediate {
+  return [self initWithMessages:allMessages isImmediate:isImmediate isAllGifts:NO];
+}
+
+- (id) initWithMessages:(NSArray *)allMessages isImmediate:(BOOL)isImmediate isAllGifts:(BOOL)isAllGifts{
   GameState *gs = [GameState sharedGameState];
   
   _avatarOffSet = FIRST_AVATAR_OFFSET;
@@ -94,6 +102,12 @@
         [self.notificationView updateWithString:php.otherUser.name description:result color:textColor];
         [self addAvatarWithMonsterId:php.otherUser.avatarMonsterId];
         
+      } else if ([chat isKindOfClass:[UserGiftProto class]]) {
+        UserGiftProto *ucgp = [messages firstObject];
+        _messageFromSingleUser = (ChatMessage*)chat;
+        
+        [self.notificationView updateWithString:ucgp.otherUser.name description:@"Sent you a gift!" color:[UIColor colorWithHexString:GREEN]];
+        [self addAvatarWithMonsterId:ucgp.otherUser.avatarMonsterId];
       } else {
         id<ChatObject> co = [messages firstObject];
         _messageFromSingleUser = co;
@@ -116,7 +130,16 @@
         [self addAvatarWithMonsterId:co.sender.avatarMonsterId];
       }
       
-    } else if (messages.count > 1){
+    } else if (isAllGifts) {
+      //for when there are multiple messages and we know that they're all gifts from one person
+      UserGiftProto *ucgp = [allMessages firstObject];
+      _messageFromSingleUser = (id<ChatObject>)ucgp;
+      
+      [self.notificationView updateWithString:ucgp.otherUser.name description:[NSString stringWithFormat:@"Sent you %d gifts!",(int)allMessages.count] color:[UIColor colorWithHexString:GREEN]];
+      
+      [self addAvatarWithMonsterId:ucgp.otherUser.avatarMonsterId];
+      
+    } else {
       
       NSString *description;
       

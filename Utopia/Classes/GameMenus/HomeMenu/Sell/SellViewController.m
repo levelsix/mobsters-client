@@ -178,7 +178,7 @@
 }
 
 - (void) animateUserMonsterIntoQueue:(UserMonster *)um {
-  int monsterIndex = (int)[self.userMonsters indexOfObject:um];
+  int monsterIndex = (int)[self.listView.listObjects indexOfObject:um];
   MonsterListCell *cardCell = (MonsterListCell *)[self.listView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:monsterIndex inSection:0]];
   
   monsterIndex = (int)[self.queueView.listObjects indexOfObject:um];
