@@ -1546,10 +1546,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO useiPadSuffix:NO];
 }
 
-+ (void)imageNamed:(NSString *)imageName withView:(UIView *)view canBeiPad:(BOOL)canBeIpad greyscale:(BOOL)greyscale indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
-  [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO useiPadSuffix:(canBeIpad && [Globals isiPad])];
-}
-
 + (void) imageNamedWithiPhone6Prefix:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
   [self imageNamed:imageName withView:view maskedColor:color greyscale:NO indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:YES useiPadSuffix:NO];
 }
