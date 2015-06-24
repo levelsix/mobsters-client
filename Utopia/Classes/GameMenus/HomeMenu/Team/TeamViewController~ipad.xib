@@ -184,6 +184,10 @@
                             <rect key="frame" x="20" y="0.0" width="836" height="88"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="functionalhomemenubottombarcap.png" id="ixh-IO-HnM" customClass="FlipImageView">
+                            <rect key="frame" x="856" y="0.0" width="14" height="88"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
                         <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="GkW-ol-yeO" customClass="TeamSlotView">
                             <rect key="frame" x="10" y="3" width="210" height="82"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -208,10 +212,6 @@
                                 <outlet property="delegate" destination="-1" id="CcL-bB-ehp"/>
                             </connections>
                         </view>
-                        <imageView userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="functionalhomemenubottombarcap.png" id="ixh-IO-HnM" customClass="FlipImageView">
-                            <rect key="frame" x="856" y="0.0" width="14" height="88"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>

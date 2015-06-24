@@ -7,14 +7,12 @@
 //
 
 #import "BoardDesignerTile.h"
-#import "UIView+Coordinates.h"
-#import "UIColor+HexColor.h"
-#import "Structure.pb.h"
+#import "Globals.h"
 
-static const int kBorderThickness = 2;
-static const int kCornerSize = 8;
-static const int kCornerInset = kCornerSize - kBorderThickness;
-static const int kObstacleInset = 1;
+#define BORDER_THICKNESS ([Globals isiPad] ? 3 : 2)
+#define CORNER_SIZE      ([Globals isiPad] ? 12 : 8)
+#define CORNER_INSET     (CORNER_SIZE - BORDER_THICKNESS)
+#define OBSTACLE_INSET   ([Globals isiPad] ? 2 : 1)
 
 @implementation BoardDesignerTile
 
@@ -25,8 +23,8 @@ static const int kObstacleInset = 1;
     _baseColorIsDark = dark;
     _baseColor = dark ? [UIColor colorWithHexString:@"353F3F"] : [UIColor colorWithHexString:@"3C4747"];
     _borderColor = [UIColor colorWithHexString:@"181B1C"];
-    _outerCornerImage = [UIImage imageNamed:@"boardeditorcorner.png"];
-    _innerCornerImage = dark ? [UIImage imageNamed:@"boardeditorcornerlight.png"] : [UIImage imageNamed:@"boardeditorcornerdark.png"];
+    _outerCornerImage = [Globals imageNamed:@"boardeditorcorner.png"];
+    _innerCornerImage = dark ? [Globals imageNamed:@"boardeditorcornerlight.png"] : [Globals imageNamed:@"boardeditorcornerdark.png"];
     _obstacleImageView = nil;
     _obstacleProto = nil;
     
@@ -93,7 +91,7 @@ static const int kObstacleInset = 1;
 - (void) updateTopOuterBorder
 {
   // Top outer border
-  UIView* border = [[UIView alloc] initWithFrame:CGRectMake(kCornerInset, -kBorderThickness, self.width - kCornerInset * 2, kBorderThickness)];
+  UIView* border = [[UIView alloc] initWithFrame:CGRectMake(CORNER_INSET, -BORDER_THICKNESS, self.width - CORNER_INSET * 2, BORDER_THICKNESS)];
   [border setBackgroundColor:_borderColor];
   [self addSubview:border];
   
@@ -103,28 +101,28 @@ static const int kObstacleInset = 1;
     {
       // Top-left outer corner
       UIImageView* corner = [[UIImageView alloc] initWithImage:_outerCornerImage];
-      [corner setOrigin:CGPointMake(-kBorderThickness, -kBorderThickness)];
+      [corner setOrigin:CGPointMake(-BORDER_THICKNESS, -BORDER_THICKNESS)];
       [self addSubview:corner];
     }
     else
     {
       // Extend border to far left
-      [border setOriginX:border.originX - kCornerInset];
-      [border setWidth:border.width + kCornerInset];
+      [border setOriginX:border.originX - CORNER_INSET];
+      [border setWidth:border.width + CORNER_INSET];
     }
   }
   
   if ([self hasNeighborE] && ![self hasNeighborNE])
   {
     // Extend border to far right
-    [border setWidth:border.width + kCornerInset];
+    [border setWidth:border.width + CORNER_INSET];
   }
 }
 
 - (void) updateRightOuterBorder
 {
   // Right outer border
-  UIView* border = [[UIView alloc] initWithFrame:CGRectMake(self.width, kCornerInset, kBorderThickness, self.height - kCornerInset * 2)];
+  UIView* border = [[UIView alloc] initWithFrame:CGRectMake(self.width, CORNER_INSET, BORDER_THICKNESS, self.height - CORNER_INSET * 2)];
   [border setBackgroundColor:_borderColor];
   [self addSubview:border];
   
@@ -134,29 +132,29 @@ static const int kObstacleInset = 1;
     {
       // Top-right outer corner
       UIImageView* corner = [[UIImageView alloc] initWithImage:_outerCornerImage];
-      [corner setOrigin:CGPointMake(self.width - kCornerInset, -kBorderThickness)];
+      [corner setOrigin:CGPointMake(self.width - CORNER_INSET, -BORDER_THICKNESS)];
       [corner.layer setTransform:CATransform3DMakeScale(-1, 1, 1)];
       [self addSubview:corner];
     }
     else
     {
       // Extend border to far top
-      [border setOriginY:border.originY - kCornerInset];
-      [border setHeight:border.height + kCornerInset];
+      [border setOriginY:border.originY - CORNER_INSET];
+      [border setHeight:border.height + CORNER_INSET];
     }
   }
   
   if ([self hasNeighborS] && ![self hasNeighborSE])
   {
     // Extend border to far bottom
-    [border setHeight:border.height + kCornerInset];
+    [border setHeight:border.height + CORNER_INSET];
   }
 }
 
 - (void) updateBottomOuterBorder
 {
   // Bottom outer border
-  UIView* border = [[UIView alloc] initWithFrame:CGRectMake(kCornerInset, self.height, self.width - kCornerInset * 2, kBorderThickness)];
+  UIView* border = [[UIView alloc] initWithFrame:CGRectMake(CORNER_INSET, self.height, self.width - CORNER_INSET * 2, BORDER_THICKNESS)];
   [border setBackgroundColor:_borderColor];
   [self addSubview:border];
   
@@ -166,29 +164,29 @@ static const int kObstacleInset = 1;
     {
       // Bottom-right outer corner
       UIImageView* corner = [[UIImageView alloc] initWithImage:_outerCornerImage];
-      [corner setOrigin:CGPointMake(self.width - kCornerInset, self.height - kCornerInset)];
+      [corner setOrigin:CGPointMake(self.width - CORNER_INSET, self.height - CORNER_INSET)];
       [corner.layer setTransform:CATransform3DMakeScale(-1, -1, 1)];
       [self addSubview:corner];
     }
     else
     {
       // Extend border to far right
-      [border setWidth:border.width + kCornerInset];
+      [border setWidth:border.width + CORNER_INSET];
     }
   }
   
   if ([self hasNeighborW] && ![self hasNeighborSW])
   {
     // Extend border to far left
-    [border setOriginX:border.originX - kCornerInset];
-    [border setWidth:border.width + kCornerInset];
+    [border setOriginX:border.originX - CORNER_INSET];
+    [border setWidth:border.width + CORNER_INSET];
   }
 }
 
 - (void) updateLeftOuterBorder
 {
   // Left outer border
-  UIView* border = [[UIView alloc] initWithFrame:CGRectMake(-kBorderThickness, kCornerInset, kBorderThickness, self.height - kCornerInset * 2)];
+  UIView* border = [[UIView alloc] initWithFrame:CGRectMake(-BORDER_THICKNESS, CORNER_INSET, BORDER_THICKNESS, self.height - CORNER_INSET * 2)];
   [border setBackgroundColor:_borderColor];
   [self addSubview:border];
   
@@ -198,22 +196,22 @@ static const int kObstacleInset = 1;
     {
       // Bottom-left outer corner
       UIImageView* corner = [[UIImageView alloc] initWithImage:_outerCornerImage];
-      [corner setOrigin:CGPointMake(-kBorderThickness, self.height - kCornerInset)];
+      [corner setOrigin:CGPointMake(-BORDER_THICKNESS, self.height - CORNER_INSET)];
       [corner.layer setTransform:CATransform3DMakeScale(1, -1, 1)];
       [self addSubview:corner];
     }
     else
     {
       // Extend border to far bottom
-      [border setHeight:border.height + kCornerInset];
+      [border setHeight:border.height + CORNER_INSET];
     }
   }
   
   if ([self hasNeighborN] && ![self hasNeighborNW])
   {
     // Extend border to far top
-    [border setOriginY:border.originY - kCornerInset];
-    [border setHeight:border.height + kCornerInset];
+    [border setOriginY:border.originY - CORNER_INSET];
+    [border setHeight:border.height + CORNER_INSET];
   }
 }
 
@@ -231,7 +229,7 @@ static const int kObstacleInset = 1;
   {
     // Top-right inner corner
     UIImageView* corner = [[UIImageView alloc] initWithImage:_innerCornerImage];
-    [corner setOrigin:CGPointMake(self.width - kCornerSize, 0)];
+    [corner setOrigin:CGPointMake(self.width - CORNER_SIZE, 0)];
     [corner.layer setTransform:CATransform3DMakeScale(-1, 1, 1)];
     [self addSubview:corner];
   }
@@ -240,7 +238,7 @@ static const int kObstacleInset = 1;
   {
     // Bottom-right inner corner
     UIImageView* corner = [[UIImageView alloc] initWithImage:_innerCornerImage];
-    [corner setOrigin:CGPointMake(self.width - kCornerSize, self.height - kCornerSize)];
+    [corner setOrigin:CGPointMake(self.width - CORNER_SIZE, self.height - CORNER_SIZE)];
     [corner.layer setTransform:CATransform3DMakeScale(-1, -1, 1)];
     [self addSubview:corner];
   }
@@ -249,7 +247,7 @@ static const int kObstacleInset = 1;
   {
     // Bottom-left inner corner
     UIImageView* corner = [[UIImageView alloc] initWithImage:_innerCornerImage];
-    [corner setOrigin:CGPointMake(0, self.height - kCornerSize)];
+    [corner setOrigin:CGPointMake(0, self.height - CORNER_SIZE)];
     [corner.layer setTransform:CATransform3DMakeScale(1, -1, 1)];
     [self addSubview:corner];
   }
@@ -273,7 +271,7 @@ static const int kObstacleInset = 1;
   }
   else
   {
-    [_obstacleImageView setFrame:CGRectMake(kObstacleInset, kObstacleInset, self.width - kObstacleInset * 2, self.height - kObstacleInset * 2)];
+    [_obstacleImageView setFrame:CGRectMake(OBSTACLE_INSET, OBSTACLE_INSET, self.width - OBSTACLE_INSET * 2, self.height - OBSTACLE_INSET * 2)];
     [self addSubview:_obstacleImageView];
     
     _isOccupied = YES;
@@ -308,13 +306,13 @@ static const int kObstacleInset = 1;
     _extraPowerBg = [[UIView alloc] initWithFrame:self.bounds];
     _extraPowerBg.backgroundColor = [UIColor colorWithHexString:@"FF48484D"];
     
-    _extraPowerLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, self.height - 14, self.width - 6, 11)];
-    _extraPowerLabel.font = [UIFont fontWithName:@"GothamBlack" size:8.f];
+    _extraPowerLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, self.height - ([Globals isiPad] ? 18 : 14), self.width - 6, 11)];
+    _extraPowerLabel.font = [UIFont fontWithName:@"GothamBlack" size:[Globals isiPad] ? 13.f : 8.f];
     _extraPowerLabel.textAlignment = NSTextAlignmentCenter;
     _extraPowerLabel.text = @"PWR";
     
     _extraPowerCostLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, 3, self.width - 6, _extraPowerLabel.originY)];
-    _extraPowerCostLabel.font = [UIFont fontWithName:@"Gotham-Ultra" size:14.f];
+    _extraPowerCostLabel.font = [UIFont fontWithName:@"Gotham-Ultra" size:[Globals isiPad] ? 24.f : 14.f];
     _extraPowerCostLabel.textAlignment = NSTextAlignmentCenter;
   }
   

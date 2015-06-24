@@ -82,7 +82,7 @@
   _obstacleProto = proto;
   _obstacleImage = [BoardDesignerObstacleView imageForObstacleProto:proto];
   
-  [self.obstacleImageView setImage:[UIImage imageNamed:_obstacleImage]];
+  [self.obstacleImageView setImage:[Globals imageNamed:_obstacleImage]];
   [self.obstacleNameLabel setText:[proto.name uppercaseString]];
   [self.obstaclePowerCostLabel setText:[NSString stringWithFormat:@"%ld", (long)proto.powerAmt]];
   
@@ -110,7 +110,7 @@
 {
   if (!self.isEnabled && !self.isLocked)
   {
-    [self.obstacleImageView setImage:[UIImage imageNamed:_obstacleImage]];
+    [self.obstacleImageView setImage:[Globals imageNamed:_obstacleImage]];
     [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"00C2FF"]];
     [self.obstaclePowerLabel setTextColor:[UIColor colorWithHexString:@"6F9F11"]];
     [self.obstaclePowerCostLabel setTextColor:[UIColor colorWithHexString:@"6F9F11"]];
@@ -139,7 +139,7 @@
 {
   if (self.isLocked)
   {
-    [self.obstacleImageView setImage:[UIImage imageNamed:_obstacleImage]];
+    [self.obstacleImageView setImage:[Globals imageNamed:_obstacleImage]];
     [self.obstacleNameLabel setTextColor:[UIColor colorWithHexString:@"00C2FF"]];
     
     [self.lockImageView setHidden:YES];
