@@ -237,7 +237,7 @@ static BOOL isAnimating = NO;
   StructureInfoProto *sip = hosp.staticStructForCurrentConstructionLevel.structInfo;
   
   NSString *imgName = [@"Queue" stringByAppendingString:sip.imgName];
-  [Globals imageNamed:imgName withView:self.hospitalIcon canBeiPad:YES greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamedWithiPadSuffix:imgName withView:self.hospitalIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.hospitalLevelLabel.text = [NSString stringWithFormat:@"LEVEL %d", sip.level];
   
