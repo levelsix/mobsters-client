@@ -106,9 +106,8 @@
   NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:description attributes:@{NSParagraphStyleAttributeName : paragraphStyle}];
   self.descriptionLabel.attributedText = attributedString;
   
-//  [Globals imageNamed:fileName withView:self.characterIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  
-  [Globals imageNamed:fileName withView:self.characterIcon maskedColor:nil greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES useiPhone6Prefix:![Globals isiPad] useiPadSuffix:[Globals isiPad]];
+  if (![Globals isiPad]) fileName = [@"6" stringByAppendingString:fileName];
+  [Globals imageNamedWithiPadSuffix:fileName withView:self.characterIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   if (pe) {
     FullTaskProto *task = [gs taskWithId:pe.taskId];
