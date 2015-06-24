@@ -32,6 +32,7 @@
 #define SOUND_EFFECTS_DEFAULTS_KEY @"SoundEffectsDefaultsKey"
 #define SHAKE_DEFAULTS_KEY @"ShakeDefaultsKey"
 
+#define IAPS_RETRIEVED_NOTIFICATION @"IapsRetrievedNotification"
 #define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
 #define IAP_RESPONSE_KEY @"IapResponseKey"
 

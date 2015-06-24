@@ -94,10 +94,7 @@ static NSString *nibName = @"SalePackageCell";
   self.priceLabel.gradientEndColor = [UIColor colorWithHexString:@"e2ffcb"];
   self.priceLabel.shadowColor = nil;
   
-  IAPHelper *iap = [IAPHelper sharedIAPHelper];
-  SKProduct *prod = [iap productForIdentifier:_sale.salesProductId];
-  self.priceLabel.text = [[IAPHelper sharedIAPHelper] priceForProduct:prod];
-  _product = prod;
+  [self reloadPriceTag];
   
   [self.bonusItemsTable registerNib:[UINib nibWithNibName:nibName bundle:nil] forCellReuseIdentifier:nibName];
   
@@ -117,6 +114,25 @@ static NSString *nibName = @"SalePackageCell";
   //  self.bonusItemsCollectionView.superview.width += 0.5f;
   
   [self loadCustomMenuProto:_sale.cmpList];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPriceTag) name:IAPS_RETRIEVED_NOTIFICATION object:nil];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) reloadPriceTag {
+  IAPHelper *iap = [IAPHelper sharedIAPHelper];
+  SKProduct *prod = [iap productForIdentifier:_sale.salesProductId];
+  self.priceLabel.text = [[IAPHelper sharedIAPHelper] priceForProduct:prod];
+  _product = prod;
 }
 
 - (void) loadCustomMenuProto:(NSArray *)cmps {

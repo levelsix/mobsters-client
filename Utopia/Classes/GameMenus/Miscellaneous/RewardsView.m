@@ -24,11 +24,11 @@
 
 - (void) loadForReward:(Reward *)reward {
   
-  Reward *actualReward = reward.type == RewardTypeReward ? reward.innerReward : reward;
+  //Reward *actualReward = reward.type == RewardTypeReward ? reward.innerReward : reward;
+  BOOL useItemView = YES;//actualReward.type == RewardTypeMonster || actualReward.type == RewardTypeItem ;
   
   NSString *imgName = [reward imgName];
   NSString *labelName = [reward shorterName];
-  BOOL useItemView = actualReward.type == RewardTypeMonster || actualReward.type == RewardTypeItem ;
   int quantity = [reward quantity];
   
   UIColor *color = nil;
@@ -48,6 +48,10 @@
     self.iconLabel.text = labelName;
     self.itemQuantityLabel.text = [NSString stringWithFormat:@"%dx", quantity];
     self.itemQuantityLabel.superview.hidden = quantity <= 1;
+    
+    if (color) {
+      self.iconLabel.textColor = color;
+    }
     
     self.itemView.hidden = NO;
     self.mainView.hidden = YES;

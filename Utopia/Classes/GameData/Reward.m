@@ -269,8 +269,13 @@
         self.rewardQuantity = reward.amt;
         break;
         
-      case RewardProto_RewardTypeNoReward:
       case RewardProto_RewardTypeGift:
+        self.type = RewardTypeGift;
+        self.giftId = reward.staticDataId;
+        self.giftQuantity = reward.amt;
+        break;
+        
+      case RewardProto_RewardTypeNoReward:
         break;
     }
   }
@@ -318,6 +323,13 @@
       imgName = [reward.league.imgPrefix stringByAppendingString:@"icon.png"];
       break;
       
+    case RewardTypeGift:
+    {
+      GiftProto *gp = [gs giftWithId:self.giftId];
+      imgName = gp.imageName;
+      break;
+    }
+      
     case RewardTypeReward:
       break;
   }
@@ -358,6 +370,11 @@
       name  = [NSString stringWithFormat:@"%@%@", monster.displayName, reward.monsterLvl == 0 ? @" Piece" : reward.monsterLvl > 1 ? [NSString stringWithFormat:@" LVL %d", reward.monsterLvl] : @""];
       break;
     }
+    case RewardTypeGift:
+    {
+      GiftProto *gp = [gs giftWithId:self.giftId];
+      name = gp.name;
+    }
       
     case RewardTypePvpLeague:
     case RewardTypeReward:
@@ -396,6 +413,7 @@
     case RewardTypeGachaToken:
     case RewardTypePvpLeague:
     case RewardTypeReward:
+    case RewardTypeGift:
       name = [self name];
       break;
   }
@@ -443,6 +461,7 @@
       
     case RewardTypePvpLeague:
     case RewardTypeReward:
+    case RewardTypeGift:
       break;
   }
   
@@ -462,6 +481,10 @@
       
     case RewardTypeReward:
       quantity = reward.rewardQuantity;
+      break;
+      
+    case RewardTypeGift:
+      quantity = reward.giftQuantity;
       break;
       
     case RewardTypeGems:

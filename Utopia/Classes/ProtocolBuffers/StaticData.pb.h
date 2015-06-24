@@ -15,6 +15,7 @@
 #import "Prerequisite.pb.h"
 #import "Quest.pb.h"
 #import "Research.pb.h"
+#import "Reward.pb.h"
 #import "Skill.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
@@ -338,6 +339,7 @@
   NSMutableArray * mutableResearchList;
   NSMutableArray * mutableBattleItemList;
   NSMutableArray * mutablePvpBoardObstacleProtosList;
+  NSMutableArray * mutableGiftsList;
   NSMutableArray * mutableStructureItemPricesList;
 }
 - (BOOL) hasSender;
@@ -384,6 +386,7 @@
 @property (readonly, strong) NSArray * researchList;
 @property (readonly, strong) NSArray * battleItemList;
 @property (readonly, strong) NSArray * pvpBoardObstacleProtosList;
+@property (readonly, strong) NSArray * giftsList;
 @property (readonly, strong) NSArray * structureItemPricesList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
@@ -425,6 +428,7 @@
 - (ResearchProto*)researchAtIndex:(NSUInteger)index;
 - (BattleItemProto*)battleItemAtIndex:(NSUInteger)index;
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index;
+- (GiftProto*)giftsAtIndex:(NSUInteger)index;
 - (ItemGemPriceProto*)structureItemPricesAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
@@ -715,6 +719,12 @@
 - (StaticDataProto_Builder *)addPvpBoardObstacleProtos:(PvpBoardObstacleProto*)value;
 - (StaticDataProto_Builder *)addAllPvpBoardObstacleProtos:(NSArray *)array;
 - (StaticDataProto_Builder *)clearPvpBoardObstacleProtos;
+
+- (NSMutableArray *)giftsList;
+- (GiftProto*)giftsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addGifts:(GiftProto*)value;
+- (StaticDataProto_Builder *)addAllGifts:(NSArray *)array;
+- (StaticDataProto_Builder *)clearGifts;
 
 - (NSMutableArray *)structureItemPricesList;
 - (ItemGemPriceProto*)structureItemPricesAtIndex:(NSUInteger)index;

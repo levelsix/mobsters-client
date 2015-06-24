@@ -26,6 +26,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [PrerequisiteRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
     [ResearchRoot registerAllExtensions:registry];
+    [RewardRoot registerAllExtensions:registry];
     [SkillRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
@@ -80,6 +81,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutableResearchList;
 @property (strong) NSMutableArray * mutableBattleItemList;
 @property (strong) NSMutableArray * mutablePvpBoardObstacleProtosList;
+@property (strong) NSMutableArray * mutableGiftsList;
 @property (strong) NSMutableArray * mutableStructureItemPricesList;
 @end
 
@@ -179,6 +181,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic battleItemList;
 @synthesize mutablePvpBoardObstacleProtosList;
 @dynamic pvpBoardObstacleProtosList;
+@synthesize mutableGiftsList;
+@dynamic giftsList;
 @synthesize mutableStructureItemPricesList;
 @dynamic structureItemPricesList;
 - (id) init {
@@ -440,6 +444,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 - (PvpBoardObstacleProto*)pvpBoardObstacleProtosAtIndex:(NSUInteger)index {
   return [mutablePvpBoardObstacleProtosList objectAtIndex:index];
 }
+- (NSArray *)giftsList {
+  return mutableGiftsList;
+}
+- (GiftProto*)giftsAtIndex:(NSUInteger)index {
+  return [mutableGiftsList objectAtIndex:index];
+}
 - (NSArray *)structureItemPricesList {
   return mutableStructureItemPricesList;
 }
@@ -575,6 +585,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.battleItemList enumerateObjectsUsingBlock:^(BattleItemProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:43 value:element];
+  }];
+  [self.giftsList enumerateObjectsUsingBlock:^(GiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:46 value:element];
   }];
   [self.structureItemPricesList enumerateObjectsUsingBlock:^(ItemGemPriceProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:47 value:element];
@@ -713,6 +726,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.battleItemList enumerateObjectsUsingBlock:^(BattleItemProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(43, element);
+  }];
+  [self.giftsList enumerateObjectsUsingBlock:^(GiftProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(46, element);
   }];
   [self.structureItemPricesList enumerateObjectsUsingBlock:^(ItemGemPriceProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(47, element);
@@ -1004,6 +1020,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.giftsList enumerateObjectsUsingBlock:^(GiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"gifts"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.structureItemPricesList enumerateObjectsUsingBlock:^(ItemGemPriceProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"structureItemPrices"];
     [element writeDescriptionTo:output
@@ -1065,6 +1087,7 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [self.allResearchHousesList isEqualToArray:otherMessage.allResearchHousesList] &&
       [self.allBattleItemFactorysList isEqualToArray:otherMessage.allBattleItemFactorysList] &&
       [self.battleItemList isEqualToArray:otherMessage.battleItemList] &&
+      [self.giftsList isEqualToArray:otherMessage.giftsList] &&
       [self.structureItemPricesList isEqualToArray:otherMessage.structureItemPricesList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
@@ -1194,6 +1217,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.battleItemList enumerateObjectsUsingBlock:^(BattleItemProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.giftsList enumerateObjectsUsingBlock:^(GiftProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.structureItemPricesList enumerateObjectsUsingBlock:^(ItemGemPriceProto *element, NSUInteger idx, BOOL *stop) {
@@ -1528,6 +1554,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [result.mutablePvpBoardObstacleProtosList addObjectsFromArray:other.mutablePvpBoardObstacleProtosList];
     }
   }
+  if (other.mutableGiftsList.count > 0) {
+    if (result.mutableGiftsList == nil) {
+      result.mutableGiftsList = [[NSMutableArray alloc] initWithArray:other.mutableGiftsList];
+    } else {
+      [result.mutableGiftsList addObjectsFromArray:other.mutableGiftsList];
+    }
+  }
   if (other.mutableStructureItemPricesList.count > 0) {
     if (result.mutableStructureItemPricesList == nil) {
       result.mutableStructureItemPricesList = [[NSMutableArray alloc] initWithArray:other.mutableStructureItemPricesList];
@@ -1812,6 +1845,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         BattleItemProto_Builder* subBuilder = [BattleItemProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addBattleItem:[subBuilder buildPartial]];
+        break;
+      }
+      case 370: {
+        GiftProto_Builder* subBuilder = [GiftProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addGifts:[subBuilder buildPartial]];
         break;
       }
       case 378: {
@@ -2841,6 +2880,30 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (StaticDataProto_Builder *)clearPvpBoardObstacleProtos {
   result.mutablePvpBoardObstacleProtosList = nil;
+  return self;
+}
+- (NSMutableArray *)giftsList {
+  return result.mutableGiftsList;
+}
+- (GiftProto*)giftsAtIndex:(NSUInteger)index {
+  return [result giftsAtIndex:index];
+}
+- (StaticDataProto_Builder *)addGifts:(GiftProto*)value {
+  if (result.mutableGiftsList == nil) {
+    result.mutableGiftsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableGiftsList addObject:value];
+  return self;
+}
+- (StaticDataProto_Builder *)addAllGifts:(NSArray *)array {
+  if (result.mutableGiftsList == nil) {
+    result.mutableGiftsList = [NSMutableArray array];
+  }
+  [result.mutableGiftsList addObjectsFromArray:array];
+  return self;
+}
+- (StaticDataProto_Builder *)clearGifts {
+  result.mutableGiftsList = nil;
   return self;
 }
 - (NSMutableArray *)structureItemPricesList {

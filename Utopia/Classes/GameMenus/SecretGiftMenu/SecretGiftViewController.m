@@ -112,13 +112,21 @@
   }
   
   if (self.secretGift) {
-    [[OutgoingEventController sharedOutgoingEventController] redeemSecretGift:self.secretGift delegate:self];
+    BOOL requiresSpinner = self.secretGift.reward.typ == RewardProto_RewardTypeMonster || self.secretGift.reward.typ == RewardProto_RewardTypeReward;
     
-    self.spinner.hidden = NO;
-    [self.spinner startAnimating];
-    self.collectLabel.hidden = YES;
-    
-    _isSpinning = YES;
+    if (requiresSpinner) {
+      [[OutgoingEventController sharedOutgoingEventController] redeemSecretGift:self.secretGift delegate:self];
+      
+      self.spinner.hidden = NO;
+      [self.spinner startAnimating];
+      self.collectLabel.hidden = YES;
+      
+      _isSpinning = YES;
+    } else {
+      [[OutgoingEventController sharedOutgoingEventController] redeemSecretGift:self.secretGift delegate:nil];
+      
+      [self closeWithGiftCount:[self incrementGiftsCollected]];
+    }
   } else {
     [self close];
   }
@@ -128,19 +136,24 @@
   RedeemSecretGiftResponseProto *proto = (RedeemSecretGiftResponseProto *)fe.event;
   
   if (proto.status == RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess) {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSInteger giftsCollected = [defaults integerForKey:SECRET_GIFTS_ACCEPTED_KEY];
-    
-    giftsCollected++;
-    [defaults setInteger:giftsCollected forKey:SECRET_GIFTS_ACCEPTED_KEY];
     
     self.spinner.hidden = YES;
     self.collectLabel.hidden = NO;
     
-    [self closeWithGiftCount:giftsCollected];
+    [self closeWithGiftCount:[self incrementGiftsCollected]];
   } else {
     [self close];
   }
+}
+
+- (int) incrementGiftsCollected {
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  int giftsCollected = (int)[defaults integerForKey:SECRET_GIFTS_ACCEPTED_KEY];
+  
+  giftsCollected++;
+  [defaults setInteger:giftsCollected forKey:SECRET_GIFTS_ACCEPTED_KEY];
+  
+  return giftsCollected;
 }
 
 - (void) closeWithGiftCount:(NSInteger)giftsCollected {

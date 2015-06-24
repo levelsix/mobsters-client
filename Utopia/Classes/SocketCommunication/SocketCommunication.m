@@ -403,6 +403,7 @@ static NSString *udid = nil;
   
   if (mutableData.length) {
     [self.webSocket send:mutableData];
+    //[self.webSocket performSelector:@selector(send:) withObject:mutableData afterDelay:2.5f];
   }
 }
 
@@ -1765,20 +1766,21 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveStrengthLeaderBoardEvent];
 }
 
-- (int) sendCollectGiftMessage:(NSArray *)userClanGifts {
-  CollectGiftRequestProto *req = [[[[CollectGiftRequestProto builder]
-                                         setSender:[self senderWithMaxResources]]
-                                        addAllUgUuids:userClanGifts]
-                                       build];
+- (int) sendCollectGiftMessage:(NSArray *)userClanGifts clientTime:(uint64_t)clientTime {
+  CollectGiftRequestProto *req = [[[[[CollectGiftRequestProto builder]
+                                     setSender:[self senderWithMaxResources]]
+                                    addAllUgUuids:userClanGifts]
+                                   setClientTime:clientTime]
+                                  build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCCollectGiftEvent];
 }
 
 - (int) sendDeleteGiftsMessage:(NSArray *)userClanGifts {
   DeleteGiftRequestProto *req = [[[[DeleteGiftRequestProto builder]
-                                        setSender:_sender]
-                                       addAllExpiredGifts:userClanGifts]
-                                      build];
+                                   setSender:_sender]
+                                  addAllExpiredGifts:userClanGifts]
+                                 build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCDeleteGiftEvent];
 }

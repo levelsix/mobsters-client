@@ -3790,7 +3790,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendCollectGiftMessage:giftUuids];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendCollectGiftMessage:giftUuids clientTime:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   int gemReward = 0;
@@ -3814,6 +3814,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         gachaCredits += ucgp.reward.amt;
         break;
       case RewardProto_RewardTypeItem:
+        [gs.itemUtil incrementItemId:ucgp.reward.staticDataId quantity:ucgp.reward.amt];
+        break;
       case RewardProto_RewardTypeMonster:
         //item and monsters are updated on the response
       case RewardProto_RewardTypeNoReward:

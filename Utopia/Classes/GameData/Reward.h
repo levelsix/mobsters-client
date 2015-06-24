@@ -18,7 +18,8 @@ typedef enum {
   RewardTypeGachaToken,
   RewardTypeItem,
   RewardTypePvpLeague,
-  RewardTypeReward
+  RewardTypeReward,
+  RewardTypeGift
 } RewardType;
 
 @interface Reward : NSObject
@@ -43,7 +44,8 @@ typedef enum {
 @property (nonatomic, retain) Reward *innerReward;
 @property (nonatomic, assign) int rewardQuantity;
 
-@property (nonatomic, retain) GiftProto *gift;
+@property (nonatomic, assign) int giftId;
+@property (nonatomic, assign) int giftQuantity;
 
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto droplessStageNums:(NSArray *)droplessStageNums;
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto tillStage:(int)stageNum droplessStageNums:(NSArray *)droplessStageNums;

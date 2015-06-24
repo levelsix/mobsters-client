@@ -90,6 +90,7 @@
 @property (nonatomic, retain) NSMutableDictionary *staticPrerequisites;
 @property (nonatomic, retain) NSMutableDictionary *staticBoards;
 @property (nonatomic, retain) NSMutableDictionary *staticBattleItems;
+@property (nonatomic, retain) NSMutableDictionary *staticGifts;
 @property (nonatomic, retain) NSArray *persistentEvents;
 @property (nonatomic, retain) NSMutableDictionary *eventCooldownTimes;
 @property (nonatomic, retain) NSArray *staticClanIcons;
@@ -213,6 +214,7 @@
 - (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type;
 - (BoardLayoutProto *) boardWithId:(int)boardId;
 - (BattleItemProto *) battleItemWithId:(int)battleItemId;
+- (GiftProto *) giftWithId:(int)giftId;
 - (ResearchProto *) researchWithId:(int)researchId;
 
 - (void) unlockAllTasks;

@@ -46,6 +46,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticPrerequisites = [[NSMutableDictionary alloc] init];
     _staticBoards = [[NSMutableDictionary alloc] init];
     _staticBattleItems = [[NSMutableDictionary alloc] init];
+    _staticGifts = [[NSMutableDictionary alloc] init];
     _staticResearches = [[NSMutableDictionary alloc] init];
     _staticItemPrices = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
@@ -381,6 +382,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     return nil;
   }
   return [self getStaticDataFrom:_staticBattleItems withId:battleItemId];
+}
+
+- (GiftProto *) giftWithId:(int)giftId {
+  if (giftId == 0) {
+    [Globals popupMessage:@"Attempted to access battle item 0"];
+    return nil;
+  }
+  return [self getStaticDataFrom:_staticGifts withId:giftId];
 }
 
 - (ObstacleProto *) obstacleWithId:(int)obstacleId {
@@ -1306,6 +1315,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.staticBattleItems removeAllObjects];
   [self addToStaticBattleItems:proto.battleItemList];
   
+  [self.staticGifts removeAllObjects];
+  [self addToStaticGifts:proto.giftsList];
+  
   [self.staticObstacles removeAllObjects];
   [self addToStaticObstacles:proto.obstaclesList];
   
@@ -1410,6 +1422,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticBattleItems:(NSArray *)arr {
   for (BattleItemProto *p in arr) {
     [self.staticBattleItems setObject:p forKey:@(p.battleItemId)];
+  }
+}
+
+- (void) addToStaticGifts:(NSArray *)arr {
+  for (GiftProto *p in arr) {
+    [self.staticGifts setObject:p forKey:@(p.giftId)];
   }
 }
 

@@ -46,6 +46,14 @@
   [super viewWillAppear:animated];
   
   [self reloadTable];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTable) name:IAPS_RETRIEVED_NOTIFICATION object:nil];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Reloading list view

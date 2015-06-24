@@ -649,8 +649,9 @@ static float buttonInitialWidth = 159.f;
   
   NSString *rewardImageName = [reward imgName];
   NSString *rewardName = [reward name];
+  int quantity = [reward quantity];
   
-  self.giftRarityLabel.text = rewardName;
+  self.giftRarityLabel.text = [NSString stringWithFormat:@"%@%@", rewardName, quantity > 1 ? [NSString stringWithFormat:@" x %d", quantity] : @""];
   self.giftNameLabel.text = userGift.giftName;
   
   [self updateForExpireDate:userGift.expireDate];

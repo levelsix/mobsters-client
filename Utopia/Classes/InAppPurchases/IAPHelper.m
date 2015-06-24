@@ -53,6 +53,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   
   LNLog(@"Invalid product ids: %@", response.invalidProductIdentifiers);
   
+  [[NSNotificationCenter defaultCenter] postNotificationName:IAPS_RETRIEVED_NOTIFICATION object:nil];
+  
   //  if (response.products.count == 0) {
   //    [self requestProducts];
   //  }
