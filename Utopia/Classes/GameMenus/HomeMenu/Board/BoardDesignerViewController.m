@@ -17,10 +17,10 @@
 #define DEFAULT_BOARD_NUM_ROWS 9
 #define DEFAULT_BOARD_NUM_COLS 9
 
-static const int kTileWidth  = 33;
-static const int kTileHeight = 33;
-static const int kBoardMarginTop  = 15;
-static const int kBoardMarginLeft = 10;
+#define BOARD_TILE_WIDTH  ([Globals isiPad] ? 54 : 33)
+#define BOARD_TILE_HEIGHT ([Globals isiPad] ? 54 : 33)
+#define BOARD_MARGIN_LEFT ([Globals isiPad] ? 30 : 10)
+#define BOARD_MARGIN_TOP  15
 
 @implementation BoardDesignerViewController
 
@@ -28,7 +28,7 @@ static const int kBoardMarginLeft = 10;
 {
   [super viewDidLoad];
   
-  [self.containerView.layer setCornerRadius:5.f];
+  [self.containerView.layer setCornerRadius:POPUP_CORNER_RADIUS];
   [self.containerView setClipsToBounds:YES];
   
   if ([Globals isSmallestiPhone])
@@ -49,15 +49,15 @@ static const int kBoardMarginLeft = 10;
     [self.obstaclesScrollView setOriginX:self.obstaclesScrollView.originX - 1];
   }
   
-  UIImageView* descriptionCapLeft = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"obstaclesdescriptioncap.png"]];
+  UIImageView* descriptionCapLeft = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"obstaclesdescriptioncap.png"]];
   {
-    [descriptionCapLeft setFrame:CGRectMake(self.descriptionBgd.originX - 6, self.descriptionBgd.originY, 6, self.descriptionBgd.height)];
+    [descriptionCapLeft setFrame:CGRectMake(self.descriptionBgd.originX - descriptionCapLeft.width, self.descriptionBgd.originY, descriptionCapLeft.width, self.descriptionBgd.height)];
     [self.descriptionBgd.superview insertSubview:descriptionCapLeft belowSubview:self.descriptionBgd];
   }
   
-  UIImageView* descriptionCapRight = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"obstaclesdescriptioncap.png"]];
+  UIImageView* descriptionCapRight = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"obstaclesdescriptioncap.png"]];
   {
-    [descriptionCapRight setFrame:CGRectMake(CGRectGetMaxX(self.descriptionBgd.frame), self.descriptionBgd.originY, 6, self.descriptionBgd.height)];
+    [descriptionCapRight setFrame:CGRectMake(CGRectGetMaxX(self.descriptionBgd.frame), self.descriptionBgd.originY, descriptionCapRight.width, self.descriptionBgd.height)];
     [descriptionCapRight.layer setTransform:CATransform3DMakeScale(-1.f, 1.f, 1.f)];
     [self.descriptionBgd.superview insertSubview:descriptionCapRight belowSubview:self.descriptionBgd];
   }
@@ -70,15 +70,15 @@ static const int kBoardMarginLeft = 10;
     [self.descriptionBody setAttributedText:attributedString];
   }
   
-  UIImageView* progressBarCapLeft = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"obstaclespowerbarbgcap.png"]];
+  UIImageView* progressBarCapLeft = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"obstaclespowerbarbgcap.png"]];
   {
-    [progressBarCapLeft setFrame:CGRectMake(self.progressBarBgd.originX - 6, self.progressBarBgd.originY, 6, self.progressBarBgd.height)];
+    [progressBarCapLeft setFrame:CGRectMake(self.progressBarBgd.originX - progressBarCapLeft.width, self.progressBarBgd.originY, progressBarCapLeft.width, self.progressBarBgd.height)];
     [self.progressBarBgd.superview insertSubview:progressBarCapLeft belowSubview:self.progressBarBgd];
   }
   
-  UIImageView* progressBarCapRight = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"obstaclespowerbarbgcap.png"]];
+  UIImageView* progressBarCapRight = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"obstaclespowerbarbgcap.png"]];
   {
-    [progressBarCapRight setFrame:CGRectMake(CGRectGetMaxX(self.progressBarBgd.frame), self.progressBarBgd.originY, 6, self.progressBarBgd.height)];
+    [progressBarCapRight setFrame:CGRectMake(CGRectGetMaxX(self.progressBarBgd.frame), self.progressBarBgd.originY, progressBarCapRight.width, self.progressBarBgd.height)];
     [progressBarCapRight.layer setTransform:CATransform3DMakeScale(-1.f, 1.f, 1.f)];
     [self.progressBarBgd.superview insertSubview:progressBarCapRight belowSubview:self.progressBarBgd];
   }
@@ -112,7 +112,7 @@ static const int kBoardMarginLeft = 10;
   // size, the minimum long press duration is set to zero
   UILongPressGestureRecognizer* longPressGestureRecogzier = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     [longPressGestureRecogzier setDelegate:self];
-    [longPressGestureRecogzier setMinimumPressDuration:(self.obstaclesScrollView.contentSize.width > self.obstaclesScrollView.width) ? .1f : 0.f];
+    [longPressGestureRecogzier setMinimumPressDuration: /* (self.obstaclesScrollView.contentSize.width > self.obstaclesScrollView.width) ? .1f : */ 0.f];
     [self.obstaclesScrollView setGestureRecognizers:[self.obstaclesScrollView.gestureRecognizers arrayByAddingObjectsFromArray:@[ longPressGestureRecogzier ]]];
   // Gesture recognizer for detecting tap on obstacles on the board
   longPressGestureRecogzier = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
@@ -126,6 +126,7 @@ static const int kBoardMarginLeft = 10;
                                              object:nil];
   
   _draggingObstacle = NO;
+  
   [self focusOnObstacle:0];
 }
 
@@ -152,12 +153,12 @@ static const int kBoardMarginLeft = 10;
 
 - (IBAction) rightArrowClicked:(id)sender
 {
-  [self focusOnObstacle:_currObstacleFocusIndex+1];
+  [self focusOnObstacle:_currObstacleFocusIndex + 1];
 }
 
 - (IBAction) leftArrowClicked:(id)sender
 {
-  [self focusOnObstacle:_currObstacleFocusIndex-1];
+  [self focusOnObstacle:_currObstacleFocusIndex - 1];
 }
 
 - (void) focusOnObstacle:(int)obstacleIndex
@@ -178,8 +179,8 @@ static const int kBoardMarginLeft = 10;
     }];
   }
   
-  int obstaclesInView = [Globals isSmallestiPhone] ? 2 : 3;
-  if (obstacleIndex + obstaclesInView == [_obstacleViews count] && self.rightArrowButton.alpha) {
+  int obstaclesInView = [Globals isiPad] ? 6 : ([Globals isSmallestiPhone] ? 2 : 3);
+  if (obstacleIndex + obstaclesInView >= [_obstacleViews count] && self.rightArrowButton.alpha) {
     [self.rightArrowButton setEnabled:NO];
     [UIView animateWithDuration:0.3f animations:^{
       [self.rightArrowButton setAlpha:0];
@@ -205,9 +206,12 @@ static const int kBoardMarginLeft = 10;
 
 - (void) loadObstaclesInScrollView
 {
-  static const int kCellPadding = 5;
+  const int kCellPaddingX = [Globals isiPad] ? 10 : 5;
+  const int kCellPaddingY = 8;
   
-  UIImage* separatorImage = [UIImage imageNamed:@"popuplinevertical.png"];
+  UIImage* verticalSeparatorImage = [Globals imageNamed:@"popuplinevertical.png"];
+  UIImage* horizontalSeparatorImage = [Globals imageNamed:@"popupline.png"];
+  
   float obstacleViewOrigin = 0.f;
   int obstacleViewIndex = 0;
   
@@ -227,13 +231,40 @@ static const int kBoardMarginLeft = 10;
     [self.obstaclesScrollView addSubview:obstacleView];
     [_obstacleViews addObject:obstacleView];
     
-    if (++obstacleViewIndex < pvpBoardObstacles.count)
+    if ([Globals isiPad]) // Grid of 2x3 obstacles on iPad
     {
-      UIImageView* separator = [[UIImageView alloc] initWithImage:separatorImage];
-      [separator setFrame:CGRectMake(CGRectGetMaxX(obstacleView.frame) + kCellPadding, 0, 1, self.obstaclesScrollView.height)];
-      [self.obstaclesScrollView addSubview:separator];
+      if (obstacleViewIndex % 6 < 3)
+      {
+        UIImageView* separatorH = [[UIImageView alloc] initWithImage:horizontalSeparatorImage];
+        [separatorH setFrame:CGRectMake(obstacleView.originX, obstacleView.height + kCellPaddingY, obstacleView.width, 1)];
+        [self.obstaclesScrollView addSubview:separatorH];
+      }
+      else
+        [obstacleView setOriginY:obstacleView.height + kCellPaddingY * 2];
       
-      obstacleViewOrigin = separator.originX + kCellPadding;
+      if (obstacleViewIndex % 3 != 2)
+      {
+        UIImageView* separatorV = [[UIImageView alloc] initWithImage:verticalSeparatorImage];
+        [separatorV setFrame:CGRectMake(CGRectGetMaxX(obstacleView.frame) + kCellPaddingX, obstacleView.originY, 1, obstacleView.height)];
+        [self.obstaclesScrollView addSubview:separatorV];
+        
+        obstacleViewOrigin = separatorV.originX + kCellPaddingX;
+      }
+      else
+        obstacleViewOrigin = 0.f;
+      
+      ++obstacleViewIndex;
+    }
+    else // Single row of obstacles on other devices
+    {
+      if (++obstacleViewIndex < pvpBoardObstacles.count)
+      {
+        UIImageView* separator = [[UIImageView alloc] initWithImage:verticalSeparatorImage];
+        [separator setFrame:CGRectMake(CGRectGetMaxX(obstacleView.frame) + kCellPaddingX, 0, 1, self.obstaclesScrollView.height)];
+        [self.obstaclesScrollView addSubview:separator];
+        
+        obstacleViewOrigin = separator.originX + kCellPaddingX;
+      }
     }
   }
   
@@ -243,15 +274,15 @@ static const int kBoardMarginLeft = 10;
 - (void) buildBoardWithRows:(int)rows andColumns:(int)cols
 {
   _boardSize = CGSizeMake(cols, rows);
-  const CGSize boardBounds = CGSizeMake(kTileWidth * cols, kTileHeight * rows);
+  const CGSize boardBounds = CGSizeMake(BOARD_TILE_WIDTH * cols, BOARD_TILE_HEIGHT * rows);
   
   // Create board container
-  _boardContainer = [[TouchableSubviewsView alloc] initWithFrame:CGRectMake(self.mainView.width + kBoardMarginLeft,
-                                                                            kBoardMarginTop * .5f + (self.mainView.height - boardBounds.height) * .5f,
+  _boardContainer = [[TouchableSubviewsView alloc] initWithFrame:CGRectMake(self.mainView.width + BOARD_MARGIN_LEFT,
+                                                                            BOARD_MARGIN_TOP * .5f + (self.mainView.height - boardBounds.height) * .5f,
                                                                             boardBounds.width,
                                                                             boardBounds.height)];
   [_boardContainer setBackgroundColor:[UIColor clearColor]];
-  [self.mainView setWidth:self.mainView.width + kBoardMarginLeft + boardBounds.width];
+  [self.mainView setWidth:self.mainView.width + BOARD_MARGIN_LEFT + boardBounds.width];
   [self.mainView addSubview:_boardContainer];
   
   // Create tiles
@@ -261,7 +292,7 @@ static const int kBoardMarginLeft = 10;
     [_boardTiles addObject:[NSMutableArray array]];
     for (int col = 0; col < cols; ++col)
     {
-      BoardDesignerTile* tile = [[BoardDesignerTile alloc] initWithFrame:CGRectMake(col * kTileWidth, row * kTileHeight, kTileWidth, kTileHeight)
+      BoardDesignerTile* tile = [[BoardDesignerTile alloc] initWithFrame:CGRectMake(col * BOARD_TILE_WIDTH, row * BOARD_TILE_HEIGHT, BOARD_TILE_WIDTH, BOARD_TILE_HEIGHT)
                                                            darkBaseColor:((row + col) % 2 == 0)];
       [_boardContainer addSubview:tile];
       [[_boardTiles objectAtIndex:row] addObject:tile];
@@ -306,7 +337,7 @@ static const int kBoardMarginLeft = 10;
           col >= 0 && col < DEFAULT_BOARD_NUM_COLS)
       {
         BoardDesignerTile* tile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
-        [tile addObstacle:obstacleProto withImage:[UIImage imageNamed:[BoardDesignerObstacleView imageForObstacleProto:obstacleProto]]];
+        [tile addObstacle:obstacleProto withImage:[Globals imageNamed:[BoardDesignerObstacleView imageForObstacleProto:obstacleProto]]];
         
         if (obstacleProto.obstacleType == BoardObstacleTypeHole)
           [[self tilesSurroundingAndIncludingTileAtRow:row andColumn:col] makeObjectsPerformSelector:@selector(updateBorders)];
@@ -468,8 +499,8 @@ static const int kBoardMarginLeft = 10;
       CGPoint localPoint = [self.view convertPoint:point toView:_boardContainer];
       if ([_boardContainer pointInside:localPoint withEvent:nil])
       {
-        const int row = floorf(localPoint.y / kTileHeight);
-        const int col = floorf(localPoint.x / kTileWidth);
+        const int row = floorf(localPoint.y / BOARD_TILE_HEIGHT);
+        const int col = floorf(localPoint.x / BOARD_TILE_WIDTH);
         
         BoardDesignerTile* targetTile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
         localPoint = [self.view convertPoint:point toView:targetTile];
@@ -510,6 +541,11 @@ static const int kBoardMarginLeft = 10;
               draggedObstacleAnchorPoint = CGPointMake(localPoint.x / obstacleView.obstacleImageView.width, localPoint.y / obstacleView.obstacleImageView.height);
               
               _dragOriginatedFromBoard = NO;
+              
+              /*
+              // Valid drag gesture detected; disable scrolling
+              [self.obstaclesScrollView setScrollEnabled:NO];
+               */
             }
             else
             {
@@ -553,8 +589,8 @@ static const int kBoardMarginLeft = 10;
       CGPoint localPoint = [self.view convertPoint:point toView:_boardContainer];
       if ([_boardContainer pointInside:localPoint withEvent:nil])
       {
-        int row = floorf(localPoint.y / kTileHeight);
-        int col = floorf(localPoint.x / kTileWidth);
+        int row = floorf(localPoint.y / BOARD_TILE_HEIGHT);
+        int col = floorf(localPoint.x / BOARD_TILE_WIDTH);
         
         BoardDesignerTile* targetTile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
         if ([targetTile canAcceptObstacle] || _dragOriginatedFromBoard)
@@ -566,8 +602,8 @@ static const int kBoardMarginLeft = 10;
           if (![targetTile canAcceptObstacle])
           {
             localPoint = [self.view convertPoint:_dragOrigin toView:_boardContainer];
-            row = floorf(localPoint.y / kTileHeight);
-            col = floorf(localPoint.x / kTileWidth);
+            row = floorf(localPoint.y / BOARD_TILE_HEIGHT);
+            col = floorf(localPoint.x / BOARD_TILE_WIDTH);
             targetTile = [[_boardTiles objectAtIndex:row] objectAtIndex:col];
           }
           
@@ -638,6 +674,11 @@ static const int kBoardMarginLeft = 10;
       }
       
       _draggingObstacle = NO;
+      
+      /*
+       // Drag gesture ended; re-enable scrolling
+       [self.obstaclesScrollView setScrollEnabled:YES];
+       */
     }
   }
 }
