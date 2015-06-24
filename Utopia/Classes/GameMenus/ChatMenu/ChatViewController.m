@@ -98,6 +98,8 @@
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
   
+  [self updateAvatarIcons];
+  
   [[GameViewController baseController] clearTutorialArrows];
 }
 
@@ -136,6 +138,13 @@
   self.updateTimer = nil;
   
 //  [[GameViewController baseController] showEarlyGameTutorialArrow];
+}
+
+- (void) updateAvatarIcons {
+  GameState *gs = [GameState sharedGameState];
+  [self.globalChatView.monsterView updateForMonsterId:gs.avatarMonsterId];
+  [self.clanChatView.monsterView updateForMonsterId:gs.avatarMonsterId];
+  [self.privateChatView.monsterView updateForMonsterId:gs.avatarMonsterId];
 }
 
 - (void) updateLabels {
@@ -531,10 +540,54 @@
   }
 }
 
+#pragma mark Avatar Chooser Delegate
+
+- (IBAction)avatarClicked:(id)sender {
+  
+  MonsterSelectViewController *svc = [[MonsterSelectViewController alloc] init];
+  if (svc) {
+    self.monsterSelectViewController = svc;
+    
+    AvatarMonstersFiller *td = [[AvatarMonstersFiller alloc] init];
+    svc.delegate = td;
+    td.delegate = self;
+    self.avatarMonstersFiller = td;
+    
+    GameViewController *gvc = [GameViewController baseController];
+    svc.view.frame = gvc.view.bounds;
+    [gvc addChildViewController:svc];
+    [gvc.view addSubview:svc.view];
+    
+    // Make sure whole chat is in the view
+    UITableViewCell *cell = [sender getAncestorInViewHierarchyOfType:[UITableViewCell class]];
+    [self.clanChatView.chatTable scrollToRowAtIndexPath:[self.clanChatView.chatTable indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionNone animated:NO];
+    
+    if (sender == nil)
+    {
+      [svc showCenteredOnScreen];
+    }
+    else
+    {
+      if ([sender isKindOfClass:[UIButton class]])
+      {
+        UIButton* invokingButton = (UIButton*)sender;
+        [svc showAnchoredToInvokingView:invokingButton
+                          withDirection:ViewAnchoringPreferRightPlacement
+                      inkovingViewImage:[invokingButton imageForState:invokingButton.state]];
+      }
+    }
+  }
+}
+
+- (void) avatarMonsterChosen {
+  [self updateAvatarIcons];
+}
+
 - (void) monsterSelectClosed {
   self.clanChatView.allowAutoScroll = YES;
   self.monsterSelectViewController = nil;
   self.teamDonateMonstersFiller = nil;
+  self.avatarMonstersFiller = nil;
 }
 
 @end

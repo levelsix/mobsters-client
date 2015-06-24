@@ -41,6 +41,7 @@
 
 @property (nonatomic, strong) FullUserProto *fup;
 @property (nonatomic, copy) NSArray *curTeam;
+@property (nonatomic, strong) ResearchUtil *researchUtil;
 
 - (id)initWithUserUuid:(NSString *)userUuid;
 - (id)initWithFullUserProto:(FullUserProto *)fup andCurrentTeam:(NSArray *)curTeam;

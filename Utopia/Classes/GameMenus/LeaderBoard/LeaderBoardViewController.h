@@ -25,7 +25,7 @@
 @interface LeaderBoardViewCell : UITableViewCell
 
 - (void)updateWithLeaderBoardObject:(id<LeaderBoardObject>)leaderInfo scoreIcon:(NSString *)scoreIcon;
-- (void) updateWithRank:(int)rank score:(long)score userName:(NSString *)userName scoreIcon:(NSString *)scoreIcon;
+- (void) updateWithRank:(int)rank score:(uint64_t)score userName:(NSString *)userName scoreIcon:(NSString *)scoreIcon;
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rankLabel;
@@ -44,7 +44,7 @@
   id<LeaderBoardObject> _clickedLeader;
   int _highestRankShown;
   int _highestRankToShow;
-  long _ownScore;
+  uint64_t _ownScore;
   BOOL _moreScoresAvailable;
   BOOL _waitingOnServer;
 }

@@ -14,7 +14,7 @@
   return self.mup.name;
 }
 
-- (long) score {
+- (uint64_t) score {
   return self.strength;
 }
 

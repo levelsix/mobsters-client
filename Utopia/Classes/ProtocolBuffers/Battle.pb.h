@@ -8,6 +8,8 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class AllUserResearchProto;
+@class AllUserResearchProto_Builder;
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
 @class BattleReplayProto;

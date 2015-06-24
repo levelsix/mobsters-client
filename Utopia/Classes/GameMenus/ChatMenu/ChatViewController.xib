@@ -449,6 +449,17 @@
                                                                     <rect key="frame" x="1" y="2" width="28" height="28"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oMo-KK-YZA" customClass="MaskedButton">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <state key="normal">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="avatarClicked:" destination="-1" eventType="touchUpInside" id="Po7-ye-utl"/>
+                                                                        <outlet property="baseImage" destination="hqQ-d6-qM2" id="4Vb-F9-V3p"/>
+                                                                    </connections>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <connections>
@@ -702,6 +713,17 @@
                                                     <rect key="frame" x="1" y="2" width="28" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PTi-Yx-o7u" customClass="MaskedButton">
+                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="avatarClicked:" destination="-1" eventType="touchUpInside" id="adR-kj-XD9"/>
+                                                        <outlet property="baseImage" destination="hqQ-d6-qM2" id="z5U-93-yYK"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <connections>
@@ -925,48 +947,6 @@
                             </subviews>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
-                        <view hidden="YES" contentMode="scaleToFill" id="07P-m8-SNq">
-                            <rect key="frame" x="0.0" y="185" width="452" height="66"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="adminchatbar.png" id="dwd-Xu-8IV">
-                                    <rect key="frame" x="0.0" y="0.0" width="453" height="63"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="enhancesquirrel.png" id="rNn-Gu-rkB">
-                                    <rect key="frame" x="0.0" y="-9" width="94" height="72"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="IRu-l4-ekP">
-                                    <rect key="frame" x="154" y="27" width="143" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" backgroundImage="adminbutton.png">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="adminChatClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="DXJ-mp-ERI"/>
-                                    </connections>
-                                </button>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="TALK TO AN ADMIN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zTA-NY-cTi" customClass="NiceFontLabel10">
-                                    <rect key="frame" x="174" y="29" width="105" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                    <color key="textColor" red="0.090196078431372548" green="0.27058823529411763" blue="0.38039215686274508" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.48258547066454049" green="0.92873989105618948" blue="0.98027451657458564" alpha="0.70000000000000007" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Give us feedback, tell us about a bug..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6VI-Rp-1ec" customClass="NiceFontLabel12">
-                                    <rect key="frame" x="59" y="-4" width="334" height="37"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no private chats." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="TP2-Wx-Cu3" customClass="NiceFontLabel7">
                             <rect key="frame" x="48" y="75" width="355" height="102"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -1043,6 +1023,17 @@
                                                     <rect key="frame" x="1" y="2" width="28" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nwf-3A-lrs" customClass="MaskedButton">
+                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="avatarClicked:" destination="-1" eventType="touchUpInside" id="p9E-dh-rXi"/>
+                                                        <outlet property="baseImage" destination="hqQ-d6-qM2" id="Wsl-Vh-CPa"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <connections>
@@ -1397,8 +1388,6 @@
     </objects>
     <resources>
         <image name="activelanguageflag.png" width="36" height="26"/>
-        <image name="adminbutton.png" width="143" height="30"/>
-        <image name="adminchatbar.png" width="453" height="63"/>
         <image name="badgeicon.png" width="18" height="18"/>
         <image name="bluesmallbutton.png" width="68" height="30"/>
         <image name="chatactivemiddle.png" width="83" height="28"/>
@@ -1424,7 +1413,6 @@
         <image name="chattranslatoredge.png" width="8" height="105"/>
         <image name="chattranslatormiddle.png" width="1" height="105"/>
         <image name="closepopupx.png" width="25" height="26"/>
-        <image name="enhancesquirrel.png" width="94" height="72"/>
         <image name="flagarabic.png" width="31" height="21"/>
         <image name="flagenglish.png" width="31" height="21"/>
         <image name="flagfrench.png" width="31" height="21"/>

@@ -11,6 +11,8 @@
 #import "UserData.h"
 #import "NibUtils.h"
 
+NSMutableAttributedString *attributedStringWithResearchChange(int total, int base);
+
 @interface MonsterPopUpResearchView : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *researchIcon;

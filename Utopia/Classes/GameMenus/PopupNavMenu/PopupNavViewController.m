@@ -44,7 +44,8 @@
 - (void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   
-  if ([self shouldStopCCDirector]) {
+  // Have to do second check in case we're coming from background and top bar sends viewDidAppera before the view controller has been removed
+  if ([self shouldStopCCDirector] && !self.mainView.layer.animationKeys.count) {
     [[CCDirector sharedDirector] pause];
   }
 }

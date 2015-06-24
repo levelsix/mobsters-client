@@ -79,7 +79,7 @@
 @implementation DetailsStrengthView
 
 - (void) updateWithStrenght:(int)strength showPlus:(BOOL)showPlus{
-  self.strengthLabel.text = [NSString stringWithFormat:@"%@%d",showPlus ? @"+":@"",strength];
+  self.strengthLabel.text = [NSString stringWithFormat:@"%@%@",showPlus ? @"+":@"", [Globals commafyNumber:strength]];
 }
 
 @end

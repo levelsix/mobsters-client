@@ -33,14 +33,20 @@
   [self.listView reloadTableAnimated:animated listObjects:self.monsters];
   
   self.titleLabel.text = [self.delegate titleName];
-  self.footerTitleLabel.text = [self.delegate footerTitle];
   
-  NSString *desc = [self.delegate footerDescription];
-  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-  [paragraphStyle setLineSpacing:3];
-  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:desc];
-  [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, desc.length)];
-  self.footerDescLabel.attributedText = attributedString;
+  if ([self.delegate respondsToSelector:@selector(footerTitle)] &&
+      [self.delegate respondsToSelector:@selector(footerDescription)]) {
+    self.footerTitleLabel.text = [self.delegate footerTitle];
+    
+    NSString *desc = [self.delegate footerDescription];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:3];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:desc];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, desc.length)];
+    self.footerDescLabel.attributedText = attributedString;
+  } else {
+    self.footerTitleLabel.superview.hidden = YES;
+  }
   
 }
 

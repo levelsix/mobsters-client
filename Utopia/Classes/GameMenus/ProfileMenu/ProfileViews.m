@@ -11,6 +11,7 @@
 #import "Protocols.pb.h"
 #import "GameState.h"
 #import "Globals.h"
+#import "MonsterPopUpViewController.h"
 
 @implementation ProfileMonsterTeamView
 
@@ -60,9 +61,17 @@
   [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  self.attackLabel.text = [Globals commafyNumber:[gl calculateBaseTotalDamageForMonster:um]];
-  self.hpLabel.text = [Globals commafyNumber:[gl calculateBaseMaxHealthForMonster:um]];
-  self.speedLabel.text = [Globals commafyNumber:um.speed];
+  int atk = [gl calculateTotalDamageForMonster:um];
+  int baseAtk = [gl calculateBaseTotalDamageForMonster:um];
+  self.attackLabel.attributedText = attributedStringWithResearchChange(atk, baseAtk);
+  
+  int speed = [gl calculateSpeedForMonster:um];
+  int baseSpeed = [gl calculateBaseSpeedForMonster:um];
+  self.speedLabel.attributedText = attributedStringWithResearchChange(speed, baseSpeed);
+  
+  int maxHealth = [gl calculateMaxHealthForMonster:um];
+  int baseHealth = [gl calculateBaseMaxHealthForMonster:um];
+  self.hpLabel.attributedText = attributedStringWithResearchChange(maxHealth, baseHealth);
 }
 
 @end

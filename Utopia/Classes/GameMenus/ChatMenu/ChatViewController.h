@@ -13,6 +13,7 @@
 
 #import "MonsterSelectViewController.h"
 #import "TeamDonateMonstersFiller.h"
+#import "AvatarMonstersFiller.h"
 #import "ChatView.h"
 
 @interface ChatMainView : PopupShadowView
@@ -28,7 +29,7 @@
 
 @end
 
-@interface ChatViewController : UIViewController <TabBarDelegate, UITextFieldDelegate, TeamDonateMonstersFillerDelegate, ChatViewDelegate> {
+@interface ChatViewController : UIViewController <TabBarDelegate, UITextFieldDelegate, TeamDonateMonstersFillerDelegate, AvatarMonstersFillerDelegate, ChatViewDelegate> {
   BOOL _passedThreshold;
   
   NSString *_muteUserUuid;
@@ -61,6 +62,7 @@
 
 @property (nonatomic, retain) MonsterSelectViewController *monsterSelectViewController;
 @property (nonatomic, retain) TeamDonateMonstersFiller *teamDonateMonstersFiller;
+@property (nonatomic, retain) AvatarMonstersFiller *avatarMonstersFiller;
 
 - (void) openWithConversationForUserUuid:(NSString *)userUuid name:(NSString *)name;
 

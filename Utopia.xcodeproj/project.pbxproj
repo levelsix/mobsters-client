@@ -121,6 +121,18 @@
 		291A71EF1AEEEBDF00514D80 /* ReconnectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291A71EB1AEEEBDF00514D80 /* ReconnectViewController.xib */; };
 		291A71F01AEEEBDF00514D80 /* ReconnectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291A71EB1AEEEBDF00514D80 /* ReconnectViewController.xib */; };
 		291A71F11AEEEBDF00514D80 /* ReconnectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291A71EB1AEEEBDF00514D80 /* ReconnectViewController.xib */; };
+		291E98261B3B40F6004F83AC /* SoloSaleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 291E98241B3B40F6004F83AC /* SoloSaleViewController.m */; };
+		291E98271B3B40F6004F83AC /* SoloSaleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 291E98241B3B40F6004F83AC /* SoloSaleViewController.m */; };
+		291E98281B3B40F6004F83AC /* SoloSaleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 291E98241B3B40F6004F83AC /* SoloSaleViewController.m */; };
+		291E98291B3B40F6004F83AC /* SoloSaleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291E98251B3B40F6004F83AC /* SoloSaleViewController.xib */; };
+		291E982A1B3B40F6004F83AC /* SoloSaleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291E98251B3B40F6004F83AC /* SoloSaleViewController.xib */; };
+		291E982B1B3B40F6004F83AC /* SoloSaleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291E98251B3B40F6004F83AC /* SoloSaleViewController.xib */; };
+		291E982E1B3B6DE6004F83AC /* AvatarMonstersFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 291E982D1B3B6DE6004F83AC /* AvatarMonstersFiller.m */; };
+		291E982F1B3B6DE6004F83AC /* AvatarMonstersFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 291E982D1B3B6DE6004F83AC /* AvatarMonstersFiller.m */; };
+		291E98301B3B6DE6004F83AC /* AvatarMonstersFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = 291E982D1B3B6DE6004F83AC /* AvatarMonstersFiller.m */; };
+		291E98321B3B6F55004F83AC /* AvatarMonsterSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291E98311B3B6F55004F83AC /* AvatarMonsterSelectCell.xib */; };
+		291E98331B3B6F55004F83AC /* AvatarMonsterSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291E98311B3B6F55004F83AC /* AvatarMonsterSelectCell.xib */; };
+		291E98341B3B6F55004F83AC /* AvatarMonsterSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291E98311B3B6F55004F83AC /* AvatarMonsterSelectCell.xib */; };
 		292217C51B1CF3C200DED202 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217C41B1CF3C200DED202 /* libicucore.dylib */; };
 		292217C61B1CF3CB00DED202 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217C41B1CF3C200DED202 /* libicucore.dylib */; };
 		292217C71B1CF3D300DED202 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217C41B1CF3C200DED202 /* libicucore.dylib */; };
@@ -7128,6 +7140,12 @@
 		291A71E91AEEEBDF00514D80 /* ReconnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReconnectViewController.h; sourceTree = "<group>"; };
 		291A71EA1AEEEBDF00514D80 /* ReconnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReconnectViewController.m; sourceTree = "<group>"; };
 		291A71EB1AEEEBDF00514D80 /* ReconnectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReconnectViewController.xib; sourceTree = "<group>"; };
+		291E98231B3B40F6004F83AC /* SoloSaleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloSaleViewController.h; sourceTree = "<group>"; };
+		291E98241B3B40F6004F83AC /* SoloSaleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoloSaleViewController.m; sourceTree = "<group>"; };
+		291E98251B3B40F6004F83AC /* SoloSaleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SoloSaleViewController.xib; sourceTree = "<group>"; };
+		291E982C1B3B6DE6004F83AC /* AvatarMonstersFiller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvatarMonstersFiller.h; sourceTree = "<group>"; };
+		291E982D1B3B6DE6004F83AC /* AvatarMonstersFiller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvatarMonstersFiller.m; sourceTree = "<group>"; };
+		291E98311B3B6F55004F83AC /* AvatarMonsterSelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AvatarMonsterSelectCell.xib; sourceTree = "<group>"; };
 		292217C41B1CF3C200DED202 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialoguebubble@2x.png"; sourceTree = "<group>"; };
 		292771371A71A52A00E3AB65 /* tutorialbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbackground@2x.png"; sourceTree = "<group>"; };
@@ -11180,6 +11198,16 @@
 			name = Top;
 			sourceTree = "<group>";
 		};
+		291E98221B3B4099004F83AC /* SoloSale */ = {
+			isa = PBXGroup;
+			children = (
+				291E98231B3B40F6004F83AC /* SoloSaleViewController.h */,
+				291E98241B3B40F6004F83AC /* SoloSaleViewController.m */,
+				291E98251B3B40F6004F83AC /* SoloSaleViewController.xib */,
+			);
+			name = SoloSale;
+			sourceTree = "<group>";
+		};
 		2933DC1B1ADFA808005D7620 /* Sales Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -11232,6 +11260,7 @@
 		2933DC7F1ADFA836005D7620 /* Sales */ = {
 			isa = PBXGroup;
 			children = (
+				291E98221B3B4099004F83AC /* SoloSale */,
 				2933DC8C1ADFA836005D7620 /* SalesMenuDelegate.h */,
 				2933DCB11ADFA83A005D7620 /* Main */,
 				2933DCB31ADFA848005D7620 /* Gem Packages */,
@@ -12564,6 +12593,9 @@
 		2991FC0B1A8014AE009BB1D8 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
+				291E982C1B3B6DE6004F83AC /* AvatarMonstersFiller.h */,
+				291E982D1B3B6DE6004F83AC /* AvatarMonstersFiller.m */,
+				291E98311B3B6F55004F83AC /* AvatarMonsterSelectCell.xib */,
 				2991FC0D1A806287009BB1D8 /* TeamDonateMonstersFiller.h */,
 				2991FC0E1A806287009BB1D8 /* TeamDonateMonstersFiller.m */,
 				2991FC071A8012F8009BB1D8 /* TeamDonateMonsterSelectCell.xib */,
@@ -18398,6 +18430,7 @@
 				CF0CEFDF196F452900ECD301 /* sfx_piece_fall_01.mp3 in Resources */,
 				29AA13B61A35916E004A9F22 /* battleinputmessage@2x.png in Resources */,
 				CFA793531A0C33BF00DF3407 /* rockeventbg@2x.png in Resources */,
+				291E982A1B3B40F6004F83AC /* SoloSaleViewController.xib in Resources */,
 				29AF48C91AAA93DA0034927C /* itembagtopmiddle@2x.png in Resources */,
 				634174931A843521006DA494 /* revengebutton@2x.png in Resources */,
 				CF0CEFE5196F452900ECD301 /* arrowlight@2x.png in Resources */,
@@ -19145,6 +19178,7 @@
 				CF0CF3D3196F452900ECD301 /* healingmiddle@2x.png in Resources */,
 				CF0CF3D5196F452900ECD301 /* facebookmenuoption@2x.png in Resources */,
 				299AA3131A7856AA00A2D806 /* 6earthpoison-9@2x.png in Resources */,
+				291E98331B3B6F55004F83AC /* AvatarMonsterSelectCell.xib in Resources */,
 				6B5146851AA1487100B2844A /* 6earthlsorb-9@2x.png in Resources */,
 				9B41AF781A82DA7E00529879 /* menuultimategrab@2x.png in Resources */,
 				CF0CF3DB196F452900ECD301 /* mjadditionalbg@2x.png in Resources */,
@@ -20391,6 +20425,7 @@
 				29AE759C1A6F36E000264070 /* TribalGirl1T1P4TutBig@2x.png in Resources */,
 				63B0450F1A92BAD600C74F0C /* beenattackedheader@2x.png in Resources */,
 				63959DFA1B0AB31500E5E302 /* TangoFriendViewCell.xib in Resources */,
+				291E98321B3B6F55004F83AC /* AvatarMonsterSelectCell.xib in Resources */,
 				9BB9484D1A65D386006EE920 /* gooniegrabinactivetabpressed@2x.png in Resources */,
 				9BB9489C1A69EADF006EE920 /* grlightcircle1@2x.png in Resources */,
 				291A71EF1AEEEBDF00514D80 /* ReconnectViewController.xib in Resources */,
@@ -20766,6 +20801,7 @@
 				CFEE897B18EA0ED200047CA4 /* taskbarbg@2x.png in Resources */,
 				CF32EAFC1960ABF000A4AEE3 /* BuildingCardCell.xib in Resources */,
 				DAF3373119C9149400AF03D4 /* bombskillexplosion.plist in Resources */,
+				291E98291B3B40F6004F83AC /* SoloSaleViewController.xib in Resources */,
 				4C16FEF019CE03A200F9FC1E /* poisonplayer@2x.png in Resources */,
 				29AF489C1AAA8F820034927C /* buildingeditboard@2x.png in Resources */,
 				CFA793891A0C63ED00DF3407 /* firescientisteventlive@2x.png in Resources */,
@@ -22848,6 +22884,7 @@
 				CF481FB219F7217F00041486 /* OilDrillT1@2x.pvr.ccz in Resources */,
 				CF481FB319F7217F00041486 /* queststars@2x.plist in Resources */,
 				CF481FB519F7217F00041486 /* mediumdivider@2x.png in Resources */,
+				291E982B1B3B40F6004F83AC /* SoloSaleViewController.xib in Resources */,
 				CF481FB619F7217F00041486 /* congratulationsrankup@2x.png in Resources */,
 				6B1EAA781ACF5DCC00E0B642 /* VinesUp@2x.plist in Resources */,
 				CF481FB819F7217F00041486 /* chatmiddle@2x.png in Resources */,
@@ -23279,6 +23316,7 @@
 				9BDA8C291A5DEA9900C7AC27 /* gachabg@2x.png in Resources */,
 				CF48221419F7217F00041486 /* earthsmallsquare@2x.png in Resources */,
 				9BDA8C5F1A60B60200C7AC27 /* gachainactivedot@2x.png in Resources */,
+				291E98341B3B6F55004F83AC /* AvatarMonsterSelectCell.xib in Resources */,
 				CF48221519F7217F00041486 /* battledoneorange@2x.png in Resources */,
 				9B7AAB501AC0CDE300CA387F /* maptaskdonecheck@2x.png in Resources */,
 				CF48221919F7217F00041486 /* sellbubble1@2x.png in Resources */,
@@ -24292,6 +24330,7 @@
 				CFA8B1AE19EB789F00CF6BFD /* ChatObject.m in Sources */,
 				9BCAA19F1AD4A5D50059CEDA /* Sales.pb.m in Sources */,
 				CF0CED9B196F452900ECD301 /* SettingsSubViewController.m in Sources */,
+				291E982F1B3B6DE6004F83AC /* AvatarMonstersFiller.m in Sources */,
 				DA88EB3F19B93542005EE827 /* SkillPopupOverlay.m in Sources */,
 				9B9BA8081A73367B001B7D04 /* SkillLifeSteal.m in Sources */,
 				CF0CED9C196F452900ECD301 /* TopBarViewController.m in Sources */,
@@ -24353,6 +24392,7 @@
 				9B41AF451A8058FC00529879 /* SkillEnergize.m in Sources */,
 				CF0CEDCA196F452900ECD301 /* BoosterPackStuff.pb.m in Sources */,
 				CF0CEDCB196F452900ECD301 /* PopupSubViewController.m in Sources */,
+				291E98271B3B40F6004F83AC /* SoloSaleViewController.m in Sources */,
 				CF0CEDCC196F452900ECD301 /* Battle.pb.m in Sources */,
 				CFA8B1BE19EF5D6600CF6BFD /* ChartboostDelegate.m in Sources */,
 				9B0E6E5E1A77087000118210 /* SkillBlindingLight.m in Sources */,
@@ -24618,6 +24658,7 @@
 				CF746131196A0D04002D6AE6 /* TutorialShopViewController.m in Sources */,
 				633CCADD1AA139E900C6649F /* ResearchViewController.m in Sources */,
 				CF689C1C15C3B89400F2E50E /* SBJsonBase.m in Sources */,
+				291E98261B3B40F6004F83AC /* SoloSaleViewController.m in Sources */,
 				9BB5AF991AA7B6AA002076E3 /* BoardDesignerObstacleView.m in Sources */,
 				CF689C1D15C3B89400F2E50E /* SBJsonParser.m in Sources */,
 				CF37660A1832CDA600D0A77E /* DialogueViewController.m in Sources */,
@@ -24779,6 +24820,7 @@
 				9B2EFDCB1AD36CF3005B7B83 /* SpriteAnimationImageView.m in Sources */,
 				CF6574B31909CAF200ABF1F4 /* EventInAppPurchase.pb.m in Sources */,
 				CFF3907C1828BB810010A3BE /* RequestsViewController.m in Sources */,
+				291E982E1B3B6DE6004F83AC /* AvatarMonstersFiller.m in Sources */,
 				CF52D0AD17EA3E7D00A067A6 /* BattleViews.m in Sources */,
 				2987083A1AC3415D002BFF2E /* ResearchUtil.m in Sources */,
 				CF29E9121960E85100B40DA4 /* BuildingViews.m in Sources */,
@@ -25059,6 +25101,7 @@
 				CF48194619F7217F00041486 /* CAKeyframeAnimation+AHEasing.m in Sources */,
 				9BCAA1A01AD4A5D50059CEDA /* Sales.pb.m in Sources */,
 				CF48194719F7217F00041486 /* ChatObject.m in Sources */,
+				291E98301B3B6DE6004F83AC /* AvatarMonstersFiller.m in Sources */,
 				CF48194819F7217F00041486 /* SettingsSubViewController.m in Sources */,
 				CF48194919F7217F00041486 /* SkillPopupOverlay.m in Sources */,
 				9B9BA8091A73367B001B7D04 /* SkillLifeSteal.m in Sources */,
@@ -25120,6 +25163,7 @@
 				9B41AF461A8058FC00529879 /* SkillEnergize.m in Sources */,
 				CF48197819F7217F00041486 /* BoosterPackStuff.pb.m in Sources */,
 				CF48197919F7217F00041486 /* PopupSubViewController.m in Sources */,
+				291E98281B3B40F6004F83AC /* SoloSaleViewController.m in Sources */,
 				CF48197A19F7217F00041486 /* Battle.pb.m in Sources */,
 				CF48197B19F7217F00041486 /* ChartboostDelegate.m in Sources */,
 				9B0E6E5F1A77087000118210 /* SkillBlindingLight.m in Sources */,
@@ -25405,8 +25449,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

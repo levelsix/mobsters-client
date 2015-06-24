@@ -7,6 +7,8 @@
 
 @class AchievementProto;
 @class AchievementProto_Builder;
+@class AllUserResearchProto;
+@class AllUserResearchProto_Builder;
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
 @class BattleItemProto;

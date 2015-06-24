@@ -58,6 +58,14 @@
   RetrieveUsersForUserIdsResponseProto *proto = (RetrieveUsersForUserIdsResponseProto *)fe.event;
   self.fup = [proto.requestedUsersList lastObject];
   self.curTeam = [[Globals convertUserTeamArrayToDictionary:proto.curTeamList] objectForKey:self.fup.userUuid];
+  
+  AllUserResearchProto *researchList = [proto.userResearchList lastObject];
+  ResearchUtil *ru = [[ResearchUtil alloc] initWithResearches:researchList.userResearchList];
+  
+  for (UserMonster *um in self.curTeam) {
+    um.researchUtil = ru;
+  }
+  
   [self loadProfile];
 }
 

@@ -77,6 +77,8 @@
 @class AddMonsterToBattleTeamRequestProto_Builder;
 @class AddMonsterToBattleTeamResponseProto;
 @class AddMonsterToBattleTeamResponseProto_Builder;
+@class AllUserResearchProto;
+@class AllUserResearchProto_Builder;
 @class ApproveOrRejectRequestToJoinClanRequestProto;
 @class ApproveOrRejectRequestToJoinClanRequestProto_Builder;
 @class ApproveOrRejectRequestToJoinClanResponseProto;

@@ -15,6 +15,8 @@
 @class AddMonsterToBattleTeamRequestProto_Builder;
 @class AddMonsterToBattleTeamResponseProto;
 @class AddMonsterToBattleTeamResponseProto_Builder;
+@class AllUserResearchProto;
+@class AllUserResearchProto_Builder;
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
 @class BattleReplayProto;

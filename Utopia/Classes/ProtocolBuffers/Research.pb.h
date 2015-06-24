@@ -5,6 +5,8 @@
 #import "Structure.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class AllUserResearchProto;
+@class AllUserResearchProto_Builder;
 @class BattleItemFactoryProto;
 @class BattleItemFactoryProto_Builder;
 @class ClanHouseProto;
@@ -464,6 +466,64 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (BOOL) complete;
 - (UserResearchProto_Builder*) setComplete:(BOOL) value;
 - (UserResearchProto_Builder*) clearComplete;
+@end
+
+@interface AllUserResearchProto : PBGeneratedMessage {
+@private
+  BOOL hasUserUuid_:1;
+  NSString* userUuid;
+  NSMutableArray * mutableUserResearchList;
+}
+- (BOOL) hasUserUuid;
+@property (readonly, strong) NSString* userUuid;
+@property (readonly, strong) NSArray * userResearchList;
+- (ResearchProto*)userResearchAtIndex:(NSUInteger)index;
+
++ (AllUserResearchProto*) defaultInstance;
+- (AllUserResearchProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (AllUserResearchProto_Builder*) builder;
++ (AllUserResearchProto_Builder*) builder;
++ (AllUserResearchProto_Builder*) builderWithPrototype:(AllUserResearchProto*) prototype;
+- (AllUserResearchProto_Builder*) toBuilder;
+
++ (AllUserResearchProto*) parseFromData:(NSData*) data;
++ (AllUserResearchProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AllUserResearchProto*) parseFromInputStream:(NSInputStream*) input;
++ (AllUserResearchProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AllUserResearchProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (AllUserResearchProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface AllUserResearchProto_Builder : PBGeneratedMessageBuilder {
+@private
+  AllUserResearchProto* result;
+}
+
+- (AllUserResearchProto*) defaultInstance;
+
+- (AllUserResearchProto_Builder*) clear;
+- (AllUserResearchProto_Builder*) clone;
+
+- (AllUserResearchProto*) build;
+- (AllUserResearchProto*) buildPartial;
+
+- (AllUserResearchProto_Builder*) mergeFrom:(AllUserResearchProto*) other;
+- (AllUserResearchProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (AllUserResearchProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (AllUserResearchProto_Builder*) setUserUuid:(NSString*) value;
+- (AllUserResearchProto_Builder*) clearUserUuid;
+
+- (NSMutableArray *)userResearchList;
+- (ResearchProto*)userResearchAtIndex:(NSUInteger)index;
+- (AllUserResearchProto_Builder *)addUserResearch:(ResearchProto*)value;
+- (AllUserResearchProto_Builder *)addAllUserResearch:(NSArray *)array;
+- (AllUserResearchProto_Builder *)clearUserResearch;
 @end
 
 

@@ -1710,5 +1710,267 @@ static UserResearchProto* defaultUserResearchProtoInstance = nil;
 }
 @end
 
+@interface AllUserResearchProto ()
+@property (strong) NSString* userUuid;
+@property (strong) NSMutableArray * mutableUserResearchList;
+@end
+
+@implementation AllUserResearchProto
+
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
+}
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
+}
+@synthesize userUuid;
+@synthesize mutableUserResearchList;
+@dynamic userResearchList;
+- (id) init {
+  if ((self = [super init])) {
+    self.userUuid = @"";
+  }
+  return self;
+}
+static AllUserResearchProto* defaultAllUserResearchProtoInstance = nil;
++ (void) initialize {
+  if (self == [AllUserResearchProto class]) {
+    defaultAllUserResearchProtoInstance = [[AllUserResearchProto alloc] init];
+  }
+}
++ (AllUserResearchProto*) defaultInstance {
+  return defaultAllUserResearchProtoInstance;
+}
+- (AllUserResearchProto*) defaultInstance {
+  return defaultAllUserResearchProtoInstance;
+}
+- (NSArray *)userResearchList {
+  return mutableUserResearchList;
+}
+- (ResearchProto*)userResearchAtIndex:(NSUInteger)index {
+  return [mutableUserResearchList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
+  }
+  [self.userResearchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(1, self.userUuid);
+  }
+  [self.userResearchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (AllUserResearchProto*) parseFromData:(NSData*) data {
+  return (AllUserResearchProto*)[[[AllUserResearchProto builder] mergeFromData:data] build];
+}
++ (AllUserResearchProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AllUserResearchProto*)[[[AllUserResearchProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (AllUserResearchProto*) parseFromInputStream:(NSInputStream*) input {
+  return (AllUserResearchProto*)[[[AllUserResearchProto builder] mergeFromInputStream:input] build];
+}
++ (AllUserResearchProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AllUserResearchProto*)[[[AllUserResearchProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AllUserResearchProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (AllUserResearchProto*)[[[AllUserResearchProto builder] mergeFromCodedInputStream:input] build];
+}
++ (AllUserResearchProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AllUserResearchProto*)[[[AllUserResearchProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AllUserResearchProto_Builder*) builder {
+  return [[AllUserResearchProto_Builder alloc] init];
+}
++ (AllUserResearchProto_Builder*) builderWithPrototype:(AllUserResearchProto*) prototype {
+  return [[AllUserResearchProto builder] mergeFrom:prototype];
+}
+- (AllUserResearchProto_Builder*) builder {
+  return [AllUserResearchProto builder];
+}
+- (AllUserResearchProto_Builder*) toBuilder {
+  return [AllUserResearchProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
+  }
+  [self.userResearchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"userResearch"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[AllUserResearchProto class]]) {
+    return NO;
+  }
+  AllUserResearchProto *otherMessage = other;
+  return
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
+      [self.userResearchList isEqualToArray:otherMessage.userResearchList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
+  }
+  [self.userResearchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface AllUserResearchProto_Builder()
+@property (strong) AllUserResearchProto* result;
+@end
+
+@implementation AllUserResearchProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[AllUserResearchProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (AllUserResearchProto_Builder*) clear {
+  self.result = [[AllUserResearchProto alloc] init];
+  return self;
+}
+- (AllUserResearchProto_Builder*) clone {
+  return [AllUserResearchProto builderWithPrototype:result];
+}
+- (AllUserResearchProto*) defaultInstance {
+  return [AllUserResearchProto defaultInstance];
+}
+- (AllUserResearchProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (AllUserResearchProto*) buildPartial {
+  AllUserResearchProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (AllUserResearchProto_Builder*) mergeFrom:(AllUserResearchProto*) other {
+  if (other == [AllUserResearchProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
+  }
+  if (other.mutableUserResearchList.count > 0) {
+    if (result.mutableUserResearchList == nil) {
+      result.mutableUserResearchList = [[NSMutableArray alloc] initWithArray:other.mutableUserResearchList];
+    } else {
+      [result.mutableUserResearchList addObjectsFromArray:other.mutableUserResearchList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (AllUserResearchProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (AllUserResearchProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setUserUuid:[input readString]];
+        break;
+      }
+      case 18: {
+        ResearchProto_Builder* subBuilder = [ResearchProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserResearch:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
+}
+- (NSString*) userUuid {
+  return result.userUuid;
+}
+- (AllUserResearchProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
+  return self;
+}
+- (AllUserResearchProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
+  return self;
+}
+- (NSMutableArray *)userResearchList {
+  return result.mutableUserResearchList;
+}
+- (ResearchProto*)userResearchAtIndex:(NSUInteger)index {
+  return [result userResearchAtIndex:index];
+}
+- (AllUserResearchProto_Builder *)addUserResearch:(ResearchProto*)value {
+  if (result.mutableUserResearchList == nil) {
+    result.mutableUserResearchList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUserResearchList addObject:value];
+  return self;
+}
+- (AllUserResearchProto_Builder *)addAllUserResearch:(NSArray *)array {
+  if (result.mutableUserResearchList == nil) {
+    result.mutableUserResearchList = [NSMutableArray array];
+  }
+  [result.mutableUserResearchList addObjectsFromArray:array];
+  return self;
+}
+- (AllUserResearchProto_Builder *)clearUserResearch {
+  result.mutableUserResearchList = nil;
+  return self;
+}
+@end
+
 
 // @@protoc_insertion_point(global_scope)

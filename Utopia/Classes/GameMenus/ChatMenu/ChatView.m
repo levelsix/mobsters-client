@@ -245,9 +245,6 @@
   if (self.allowAutoScroll && shouldScrollToBottom && self.chats.count) {
     [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.chats.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:animated];
   }
-  
-  GameState *gs = [GameState sharedGameState];
-  [self.monsterView updateForMonsterId:gs.avatarMonsterId];
 }
 
 - (IBAction)sendChatClicked:(id)sender {
@@ -587,11 +584,10 @@
 }
 
 - (void) updateForPrivateChatList:(NSArray *)privateChats {
+  GameState *gs = [GameState sharedGameState];
+  
   self.privateChatList = privateChats;
   [self.listTable reloadData];
-  
-  GameState *gs = [GameState sharedGameState];
-  [self.monsterView updateForMonsterId:gs.avatarMonsterId];
   
   int unread = 0;
   for (PvpHistoryProto *pvp in [gs pvpDefenseHistory]) {

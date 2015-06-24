@@ -12,7 +12,7 @@
 @protocol LeaderBoardObject <NSObject>
 
 - (MinimumUserProto *) mup;
-- (long) score;
+- (uint64_t) score;
 - (NSString *) name;
 - (int) rank;
 

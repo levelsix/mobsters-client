@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [ResearchRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -1761,6 +1762,7 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableRequestedUsersList;
 @property (strong) NSMutableArray * mutableCurTeamList;
+@property (strong) NSMutableArray * mutableUserResearchList;
 @end
 
 @implementation RetrieveUsersForUserIdsResponseProto
@@ -1776,6 +1778,8 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
 @dynamic requestedUsersList;
 @synthesize mutableCurTeamList;
 @dynamic curTeamList;
+@synthesize mutableUserResearchList;
+@dynamic userResearchList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -1806,6 +1810,12 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
 - (UserCurrentMonsterTeamProto*)curTeamAtIndex:(NSUInteger)index {
   return [mutableCurTeamList objectAtIndex:index];
 }
+- (NSArray *)userResearchList {
+  return mutableUserResearchList;
+}
+- (AllUserResearchProto*)userResearchAtIndex:(NSUInteger)index {
+  return [mutableUserResearchList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1818,6 +1828,9 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
   }];
   [self.curTeamList enumerateObjectsUsingBlock:^(UserCurrentMonsterTeamProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:3 value:element];
+  }];
+  [self.userResearchList enumerateObjectsUsingBlock:^(AllUserResearchProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:4 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1836,6 +1849,9 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
   }];
   [self.curTeamList enumerateObjectsUsingBlock:^(UserCurrentMonsterTeamProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(3, element);
+  }];
+  [self.userResearchList enumerateObjectsUsingBlock:^(AllUserResearchProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(4, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1890,6 +1906,12 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.userResearchList enumerateObjectsUsingBlock:^(AllUserResearchProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"userResearch"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1905,6 +1927,7 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       [self.requestedUsersList isEqualToArray:otherMessage.requestedUsersList] &&
       [self.curTeamList isEqualToArray:otherMessage.curTeamList] &&
+      [self.userResearchList isEqualToArray:otherMessage.userResearchList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1916,6 +1939,9 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.curTeamList enumerateObjectsUsingBlock:^(UserCurrentMonsterTeamProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.userResearchList enumerateObjectsUsingBlock:^(AllUserResearchProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -1978,6 +2004,13 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
       [result.mutableCurTeamList addObjectsFromArray:other.mutableCurTeamList];
     }
   }
+  if (other.mutableUserResearchList.count > 0) {
+    if (result.mutableUserResearchList == nil) {
+      result.mutableUserResearchList = [[NSMutableArray alloc] initWithArray:other.mutableUserResearchList];
+    } else {
+      [result.mutableUserResearchList addObjectsFromArray:other.mutableUserResearchList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2018,6 +2051,12 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
         UserCurrentMonsterTeamProto_Builder* subBuilder = [UserCurrentMonsterTeamProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addCurTeam:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        AllUserResearchProto_Builder* subBuilder = [AllUserResearchProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserResearch:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2099,6 +2138,30 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
 }
 - (RetrieveUsersForUserIdsResponseProto_Builder *)clearCurTeam {
   result.mutableCurTeamList = nil;
+  return self;
+}
+- (NSMutableArray *)userResearchList {
+  return result.mutableUserResearchList;
+}
+- (AllUserResearchProto*)userResearchAtIndex:(NSUInteger)index {
+  return [result userResearchAtIndex:index];
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder *)addUserResearch:(AllUserResearchProto*)value {
+  if (result.mutableUserResearchList == nil) {
+    result.mutableUserResearchList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUserResearchList addObject:value];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder *)addAllUserResearch:(NSArray *)array {
+  if (result.mutableUserResearchList == nil) {
+    result.mutableUserResearchList = [NSMutableArray array];
+  }
+  [result.mutableUserResearchList addObjectsFromArray:array];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder *)clearUserResearch {
+  result.mutableUserResearchList = nil;
   return self;
 }
 @end

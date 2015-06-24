@@ -58,6 +58,7 @@
 #import "SalePurchasedViewController.h"
 #import "TangoGiftViewController.h"
 #import "NotificationShopViewController.h"
+#import "SoloSaleViewController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -592,6 +593,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     //int lastSaleId = (int)[def integerForKey:LAST_SHOWN_SALE_ID];
     SalesPackageProto *spp = [gs.mySales firstObject];
     
+//    if (YES)
     if (spp &&
         -gs.createTime.timeIntervalSinceNow > HOURS_AFTER_CREATE_TIME_TO_SHOW_SALE*3600 &&
         (//spp.salesPackageId != lastSaleId ||
@@ -599,7 +601,7 @@ static const CGSize FIXED_SIZE = {568, 384};
          -lastDate.timeIntervalSinceNow > HOURS_BEFORE_RESHOWING_SALE*3600))
     {
       
-      NotificationShopViewController *svc = [[NotificationShopViewController alloc] initWithSalesPackage:spp];
+      SoloSaleViewController *svc = [[SoloSaleViewController alloc] initWithSalePackageProto:spp];
       [self.notificationController addNotification:svc];
       
       [def setObject:[NSDate date] forKey:LAST_SHOWN_SALE_TIME];

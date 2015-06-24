@@ -85,7 +85,7 @@
   self.starImageView.hidden = ![gs.userUuid isEqualToString:leaderInfo.mup.userUuid];
 }
 
-- (void) updateWithRank:(int)rank score:(long)score userName:(NSString *)userName scoreIcon:(NSString *)scoreIcon {
+- (void) updateWithRank:(int)rank score:(uint64_t)score userName:(NSString *)userName scoreIcon:(NSString *)scoreIcon {
   self.selectionStyle = UITableViewCellSelectionStyleNone;
 //  self.selectedBackgroundView.backgroundColor = [UIColor clearColor];
   self.rankLabel.text = [Globals commafyNumber:(float)rank];
