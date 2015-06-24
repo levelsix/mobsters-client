@@ -107,7 +107,14 @@
   [self.cardContainer.monsterCardView updateForMonster:um backupString:@"" greyscale:greyscale];
   self.sellCostLabel.text = [Globals cashStringForNumber:[um sellPrice]];
   
-  self.healCostLabel.text = [Globals cashStringForNumber:[gl calculateCostToHealMonster:um]];
+  self.healCostLabel.text = [NSString stringWithFormat:@"%i", [gl calculateCostToHealMonster:um]];
+  
+  //Shrink healCostLabel to be just long enough to fit the text
+  float healCostLabelRight = self.healCostLabel.originX + self.healCostLabel.width;
+  self.healCostLabel.width = [self.healCostLabel.text getSizeWithFont:self.healCostLabel.font].width + 1;
+  self.healCostLabel.originX = healCostLabelRight - self.healCostLabel.width;
+  
+  self.healCostMoneyIcon.originX = self.healCostLabel.originX - self.healCostMoneyIcon.width - 2;
   
   if (um.level >= um.staticMonster.maxLevel) {
     self.enhancePercentLabel.text = @"Max";
