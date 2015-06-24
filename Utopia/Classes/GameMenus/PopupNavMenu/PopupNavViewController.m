@@ -378,6 +378,7 @@
     [self.leftCornerViewContainer addSubview:self.leftCornerView];
     self.leftCornerView.alpha = 0.f;
     self.leftCornerView.originY = self.leftCornerViewContainer.height-self.leftCornerView.height;
+    NSLog(@"Oy: %f, lcvc: %f, lcv: %f", self.leftCornerView.originY, self.leftCornerViewContainer.height, self.leftCornerView.height);
   } else {
     self.leftCornerView = nil;
   }
