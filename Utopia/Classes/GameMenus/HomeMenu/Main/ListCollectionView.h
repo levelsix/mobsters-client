@@ -39,6 +39,7 @@
 @property (nonatomic, retain) IBOutlet MonsterCardContainerView *cardContainer;
 @property (nonatomic, retain) IBOutlet UILabel *sellCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *healCostLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *healCostMoneyIcon;
 @property (nonatomic, retain) IBOutlet UILabel *enhancePercentLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *combineTimeLabel;
