@@ -7,26 +7,26 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HealQueueFooterView" id="bkh-vt-FLo" customClass="HealQueueFooterView">
-            <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
+        <collectionReusableView opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HealQueueFooterView" id="bkh-vt-FLo" customClass="HealQueueFooterView">
+            <rect key="frame" x="0.0" y="0.0" width="86" height="86"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="emptysmallsquare.png" id="Y2b-H5-kXr">
-                    <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamemptyslot.png" id="Y2b-H5-kXr">
+                    <rect key="frame" x="0.0" y="0.0" width="86" height="86"/>
+                    <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1 SLOT OPEN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="lO5-U2-4nq" customClass="NiceFontLabel7">
-                    <rect key="frame" x="7" y="9" width="60" height="56"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <rect key="frame" x="11" y="27" width="65" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.50196081400000003" green="0.76862752440000004" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                     <nil key="highlightedColor"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="HOSPITAL FULL" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qde-66-dDr" customClass="NiceFontLabel7">
-                    <rect key="frame" x="0.0" y="9" width="67" height="56"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <rect key="frame" x="8" y="27" width="71" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.96078437566757202" green="0.0" blue="0.086274512112140656" alpha="1" colorSpace="deviceRGB"/>
                     <nil key="highlightedColor"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
@@ -41,7 +41,7 @@
         </collectionReusableView>
     </objects>
     <resources>
-        <image name="emptysmallsquare.png" width="42" height="42"/>
+        <image name="teamemptyslot.png" width="48" height="48"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
