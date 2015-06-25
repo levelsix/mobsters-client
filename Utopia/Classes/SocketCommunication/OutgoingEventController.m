@@ -3835,16 +3835,28 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) clearGifts:(NSArray *)userGifts {
+  GameState *gs = [GameState sharedGameState];
+  
   if (userGifts.count == 0) {
     [Globals popupMessage:@"Trying to clear 0 expired gifts."];
     return;
   }
   
+  NSMutableArray *toRemove = [NSMutableArray array];
   for (UserGiftProto *ucgp in userGifts) {
     if (!ucgp.isExpired && !ucgp.hasBeenCollected) {
       [Globals popupMessage:@"Trying to clear unexpired gifts."];
       return;
     }
+    
+    // Only remove the ones that haven't been collected. Deleted ones should stay for one session
+    if (ucgp.hasBeenCollected) {
+      [toRemove addObject:ucgp];
+    }
+  }
+  
+  if (toRemove.count) {
+    [gs.myGifts removeObjectsInArray:toRemove];
   }
   
   [[SocketCommunication sharedSocketCommunication] sendDeleteGiftsMessage:userGifts];

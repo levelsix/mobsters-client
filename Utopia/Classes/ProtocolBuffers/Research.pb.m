@@ -1747,7 +1747,7 @@ static AllUserResearchProto* defaultAllUserResearchProtoInstance = nil;
 - (NSArray *)userResearchList {
   return mutableUserResearchList;
 }
-- (ResearchProto*)userResearchAtIndex:(NSUInteger)index {
+- (UserResearchProto*)userResearchAtIndex:(NSUInteger)index {
   return [mutableUserResearchList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
@@ -1757,7 +1757,7 @@ static AllUserResearchProto* defaultAllUserResearchProtoInstance = nil;
   if (self.hasUserUuid) {
     [output writeString:1 value:self.userUuid];
   }
-  [self.userResearchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
+  [self.userResearchList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:2 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
@@ -1772,7 +1772,7 @@ static AllUserResearchProto* defaultAllUserResearchProtoInstance = nil;
   if (self.hasUserUuid) {
     size_ += computeStringSize(1, self.userUuid);
   }
-  [self.userResearchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
+  [self.userResearchList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(2, element);
   }];
   size_ += self.unknownFields.serializedSize;
@@ -1813,7 +1813,7 @@ static AllUserResearchProto* defaultAllUserResearchProtoInstance = nil;
   if (self.hasUserUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
-  [self.userResearchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
+  [self.userResearchList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"userResearch"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
@@ -1840,7 +1840,7 @@ static AllUserResearchProto* defaultAllUserResearchProtoInstance = nil;
   if (self.hasUserUuid) {
     hashCode = hashCode * 31 + [self.userUuid hash];
   }
-  [self.userResearchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
+  [self.userResearchList enumerateObjectsUsingBlock:^(UserResearchProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -1922,7 +1922,7 @@ static AllUserResearchProto* defaultAllUserResearchProtoInstance = nil;
         break;
       }
       case 18: {
-        ResearchProto_Builder* subBuilder = [ResearchProto builder];
+        UserResearchProto_Builder* subBuilder = [UserResearchProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserResearch:[subBuilder buildPartial]];
         break;
@@ -1949,10 +1949,10 @@ static AllUserResearchProto* defaultAllUserResearchProtoInstance = nil;
 - (NSMutableArray *)userResearchList {
   return result.mutableUserResearchList;
 }
-- (ResearchProto*)userResearchAtIndex:(NSUInteger)index {
+- (UserResearchProto*)userResearchAtIndex:(NSUInteger)index {
   return [result userResearchAtIndex:index];
 }
-- (AllUserResearchProto_Builder *)addUserResearch:(ResearchProto*)value {
+- (AllUserResearchProto_Builder *)addUserResearch:(UserResearchProto*)value {
   if (result.mutableUserResearchList == nil) {
     result.mutableUserResearchList = [[NSMutableArray alloc]init];
   }

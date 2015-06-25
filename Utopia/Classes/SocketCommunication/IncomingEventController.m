@@ -587,7 +587,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     gs.myPvpBoardObstacles = [proto.userPvpBoardObstaclesList mutableCopy];
-
+    
     [[MiniEventManager sharedInstance] handleUserMiniEventReceivedOnStartup:proto.hasUserMiniEvent ? proto.userMiniEvent : nil];
     
     if (proto.topStrengthLeaderBoardsList.count >= 3) {
@@ -603,7 +603,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       //this case is just the register the user if they have already accepted to register in a previous session
       [Globals registerUserForPushNotifications];
     }
-  
+    
     NSString *gcId = [GameCenterDelegate gameCenterId];
     if (gcId) {
       [[OutgoingEventController sharedOutgoingEventController] setGameCenterId:gcId];
@@ -1167,7 +1167,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleSendGroupChatResponseProto:(FullEvent *)fe {
   SendGroupChatResponseProto *proto = (SendGroupChatResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Send group chat response received with status %d.", (int)proto.status); 
+  LNLog(@"Send group chat response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SendGroupChatResponseProto_SendGroupChatStatusSuccess) {
@@ -1869,7 +1869,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
     
     [self updateGameStateForUserRewardProto:proto.reward];
-
+    
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to purchase booster pack."];
@@ -1963,7 +1963,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleQueueUpResponseProto:(FullEvent *)fe {
   QueueUpResponseProto *proto = (QueueUpResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Queue up response received with status %d.", (int)proto.status);    
+  LNLog(@"Queue up response received with status %d.", (int)proto.status);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == QueueUpResponseProto_QueueUpStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -2679,17 +2679,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Retrieve strength leader board recieved with status %d", (int)proto.status);
   
   // No longer showing the 3 guys
-//  GameState *gs = [GameState sharedGameState];
-//  if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess && proto.leaderBoardInfoList.count >= 3) {
-//    [gs.leaderBoardPlacement removeAllObjects];
-//    gs.leaderBoardPlacement = [NSMutableArray arrayWithObjects:
-//                               proto.leaderBoardInfoList[0],
-//                               proto.leaderBoardInfoList[1],
-//                               proto.leaderBoardInfoList[2],
-//                               nil];
-//    
-//    [[NSNotificationCenter defaultCenter] postNotificationName:LEADERBOARD_UPDATE_NOTIFICATION object:nil];
-//  }
+  //  GameState *gs = [GameState sharedGameState];
+  //  if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess && proto.leaderBoardInfoList.count >= 3) {
+  //    [gs.leaderBoardPlacement removeAllObjects];
+  //    gs.leaderBoardPlacement = [NSMutableArray arrayWithObjects:
+  //                               proto.leaderBoardInfoList[0],
+  //                               proto.leaderBoardInfoList[1],
+  //                               proto.leaderBoardInfoList[2],
+  //                               nil];
+  //
+  //    [[NSNotificationCenter defaultCenter] postNotificationName:LEADERBOARD_UPDATE_NOTIFICATION object:nil];
+  //  }
 }
 
 #pragma mark - Clan Gifts
@@ -2700,12 +2700,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Recieved gift.");
   
   GameState *gs = [GameState sharedGameState];
-  if (![proto.sender.userUuid isEqualToString:gs.userUuid]) {
-    
-    [gs.myGifts addObjectsFromArray:proto.userGiftsList];
-    [Globals addGiftNotification:proto.userGiftsList];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GIFTS_CHANGED_NOTIFICATION object:nil];
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  for (UserGiftProto *gift in proto.userGiftsList) {
+    if ([gift.receiverUserUuid isEqualToString:gs.userUuid]) {
+      [arr addObject:gift];
+    }
   }
+  
+  [gs.myGifts addObjectsFromArray:arr];
+  [Globals addGiftNotification:arr];
+  [[NSNotificationCenter defaultCenter] postNotificationName:GIFTS_CHANGED_NOTIFICATION object:nil];
   
 }
 
@@ -2717,14 +2722,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == CollectGiftResponseProto_CollectGiftStatusSuccess) {
-    // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
-    if (proto.reward.updatedOrNewMonstersList.count) {
-      [gs addToMyMonsters:proto.reward.updatedOrNewMonstersList];
-    }
-    
-    if (proto.reward.updatedUserItemsList.count) {
-      [gs.itemUtil addToMyItems:proto.reward.updatedUserItemsList];
-    }
+    [self updateGameStateForUserRewardProto:proto.reward];
   } else {
     [Globals popupMessage:@"Server failed to redeem clan gift(s)."];
     

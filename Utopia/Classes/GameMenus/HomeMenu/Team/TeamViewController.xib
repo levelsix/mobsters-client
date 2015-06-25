@@ -216,7 +216,7 @@
         </view>
     </objects>
     <resources>
-        <image name="diamond.png" width="29" height="27"/>
+        <image name="diamond.png" width="28" height="28"/>
         <image name="enhancebottom.png" width="424" height="60"/>
         <image name="orangemenuoption.png" width="80" height="40"/>
         <image name="popuplinevertical.png" width="1" height="1"/>

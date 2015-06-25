@@ -12581,9 +12581,9 @@
 		2991FC061A800D85009BB1D8 /* Popovers */ = {
 			isa = PBXGroup;
 			children = (
+				2991FBF61A800ABF009BB1D8 /* PopoverMenu */,
 				9BA0EE9A1AD86D05005F7B80 /* GenericPopoverMenu */,
 				2948F53C1AB271C400DF08C2 /* BattleItemSelectMenu */,
-				2991FBF61A800ABF009BB1D8 /* PopoverMenu */,
 				2991FBFC1A800D50009BB1D8 /* MonsterSelectMenu */,
 				CFA9F7731A0D8CCB00EBE77D /* ItemSelectMenu */,
 			);

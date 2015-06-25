@@ -16,14 +16,15 @@
 - (NSString *) titleName;
 - (NSString *) cellClassName;
 
-- (NSString *) footerTitle;
-- (NSString *) footerDescription;
-
 - (void) updateCell:(id)cell monster:(id)monster;
 - (void) monsterSelected:(id)monster viewController:(id)viewController;
 - (void) monsterSelectClosed;
 
 - (NSArray *) reloadMonstersArray;
+
+@optional
+- (NSString *) footerTitle;
+- (NSString *) footerDescription;
 
 @end
 

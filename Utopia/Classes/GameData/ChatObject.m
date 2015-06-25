@@ -596,9 +596,6 @@
 - (IBAction)collectClicked:(id)sender {
   Reward *rew = [[Reward alloc] initWithReward:self.reward];
   
-  NSString *alert = [NSString stringWithFormat:@"You just collected %@ from the %@.", [rew name], self.gift.name];
-  [Globals addPurpleAlertNotification:alert isImmediate:YES];
-  
   [self setIsRedeemed:YES];
   [[NSNotificationCenter defaultCenter] postNotificationName:GIFTS_CHANGED_NOTIFICATION object:nil];
   

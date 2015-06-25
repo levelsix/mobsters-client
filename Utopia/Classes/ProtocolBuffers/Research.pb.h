@@ -477,7 +477,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (BOOL) hasUserUuid;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly, strong) NSArray * userResearchList;
-- (ResearchProto*)userResearchAtIndex:(NSUInteger)index;
+- (UserResearchProto*)userResearchAtIndex:(NSUInteger)index;
 
 + (AllUserResearchProto*) defaultInstance;
 - (AllUserResearchProto*) defaultInstance;
@@ -520,8 +520,8 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (AllUserResearchProto_Builder*) clearUserUuid;
 
 - (NSMutableArray *)userResearchList;
-- (ResearchProto*)userResearchAtIndex:(NSUInteger)index;
-- (AllUserResearchProto_Builder *)addUserResearch:(ResearchProto*)value;
+- (UserResearchProto*)userResearchAtIndex:(NSUInteger)index;
+- (AllUserResearchProto_Builder *)addUserResearch:(UserResearchProto*)value;
 - (AllUserResearchProto_Builder *)addAllUserResearch:(NSArray *)array;
 - (AllUserResearchProto_Builder *)clearUserResearch;
 @end

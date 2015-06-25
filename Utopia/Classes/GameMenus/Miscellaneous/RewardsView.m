@@ -38,7 +38,7 @@
     color = [UIColor colorWithRed:225/255. green:137/255. blue:11/255.f alpha:1.f];
   } else if (reward.type == RewardTypeGems) {
     color = [UIColor colorWithRed:186/255. green:47/255. blue:255/255.f alpha:1.f];
-  } else if (reward.type == RewardTypeGachaToken) {
+  } else {// else if (reward.type == RewardTypeGachaToken) {
     color = [UIColor colorWithHexString:@"EA5F25"];
   }
   

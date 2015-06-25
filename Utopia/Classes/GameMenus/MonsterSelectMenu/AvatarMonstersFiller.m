@@ -24,20 +24,20 @@
 @implementation AvatarMonstersFiller
 
 - (NSString *) titleName {
-  return @"CHOOSE TOON";
+  return [NSString stringWithFormat:@"CHOOSE %@", MONSTER_NAME.uppercaseString];
 }
 
 - (NSString *) cellClassName {
   return @"AvatarMonsterSelectCell";
 }
 
-- (NSString *) footerTitle {
-  return [NSString stringWithFormat:@"Tap a %@ to Donate", MONSTER_NAME];
-}
-
-- (NSString *) footerDescription {
-  return [NSString stringWithFormat:@"Donated %@s lose their HP and need to be healed.", MONSTER_NAME];
-}
+//- (NSString *) footerTitle {
+//  return [NSString stringWithFormat:@"Tap a %@ to Set Avatar", MONSTER_NAME];
+//}
+//
+//- (NSString *) footerDescription {
+//  return [NSString stringWithFormat:@"Donated %@s lose their HP and need to be healed.", MONSTER_NAME];
+//}
 
 - (void) updateCell:(AvatarMonsterSelectCell *)cell monster:(UserMonster *)monster {
   [cell updateForListObject:monster];
