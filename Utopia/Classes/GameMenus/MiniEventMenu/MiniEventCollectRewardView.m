@@ -20,12 +20,12 @@
   
   UIImageView* backgroundLeftCap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"rewardreadybgcap.png"]];
   {
-    backgroundLeftCap.frame = CGRectMake(self.rewardReadyBackground.originX - 10, self.rewardReadyBackground.originY, 10, self.rewardReadyBackground.height);
+    backgroundLeftCap.frame = CGRectMake(self.rewardReadyBackground.originX - backgroundLeftCap.width, self.rewardReadyBackground.originY, backgroundLeftCap.width, self.rewardReadyBackground.height);
     [self insertSubview:backgroundLeftCap belowSubview:self.rewardReadyBackground];
   }
   UIImageView* backgroundRightCap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"rewardreadybgcap.png"]];
   {
-    backgroundRightCap.frame = CGRectMake(self.rewardReadyBackground.originX + self.rewardReadyBackground.width, self.rewardReadyBackground.originY, 10, self.rewardReadyBackground.height);
+    backgroundRightCap.frame = CGRectMake(self.rewardReadyBackground.originX + self.rewardReadyBackground.width, self.rewardReadyBackground.originY, backgroundRightCap.width, self.rewardReadyBackground.height);
     backgroundRightCap.layer.transform = CATransform3DMakeScale(-1, 1, 1);
     [self insertSubview:backgroundRightCap belowSubview:self.rewardReadyBackground];
   }
