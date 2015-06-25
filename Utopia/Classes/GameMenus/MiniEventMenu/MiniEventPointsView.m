@@ -19,14 +19,14 @@
   
   UIImageView* backgroundLeftCap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventblueheadercap.png"]];
   {
-    backgroundLeftCap.frame = CGRectMake(self.eventInfoBackground.originX - 7, self.eventInfoBackground.originY, 7, self.eventInfoBackground.height);
-    [self insertSubview:backgroundLeftCap belowSubview:self.eventInfoBackground];
+    backgroundLeftCap.frame = CGRectMake(self.eventInfoBackground.originX - backgroundLeftCap.width, self.eventInfoBackground.originY, backgroundLeftCap.width, self.eventInfoBackground.height);
+    [self.eventInfoBackground.superview insertSubview:backgroundLeftCap belowSubview:self.eventInfoBackground];
   }
   UIImageView* backgroundRightCap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventblueheadercap.png"]];
   {
-    backgroundRightCap.frame = CGRectMake(self.eventInfoBackground.originX + self.eventInfoBackground.width, self.eventInfoBackground.originY, 7, self.eventInfoBackground.height);
+    backgroundRightCap.frame = CGRectMake(self.eventInfoBackground.originX + self.eventInfoBackground.width, self.eventInfoBackground.originY, backgroundRightCap.width, self.eventInfoBackground.height);
     backgroundRightCap.layer.transform = CATransform3DMakeScale(-1, 1, 1);
-    [self insertSubview:backgroundRightCap belowSubview:self.eventInfoBackground];
+    [self.eventInfoBackground.superview insertSubview:backgroundRightCap belowSubview:self.eventInfoBackground];
   }
   
   self.eventInfoName.gradientStartColor = [UIColor whiteColor];

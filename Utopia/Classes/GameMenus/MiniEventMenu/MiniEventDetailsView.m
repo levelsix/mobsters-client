@@ -77,6 +77,8 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   self.eventInfoPointsEearned.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
   self.eventInfoPointsEearned.shadowOffset = CGSizeMake(0, 1);
   
+  if ([Globals isiPad]) ++self.tier3PrizeView.width; // View width on iPad is not divisible by 3 so an extra pixel is needed at the end
+  
   self.collectRewardView = nil;
 }
 
@@ -94,7 +96,7 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   
   [self updateTimeLeftForEvent:userMiniEvent];
   
-  [Globals imageNamed:miniEvent.img withView:self.eventInfoImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamedWithiPadSuffix:miniEvent.img withView:self.eventInfoImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   const int pointsEarned = userMiniEvent.pointsEarned;
 //const int maxPoints    = miniEvent.lvlEntered.tierThreeMinPts * kTierPointsProgressBarExtendBy;
