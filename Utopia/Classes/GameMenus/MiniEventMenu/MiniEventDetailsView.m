@@ -24,26 +24,26 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
 {
   [super awakeFromNib];
   
-  UIImageView* backgroundLeftCap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventblueheadercap.png"]];
+  UIImageView* backgroundLeftCap = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventblueheadercap.png"]];
   {
-    backgroundLeftCap.frame = CGRectMake(self.eventInfoBackground.originX - 7, self.eventInfoBackground.originY, 7, self.eventInfoBackground.height);
+    backgroundLeftCap.frame = CGRectMake(self.eventInfoBackground.originX - backgroundLeftCap.width, self.eventInfoBackground.originY, backgroundLeftCap.width, self.eventInfoBackground.height);
     [self.eventInfoView insertSubview:backgroundLeftCap belowSubview:self.eventInfoBackground];
   }
-  UIImageView* backgroundRightCap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventblueheadercap.png"]];
+  UIImageView* backgroundRightCap = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventblueheadercap.png"]];
   {
-    backgroundRightCap.frame = CGRectMake(self.eventInfoBackground.originX + self.eventInfoBackground.width, self.eventInfoBackground.originY, 7, self.eventInfoBackground.height);
+    backgroundRightCap.frame = CGRectMake(self.eventInfoBackground.originX + self.eventInfoBackground.width, self.eventInfoBackground.originY, backgroundRightCap.width, self.eventInfoBackground.height);
     backgroundRightCap.layer.transform = CATransform3DMakeScale(-1, 1, 1);
     [self.eventInfoView insertSubview:backgroundRightCap belowSubview:self.eventInfoBackground];
   }
   
-  UIImageView* progressBarLeftCap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventcounterbgcap.png"]];
+  UIImageView* progressBarLeftCap = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventcounterbgcap.png"]];
   {
-    progressBarLeftCap.frame = CGRectMake(self.progressBarBackground.originX - 5, self.progressBarBackground.originY, 5, self.progressBarBackground.height);
+    progressBarLeftCap.frame = CGRectMake(self.progressBarBackground.originX - progressBarLeftCap.width, self.progressBarBackground.originY, progressBarLeftCap.width, self.progressBarBackground.height);
     [self.eventInfoView insertSubview:progressBarLeftCap belowSubview:self.progressBarBackground];
   }
-  UIImageView* progressBarRightCap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventcounterbgcap.png"]];
+  UIImageView* progressBarRightCap = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventcounterbgcap.png"]];
   {
-    progressBarRightCap.frame = CGRectMake(self.progressBarBackground.originX + self.progressBarBackground.width, self.progressBarBackground.originY, 5, self.progressBarBackground.height);
+    progressBarRightCap.frame = CGRectMake(self.progressBarBackground.originX + self.progressBarBackground.width, self.progressBarBackground.originY, progressBarRightCap.width, self.progressBarBackground.height);
     progressBarRightCap.layer.transform = CATransform3DMakeScale(-1, 1, 1);
     [self.eventInfoView insertSubview:progressBarRightCap belowSubview:self.progressBarBackground];
   }
@@ -294,8 +294,8 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   tierIndicatorLabel.textColor = [UIColor colorWithHexString:@"469D00"];
   tierPrizeView.tierCheckmark.hidden = NO;
 
-  UIImageView* tierCheckmark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"requirementmet.png"]];
-  tierCheckmark.frame = CGRectMake(tierIndicatorLabel.originX - 12, tierIndicatorLabel.centerY - 4, 10, 8);
+  UIImageView* tierCheckmark = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"requirementmet.png"]];
+  tierCheckmark.frame = CGRectMake(tierIndicatorLabel.originX - tierCheckmark.width - 2, tierIndicatorLabel.centerY - tierCheckmark.height * .5f, tierCheckmark.width, tierCheckmark.height);
   [self.eventInfoView insertSubview:tierCheckmark belowSubview:tierIndicatorLabel];
 }
 
