@@ -13,6 +13,10 @@
 
 - (BOOL) updateForReward:(RewardProto*)rewardProto useItemShortName:(BOOL)useItemShortName
 {
+  // From UITableViewCell Class Reference: In iOS 7, cells have a white background by default;
+  // in earlier versions of iOS, cells inherit the background color of the enclosing table view.
+  self.backgroundColor = [UIColor clearColor];
+  
   Reward *reward = [[Reward alloc] initWithReward:rewardProto];
   
   NSString* name  = useItemShortName ? [reward shortName] : [reward name];

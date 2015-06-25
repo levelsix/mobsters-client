@@ -13,6 +13,10 @@
 
 - (void) updateForAction:(MiniEventGoalProto*)goalProto
 {
+  // From UITableViewCell Class Reference: In iOS 7, cells have a white background by default;
+  // in earlier versions of iOS, cells inherit the background color of the enclosing table view.
+  self.backgroundColor = [UIColor clearColor];
+  
   self.actionName.text = goalProto.goalDesc;
   self.actionPoints.text = [NSString stringWithFormat:@"%@ Point%@", [Globals commafyNumber:goalProto.pointsGained], goalProto.pointsGained == 1 ? @"": @"s"];
 }
