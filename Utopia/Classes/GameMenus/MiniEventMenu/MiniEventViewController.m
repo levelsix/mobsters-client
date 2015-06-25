@@ -22,34 +22,36 @@
 {
   [super viewDidLoad];
   
-  self.containerView.superview.layer.cornerRadius = 5.f;
+  self.containerView.superview.layer.cornerRadius = POPUP_CORNER_RADIUS;
   self.containerView.superview.clipsToBounds = YES;
   
-  _tabLeftShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabshadow.png"]];
+  const CGFloat tabVisibleHeight = [Globals isiPad] ? 88.f : 53.f;
+  
+  _tabLeftShadow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventtabshadow.png"]];
   {
-    _tabLeftShadow.frame = CGRectMake(self.tab1Button.originX - 4 + 1, self.tab1Button.originY, 4, 53);
+    _tabLeftShadow.frame = CGRectMake(self.tab1Button.originX - _tabLeftShadow.width + 1, self.tab1Button.originY, _tabLeftShadow.width, tabVisibleHeight);
     _tabLeftShadow.layer.transform = CATransform3DMakeScale(-1, 1, 1);
     [self.buttonTabBar addSubview:_tabLeftShadow];
   }
-  _tabRightShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabshadow.png"]];
+  _tabRightShadow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventtabshadow.png"]];
   {
-    _tabRightShadow.frame = CGRectMake(self.tab1Button.originX + self.tab1Button.width, self.tab1Button.originY, 4, 53);
+    _tabRightShadow.frame = CGRectMake(self.tab1Button.originX + self.tab1Button.width, self.tab1Button.originY, _tabRightShadow.width, tabVisibleHeight);
     [self.buttonTabBar addSubview:_tabRightShadow];
   }
   
-  UIImageView* _tabLeftDivider = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabdivider.png"]];
+  UIImageView* _tabLeftDivider = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventtabdivider.png"]];
   {
-    _tabLeftDivider.frame = CGRectMake(self.tab1Button.originX, self.tab1Button.originY, 1, 53);
+    _tabLeftDivider.frame = CGRectMake(self.tab1Button.originX, self.tab1Button.originY, _tabLeftDivider.width, tabVisibleHeight);
     [self.buttonTabBar addSubview:_tabLeftDivider];
   }
-  UIImageView* _tabMiddleDivider = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabdivider.png"]];
+  UIImageView* _tabMiddleDivider = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventtabdivider.png"]];
   {
-    _tabMiddleDivider.frame = CGRectMake(self.tab2Button.originX, self.tab2Button.originY, 1, 53);
+    _tabMiddleDivider.frame = CGRectMake(self.tab2Button.originX, self.tab2Button.originY, _tabMiddleDivider.width, tabVisibleHeight);
     [self.buttonTabBar addSubview:_tabMiddleDivider];
   }
-  UIImageView* _tabRightDivider = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"eventtabdivider.png"]];
+  UIImageView* _tabRightDivider = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventtabdivider.png"]];
   {
-    _tabRightDivider.frame = CGRectMake(self.tab2Button.originX + self.tab2Button.width, self.tab2Button.originY, 1, 53);
+    _tabRightDivider.frame = CGRectMake(self.tab2Button.originX + self.tab2Button.width, self.tab2Button.originY, _tabRightDivider.width, tabVisibleHeight);
     [self.buttonTabBar addSubview:_tabRightDivider];
   }
   
