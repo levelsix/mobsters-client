@@ -16,6 +16,11 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIView *curResearchBar;
+
+@property (nonatomic, retain) IBOutlet UIImageView *curResearchBarBgdLeft;
+@property (nonatomic, retain) IBOutlet UIImageView *curResearchBarBgdRight;
+@property (nonatomic, retain) IBOutlet UIImageView *curResearchBarBgdMiddle;
+
 @property (nonatomic, retain) IBOutlet UILabel *researchNameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *researchIcon;
