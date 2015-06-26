@@ -90,7 +90,7 @@
   unionArr = [unionArr filteredArrayUsingPredicate:pred];
   
   // Add my helps in too
-  unionArr = [unionArr arrayByAddingObjectsFromArray:gs.clanHelpUtil.myClanHelps];
+  unionArr = [[NSSet setWithArray:[unionArr arrayByAddingObjectsFromArray:gs.clanHelpUtil.myClanHelps]] allObjects];
   
   // Put my helps at the top
   NSString *userUuid = gs.userUuid;

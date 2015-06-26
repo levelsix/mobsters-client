@@ -710,17 +710,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   IAPHelper *iap = [IAPHelper sharedIAPHelper];
-  if (proto.status != ResponseStatusSuccess) {
-    SKProduct *prod = iap.products[proto.packageName];
-    // Duplicate receipt might occur if you close app before response comes back
-    if (proto.status != ResponseStatusFailDuplicateReceipt) {
-      [Globals popupMessage:@"Sorry! The In App Purchase failed! Please email support@lvl6.com."];
-      [Analytics iapFailedWithSKProduct:prod error:@"Receipt verification failed"];
-    } else {
-      [Analytics iapFailedWithSKProduct:prod error:@"Duplicate receipt"];
-    }
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
     
     [self updateGameStateForUserRewardProto:proto.rewards];
@@ -753,6 +743,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
           [gs.mySales removeObjectAtIndex:idx];
         }
       }
+    } else {
+      SKProduct *prod = iap.products[proto.packageName];
+      // Duplicate receipt might occur if you close app before response comes back
+      if (proto.status != ResponseStatusFailDuplicateReceipt) {
+        [Globals popupMessage:@"Sorry! The In App Purchase failed! Please email support@lvl6.com."];
+        [Analytics iapFailedWithSKProduct:prod error:@"Receipt verification failed"];
+      } else {
+        [Analytics iapFailedWithSKProduct:prod error:@"Duplicate receipt"];
+      }
+      [gs removeAndUndoAllUpdatesForTag:tag];
     }
     
     // Post notification so all UI with that bar can update
@@ -821,9 +821,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         // This should never happen
         LNLog(@"Received success in purchase with no userStructId");
       }
-    } else {
-      [Globals popupMessage:[NSString stringWithFormat:@"Something went wrong in the purchase. Error Status: %d", (int)proto.status]];
-      [gs.myStructs removeObject:us];
     }
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -837,9 +834,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   LNLog(@"Move norm struct response received with status: %d.", (int)proto.status);
   
-  if (proto.status != ResponseStatusSuccess) {
-    [Globals popupMessage:@"Server failed to change building location or orientation."];
+  if (proto.status == ResponseStatusSuccess) {
   } else {
+    [Globals popupMessage:@"Server failed to change building location or orientation."];
   }
 }
 
@@ -850,11 +847,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Upgrade norm structure response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status != ResponseStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
     [Globals popupMessage:@"Server failed to upgrade building."];
     [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -865,11 +862,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Norm struct builds complete response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status != ResponseStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
     [Globals popupMessage:@"Server failed to complete normal structure wait time."];
     [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -880,11 +877,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Finish norm struct with diamonds response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status != ResponseStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
     [Globals popupMessage:@"Server failed to speed up normal structure wait time."];
     [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -895,11 +892,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Retrieve currency response received with status: %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status != ResponseStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
     [Globals popupMessage:@"Server failed to retrieve from normal structure."];
     [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -985,11 +982,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Quest accept response received with status %d", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status != ResponseStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
     [Globals popupMessage:@"Server failed to accept quest"];
     [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -1077,7 +1074,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   SetGameCenterIdResponseProto *proto = (SetGameCenterIdResponseProto *)fe.event;
   
   LNLog(@"Set game center response received with status %d.", (int)proto.status);
-  if (proto.status != ResponseStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
+  } else {
     [Globals popupMessage:@"Server failed to set game center id."];
   }
 }
@@ -1087,7 +1085,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   LNLog(@"Set facebook id response received with status %d.", (int)proto.status);
   
-  if (proto.status != ResponseStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
+  } else {
     GameState *gs = [GameState sharedGameState];
     gs.facebookId = nil;
   }
