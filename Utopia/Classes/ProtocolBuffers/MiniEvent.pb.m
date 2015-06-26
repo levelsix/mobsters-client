@@ -955,6 +955,7 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
     case MiniEventGoalProto_MiniEventGoalTypeEnhanceEpic:
     case MiniEventGoalProto_MiniEventGoalTypeClanHelp:
     case MiniEventGoalProto_MiniEventGoalTypeClanDonate:
+    case MiniEventGoalProto_MiniEventGoalTypeSendClanGift:
     case MiniEventGoalProto_MiniEventGoalTypeBattleAvengeRequest:
     case MiniEventGoalProto_MiniEventGoalTypeBattleAvengeWin:
     case MiniEventGoalProto_MiniEventGoalTypeBattleRevengeWin:
@@ -965,6 +966,27 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
     case MiniEventGoalProto_MiniEventGoalTypePvpCatchSuper:
     case MiniEventGoalProto_MiniEventGoalTypePvpCatchUltra:
     case MiniEventGoalProto_MiniEventGoalTypePvpCatchEpic:
+    case MiniEventGoalProto_MiniEventGoalTypeGainEnhanceStrength:
+    case MiniEventGoalProto_MiniEventGoalTypeEnhanceCakeKidBase:
+    case MiniEventGoalProto_MiniEventGoalTypeEnhanceCakeKidFeeder:
+    case MiniEventGoalProto_MiniEventGoalTypeGainEvolutionStrength:
+    case MiniEventGoalProto_MiniEventGoalTypePvpWinAgainstBronze:
+    case MiniEventGoalProto_MiniEventGoalTypePvpWinAgainstSilver:
+    case MiniEventGoalProto_MiniEventGoalTypePvpWinAgainstGold:
+    case MiniEventGoalProto_MiniEventGoalTypePvpWinAgainstPlatinum:
+    case MiniEventGoalProto_MiniEventGoalTypePvpWinAgainstDiamond:
+    case MiniEventGoalProto_MiniEventGoalTypeCompleteCommonJob:
+    case MiniEventGoalProto_MiniEventGoalTypeCompleteRareJob:
+    case MiniEventGoalProto_MiniEventGoalTypeCompleteSuperJob:
+    case MiniEventGoalProto_MiniEventGoalTypeCompleteUltraJob:
+    case MiniEventGoalProto_MiniEventGoalTypeCompleteEpicJob:
+    case MiniEventGoalProto_MiniEventGoalTypeUseHealthPotionInPvp:
+    case MiniEventGoalProto_MiniEventGoalTypeUseChillAntidoteInPvp:
+    case MiniEventGoalProto_MiniEventGoalTypeUsePoisonAntidoteInPvp:
+    case MiniEventGoalProto_MiniEventGoalTypeUseOrbHammerInPvp:
+    case MiniEventGoalProto_MiniEventGoalTypeUseHandSwapInPvp:
+    case MiniEventGoalProto_MiniEventGoalTypeUseBoardShuffleInPvp:
+    case MiniEventGoalProto_MiniEventGoalTypeUsePuttyInPvp:
       return YES;
     default:
       return NO;
