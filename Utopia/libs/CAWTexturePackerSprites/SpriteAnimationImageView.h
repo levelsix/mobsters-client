@@ -24,5 +24,6 @@
 @property (nonatomic, weak) id<SpriteAnimationImageViewDelegate> delegate;
 
 - (void) setSprite:(NSString*)spriteName secsBetweenReplay:(float)secsBetweenReplay fps:(float)fps;
+- (void) setSprite:(NSString*)spriteName secsBetweenReplay:(float)secsBetweenReplay fps:(float)fps useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix;
 
 @end

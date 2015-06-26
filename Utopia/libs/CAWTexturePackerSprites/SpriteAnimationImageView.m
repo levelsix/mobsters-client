@@ -15,6 +15,11 @@
 
 - (void) setSprite:(NSString*)spriteName secsBetweenReplay:(float)secsBetweenReplay fps:(float)fps
 {
+  [self setSprite:spriteName secsBetweenReplay:secsBetweenReplay fps:fps useiPhone6Prefix:NO useiPadSuffix:NO];
+}
+
+- (void) setSprite:(NSString*)spriteName secsBetweenReplay:(float)secsBetweenReplay fps:(float)fps useiPhone6Prefix:(BOOL)useiPhone6Prefix useiPadSuffix:(BOOL)iPadSuffix
+{
   if (![spriteName isEqualToString:_spriteName])
   {
     _spriteName = spriteName;
@@ -22,20 +27,20 @@
     if ([spriteName rangeOfString:@".plist"].location == NSNotFound)
     {
       // Set a static image
-      [Globals imageNamed:spriteName withView:self greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+      [Globals imageNamed:spriteName withView:self maskedColor:nil greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix];
     }
     else
     {
       if (self.spinner) [self.spinner startAnimating];
       
       // Check for and download assets required for the sprite animation
-      [Globals checkAndLoadFile:spriteName useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
+      [Globals checkAndLoadFile:spriteName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix completion:^(BOOL success) {
         if (success)
         {
-          NSDictionary* dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:spriteName useiPhone6Prefix:NO useiPadSuffix:NO]];
+          NSDictionary* dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:spriteName useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix]];
           NSDictionary* metadata = [dict objectForKey:@"meta"];
           NSString* texture = [metadata objectForKey:@"image"];
-          [Globals checkAndLoadFile:texture useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
+          [Globals checkAndLoadFile:texture useiPhone6Prefix:useiPhone6Prefix useiPadSuffix:iPadSuffix completion:^(BOOL success) {
             if (self.spinner) [self.spinner stopAnimating];
             
             if (success)

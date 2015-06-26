@@ -508,6 +508,7 @@
       [self.secretGiftIcon stopAnimating];
       
       self.secretGiftIcon.superview.height = self.secretGiftTimerView.originY;
+      if ([Globals isiPad]) ++self.secretGiftIcon.superview.height;
       
       self.secretGiftTimerView.hidden = NO;
       
@@ -710,7 +711,7 @@
     if (!_isAnimatingFallingGems) {
       
       self.saleGemsIcon.delegate = self;
-      [self.saleGemsIcon setSprite:spp.animatingIcon secsBetweenReplay:30.f fps:25.f];
+      [self.saleGemsIcon setSprite:spp.animatingIcon secsBetweenReplay:30.f fps:25.f useiPhone6Prefix:NO useiPadSuffix:YES];
       
       self.saleMultiplierIcon.hidden = YES;
       [Globals imageNamed:spp.slamIcon withView:self.saleMultiplierIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -770,7 +771,7 @@
   UserMiniEvent* userMiniEvent = [MiniEventManager sharedInstance].currentUserMiniEvent;
   if (userMiniEvent && self.freeGemsView.hidden)
   {
-    [self.miniEventIcon setSprite:userMiniEvent.miniEvent.icon secsBetweenReplay:12.f fps:15.f];
+    [self.miniEventIcon setSprite:userMiniEvent.miniEvent.icon secsBetweenReplay:12.f fps:15.f useiPhone6Prefix:NO useiPadSuffix:YES];
     
     const int numberOfTiersWithUnredeemedRewards = [userMiniEvent completedTiersWithUnredeemedRewards];
     self.miniEventBadge.badgeNum = numberOfTiersWithUnredeemedRewards;
