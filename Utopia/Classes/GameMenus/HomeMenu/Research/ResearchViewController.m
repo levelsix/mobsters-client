@@ -93,6 +93,20 @@
   [self updateBottomView];
 }
 
+//iPad Only
+- (IBAction)curResearchBarClickStart:(id)sender {
+  self.curResearchBarBgdLeft.highlighted = YES;
+  self.curResearchBarBgdRight.highlighted = YES;
+  self.curResearchBarBgdMiddle.highlighted = YES;
+}
+
+//iPad Only
+- (IBAction)curResearchBarClickEnd:(id)sender {
+  self.curResearchBarBgdLeft.highlighted = NO;
+  self.curResearchBarBgdRight.highlighted = NO;
+  self.curResearchBarBgdMiddle.highlighted = NO;
+}
+
 - (IBAction)curResearchBarClicked:(id)sender {
   ResearchInfoViewController *rivc = [[ResearchInfoViewController alloc] initWithResearch:self.curResearch];
   [self.parentViewController pushViewController:rivc animated:YES];
@@ -101,6 +115,7 @@
   [self.parentViewController.viewControllers insertObject:rtvc atIndex:self.parentViewController.viewControllers.count-1];
   [self.parentViewController addChildViewController:rtvc];
   [rtvc selectResearch:self.curResearch];
+  [self curResearchBarClickEnd:sender];
 }
 
 #pragma mark - TableView Delegates

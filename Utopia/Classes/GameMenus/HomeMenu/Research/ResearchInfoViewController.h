@@ -37,6 +37,11 @@
 @property (nonatomic, assign) IBOutlet UILabel *bottomNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *bottomDescLabel;
 
+//Ipad bottom bar parts
+@property (nonatomic, assign) IBOutlet UIImageView *bottomBarBgdLeft;
+@property (nonatomic, assign) IBOutlet UIImageView *bottomBarBgdRight;
+@property (nonatomic, assign) IBOutlet UIImageView *bottomBarBgdMiddle;
+
 @property (nonatomic, assign) IBOutlet UIButton *cashButton;
 @property (nonatomic, assign) IBOutlet UIButton *oilButton;
 @property (nonatomic, assign) IBOutlet UIImageView *cashIcon;
