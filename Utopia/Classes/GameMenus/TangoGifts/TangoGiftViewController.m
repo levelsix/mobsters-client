@@ -140,6 +140,10 @@
       [[OutgoingEventController sharedOutgoingEventController] sendTangoGiftsToTangoUsers:withAppList gemReward:reward delegate:self];
     }
     
+    if (withAppList.count > 0) {
+      [TangoDelegate sendGiftsToTangoUsers:withAppList];
+    }
+    
     if (withoutAppList.count > 0) {
       [TangoDelegate sendInvitesToTangoUsers:withoutAppList];
     }

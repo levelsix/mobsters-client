@@ -186,6 +186,8 @@
 - (void) redeemSecretGift:(UserSecretGiftProto *)sg delegate:(id)delegate;
 
 - (void) sendTangoGiftsToTangoUsers:(NSArray *)tangoIds gemReward:(int)gemReward delegate:(id)delegate;
+- (void) updateTangoId:(NSString *)tangoId;
+
 - (void) collectGift:(NSArray *)userClanGifts delegate:(id)delegate;
 - (void) clearGifts:(NSArray *)userClanGifts;
 

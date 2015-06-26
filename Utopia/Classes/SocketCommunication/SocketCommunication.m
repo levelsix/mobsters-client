@@ -1744,16 +1744,26 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRedeemMiniEventRewardEvent];
 }
 
-- (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId gemReward:(int32_t)gemReward clientTime:(int64_t)clientTime {
-  SendTangoGiftRequestProto *req = [[[[[[[SendTangoGiftRequestProto builder]
-                                         setSender:_sender]
-                                        addAllTangoUserIds:tangoIds]
-                                       setClientTime:clientTime]
-                                      setSenderTangoUserId:myTangoId]
+- (int) sendTangoGiftsForTangoIds:(NSArray *)tangoIds myTangoId:(NSString *)myTangoId tangoName:(NSString *)tangoName gemReward:(int32_t)gemReward clientTime:(int64_t)clientTime {
+  SendTangoGiftRequestProto *req = [[[[[[[[SendTangoGiftRequestProto builder]
+                                          setSender:_sender]
+                                         addAllTangoUserIds:tangoIds]
+                                        setClientTime:clientTime]
+                                       setSenderTangoUserId:myTangoId]
+                                      setSenderTangoName:tangoName]
                                      setGemReward:gemReward]
                                     build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCSendTangoGiftEvent];
+}
+
+- (int) sendSetTangoId:(NSString *)tangoId {
+  SetTangoIdRequestProto *req = [[[[SetTangoIdRequestProto builder]
+                                  setSender:_sender]
+                                 setTangoId:tangoId]
+                                 build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSetTangoIdEvent];
 }
 
 - (int) sendRetrieveStrengthLeaderBoarderMessage:(int)minRank maxRank:(int)maxRank {

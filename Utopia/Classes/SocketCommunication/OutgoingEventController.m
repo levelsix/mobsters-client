@@ -3752,6 +3752,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Tango Gifts
 
+- (void) updateTangoId:(NSString *)tangoId {
+  GameState* gs = [GameState sharedGameState];
+  if (!gs.connected || gs.isTutorial || !gs.userUuid || [gs.userUuid isEqualToString:@""])
+    return;
+  
+  [[SocketCommunication sharedSocketCommunication] sendSetTangoId:tangoId];
+}
+
 - (void) sendTangoGiftsToTangoUsers:(NSArray *)tangoIds gemReward:(int)gemReward delegate:(id)delegate {
 #ifdef TOONSQUAD
   GameState *gs = [GameState sharedGameState];
@@ -3762,7 +3770,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   NSString *myTangoId = [TangoDelegate getMyId];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendTangoGiftsForTangoIds:tangoIds myTangoId:myTangoId gemReward:gemReward clientTime:[self getCurrentMilliseconds]];
+  NSString *myTangoName = [TangoDelegate getMyName];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendTangoGiftsForTangoIds:tangoIds myTangoId:myTangoId tangoName:myTangoName gemReward:gemReward clientTime:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemReward];

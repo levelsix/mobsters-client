@@ -28,6 +28,7 @@
 #import "MiniEventManager.h"
 #import "ChatView.h"
 #import "LeaderBoardObject.h"
+#import "TangoDelegate.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -612,6 +613,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (fd.myFacebookUser) {
       [[GameViewController baseController] canProceedWithFacebookUser:fd.myFacebookUser];
     }
+    
+#ifdef TOONSQUAD
+    NSString *tangoId = [TangoDelegate getMyId];
+    if (tangoId) {
+      [[OutgoingEventController sharedOutgoingEventController] updateTangoId:tangoId];
+    }
+#endif
     
     // Display generic popups for strings that haven't been seen before
     NSUserDefaults *standardDefault = [NSUserDefaults standardUserDefaults];

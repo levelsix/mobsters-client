@@ -17,6 +17,7 @@
 + (BOOL) isTangoAuthenticated;
 
 + (NSString *) getMyId;
++ (NSString *) getMyName;
 + (NSArray *) getTangoIdsForProfiles:(NSArray *)profiles;
 + (NSArray *) getTangoIdsForProfiles:(NSArray *)profiles withApp:(BOOL)withApp;
 
@@ -34,6 +35,7 @@
 //+ (void) sendGiftsToTangoUsers:(NSArray *)userIds;
 
 + (void) sendInvitesToTangoUsers:(NSArray *)userIds;
++ (void) sendGiftsToTangoUsers:(NSArray *)userIds;
 
 + (void) validatePurchase:(id)transaction;
 

@@ -552,7 +552,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       
       // Track analytics
       NSString *email = [[FacebookDelegate sharedFacebookDelegate] myFacebookUser][@"email"];
-      [Analytics setUserUuid:gs.userUuid name:gs.name email:email level:gs.level segmentationGroup:gs.userSegmentationGroup];
+      [Analytics setUserUuid:gs.userUuid name:gs.name email:email level:gs.level segmentationGroup:gs.userSegmentationGroup createTime:gs.createTime.relativeNSDate];
       [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
     }
   } else if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
@@ -610,7 +610,8 @@ static const CGSize FIXED_SIZE = {568, 384};
     } else if (/*gs.tasksCompleted >= 2 && */(!gs.lastTangoGiftSentTime || hoursSinceLastTangoGift > 24)) {
 #ifdef TOONSQUAD
       if ([TangoDelegate isTangoAvailable] && [TangoDelegate isTangoAuthenticated] && [TangoDelegate getMyId]) {
-        [TangoDelegate fetchInvitableProfiles:^(NSArray *friends) {
+        [TangoDelegate fetchCachedFriends:^(NSArray *friends) {
+//        [TangoDelegate fetchInvitableProfiles:^(NSArray *friends) {
           if (friends.count) {
             TangoGiftViewController *tgvc = [[TangoGiftViewController alloc] init];
             

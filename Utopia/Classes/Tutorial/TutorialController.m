@@ -441,7 +441,7 @@ static int timesCloseClicked = 0;
 - (void) createCloseButton {
   self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
 #ifndef APPSTORE
-  [self.closeButton setImage:[Globals imageNamed:@"close1.png"] forState:UIControlStateNormal];
+  [self.closeButton setImage:[Globals imageNamed:@"closepopupx.png"] forState:UIControlStateNormal];
 #endif
   self.closeButton.frame = CGRectMake(4, 4, 30, 30);
   [self.gameViewController.view addSubview:self.closeButton];

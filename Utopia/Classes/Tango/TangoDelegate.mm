@@ -19,12 +19,16 @@
 #import <TangoSDK/TangoInvitingResponse.h>
 #import <error_codes.h>
 
+#import "OutgoingEventController.h"
+
 #define TANGO_ENABLED
 
 #ifdef DEBUG
-#define TANGO_RESOURCE_ID @"TEST_INVITE_ID"
+#define TANGO_INVITE_RESOURCE_ID @"TEST_INVITE_ID"
+#define TANGO_GIFT_RESOURCE_ID @"TEST_GIFT_ID"
 #else
-#define TANGO_RESOURCE_ID @"INVITE_ID1"
+#define TANGO_INVITE_RESOURCE_ID @"INVITE_ID1"
+#define TANGO_GIFT_RESOURCE_ID @"GIFT_ID1"
 #endif
 
 @implementation TangoDelegate
@@ -93,6 +97,11 @@ static TangoProfileEntry *profileEntry = nil;
 //      }
       
       NSLog(@"Fetch my Tango profile returned with status: %d", (int)error.code);
+      
+      NSString *tangoId = [self getMyId];
+      if (tangoId) {
+        [[OutgoingEventController sharedOutgoingEventController] updateTangoId:tangoId];
+      }
     }];
   }
 #endif
@@ -101,6 +110,14 @@ static TangoProfileEntry *profileEntry = nil;
 + (NSString *) getMyId {
 #ifdef TANGO_ENABLED
   return profileEntry.profileID;
+#else
+  return nil;
+#endif
+}
+
++ (NSString *) getMyName {
+#ifdef TANGO_ENABLED
+  return profileEntry.fullName;
 #else
   return nil;
 #endif
@@ -202,7 +219,7 @@ static TangoProfileEntry *profileEntry = nil;
 
 + (void) fetchInvitableProfiles:(void (^)(NSArray *friends))comp {
 #ifdef TANGO_ENABLED
-  [TangoInviting fetchProfilesWithinLimitsForResourceId:TANGO_RESOURCE_ID handler:^(TangoInvitingFetchProfilesResponse *response, NSError *error) {
+  [TangoInviting fetchProfilesWithinLimitsForResourceId:TANGO_INVITE_RESOURCE_ID handler:^(TangoInvitingFetchProfilesResponse *response, NSError *error) {
     dispatch_sync(dispatch_get_main_queue(), ^{
       comp(response.filteredProfiles.profileEnumerator.allObjects);
     });
@@ -260,21 +277,20 @@ static TangoProfileEntry *profileEntry = nil;
 //  }];
 //#endif
 //}
-//
-//+ (void) sendGiftsToTangoUsers:(NSArray *)userIds {
-//#ifdef TANGO_ENABLED
-//  NSString *resourceId = @"GIFT_ID1";
-////  NSString *resourceId = @"TEST_GIFT_ID";
-//  
-//  [TangoGifting sendGiftToRecipients:userIds withResourceId:resourceId handler:^(TangoGiftingSendGiftResponse *response, NSError *error) {
-//    NSLog(@"Send Tango Gifts return with status: %d", (int)error.code);
-//  }];
-//#endif
-//}
+
++ (void) sendGiftsToTangoUsers:(NSArray *)userIds {
+#ifdef TANGO_ENABLED
+  NSString *resourceId = TANGO_GIFT_RESOURCE_ID;
+  
+  [TangoGifting sendGiftToRecipients:userIds withResourceId:resourceId handler:^(TangoGiftingSendGiftResponse *response, NSError *error) {
+    NSLog(@"Send Tango Gifts return with status: %d", (int)error.code);
+  }];
+#endif
+}
 
 + (void) sendInvitesToTangoUsers:(NSArray *)userIds {
 #ifdef TANGO_ENABLED
-  [TangoInviting sendInvitationToRecipients:userIds resourceId:TANGO_RESOURCE_ID handler:^(TangoInvitingSendInvitationsResponse *response, NSError *error) {
+  [TangoInviting sendInvitationToRecipients:userIds resourceId:TANGO_INVITE_RESOURCE_ID handler:^(TangoInvitingSendInvitationsResponse *response, NSError *error) {
     NSLog(@"Send Tango invites returned with status: %d", (int)error.code);
   }];
 #endif

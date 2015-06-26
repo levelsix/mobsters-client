@@ -94,7 +94,7 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
   [Adjust appDidLaunch:[ADJConfig configWithAppToken:ADJUST_APP_TOKEN environment:[self isSandbox] ? ADJEnvironmentSandbox : ADJEnvironmentProduction]];
 }
 
-+ (NSMutableDictionary *) userPropertiesWithName:(NSString *)name level:(int)level segentationGroup:(int)segGroup {
++ (NSMutableDictionary *) userPropertiesWithName:(NSString *)name level:(int)level segentationGroup:(int)segGroup createTime:(NSDate *)createTime {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   
   //app_version - we go ahead and set this, but this can be changed if a cutom version is set with adjust_customVersion()
@@ -131,6 +131,8 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
     [dict setObject:[NSString stringWithFormat:@"%d", level] forKey:@"user_level"];
     
     [dict setObject:@(segGroup) forKey:@"segmentation_group"];
+    
+    [dict setObject:createTime forKey:@"create_time"];
   }
   
   return dict;
@@ -139,7 +141,7 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
 + (void) setupAmplitude {
   [amplitudeClass initializeApiKey:AMPLITUDE_KEY];
   
-  [amplitudeClass setUserProperties:[self userPropertiesWithName:nil level:0 segentationGroup:0]];
+  [amplitudeClass setUserProperties:[self userPropertiesWithName:nil level:0 segentationGroup:0 createTime:nil]];
 }
 
 + (void) setupTitan {
@@ -259,7 +261,7 @@ static NSDate *timeSinceLastConnectStep = nil;
 
 #pragma mark - Attribution stuff
 
-+ (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email level:(int)level segmentationGroup:(int)group {
++ (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email level:(int)level segmentationGroup:(int)group createTime:(NSDate *)createTime {
   NSString *uid = userUuid;
 #ifdef MOBSTERS
   //  [ScopelyAttributionWrapper mat_setUserInfoForUserId:uid withNameUser:name withEmail:email];
@@ -268,7 +270,7 @@ static NSDate *timeSinceLastConnectStep = nil;
 #endif
   
   [amplitudeClass setUserId:uid];
-  [amplitudeClass setUserProperties:[self userPropertiesWithName:name level:level segentationGroup:group]];
+  [amplitudeClass setUserProperties:[self userPropertiesWithName:name level:level segentationGroup:group createTime:createTime]];
 }
 
 + (void) newAccountCreated {

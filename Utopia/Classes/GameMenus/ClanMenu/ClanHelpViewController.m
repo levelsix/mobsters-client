@@ -89,7 +89,18 @@
   }];
   unionArr = [unionArr filteredArrayUsingPredicate:pred];
   
+  // Add my helps in too
+  unionArr = [unionArr arrayByAddingObjectsFromArray:gs.clanHelpUtil.myClanHelps];
+  
+  // Put my helps at the top
+  NSString *userUuid = gs.userUuid;
   unionArr = [unionArr sortedArrayUsingComparator:^NSComparisonResult(id<ClanHelp> obj1, id<ClanHelp> obj2) {
+    BOOL isMine1 = [[[obj1 requester] userUuid] isEqualToString:userUuid];
+    BOOL isMine2 = [[[obj2 requester] userUuid] isEqualToString:userUuid];
+    
+    if (isMine1 != isMine2) {
+      return [@(isMine2) compare:@(isMine1)];
+    }
     return [[obj2 requestedTime] compare:[obj1 requestedTime]];
   }];
   
