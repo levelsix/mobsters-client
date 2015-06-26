@@ -2,6 +2,7 @@
 
 #import "ProtocolBuffers.h"
 
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -36,13 +37,6 @@
     #define NS_RETURNS_NOT_RETAINED
   #endif
 #endif
-
-typedef NS_ENUM(SInt32, EnableAPNSResponseProto_EnableAPNSStatus) {
-  EnableAPNSResponseProto_EnableAPNSStatusSuccess = 1,
-  EnableAPNSResponseProto_EnableAPNSStatusNotEnabled = 2,
-};
-
-BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProto_EnableAPNSStatus value);
 
 
 @interface EventApnsRoot : NSObject {
@@ -116,12 +110,12 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  EnableAPNSResponseProto_EnableAPNSStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) EnableAPNSResponseProto_EnableAPNSStatus status;
+@property (readonly) ResponseStatus status;
 
 + (EnableAPNSResponseProto*) defaultInstance;
 - (EnableAPNSResponseProto*) defaultInstance;
@@ -166,8 +160,8 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
 - (EnableAPNSResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (EnableAPNSResponseProto_EnableAPNSStatus) status;
-- (EnableAPNSResponseProto_Builder*) setStatus:(EnableAPNSResponseProto_EnableAPNSStatus) value;
+- (ResponseStatus) status;
+- (EnableAPNSResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (EnableAPNSResponseProto_Builder*) clearStatusList;
 @end
 

@@ -72,17 +72,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, ResourceType) {
-  ResourceTypeNoResource = 4,
-  ResourceTypeCash = 1,
-  ResourceTypeOil = 2,
-  ResourceTypeGems = 3,
-  ResourceTypeGachaCredits = 5,
-  ResourceTypeMonster = 20,
-};
-
-BOOL ResourceTypeIsValidValue(ResourceType value);
-
 typedef NS_ENUM(SInt32, StructOrientation) {
   StructOrientationNoOrientation = 3,
   StructOrientationPosition1 = 1,

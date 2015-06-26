@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -294,7 +295,7 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
 @interface LoadPlayerCityResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) MinimumUserProto* cityOwner;
-@property LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableOwnerNormStructsList;
 @property (strong) NSMutableArray * mutableUserCityExpansionDataProtoListList;
 @property (strong) NSMutableArray * mutableObstaclesList;
@@ -333,7 +334,7 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.cityOwner = [MinimumUserProto defaultInstance];
-    self.status = LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -531,16 +532,6 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
 }
 @end
 
-BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCityResponseProto_LoadPlayerCityStatus value) {
-  switch (value) {
-    case LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess:
-    case LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer:
-    case LoadPlayerCityResponseProto_LoadPlayerCityStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface LoadPlayerCityResponseProto_Builder()
 @property (strong) LoadPlayerCityResponseProto* result;
 @end
@@ -649,8 +640,8 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         break;
       }
       case 24: {
-        LoadPlayerCityResponseProto_LoadPlayerCityStatus value = (LoadPlayerCityResponseProto_LoadPlayerCityStatus)[input readEnum];
-        if (LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -741,17 +732,17 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (LoadPlayerCityResponseProto_LoadPlayerCityStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (LoadPlayerCityResponseProto_Builder*) setStatus:(LoadPlayerCityResponseProto_LoadPlayerCityStatus) value {
+- (LoadPlayerCityResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (LoadPlayerCityResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)ownerNormStructsList {

@@ -15,6 +15,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [MiniEventRoot registerAllExtensions:registry];
     [RewardRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -25,6 +26,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @interface RetrieveMiniEventRequestProto ()
 @property (strong) MinimumUserProto* sender;
+@property int64_t clientTime;
 @end
 
 @implementation RetrieveMiniEventRequestProto
@@ -36,9 +38,17 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasSender_ = !!value_;
 }
 @synthesize sender;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -61,6 +71,9 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
+  if (self.hasClientTime) {
+    [output writeInt64:2 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -72,6 +85,9 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
   size_ = 0;
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(2, self.clientTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -114,6 +130,9 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -127,12 +146,17 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -180,6 +204,9 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -208,6 +235,10 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -243,12 +274,28 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (RetrieveMiniEventRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (RetrieveMiniEventRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface RetrieveMiniEventResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) UserMiniEventProto* userMiniEvent;
-@property RetrieveMiniEventResponseProto_RetrieveMiniEventStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation RetrieveMiniEventResponseProto
@@ -278,7 +325,7 @@ static RetrieveMiniEventRequestProto* defaultRetrieveMiniEventRequestProtoInstan
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.userMiniEvent = [UserMiniEventProto defaultInstance];
-    self.status = RetrieveMiniEventResponseProto_RetrieveMiniEventStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -410,15 +457,6 @@ static RetrieveMiniEventResponseProto* defaultRetrieveMiniEventResponseProtoInst
 }
 @end
 
-BOOL RetrieveMiniEventResponseProto_RetrieveMiniEventStatusIsValidValue(RetrieveMiniEventResponseProto_RetrieveMiniEventStatus value) {
-  switch (value) {
-    case RetrieveMiniEventResponseProto_RetrieveMiniEventStatusSuccess:
-    case RetrieveMiniEventResponseProto_RetrieveMiniEventStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RetrieveMiniEventResponseProto_Builder()
 @property (strong) RetrieveMiniEventResponseProto* result;
 @end
@@ -506,8 +544,8 @@ BOOL RetrieveMiniEventResponseProto_RetrieveMiniEventStatusIsValidValue(Retrieve
         break;
       }
       case 24: {
-        RetrieveMiniEventResponseProto_RetrieveMiniEventStatus value = (RetrieveMiniEventResponseProto_RetrieveMiniEventStatus)[input readEnum];
-        if (RetrieveMiniEventResponseProto_RetrieveMiniEventStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -580,17 +618,17 @@ BOOL RetrieveMiniEventResponseProto_RetrieveMiniEventStatusIsValidValue(Retrieve
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RetrieveMiniEventResponseProto_RetrieveMiniEventStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RetrieveMiniEventResponseProto_Builder*) setStatus:(RetrieveMiniEventResponseProto_RetrieveMiniEventStatus) value {
+- (RetrieveMiniEventResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RetrieveMiniEventResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RetrieveMiniEventResponseProto_RetrieveMiniEventStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -598,6 +636,7 @@ BOOL RetrieveMiniEventResponseProto_RetrieveMiniEventStatusIsValidValue(Retrieve
 @interface UpdateMiniEventRequestProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableUpdatedGoalsList;
+@property int64_t clientTime;
 @end
 
 @implementation UpdateMiniEventRequestProto
@@ -611,9 +650,17 @@ BOOL RetrieveMiniEventResponseProto_RetrieveMiniEventStatusIsValidValue(Retrieve
 @synthesize sender;
 @synthesize mutableUpdatedGoalsList;
 @dynamic updatedGoalsList;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -645,6 +692,9 @@ static UpdateMiniEventRequestProto* defaultUpdateMiniEventRequestProtoInstance =
   [self.updatedGoalsList enumerateObjectsUsingBlock:^(UserMiniEventGoalProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:2 value:element];
   }];
+  if (self.hasClientTime) {
+    [output writeInt64:3 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -660,6 +710,9 @@ static UpdateMiniEventRequestProto* defaultUpdateMiniEventRequestProtoInstance =
   [self.updatedGoalsList enumerateObjectsUsingBlock:^(UserMiniEventGoalProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(2, element);
   }];
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(3, self.clientTime);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -707,6 +760,9 @@ static UpdateMiniEventRequestProto* defaultUpdateMiniEventRequestProtoInstance =
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -721,6 +777,8 @@ static UpdateMiniEventRequestProto* defaultUpdateMiniEventRequestProtoInstance =
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       [self.updatedGoalsList isEqualToArray:otherMessage.updatedGoalsList] &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -731,6 +789,9 @@ static UpdateMiniEventRequestProto* defaultUpdateMiniEventRequestProtoInstance =
   [self.updatedGoalsList enumerateObjectsUsingBlock:^(UserMiniEventGoalProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -784,6 +845,9 @@ static UpdateMiniEventRequestProto* defaultUpdateMiniEventRequestProtoInstance =
       [result.mutableUpdatedGoalsList addObjectsFromArray:other.mutableUpdatedGoalsList];
     }
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -818,6 +882,10 @@ static UpdateMiniEventRequestProto* defaultUpdateMiniEventRequestProtoInstance =
         UserMiniEventGoalProto_Builder* subBuilder = [UserMiniEventGoalProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUpdatedGoals:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -877,11 +945,27 @@ static UpdateMiniEventRequestProto* defaultUpdateMiniEventRequestProtoInstance =
   result.mutableUpdatedGoalsList = nil;
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (UpdateMiniEventRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (UpdateMiniEventRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface UpdateMiniEventResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property UpdateMiniEventResponseProto_UpdateMiniEventStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation UpdateMiniEventResponseProto
@@ -903,7 +987,7 @@ static UpdateMiniEventRequestProto* defaultUpdateMiniEventRequestProtoInstance =
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = UpdateMiniEventResponseProto_UpdateMiniEventStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1018,15 +1102,6 @@ static UpdateMiniEventResponseProto* defaultUpdateMiniEventResponseProtoInstance
 }
 @end
 
-BOOL UpdateMiniEventResponseProto_UpdateMiniEventStatusIsValidValue(UpdateMiniEventResponseProto_UpdateMiniEventStatus value) {
-  switch (value) {
-    case UpdateMiniEventResponseProto_UpdateMiniEventStatusSuccess:
-    case UpdateMiniEventResponseProto_UpdateMiniEventStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface UpdateMiniEventResponseProto_Builder()
 @property (strong) UpdateMiniEventResponseProto* result;
 @end
@@ -1102,8 +1177,8 @@ BOOL UpdateMiniEventResponseProto_UpdateMiniEventStatusIsValidValue(UpdateMiniEv
         break;
       }
       case 16: {
-        UpdateMiniEventResponseProto_UpdateMiniEventStatus value = (UpdateMiniEventResponseProto_UpdateMiniEventStatus)[input readEnum];
-        if (UpdateMiniEventResponseProto_UpdateMiniEventStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1146,17 +1221,17 @@ BOOL UpdateMiniEventResponseProto_UpdateMiniEventStatusIsValidValue(UpdateMiniEv
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (UpdateMiniEventResponseProto_UpdateMiniEventStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (UpdateMiniEventResponseProto_Builder*) setStatus:(UpdateMiniEventResponseProto_UpdateMiniEventStatus) value {
+- (UpdateMiniEventResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (UpdateMiniEventResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = UpdateMiniEventResponseProto_UpdateMiniEventStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -1538,7 +1613,7 @@ BOOL RedeemMiniEventRewardRequestProto_RewardTierIsValidValue(RedeemMiniEventRew
 
 @interface RedeemMiniEventRewardResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus status;
+@property ResponseStatus status;
 @property (strong) UserRewardProto* rewards;
 @end
 
@@ -1568,7 +1643,7 @@ BOOL RedeemMiniEventRewardRequestProto_RewardTierIsValidValue(RedeemMiniEventRew
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusFailOther;
+    self.status = ResponseStatusFailOther;
     self.rewards = [UserRewardProto defaultInstance];
   }
   return self;
@@ -1701,15 +1776,6 @@ static RedeemMiniEventRewardResponseProto* defaultRedeemMiniEventRewardResponseP
 }
 @end
 
-BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus value) {
-  switch (value) {
-    case RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusSuccess:
-    case RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RedeemMiniEventRewardResponseProto_Builder()
 @property (strong) RedeemMiniEventRewardResponseProto* result;
 @end
@@ -1788,8 +1854,8 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
         break;
       }
       case 16: {
-        RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus value = (RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus)[input readEnum];
-        if (RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1841,17 +1907,17 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RedeemMiniEventRewardResponseProto_Builder*) setStatus:(RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus) value {
+- (RedeemMiniEventRewardResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RedeemMiniEventRewardResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusFailOther;
+  result.status = ResponseStatusFailOther;
   return self;
 }
 - (BOOL) hasRewards {

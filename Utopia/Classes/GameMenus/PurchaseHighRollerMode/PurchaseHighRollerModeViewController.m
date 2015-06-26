@@ -152,7 +152,7 @@
   
   if (fe) {
     InAppPurchaseResponseProto *proto = (InAppPurchaseResponseProto *)fe.event;
-    if (proto.status == InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
+    if (proto.status == ResponseStatusSuccess) {
       if (self.delegate) {
         [self.delegate highRollerModePurchased];
       }

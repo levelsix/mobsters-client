@@ -173,12 +173,12 @@
 #pragma mark - Response handlers
 
 - (void) handleClanEventCreateClanResponseProto:(CreateClanResponseProto *)proto {
-  if (proto.status == CreateClanResponseProto_CreateClanStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [self updateConfiguration];
     [self button1Clicked:_activeTopBar];
-  } else if (proto.status == CreateClanResponseProto_CreateClanStatusFailNameTaken) {
+  } else if (proto.status == ResponseStatusFailNameTaken) {
     [Globals popupMessage:@"Sorry, this name is already in use."];
-  } else if (proto.status == CreateClanResponseProto_CreateClanStatusFailTagTaken) {
+  } else if (proto.status == ResponseStatusFailTagTaken) {
     [Globals popupMessage:@"Sorry, this tag is already in use."];
   } else {
     [Globals popupMessage:@"Sorry, something went wrong! Please try again."];
@@ -187,7 +187,7 @@
 
 - (void) handleClanEventLeaveClanResponseProto:(LeaveClanResponseProto *)proto {
   GameState *gs = [GameState sharedGameState];
-  if ([proto.sender.userUuid isEqualToString:gs.userUuid] && proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
+  if ([proto.sender.userUuid isEqualToString:gs.userUuid] && proto.status == ResponseStatusSuccess) {
     [self updateConfiguration];
     [self button1Clicked:_activeTopBar];
   }
@@ -195,7 +195,7 @@
 
 - (void) handleClanEventApproveOrRejectRequestToJoinClanResponseProto:(ApproveOrRejectRequestToJoinClanResponseProto *)proto {
   GameState *gs = [GameState sharedGameState];
-  if ([proto.requester.userUuid isEqualToString:gs.userUuid] && proto.accept && proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
+  if ([proto.requester.userUuid isEqualToString:gs.userUuid] && proto.accept && proto.status == ResponseStatusSuccess) {
     [self updateConfiguration];
     [self button1Clicked:_activeTopBar];
   }
@@ -203,7 +203,7 @@
 
 - (void) handleClanEventBootPlayerFromClanResponseProto:(BootPlayerFromClanResponseProto *)proto {
   GameState *gs = [GameState sharedGameState];
-  if ([proto.playerToBoot.userUuid isEqualToString:gs.userUuid] && proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
+  if ([proto.playerToBoot.userUuid isEqualToString:gs.userUuid] && proto.status == ResponseStatusSuccess) {
     [self updateConfiguration];
     [self button1Clicked:_activeTopBar];
   }
@@ -211,7 +211,7 @@
 
 - (void) handleClanEventRequestJoinClanResponseProto:(LeaveClanResponseProto *)proto {
   GameState *gs = [GameState sharedGameState];
-  if ([proto.sender.userUuid isEqualToString:gs.userUuid] && proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin) {
+  if ([proto.sender.userUuid isEqualToString:gs.userUuid] && proto.status == ResponseStatusSuccessJoin) {
     [self updateConfiguration];
     [self button1Clicked:_activeTopBar];
   }

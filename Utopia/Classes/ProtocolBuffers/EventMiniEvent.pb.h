@@ -4,6 +4,7 @@
 
 #import "MiniEvent.pb.h"
 #import "Reward.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -111,20 +112,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, RetrieveMiniEventResponseProto_RetrieveMiniEventStatus) {
-  RetrieveMiniEventResponseProto_RetrieveMiniEventStatusSuccess = 1,
-  RetrieveMiniEventResponseProto_RetrieveMiniEventStatusFailOther = 2,
-};
-
-BOOL RetrieveMiniEventResponseProto_RetrieveMiniEventStatusIsValidValue(RetrieveMiniEventResponseProto_RetrieveMiniEventStatus value);
-
-typedef NS_ENUM(SInt32, UpdateMiniEventResponseProto_UpdateMiniEventStatus) {
-  UpdateMiniEventResponseProto_UpdateMiniEventStatusSuccess = 1,
-  UpdateMiniEventResponseProto_UpdateMiniEventStatusFailOther = 2,
-};
-
-BOOL UpdateMiniEventResponseProto_UpdateMiniEventStatusIsValidValue(UpdateMiniEventResponseProto_UpdateMiniEventStatus value);
-
 typedef NS_ENUM(SInt32, RedeemMiniEventRewardRequestProto_RewardTier) {
   RedeemMiniEventRewardRequestProto_RewardTierTierOne = 1,
   RedeemMiniEventRewardRequestProto_RewardTierTierTwo = 2,
@@ -132,13 +119,6 @@ typedef NS_ENUM(SInt32, RedeemMiniEventRewardRequestProto_RewardTier) {
 };
 
 BOOL RedeemMiniEventRewardRequestProto_RewardTierIsValidValue(RedeemMiniEventRewardRequestProto_RewardTier value);
-
-typedef NS_ENUM(SInt32, RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus) {
-  RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusSuccess = 1,
-  RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusFailOther = 2,
-};
-
-BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus value);
 
 
 @interface EventMiniEventRoot : NSObject {
@@ -149,11 +129,15 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
 
 @interface RetrieveMiniEventRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasSender_:1;
+  int64_t clientTime;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) int64_t clientTime;
 
 + (RetrieveMiniEventRequestProto*) defaultInstance;
 - (RetrieveMiniEventRequestProto*) defaultInstance;
@@ -196,6 +180,11 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
 - (RetrieveMiniEventRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (RetrieveMiniEventRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveMiniEventRequestProto_Builder*) clearSender;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (RetrieveMiniEventRequestProto_Builder*) setClientTime:(int64_t) value;
+- (RetrieveMiniEventRequestProto_Builder*) clearClientTime;
 @end
 
 @interface RetrieveMiniEventResponseProto : PBGeneratedMessage {
@@ -205,14 +194,14 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   UserMiniEventProto* userMiniEvent;
-  RetrieveMiniEventResponseProto_RetrieveMiniEventStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserMiniEvent;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) UserMiniEventProto* userMiniEvent;
-@property (readonly) RetrieveMiniEventResponseProto_RetrieveMiniEventStatus status;
+@property (readonly) ResponseStatus status;
 
 + (RetrieveMiniEventResponseProto*) defaultInstance;
 - (RetrieveMiniEventResponseProto*) defaultInstance;
@@ -264,20 +253,24 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
 - (RetrieveMiniEventResponseProto_Builder*) clearUserMiniEvent;
 
 - (BOOL) hasStatus;
-- (RetrieveMiniEventResponseProto_RetrieveMiniEventStatus) status;
-- (RetrieveMiniEventResponseProto_Builder*) setStatus:(RetrieveMiniEventResponseProto_RetrieveMiniEventStatus) value;
+- (ResponseStatus) status;
+- (RetrieveMiniEventResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RetrieveMiniEventResponseProto_Builder*) clearStatusList;
 @end
 
 @interface UpdateMiniEventRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasSender_:1;
+  int64_t clientTime;
   MinimumUserProto* sender;
   NSMutableArray * mutableUpdatedGoalsList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * updatedGoalsList;
+@property (readonly) int64_t clientTime;
 - (UserMiniEventGoalProto*)updatedGoalsAtIndex:(NSUInteger)index;
 
 + (UpdateMiniEventRequestProto*) defaultInstance;
@@ -327,6 +320,11 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
 - (UpdateMiniEventRequestProto_Builder *)addUpdatedGoals:(UserMiniEventGoalProto*)value;
 - (UpdateMiniEventRequestProto_Builder *)addAllUpdatedGoals:(NSArray *)array;
 - (UpdateMiniEventRequestProto_Builder *)clearUpdatedGoals;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (UpdateMiniEventRequestProto_Builder*) setClientTime:(int64_t) value;
+- (UpdateMiniEventRequestProto_Builder*) clearClientTime;
 @end
 
 @interface UpdateMiniEventResponseProto : PBGeneratedMessage {
@@ -334,12 +332,12 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  UpdateMiniEventResponseProto_UpdateMiniEventStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) UpdateMiniEventResponseProto_UpdateMiniEventStatus status;
+@property (readonly) ResponseStatus status;
 
 + (UpdateMiniEventResponseProto*) defaultInstance;
 - (UpdateMiniEventResponseProto*) defaultInstance;
@@ -384,8 +382,8 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
 - (UpdateMiniEventResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (UpdateMiniEventResponseProto_UpdateMiniEventStatus) status;
-- (UpdateMiniEventResponseProto_Builder*) setStatus:(UpdateMiniEventResponseProto_UpdateMiniEventStatus) value;
+- (ResponseStatus) status;
+- (UpdateMiniEventResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (UpdateMiniEventResponseProto_Builder*) clearStatusList;
 @end
 
@@ -474,13 +472,13 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   UserRewardProto* rewards;
-  RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasRewards;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) UserRewardProto* rewards;
 
 + (RedeemMiniEventRewardResponseProto*) defaultInstance;
@@ -526,8 +524,8 @@ BOOL RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusIsValidValue(
 - (RedeemMiniEventRewardResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus) status;
-- (RedeemMiniEventRewardResponseProto_Builder*) setStatus:(RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatus) value;
+- (ResponseStatus) status;
+- (RedeemMiniEventRewardResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RedeemMiniEventRewardResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasRewards;

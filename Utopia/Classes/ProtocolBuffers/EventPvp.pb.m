@@ -15,6 +15,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [BattleRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -358,7 +359,7 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
 @interface QueueUpResponseProto ()
 @property (strong) MinimumUserProto* attacker;
 @property (strong) NSMutableArray * mutableDefenderInfoListList;
-@property QueueUpResponseProto_QueueUpStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation QueueUpResponseProto
@@ -382,7 +383,7 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.attacker = [MinimumUserProto defaultInstance];
-    self.status = QueueUpResponseProto_QueueUpStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -519,17 +520,6 @@ static QueueUpResponseProto* defaultQueueUpResponseProtoInstance = nil;
 }
 @end
 
-BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUpStatus value) {
-  switch (value) {
-    case QueueUpResponseProto_QueueUpStatusSuccess:
-    case QueueUpResponseProto_QueueUpStatusFailNotEnoughCash:
-    case QueueUpResponseProto_QueueUpStatusFailOther:
-    case QueueUpResponseProto_QueueUpStatusFailNotEnoughGems:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface QueueUpResponseProto_Builder()
 @property (strong) QueueUpResponseProto* result;
 @end
@@ -618,8 +608,8 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
         break;
       }
       case 24: {
-        QueueUpResponseProto_QueueUpStatus value = (QueueUpResponseProto_QueueUpStatus)[input readEnum];
-        if (QueueUpResponseProto_QueueUpStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -686,17 +676,17 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (QueueUpResponseProto_QueueUpStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (QueueUpResponseProto_Builder*) setStatus:(QueueUpResponseProto_QueueUpStatus) value {
+- (QueueUpResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (QueueUpResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = QueueUpResponseProto_QueueUpStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -1182,7 +1172,7 @@ static BeginPvpBattleRequestProto* defaultBeginPvpBattleRequestProtoInstance = n
 
 @interface BeginPvpBattleResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property BeginPvpBattleResponseProto_BeginPvpBattleStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation BeginPvpBattleResponseProto
@@ -1204,7 +1194,7 @@ static BeginPvpBattleRequestProto* defaultBeginPvpBattleRequestProtoInstance = n
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1319,16 +1309,6 @@ static BeginPvpBattleResponseProto* defaultBeginPvpBattleResponseProtoInstance =
 }
 @end
 
-BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattleResponseProto_BeginPvpBattleStatus value) {
-  switch (value) {
-    case BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess:
-    case BeginPvpBattleResponseProto_BeginPvpBattleStatusFailEnemyUnavailable:
-    case BeginPvpBattleResponseProto_BeginPvpBattleStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface BeginPvpBattleResponseProto_Builder()
 @property (strong) BeginPvpBattleResponseProto* result;
 @end
@@ -1404,8 +1384,8 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
         break;
       }
       case 16: {
-        BeginPvpBattleResponseProto_BeginPvpBattleStatus value = (BeginPvpBattleResponseProto_BeginPvpBattleStatus)[input readEnum];
-        if (BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1448,17 +1428,17 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (BeginPvpBattleResponseProto_BeginPvpBattleStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (BeginPvpBattleResponseProto_Builder*) setStatus:(BeginPvpBattleResponseProto_BeginPvpBattleStatus) value {
+- (BeginPvpBattleResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (BeginPvpBattleResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -2294,7 +2274,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
 @property (strong) NSString* defenderUuid;
 @property BOOL attackerAttacked;
 @property BOOL attackerWon;
-@property EndPvpBattleResponseProto_EndPvpBattleStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableUpdatedOrNewList;
 @property (strong) PvpHistoryProto* battleThatJustEnded;
 @property (strong) UserPvpLeagueProto* statsBefore;
@@ -2380,7 +2360,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
     self.defenderUuid = @"";
     self.attackerAttacked = NO;
     self.attackerWon = NO;
-    self.status = EndPvpBattleResponseProto_EndPvpBattleStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.battleThatJustEnded = [PvpHistoryProto defaultInstance];
     self.statsBefore = [UserPvpLeagueProto defaultInstance];
     self.statsAfter = [UserPvpLeagueProto defaultInstance];
@@ -2635,16 +2615,6 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
 }
 @end
 
-BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleResponseProto_EndPvpBattleStatus value) {
-  switch (value) {
-    case EndPvpBattleResponseProto_EndPvpBattleStatusSuccess:
-    case EndPvpBattleResponseProto_EndPvpBattleStatusFailOther:
-    case EndPvpBattleResponseProto_EndPvpBattleStatusFailBattleTookTooLong:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface EndPvpBattleResponseProto_Builder()
 @property (strong) EndPvpBattleResponseProto* result;
 @end
@@ -2764,8 +2734,8 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
         break;
       }
       case 72: {
-        EndPvpBattleResponseProto_EndPvpBattleStatus value = (EndPvpBattleResponseProto_EndPvpBattleStatus)[input readEnum];
-        if (EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:9 value:value];
@@ -2895,17 +2865,17 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (EndPvpBattleResponseProto_EndPvpBattleStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (EndPvpBattleResponseProto_Builder*) setStatus:(EndPvpBattleResponseProto_EndPvpBattleStatus) value {
+- (EndPvpBattleResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (EndPvpBattleResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = EndPvpBattleResponseProto_EndPvpBattleStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)updatedOrNewList {
@@ -3564,7 +3534,7 @@ static SetDefendingMsgRequestProto* defaultSetDefendingMsgRequestProtoInstance =
 
 @interface SetDefendingMsgResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property SetDefendingMsgResponseProto_SetDefendingMsgStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation SetDefendingMsgResponseProto
@@ -3586,7 +3556,7 @@ static SetDefendingMsgRequestProto* defaultSetDefendingMsgRequestProtoInstance =
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = SetDefendingMsgResponseProto_SetDefendingMsgStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -3701,15 +3671,6 @@ static SetDefendingMsgResponseProto* defaultSetDefendingMsgResponseProtoInstance
 }
 @end
 
-BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefendingMsgResponseProto_SetDefendingMsgStatus value) {
-  switch (value) {
-    case SetDefendingMsgResponseProto_SetDefendingMsgStatusSuccess:
-    case SetDefendingMsgResponseProto_SetDefendingMsgStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SetDefendingMsgResponseProto_Builder()
 @property (strong) SetDefendingMsgResponseProto* result;
 @end
@@ -3785,8 +3746,8 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
         break;
       }
       case 16: {
-        SetDefendingMsgResponseProto_SetDefendingMsgStatus value = (SetDefendingMsgResponseProto_SetDefendingMsgStatus)[input readEnum];
-        if (SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -3829,17 +3790,17 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SetDefendingMsgResponseProto_SetDefendingMsgStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SetDefendingMsgResponseProto_Builder*) setStatus:(SetDefendingMsgResponseProto_SetDefendingMsgStatus) value {
+- (SetDefendingMsgResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SetDefendingMsgResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SetDefendingMsgResponseProto_SetDefendingMsgStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -4202,7 +4163,7 @@ static CustomizePvpBoardObstacleRequestProto* defaultCustomizePvpBoardObstacleRe
 
 @interface CustomizePvpBoardObstacleResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation CustomizePvpBoardObstacleResponseProto
@@ -4224,7 +4185,7 @@ static CustomizePvpBoardObstacleRequestProto* defaultCustomizePvpBoardObstacleRe
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -4339,15 +4300,6 @@ static CustomizePvpBoardObstacleResponseProto* defaultCustomizePvpBoardObstacleR
 }
 @end
 
-BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsValidValue(CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus value) {
-  switch (value) {
-    case CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusSuccess:
-    case CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface CustomizePvpBoardObstacleResponseProto_Builder()
 @property (strong) CustomizePvpBoardObstacleResponseProto* result;
 @end
@@ -4423,8 +4375,8 @@ BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsVal
         break;
       }
       case 16: {
-        CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus value = (CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus)[input readEnum];
-        if (CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -4467,17 +4419,17 @@ BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsVal
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (CustomizePvpBoardObstacleResponseProto_Builder*) setStatus:(CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus) value {
+- (CustomizePvpBoardObstacleResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (CustomizePvpBoardObstacleResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -4753,7 +4705,7 @@ static RetrieveBattleReplayRequestProto* defaultRetrieveBattleReplayRequestProto
 @interface RetrieveBattleReplayResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) BattleReplayProto* brp;
-@property RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation RetrieveBattleReplayResponseProto
@@ -4783,7 +4735,7 @@ static RetrieveBattleReplayRequestProto* defaultRetrieveBattleReplayRequestProto
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.brp = [BattleReplayProto defaultInstance];
-    self.status = RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -4915,15 +4867,6 @@ static RetrieveBattleReplayResponseProto* defaultRetrieveBattleReplayResponsePro
 }
 @end
 
-BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus value) {
-  switch (value) {
-    case RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusSuccess:
-    case RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RetrieveBattleReplayResponseProto_Builder()
 @property (strong) RetrieveBattleReplayResponseProto* result;
 @end
@@ -5011,8 +4954,8 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
         break;
       }
       case 24: {
-        RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus value = (RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus)[input readEnum];
-        if (RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -5085,17 +5028,17 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RetrieveBattleReplayResponseProto_Builder*) setStatus:(RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus) value {
+- (RetrieveBattleReplayResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RetrieveBattleReplayResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end

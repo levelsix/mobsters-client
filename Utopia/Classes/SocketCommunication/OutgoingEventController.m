@@ -385,7 +385,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     userStruct.isComplete = YES;
     
     int64_t ms = date.timeIntervalSince1970*1000.;
-    int tag = [sc sendNormStructBuildsCompleteMessage:@[userStruct.userStructUuid] time:ms];
+    int tag = [sc sendNormStructBuildsCompleteMessage:@[userStruct.userStructUuid] timeOfCompletion:ms clientTime:[self getCurrentMilliseconds]];
     [sc setDelegate:delegate forTag:tag];
     
     [gs.clanHelpUtil cleanupRogueClanHelps];
@@ -2597,7 +2597,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     UserMonster *um = [gs myMonsterWithUserMonsterUuid:umId];
     um.isComplete = YES;
   }
-  [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:userMonsterUuids gemCost:0];
+  [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:userMonsterUuids gemCost:0 clientTime:[self getCurrentMilliseconds]];
 }
 
 - (BOOL) combineMonsterWithSpeedup:(NSString *)userMonsterUuid {
@@ -2612,7 +2612,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     um.isComplete = YES;
     
-    int tag = [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:@[userMonsterUuid] gemCost:goldCost];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:@[userMonsterUuid] gemCost:goldCost clientTime:[self getCurrentMilliseconds]];
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
     
     [gs beginCombineTimer];
@@ -2860,7 +2860,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [gs.battleItemUtil incrementBattleItemId:item.battleItemId quantity:1];
     }
     
-    int tag = [[SocketCommunication sharedSocketCommunication] sendCompleteBattleItemMessage:arr isSpeedup:YES gemCost:goldCost];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCompleteBattleItemMessage:arr isSpeedup:YES gemCost:goldCost clientTime:[self getCurrentMilliseconds]];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
     
@@ -2895,7 +2895,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  [[SocketCommunication sharedSocketCommunication] sendCompleteBattleItemMessage:arr isSpeedup:NO gemCost:0];
+  [[SocketCommunication sharedSocketCommunication] sendCompleteBattleItemMessage:arr isSpeedup:NO gemCost:0 clientTime:[self getCurrentMilliseconds]];
   
   // Remove after to let the queue update to not be affected
   [biq.queueObjects removeObjectsInArray:battleItemQueueObjects];
@@ -2922,7 +2922,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  [[SocketCommunication sharedSocketCommunication] sendDiscardBattleItemMessage:battleItemIds];
+  [[SocketCommunication sharedSocketCommunication] sendDiscardBattleItemMessage:battleItemIds clientTime:[self getCurrentMilliseconds]];
 }
 
 #pragma mark - Selling monsters
@@ -3019,7 +3019,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (gs.gems < gemCost) {
       [Globals popupMessage:@"Trying to enhance without enough gems."];
     } else {
-      int tag = [[SocketCommunication sharedSocketCommunication] sendSubmitEnhancementMessage:enhancementItems gemCost:gemCost oilChange:-oilCost];
+      int tag = [[SocketCommunication sharedSocketCommunication] sendSubmitEnhancementMessage:enhancementItems gemCost:gemCost oilChange:-oilCost clientTime:[self getCurrentMilliseconds]];
       [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
       OilUpdate *oil = [OilUpdate updateWithTag:tag change:-oilCost];
       GemsUpdate *gold = [GemsUpdate updateWithTag:tag change:-gemCost];
@@ -3050,7 +3050,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (useGems && gs.gems < goldCost) {
     [Globals popupMessage:@"Trying to speedup enhance queue without enough gems"];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceWaitCompleteMessage:gs.userEnhancement.baseMonster.userMonsterUuid isSpeedup:goldCost > 0 gemCost:goldCost];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceWaitCompleteMessage:gs.userEnhancement.baseMonster.userMonsterUuid isSpeedup:goldCost > 0 gemCost:goldCost clientTime:[self getCurrentMilliseconds]];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
     
@@ -3093,7 +3093,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   bldr.expectedLevel = baseUm.level;
   bldr.expectedHp = baseUm.curHealth;
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendCollectMonsterEnhancementMessage:bldr.build userMonsterUuids:arr];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendCollectMonsterEnhancementMessage:bldr.build userMonsterUuids:arr clientTime:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   // Remove after to let the queue update to not be affected
@@ -3451,7 +3451,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (numGems > gs.gems) {
       [Globals popupMessage: @"Attempting to speedup evolution without enough gems."];
     } else {
-      int tag = [[SocketCommunication sharedSocketCommunication] sendEvolutionFinishedMessageWithGems:numGems];
+      int tag = [[SocketCommunication sharedSocketCommunication] sendEvolutionFinishedMessageWithGems:numGems clientTime:[self getCurrentMilliseconds]];
       [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
       [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-numGems]];
       
@@ -3554,7 +3554,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (useGems && gs.gems < goldCost) {
     [Globals popupMessage:@"Trying to speedup research without enough gems."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendFinishPerformingResearchRequestProto:userResearch.userResearchUuid gemsSpent:goldCost];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendFinishPerformingResearchRequestProto:userResearch.userResearchUuid gemsSpent:goldCost clientTime:[self getCurrentMilliseconds]];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     // Check to see if any monsters should gain health
@@ -3725,7 +3725,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (!gs.connected || gs.isTutorial || !gs.userUuid || [gs.userUuid isEqualToString:@""])
     return;
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveMiniEventRequestProtoMessage];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveMiniEventRequestProtoMessageWithClientTime:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 

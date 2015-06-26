@@ -86,7 +86,7 @@
 - (void) handleEndDungeonResponseProto:(FullEvent *)fe {
   _receivedEndDungeonResponse = YES;
   EndDungeonResponseProto *proto = (EndDungeonResponseProto *)fe.event;
-  if (proto.status == EndDungeonResponseProto_EndDungeonStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [self checkQuests];
   }
   
@@ -294,7 +294,7 @@
   GameState *gs = [GameState sharedGameState];
   BeginDungeonResponseProto *proto = (BeginDungeonResponseProto *)fe.event;
   
-  if (proto.status == BeginDungeonResponseProto_BeginDungeonStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     NSMutableSet *set = [NSMutableSet set];
     NSMutableSet *skillSideEffects = [NSMutableSet set];
     NSMutableArray *enemyTeam = [NSMutableArray array];

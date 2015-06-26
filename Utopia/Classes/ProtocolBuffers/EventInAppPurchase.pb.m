@@ -18,6 +18,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [MonsterStuffRoot registerAllExtensions:registry];
     [RewardRoot registerAllExtensions:registry];
     [SalesRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -527,7 +528,7 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 
 @interface InAppPurchaseResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property InAppPurchaseResponseProto_InAppPurchaseStatus status;
+@property ResponseStatus status;
 @property int32_t diamondsGained;
 @property int32_t coinsGained;
 @property (strong) NSString* packageName;
@@ -622,7 +623,7 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = InAppPurchaseResponseProto_InAppPurchaseStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.diamondsGained = 0;
     self.coinsGained = 0;
     self.packageName = @"";
@@ -932,16 +933,6 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
 }
 @end
 
-BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseResponseProto_InAppPurchaseStatus value) {
-  switch (value) {
-    case InAppPurchaseResponseProto_InAppPurchaseStatusSuccess:
-    case InAppPurchaseResponseProto_InAppPurchaseStatusFail:
-    case InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface InAppPurchaseResponseProto_Builder()
 @property (strong) InAppPurchaseResponseProto* result;
 @end
@@ -1062,8 +1053,8 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
         break;
       }
       case 16: {
-        InAppPurchaseResponseProto_InAppPurchaseStatus value = (InAppPurchaseResponseProto_InAppPurchaseStatus)[input readEnum];
-        if (InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1171,17 +1162,17 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (InAppPurchaseResponseProto_InAppPurchaseStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (InAppPurchaseResponseProto_Builder*) setStatus:(InAppPurchaseResponseProto_InAppPurchaseStatus) value {
+- (InAppPurchaseResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (InAppPurchaseResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = InAppPurchaseResponseProto_InAppPurchaseStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasDiamondsGained {
@@ -1749,7 +1740,7 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
 
 @interface EarnFreeDiamondsResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
+@property ResponseStatus status;
 @property EarnFreeDiamondsType freeDiamondsType;
 @end
 
@@ -1779,7 +1770,7 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.freeDiamondsType = EarnFreeDiamondsTypeFbConnect;
   }
   return self;
@@ -1909,17 +1900,6 @@ static EarnFreeDiamondsResponseProto* defaultEarnFreeDiamondsResponseProtoInstan
 }
 @end
 
-BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus value) {
-  switch (value) {
-    case EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess:
-    case EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusClientTooApartFromServerTime:
-    case EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusMethodNotSupported:
-    case EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusOtherFail:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface EarnFreeDiamondsResponseProto_Builder()
 @property (strong) EarnFreeDiamondsResponseProto* result;
 @end
@@ -1998,8 +1978,8 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
         break;
       }
       case 16: {
-        EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus value = (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus)[input readEnum];
-        if (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2051,17 +2031,17 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) setStatus:(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) value {
+- (EarnFreeDiamondsResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (EarnFreeDiamondsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasFreeDiamondsType {
@@ -2495,7 +2475,7 @@ static ExchangeGemsForResourcesRequestProto* defaultExchangeGemsForResourcesRequ
 
 @interface ExchangeGemsForResourcesResponseProto ()
 @property (strong) MinimumUserProtoWithMaxResources* sender;
-@property ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation ExchangeGemsForResourcesResponseProto
@@ -2517,7 +2497,7 @@ static ExchangeGemsForResourcesRequestProto* defaultExchangeGemsForResourcesRequ
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
-    self.status = ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -2632,16 +2612,6 @@ static ExchangeGemsForResourcesResponseProto* defaultExchangeGemsForResourcesRes
 }
 @end
 
-BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValidValue(ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus value) {
-  switch (value) {
-    case ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess:
-    case ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusFailOther:
-    case ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusFailInsufficientGems:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface ExchangeGemsForResourcesResponseProto_Builder()
 @property (strong) ExchangeGemsForResourcesResponseProto* result;
 @end
@@ -2717,8 +2687,8 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
         break;
       }
       case 16: {
-        ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus value = (ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus)[input readEnum];
-        if (ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2761,17 +2731,17 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (ExchangeGemsForResourcesResponseProto_Builder*) setStatus:(ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus) value {
+- (ExchangeGemsForResourcesResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (ExchangeGemsForResourcesResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end

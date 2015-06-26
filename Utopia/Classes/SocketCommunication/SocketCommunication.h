@@ -100,7 +100,7 @@
 - (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost;
 - (int) sendMoveNormStructureMessage:(NSString *)userStructUuid x:(int)x y:(int)y;
 - (int) sendUpgradeNormStructureMessage:(NSString *)userStructUuid time:(uint64_t)curTime resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost queueUp:(BOOL)queueUp;
-- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructUuids time:(uint64_t)curTime;
+- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructUuids timeOfCompletion:(uint64_t)timeOfCompletion clientTime:(uint64_t)clientTime;
 - (int) sendFinishNormStructBuildWithDiamondsMessage:(NSString *)userStructUuid gemCost:(int)gemCost time:(uint64_t)milliseconds queueUp:(BOOL)queueUp;
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected;
 
@@ -117,7 +117,7 @@
 - (int) sendAchievementRedeemMessage:(int)achievementId clientTime:(uint64_t)clientTime;
 
 - (int) sendBeginResearchMessage:(int)researchId uuid:(NSString*)uuid clientTime:(uint64_t)clientTime gems:(int)gems resourceType:(ResourceType)resourceType resourceCost:(int)resourceCost;
-- (int) sendFinishPerformingResearchRequestProto:(NSString *)uuid gemsSpent:(int)gemsSpent;
+- (int) sendFinishPerformingResearchRequestProto:(NSString *)uuid gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime;
 
 - (int) sendRetrieveUsersForUserUuids:(NSArray *)userUuids includeCurMonsterTeam:(BOOL)includeCurMonsterTeam;
 
@@ -178,7 +178,7 @@
 - (int) sendObstacleRemovalCompleteMessage:(NSString *)userObstacleUuid speedup:(BOOL)speedUp gemsSpent:(int)gemsSpent maxObstacles:(BOOL)maxObstacles clientTime:(uint64_t)clientTime;
 
 - (int) sendEvolveMonsterMessageWithEvolution:(UserMonsterEvolutionProto *)evo gemCost:(int)gemCost oilChange:(int)oilChange;
-- (int) sendEvolutionFinishedMessageWithGems:(int)gems;
+- (int) sendEvolutionFinishedMessageWithGems:(int)gems clientTime:(uint64_t)clientTime;
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths;
 - (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost;
@@ -186,7 +186,7 @@
 - (int) sendRemoveMonsterFromTeam:(NSString *)userMonsterUuid;
 - (int) sendBuyInventorySlotsWithGems:(NSString *)userStructUuid;
 - (int) sendBuyInventorySlots:(NSString *)userStructUuid withFriendInvites:(NSArray *)inviteIds;
-- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterUuids gemCost:(int)gemCost;
+- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterUuids gemCost:(int)gemCost clientTime:(uint64_t)clientTime;
 - (int) sendSellUserMonstersMessage:(NSArray *)sellProtos;
 - (int) sendInviteFbFriendsForSlotsMessage:(NSArray *)fbFriendIds;
 - (int) sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptUuids:(NSArray *)acceptUuids rejectUuids:(NSArray *)rejectUuids;
@@ -194,9 +194,9 @@
 - (int) setHealQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost;
 
 - (int) sendEnhanceMessage:(UserEnhancementProto *)enhancement monsterExp:(UserMonsterCurrentExpProto *)monsterExp gemCost:(int)gemCost oilChange:(int)oilChange;
-- (int) sendSubmitEnhancementMessage:(NSArray *)items gemCost:(int)gemCost oilChange:(int)oilChange;
-- (int) sendEnhanceWaitCompleteMessage:(NSString *)userMonsterUuid isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost;
-- (int) sendCollectMonsterEnhancementMessage:(UserMonsterCurrentExpProto *)exp userMonsterUuids:(NSArray *)userMonsterUuids;
+- (int) sendSubmitEnhancementMessage:(NSArray *)items gemCost:(int)gemCost oilChange:(int)oilChange clientTime:(uint64_t)clientTime;
+- (int) sendEnhanceWaitCompleteMessage:(NSString *)userMonsterUuid isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost clientTime:(uint64_t)clientTime;
+- (int) sendCollectMonsterEnhancementMessage:(UserMonsterCurrentExpProto *)exp userMonsterUuids:(NSArray *)userMonsterUuids clientTime:(uint64_t)clientTime;
 
 - (int) sendSpawnMiniJobMessage:(int)numToSpawn clientTime:(uint64_t)clientTime structId:(int)structId;
 - (int) sendBeginMiniJobMessage:(NSString *)userMiniJobUuid userMonsterUuids:(NSArray *)userMonsterUuids clientTime:(uint64_t)clientTime;
@@ -234,10 +234,10 @@
 - (int) setBattleItemQueueDirtyWithCoinChange:(int)coinChange oilChange:(int)oilChange gemCost:(int)gemCost;
 - (void) reloadBattleItemQueueSnapshot;
 - (int) sendBattleItemQueueMessage;
-- (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost;
-- (int) sendDiscardBattleItemMessage:(NSArray *)battleItemIds;
+- (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost clientTime:(uint64_t)clientTime;
+- (int) sendDiscardBattleItemMessage:(NSArray *)battleItemIds clientTime:(uint64_t)clientTime;
 
-- (int) sendRetrieveMiniEventRequestProtoMessage;
+- (int) sendRetrieveMiniEventRequestProtoMessageWithClientTime:(uint64_t)clientTime;
 - (int) updateUserMiniEventMessage:(UserMiniEventGoal *)userMiniEventGoal;
 - (int) sendRedeemMiniEventRewardRequestProtoMessage:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId clientTime:(uint64_t)clientTime;
 

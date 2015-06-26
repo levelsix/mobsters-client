@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "LeaderBoard.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -39,14 +40,6 @@
     #define NS_RETURNS_NOT_RETAINED
   #endif
 #endif
-
-typedef NS_ENUM(SInt32, RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus) {
-  RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusSuccess = 1,
-  RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusFailOther = 2,
-  RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusFailNoResults = 3,
-};
-
-BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusIsValidValue(RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus value);
 
 
 @interface EventLeaderBoardRoot : NSObject {
@@ -131,7 +124,7 @@ BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusI
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   StrengthLeaderBoardProto* senderLeaderBoardInfo;
-  RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableLeaderBoardInfoList;
 }
 - (BOOL) hasSender;
@@ -140,7 +133,7 @@ BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusI
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) StrengthLeaderBoardProto* senderLeaderBoardInfo;
 @property (readonly, strong) NSArray * leaderBoardInfoList;
-@property (readonly) RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus status;
+@property (readonly) ResponseStatus status;
 - (StrengthLeaderBoardProto*)leaderBoardInfoAtIndex:(NSUInteger)index;
 
 + (RetrieveStrengthLeaderBoardResponseProto*) defaultInstance;
@@ -199,8 +192,8 @@ BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusI
 - (RetrieveStrengthLeaderBoardResponseProto_Builder *)clearLeaderBoardInfo;
 
 - (BOOL) hasStatus;
-- (RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus) status;
-- (RetrieveStrengthLeaderBoardResponseProto_Builder*) setStatus:(RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus) value;
+- (ResponseStatus) status;
+- (RetrieveStrengthLeaderBoardResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RetrieveStrengthLeaderBoardResponseProto_Builder*) clearStatusList;
 @end
 

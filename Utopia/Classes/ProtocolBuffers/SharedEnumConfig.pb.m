@@ -96,5 +96,91 @@ BOOL GameTypeIsValidValue(GameType value) {
       return NO;
   }
 }
+BOOL ResourceTypeIsValidValue(ResourceType value) {
+  switch (value) {
+    case ResourceTypeNoResource:
+    case ResourceTypeCash:
+    case ResourceTypeOil:
+    case ResourceTypeGems:
+    case ResourceTypeGachaCredits:
+    case ResourceTypeMonster:
+      return YES;
+    default:
+      return NO;
+  }
+}
+BOOL ResponseStatusIsValidValue(ResponseStatus value) {
+  switch (value) {
+    case ResponseStatusSuccess:
+    case ResponseStatusFailOther:
+    case ResponseStatusFailTimeOutOfSync:
+    case ResponseStatusFailInsufficientFunds:
+    case ResponseStatusFailInsufficientCash:
+    case ResponseStatusFailInsufficientOil:
+    case ResponseStatusFailInsufficientGems:
+    case ResponseStatusFailNotComplete:
+    case ResponseStatusFailInsufficientItem:
+    case ResponseStatusFailDoesntExist:
+    case ResponseStatusFailAlreadyRedeemed:
+    case ResponseStatusFailNotEnabled:
+    case ResponseStatusFailInvalidBattleItems:
+    case ResponseStatusFailInsufficientGachaCredits:
+    case ResponseStatusFailTooLong:
+    case ResponseStatusFailBanned:
+    case ResponseStatusFailNoContentSent:
+    case ResponseStatusFailNotValidLanguage:
+    case ResponseStatusFailNoSuchPlayer:
+    case ResponseStatusSuccessRequest:
+    case ResponseStatusSuccessJoin:
+    case ResponseStatusSuccessMonsterJustDied:
+    case ResponseStatusFailNameTaken:
+    case ResponseStatusFailAlreadyInClan:
+    case ResponseStatusFailInvalidTagLength:
+    case ResponseStatusFailTagTaken:
+    case ResponseStatusFailAlreadyStarted:
+    case ResponseStatusFailNotInClan:
+    case ResponseStatusFailOwnerOfClanWithOthersStillIn:
+    case ResponseStatusFailAlreadyFulfilled:
+    case ResponseStatusFailRequestAlreadyFiled:
+    case ResponseStatusFailClanIsFull:
+    case ResponseStatusFailDidNotRequest:
+    case ResponseStatusFailNotAuthorized:
+    case ResponseStatusFailNoActiveClanRaid:
+    case ResponseStatusFailNoMonstersSent:
+    case ResponseStatusFailMonsterAlreadyDead:
+    case ResponseStatusFailFulfilledRequestExists:
+    case ResponseStatusFailDuplicateReceipt:
+    case ResponseStatusFailMethodNotSupported:
+    case ResponseStatusFailNoResults:
+    case ResponseStatusFailMonsterReachedEvolvingLimit:
+    case ResponseStatusFailMaxNumEvolutionsReached:
+    case ResponseStatusFailMonsterInEnhancing:
+    case ResponseStatusFailMonsterInEvolution:
+    case ResponseStatusFailMonsterNonexistent:
+    case ResponseStatusFailMonsterRestricted:
+    case ResponseStatusFailMonsterAlreadyInHealing:
+    case ResponseStatusFailHealingNotComplete:
+    case ResponseStatusFailInsufficientFacebookInvites:
+    case ResponseStatusFailInconsistentInviteData:
+    case ResponseStatusFailStructureAtMaxFbInviteLvl:
+    case ResponseStatusFailMoreThanOneMonsterForSpeedup:
+    case ResponseStatusFailExpired:
+    case ResponseStatusFailAlreadyBeenUsed:
+    case ResponseStatusFailEnemyUnavailable:
+    case ResponseStatusFailBattleTookTooLong:
+    case ResponseStatusFailNotBuiltYet:
+    case ResponseStatusFailNotUsersStruct:
+    case ResponseStatusFailAtMaxLevelAlready:
+    case ResponseStatusFailNotExpiredYet:
+    case ResponseStatusFailUserWithUdidAlreadyExists:
+    case ResponseStatusFailInvalidReferCode:
+    case ResponseStatusFailUserWithFacebookIdExists:
+    case ResponseStatusFailFbIdExists:
+    case ResponseStatusFailUserFbIdAlreadySet:
+      return YES;
+    default:
+      return NO;
+  }
+}
 
 // @@protoc_insertion_point(global_scope)

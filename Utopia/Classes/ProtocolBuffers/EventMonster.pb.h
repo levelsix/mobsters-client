@@ -4,6 +4,7 @@
 
 #import "Battle.pb.h"
 #import "MonsterStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -215,56 +216,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, EvolveMonsterResponseProto_EvolveMonsterStatus) {
-  EvolveMonsterResponseProto_EvolveMonsterStatusSuccess = 1,
-  EvolveMonsterResponseProto_EvolveMonsterStatusFailInsufficientGems = 2,
-  EvolveMonsterResponseProto_EvolveMonsterStatusFailInsufficientResources = 3,
-  EvolveMonsterResponseProto_EvolveMonsterStatusFailMonsterReachedEvolvingLimit = 4,
-  EvolveMonsterResponseProto_EvolveMonsterStatusFailMaxNumEvolutionsReached = 5,
-  EvolveMonsterResponseProto_EvolveMonsterStatusFailNonexistentMonsters = 6,
-  EvolveMonsterResponseProto_EvolveMonsterStatusFailOther = 7,
-};
-
-BOOL EvolveMonsterResponseProto_EvolveMonsterStatusIsValidValue(EvolveMonsterResponseProto_EvolveMonsterStatus value);
-
-typedef NS_ENUM(SInt32, EvolutionFinishedResponseProto_EvolutionFinishedStatus) {
-  EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess = 1,
-  EvolutionFinishedResponseProto_EvolutionFinishedStatusFailInsufficientGems = 2,
-  EvolutionFinishedResponseProto_EvolutionFinishedStatusFailOther = 3,
-};
-
-BOOL EvolutionFinishedResponseProto_EvolutionFinishedStatusIsValidValue(EvolutionFinishedResponseProto_EvolutionFinishedStatus value);
-
-typedef NS_ENUM(SInt32, SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus) {
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess = 1,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailInsufficientGems = 2,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailInsufficientOil = 3,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailOther = 4,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterInEnhancing = 6,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterInHealing = 7,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterInEvolution = 8,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterNonexistent = 9,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterRestricted = 10,
-};
-
-BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValidValue(SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus value);
-
-typedef NS_ENUM(SInt32, EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) {
-  EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess = 1,
-  EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailInsufficientFunds = 3,
-  EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailOther = 4,
-};
-
-BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusIsValidValue(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus value);
-
-typedef NS_ENUM(SInt32, CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) {
-  CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess = 1,
-  CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusFailOther = 2,
-  CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusFailEnhancementIncomplete = 3,
-};
-
-BOOL CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusIsValidValue(CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus value);
-
 typedef NS_ENUM(SInt32, EnhanceMonsterResponseProto_EnhanceMonsterStatus) {
   EnhanceMonsterResponseProto_EnhanceMonsterStatusSuccess = 1,
   EnhanceMonsterResponseProto_EnhanceMonsterStatusFailInsufficientGems = 2,
@@ -274,109 +225,12 @@ typedef NS_ENUM(SInt32, EnhanceMonsterResponseProto_EnhanceMonsterStatus) {
 
 BOOL EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(EnhanceMonsterResponseProto_EnhanceMonsterStatus value);
 
-typedef NS_ENUM(SInt32, UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) {
-  UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusSuccess = 1,
-  UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusFailInsufficientFunds = 2,
-  UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusFailOther = 3,
-};
-
-BOOL UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusIsValidValue(UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus value);
-
-typedef NS_ENUM(SInt32, HealMonsterResponseProto_HealMonsterStatus) {
-  HealMonsterResponseProto_HealMonsterStatusSuccess = 1,
-  HealMonsterResponseProto_HealMonsterStatusFailInsufficientFunds = 2,
-  HealMonsterResponseProto_HealMonsterStatusFailAllMonstersAlreadyHealing = 3,
-  HealMonsterResponseProto_HealMonsterStatusFailAllMonstersNonexistent = 4,
-  HealMonsterResponseProto_HealMonsterStatusFailOther = 5,
-  HealMonsterResponseProto_HealMonsterStatusFailHealingNotComplete = 6,
-};
-
-BOOL HealMonsterResponseProto_HealMonsterStatusIsValidValue(HealMonsterResponseProto_HealMonsterStatus value);
-
-typedef NS_ENUM(SInt32, AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus) {
-  AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusSuccess = 1,
-  AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusFailOther = 2,
-};
-
-BOOL AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusIsValidValue(AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus value);
-
-typedef NS_ENUM(SInt32, RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus) {
-  RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusSuccess = 1,
-  RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusFailOther = 2,
-};
-
-BOOL RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusIsValidValue(RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus value);
-
 typedef NS_ENUM(SInt32, IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType) {
   IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypePurchase = 1,
   IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeRedeemFacebookInvites = 2,
 };
 
 BOOL IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeIsValidValue(IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType value);
-
-typedef NS_ENUM(SInt32, IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) {
-  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess = 1,
-  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInsufficientFunds = 2,
-  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInsufficientFacebookInvites = 3,
-  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailOther = 4,
-  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInconsistentInviteData = 5,
-  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailStructureAtMaxFbInviteLvl = 6,
-};
-
-BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusIsValidValue(IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus value);
-
-typedef NS_ENUM(SInt32, InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) {
-  InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess = 1,
-  InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusFailOther = 2,
-};
-
-BOOL InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidValue(InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus value);
-
-typedef NS_ENUM(SInt32, AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) {
-  AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess = 1,
-  AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailExpired = 2,
-  AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailAlreadyBeenUsed = 3,
-  AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailOther = 4,
-};
-
-BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusIsValidValue(AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus value);
-
-typedef NS_ENUM(SInt32, CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus) {
-  CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess = 1,
-  CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailInsuffucientGems = 2,
-  CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailMoreThanOneMonsterForSpeedup = 3,
-  CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailOther = 4,
-};
-
-BOOL CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusIsValidValue(CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus value);
-
-typedef NS_ENUM(SInt32, SellUserMonsterResponseProto_SellUserMonsterStatus) {
-  SellUserMonsterResponseProto_SellUserMonsterStatusSuccess = 1,
-  SellUserMonsterResponseProto_SellUserMonsterStatusFailOther = 2,
-};
-
-BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMonsterResponseProto_SellUserMonsterStatus value);
-
-typedef NS_ENUM(SInt32, RestrictUserMonsterResponseProto_RestrictUserMonsterStatus) {
-  RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess = 1,
-  RestrictUserMonsterResponseProto_RestrictUserMonsterStatusFailOther = 2,
-};
-
-BOOL RestrictUserMonsterResponseProto_RestrictUserMonsterStatusIsValidValue(RestrictUserMonsterResponseProto_RestrictUserMonsterStatus value);
-
-typedef NS_ENUM(SInt32, UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus) {
-  UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess = 1,
-  UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusFailOther = 2,
-};
-
-BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus value);
-
-typedef NS_ENUM(SInt32, RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus) {
-  RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess = 1,
-  RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusFailOther = 2,
-};
-
-BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidValue(RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus value);
 
 
 @interface EventMonsterRoot : NSObject {
@@ -387,10 +241,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 
 @interface EvolveMonsterRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasGemsSpent_:1;
   BOOL hasSender_:1;
   BOOL hasEvolution_:1;
   BOOL hasOilChange_:1;
+  int64_t clientTime;
   int32_t gemsSpent;
   MinimumUserProto* sender;
   UserMonsterEvolutionProto* evolution;
@@ -400,10 +256,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasEvolution;
 - (BOOL) hasGemsSpent;
 - (BOOL) hasOilChange;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) UserMonsterEvolutionProto* evolution;
 @property (readonly) int32_t gemsSpent;
 @property (readonly) int32_t oilChange;
+@property (readonly) int64_t clientTime;
 
 + (EvolveMonsterRequestProto*) defaultInstance;
 - (EvolveMonsterRequestProto*) defaultInstance;
@@ -463,6 +321,11 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (int32_t) oilChange;
 - (EvolveMonsterRequestProto_Builder*) setOilChange:(int32_t) value;
 - (EvolveMonsterRequestProto_Builder*) clearOilChange;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (EvolveMonsterRequestProto_Builder*) setClientTime:(int64_t) value;
+- (EvolveMonsterRequestProto_Builder*) clearClientTime;
 @end
 
 @interface EvolveMonsterResponseProto : PBGeneratedMessage {
@@ -470,12 +333,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  EvolveMonsterResponseProto_EvolveMonsterStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) EvolveMonsterResponseProto_EvolveMonsterStatus status;
+@property (readonly) ResponseStatus status;
 
 + (EvolveMonsterResponseProto*) defaultInstance;
 - (EvolveMonsterResponseProto*) defaultInstance;
@@ -520,22 +383,26 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (EvolveMonsterResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (EvolveMonsterResponseProto_EvolveMonsterStatus) status;
-- (EvolveMonsterResponseProto_Builder*) setStatus:(EvolveMonsterResponseProto_EvolveMonsterStatus) value;
+- (ResponseStatus) status;
+- (EvolveMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (EvolveMonsterResponseProto_Builder*) clearStatusList;
 @end
 
 @interface EvolutionFinishedRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasGemsSpent_:1;
   BOOL hasSender_:1;
+  int64_t clientTime;
   int32_t gemsSpent;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasGemsSpent;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t gemsSpent;
+@property (readonly) int64_t clientTime;
 
 + (EvolutionFinishedRequestProto*) defaultInstance;
 - (EvolutionFinishedRequestProto*) defaultInstance;
@@ -583,6 +450,11 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (int32_t) gemsSpent;
 - (EvolutionFinishedRequestProto_Builder*) setGemsSpent:(int32_t) value;
 - (EvolutionFinishedRequestProto_Builder*) clearGemsSpent;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (EvolutionFinishedRequestProto_Builder*) setClientTime:(int64_t) value;
+- (EvolutionFinishedRequestProto_Builder*) clearClientTime;
 @end
 
 @interface EvolutionFinishedResponseProto : PBGeneratedMessage {
@@ -592,14 +464,14 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   FullUserMonsterProto* evolvedMonster;
-  EvolutionFinishedResponseProto_EvolutionFinishedStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasEvolvedMonster;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) FullUserMonsterProto* evolvedMonster;
-@property (readonly) EvolutionFinishedResponseProto_EvolutionFinishedStatus status;
+@property (readonly) ResponseStatus status;
 
 + (EvolutionFinishedResponseProto*) defaultInstance;
 - (EvolutionFinishedResponseProto*) defaultInstance;
@@ -651,16 +523,18 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (EvolutionFinishedResponseProto_Builder*) clearEvolvedMonster;
 
 - (BOOL) hasStatus;
-- (EvolutionFinishedResponseProto_EvolutionFinishedStatus) status;
-- (EvolutionFinishedResponseProto_Builder*) setStatus:(EvolutionFinishedResponseProto_EvolutionFinishedStatus) value;
+- (ResponseStatus) status;
+- (EvolutionFinishedResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (EvolutionFinishedResponseProto_Builder*) clearStatusList;
 @end
 
 @interface SubmitMonsterEnhancementRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasGemsSpent_:1;
   BOOL hasSender_:1;
   BOOL hasOilChange_:1;
+  int64_t clientTime;
   int32_t gemsSpent;
   MinimumUserProtoWithMaxResources* sender;
   int32_t oilChange;
@@ -671,12 +545,14 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasSender;
 - (BOOL) hasGemsSpent;
 - (BOOL) hasOilChange;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) NSArray * ueipDeleteList;
 @property (readonly, strong) NSArray * ueipUpdateList;
 @property (readonly, strong) NSArray * ueipNewList;
 @property (readonly) int32_t gemsSpent;
 @property (readonly) int32_t oilChange;
+@property (readonly) int64_t clientTime;
 - (UserEnhancementItemProto*)ueipDeleteAtIndex:(NSUInteger)index;
 - (UserEnhancementItemProto*)ueipUpdateAtIndex:(NSUInteger)index;
 - (UserEnhancementItemProto*)ueipNewAtIndex:(NSUInteger)index;
@@ -750,6 +626,11 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (int32_t) oilChange;
 - (SubmitMonsterEnhancementRequestProto_Builder*) setOilChange:(int32_t) value;
 - (SubmitMonsterEnhancementRequestProto_Builder*) clearOilChange;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (SubmitMonsterEnhancementRequestProto_Builder*) setClientTime:(int64_t) value;
+- (SubmitMonsterEnhancementRequestProto_Builder*) clearClientTime;
 @end
 
 @interface SubmitMonsterEnhancementResponseProto : PBGeneratedMessage {
@@ -757,12 +638,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProtoWithMaxResources* sender;
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
-@property (readonly) SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus status;
+@property (readonly) ResponseStatus status;
 
 + (SubmitMonsterEnhancementResponseProto*) defaultInstance;
 - (SubmitMonsterEnhancementResponseProto*) defaultInstance;
@@ -807,19 +688,21 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (SubmitMonsterEnhancementResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus) status;
-- (SubmitMonsterEnhancementResponseProto_Builder*) setStatus:(SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus) value;
+- (ResponseStatus) status;
+- (SubmitMonsterEnhancementResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (SubmitMonsterEnhancementResponseProto_Builder*) clearStatusList;
 @end
 
 @interface EnhancementWaitTimeCompleteRequestProto : PBGeneratedMessage {
 @private
   BOOL hasIsSpeedup_:1;
+  BOOL hasClientTime_:1;
   BOOL hasGemsForSpeedup_:1;
   BOOL hasUserMonsterUuid_:1;
   BOOL hasSender_:1;
   BOOL hasUmcep_:1;
   BOOL isSpeedup_:1;
+  int64_t clientTime;
   int32_t gemsForSpeedup;
   NSString* userMonsterUuid;
   MinimumUserProto* sender;
@@ -831,12 +714,14 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasGemsForSpeedup;
 - (BOOL) hasUmcep;
 - (BOOL) hasUserMonsterUuid;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
 - (BOOL) isSpeedup;
 @property (readonly) int32_t gemsForSpeedup;
 @property (readonly, strong) UserMonsterCurrentExpProto* umcep;
 @property (readonly, strong) NSArray * userMonsterUuidsList;
 @property (readonly, strong) NSString* userMonsterUuid;
+@property (readonly) int64_t clientTime;
 - (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
 
 + (EnhancementWaitTimeCompleteRequestProto*) defaultInstance;
@@ -908,6 +793,11 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (NSString*) userMonsterUuid;
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) setUserMonsterUuid:(NSString*) value;
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUserMonsterUuid;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setClientTime:(int64_t) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearClientTime;
 @end
 
 @interface EnhancementWaitTimeCompleteResponseProto : PBGeneratedMessage {
@@ -915,12 +805,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus status;
+@property (readonly) ResponseStatus status;
 
 + (EnhancementWaitTimeCompleteResponseProto*) defaultInstance;
 - (EnhancementWaitTimeCompleteResponseProto*) defaultInstance;
@@ -965,24 +855,28 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) status;
-- (EnhancementWaitTimeCompleteResponseProto_Builder*) setStatus:(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) value;
+- (ResponseStatus) status;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatusList;
 @end
 
 @interface CollectMonsterEnhancementRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasSender_:1;
   BOOL hasUmcep_:1;
+  int64_t clientTime;
   MinimumUserProto* sender;
   UserMonsterCurrentExpProto* umcep;
   NSMutableArray * mutableUserMonsterUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUmcep;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) UserMonsterCurrentExpProto* umcep;
 @property (readonly, strong) NSArray * userMonsterUuidsList;
+@property (readonly) int64_t clientTime;
 - (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
 
 + (CollectMonsterEnhancementRequestProto*) defaultInstance;
@@ -1039,6 +933,11 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (CollectMonsterEnhancementRequestProto_Builder *)addUserMonsterUuids:(NSString*)value;
 - (CollectMonsterEnhancementRequestProto_Builder *)addAllUserMonsterUuids:(NSArray *)array;
 - (CollectMonsterEnhancementRequestProto_Builder *)clearUserMonsterUuids;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (CollectMonsterEnhancementRequestProto_Builder*) setClientTime:(int64_t) value;
+- (CollectMonsterEnhancementRequestProto_Builder*) clearClientTime;
 @end
 
 @interface CollectMonsterEnhancementResponseProto : PBGeneratedMessage {
@@ -1046,12 +945,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus status;
+@property (readonly) ResponseStatus status;
 
 + (CollectMonsterEnhancementResponseProto*) defaultInstance;
 - (CollectMonsterEnhancementResponseProto*) defaultInstance;
@@ -1096,8 +995,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (CollectMonsterEnhancementResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) status;
-- (CollectMonsterEnhancementResponseProto_Builder*) setStatus:(CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) value;
+- (ResponseStatus) status;
+- (CollectMonsterEnhancementResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (CollectMonsterEnhancementResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1380,12 +1279,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus status;
+@property (readonly) ResponseStatus status;
 
 + (UpdateMonsterHealthResponseProto*) defaultInstance;
 - (UpdateMonsterHealthResponseProto*) defaultInstance;
@@ -1430,19 +1329,21 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (UpdateMonsterHealthResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) status;
-- (UpdateMonsterHealthResponseProto_Builder*) setStatus:(UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) value;
+- (ResponseStatus) status;
+- (UpdateMonsterHealthResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (UpdateMonsterHealthResponseProto_Builder*) clearStatusList;
 @end
 
 @interface HealMonsterRequestProto : PBGeneratedMessage {
 @private
   BOOL hasIsSpeedup_:1;
+  BOOL hasClientTime_:1;
   BOOL hasGemCostForHealing_:1;
   BOOL hasGemsForSpeedup_:1;
   BOOL hasSender_:1;
   BOOL hasCashChange_:1;
   BOOL isSpeedup_:1;
+  int64_t clientTime;
   int32_t gemCostForHealing;
   int32_t gemsForSpeedup;
   MinimumUserProtoWithMaxResources* sender;
@@ -1457,6 +1358,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasGemCostForHealing;
 - (BOOL) hasIsSpeedup;
 - (BOOL) hasGemsForSpeedup;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) NSArray * umhDeleteList;
 @property (readonly, strong) NSArray * umhUpdateList;
@@ -1466,6 +1368,7 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) isSpeedup;
 @property (readonly) int32_t gemsForSpeedup;
 @property (readonly, strong) NSArray * umchpList;
+@property (readonly) int64_t clientTime;
 - (UserMonsterHealingProto*)umhDeleteAtIndex:(NSUInteger)index;
 - (UserMonsterHealingProto*)umhUpdateAtIndex:(NSUInteger)index;
 - (UserMonsterHealingProto*)umhNewAtIndex:(NSUInteger)index;
@@ -1556,6 +1459,11 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (HealMonsterRequestProto_Builder *)addUmchp:(UserMonsterCurrentHealthProto*)value;
 - (HealMonsterRequestProto_Builder *)addAllUmchp:(NSArray *)array;
 - (HealMonsterRequestProto_Builder *)clearUmchp;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (HealMonsterRequestProto_Builder*) setClientTime:(int64_t) value;
+- (HealMonsterRequestProto_Builder*) clearClientTime;
 @end
 
 @interface HealMonsterResponseProto : PBGeneratedMessage {
@@ -1563,12 +1471,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProtoWithMaxResources* sender;
-  HealMonsterResponseProto_HealMonsterStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
-@property (readonly) HealMonsterResponseProto_HealMonsterStatus status;
+@property (readonly) ResponseStatus status;
 
 + (HealMonsterResponseProto*) defaultInstance;
 - (HealMonsterResponseProto*) defaultInstance;
@@ -1613,8 +1521,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (HealMonsterResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (HealMonsterResponseProto_HealMonsterStatus) status;
-- (HealMonsterResponseProto_Builder*) setStatus:(HealMonsterResponseProto_HealMonsterStatus) value;
+- (ResponseStatus) status;
+- (HealMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (HealMonsterResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1692,12 +1600,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus status;
+@property (readonly) ResponseStatus status;
 
 + (AddMonsterToBattleTeamResponseProto*) defaultInstance;
 - (AddMonsterToBattleTeamResponseProto*) defaultInstance;
@@ -1742,8 +1650,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (AddMonsterToBattleTeamResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus) status;
-- (AddMonsterToBattleTeamResponseProto_Builder*) setStatus:(AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus) value;
+- (ResponseStatus) status;
+- (AddMonsterToBattleTeamResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (AddMonsterToBattleTeamResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1812,12 +1720,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus status;
+@property (readonly) ResponseStatus status;
 
 + (RemoveMonsterFromBattleTeamResponseProto*) defaultInstance;
 - (RemoveMonsterFromBattleTeamResponseProto*) defaultInstance;
@@ -1862,8 +1770,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus) status;
-- (RemoveMonsterFromBattleTeamResponseProto_Builder*) setStatus:(RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus) value;
+- (ResponseStatus) status;
+- (RemoveMonsterFromBattleTeamResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1950,12 +1858,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus status;
+@property (readonly) ResponseStatus status;
 
 + (IncreaseMonsterInventorySlotResponseProto*) defaultInstance;
 - (IncreaseMonsterInventorySlotResponseProto*) defaultInstance;
@@ -2000,8 +1908,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (IncreaseMonsterInventorySlotResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) status;
-- (IncreaseMonsterInventorySlotResponseProto_Builder*) setStatus:(IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) value;
+- (ResponseStatus) status;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (IncreaseMonsterInventorySlotResponseProto_Builder*) clearStatusList;
 @end
 
@@ -2137,13 +2045,13 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProtoWithFacebookId* sender;
-  InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableInvitesNewList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProtoWithFacebookId* sender;
-@property (readonly) InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * invitesNewList;
 - (UserFacebookInviteForSlotProto*)invitesNewAtIndex:(NSUInteger)index;
 
@@ -2190,8 +2098,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (InviteFbFriendsForSlotsResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) status;
-- (InviteFbFriendsForSlotsResponseProto_Builder*) setStatus:(InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) value;
+- (ResponseStatus) status;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)invitesNewList;
@@ -2275,13 +2183,13 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProtoWithFacebookId* sender;
-  AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableAcceptedInvitesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProtoWithFacebookId* sender;
-@property (readonly) AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * acceptedInvitesList;
 - (UserFacebookInviteForSlotProto*)acceptedInvitesAtIndex:(NSUInteger)index;
 
@@ -2328,8 +2236,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) status;
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setStatus:(AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) value;
+- (ResponseStatus) status;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)acceptedInvitesList;
@@ -2341,17 +2249,21 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 
 @interface CombineUserMonsterPiecesRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasGemCost_:1;
   BOOL hasSender_:1;
+  int64_t clientTime;
   int32_t gemCost;
   MinimumUserProto* sender;
   NSMutableArray * mutableUserMonsterUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasGemCost;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * userMonsterUuidsList;
 @property (readonly) int32_t gemCost;
+@property (readonly) int64_t clientTime;
 - (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
 
 + (CombineUserMonsterPiecesRequestProto*) defaultInstance;
@@ -2406,6 +2318,11 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (int32_t) gemCost;
 - (CombineUserMonsterPiecesRequestProto_Builder*) setGemCost:(int32_t) value;
 - (CombineUserMonsterPiecesRequestProto_Builder*) clearGemCost;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (CombineUserMonsterPiecesRequestProto_Builder*) setClientTime:(int64_t) value;
+- (CombineUserMonsterPiecesRequestProto_Builder*) clearClientTime;
 @end
 
 @interface CombineUserMonsterPiecesResponseProto : PBGeneratedMessage {
@@ -2413,12 +2330,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus status;
+@property (readonly) ResponseStatus status;
 
 + (CombineUserMonsterPiecesResponseProto*) defaultInstance;
 - (CombineUserMonsterPiecesResponseProto*) defaultInstance;
@@ -2463,8 +2380,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (CombineUserMonsterPiecesResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus) status;
-- (CombineUserMonsterPiecesResponseProto_Builder*) setStatus:(CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus) value;
+- (ResponseStatus) status;
+- (CombineUserMonsterPiecesResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (CombineUserMonsterPiecesResponseProto_Builder*) clearStatusList;
 @end
 
@@ -2533,12 +2450,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProtoWithMaxResources* sender;
-  SellUserMonsterResponseProto_SellUserMonsterStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
-@property (readonly) SellUserMonsterResponseProto_SellUserMonsterStatus status;
+@property (readonly) ResponseStatus status;
 
 + (SellUserMonsterResponseProto*) defaultInstance;
 - (SellUserMonsterResponseProto*) defaultInstance;
@@ -2583,8 +2500,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (SellUserMonsterResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (SellUserMonsterResponseProto_SellUserMonsterStatus) status;
-- (SellUserMonsterResponseProto_Builder*) setStatus:(SellUserMonsterResponseProto_SellUserMonsterStatus) value;
+- (ResponseStatus) status;
+- (SellUserMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (SellUserMonsterResponseProto_Builder*) clearStatusList;
 @end
 
@@ -2653,12 +2570,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  RestrictUserMonsterResponseProto_RestrictUserMonsterStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) RestrictUserMonsterResponseProto_RestrictUserMonsterStatus status;
+@property (readonly) ResponseStatus status;
 
 + (RestrictUserMonsterResponseProto*) defaultInstance;
 - (RestrictUserMonsterResponseProto*) defaultInstance;
@@ -2703,8 +2620,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (RestrictUserMonsterResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (RestrictUserMonsterResponseProto_RestrictUserMonsterStatus) status;
-- (RestrictUserMonsterResponseProto_Builder*) setStatus:(RestrictUserMonsterResponseProto_RestrictUserMonsterStatus) value;
+- (ResponseStatus) status;
+- (RestrictUserMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RestrictUserMonsterResponseProto_Builder*) clearStatusList;
 @end
 
@@ -2773,12 +2690,12 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus status;
+@property (readonly) ResponseStatus status;
 
 + (UnrestrictUserMonsterResponseProto*) defaultInstance;
 - (UnrestrictUserMonsterResponseProto*) defaultInstance;
@@ -2823,8 +2740,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (UnrestrictUserMonsterResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus) status;
-- (UnrestrictUserMonsterResponseProto_Builder*) setStatus:(UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus) value;
+- (ResponseStatus) status;
+- (UnrestrictUserMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (UnrestrictUserMonsterResponseProto_Builder*) clearStatusList;
 @end
 
@@ -2893,13 +2810,13 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableUserMonsterTeamList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * userMonsterTeamList;
 - (PvpProto*)userMonsterTeamAtIndex:(NSUInteger)index;
 
@@ -2946,8 +2863,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (RetrieveUserMonsterTeamResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus) status;
-- (RetrieveUserMonsterTeamResponseProto_Builder*) setStatus:(RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus) value;
+- (ResponseStatus) status;
+- (RetrieveUserMonsterTeamResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RetrieveUserMonsterTeamResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)userMonsterTeamList;

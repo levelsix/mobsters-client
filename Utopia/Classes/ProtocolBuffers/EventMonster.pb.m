@@ -15,6 +15,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [BattleRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -28,6 +29,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) UserMonsterEvolutionProto* evolution;
 @property int32_t gemsSpent;
 @property int32_t oilChange;
+@property int64_t clientTime;
 @end
 
 @implementation EvolveMonsterRequestProto
@@ -60,12 +62,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasOilChange_ = !!value_;
 }
 @synthesize oilChange;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.evolution = [UserMonsterEvolutionProto defaultInstance];
     self.gemsSpent = 0;
     self.oilChange = 0;
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -97,6 +107,9 @@ static EvolveMonsterRequestProto* defaultEvolveMonsterRequestProtoInstance = nil
   if (self.hasOilChange) {
     [output writeSInt32:4 value:self.oilChange];
   }
+  if (self.hasClientTime) {
+    [output writeInt64:5 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -117,6 +130,9 @@ static EvolveMonsterRequestProto* defaultEvolveMonsterRequestProtoInstance = nil
   }
   if (self.hasOilChange) {
     size_ += computeSInt32Size(4, self.oilChange);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(5, self.clientTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -171,6 +187,9 @@ static EvolveMonsterRequestProto* defaultEvolveMonsterRequestProtoInstance = nil
   if (self.hasOilChange) {
     [output appendFormat:@"%@%@: %@\n", indent, @"oilChange", [NSNumber numberWithInteger:self.oilChange]];
   }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -190,6 +209,8 @@ static EvolveMonsterRequestProto* defaultEvolveMonsterRequestProtoInstance = nil
       (!self.hasGemsSpent || self.gemsSpent == otherMessage.gemsSpent) &&
       self.hasOilChange == otherMessage.hasOilChange &&
       (!self.hasOilChange || self.oilChange == otherMessage.oilChange) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -205,6 +226,9 @@ static EvolveMonsterRequestProto* defaultEvolveMonsterRequestProtoInstance = nil
   }
   if (self.hasOilChange) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.oilChange] hash];
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -261,6 +285,9 @@ static EvolveMonsterRequestProto* defaultEvolveMonsterRequestProtoInstance = nil
   if (other.hasOilChange) {
     [self setOilChange:other.oilChange];
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -306,6 +333,10 @@ static EvolveMonsterRequestProto* defaultEvolveMonsterRequestProtoInstance = nil
       }
       case 32: {
         [self setOilChange:[input readSInt32]];
+        break;
+      }
+      case 40: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -403,11 +434,27 @@ static EvolveMonsterRequestProto* defaultEvolveMonsterRequestProtoInstance = nil
   result.oilChange = 0;
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (EvolveMonsterRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (EvolveMonsterRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface EvolveMonsterResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property EvolveMonsterResponseProto_EvolveMonsterStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation EvolveMonsterResponseProto
@@ -429,7 +476,7 @@ static EvolveMonsterRequestProto* defaultEvolveMonsterRequestProtoInstance = nil
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = EvolveMonsterResponseProto_EvolveMonsterStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -544,20 +591,6 @@ static EvolveMonsterResponseProto* defaultEvolveMonsterResponseProtoInstance = n
 }
 @end
 
-BOOL EvolveMonsterResponseProto_EvolveMonsterStatusIsValidValue(EvolveMonsterResponseProto_EvolveMonsterStatus value) {
-  switch (value) {
-    case EvolveMonsterResponseProto_EvolveMonsterStatusSuccess:
-    case EvolveMonsterResponseProto_EvolveMonsterStatusFailInsufficientGems:
-    case EvolveMonsterResponseProto_EvolveMonsterStatusFailInsufficientResources:
-    case EvolveMonsterResponseProto_EvolveMonsterStatusFailMonsterReachedEvolvingLimit:
-    case EvolveMonsterResponseProto_EvolveMonsterStatusFailMaxNumEvolutionsReached:
-    case EvolveMonsterResponseProto_EvolveMonsterStatusFailNonexistentMonsters:
-    case EvolveMonsterResponseProto_EvolveMonsterStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface EvolveMonsterResponseProto_Builder()
 @property (strong) EvolveMonsterResponseProto* result;
 @end
@@ -633,8 +666,8 @@ BOOL EvolveMonsterResponseProto_EvolveMonsterStatusIsValidValue(EvolveMonsterRes
         break;
       }
       case 16: {
-        EvolveMonsterResponseProto_EvolveMonsterStatus value = (EvolveMonsterResponseProto_EvolveMonsterStatus)[input readEnum];
-        if (EvolveMonsterResponseProto_EvolveMonsterStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -677,17 +710,17 @@ BOOL EvolveMonsterResponseProto_EvolveMonsterStatusIsValidValue(EvolveMonsterRes
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (EvolveMonsterResponseProto_EvolveMonsterStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (EvolveMonsterResponseProto_Builder*) setStatus:(EvolveMonsterResponseProto_EvolveMonsterStatus) value {
+- (EvolveMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (EvolveMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = EvolveMonsterResponseProto_EvolveMonsterStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -695,6 +728,7 @@ BOOL EvolveMonsterResponseProto_EvolveMonsterStatusIsValidValue(EvolveMonsterRes
 @interface EvolutionFinishedRequestProto ()
 @property (strong) MinimumUserProto* sender;
 @property int32_t gemsSpent;
+@property int64_t clientTime;
 @end
 
 @implementation EvolutionFinishedRequestProto
@@ -713,10 +747,18 @@ BOOL EvolveMonsterResponseProto_EvolveMonsterStatusIsValidValue(EvolveMonsterRes
   hasGemsSpent_ = !!value_;
 }
 @synthesize gemsSpent;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.gemsSpent = 0;
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -742,6 +784,9 @@ static EvolutionFinishedRequestProto* defaultEvolutionFinishedRequestProtoInstan
   if (self.hasGemsSpent) {
     [output writeInt32:2 value:self.gemsSpent];
   }
+  if (self.hasClientTime) {
+    [output writeInt64:3 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -756,6 +801,9 @@ static EvolutionFinishedRequestProto* defaultEvolutionFinishedRequestProtoInstan
   }
   if (self.hasGemsSpent) {
     size_ += computeInt32Size(2, self.gemsSpent);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(3, self.clientTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -801,6 +849,9 @@ static EvolutionFinishedRequestProto* defaultEvolutionFinishedRequestProtoInstan
   if (self.hasGemsSpent) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gemsSpent", [NSNumber numberWithInteger:self.gemsSpent]];
   }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -816,6 +867,8 @@ static EvolutionFinishedRequestProto* defaultEvolutionFinishedRequestProtoInstan
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasGemsSpent == otherMessage.hasGemsSpent &&
       (!self.hasGemsSpent || self.gemsSpent == otherMessage.gemsSpent) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -825,6 +878,9 @@ static EvolutionFinishedRequestProto* defaultEvolutionFinishedRequestProtoInstan
   }
   if (self.hasGemsSpent) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsSpent] hash];
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -875,6 +931,9 @@ static EvolutionFinishedRequestProto* defaultEvolutionFinishedRequestProtoInstan
   if (other.hasGemsSpent) {
     [self setGemsSpent:other.gemsSpent];
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -907,6 +966,10 @@ static EvolutionFinishedRequestProto* defaultEvolutionFinishedRequestProtoInstan
       }
       case 16: {
         [self setGemsSpent:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -958,12 +1021,28 @@ static EvolutionFinishedRequestProto* defaultEvolutionFinishedRequestProtoInstan
   result.gemsSpent = 0;
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (EvolutionFinishedRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (EvolutionFinishedRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface EvolutionFinishedResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) FullUserMonsterProto* evolvedMonster;
-@property EvolutionFinishedResponseProto_EvolutionFinishedStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation EvolutionFinishedResponseProto
@@ -993,7 +1072,7 @@ static EvolutionFinishedRequestProto* defaultEvolutionFinishedRequestProtoInstan
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.evolvedMonster = [FullUserMonsterProto defaultInstance];
-    self.status = EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1125,16 +1204,6 @@ static EvolutionFinishedResponseProto* defaultEvolutionFinishedResponseProtoInst
 }
 @end
 
-BOOL EvolutionFinishedResponseProto_EvolutionFinishedStatusIsValidValue(EvolutionFinishedResponseProto_EvolutionFinishedStatus value) {
-  switch (value) {
-    case EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess:
-    case EvolutionFinishedResponseProto_EvolutionFinishedStatusFailInsufficientGems:
-    case EvolutionFinishedResponseProto_EvolutionFinishedStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface EvolutionFinishedResponseProto_Builder()
 @property (strong) EvolutionFinishedResponseProto* result;
 @end
@@ -1222,8 +1291,8 @@ BOOL EvolutionFinishedResponseProto_EvolutionFinishedStatusIsValidValue(Evolutio
         break;
       }
       case 24: {
-        EvolutionFinishedResponseProto_EvolutionFinishedStatus value = (EvolutionFinishedResponseProto_EvolutionFinishedStatus)[input readEnum];
-        if (EvolutionFinishedResponseProto_EvolutionFinishedStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -1296,17 +1365,17 @@ BOOL EvolutionFinishedResponseProto_EvolutionFinishedStatusIsValidValue(Evolutio
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (EvolutionFinishedResponseProto_EvolutionFinishedStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (EvolutionFinishedResponseProto_Builder*) setStatus:(EvolutionFinishedResponseProto_EvolutionFinishedStatus) value {
+- (EvolutionFinishedResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (EvolutionFinishedResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -1318,6 +1387,7 @@ BOOL EvolutionFinishedResponseProto_EvolutionFinishedStatusIsValidValue(Evolutio
 @property (strong) NSMutableArray * mutableUeipNewList;
 @property int32_t gemsSpent;
 @property int32_t oilChange;
+@property int64_t clientTime;
 @end
 
 @implementation SubmitMonsterEnhancementRequestProto
@@ -1349,11 +1419,19 @@ BOOL EvolutionFinishedResponseProto_EvolutionFinishedStatusIsValidValue(Evolutio
   hasOilChange_ = !!value_;
 }
 @synthesize oilChange;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.gemsSpent = 0;
     self.oilChange = 0;
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -1409,6 +1487,9 @@ static SubmitMonsterEnhancementRequestProto* defaultSubmitMonsterEnhancementRequ
   if (self.hasOilChange) {
     [output writeSInt32:6 value:self.oilChange];
   }
+  if (self.hasClientTime) {
+    [output writeInt64:7 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1435,6 +1516,9 @@ static SubmitMonsterEnhancementRequestProto* defaultSubmitMonsterEnhancementRequ
   }
   if (self.hasOilChange) {
     size_ += computeSInt32Size(6, self.oilChange);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(7, self.clientTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1501,6 +1585,9 @@ static SubmitMonsterEnhancementRequestProto* defaultSubmitMonsterEnhancementRequ
   if (self.hasOilChange) {
     [output appendFormat:@"%@%@: %@\n", indent, @"oilChange", [NSNumber numberWithInteger:self.oilChange]];
   }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1521,6 +1608,8 @@ static SubmitMonsterEnhancementRequestProto* defaultSubmitMonsterEnhancementRequ
       (!self.hasGemsSpent || self.gemsSpent == otherMessage.gemsSpent) &&
       self.hasOilChange == otherMessage.hasOilChange &&
       (!self.hasOilChange || self.oilChange == otherMessage.oilChange) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1542,6 +1631,9 @@ static SubmitMonsterEnhancementRequestProto* defaultSubmitMonsterEnhancementRequ
   }
   if (self.hasOilChange) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.oilChange] hash];
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1616,6 +1708,9 @@ static SubmitMonsterEnhancementRequestProto* defaultSubmitMonsterEnhancementRequ
   if (other.hasOilChange) {
     [self setOilChange:other.oilChange];
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1670,6 +1765,10 @@ static SubmitMonsterEnhancementRequestProto* defaultSubmitMonsterEnhancementRequ
       }
       case 48: {
         [self setOilChange:[input readSInt32]];
+        break;
+      }
+      case 56: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -1809,11 +1908,27 @@ static SubmitMonsterEnhancementRequestProto* defaultSubmitMonsterEnhancementRequ
   result.oilChange = 0;
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (SubmitMonsterEnhancementRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (SubmitMonsterEnhancementRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface SubmitMonsterEnhancementResponseProto ()
 @property (strong) MinimumUserProtoWithMaxResources* sender;
-@property SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation SubmitMonsterEnhancementResponseProto
@@ -1835,7 +1950,7 @@ static SubmitMonsterEnhancementRequestProto* defaultSubmitMonsterEnhancementRequ
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
-    self.status = SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1950,22 +2065,6 @@ static SubmitMonsterEnhancementResponseProto* defaultSubmitMonsterEnhancementRes
 }
 @end
 
-BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValidValue(SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus value) {
-  switch (value) {
-    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess:
-    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailInsufficientGems:
-    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailInsufficientOil:
-    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailOther:
-    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterInEnhancing:
-    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterInHealing:
-    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterInEvolution:
-    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterNonexistent:
-    case SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailMonsterRestricted:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SubmitMonsterEnhancementResponseProto_Builder()
 @property (strong) SubmitMonsterEnhancementResponseProto* result;
 @end
@@ -2041,8 +2140,8 @@ BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValid
         break;
       }
       case 16: {
-        SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus value = (SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus)[input readEnum];
-        if (SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2085,17 +2184,17 @@ BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValid
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SubmitMonsterEnhancementResponseProto_Builder*) setStatus:(SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus) value {
+- (SubmitMonsterEnhancementResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SubmitMonsterEnhancementResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -2107,6 +2206,7 @@ BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValid
 @property (strong) UserMonsterCurrentExpProto* umcep;
 @property (strong) NSMutableArray * mutableUserMonsterUuidsList;
 @property (strong) NSString* userMonsterUuid;
+@property int64_t clientTime;
 @end
 
 @implementation EnhancementWaitTimeCompleteRequestProto
@@ -2153,6 +2253,13 @@ BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValid
   hasUserMonsterUuid_ = !!value_;
 }
 @synthesize userMonsterUuid;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -2160,6 +2267,7 @@ BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValid
     self.gemsForSpeedup = 0;
     self.umcep = [UserMonsterCurrentExpProto defaultInstance];
     self.userMonsterUuid = @"";
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -2203,6 +2311,9 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
   if (self.hasUserMonsterUuid) {
     [output writeString:6 value:self.userMonsterUuid];
   }
+  if (self.hasClientTime) {
+    [output writeInt64:7 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2235,6 +2346,9 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
   }
   if (self.hasUserMonsterUuid) {
     size_ += computeStringSize(6, self.userMonsterUuid);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(7, self.clientTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2295,6 +2409,9 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
   if (self.hasUserMonsterUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterUuid", self.userMonsterUuid];
   }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2317,6 +2434,8 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
       [self.userMonsterUuidsList isEqualToArray:otherMessage.userMonsterUuidsList] &&
       self.hasUserMonsterUuid == otherMessage.hasUserMonsterUuid &&
       (!self.hasUserMonsterUuid || [self.userMonsterUuid isEqual:otherMessage.userMonsterUuid]) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2338,6 +2457,9 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
   }];
   if (self.hasUserMonsterUuid) {
     hashCode = hashCode * 31 + [self.userMonsterUuid hash];
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2404,6 +2526,9 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
   if (other.hasUserMonsterUuid) {
     [self setUserMonsterUuid:other.userMonsterUuid];
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2457,6 +2582,10 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
       }
       case 50: {
         [self setUserMonsterUuid:[input readString]];
+        break;
+      }
+      case 56: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -2594,11 +2723,27 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
   result.userMonsterUuid = @"";
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface EnhancementWaitTimeCompleteResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation EnhancementWaitTimeCompleteResponseProto
@@ -2620,7 +2765,7 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -2735,16 +2880,6 @@ static EnhancementWaitTimeCompleteResponseProto* defaultEnhancementWaitTimeCompl
 }
 @end
 
-BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusIsValidValue(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus value) {
-  switch (value) {
-    case EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess:
-    case EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailInsufficientFunds:
-    case EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface EnhancementWaitTimeCompleteResponseProto_Builder()
 @property (strong) EnhancementWaitTimeCompleteResponseProto* result;
 @end
@@ -2820,8 +2955,8 @@ BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusI
         break;
       }
       case 16: {
-        EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus value = (EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus)[input readEnum];
-        if (EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2864,17 +2999,17 @@ BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusI
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (EnhancementWaitTimeCompleteResponseProto_Builder*) setStatus:(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) value {
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -2883,6 +3018,7 @@ BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusI
 @property (strong) MinimumUserProto* sender;
 @property (strong) UserMonsterCurrentExpProto* umcep;
 @property (strong) NSMutableArray * mutableUserMonsterUuidsList;
+@property int64_t clientTime;
 @end
 
 @implementation CollectMonsterEnhancementRequestProto
@@ -2903,10 +3039,18 @@ BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusI
 @synthesize umcep;
 @synthesize mutableUserMonsterUuidsList;
 @dynamic userMonsterUuidsList;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.umcep = [UserMonsterCurrentExpProto defaultInstance];
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -2941,6 +3085,9 @@ static CollectMonsterEnhancementRequestProto* defaultCollectMonsterEnhancementRe
   [self.userMonsterUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
     [output writeString:3 value:element];
   }];
+  if (self.hasClientTime) {
+    [output writeInt64:4 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2964,6 +3111,9 @@ static CollectMonsterEnhancementRequestProto* defaultCollectMonsterEnhancementRe
     }];
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(4, self.clientTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3015,6 +3165,9 @@ static CollectMonsterEnhancementRequestProto* defaultCollectMonsterEnhancementRe
   [self.userMonsterUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterUuids", obj];
   }];
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3031,6 +3184,8 @@ static CollectMonsterEnhancementRequestProto* defaultCollectMonsterEnhancementRe
       self.hasUmcep == otherMessage.hasUmcep &&
       (!self.hasUmcep || [self.umcep isEqual:otherMessage.umcep]) &&
       [self.userMonsterUuidsList isEqualToArray:otherMessage.userMonsterUuidsList] &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3044,6 +3199,9 @@ static CollectMonsterEnhancementRequestProto* defaultCollectMonsterEnhancementRe
   [self.userMonsterUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -3100,6 +3258,9 @@ static CollectMonsterEnhancementRequestProto* defaultCollectMonsterEnhancementRe
       [result.mutableUserMonsterUuidsList addObjectsFromArray:other.mutableUserMonsterUuidsList];
     }
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3141,6 +3302,10 @@ static CollectMonsterEnhancementRequestProto* defaultCollectMonsterEnhancementRe
       }
       case 26: {
         [self addUserMonsterUuids:[input readString]];
+        break;
+      }
+      case 32: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -3230,11 +3395,27 @@ static CollectMonsterEnhancementRequestProto* defaultCollectMonsterEnhancementRe
   result.mutableUserMonsterUuidsList = nil;
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface CollectMonsterEnhancementResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation CollectMonsterEnhancementResponseProto
@@ -3256,7 +3437,7 @@ static CollectMonsterEnhancementRequestProto* defaultCollectMonsterEnhancementRe
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -3371,16 +3552,6 @@ static CollectMonsterEnhancementResponseProto* defaultCollectMonsterEnhancementR
 }
 @end
 
-BOOL CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusIsValidValue(CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus value) {
-  switch (value) {
-    case CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess:
-    case CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusFailOther:
-    case CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusFailEnhancementIncomplete:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface CollectMonsterEnhancementResponseProto_Builder()
 @property (strong) CollectMonsterEnhancementResponseProto* result;
 @end
@@ -3456,8 +3627,8 @@ BOOL CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusIsVal
         break;
       }
       case 16: {
-        CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus value = (CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus)[input readEnum];
-        if (CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -3500,17 +3671,17 @@ BOOL CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusIsVal
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (CollectMonsterEnhancementResponseProto_Builder*) setStatus:(CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) value {
+- (CollectMonsterEnhancementResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (CollectMonsterEnhancementResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -4867,7 +5038,7 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
 
 @interface UpdateMonsterHealthResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation UpdateMonsterHealthResponseProto
@@ -4889,7 +5060,7 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -5004,16 +5175,6 @@ static UpdateMonsterHealthResponseProto* defaultUpdateMonsterHealthResponseProto
 }
 @end
 
-BOOL UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusIsValidValue(UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus value) {
-  switch (value) {
-    case UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusSuccess:
-    case UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusFailInsufficientFunds:
-    case UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface UpdateMonsterHealthResponseProto_Builder()
 @property (strong) UpdateMonsterHealthResponseProto* result;
 @end
@@ -5089,8 +5250,8 @@ BOOL UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusIsValidValue(Upda
         break;
       }
       case 16: {
-        UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus value = (UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus)[input readEnum];
-        if (UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -5133,17 +5294,17 @@ BOOL UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusIsValidValue(Upda
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (UpdateMonsterHealthResponseProto_Builder*) setStatus:(UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) value {
+- (UpdateMonsterHealthResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (UpdateMonsterHealthResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -5158,6 +5319,7 @@ BOOL UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusIsValidValue(Upda
 @property BOOL isSpeedup;
 @property int32_t gemsForSpeedup;
 @property (strong) NSMutableArray * mutableUmchpList;
+@property int64_t clientTime;
 @end
 
 @implementation HealMonsterRequestProto
@@ -5210,6 +5372,13 @@ BOOL UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusIsValidValue(Upda
 @synthesize gemsForSpeedup;
 @synthesize mutableUmchpList;
 @dynamic umchpList;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
@@ -5217,6 +5386,7 @@ BOOL UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusIsValidValue(Upda
     self.gemCostForHealing = 0;
     self.isSpeedup = NO;
     self.gemsForSpeedup = 0;
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -5287,6 +5457,9 @@ static HealMonsterRequestProto* defaultHealMonsterRequestProtoInstance = nil;
   [self.umchpList enumerateObjectsUsingBlock:^(UserMonsterCurrentHealthProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:9 value:element];
   }];
+  if (self.hasClientTime) {
+    [output writeInt64:10 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -5323,6 +5496,9 @@ static HealMonsterRequestProto* defaultHealMonsterRequestProtoInstance = nil;
   [self.umchpList enumerateObjectsUsingBlock:^(UserMonsterCurrentHealthProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(9, element);
   }];
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(10, self.clientTime);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -5400,6 +5576,9 @@ static HealMonsterRequestProto* defaultHealMonsterRequestProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -5425,6 +5604,8 @@ static HealMonsterRequestProto* defaultHealMonsterRequestProtoInstance = nil;
       self.hasGemsForSpeedup == otherMessage.hasGemsForSpeedup &&
       (!self.hasGemsForSpeedup || self.gemsForSpeedup == otherMessage.gemsForSpeedup) &&
       [self.umchpList isEqualToArray:otherMessage.umchpList] &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -5456,6 +5637,9 @@ static HealMonsterRequestProto* defaultHealMonsterRequestProtoInstance = nil;
   [self.umchpList enumerateObjectsUsingBlock:^(UserMonsterCurrentHealthProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -5542,6 +5726,9 @@ static HealMonsterRequestProto* defaultHealMonsterRequestProtoInstance = nil;
       [result.mutableUmchpList addObjectsFromArray:other.mutableUmchpList];
     }
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -5610,6 +5797,10 @@ static HealMonsterRequestProto* defaultHealMonsterRequestProtoInstance = nil;
         UserMonsterCurrentHealthProto_Builder* subBuilder = [UserMonsterCurrentHealthProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUmchp:[subBuilder buildPartial]];
+        break;
+      }
+      case 80: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -5805,11 +5996,27 @@ static HealMonsterRequestProto* defaultHealMonsterRequestProtoInstance = nil;
   result.mutableUmchpList = nil;
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (HealMonsterRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (HealMonsterRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface HealMonsterResponseProto ()
 @property (strong) MinimumUserProtoWithMaxResources* sender;
-@property HealMonsterResponseProto_HealMonsterStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation HealMonsterResponseProto
@@ -5831,7 +6038,7 @@ static HealMonsterRequestProto* defaultHealMonsterRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
-    self.status = HealMonsterResponseProto_HealMonsterStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -5946,19 +6153,6 @@ static HealMonsterResponseProto* defaultHealMonsterResponseProtoInstance = nil;
 }
 @end
 
-BOOL HealMonsterResponseProto_HealMonsterStatusIsValidValue(HealMonsterResponseProto_HealMonsterStatus value) {
-  switch (value) {
-    case HealMonsterResponseProto_HealMonsterStatusSuccess:
-    case HealMonsterResponseProto_HealMonsterStatusFailInsufficientFunds:
-    case HealMonsterResponseProto_HealMonsterStatusFailAllMonstersAlreadyHealing:
-    case HealMonsterResponseProto_HealMonsterStatusFailAllMonstersNonexistent:
-    case HealMonsterResponseProto_HealMonsterStatusFailOther:
-    case HealMonsterResponseProto_HealMonsterStatusFailHealingNotComplete:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface HealMonsterResponseProto_Builder()
 @property (strong) HealMonsterResponseProto* result;
 @end
@@ -6034,8 +6228,8 @@ BOOL HealMonsterResponseProto_HealMonsterStatusIsValidValue(HealMonsterResponseP
         break;
       }
       case 16: {
-        HealMonsterResponseProto_HealMonsterStatus value = (HealMonsterResponseProto_HealMonsterStatus)[input readEnum];
-        if (HealMonsterResponseProto_HealMonsterStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -6078,17 +6272,17 @@ BOOL HealMonsterResponseProto_HealMonsterStatusIsValidValue(HealMonsterResponseP
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (HealMonsterResponseProto_HealMonsterStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (HealMonsterResponseProto_Builder*) setStatus:(HealMonsterResponseProto_HealMonsterStatus) value {
+- (HealMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (HealMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = HealMonsterResponseProto_HealMonsterStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -6409,7 +6603,7 @@ static AddMonsterToBattleTeamRequestProto* defaultAddMonsterToBattleTeamRequestP
 
 @interface AddMonsterToBattleTeamResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation AddMonsterToBattleTeamResponseProto
@@ -6431,7 +6625,7 @@ static AddMonsterToBattleTeamRequestProto* defaultAddMonsterToBattleTeamRequestP
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -6546,15 +6740,6 @@ static AddMonsterToBattleTeamResponseProto* defaultAddMonsterToBattleTeamRespons
 }
 @end
 
-BOOL AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusIsValidValue(AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus value) {
-  switch (value) {
-    case AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusSuccess:
-    case AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface AddMonsterToBattleTeamResponseProto_Builder()
 @property (strong) AddMonsterToBattleTeamResponseProto* result;
 @end
@@ -6630,8 +6815,8 @@ BOOL AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusIsValidValu
         break;
       }
       case 16: {
-        AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus value = (AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus)[input readEnum];
-        if (AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -6674,17 +6859,17 @@ BOOL AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusIsValidValu
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (AddMonsterToBattleTeamResponseProto_Builder*) setStatus:(AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus) value {
+- (AddMonsterToBattleTeamResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (AddMonsterToBattleTeamResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -6959,7 +7144,7 @@ static RemoveMonsterFromBattleTeamRequestProto* defaultRemoveMonsterFromBattleTe
 
 @interface RemoveMonsterFromBattleTeamResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation RemoveMonsterFromBattleTeamResponseProto
@@ -6981,7 +7166,7 @@ static RemoveMonsterFromBattleTeamRequestProto* defaultRemoveMonsterFromBattleTe
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -7096,15 +7281,6 @@ static RemoveMonsterFromBattleTeamResponseProto* defaultRemoveMonsterFromBattleT
 }
 @end
 
-BOOL RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusIsValidValue(RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus value) {
-  switch (value) {
-    case RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusSuccess:
-    case RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RemoveMonsterFromBattleTeamResponseProto_Builder()
 @property (strong) RemoveMonsterFromBattleTeamResponseProto* result;
 @end
@@ -7180,8 +7356,8 @@ BOOL RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusI
         break;
       }
       case 16: {
-        RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus value = (RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus)[input readEnum];
-        if (RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -7224,17 +7400,17 @@ BOOL RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusI
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RemoveMonsterFromBattleTeamResponseProto_Builder*) setStatus:(RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus) value {
+- (RemoveMonsterFromBattleTeamResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -7632,7 +7808,7 @@ BOOL IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeIsValidValue(Incre
 
 @interface IncreaseMonsterInventorySlotResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation IncreaseMonsterInventorySlotResponseProto
@@ -7654,7 +7830,7 @@ BOOL IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeIsValidValue(Incre
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -7769,19 +7945,6 @@ static IncreaseMonsterInventorySlotResponseProto* defaultIncreaseMonsterInventor
 }
 @end
 
-BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusIsValidValue(IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus value) {
-  switch (value) {
-    case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess:
-    case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInsufficientFunds:
-    case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInsufficientFacebookInvites:
-    case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailOther:
-    case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInconsistentInviteData:
-    case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailStructureAtMaxFbInviteLvl:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface IncreaseMonsterInventorySlotResponseProto_Builder()
 @property (strong) IncreaseMonsterInventorySlotResponseProto* result;
 @end
@@ -7857,8 +8020,8 @@ BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatu
         break;
       }
       case 16: {
-        IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus value = (IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus)[input readEnum];
-        if (IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -7901,17 +8064,17 @@ BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatu
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (IncreaseMonsterInventorySlotResponseProto_Builder*) setStatus:(IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) value {
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (IncreaseMonsterInventorySlotResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -8494,7 +8657,7 @@ static InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure* defaultInvit
 
 @interface InviteFbFriendsForSlotsResponseProto ()
 @property (strong) MinimumUserProtoWithFacebookId* sender;
-@property InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableInvitesNewList;
 @end
 
@@ -8519,7 +8682,7 @@ static InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure* defaultInvit
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithFacebookId defaultInstance];
-    self.status = InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -8656,15 +8819,6 @@ static InviteFbFriendsForSlotsResponseProto* defaultInviteFbFriendsForSlotsRespo
 }
 @end
 
-BOOL InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidValue(InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus value) {
-  switch (value) {
-    case InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess:
-    case InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface InviteFbFriendsForSlotsResponseProto_Builder()
 @property (strong) InviteFbFriendsForSlotsResponseProto* result;
 @end
@@ -8747,8 +8901,8 @@ BOOL InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidVa
         break;
       }
       case 16: {
-        InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus value = (InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus)[input readEnum];
-        if (InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -8797,17 +8951,17 @@ BOOL InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidVa
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (InviteFbFriendsForSlotsResponseProto_Builder*) setStatus:(InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) value {
+- (InviteFbFriendsForSlotsResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)invitesNewList {
@@ -9186,7 +9340,7 @@ static AcceptAndRejectFbInviteForSlotsRequestProto* defaultAcceptAndRejectFbInvi
 
 @interface AcceptAndRejectFbInviteForSlotsResponseProto ()
 @property (strong) MinimumUserProtoWithFacebookId* sender;
-@property AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableAcceptedInvitesList;
 @end
 
@@ -9211,7 +9365,7 @@ static AcceptAndRejectFbInviteForSlotsRequestProto* defaultAcceptAndRejectFbInvi
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithFacebookId defaultInstance];
-    self.status = AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -9348,17 +9502,6 @@ static AcceptAndRejectFbInviteForSlotsResponseProto* defaultAcceptAndRejectFbInv
 }
 @end
 
-BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusIsValidValue(AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus value) {
-  switch (value) {
-    case AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess:
-    case AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailExpired:
-    case AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailAlreadyBeenUsed:
-    case AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface AcceptAndRejectFbInviteForSlotsResponseProto_Builder()
 @property (strong) AcceptAndRejectFbInviteForSlotsResponseProto* result;
 @end
@@ -9441,8 +9584,8 @@ BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlot
         break;
       }
       case 16: {
-        AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus value = (AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus)[input readEnum];
-        if (AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -9491,17 +9634,17 @@ BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlot
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setStatus:(AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) value {
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)acceptedInvitesList {
@@ -9534,6 +9677,7 @@ BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlot
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableUserMonsterUuidsList;
 @property int32_t gemCost;
+@property int64_t clientTime;
 @end
 
 @implementation CombineUserMonsterPiecesRequestProto
@@ -9554,10 +9698,18 @@ BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlot
   hasGemCost_ = !!value_;
 }
 @synthesize gemCost;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.gemCost = 0;
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -9592,6 +9744,9 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
   if (self.hasGemCost) {
     [output writeInt32:3 value:self.gemCost];
   }
+  if (self.hasClientTime) {
+    [output writeInt64:4 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -9615,6 +9770,9 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
   }
   if (self.hasGemCost) {
     size_ += computeInt32Size(3, self.gemCost);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(4, self.clientTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -9663,6 +9821,9 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
   if (self.hasGemCost) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gemCost", [NSNumber numberWithInteger:self.gemCost]];
   }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -9679,6 +9840,8 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
       [self.userMonsterUuidsList isEqualToArray:otherMessage.userMonsterUuidsList] &&
       self.hasGemCost == otherMessage.hasGemCost &&
       (!self.hasGemCost || self.gemCost == otherMessage.gemCost) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -9691,6 +9854,9 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
   }];
   if (self.hasGemCost) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemCost] hash];
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -9748,6 +9914,9 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
   if (other.hasGemCost) {
     [self setGemCost:other.gemCost];
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -9784,6 +9953,10 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
       }
       case 24: {
         [self setGemCost:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -9859,11 +10032,27 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
   result.gemCost = 0;
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (CombineUserMonsterPiecesRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (CombineUserMonsterPiecesRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface CombineUserMonsterPiecesResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation CombineUserMonsterPiecesResponseProto
@@ -9885,7 +10074,7 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -10000,17 +10189,6 @@ static CombineUserMonsterPiecesResponseProto* defaultCombineUserMonsterPiecesRes
 }
 @end
 
-BOOL CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusIsValidValue(CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus value) {
-  switch (value) {
-    case CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess:
-    case CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailInsuffucientGems:
-    case CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailMoreThanOneMonsterForSpeedup:
-    case CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface CombineUserMonsterPiecesResponseProto_Builder()
 @property (strong) CombineUserMonsterPiecesResponseProto* result;
 @end
@@ -10086,8 +10264,8 @@ BOOL CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusIsValid
         break;
       }
       case 16: {
-        CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus value = (CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus)[input readEnum];
-        if (CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -10130,17 +10308,17 @@ BOOL CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusIsValid
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (CombineUserMonsterPiecesResponseProto_Builder*) setStatus:(CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus) value {
+- (CombineUserMonsterPiecesResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (CombineUserMonsterPiecesResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -10431,7 +10609,7 @@ static SellUserMonsterRequestProto* defaultSellUserMonsterRequestProtoInstance =
 
 @interface SellUserMonsterResponseProto ()
 @property (strong) MinimumUserProtoWithMaxResources* sender;
-@property SellUserMonsterResponseProto_SellUserMonsterStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation SellUserMonsterResponseProto
@@ -10453,7 +10631,7 @@ static SellUserMonsterRequestProto* defaultSellUserMonsterRequestProtoInstance =
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
-    self.status = SellUserMonsterResponseProto_SellUserMonsterStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -10568,15 +10746,6 @@ static SellUserMonsterResponseProto* defaultSellUserMonsterResponseProtoInstance
 }
 @end
 
-BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMonsterResponseProto_SellUserMonsterStatus value) {
-  switch (value) {
-    case SellUserMonsterResponseProto_SellUserMonsterStatusSuccess:
-    case SellUserMonsterResponseProto_SellUserMonsterStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SellUserMonsterResponseProto_Builder()
 @property (strong) SellUserMonsterResponseProto* result;
 @end
@@ -10652,8 +10821,8 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
         break;
       }
       case 16: {
-        SellUserMonsterResponseProto_SellUserMonsterStatus value = (SellUserMonsterResponseProto_SellUserMonsterStatus)[input readEnum];
-        if (SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -10696,17 +10865,17 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SellUserMonsterResponseProto_SellUserMonsterStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SellUserMonsterResponseProto_Builder*) setStatus:(SellUserMonsterResponseProto_SellUserMonsterStatus) value {
+- (SellUserMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SellUserMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SellUserMonsterResponseProto_SellUserMonsterStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -10998,7 +11167,7 @@ static RestrictUserMonsterRequestProto* defaultRestrictUserMonsterRequestProtoIn
 
 @interface RestrictUserMonsterResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property RestrictUserMonsterResponseProto_RestrictUserMonsterStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation RestrictUserMonsterResponseProto
@@ -11020,7 +11189,7 @@ static RestrictUserMonsterRequestProto* defaultRestrictUserMonsterRequestProtoIn
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -11135,15 +11304,6 @@ static RestrictUserMonsterResponseProto* defaultRestrictUserMonsterResponseProto
 }
 @end
 
-BOOL RestrictUserMonsterResponseProto_RestrictUserMonsterStatusIsValidValue(RestrictUserMonsterResponseProto_RestrictUserMonsterStatus value) {
-  switch (value) {
-    case RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess:
-    case RestrictUserMonsterResponseProto_RestrictUserMonsterStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RestrictUserMonsterResponseProto_Builder()
 @property (strong) RestrictUserMonsterResponseProto* result;
 @end
@@ -11219,8 +11379,8 @@ BOOL RestrictUserMonsterResponseProto_RestrictUserMonsterStatusIsValidValue(Rest
         break;
       }
       case 16: {
-        RestrictUserMonsterResponseProto_RestrictUserMonsterStatus value = (RestrictUserMonsterResponseProto_RestrictUserMonsterStatus)[input readEnum];
-        if (RestrictUserMonsterResponseProto_RestrictUserMonsterStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -11263,17 +11423,17 @@ BOOL RestrictUserMonsterResponseProto_RestrictUserMonsterStatusIsValidValue(Rest
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RestrictUserMonsterResponseProto_RestrictUserMonsterStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RestrictUserMonsterResponseProto_Builder*) setStatus:(RestrictUserMonsterResponseProto_RestrictUserMonsterStatus) value {
+- (RestrictUserMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RestrictUserMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -11565,7 +11725,7 @@ static UnrestrictUserMonsterRequestProto* defaultUnrestrictUserMonsterRequestPro
 
 @interface UnrestrictUserMonsterResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation UnrestrictUserMonsterResponseProto
@@ -11587,7 +11747,7 @@ static UnrestrictUserMonsterRequestProto* defaultUnrestrictUserMonsterRequestPro
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -11702,15 +11862,6 @@ static UnrestrictUserMonsterResponseProto* defaultUnrestrictUserMonsterResponseP
 }
 @end
 
-BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus value) {
-  switch (value) {
-    case UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess:
-    case UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface UnrestrictUserMonsterResponseProto_Builder()
 @property (strong) UnrestrictUserMonsterResponseProto* result;
 @end
@@ -11786,8 +11937,8 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
         break;
       }
       case 16: {
-        UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus value = (UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus)[input readEnum];
-        if (UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -11830,17 +11981,17 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (UnrestrictUserMonsterResponseProto_Builder*) setStatus:(UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus) value {
+- (UnrestrictUserMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (UnrestrictUserMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -12132,7 +12283,7 @@ static RetrieveUserMonsterTeamRequestProto* defaultRetrieveUserMonsterTeamReques
 
 @interface RetrieveUserMonsterTeamResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableUserMonsterTeamList;
 @end
 
@@ -12157,7 +12308,7 @@ static RetrieveUserMonsterTeamRequestProto* defaultRetrieveUserMonsterTeamReques
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -12294,15 +12445,6 @@ static RetrieveUserMonsterTeamResponseProto* defaultRetrieveUserMonsterTeamRespo
 }
 @end
 
-BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidValue(RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus value) {
-  switch (value) {
-    case RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess:
-    case RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RetrieveUserMonsterTeamResponseProto_Builder()
 @property (strong) RetrieveUserMonsterTeamResponseProto* result;
 @end
@@ -12385,8 +12527,8 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
         break;
       }
       case 16: {
-        RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus value = (RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus)[input readEnum];
-        if (RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -12435,17 +12577,17 @@ BOOL RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusIsValidVa
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RetrieveUserMonsterTeamResponseProto_Builder*) setStatus:(RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatus) value {
+- (RetrieveUserMonsterTeamResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RetrieveUserMonsterTeamResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)userMonsterTeamList {

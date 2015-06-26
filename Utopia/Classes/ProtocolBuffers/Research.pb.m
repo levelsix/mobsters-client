@@ -13,7 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [ResearchRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
-    [StructureRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
 }

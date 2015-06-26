@@ -2,6 +2,7 @@
 //DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
 
 import "BattleItem.proto";
+import "SharedEnumConfig.proto";
 import "User.proto";
 
 package com.lvl6.proto;
@@ -32,18 +33,16 @@ message CreateBattleItemRequestProto {
 	//positive amount if charging user, negative if refunding user
 	optional int32 gemCostForCreating = 7; 
 	
+	optional int64 clientTime = 8;
+	
 }
 
 message CreateBattleItemResponseProto {
 	optional MinimumUserProto sender = 1;
 	repeated UserBattleItemProto userBattleItems = 2;
-	optional CreateBattleItemStatus status = 3;
+	optional ResponseStatus status = 3;
 	
-	enum CreateBattleItemStatus {
-		SUCCESS = 1;
-		FAIL_OTHER = 2;
-		FAIL_INSUFFICIENT_FUNDS = 3;
-	}
+
 }
 
 //------------------------------------------------------------------------------------------
@@ -55,21 +54,18 @@ message CompleteBattleItemRequestProto {
 	
 	//the battle items that are completed
 	repeated BattleItemQueueForUserProto biqfuCompleted = 4;
+	
+	optional int64 clientTime = 5;
+	
 }
 
 message CompleteBattleItemResponseProto {
 	optional MinimumUserProto sender = 1;
-	optional CompleteBattleItemStatus status = 2;
+	optional ResponseStatus status = 2;
 	
 	//total battle items: total amount for the ones that finished
 	repeated UserBattleItemProto ubiUpdated = 3;
 	
-	enum CompleteBattleItemStatus {
-		SUCCESS = 1;
-		FAIL_OTHER = 2;
-		FAIL_INVALID_BATTLE_ITEMS = 3;
-		FAIL_INSUFFICIENT_FUNDS = 4;
-	}
 }
 
 //------------------------------------------------------------------------------------------
@@ -80,18 +76,16 @@ message DiscardBattleItemRequestProto {
 	//user can choose to throw away existing battle items so he has the 
 	//"power" to create different ones
 	repeated int32 discardedBattleItemIds = 2;
+	
+	optional int64 clientTime = 3;
+	
 
 }
 
 message DiscardBattleItemResponseProto {
 	optional MinimumUserProto sender = 1;
-	optional DiscardBattleItemStatus status = 2;
+	optional ResponseStatus status = 2;
 	
-	enum DiscardBattleItemStatus {
-		SUCCESS = 1;
-		FAIL_OTHER = 2;
-		FAIL_BATTLE_ITEMS_DONT_EXIST = 3;
-	}
 }	
 
 

@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [EventApnsRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -291,7 +292,7 @@ static EnableAPNSRequestProto* defaultEnableAPNSRequestProtoInstance = nil;
 
 @interface EnableAPNSResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property EnableAPNSResponseProto_EnableAPNSStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation EnableAPNSResponseProto
@@ -313,7 +314,7 @@ static EnableAPNSRequestProto* defaultEnableAPNSRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = EnableAPNSResponseProto_EnableAPNSStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -428,15 +429,6 @@ static EnableAPNSResponseProto* defaultEnableAPNSResponseProtoInstance = nil;
 }
 @end
 
-BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProto_EnableAPNSStatus value) {
-  switch (value) {
-    case EnableAPNSResponseProto_EnableAPNSStatusSuccess:
-    case EnableAPNSResponseProto_EnableAPNSStatusNotEnabled:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface EnableAPNSResponseProto_Builder()
 @property (strong) EnableAPNSResponseProto* result;
 @end
@@ -512,8 +504,8 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
         break;
       }
       case 16: {
-        EnableAPNSResponseProto_EnableAPNSStatus value = (EnableAPNSResponseProto_EnableAPNSStatus)[input readEnum];
-        if (EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -556,17 +548,17 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (EnableAPNSResponseProto_EnableAPNSStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (EnableAPNSResponseProto_Builder*) setStatus:(EnableAPNSResponseProto_EnableAPNSStatus) value {
+- (EnableAPNSResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (EnableAPNSResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = EnableAPNSResponseProto_EnableAPNSStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end

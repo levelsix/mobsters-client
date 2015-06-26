@@ -2607,7 +2607,7 @@
 - (void) handlePurchaseNormStructureResponseProto:(FullEvent *)fe {
   PurchaseNormStructureResponseProto *proto = (PurchaseNormStructureResponseProto *)fe.event;
   
-  if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     NSString *newName = STRUCT_TAG(proto.userStructUuid);
     
     HomeBuilding *hb = (HomeBuilding *)[self getChildByName:PURCH_STRUCT_TAG recursively:NO];

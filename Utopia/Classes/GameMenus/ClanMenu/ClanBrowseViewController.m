@@ -267,8 +267,8 @@
 
 - (void) handleRequestJoinClanResponseProto:(FullEvent *)fe {
   RequestJoinClanResponseProto *proto = (RequestJoinClanResponseProto *)fe.event;
-  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin ||
-      proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest) {
+  if (proto.status == ResponseStatusSuccessJoin ||
+      proto.status == ResponseStatusSuccessRequest) {
     [Analytics joinSquad:proto.minClan.name isRequestType:proto.minClan.requestToJoinRequired];
   }
   

@@ -198,7 +198,7 @@
       }
     }
     
-    if (proto.status == AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccessMonsterJustDied) {
+    if (proto.status == ResponseStatusSuccessMonsterJustDied) {
       _currentGuyJustDied = YES;
     }
     

@@ -3,6 +3,7 @@
 
 import "MiniEvent.proto";
 import "Reward.proto";
+import "SharedEnumConfig.proto";
 import "User.proto";
 
 package com.lvl6.proto;
@@ -24,34 +25,31 @@ message RetrieveMiniEventRequestProto {
 	//b) user's MiniEvent doesn't equal currently active MiniEvent,
 	//	i) there is no active MiniEvent, then no MiniEvent info is returned
 	//	ii) there is an active MiniEvent, then a new one will be created	 
+	
+	optional int64 clientTime = 2;
+	
 }
 
 message RetrieveMiniEventResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional UserMiniEventProto userMiniEvent = 2;
 	
-	optional RetrieveMiniEventStatus status = 3;
+	optional ResponseStatus status = 3;
 	
-	enum RetrieveMiniEventStatus {
-		SUCCESS = 1;
-		FAIL_OTHER = 2;
-	}
 }
 
 //------------------------------------------------------------------------------------------
 message UpdateMiniEventRequestProto {
 	optional MinimumUserProto sender = 1;
 	repeated UserMiniEventGoalProto updatedGoals = 2;
+	optional int64 clientTime = 3;
+	
 }
 
 message UpdateMiniEventResponseProto {
 	optional MinimumUserProto sender = 1;
-	optional UpdateMiniEventStatus status = 2;
+	optional ResponseStatus status = 2;
 	
-	enum UpdateMiniEventStatus {
-		SUCCESS = 1;
-		FAIL_OTHER = 2;
-	}
 }
 
 //------------------------------------------------------------------------------------------
@@ -75,14 +73,9 @@ message RedeemMiniEventRewardRequestProto {
 																						//DONE
 message RedeemMiniEventRewardResponseProto {
      optional MinimumUserProto sender = 1;
-     optional RedeemMiniEventRewardStatus status = 2 [default = FAIL_OTHER];
+     optional ResponseStatus status = 2 [default = FAIL_OTHER];
      optional UserRewardProto rewards = 3;
      
-
-     enum RedeemMiniEventRewardStatus {
-     	SUCCESS = 1;
-     	FAIL_OTHER = 2;
-     }
 }
 
 //------------------------------------------------------------------------------------------

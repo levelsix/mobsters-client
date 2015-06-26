@@ -16,6 +16,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [BattleRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -575,7 +576,7 @@ static CreateClanRequestProto* defaultCreateClanRequestProtoInstance = nil;
 
 @interface CreateClanResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property CreateClanResponseProto_CreateClanStatus status;
+@property ResponseStatus status;
 @property (strong) MinimumClanProto* clanInfo;
 @end
 
@@ -605,7 +606,7 @@ static CreateClanRequestProto* defaultCreateClanRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = CreateClanResponseProto_CreateClanStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.clanInfo = [MinimumClanProto defaultInstance];
   }
   return self;
@@ -738,21 +739,6 @@ static CreateClanResponseProto* defaultCreateClanResponseProtoInstance = nil;
 }
 @end
 
-BOOL CreateClanResponseProto_CreateClanStatusIsValidValue(CreateClanResponseProto_CreateClanStatus value) {
-  switch (value) {
-    case CreateClanResponseProto_CreateClanStatusSuccess:
-    case CreateClanResponseProto_CreateClanStatusFailOther:
-    case CreateClanResponseProto_CreateClanStatusFailNotEnoughCash:
-    case CreateClanResponseProto_CreateClanStatusFailNameTaken:
-    case CreateClanResponseProto_CreateClanStatusFailAlreadyInClan:
-    case CreateClanResponseProto_CreateClanStatusFailInvalidTagLength:
-    case CreateClanResponseProto_CreateClanStatusFailTagTaken:
-    case CreateClanResponseProto_CreateClanStatusFailInsufficientFunds:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface CreateClanResponseProto_Builder()
 @property (strong) CreateClanResponseProto* result;
 @end
@@ -831,8 +817,8 @@ BOOL CreateClanResponseProto_CreateClanStatusIsValidValue(CreateClanResponseProt
         break;
       }
       case 16: {
-        CreateClanResponseProto_CreateClanStatus value = (CreateClanResponseProto_CreateClanStatus)[input readEnum];
-        if (CreateClanResponseProto_CreateClanStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -884,17 +870,17 @@ BOOL CreateClanResponseProto_CreateClanStatusIsValidValue(CreateClanResponseProt
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (CreateClanResponseProto_CreateClanStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (CreateClanResponseProto_Builder*) setStatus:(CreateClanResponseProto_CreateClanStatus) value {
+- (CreateClanResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (CreateClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = CreateClanResponseProto_CreateClanStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasClanInfo {
@@ -1153,7 +1139,7 @@ static LeaveClanRequestProto* defaultLeaveClanRequestProtoInstance = nil;
 
 @interface LeaveClanResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property LeaveClanResponseProto_LeaveClanStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation LeaveClanResponseProto
@@ -1175,7 +1161,7 @@ static LeaveClanRequestProto* defaultLeaveClanRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = LeaveClanResponseProto_LeaveClanStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1290,17 +1276,6 @@ static LeaveClanResponseProto* defaultLeaveClanResponseProtoInstance = nil;
 }
 @end
 
-BOOL LeaveClanResponseProto_LeaveClanStatusIsValidValue(LeaveClanResponseProto_LeaveClanStatus value) {
-  switch (value) {
-    case LeaveClanResponseProto_LeaveClanStatusSuccess:
-    case LeaveClanResponseProto_LeaveClanStatusFailOther:
-    case LeaveClanResponseProto_LeaveClanStatusFailNotInClan:
-    case LeaveClanResponseProto_LeaveClanStatusFailOwnerOfClanWithOthersStillIn:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface LeaveClanResponseProto_Builder()
 @property (strong) LeaveClanResponseProto* result;
 @end
@@ -1376,8 +1351,8 @@ BOOL LeaveClanResponseProto_LeaveClanStatusIsValidValue(LeaveClanResponseProto_L
         break;
       }
       case 16: {
-        LeaveClanResponseProto_LeaveClanStatus value = (LeaveClanResponseProto_LeaveClanStatus)[input readEnum];
-        if (LeaveClanResponseProto_LeaveClanStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1420,17 +1395,17 @@ BOOL LeaveClanResponseProto_LeaveClanStatusIsValidValue(LeaveClanResponseProto_L
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (LeaveClanResponseProto_LeaveClanStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (LeaveClanResponseProto_Builder*) setStatus:(LeaveClanResponseProto_LeaveClanStatus) value {
+- (LeaveClanResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (LeaveClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = LeaveClanResponseProto_LeaveClanStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -1751,7 +1726,7 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
 
 @interface RequestJoinClanResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property RequestJoinClanResponseProto_RequestJoinClanStatus status;
+@property ResponseStatus status;
 @property (strong) NSString* clanUuid;
 @property (strong) MinimumUserProtoForClans* requester;
 @property (strong) MinimumClanProto* minClan;
@@ -1832,7 +1807,7 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest;
+    self.status = ResponseStatusSuccess;
     self.clanUuid = @"";
     self.requester = [MinimumUserProtoForClans defaultInstance];
     self.minClan = [MinimumClanProto defaultInstance];
@@ -2089,19 +2064,6 @@ static RequestJoinClanResponseProto* defaultRequestJoinClanResponseProtoInstance
 }
 @end
 
-BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinClanResponseProto_RequestJoinClanStatus value) {
-  switch (value) {
-    case RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest:
-    case RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin:
-    case RequestJoinClanResponseProto_RequestJoinClanStatusFailAlreadyInClan:
-    case RequestJoinClanResponseProto_RequestJoinClanStatusFailRequestAlreadyFiled:
-    case RequestJoinClanResponseProto_RequestJoinClanStatusFailClanIsFull:
-    case RequestJoinClanResponseProto_RequestJoinClanStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RequestJoinClanResponseProto_Builder()
 @property (strong) RequestJoinClanResponseProto* result;
 @end
@@ -2205,8 +2167,8 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
         break;
       }
       case 16: {
-        RequestJoinClanResponseProto_RequestJoinClanStatus value = (RequestJoinClanResponseProto_RequestJoinClanStatus)[input readEnum];
-        if (RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2308,17 +2270,17 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RequestJoinClanResponseProto_RequestJoinClanStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RequestJoinClanResponseProto_Builder*) setStatus:(RequestJoinClanResponseProto_RequestJoinClanStatus) value {
+- (RequestJoinClanResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RequestJoinClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasClanUuid {
@@ -2799,7 +2761,7 @@ static RetractRequestJoinClanRequestProto* defaultRetractRequestJoinClanRequestP
 
 @interface RetractRequestJoinClanResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus status;
+@property ResponseStatus status;
 @property (strong) NSString* clanUuid;
 @end
 
@@ -2829,7 +2791,7 @@ static RetractRequestJoinClanRequestProto* defaultRetractRequestJoinClanRequestP
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.clanUuid = @"";
   }
   return self;
@@ -2959,17 +2921,6 @@ static RetractRequestJoinClanResponseProto* defaultRetractRequestJoinClanRespons
 }
 @end
 
-BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValue(RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus value) {
-  switch (value) {
-    case RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess:
-    case RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusFailOther:
-    case RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusFailAlreadyInClan:
-    case RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusFailDidNotRequest:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RetractRequestJoinClanResponseProto_Builder()
 @property (strong) RetractRequestJoinClanResponseProto* result;
 @end
@@ -3048,8 +2999,8 @@ BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValu
         break;
       }
       case 16: {
-        RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus value = (RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus)[input readEnum];
-        if (RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -3096,17 +3047,17 @@ BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValu
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RetractRequestJoinClanResponseProto_Builder*) setStatus:(RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) value {
+- (RetractRequestJoinClanResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RetractRequestJoinClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasClanUuid {
@@ -3448,7 +3399,7 @@ static ApproveOrRejectRequestToJoinClanRequestProto* defaultApproveOrRejectReque
 
 @interface ApproveOrRejectRequestToJoinClanResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus status;
+@property ResponseStatus status;
 @property (strong) MinimumUserProto* requester;
 @property BOOL accept;
 @property (strong) MinimumClanProto* minClan;
@@ -3507,7 +3458,7 @@ static ApproveOrRejectRequestToJoinClanRequestProto* defaultApproveOrRejectReque
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.requester = [MinimumUserProto defaultInstance];
     self.accept = NO;
     self.minClan = [MinimumClanProto defaultInstance];
@@ -3691,19 +3642,6 @@ static ApproveOrRejectRequestToJoinClanResponseProto* defaultApproveOrRejectRequ
 }
 @end
 
-BOOL ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusIsValidValue(ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus value) {
-  switch (value) {
-    case ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess:
-    case ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailOther:
-    case ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailNotAuthorized:
-    case ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailNotARequester:
-    case ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailAlreadyInAClan:
-    case ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailClanIsFull:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface ApproveOrRejectRequestToJoinClanResponseProto_Builder()
 @property (strong) ApproveOrRejectRequestToJoinClanResponseProto* result;
 @end
@@ -3791,8 +3729,8 @@ BOOL ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinC
         break;
       }
       case 16: {
-        ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus value = (ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus)[input readEnum];
-        if (ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -3866,17 +3804,17 @@ BOOL ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinC
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setStatus:(ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) value {
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasRequester {
@@ -4463,7 +4401,7 @@ BOOL RetrieveClanInfoRequestProto_ClanInfoGrabTypeIsValidValue(RetrieveClanInfoR
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableMembersList;
 @property (strong) NSMutableArray * mutableClanInfoList;
-@property RetrieveClanInfoResponseProto_RetrieveClanInfoStatus status;
+@property ResponseStatus status;
 @property BOOL isForSearch;
 @property BOOL isForBrowsingList;
 @property (strong) NSString* clanUuid;
@@ -4542,7 +4480,7 @@ BOOL RetrieveClanInfoRequestProto_ClanInfoGrabTypeIsValidValue(RetrieveClanInfoR
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.isForSearch = NO;
     self.isForBrowsingList = NO;
     self.clanUuid = @"";
@@ -4798,15 +4736,6 @@ static RetrieveClanInfoResponseProto* defaultRetrieveClanInfoResponseProtoInstan
 }
 @end
 
-BOOL RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(RetrieveClanInfoResponseProto_RetrieveClanInfoStatus value) {
-  switch (value) {
-    case RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess:
-    case RetrieveClanInfoResponseProto_RetrieveClanInfoStatusOtherFail:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RetrieveClanInfoResponseProto_Builder()
 @property (strong) RetrieveClanInfoResponseProto* result;
 @end
@@ -4930,8 +4859,8 @@ BOOL RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(RetrieveCl
         break;
       }
       case 32: {
-        RetrieveClanInfoResponseProto_RetrieveClanInfoStatus value = (RetrieveClanInfoResponseProto_RetrieveClanInfoStatus)[input readEnum];
-        if (RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:4 value:value];
@@ -5048,17 +4977,17 @@ BOOL RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(RetrieveCl
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RetrieveClanInfoResponseProto_RetrieveClanInfoStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RetrieveClanInfoResponseProto_Builder*) setStatus:(RetrieveClanInfoResponseProto_RetrieveClanInfoStatus) value {
+- (RetrieveClanInfoResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RetrieveClanInfoResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasIsForSearch {
@@ -5437,7 +5366,7 @@ static TransferClanOwnershipRequestProto* defaultTransferClanOwnershipRequestPro
 
 @interface TransferClanOwnershipResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property TransferClanOwnershipResponseProto_TransferClanOwnershipStatus status;
+@property ResponseStatus status;
 @property (strong) MinimumClanProto* minClan;
 @property (strong) FullClanProtoWithClanSize* fullClan;
 @property (strong) MinimumUserProto* clanOwnerNew;
@@ -5483,7 +5412,7 @@ static TransferClanOwnershipRequestProto* defaultTransferClanOwnershipRequestPro
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.minClan = [MinimumClanProto defaultInstance];
     self.fullClan = [FullClanProtoWithClanSize defaultInstance];
     self.clanOwnerNew = [MinimumUserProto defaultInstance];
@@ -5652,17 +5581,6 @@ static TransferClanOwnershipResponseProto* defaultTransferClanOwnershipResponseP
 }
 @end
 
-BOOL TransferClanOwnershipResponseProto_TransferClanOwnershipStatusIsValidValue(TransferClanOwnershipResponseProto_TransferClanOwnershipStatus value) {
-  switch (value) {
-    case TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess:
-    case TransferClanOwnershipResponseProto_TransferClanOwnershipStatusFailOther:
-    case TransferClanOwnershipResponseProto_TransferClanOwnershipStatusFailNotAuthorized:
-    case TransferClanOwnershipResponseProto_TransferClanOwnershipStatusFailNewOwnerNotInClan:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface TransferClanOwnershipResponseProto_Builder()
 @property (strong) TransferClanOwnershipResponseProto* result;
 @end
@@ -5747,8 +5665,8 @@ BOOL TransferClanOwnershipResponseProto_TransferClanOwnershipStatusIsValidValue(
         break;
       }
       case 16: {
-        TransferClanOwnershipResponseProto_TransferClanOwnershipStatus value = (TransferClanOwnershipResponseProto_TransferClanOwnershipStatus)[input readEnum];
-        if (TransferClanOwnershipResponseProto_TransferClanOwnershipStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -5818,17 +5736,17 @@ BOOL TransferClanOwnershipResponseProto_TransferClanOwnershipStatusIsValidValue(
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (TransferClanOwnershipResponseProto_TransferClanOwnershipStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (TransferClanOwnershipResponseProto_Builder*) setStatus:(TransferClanOwnershipResponseProto_TransferClanOwnershipStatus) value {
+- (TransferClanOwnershipResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (TransferClanOwnershipResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasMinClan {
@@ -6194,7 +6112,7 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
 @interface BootPlayerFromClanResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) MinimumUserProto* playerToBoot;
-@property BootPlayerFromClanResponseProto_BootPlayerFromClanStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation BootPlayerFromClanResponseProto
@@ -6224,7 +6142,7 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.playerToBoot = [MinimumUserProto defaultInstance];
-    self.status = BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -6356,17 +6274,6 @@ static BootPlayerFromClanResponseProto* defaultBootPlayerFromClanResponseProtoIn
 }
 @end
 
-BOOL BootPlayerFromClanResponseProto_BootPlayerFromClanStatusIsValidValue(BootPlayerFromClanResponseProto_BootPlayerFromClanStatus value) {
-  switch (value) {
-    case BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess:
-    case BootPlayerFromClanResponseProto_BootPlayerFromClanStatusFailOther:
-    case BootPlayerFromClanResponseProto_BootPlayerFromClanStatusFailNotAuthorized:
-    case BootPlayerFromClanResponseProto_BootPlayerFromClanStatusFailBootedNotInClan:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface BootPlayerFromClanResponseProto_Builder()
 @property (strong) BootPlayerFromClanResponseProto* result;
 @end
@@ -6454,8 +6361,8 @@ BOOL BootPlayerFromClanResponseProto_BootPlayerFromClanStatusIsValidValue(BootPl
         break;
       }
       case 24: {
-        BootPlayerFromClanResponseProto_BootPlayerFromClanStatus value = (BootPlayerFromClanResponseProto_BootPlayerFromClanStatus)[input readEnum];
-        if (BootPlayerFromClanResponseProto_BootPlayerFromClanStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -6528,17 +6435,17 @@ BOOL BootPlayerFromClanResponseProto_BootPlayerFromClanStatusIsValidValue(BootPl
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (BootPlayerFromClanResponseProto_Builder*) setStatus:(BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) value {
+- (BootPlayerFromClanResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (BootPlayerFromClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -7063,7 +6970,7 @@ static ChangeClanSettingsRequestProto* defaultChangeClanSettingsRequestProtoInst
 
 @interface ChangeClanSettingsResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property ChangeClanSettingsResponseProto_ChangeClanSettingsStatus status;
+@property ResponseStatus status;
 @property (strong) MinimumClanProto* minClan;
 @property (strong) FullClanProtoWithClanSize* fullClan;
 @end
@@ -7101,7 +7008,7 @@ static ChangeClanSettingsRequestProto* defaultChangeClanSettingsRequestProtoInst
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = ChangeClanSettingsResponseProto_ChangeClanSettingsStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.minClan = [MinimumClanProto defaultInstance];
     self.fullClan = [FullClanProtoWithClanSize defaultInstance];
   }
@@ -7252,17 +7159,6 @@ static ChangeClanSettingsResponseProto* defaultChangeClanSettingsResponseProtoIn
 }
 @end
 
-BOOL ChangeClanSettingsResponseProto_ChangeClanSettingsStatusIsValidValue(ChangeClanSettingsResponseProto_ChangeClanSettingsStatus value) {
-  switch (value) {
-    case ChangeClanSettingsResponseProto_ChangeClanSettingsStatusSuccess:
-    case ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotAuthorized:
-    case ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotInClan:
-    case ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface ChangeClanSettingsResponseProto_Builder()
 @property (strong) ChangeClanSettingsResponseProto* result;
 @end
@@ -7344,8 +7240,8 @@ BOOL ChangeClanSettingsResponseProto_ChangeClanSettingsStatusIsValidValue(Change
         break;
       }
       case 16: {
-        ChangeClanSettingsResponseProto_ChangeClanSettingsStatus value = (ChangeClanSettingsResponseProto_ChangeClanSettingsStatus)[input readEnum];
-        if (ChangeClanSettingsResponseProto_ChangeClanSettingsStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -7406,17 +7302,17 @@ BOOL ChangeClanSettingsResponseProto_ChangeClanSettingsStatusIsValidValue(Change
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (ChangeClanSettingsResponseProto_ChangeClanSettingsStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (ChangeClanSettingsResponseProto_Builder*) setStatus:(ChangeClanSettingsResponseProto_ChangeClanSettingsStatus) value {
+- (ChangeClanSettingsResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (ChangeClanSettingsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = ChangeClanSettingsResponseProto_ChangeClanSettingsStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasMinClan {
@@ -8008,7 +7904,7 @@ static BeginClanRaidRequestProto* defaultBeginClanRaidRequestProtoInstance = nil
 @interface BeginClanRaidResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) PersistentClanEventClanInfoProto* eventDetails;
-@property BeginClanRaidResponseProto_BeginClanRaidStatus status;
+@property ResponseStatus status;
 @property (strong) PersistentClanEventUserInfoProto* userDetails;
 @end
 
@@ -8046,7 +7942,7 @@ static BeginClanRaidRequestProto* defaultBeginClanRaidRequestProtoInstance = nil
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.eventDetails = [PersistentClanEventClanInfoProto defaultInstance];
-    self.status = BeginClanRaidResponseProto_BeginClanRaidStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.userDetails = [PersistentClanEventUserInfoProto defaultInstance];
   }
   return self;
@@ -8196,19 +8092,6 @@ static BeginClanRaidResponseProto* defaultBeginClanRaidResponseProtoInstance = n
 }
 @end
 
-BOOL BeginClanRaidResponseProto_BeginClanRaidStatusIsValidValue(BeginClanRaidResponseProto_BeginClanRaidStatus value) {
-  switch (value) {
-    case BeginClanRaidResponseProto_BeginClanRaidStatusSuccess:
-    case BeginClanRaidResponseProto_BeginClanRaidStatusFailAlreadyStarted:
-    case BeginClanRaidResponseProto_BeginClanRaidStatusFailNotAuthorized:
-    case BeginClanRaidResponseProto_BeginClanRaidStatusFailNoActiveClanRaid:
-    case BeginClanRaidResponseProto_BeginClanRaidStatusFailNoMonstersSent:
-    case BeginClanRaidResponseProto_BeginClanRaidStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface BeginClanRaidResponseProto_Builder()
 @property (strong) BeginClanRaidResponseProto* result;
 @end
@@ -8299,8 +8182,8 @@ BOOL BeginClanRaidResponseProto_BeginClanRaidStatusIsValidValue(BeginClanRaidRes
         break;
       }
       case 24: {
-        BeginClanRaidResponseProto_BeginClanRaidStatus value = (BeginClanRaidResponseProto_BeginClanRaidStatus)[input readEnum];
-        if (BeginClanRaidResponseProto_BeginClanRaidStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -8382,17 +8265,17 @@ BOOL BeginClanRaidResponseProto_BeginClanRaidStatusIsValidValue(BeginClanRaidRes
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (BeginClanRaidResponseProto_BeginClanRaidStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (BeginClanRaidResponseProto_Builder*) setStatus:(BeginClanRaidResponseProto_BeginClanRaidStatus) value {
+- (BeginClanRaidResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (BeginClanRaidResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = BeginClanRaidResponseProto_BeginClanRaidStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasUserDetails {
@@ -9013,7 +8896,7 @@ static AttackClanRaidMonsterRequestProto* defaultAttackClanRaidMonsterRequestPro
 @property (strong) PersistentClanEventClanInfoProto* eventDetails;
 @property (strong) NSMutableArray * mutableClanUsersDetailsList;
 @property (strong) FullUserMonsterProto* userMonsterThatAttacked;
-@property AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation AttackClanRaidMonsterResponseProto
@@ -9061,7 +8944,7 @@ static AttackClanRaidMonsterRequestProto* defaultAttackClanRaidMonsterRequestPro
     self.dmgDealt = 0;
     self.eventDetails = [PersistentClanEventClanInfoProto defaultInstance];
     self.userMonsterThatAttacked = [FullUserMonsterProto defaultInstance];
-    self.status = AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -9246,19 +9129,6 @@ static AttackClanRaidMonsterResponseProto* defaultAttackClanRaidMonsterResponseP
 }
 @end
 
-BOOL AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusIsValidValue(AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus value) {
-  switch (value) {
-    case AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccess:
-    case AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccessMonsterJustDied:
-    case AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailUserNotInClan:
-    case AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailNoStageRaidInProgress:
-    case AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailMonsterAlreadyDead:
-    case AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface AttackClanRaidMonsterResponseProto_Builder()
 @property (strong) AttackClanRaidMonsterResponseProto* result;
 @end
@@ -9378,8 +9248,8 @@ BOOL AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusIsValidValue(
         break;
       }
       case 48: {
-        AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus value = (AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus)[input readEnum];
-        if (AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:6 value:value];
@@ -9522,17 +9392,17 @@ BOOL AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusIsValidValue(
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (AttackClanRaidMonsterResponseProto_Builder*) setStatus:(AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) value {
+- (AttackClanRaidMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (AttackClanRaidMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -10115,7 +9985,7 @@ static RecordClanRaidStatsRequestProto* defaultRecordClanRaidStatsRequestProtoIn
 
 @interface RecordClanRaidStatsResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation RecordClanRaidStatsResponseProto
@@ -10137,7 +10007,7 @@ static RecordClanRaidStatsRequestProto* defaultRecordClanRaidStatsRequestProtoIn
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -10252,16 +10122,6 @@ static RecordClanRaidStatsResponseProto* defaultRecordClanRaidStatsResponseProto
 }
 @end
 
-BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus value) {
-  switch (value) {
-    case RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusSuccess:
-    case RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusFailMonsterAlreadyDead:
-    case RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RecordClanRaidStatsResponseProto_Builder()
 @property (strong) RecordClanRaidStatsResponseProto* result;
 @end
@@ -10337,8 +10197,8 @@ BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(Reco
         break;
       }
       case 16: {
-        RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus value = (RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus)[input readEnum];
-        if (RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -10381,17 +10241,17 @@ BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(Reco
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RecordClanRaidStatsResponseProto_Builder*) setStatus:(RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) value {
+- (RecordClanRaidStatsResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RecordClanRaidStatsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -10720,7 +10580,7 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
 @property (strong) MinimumUserProto* victim;
 @property UserClanStatus userClanStatus;
 @property UserClanStatus prevUserClanStatus;
-@property PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation PromoteDemoteClanMemberResponseProto
@@ -10766,7 +10626,7 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
     self.victim = [MinimumUserProto defaultInstance];
     self.userClanStatus = UserClanStatusMember;
     self.prevUserClanStatus = UserClanStatusMember;
-    self.status = PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -10926,17 +10786,6 @@ static PromoteDemoteClanMemberResponseProto* defaultPromoteDemoteClanMemberRespo
 }
 @end
 
-BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidValue(PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus value) {
-  switch (value) {
-    case PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess:
-    case PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusFailNotInClan:
-    case PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusFailNotAuthorized:
-    case PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface PromoteDemoteClanMemberResponseProto_Builder()
 @property (strong) PromoteDemoteClanMemberResponseProto* result;
 @end
@@ -11039,8 +10888,8 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
         break;
       }
       case 32: {
-        PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus value = (PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus)[input readEnum];
-        if (PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:4 value:value];
@@ -11154,17 +11003,17 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (PromoteDemoteClanMemberResponseProto_Builder*) setStatus:(PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) value {
+- (PromoteDemoteClanMemberResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (PromoteDemoteClanMemberResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -11548,7 +11397,7 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
 @interface SolicitClanHelpResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableHelpProtoList;
-@property SolicitClanHelpResponseProto_SolicitClanHelpStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation SolicitClanHelpResponseProto
@@ -11572,7 +11421,7 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -11709,16 +11558,6 @@ static SolicitClanHelpResponseProto* defaultSolicitClanHelpResponseProtoInstance
 }
 @end
 
-BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanHelpResponseProto_SolicitClanHelpStatus value) {
-  switch (value) {
-    case SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess:
-    case SolicitClanHelpResponseProto_SolicitClanHelpStatusFailOther:
-    case SolicitClanHelpResponseProto_SolicitClanHelpStatusFailNotInClan:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SolicitClanHelpResponseProto_Builder()
 @property (strong) SolicitClanHelpResponseProto* result;
 @end
@@ -11807,8 +11646,8 @@ BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanH
         break;
       }
       case 24: {
-        SolicitClanHelpResponseProto_SolicitClanHelpStatus value = (SolicitClanHelpResponseProto_SolicitClanHelpStatus)[input readEnum];
-        if (SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -11875,17 +11714,17 @@ BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanH
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SolicitClanHelpResponseProto_SolicitClanHelpStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SolicitClanHelpResponseProto_Builder*) setStatus:(SolicitClanHelpResponseProto_SolicitClanHelpStatus) value {
+- (SolicitClanHelpResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SolicitClanHelpResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -12178,7 +12017,7 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
 @interface GiveClanHelpResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableClanHelpsList;
-@property GiveClanHelpResponseProto_GiveClanHelpStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation GiveClanHelpResponseProto
@@ -12202,7 +12041,7 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = GiveClanHelpResponseProto_GiveClanHelpStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -12339,15 +12178,6 @@ static GiveClanHelpResponseProto* defaultGiveClanHelpResponseProtoInstance = nil
 }
 @end
 
-BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpResponseProto_GiveClanHelpStatus value) {
-  switch (value) {
-    case GiveClanHelpResponseProto_GiveClanHelpStatusSuccess:
-    case GiveClanHelpResponseProto_GiveClanHelpStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface GiveClanHelpResponseProto_Builder()
 @property (strong) GiveClanHelpResponseProto* result;
 @end
@@ -12436,8 +12266,8 @@ BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpRespon
         break;
       }
       case 24: {
-        GiveClanHelpResponseProto_GiveClanHelpStatus value = (GiveClanHelpResponseProto_GiveClanHelpStatus)[input readEnum];
-        if (GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -12504,17 +12334,17 @@ BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpRespon
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (GiveClanHelpResponseProto_GiveClanHelpStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (GiveClanHelpResponseProto_Builder*) setStatus:(GiveClanHelpResponseProto_GiveClanHelpStatus) value {
+- (GiveClanHelpResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (GiveClanHelpResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = GiveClanHelpResponseProto_GiveClanHelpStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -12807,7 +12637,7 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
 @interface EndClanHelpResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableClanHelpUuidsList;
-@property EndClanHelpResponseProto_EndClanHelpStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation EndClanHelpResponseProto
@@ -12831,7 +12661,7 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = EndClanHelpResponseProto_EndClanHelpStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -12971,15 +12801,6 @@ static EndClanHelpResponseProto* defaultEndClanHelpResponseProtoInstance = nil;
 }
 @end
 
-BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseProto_EndClanHelpStatus value) {
-  switch (value) {
-    case EndClanHelpResponseProto_EndClanHelpStatusSuccess:
-    case EndClanHelpResponseProto_EndClanHelpStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface EndClanHelpResponseProto_Builder()
 @property (strong) EndClanHelpResponseProto* result;
 @end
@@ -13066,8 +12887,8 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
         break;
       }
       case 24: {
-        EndClanHelpResponseProto_EndClanHelpStatus value = (EndClanHelpResponseProto_EndClanHelpStatus)[input readEnum];
-        if (EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -13134,17 +12955,17 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (EndClanHelpResponseProto_EndClanHelpStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (EndClanHelpResponseProto_Builder*) setStatus:(EndClanHelpResponseProto_EndClanHelpStatus) value {
+- (EndClanHelpResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (EndClanHelpResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = EndClanHelpResponseProto_EndClanHelpStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -13465,7 +13286,7 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
 
 @interface InviteToClanResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property InviteToClanResponseProto_InviteToClanStatus status;
+@property ResponseStatus status;
 @property (strong) ClanInviteProto* invite;
 @end
 
@@ -13495,7 +13316,7 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = InviteToClanResponseProto_InviteToClanStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.invite = [ClanInviteProto defaultInstance];
   }
   return self;
@@ -13628,16 +13449,6 @@ static InviteToClanResponseProto* defaultInviteToClanResponseProtoInstance = nil
 }
 @end
 
-BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanResponseProto_InviteToClanStatus value) {
-  switch (value) {
-    case InviteToClanResponseProto_InviteToClanStatusSuccess:
-    case InviteToClanResponseProto_InviteToClanStatusFailOther:
-    case InviteToClanResponseProto_InviteToClanStatusFailNotAuthorized:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface InviteToClanResponseProto_Builder()
 @property (strong) InviteToClanResponseProto* result;
 @end
@@ -13716,8 +13527,8 @@ BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanRespon
         break;
       }
       case 16: {
-        InviteToClanResponseProto_InviteToClanStatus value = (InviteToClanResponseProto_InviteToClanStatus)[input readEnum];
-        if (InviteToClanResponseProto_InviteToClanStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -13769,17 +13580,17 @@ BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanRespon
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (InviteToClanResponseProto_InviteToClanStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (InviteToClanResponseProto_Builder*) setStatus:(InviteToClanResponseProto_InviteToClanStatus) value {
+- (InviteToClanResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (InviteToClanResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = InviteToClanResponseProto_InviteToClanStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasInvite {
@@ -14214,7 +14025,7 @@ static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequ
 
 @interface AcceptOrRejectClanInviteResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus status;
+@property ResponseStatus status;
 @property (strong) FullClanProtoWithClanSize* fullClan;
 @end
 
@@ -14244,7 +14055,7 @@ static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequ
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.fullClan = [FullClanProtoWithClanSize defaultInstance];
   }
   return self;
@@ -14377,16 +14188,6 @@ static AcceptOrRejectClanInviteResponseProto* defaultAcceptOrRejectClanInviteRes
 }
 @end
 
-BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValidValue(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus value) {
-  switch (value) {
-    case AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess:
-    case AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusFailOther:
-    case AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusFailClanIsFull:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface AcceptOrRejectClanInviteResponseProto_Builder()
 @property (strong) AcceptOrRejectClanInviteResponseProto* result;
 @end
@@ -14465,8 +14266,8 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
         break;
       }
       case 16: {
-        AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus value = (AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus)[input readEnum];
-        if (AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -14518,17 +14319,17 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (AcceptOrRejectClanInviteResponseProto_Builder*) setStatus:(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) value {
+- (AcceptOrRejectClanInviteResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasFullClan {
@@ -15186,7 +14987,7 @@ static BeginClanAvengingRequestProto* defaultBeginClanAvengingRequestProtoInstan
 @interface BeginClanAvengingResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableClanAvengingsList;
-@property BeginClanAvengingResponseProto_BeginClanAvengingStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation BeginClanAvengingResponseProto
@@ -15210,7 +15011,7 @@ static BeginClanAvengingRequestProto* defaultBeginClanAvengingRequestProtoInstan
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -15347,15 +15148,6 @@ static BeginClanAvengingResponseProto* defaultBeginClanAvengingResponseProtoInst
 }
 @end
 
-BOOL BeginClanAvengingResponseProto_BeginClanAvengingStatusIsValidValue(BeginClanAvengingResponseProto_BeginClanAvengingStatus value) {
-  switch (value) {
-    case BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess:
-    case BeginClanAvengingResponseProto_BeginClanAvengingStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface BeginClanAvengingResponseProto_Builder()
 @property (strong) BeginClanAvengingResponseProto* result;
 @end
@@ -15444,8 +15236,8 @@ BOOL BeginClanAvengingResponseProto_BeginClanAvengingStatusIsValidValue(BeginCla
         break;
       }
       case 24: {
-        BeginClanAvengingResponseProto_BeginClanAvengingStatus value = (BeginClanAvengingResponseProto_BeginClanAvengingStatus)[input readEnum];
-        if (BeginClanAvengingResponseProto_BeginClanAvengingStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -15512,17 +15304,17 @@ BOOL BeginClanAvengingResponseProto_BeginClanAvengingStatusIsValidValue(BeginCla
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (BeginClanAvengingResponseProto_BeginClanAvengingStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (BeginClanAvengingResponseProto_Builder*) setStatus:(BeginClanAvengingResponseProto_BeginClanAvengingStatus) value {
+- (BeginClanAvengingResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (BeginClanAvengingResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -15815,7 +15607,7 @@ static EndClanAvengingRequestProto* defaultEndClanAvengingRequestProtoInstance =
 @interface EndClanAvengingResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableClanAvengeUuidsList;
-@property EndClanAvengingResponseProto_EndClanAvengingStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation EndClanAvengingResponseProto
@@ -15839,7 +15631,7 @@ static EndClanAvengingRequestProto* defaultEndClanAvengingRequestProtoInstance =
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = EndClanAvengingResponseProto_EndClanAvengingStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -15979,15 +15771,6 @@ static EndClanAvengingResponseProto* defaultEndClanAvengingResponseProtoInstance
 }
 @end
 
-BOOL EndClanAvengingResponseProto_EndClanAvengingStatusIsValidValue(EndClanAvengingResponseProto_EndClanAvengingStatus value) {
-  switch (value) {
-    case EndClanAvengingResponseProto_EndClanAvengingStatusSuccess:
-    case EndClanAvengingResponseProto_EndClanAvengingStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface EndClanAvengingResponseProto_Builder()
 @property (strong) EndClanAvengingResponseProto* result;
 @end
@@ -16074,8 +15857,8 @@ BOOL EndClanAvengingResponseProto_EndClanAvengingStatusIsValidValue(EndClanAveng
         break;
       }
       case 24: {
-        EndClanAvengingResponseProto_EndClanAvengingStatus value = (EndClanAvengingResponseProto_EndClanAvengingStatus)[input readEnum];
-        if (EndClanAvengingResponseProto_EndClanAvengingStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -16142,17 +15925,17 @@ BOOL EndClanAvengingResponseProto_EndClanAvengingStatusIsValidValue(EndClanAveng
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (EndClanAvengingResponseProto_EndClanAvengingStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (EndClanAvengingResponseProto_Builder*) setStatus:(EndClanAvengingResponseProto_EndClanAvengingStatus) value {
+- (EndClanAvengingResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (EndClanAvengingResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = EndClanAvengingResponseProto_EndClanAvengingStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -16496,7 +16279,7 @@ static AvengeClanMateRequestProto* defaultAvengeClanMateRequestProtoInstance = n
 @interface AvengeClanMateResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) PvpProto* victim;
-@property AvengeClanMateResponseProto_AvengeClanMateStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation AvengeClanMateResponseProto
@@ -16526,7 +16309,7 @@ static AvengeClanMateRequestProto* defaultAvengeClanMateRequestProtoInstance = n
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.victim = [PvpProto defaultInstance];
-    self.status = AvengeClanMateResponseProto_AvengeClanMateStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -16658,15 +16441,6 @@ static AvengeClanMateResponseProto* defaultAvengeClanMateResponseProtoInstance =
 }
 @end
 
-BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMateResponseProto_AvengeClanMateStatus value) {
-  switch (value) {
-    case AvengeClanMateResponseProto_AvengeClanMateStatusSuccess:
-    case AvengeClanMateResponseProto_AvengeClanMateStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface AvengeClanMateResponseProto_Builder()
 @property (strong) AvengeClanMateResponseProto* result;
 @end
@@ -16754,8 +16528,8 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
         break;
       }
       case 24: {
-        AvengeClanMateResponseProto_AvengeClanMateStatus value = (AvengeClanMateResponseProto_AvengeClanMateStatus)[input readEnum];
-        if (AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -16828,17 +16602,17 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (AvengeClanMateResponseProto_AvengeClanMateStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (AvengeClanMateResponseProto_Builder*) setStatus:(AvengeClanMateResponseProto_AvengeClanMateStatus) value {
+- (AvengeClanMateResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (AvengeClanMateResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = AvengeClanMateResponseProto_AvengeClanMateStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -17251,7 +17025,7 @@ static SolicitTeamDonationRequestProto* defaultSolicitTeamDonationRequestProtoIn
 
 @interface SolicitTeamDonationResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property SolicitTeamDonationResponseProto_SolicitTeamDonationStatus status;
+@property ResponseStatus status;
 @property (strong) ClanMemberTeamDonationProto* solicitation;
 @end
 
@@ -17281,7 +17055,7 @@ static SolicitTeamDonationRequestProto* defaultSolicitTeamDonationRequestProtoIn
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = SolicitTeamDonationResponseProto_SolicitTeamDonationStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.solicitation = [ClanMemberTeamDonationProto defaultInstance];
   }
   return self;
@@ -17414,17 +17188,6 @@ static SolicitTeamDonationResponseProto* defaultSolicitTeamDonationResponseProto
 }
 @end
 
-BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(SolicitTeamDonationResponseProto_SolicitTeamDonationStatus value) {
-  switch (value) {
-    case SolicitTeamDonationResponseProto_SolicitTeamDonationStatusSuccess:
-    case SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailOther:
-    case SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailInsufficientGems:
-    case SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailFulfilledRequestExists:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SolicitTeamDonationResponseProto_Builder()
 @property (strong) SolicitTeamDonationResponseProto* result;
 @end
@@ -17503,8 +17266,8 @@ BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(Soli
         break;
       }
       case 16: {
-        SolicitTeamDonationResponseProto_SolicitTeamDonationStatus value = (SolicitTeamDonationResponseProto_SolicitTeamDonationStatus)[input readEnum];
-        if (SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -17556,17 +17319,17 @@ BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(Soli
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SolicitTeamDonationResponseProto_SolicitTeamDonationStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SolicitTeamDonationResponseProto_Builder*) setStatus:(SolicitTeamDonationResponseProto_SolicitTeamDonationStatus) value {
+- (SolicitTeamDonationResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SolicitTeamDonationResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SolicitTeamDonationResponseProto_SolicitTeamDonationStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasSolicitation {
@@ -18007,7 +17770,7 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
 
 @interface FulfillTeamDonationSolicitationResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
+@property ResponseStatus status;
 @property (strong) ClanMemberTeamDonationProto* solicitation;
 @end
 
@@ -18037,7 +17800,7 @@ static FulfillTeamDonationSolicitationRequestProto* defaultFulfillTeamDonationSo
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.solicitation = [ClanMemberTeamDonationProto defaultInstance];
   }
   return self;
@@ -18170,17 +17933,6 @@ static FulfillTeamDonationSolicitationResponseProto* defaultFulfillTeamDonationS
 }
 @end
 
-BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusIsValidValue(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus value) {
-  switch (value) {
-    case FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess:
-    case FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailOther:
-    case FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailNonexistentSolicitation:
-    case FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailAlreadyFulfilled:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface FulfillTeamDonationSolicitationResponseProto_Builder()
 @property (strong) FulfillTeamDonationSolicitationResponseProto* result;
 @end
@@ -18259,8 +18011,8 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitatio
         break;
       }
       case 16: {
-        FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus value = (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus)[input readEnum];
-        if (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -18312,17 +18064,17 @@ BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitatio
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) value {
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasSolicitation {
@@ -18643,7 +18395,7 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
 
 @interface VoidTeamDonationSolicitationResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableClanTeamDonateUuidList;
 @end
 
@@ -18668,7 +18420,7 @@ static VoidTeamDonationSolicitationRequestProto* defaultVoidTeamDonationSolicita
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -18808,15 +18560,6 @@ static VoidTeamDonationSolicitationResponseProto* defaultVoidTeamDonationSolicit
 }
 @end
 
-BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusIsValidValue(VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus value) {
-  switch (value) {
-    case VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusSuccess:
-    case VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface VoidTeamDonationSolicitationResponseProto_Builder()
 @property (strong) VoidTeamDonationSolicitationResponseProto* result;
 @end
@@ -18899,8 +18642,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
         break;
       }
       case 16: {
-        VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus value = (VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus)[input readEnum];
-        if (VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -18947,17 +18690,17 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (VoidTeamDonationSolicitationResponseProto_Builder*) setStatus:(VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) value {
+- (VoidTeamDonationSolicitationResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)clanTeamDonateUuidList {

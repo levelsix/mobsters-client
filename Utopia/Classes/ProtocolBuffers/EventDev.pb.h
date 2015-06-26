@@ -5,6 +5,7 @@
 #import "Dev.pb.h"
 #import "Item.pb.h"
 #import "MonsterStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -77,13 +78,6 @@
     #define NS_RETURNS_NOT_RETAINED
   #endif
 #endif
-
-typedef NS_ENUM(SInt32, DevResponseProto_DevStatus) {
-  DevResponseProto_DevStatusSuccess = 1,
-  DevResponseProto_DevStatusFailOther = 2,
-};
-
-BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 
 
 @interface EventDevRoot : NSObject {
@@ -177,14 +171,14 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   UserItemProto* uip;
-  DevResponseProto_DevStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableFumpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasUip;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) DevResponseProto_DevStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * fumpList;
 @property (readonly, strong) UserItemProto* uip;
 - (FullUserMonsterProto*)fumpAtIndex:(NSUInteger)index;
@@ -232,8 +226,8 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 - (DevResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (DevResponseProto_DevStatus) status;
-- (DevResponseProto_Builder*) setStatus:(DevResponseProto_DevStatus) value;
+- (ResponseStatus) status;
+- (DevResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (DevResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)fumpList;

@@ -156,7 +156,7 @@
   
   SendTangoGiftResponseProto *proto = (SendTangoGiftResponseProto *)fe.event;
   
-  if (proto.status == SendTangoGiftResponseProto_SendTangoGiftStatusSuccess && _rewardAmount) {
+  if (proto.status == ResponseStatusSuccess && _rewardAmount) {
     
     [Globals addPurpleAlertNotification:[NSString stringWithFormat:@"You collected %d gem%@ for sharing gifts with your friends.", _rewardAmount, _rewardAmount == 1 ? @"" : @"s"] isImmediate:YES];
     

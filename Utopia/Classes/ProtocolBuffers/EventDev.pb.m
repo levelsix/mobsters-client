@@ -16,6 +16,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [DevRoot registerAllExtensions:registry];
     [ItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -391,7 +392,7 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
 
 @interface DevResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property DevResponseProto_DevStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableFumpList;
 @property (strong) UserItemProto* uip;
 @end
@@ -424,7 +425,7 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = DevResponseProto_DevStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.uip = [UserItemProto defaultInstance];
   }
   return self;
@@ -579,15 +580,6 @@ static DevResponseProto* defaultDevResponseProtoInstance = nil;
 }
 @end
 
-BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value) {
-  switch (value) {
-    case DevResponseProto_DevStatusSuccess:
-    case DevResponseProto_DevStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface DevResponseProto_Builder()
 @property (strong) DevResponseProto* result;
 @end
@@ -673,8 +665,8 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value) {
         break;
       }
       case 16: {
-        DevResponseProto_DevStatus value = (DevResponseProto_DevStatus)[input readEnum];
-        if (DevResponseProto_DevStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -732,17 +724,17 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value) {
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (DevResponseProto_DevStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (DevResponseProto_Builder*) setStatus:(DevResponseProto_DevStatus) value {
+- (DevResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (DevResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = DevResponseProto_DevStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)fumpList {

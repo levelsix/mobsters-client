@@ -15,6 +15,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [ChatRoot registerAllExtensions:registry];
     [RewardRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -494,7 +495,7 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
 
 @interface SendTangoGiftResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property SendTangoGiftResponseProto_SendTangoGiftStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableTangoUserIdsNotInToonSquadList;
 @property (strong) NSMutableArray * mutableTangoUserIdsInToonSquadList;
 @end
@@ -522,7 +523,7 @@ static SendTangoGiftRequestProto* defaultSendTangoGiftRequestProtoInstance = nil
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = SendTangoGiftResponseProto_SendTangoGiftStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -687,15 +688,6 @@ static SendTangoGiftResponseProto* defaultSendTangoGiftResponseProtoInstance = n
 }
 @end
 
-BOOL SendTangoGiftResponseProto_SendTangoGiftStatusIsValidValue(SendTangoGiftResponseProto_SendTangoGiftStatus value) {
-  switch (value) {
-    case SendTangoGiftResponseProto_SendTangoGiftStatusSuccess:
-    case SendTangoGiftResponseProto_SendTangoGiftStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SendTangoGiftResponseProto_Builder()
 @property (strong) SendTangoGiftResponseProto* result;
 @end
@@ -785,8 +777,8 @@ BOOL SendTangoGiftResponseProto_SendTangoGiftStatusIsValidValue(SendTangoGiftRes
         break;
       }
       case 16: {
-        SendTangoGiftResponseProto_SendTangoGiftStatus value = (SendTangoGiftResponseProto_SendTangoGiftStatus)[input readEnum];
-        if (SendTangoGiftResponseProto_SendTangoGiftStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -837,17 +829,17 @@ BOOL SendTangoGiftResponseProto_SendTangoGiftStatusIsValidValue(SendTangoGiftRes
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SendTangoGiftResponseProto_SendTangoGiftStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SendTangoGiftResponseProto_Builder*) setStatus:(SendTangoGiftResponseProto_SendTangoGiftStatus) value {
+- (SendTangoGiftResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SendTangoGiftResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SendTangoGiftResponseProto_SendTangoGiftStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)tangoUserIdsNotInToonSquadList {
@@ -1521,7 +1513,7 @@ static DeleteGiftRequestProto* defaultDeleteGiftRequestProtoInstance = nil;
 
 @interface DeleteGiftResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property DeleteGiftResponseProto_DeleteGiftStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation DeleteGiftResponseProto
@@ -1543,7 +1535,7 @@ static DeleteGiftRequestProto* defaultDeleteGiftRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = DeleteGiftResponseProto_DeleteGiftStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1658,15 +1650,6 @@ static DeleteGiftResponseProto* defaultDeleteGiftResponseProtoInstance = nil;
 }
 @end
 
-BOOL DeleteGiftResponseProto_DeleteGiftStatusIsValidValue(DeleteGiftResponseProto_DeleteGiftStatus value) {
-  switch (value) {
-    case DeleteGiftResponseProto_DeleteGiftStatusSuccess:
-    case DeleteGiftResponseProto_DeleteGiftStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface DeleteGiftResponseProto_Builder()
 @property (strong) DeleteGiftResponseProto* result;
 @end
@@ -1742,8 +1725,8 @@ BOOL DeleteGiftResponseProto_DeleteGiftStatusIsValidValue(DeleteGiftResponseProt
         break;
       }
       case 16: {
-        DeleteGiftResponseProto_DeleteGiftStatus value = (DeleteGiftResponseProto_DeleteGiftStatus)[input readEnum];
-        if (DeleteGiftResponseProto_DeleteGiftStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1786,17 +1769,17 @@ BOOL DeleteGiftResponseProto_DeleteGiftStatusIsValidValue(DeleteGiftResponseProt
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (DeleteGiftResponseProto_DeleteGiftStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (DeleteGiftResponseProto_Builder*) setStatus:(DeleteGiftResponseProto_DeleteGiftStatus) value {
+- (DeleteGiftResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (DeleteGiftResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = DeleteGiftResponseProto_DeleteGiftStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -2135,7 +2118,7 @@ static CollectGiftRequestProto* defaultCollectGiftRequestProtoInstance = nil;
 @interface CollectGiftResponseProto ()
 @property (strong) MinimumUserProtoWithMaxResources* sender;
 @property (strong) UserRewardProto* reward;
-@property CollectGiftResponseProto_CollectGiftStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation CollectGiftResponseProto
@@ -2165,7 +2148,7 @@ static CollectGiftRequestProto* defaultCollectGiftRequestProtoInstance = nil;
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.reward = [UserRewardProto defaultInstance];
-    self.status = CollectGiftResponseProto_CollectGiftStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -2297,15 +2280,6 @@ static CollectGiftResponseProto* defaultCollectGiftResponseProtoInstance = nil;
 }
 @end
 
-BOOL CollectGiftResponseProto_CollectGiftStatusIsValidValue(CollectGiftResponseProto_CollectGiftStatus value) {
-  switch (value) {
-    case CollectGiftResponseProto_CollectGiftStatusSuccess:
-    case CollectGiftResponseProto_CollectGiftStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface CollectGiftResponseProto_Builder()
 @property (strong) CollectGiftResponseProto* result;
 @end
@@ -2393,8 +2367,8 @@ BOOL CollectGiftResponseProto_CollectGiftStatusIsValidValue(CollectGiftResponseP
         break;
       }
       case 24: {
-        CollectGiftResponseProto_CollectGiftStatus value = (CollectGiftResponseProto_CollectGiftStatus)[input readEnum];
-        if (CollectGiftResponseProto_CollectGiftStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -2467,17 +2441,17 @@ BOOL CollectGiftResponseProto_CollectGiftStatusIsValidValue(CollectGiftResponseP
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (CollectGiftResponseProto_CollectGiftStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (CollectGiftResponseProto_Builder*) setStatus:(CollectGiftResponseProto_CollectGiftStatus) value {
+- (CollectGiftResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (CollectGiftResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = CollectGiftResponseProto_CollectGiftStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -2816,7 +2790,7 @@ static RedeemSecretGiftRequestProto* defaultRedeemSecretGiftRequestProtoInstance
 @interface RedeemSecretGiftResponseProto ()
 @property (strong) MinimumUserProto* mup;
 @property (strong) NSMutableArray * mutableNuGiftsList;
-@property RedeemSecretGiftResponseProto_RedeemSecretGiftStatus status;
+@property ResponseStatus status;
 @property (strong) UserRewardProto* reward;
 @end
 
@@ -2848,7 +2822,7 @@ static RedeemSecretGiftRequestProto* defaultRedeemSecretGiftRequestProtoInstance
 - (id) init {
   if ((self = [super init])) {
     self.mup = [MinimumUserProto defaultInstance];
-    self.status = RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.reward = [UserRewardProto defaultInstance];
   }
   return self;
@@ -3003,16 +2977,6 @@ static RedeemSecretGiftResponseProto* defaultRedeemSecretGiftResponseProtoInstan
 }
 @end
 
-BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecretGiftResponseProto_RedeemSecretGiftStatus value) {
-  switch (value) {
-    case RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess:
-    case RedeemSecretGiftResponseProto_RedeemSecretGiftStatusFailItemsNonexistent:
-    case RedeemSecretGiftResponseProto_RedeemSecretGiftStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RedeemSecretGiftResponseProto_Builder()
 @property (strong) RedeemSecretGiftResponseProto* result;
 @end
@@ -3104,8 +3068,8 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
         break;
       }
       case 24: {
-        RedeemSecretGiftResponseProto_RedeemSecretGiftStatus value = (RedeemSecretGiftResponseProto_RedeemSecretGiftStatus)[input readEnum];
-        if (RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -3181,17 +3145,17 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RedeemSecretGiftResponseProto_RedeemSecretGiftStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RedeemSecretGiftResponseProto_Builder*) setStatus:(RedeemSecretGiftResponseProto_RedeemSecretGiftStatus) value {
+- (RedeemSecretGiftResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RedeemSecretGiftResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasReward {

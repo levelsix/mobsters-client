@@ -15,6 +15,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [RewardRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -533,7 +534,7 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
 
 @interface PurchaseBoosterPackResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutablePrizeList;
 @property (strong) UserRewardProto* reward;
 @end
@@ -566,7 +567,7 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.reward = [UserRewardProto defaultInstance];
   }
   return self;
@@ -721,17 +722,6 @@ static PurchaseBoosterPackResponseProto* defaultPurchaseBoosterPackResponseProto
 }
 @end
 
-BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus value) {
-  switch (value) {
-    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess:
-    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGachaCredits:
-    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailOther:
-    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGems:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface PurchaseBoosterPackResponseProto_Builder()
 @property (strong) PurchaseBoosterPackResponseProto* result;
 @end
@@ -817,8 +807,8 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
         break;
       }
       case 16: {
-        PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus value = (PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus)[input readEnum];
-        if (PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -876,17 +866,17 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (PurchaseBoosterPackResponseProto_Builder*) setStatus:(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) value {
+- (PurchaseBoosterPackResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (PurchaseBoosterPackResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)prizeList {

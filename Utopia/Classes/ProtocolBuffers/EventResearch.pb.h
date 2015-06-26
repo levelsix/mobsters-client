@@ -2,86 +2,32 @@
 
 #import "ProtocolBuffers.h"
 
-#import "Structure.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
-@class BattleItemFactoryProto;
-@class BattleItemFactoryProto_Builder;
-@class ClanHouseProto;
-@class ClanHouseProto_Builder;
-@class CoordinateProto;
-@class CoordinateProto_Builder;
-@class EvoChamberProto;
-@class EvoChamberProto_Builder;
 @class FinishPerformingResearchRequestProto;
 @class FinishPerformingResearchRequestProto_Builder;
 @class FinishPerformingResearchResponseProto;
 @class FinishPerformingResearchResponseProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class FullUserStructureProto;
-@class FullUserStructureProto_Builder;
-@class HospitalProto;
-@class HospitalProto_Builder;
-@class ItemGemPriceProto;
-@class ItemGemPriceProto_Builder;
-@class ItemProto;
-@class ItemProto_Builder;
-@class LabProto;
-@class LabProto_Builder;
-@class MiniJobCenterProto;
-@class MiniJobCenterProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
-@class MinimumObstacleProto;
-@class MinimumObstacleProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
-@class MoneyTreeProto;
-@class MoneyTreeProto_Builder;
-@class ObstacleProto;
-@class ObstacleProto_Builder;
 @class PerformResearchRequestProto;
 @class PerformResearchRequestProto_Builder;
 @class PerformResearchResponseProto;
 @class PerformResearchResponseProto_Builder;
-@class PvpBoardHouseProto;
-@class PvpBoardHouseProto_Builder;
-@class PvpBoardObstacleProto;
-@class PvpBoardObstacleProto_Builder;
-@class ResearchHouseProto;
-@class ResearchHouseProto_Builder;
-@class ResidenceProto;
-@class ResidenceProto_Builder;
-@class ResourceGeneratorProto;
-@class ResourceGeneratorProto_Builder;
-@class ResourceStorageProto;
-@class ResourceStorageProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
-@class StructureInfoProto;
-@class StructureInfoProto_Builder;
-@class TeamCenterProto;
-@class TeamCenterProto_Builder;
-@class TownHallProto;
-@class TownHallProto_Builder;
-@class TutorialStructProto;
-@class TutorialStructProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
-@class UserItemProto;
-@class UserItemProto_Builder;
-@class UserItemUsageProto;
-@class UserItemUsageProto_Builder;
-@class UserObstacleProto;
-@class UserObstacleProto_Builder;
-@class UserPvpBoardObstacleProto;
-@class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
 #ifndef __has_feature
@@ -95,24 +41,6 @@
     #define NS_RETURNS_NOT_RETAINED
   #endif
 #endif
-
-typedef NS_ENUM(SInt32, PerformResearchResponseProto_PerformResearchStatus) {
-  PerformResearchResponseProto_PerformResearchStatusSuccess = 1,
-  PerformResearchResponseProto_PerformResearchStatusFailOther = 2,
-  PerformResearchResponseProto_PerformResearchStatusFailInsufficientCash = 3,
-  PerformResearchResponseProto_PerformResearchStatusFailInsufficientGems = 4,
-  PerformResearchResponseProto_PerformResearchStatusFailInsufficientOil = 5,
-};
-
-BOOL PerformResearchResponseProto_PerformResearchStatusIsValidValue(PerformResearchResponseProto_PerformResearchStatus value);
-
-typedef NS_ENUM(SInt32, FinishPerformingResearchResponseProto_FinishPerformingResearchStatus) {
-  FinishPerformingResearchResponseProto_FinishPerformingResearchStatusSuccess = 1,
-  FinishPerformingResearchResponseProto_FinishPerformingResearchStatusFailOther = 2,
-  FinishPerformingResearchResponseProto_FinishPerformingResearchStatusFailNotEnoughGems = 3,
-};
-
-BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValidValue(FinishPerformingResearchResponseProto_FinishPerformingResearchStatus value);
 
 
 @interface EventResearchRoot : NSObject {
@@ -233,13 +161,13 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
   BOOL hasStatus_:1;
   NSString* userResearchUuid;
   MinimumUserProto* sender;
-  PerformResearchResponseProto_PerformResearchStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasUserResearchUuid;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) PerformResearchResponseProto_PerformResearchStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSString* userResearchUuid;
 
 + (PerformResearchResponseProto*) defaultInstance;
@@ -285,8 +213,8 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
 - (PerformResearchResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (PerformResearchResponseProto_PerformResearchStatus) status;
-- (PerformResearchResponseProto_Builder*) setStatus:(PerformResearchResponseProto_PerformResearchStatus) value;
+- (ResponseStatus) status;
+- (PerformResearchResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (PerformResearchResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasUserResearchUuid;
@@ -297,9 +225,11 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
 
 @interface FinishPerformingResearchRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasGemsCost_:1;
   BOOL hasUserResearchUuid_:1;
   BOOL hasSender_:1;
+  int64_t clientTime;
   int32_t gemsCost;
   NSString* userResearchUuid;
   MinimumUserProto* sender;
@@ -307,9 +237,11 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
 - (BOOL) hasSender;
 - (BOOL) hasUserResearchUuid;
 - (BOOL) hasGemsCost;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSString* userResearchUuid;
 @property (readonly) int32_t gemsCost;
+@property (readonly) int64_t clientTime;
 
 + (FinishPerformingResearchRequestProto*) defaultInstance;
 - (FinishPerformingResearchRequestProto*) defaultInstance;
@@ -362,6 +294,11 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
 - (int32_t) gemsCost;
 - (FinishPerformingResearchRequestProto_Builder*) setGemsCost:(int32_t) value;
 - (FinishPerformingResearchRequestProto_Builder*) clearGemsCost;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (FinishPerformingResearchRequestProto_Builder*) setClientTime:(int64_t) value;
+- (FinishPerformingResearchRequestProto_Builder*) clearClientTime;
 @end
 
 @interface FinishPerformingResearchResponseProto : PBGeneratedMessage {
@@ -369,12 +306,12 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  FinishPerformingResearchResponseProto_FinishPerformingResearchStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) FinishPerformingResearchResponseProto_FinishPerformingResearchStatus status;
+@property (readonly) ResponseStatus status;
 
 + (FinishPerformingResearchResponseProto*) defaultInstance;
 - (FinishPerformingResearchResponseProto*) defaultInstance;
@@ -419,8 +356,8 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
 - (FinishPerformingResearchResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (FinishPerformingResearchResponseProto_FinishPerformingResearchStatus) status;
-- (FinishPerformingResearchResponseProto_Builder*) setStatus:(FinishPerformingResearchResponseProto_FinishPerformingResearchStatus) value;
+- (ResponseStatus) status;
+- (FinishPerformingResearchResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (FinishPerformingResearchResponseProto_Builder*) clearStatusList;
 @end
 

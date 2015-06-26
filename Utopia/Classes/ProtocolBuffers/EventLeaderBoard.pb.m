@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [LeaderBoardRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -340,7 +341,7 @@ static RetrieveStrengthLeaderBoardRequestProto* defaultRetrieveStrengthLeaderBoa
 @property (strong) MinimumUserProto* sender;
 @property (strong) StrengthLeaderBoardProto* senderLeaderBoardInfo;
 @property (strong) NSMutableArray * mutableLeaderBoardInfoList;
-@property RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation RetrieveStrengthLeaderBoardResponseProto
@@ -372,7 +373,7 @@ static RetrieveStrengthLeaderBoardRequestProto* defaultRetrieveStrengthLeaderBoa
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.senderLeaderBoardInfo = [StrengthLeaderBoardProto defaultInstance];
-    self.status = RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -526,16 +527,6 @@ static RetrieveStrengthLeaderBoardResponseProto* defaultRetrieveStrengthLeaderBo
 }
 @end
 
-BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusIsValidValue(RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus value) {
-  switch (value) {
-    case RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusSuccess:
-    case RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusFailOther:
-    case RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusFailNoResults:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RetrieveStrengthLeaderBoardResponseProto_Builder()
 @property (strong) RetrieveStrengthLeaderBoardResponseProto* result;
 @end
@@ -636,8 +627,8 @@ BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusI
         break;
       }
       case 32: {
-        RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus value = (RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus)[input readEnum];
-        if (RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:4 value:value];
@@ -734,17 +725,17 @@ BOOL RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusI
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RetrieveStrengthLeaderBoardResponseProto_Builder*) setStatus:(RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatus) value {
+- (RetrieveStrengthLeaderBoardResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RetrieveStrengthLeaderBoardResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RetrieveStrengthLeaderBoardResponseProto_RetrieveStrengthLeaderBoardStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end

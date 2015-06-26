@@ -708,11 +708,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent queueUp:queueUp incrementTagNum:YES];
 }
 
-- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructUuids time:(uint64_t)curTime {
-  NormStructWaitCompleteRequestProto *req = [[[[[NormStructWaitCompleteRequestProto builder]
-                                                setSender:_sender]
-                                               addAllUserStructUuid:userStructUuids]
-                                              setCurTime:curTime]
+- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructUuids timeOfCompletion:(uint64_t)timeOfCompletion clientTime:(uint64_t)clientTime {
+  NormStructWaitCompleteRequestProto *req = [[[[[[NormStructWaitCompleteRequestProto builder]
+                                                 setSender:_sender]
+                                                addAllUserStructUuid:userStructUuids]
+                                               setTimeOfCompletion:timeOfCompletion]
+                                              setCurrentClientTime:clientTime]
                                              build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCNormStructWaitCompleteEvent];
@@ -1087,11 +1088,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEndDungeonEvent];
 }
 
-- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterUuids gemCost:(int)gemCost {
-  CombineUserMonsterPiecesRequestProto *req = [[[[[CombineUserMonsterPiecesRequestProto builder]
-                                                  setSender:_sender]
-                                                 addAllUserMonsterUuids:userMonsterUuids]
-                                                setGemCost:gemCost]
+- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterUuids gemCost:(int)gemCost clientTime:(uint64_t)clientTime {
+  CombineUserMonsterPiecesRequestProto *req = [[[[[[CombineUserMonsterPiecesRequestProto builder]
+                                                   setSender:_sender]
+                                                  addAllUserMonsterUuids:userMonsterUuids]
+                                                 setGemCost:gemCost]
+                                                setClientTime:clientTime]
                                                build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCCombineUserMonsterPiecesEvent];
@@ -1148,10 +1150,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEvolveMonsterEvent];
 }
 
-- (int) sendEvolutionFinishedMessageWithGems:(int)gems {
-  EvolutionFinishedRequestProto *req = [[[[EvolutionFinishedRequestProto builder]
-                                          setSender:_sender]
-                                         setGemsSpent:gems]
+- (int) sendEvolutionFinishedMessageWithGems:(int)gems clientTime:(uint64_t)clientTime {
+  EvolutionFinishedRequestProto *req = [[[[[EvolutionFinishedRequestProto builder]
+                                           setSender:_sender]
+                                          setGemsSpent:gems]
+                                         setClientTime:clientTime]
                                         build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCEvolutionFinishedEvent];
@@ -1333,11 +1336,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCPerformResearchEvent];
 }
 
-- (int) sendFinishPerformingResearchRequestProto:(NSString *)uuid gemsSpent:(int)gemsSpent {
-  FinishPerformingResearchRequestProto *req = [[[[[FinishPerformingResearchRequestProto builder]
-                                                  setSender:_sender]
-                                                 setUserResearchUuid:uuid]
-                                                setGemsCost:gemsSpent]
+- (int) sendFinishPerformingResearchRequestProto:(NSString *)uuid gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime {
+  FinishPerformingResearchRequestProto *req = [[[[[[FinishPerformingResearchRequestProto builder]
+                                                   setSender:_sender]
+                                                  setUserResearchUuid:uuid]
+                                                 setGemsCost:gemsSpent]
+                                                setClientTime:clientTime]
                                                build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCFinishPerformingResearchEvent];
@@ -1517,33 +1521,36 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEnhanceMonsterEvent];
 }
 
-- (int) sendSubmitEnhancementMessage:(NSArray *)items gemCost:(int)gemCost oilChange:(int)oilChange {
-  SubmitMonsterEnhancementRequestProto *req = [[[[[[SubmitMonsterEnhancementRequestProto builder]
-                                                   setSender:[self senderWithMaxResources]]
-                                                  addAllUeipNew:items]
-                                                 setGemsSpent:gemCost]
-                                                setOilChange:oilChange]
+- (int) sendSubmitEnhancementMessage:(NSArray *)items gemCost:(int)gemCost oilChange:(int)oilChange clientTime:(uint64_t)clientTime {
+  SubmitMonsterEnhancementRequestProto *req = [[[[[[[SubmitMonsterEnhancementRequestProto builder]
+                                                    setSender:[self senderWithMaxResources]]
+                                                   addAllUeipNew:items]
+                                                  setGemsSpent:gemCost]
+                                                 setOilChange:oilChange]
+                                                setClientTime:clientTime]
                                                build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCSubmitMonsterEnhancementEvent];
 }
 
-- (int) sendEnhanceWaitCompleteMessage:(NSString *)userMonsterUuid isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost {
-  EnhancementWaitTimeCompleteRequestProto *req = [[[[[[EnhancementWaitTimeCompleteRequestProto builder]
-                                                      setSender:_sender]
-                                                     setUserMonsterUuid:userMonsterUuid]
-                                                    setIsSpeedup:isSpeedup]
-                                                   setGemsForSpeedup:gemCost]
+- (int) sendEnhanceWaitCompleteMessage:(NSString *)userMonsterUuid isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost clientTime:(uint64_t)clientTime {
+  EnhancementWaitTimeCompleteRequestProto *req = [[[[[[[EnhancementWaitTimeCompleteRequestProto builder]
+                                                       setSender:_sender]
+                                                      setUserMonsterUuid:userMonsterUuid]
+                                                     setIsSpeedup:isSpeedup]
+                                                    setGemsForSpeedup:gemCost]
+                                                   setClientTime:clientTime]
                                                   build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCEnhancementWaitTimeCompleteEvent];
 }
 
-- (int) sendCollectMonsterEnhancementMessage:(UserMonsterCurrentExpProto *)exp userMonsterUuids:(NSArray *)userMonsterUuids {
-  CollectMonsterEnhancementRequestProto *req = [[[[[CollectMonsterEnhancementRequestProto builder]
-                                                   setSender:_sender]
-                                                  setUmcep:exp]
-                                                 addAllUserMonsterUuids:userMonsterUuids]
+- (int) sendCollectMonsterEnhancementMessage:(UserMonsterCurrentExpProto *)exp userMonsterUuids:(NSArray *)userMonsterUuids clientTime:(uint64_t)clientTime {
+  CollectMonsterEnhancementRequestProto *req = [[[[[[CollectMonsterEnhancementRequestProto builder]
+                                                    setSender:_sender]
+                                                   setUmcep:exp]
+                                                  addAllUserMonsterUuids:userMonsterUuids]
+                                                 setClientTime:clientTime]
                                                 build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCCollectMonsterEnhancementEvent];
@@ -1698,21 +1705,23 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCCustomizePvpBoardObstacleEvent];
 }
 
-- (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost {
-  CompleteBattleItemRequestProto *req = [[[[[[CompleteBattleItemRequestProto builder]
-                                             setSender:_sender]
-                                            addAllBiqfuCompleted:completedBiqfus]
-                                           setIsSpeedup:isSpeedup]
-                                          setGemsForSpeedup:gemCost]
+- (int) sendCompleteBattleItemMessage:(NSArray *)completedBiqfus isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost clientTime:(uint64_t)clientTime {
+  CompleteBattleItemRequestProto *req = [[[[[[[CompleteBattleItemRequestProto builder]
+                                              setSender:_sender]
+                                             addAllBiqfuCompleted:completedBiqfus]
+                                            setIsSpeedup:isSpeedup]
+                                           setGemsForSpeedup:gemCost]
+                                          setClientTime:clientTime]
                                          build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCCompleteBattleItemEvent];
 }
 
-- (int) sendDiscardBattleItemMessage:(NSArray *)battleItemIds {
-  DiscardBattleItemRequestProto *req = [[[[DiscardBattleItemRequestProto builder]
-                                          setSender:_sender]
-                                         addAllDiscardedBattleItemIds:battleItemIds]
+- (int) sendDiscardBattleItemMessage:(NSArray *)battleItemIds clientTime:(uint64_t)clientTime {
+  DiscardBattleItemRequestProto *req = [[[[[DiscardBattleItemRequestProto builder]
+                                           setSender:_sender]
+                                          addAllDiscardedBattleItemIds:battleItemIds]
+                                         setClientTime:clientTime]
                                         build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCDiscardBattleItemEvent flush:NO queueUp:YES incrementTagNum:YES];
@@ -1727,9 +1736,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserStrengthEvent flush:NO queueUp:YES incrementTagNum:YES];
 }
 
-- (int) sendRetrieveMiniEventRequestProtoMessage {
-  RetrieveMiniEventRequestProto* req = [[[RetrieveMiniEventRequestProto builder]
-                                         setSender:_sender] build];
+- (int) sendRetrieveMiniEventRequestProtoMessageWithClientTime:(uint64_t)clientTime {
+  RetrieveMiniEventRequestProto* req = [[[[RetrieveMiniEventRequestProto builder]
+                                          setSender:_sender]
+                                         setClientTime:clientTime]
+                                        build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveMiniEventEvent flush:YES queueUp:YES incrementTagNum:YES];
 }
@@ -1759,8 +1770,8 @@ static NSString *udid = nil;
 
 - (int) sendSetTangoId:(NSString *)tangoId {
   SetTangoIdRequestProto *req = [[[[SetTangoIdRequestProto builder]
-                                  setSender:_sender]
-                                 setTangoId:tangoId]
+                                   setSender:_sender]
+                                  setTangoId:tangoId]
                                  build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCSetTangoIdEvent];
@@ -1796,6 +1807,11 @@ static NSString *udid = nil;
 }
 
 #pragma mark - Batch/Flush events
+
+// Only for batched events.. for the redundant time check
+- (uint64_t) getCurrentMilliseconds {
+  return ((uint64_t)[[MSDate date] timeIntervalSince1970])*1000;
+}
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {
   [self flushAllExceptEventType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
@@ -1943,6 +1959,7 @@ static NSString *udid = nil;
     
     [bldr setCashChange:_healingQueueCashChange];
     [bldr setGemCostForHealing:_healingQueueGemCost];
+    [bldr setClientTime:[self getCurrentMilliseconds]];
     
     LNLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
     LNLog(@"Cash change: %@, gemCost: %d", [Globals commafyNumber:_healingQueueCashChange], _healingQueueGemCost);
@@ -2012,6 +2029,7 @@ static NSString *udid = nil;
     [bldr setCashChange:_battleItemQueueCashChange];
     [bldr setOilChange:_battleItemQueueOilChange];
     [bldr setGemCostForCreating:_battleItemQueueGemCost];
+    [bldr setClientTime:[self getCurrentMilliseconds]];
     
     LNLog(@"Sending battle item queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
     LNLog(@"Cash change: %@, oil change: %@, gemCost: %d", [Globals commafyNumber:_battleItemQueueCashChange], [Globals commafyNumber:_battleItemQueueOilChange], _battleItemQueueGemCost);
@@ -2052,9 +2070,10 @@ static NSString *udid = nil;
 }
 
 - (int) sendUpdateUserMiniEventMessage {
-  UpdateMiniEventRequestProto* req = [[[[UpdateMiniEventRequestProto builder]
-                                        setSender:_sender]
-                                       addAllUpdatedGoals:[_updatedUserMiniEventGoals allValues]]
+  UpdateMiniEventRequestProto* req = [[[[[UpdateMiniEventRequestProto builder]
+                                         setSender:_sender]
+                                        addAllUpdatedGoals:[_updatedUserMiniEventGoals allValues]]
+                                       setClientTime:[self getCurrentMilliseconds]]
                                       build];
   
   LNLog(@"Sending updated mini event goals.");

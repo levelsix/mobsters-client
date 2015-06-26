@@ -4,6 +4,7 @@
 
 #import "Chat.pb.h"
 #import "Reward.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -115,35 +116,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, SendTangoGiftResponseProto_SendTangoGiftStatus) {
-  SendTangoGiftResponseProto_SendTangoGiftStatusSuccess = 1,
-  SendTangoGiftResponseProto_SendTangoGiftStatusFailOther = 2,
-};
-
-BOOL SendTangoGiftResponseProto_SendTangoGiftStatusIsValidValue(SendTangoGiftResponseProto_SendTangoGiftStatus value);
-
-typedef NS_ENUM(SInt32, DeleteGiftResponseProto_DeleteGiftStatus) {
-  DeleteGiftResponseProto_DeleteGiftStatusSuccess = 1,
-  DeleteGiftResponseProto_DeleteGiftStatusFailOther = 2,
-};
-
-BOOL DeleteGiftResponseProto_DeleteGiftStatusIsValidValue(DeleteGiftResponseProto_DeleteGiftStatus value);
-
-typedef NS_ENUM(SInt32, CollectGiftResponseProto_CollectGiftStatus) {
-  CollectGiftResponseProto_CollectGiftStatusSuccess = 1,
-  CollectGiftResponseProto_CollectGiftStatusFailOther = 2,
-};
-
-BOOL CollectGiftResponseProto_CollectGiftStatusIsValidValue(CollectGiftResponseProto_CollectGiftStatus value);
-
-typedef NS_ENUM(SInt32, RedeemSecretGiftResponseProto_RedeemSecretGiftStatus) {
-  RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess = 1,
-  RedeemSecretGiftResponseProto_RedeemSecretGiftStatusFailItemsNonexistent = 2,
-  RedeemSecretGiftResponseProto_RedeemSecretGiftStatusFailOther = 3,
-};
-
-BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecretGiftResponseProto_RedeemSecretGiftStatus value);
-
 
 @interface EventRewardRoot : NSObject {
 }
@@ -252,14 +224,14 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  SendTangoGiftResponseProto_SendTangoGiftStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableTangoUserIdsNotInToonSquadList;
   NSMutableArray * mutableTangoUserIdsInToonSquadList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) SendTangoGiftResponseProto_SendTangoGiftStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * tangoUserIdsNotInToonSquadList;
 @property (readonly, strong) NSArray * tangoUserIdsInToonSquadList;
 - (NSString*)tangoUserIdsNotInToonSquadAtIndex:(NSUInteger)index;
@@ -308,8 +280,8 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (SendTangoGiftResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (SendTangoGiftResponseProto_SendTangoGiftStatus) status;
-- (SendTangoGiftResponseProto_Builder*) setStatus:(SendTangoGiftResponseProto_SendTangoGiftStatus) value;
+- (ResponseStatus) status;
+- (SendTangoGiftResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (SendTangoGiftResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)tangoUserIdsNotInToonSquadList;
@@ -459,12 +431,12 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  DeleteGiftResponseProto_DeleteGiftStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) DeleteGiftResponseProto_DeleteGiftStatus status;
+@property (readonly) ResponseStatus status;
 
 + (DeleteGiftResponseProto*) defaultInstance;
 - (DeleteGiftResponseProto*) defaultInstance;
@@ -509,8 +481,8 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (DeleteGiftResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (DeleteGiftResponseProto_DeleteGiftStatus) status;
-- (DeleteGiftResponseProto_Builder*) setStatus:(DeleteGiftResponseProto_DeleteGiftStatus) value;
+- (ResponseStatus) status;
+- (DeleteGiftResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (DeleteGiftResponseProto_Builder*) clearStatusList;
 @end
 
@@ -590,14 +562,14 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
   BOOL hasStatus_:1;
   MinimumUserProtoWithMaxResources* sender;
   UserRewardProto* reward;
-  CollectGiftResponseProto_CollectGiftStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasReward;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) UserRewardProto* reward;
-@property (readonly) CollectGiftResponseProto_CollectGiftStatus status;
+@property (readonly) ResponseStatus status;
 
 + (CollectGiftResponseProto*) defaultInstance;
 - (CollectGiftResponseProto*) defaultInstance;
@@ -649,8 +621,8 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (CollectGiftResponseProto_Builder*) clearReward;
 
 - (BOOL) hasStatus;
-- (CollectGiftResponseProto_CollectGiftStatus) status;
-- (CollectGiftResponseProto_Builder*) setStatus:(CollectGiftResponseProto_CollectGiftStatus) value;
+- (ResponseStatus) status;
+- (CollectGiftResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (CollectGiftResponseProto_Builder*) clearStatusList;
 @end
 
@@ -730,7 +702,7 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
   BOOL hasStatus_:1;
   MinimumUserProto* mup;
   UserRewardProto* reward;
-  RedeemSecretGiftResponseProto_RedeemSecretGiftStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableNuGiftsList;
 }
 - (BOOL) hasMup;
@@ -738,7 +710,7 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (BOOL) hasReward;
 @property (readonly, strong) MinimumUserProto* mup;
 @property (readonly, strong) NSArray * nuGiftsList;
-@property (readonly) RedeemSecretGiftResponseProto_RedeemSecretGiftStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) UserRewardProto* reward;
 - (UserSecretGiftProto*)nuGiftsAtIndex:(NSUInteger)index;
 
@@ -791,8 +763,8 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (RedeemSecretGiftResponseProto_Builder *)clearNuGifts;
 
 - (BOOL) hasStatus;
-- (RedeemSecretGiftResponseProto_RedeemSecretGiftStatus) status;
-- (RedeemSecretGiftResponseProto_Builder*) setStatus:(RedeemSecretGiftResponseProto_RedeemSecretGiftStatus) value;
+- (ResponseStatus) status;
+- (RedeemSecretGiftResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RedeemSecretGiftResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasReward;

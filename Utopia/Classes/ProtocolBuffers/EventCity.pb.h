@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "City.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -109,14 +110,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, LoadPlayerCityResponseProto_LoadPlayerCityStatus) {
-  LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess = 1,
-  LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer = 2,
-  LoadPlayerCityResponseProto_LoadPlayerCityStatusFailOther = 3,
-};
-
-BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCityResponseProto_LoadPlayerCityStatus value);
-
 typedef NS_ENUM(SInt32, PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus) {
   PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusSuccess = 1,
   PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusNotEnoughCoins = 2,
@@ -209,7 +202,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   MinimumUserProto* cityOwner;
-  LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableOwnerNormStructsList;
   NSMutableArray * mutableUserCityExpansionDataProtoListList;
   NSMutableArray * mutableObstaclesList;
@@ -219,7 +212,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) MinimumUserProto* cityOwner;
-@property (readonly) LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * ownerNormStructsList;
 @property (readonly, strong) NSArray * userCityExpansionDataProtoListList;
 @property (readonly, strong) NSArray * obstaclesList;
@@ -277,8 +270,8 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (LoadPlayerCityResponseProto_Builder*) clearCityOwner;
 
 - (BOOL) hasStatus;
-- (LoadPlayerCityResponseProto_LoadPlayerCityStatus) status;
-- (LoadPlayerCityResponseProto_Builder*) setStatus:(LoadPlayerCityResponseProto_LoadPlayerCityStatus) value;
+- (ResponseStatus) status;
+- (LoadPlayerCityResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (LoadPlayerCityResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)ownerNormStructsList;

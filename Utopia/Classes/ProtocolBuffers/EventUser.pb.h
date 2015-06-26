@@ -4,6 +4,7 @@
 
 #import "MonsterStuff.pb.h"
 #import "Research.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -172,78 +173,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, UserCreateResponseProto_UserCreateStatus) {
-  UserCreateResponseProto_UserCreateStatusSuccess = 1,
-  UserCreateResponseProto_UserCreateStatusFailInvalidName = 2,
-  UserCreateResponseProto_UserCreateStatusFailUserWithUdidAlreadyExists = 3,
-  UserCreateResponseProto_UserCreateStatusFailInvalidReferCode = 4,
-  UserCreateResponseProto_UserCreateStatusFailUserWithFacebookIdExists = 5,
-  UserCreateResponseProto_UserCreateStatusFailOther = 6,
-};
-
-BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProto_UserCreateStatus value);
-
-typedef NS_ENUM(SInt32, LevelUpResponseProto_LevelUpStatus) {
-  LevelUpResponseProto_LevelUpStatusSuccess = 1,
-  LevelUpResponseProto_LevelUpStatusFailOther = 2,
-};
-
-BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUpStatus value);
-
-typedef NS_ENUM(SInt32, SetFacebookIdResponseProto_SetFacebookIdStatus) {
-  SetFacebookIdResponseProto_SetFacebookIdStatusSuccess = 1,
-  SetFacebookIdResponseProto_SetFacebookIdStatusFailOther = 2,
-  SetFacebookIdResponseProto_SetFacebookIdStatusFailFbIdExists = 3,
-  SetFacebookIdResponseProto_SetFacebookIdStatusFailUserFbIdAlreadySet = 4,
-};
-
-BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdResponseProto_SetFacebookIdStatus value);
-
-typedef NS_ENUM(SInt32, UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) {
-  UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess = 1,
-  UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailOther = 2,
-  UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientCash = 3,
-  UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientOil = 4,
-  UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientGems = 5,
-};
-
-BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus value);
-
-typedef NS_ENUM(SInt32, SetGameCenterIdResponseProto_SetGameCenterIdStatus) {
-  SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess = 1,
-  SetGameCenterIdResponseProto_SetGameCenterIdStatusFailOther = 2,
-};
-
-BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCenterIdResponseProto_SetGameCenterIdStatus value);
-
-typedef NS_ENUM(SInt32, SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) {
-  SetAvatarMonsterResponseProto_SetAvatarMonsterStatusSuccess = 1,
-  SetAvatarMonsterResponseProto_SetAvatarMonsterStatusFailOther = 2,
-};
-
-BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarMonsterResponseProto_SetAvatarMonsterStatus value);
-
-typedef NS_ENUM(SInt32, UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) {
-  UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusSuccess = 1,
-  UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusFailOther = 2,
-};
-
-BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus value);
-
-typedef NS_ENUM(SInt32, UpdateUserStrengthResponseProto_UpdateUserStrengthStatus) {
-  UpdateUserStrengthResponseProto_UpdateUserStrengthStatusSuccess = 1,
-  UpdateUserStrengthResponseProto_UpdateUserStrengthStatusFailOther = 2,
-};
-
-BOOL UpdateUserStrengthResponseProto_UpdateUserStrengthStatusIsValidValue(UpdateUserStrengthResponseProto_UpdateUserStrengthStatus value);
-
-typedef NS_ENUM(SInt32, SetTangoIdResponseProto_SetTangoIdStatus) {
-  SetTangoIdResponseProto_SetTangoIdStatusSuccess = 1,
-  SetTangoIdResponseProto_SetTangoIdStatusFailOther = 2,
-};
-
-BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProto_SetTangoIdStatus value);
-
 
 @interface EventUserRoot : NSObject {
 }
@@ -384,10 +313,10 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
 @interface UserCreateResponseProto : PBGeneratedMessage {
 @private
   BOOL hasStatus_:1;
-  UserCreateResponseProto_UserCreateStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasStatus;
-@property (readonly) UserCreateResponseProto_UserCreateStatus status;
+@property (readonly) ResponseStatus status;
 
 + (UserCreateResponseProto*) defaultInstance;
 - (UserCreateResponseProto*) defaultInstance;
@@ -425,8 +354,8 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
 - (UserCreateResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasStatus;
-- (UserCreateResponseProto_UserCreateStatus) status;
-- (UserCreateResponseProto_Builder*) setStatus:(UserCreateResponseProto_UserCreateStatus) value;
+- (ResponseStatus) status;
+- (UserCreateResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (UserCreateResponseProto_Builder*) clearStatusList;
 @end
 
@@ -495,12 +424,12 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  LevelUpResponseProto_LevelUpStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) LevelUpResponseProto_LevelUpStatus status;
+@property (readonly) ResponseStatus status;
 
 + (LevelUpResponseProto*) defaultInstance;
 - (LevelUpResponseProto*) defaultInstance;
@@ -545,8 +474,8 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
 - (LevelUpResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (LevelUpResponseProto_LevelUpStatus) status;
-- (LevelUpResponseProto_Builder*) setStatus:(LevelUpResponseProto_LevelUpStatus) value;
+- (ResponseStatus) status;
+- (LevelUpResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (LevelUpResponseProto_Builder*) clearStatusList;
 @end
 
@@ -902,13 +831,13 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   MinimumUserProto* existing;
-  SetFacebookIdResponseProto_SetFacebookIdStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasExisting;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) SetFacebookIdResponseProto_SetFacebookIdStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) MinimumUserProto* existing;
 
 + (SetFacebookIdResponseProto*) defaultInstance;
@@ -954,8 +883,8 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
 - (SetFacebookIdResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (SetFacebookIdResponseProto_SetFacebookIdStatus) status;
-- (SetFacebookIdResponseProto_Builder*) setStatus:(SetFacebookIdResponseProto_SetFacebookIdStatus) value;
+- (ResponseStatus) status;
+- (SetFacebookIdResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (SetFacebookIdResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasExisting;
@@ -1076,12 +1005,12 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus status;
+@property (readonly) ResponseStatus status;
 
 + (UpdateUserCurrencyResponseProto*) defaultInstance;
 - (UpdateUserCurrencyResponseProto*) defaultInstance;
@@ -1126,8 +1055,8 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
 - (UpdateUserCurrencyResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) status;
-- (UpdateUserCurrencyResponseProto_Builder*) setStatus:(UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) value;
+- (ResponseStatus) status;
+- (UpdateUserCurrencyResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (UpdateUserCurrencyResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1198,14 +1127,14 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
   BOOL hasStatus_:1;
   NSString* gameCenterId;
   MinimumUserProto* sender;
-  SetGameCenterIdResponseProto_SetGameCenterIdStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasGameCenterId;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSString* gameCenterId;
-@property (readonly) SetGameCenterIdResponseProto_SetGameCenterIdStatus status;
+@property (readonly) ResponseStatus status;
 
 + (SetGameCenterIdResponseProto*) defaultInstance;
 - (SetGameCenterIdResponseProto*) defaultInstance;
@@ -1255,8 +1184,8 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
 - (SetGameCenterIdResponseProto_Builder*) clearGameCenterId;
 
 - (BOOL) hasStatus;
-- (SetGameCenterIdResponseProto_SetGameCenterIdStatus) status;
-- (SetGameCenterIdResponseProto_Builder*) setStatus:(SetGameCenterIdResponseProto_SetGameCenterIdStatus) value;
+- (ResponseStatus) status;
+- (SetGameCenterIdResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (SetGameCenterIdResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1325,12 +1254,12 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  SetAvatarMonsterResponseProto_SetAvatarMonsterStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) SetAvatarMonsterResponseProto_SetAvatarMonsterStatus status;
+@property (readonly) ResponseStatus status;
 
 + (SetAvatarMonsterResponseProto*) defaultInstance;
 - (SetAvatarMonsterResponseProto*) defaultInstance;
@@ -1375,8 +1304,8 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
 - (SetAvatarMonsterResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) status;
-- (SetAvatarMonsterResponseProto_Builder*) setStatus:(SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) value;
+- (ResponseStatus) status;
+- (SetAvatarMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (SetAvatarMonsterResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1447,14 +1376,14 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   NSData* taskState;
-  UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasTaskState;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSData* taskState;
-@property (readonly) UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus status;
+@property (readonly) ResponseStatus status;
 
 + (UpdateClientTaskStateResponseProto*) defaultInstance;
 - (UpdateClientTaskStateResponseProto*) defaultInstance;
@@ -1504,8 +1433,8 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
 - (UpdateClientTaskStateResponseProto_Builder*) clearTaskState;
 
 - (BOOL) hasStatus;
-- (UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) status;
-- (UpdateClientTaskStateResponseProto_Builder*) setStatus:(UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) value;
+- (ResponseStatus) status;
+- (UpdateClientTaskStateResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (UpdateClientTaskStateResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1574,12 +1503,12 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  UpdateUserStrengthResponseProto_UpdateUserStrengthStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) UpdateUserStrengthResponseProto_UpdateUserStrengthStatus status;
+@property (readonly) ResponseStatus status;
 
 + (UpdateUserStrengthResponseProto*) defaultInstance;
 - (UpdateUserStrengthResponseProto*) defaultInstance;
@@ -1624,8 +1553,8 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
 - (UpdateUserStrengthResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (UpdateUserStrengthResponseProto_UpdateUserStrengthStatus) status;
-- (UpdateUserStrengthResponseProto_Builder*) setStatus:(UpdateUserStrengthResponseProto_UpdateUserStrengthStatus) value;
+- (ResponseStatus) status;
+- (UpdateUserStrengthResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (UpdateUserStrengthResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1696,14 +1625,14 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
   BOOL hasStatus_:1;
   NSString* tangoId;
   MinimumUserProto* sender;
-  SetTangoIdResponseProto_SetTangoIdStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasTangoId;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSString* tangoId;
-@property (readonly) SetTangoIdResponseProto_SetTangoIdStatus status;
+@property (readonly) ResponseStatus status;
 
 + (SetTangoIdResponseProto*) defaultInstance;
 - (SetTangoIdResponseProto*) defaultInstance;
@@ -1753,8 +1682,8 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
 - (SetTangoIdResponseProto_Builder*) clearTangoId;
 
 - (BOOL) hasStatus;
-- (SetTangoIdResponseProto_SetTangoIdStatus) status;
-- (SetTangoIdResponseProto_Builder*) setStatus:(SetTangoIdResponseProto_SetTangoIdStatus) value;
+- (ResponseStatus) status;
+- (SetTangoIdResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (SetTangoIdResponseProto_Builder*) clearStatusList;
 @end
 

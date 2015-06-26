@@ -371,7 +371,7 @@
   _waitingForResponse = NO;
   
   CreateClanResponseProto *proto = (CreateClanResponseProto *)e.event;
-  if (proto.status == CreateClanResponseProto_CreateClanStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [Analytics createSquad:proto.clanInfo.name];
   }
 }

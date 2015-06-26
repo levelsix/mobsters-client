@@ -387,7 +387,7 @@
 - (void) handleEvolutionFinishedResponseProto:(FullEvent *)fe {
   EvolutionFinishedResponseProto *proto = (EvolutionFinishedResponseProto *)fe.event;
   
-  if (proto.status == EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [self.parentViewController popViewControllerAnimated:YES];
     
     self.spinner.hidden = YES;

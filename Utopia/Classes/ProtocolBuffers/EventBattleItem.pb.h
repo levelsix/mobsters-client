@@ -3,23 +3,18 @@
 #import "ProtocolBuffers.h"
 
 #import "BattleItem.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
-@class BattleItemFactoryProto;
-@class BattleItemFactoryProto_Builder;
 @class BattleItemProto;
 @class BattleItemProto_Builder;
 @class BattleItemQueueForUserProto;
 @class BattleItemQueueForUserProto_Builder;
-@class ClanHouseProto;
-@class ClanHouseProto_Builder;
 @class CompleteBattleItemRequestProto;
 @class CompleteBattleItemRequestProto_Builder;
 @class CompleteBattleItemResponseProto;
 @class CompleteBattleItemResponseProto_Builder;
-@class CoordinateProto;
-@class CoordinateProto_Builder;
 @class CreateBattleItemRequestProto;
 @class CreateBattleItemRequestProto_Builder;
 @class CreateBattleItemResponseProto;
@@ -28,70 +23,22 @@
 @class DiscardBattleItemRequestProto_Builder;
 @class DiscardBattleItemResponseProto;
 @class DiscardBattleItemResponseProto_Builder;
-@class EvoChamberProto;
-@class EvoChamberProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class FullUserStructureProto;
-@class FullUserStructureProto_Builder;
-@class HospitalProto;
-@class HospitalProto_Builder;
-@class ItemGemPriceProto;
-@class ItemGemPriceProto_Builder;
-@class ItemProto;
-@class ItemProto_Builder;
-@class LabProto;
-@class LabProto_Builder;
-@class MiniJobCenterProto;
-@class MiniJobCenterProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
-@class MinimumObstacleProto;
-@class MinimumObstacleProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
-@class MoneyTreeProto;
-@class MoneyTreeProto_Builder;
-@class ObstacleProto;
-@class ObstacleProto_Builder;
-@class PvpBoardHouseProto;
-@class PvpBoardHouseProto_Builder;
-@class PvpBoardObstacleProto;
-@class PvpBoardObstacleProto_Builder;
-@class ResearchHouseProto;
-@class ResearchHouseProto_Builder;
-@class ResidenceProto;
-@class ResidenceProto_Builder;
-@class ResourceGeneratorProto;
-@class ResourceGeneratorProto_Builder;
-@class ResourceStorageProto;
-@class ResourceStorageProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
-@class StructureInfoProto;
-@class StructureInfoProto_Builder;
-@class TeamCenterProto;
-@class TeamCenterProto_Builder;
-@class TownHallProto;
-@class TownHallProto_Builder;
-@class TutorialStructProto;
-@class TutorialStructProto_Builder;
 @class UserBattleItemProto;
 @class UserBattleItemProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
-@class UserItemProto;
-@class UserItemProto_Builder;
-@class UserItemUsageProto;
-@class UserItemUsageProto_Builder;
-@class UserObstacleProto;
-@class UserObstacleProto_Builder;
-@class UserPvpBoardObstacleProto;
-@class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
 #ifndef __has_feature
@@ -106,31 +53,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, CreateBattleItemResponseProto_CreateBattleItemStatus) {
-  CreateBattleItemResponseProto_CreateBattleItemStatusSuccess = 1,
-  CreateBattleItemResponseProto_CreateBattleItemStatusFailOther = 2,
-  CreateBattleItemResponseProto_CreateBattleItemStatusFailInsufficientFunds = 3,
-};
-
-BOOL CreateBattleItemResponseProto_CreateBattleItemStatusIsValidValue(CreateBattleItemResponseProto_CreateBattleItemStatus value);
-
-typedef NS_ENUM(SInt32, CompleteBattleItemResponseProto_CompleteBattleItemStatus) {
-  CompleteBattleItemResponseProto_CompleteBattleItemStatusSuccess = 1,
-  CompleteBattleItemResponseProto_CompleteBattleItemStatusFailOther = 2,
-  CompleteBattleItemResponseProto_CompleteBattleItemStatusFailInvalidBattleItems = 3,
-  CompleteBattleItemResponseProto_CompleteBattleItemStatusFailInsufficientFunds = 4,
-};
-
-BOOL CompleteBattleItemResponseProto_CompleteBattleItemStatusIsValidValue(CompleteBattleItemResponseProto_CompleteBattleItemStatus value);
-
-typedef NS_ENUM(SInt32, DiscardBattleItemResponseProto_DiscardBattleItemStatus) {
-  DiscardBattleItemResponseProto_DiscardBattleItemStatusSuccess = 1,
-  DiscardBattleItemResponseProto_DiscardBattleItemStatusFailOther = 2,
-  DiscardBattleItemResponseProto_DiscardBattleItemStatusFailBattleItemsDontExist = 3,
-};
-
-BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardBattleItemResponseProto_DiscardBattleItemStatus value);
-
 
 @interface EventBattleItemRoot : NSObject {
 }
@@ -140,10 +62,12 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 
 @interface CreateBattleItemRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasGemCostForCreating_:1;
   BOOL hasSender_:1;
   BOOL hasCashChange_:1;
   BOOL hasOilChange_:1;
+  int64_t clientTime;
   int32_t gemCostForCreating;
   MinimumUserProtoWithMaxResources* sender;
   int32_t cashChange;
@@ -156,6 +80,7 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (BOOL) hasCashChange;
 - (BOOL) hasOilChange;
 - (BOOL) hasGemCostForCreating;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) NSArray * biqfuDeleteList;
 @property (readonly, strong) NSArray * biqfuUpdateList;
@@ -163,6 +88,7 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 @property (readonly) int32_t cashChange;
 @property (readonly) int32_t oilChange;
 @property (readonly) int32_t gemCostForCreating;
+@property (readonly) int64_t clientTime;
 - (BattleItemQueueForUserProto*)biqfuDeleteAtIndex:(NSUInteger)index;
 - (BattleItemQueueForUserProto*)biqfuUpdateAtIndex:(NSUInteger)index;
 - (BattleItemQueueForUserProto*)biqfuNewAtIndex:(NSUInteger)index;
@@ -241,6 +167,11 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (int32_t) gemCostForCreating;
 - (CreateBattleItemRequestProto_Builder*) setGemCostForCreating:(int32_t) value;
 - (CreateBattleItemRequestProto_Builder*) clearGemCostForCreating;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (CreateBattleItemRequestProto_Builder*) setClientTime:(int64_t) value;
+- (CreateBattleItemRequestProto_Builder*) clearClientTime;
 @end
 
 @interface CreateBattleItemResponseProto : PBGeneratedMessage {
@@ -248,14 +179,14 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  CreateBattleItemResponseProto_CreateBattleItemStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableUserBattleItemsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * userBattleItemsList;
-@property (readonly) CreateBattleItemResponseProto_CreateBattleItemStatus status;
+@property (readonly) ResponseStatus status;
 - (UserBattleItemProto*)userBattleItemsAtIndex:(NSUInteger)index;
 
 + (CreateBattleItemResponseProto*) defaultInstance;
@@ -307,17 +238,19 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (CreateBattleItemResponseProto_Builder *)clearUserBattleItems;
 
 - (BOOL) hasStatus;
-- (CreateBattleItemResponseProto_CreateBattleItemStatus) status;
-- (CreateBattleItemResponseProto_Builder*) setStatus:(CreateBattleItemResponseProto_CreateBattleItemStatus) value;
+- (ResponseStatus) status;
+- (CreateBattleItemResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (CreateBattleItemResponseProto_Builder*) clearStatusList;
 @end
 
 @interface CompleteBattleItemRequestProto : PBGeneratedMessage {
 @private
   BOOL hasIsSpeedup_:1;
+  BOOL hasClientTime_:1;
   BOOL hasGemsForSpeedup_:1;
   BOOL hasSender_:1;
   BOOL isSpeedup_:1;
+  int64_t clientTime;
   int32_t gemsForSpeedup;
   MinimumUserProto* sender;
   NSMutableArray * mutableBiqfuCompletedList;
@@ -325,10 +258,12 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (BOOL) hasSender;
 - (BOOL) hasIsSpeedup;
 - (BOOL) hasGemsForSpeedup;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
 - (BOOL) isSpeedup;
 @property (readonly) int32_t gemsForSpeedup;
 @property (readonly, strong) NSArray * biqfuCompletedList;
+@property (readonly) int64_t clientTime;
 - (BattleItemQueueForUserProto*)biqfuCompletedAtIndex:(NSUInteger)index;
 
 + (CompleteBattleItemRequestProto*) defaultInstance;
@@ -388,6 +323,11 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (CompleteBattleItemRequestProto_Builder *)addBiqfuCompleted:(BattleItemQueueForUserProto*)value;
 - (CompleteBattleItemRequestProto_Builder *)addAllBiqfuCompleted:(NSArray *)array;
 - (CompleteBattleItemRequestProto_Builder *)clearBiqfuCompleted;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (CompleteBattleItemRequestProto_Builder*) setClientTime:(int64_t) value;
+- (CompleteBattleItemRequestProto_Builder*) clearClientTime;
 @end
 
 @interface CompleteBattleItemResponseProto : PBGeneratedMessage {
@@ -395,13 +335,13 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  CompleteBattleItemResponseProto_CompleteBattleItemStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableUbiUpdatedList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) CompleteBattleItemResponseProto_CompleteBattleItemStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * ubiUpdatedList;
 - (UserBattleItemProto*)ubiUpdatedAtIndex:(NSUInteger)index;
 
@@ -448,8 +388,8 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (CompleteBattleItemResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (CompleteBattleItemResponseProto_CompleteBattleItemStatus) status;
-- (CompleteBattleItemResponseProto_Builder*) setStatus:(CompleteBattleItemResponseProto_CompleteBattleItemStatus) value;
+- (ResponseStatus) status;
+- (CompleteBattleItemResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (CompleteBattleItemResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)ubiUpdatedList;
@@ -461,13 +401,17 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 
 @interface DiscardBattleItemRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasSender_:1;
+  int64_t clientTime;
   MinimumUserProto* sender;
   PBAppendableArray * mutableDiscardedBattleItemIdsList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) PBArray * discardedBattleItemIdsList;
+@property (readonly) int64_t clientTime;
 - (int32_t)discardedBattleItemIdsAtIndex:(NSUInteger)index;
 
 + (DiscardBattleItemRequestProto*) defaultInstance;
@@ -518,6 +462,11 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (DiscardBattleItemRequestProto_Builder *)addAllDiscardedBattleItemIds:(NSArray *)array;
 - (DiscardBattleItemRequestProto_Builder *)setDiscardedBattleItemIdsValues:(const int32_t *)values count:(NSUInteger)count;
 - (DiscardBattleItemRequestProto_Builder *)clearDiscardedBattleItemIds;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (DiscardBattleItemRequestProto_Builder*) setClientTime:(int64_t) value;
+- (DiscardBattleItemRequestProto_Builder*) clearClientTime;
 @end
 
 @interface DiscardBattleItemResponseProto : PBGeneratedMessage {
@@ -525,12 +474,12 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  DiscardBattleItemResponseProto_DiscardBattleItemStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) DiscardBattleItemResponseProto_DiscardBattleItemStatus status;
+@property (readonly) ResponseStatus status;
 
 + (DiscardBattleItemResponseProto*) defaultInstance;
 - (DiscardBattleItemResponseProto*) defaultInstance;
@@ -575,8 +524,8 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (DiscardBattleItemResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (DiscardBattleItemResponseProto_DiscardBattleItemStatus) status;
-- (DiscardBattleItemResponseProto_Builder*) setStatus:(DiscardBattleItemResponseProto_DiscardBattleItemStatus) value;
+- (ResponseStatus) status;
+- (DiscardBattleItemResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (DiscardBattleItemResponseProto_Builder*) clearStatusList;
 @end
 

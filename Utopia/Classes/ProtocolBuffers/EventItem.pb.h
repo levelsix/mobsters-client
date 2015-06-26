@@ -6,6 +6,7 @@
 #import "Item.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Reward.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -111,35 +112,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, TradeItemForBoosterResponseProto_TradeItemForBoosterStatus) {
-  TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess = 1,
-  TradeItemForBoosterResponseProto_TradeItemForBoosterStatusFailOther = 2,
-  TradeItemForBoosterResponseProto_TradeItemForBoosterStatusFailInsufficientItem = 3,
-};
-
-BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(TradeItemForBoosterResponseProto_TradeItemForBoosterStatus value);
-
-typedef NS_ENUM(SInt32, TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus) {
-  TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess = 1,
-  TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusFailOther = 2,
-};
-
-BOOL TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus value);
-
-typedef NS_ENUM(SInt32, RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus) {
-  RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusSuccess = 1,
-  RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusFailOther = 2,
-};
-
-BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus value);
-
-typedef NS_ENUM(SInt32, TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) {
-  TradeItemForResourcesResponseProto_TradeItemForResourcesStatusSuccess = 1,
-  TradeItemForResourcesResponseProto_TradeItemForResourcesStatusFailOther = 2,
-};
-
-BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(TradeItemForResourcesResponseProto_TradeItemForResourcesStatus value);
-
 
 @interface EventItemRoot : NSObject {
 }
@@ -225,7 +197,7 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
   MinimumUserProto* sender;
   BoosterItemProto* prize;
   UserRewardProto* rewards;
-  TradeItemForBoosterResponseProto_TradeItemForBoosterStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
   NSMutableArray * mutableUpdatedUserItemsList;
 }
@@ -234,7 +206,7 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 - (BOOL) hasPrize;
 - (BOOL) hasRewards;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) TradeItemForBoosterResponseProto_TradeItemForBoosterStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * updatedOrNewList;
 @property (readonly, strong) BoosterItemProto* prize;
 @property (readonly, strong) NSArray * updatedUserItemsList;
@@ -285,8 +257,8 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 - (TradeItemForBoosterResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (TradeItemForBoosterResponseProto_TradeItemForBoosterStatus) status;
-- (TradeItemForBoosterResponseProto_Builder*) setStatus:(TradeItemForBoosterResponseProto_TradeItemForBoosterStatus) value;
+- (ResponseStatus) status;
+- (TradeItemForBoosterResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (TradeItemForBoosterResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)updatedOrNewList;
@@ -399,13 +371,13 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableItemsUsedList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * itemsUsedList;
 - (UserItemUsageProto*)itemsUsedAtIndex:(NSUInteger)index;
 
@@ -452,8 +424,8 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 - (TradeItemForSpeedUpsResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus) status;
-- (TradeItemForSpeedUpsResponseProto_Builder*) setStatus:(TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus) value;
+- (ResponseStatus) status;
+- (TradeItemForSpeedUpsResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (TradeItemForSpeedUpsResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)itemsUsedList;
@@ -528,12 +500,12 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus status;
+@property (readonly) ResponseStatus status;
 
 + (RemoveUserItemUsedResponseProto*) defaultInstance;
 - (RemoveUserItemUsedResponseProto*) defaultInstance;
@@ -578,8 +550,8 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 - (RemoveUserItemUsedResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus) status;
-- (RemoveUserItemUsedResponseProto_Builder*) setStatus:(RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus) value;
+- (ResponseStatus) status;
+- (RemoveUserItemUsedResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RemoveUserItemUsedResponseProto_Builder*) clearStatusList;
 @end
 
@@ -676,12 +648,12 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProtoWithMaxResources* sender;
-  TradeItemForResourcesResponseProto_TradeItemForResourcesStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
-@property (readonly) TradeItemForResourcesResponseProto_TradeItemForResourcesStatus status;
+@property (readonly) ResponseStatus status;
 
 + (TradeItemForResourcesResponseProto*) defaultInstance;
 - (TradeItemForResourcesResponseProto*) defaultInstance;
@@ -726,8 +698,8 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 - (TradeItemForResourcesResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) status;
-- (TradeItemForResourcesResponseProto_Builder*) setStatus:(TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) value;
+- (ResponseStatus) status;
+- (TradeItemForResourcesResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (TradeItemForResourcesResponseProto_Builder*) clearStatusList;
 @end
 

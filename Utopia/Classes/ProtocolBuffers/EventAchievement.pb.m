@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [AchievementStuffRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -354,7 +355,7 @@ static AchievementProgressRequestProto* defaultAchievementProgressRequestProtoIn
 
 @interface AchievementProgressResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property AchievementProgressResponseProto_AchievementProgressStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation AchievementProgressResponseProto
@@ -376,7 +377,7 @@ static AchievementProgressRequestProto* defaultAchievementProgressRequestProtoIn
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = AchievementProgressResponseProto_AchievementProgressStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -491,15 +492,6 @@ static AchievementProgressResponseProto* defaultAchievementProgressResponseProto
 }
 @end
 
-BOOL AchievementProgressResponseProto_AchievementProgressStatusIsValidValue(AchievementProgressResponseProto_AchievementProgressStatus value) {
-  switch (value) {
-    case AchievementProgressResponseProto_AchievementProgressStatusSuccess:
-    case AchievementProgressResponseProto_AchievementProgressStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface AchievementProgressResponseProto_Builder()
 @property (strong) AchievementProgressResponseProto* result;
 @end
@@ -575,8 +567,8 @@ BOOL AchievementProgressResponseProto_AchievementProgressStatusIsValidValue(Achi
         break;
       }
       case 16: {
-        AchievementProgressResponseProto_AchievementProgressStatus value = (AchievementProgressResponseProto_AchievementProgressStatus)[input readEnum];
-        if (AchievementProgressResponseProto_AchievementProgressStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -619,17 +611,17 @@ BOOL AchievementProgressResponseProto_AchievementProgressStatusIsValidValue(Achi
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (AchievementProgressResponseProto_AchievementProgressStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (AchievementProgressResponseProto_Builder*) setStatus:(AchievementProgressResponseProto_AchievementProgressStatus) value {
+- (AchievementProgressResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (AchievementProgressResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = AchievementProgressResponseProto_AchievementProgressStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -950,7 +942,7 @@ static AchievementRedeemRequestProto* defaultAchievementRedeemRequestProtoInstan
 
 @interface AchievementRedeemResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property AchievementRedeemResponseProto_AchievementRedeemStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation AchievementRedeemResponseProto
@@ -972,7 +964,7 @@ static AchievementRedeemRequestProto* defaultAchievementRedeemRequestProtoInstan
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = AchievementRedeemResponseProto_AchievementRedeemStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1087,17 +1079,6 @@ static AchievementRedeemResponseProto* defaultAchievementRedeemResponseProtoInst
 }
 @end
 
-BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(AchievementRedeemResponseProto_AchievementRedeemStatus value) {
-  switch (value) {
-    case AchievementRedeemResponseProto_AchievementRedeemStatusSuccess:
-    case AchievementRedeemResponseProto_AchievementRedeemStatusFailNotComplete:
-    case AchievementRedeemResponseProto_AchievementRedeemStatusFailOther:
-    case AchievementRedeemResponseProto_AchievementRedeemStatusFailAlreadyRedeemed:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface AchievementRedeemResponseProto_Builder()
 @property (strong) AchievementRedeemResponseProto* result;
 @end
@@ -1173,8 +1154,8 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
         break;
       }
       case 16: {
-        AchievementRedeemResponseProto_AchievementRedeemStatus value = (AchievementRedeemResponseProto_AchievementRedeemStatus)[input readEnum];
-        if (AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1217,17 +1198,17 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (AchievementRedeemResponseProto_AchievementRedeemStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (AchievementRedeemResponseProto_Builder*) setStatus:(AchievementRedeemResponseProto_AchievementRedeemStatus) value {
+- (AchievementRedeemResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (AchievementRedeemResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = AchievementRedeemResponseProto_AchievementRedeemStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end

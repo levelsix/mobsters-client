@@ -6,7 +6,6 @@
 #import "Chat.pb.h"
 #import "MonsterStuff.pb.h"
 #import "SharedEnumConfig.pb.h"
-#import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 

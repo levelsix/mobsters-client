@@ -13,7 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [EventResearchRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
-    [StructureRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -527,7 +527,7 @@ static PerformResearchRequestProto* defaultPerformResearchRequestProtoInstance =
 
 @interface PerformResearchResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property PerformResearchResponseProto_PerformResearchStatus status;
+@property ResponseStatus status;
 @property (strong) NSString* userResearchUuid;
 @end
 
@@ -557,7 +557,7 @@ static PerformResearchRequestProto* defaultPerformResearchRequestProtoInstance =
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = PerformResearchResponseProto_PerformResearchStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.userResearchUuid = @"";
   }
   return self;
@@ -687,18 +687,6 @@ static PerformResearchResponseProto* defaultPerformResearchResponseProtoInstance
 }
 @end
 
-BOOL PerformResearchResponseProto_PerformResearchStatusIsValidValue(PerformResearchResponseProto_PerformResearchStatus value) {
-  switch (value) {
-    case PerformResearchResponseProto_PerformResearchStatusSuccess:
-    case PerformResearchResponseProto_PerformResearchStatusFailOther:
-    case PerformResearchResponseProto_PerformResearchStatusFailInsufficientCash:
-    case PerformResearchResponseProto_PerformResearchStatusFailInsufficientGems:
-    case PerformResearchResponseProto_PerformResearchStatusFailInsufficientOil:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface PerformResearchResponseProto_Builder()
 @property (strong) PerformResearchResponseProto* result;
 @end
@@ -777,8 +765,8 @@ BOOL PerformResearchResponseProto_PerformResearchStatusIsValidValue(PerformResea
         break;
       }
       case 16: {
-        PerformResearchResponseProto_PerformResearchStatus value = (PerformResearchResponseProto_PerformResearchStatus)[input readEnum];
-        if (PerformResearchResponseProto_PerformResearchStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -825,17 +813,17 @@ BOOL PerformResearchResponseProto_PerformResearchStatusIsValidValue(PerformResea
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (PerformResearchResponseProto_PerformResearchStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (PerformResearchResponseProto_Builder*) setStatus:(PerformResearchResponseProto_PerformResearchStatus) value {
+- (PerformResearchResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (PerformResearchResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = PerformResearchResponseProto_PerformResearchStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasUserResearchUuid {
@@ -860,6 +848,7 @@ BOOL PerformResearchResponseProto_PerformResearchStatusIsValidValue(PerformResea
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSString* userResearchUuid;
 @property int32_t gemsCost;
+@property int64_t clientTime;
 @end
 
 @implementation FinishPerformingResearchRequestProto
@@ -885,11 +874,19 @@ BOOL PerformResearchResponseProto_PerformResearchStatusIsValidValue(PerformResea
   hasGemsCost_ = !!value_;
 }
 @synthesize gemsCost;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.userResearchUuid = @"";
     self.gemsCost = 0;
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -918,6 +915,9 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
   if (self.hasGemsCost) {
     [output writeInt32:3 value:self.gemsCost];
   }
+  if (self.hasClientTime) {
+    [output writeInt64:4 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -935,6 +935,9 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
   }
   if (self.hasGemsCost) {
     size_ += computeInt32Size(3, self.gemsCost);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(4, self.clientTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -983,6 +986,9 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
   if (self.hasGemsCost) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gemsCost", [NSNumber numberWithInteger:self.gemsCost]];
   }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1000,6 +1006,8 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
       (!self.hasUserResearchUuid || [self.userResearchUuid isEqual:otherMessage.userResearchUuid]) &&
       self.hasGemsCost == otherMessage.hasGemsCost &&
       (!self.hasGemsCost || self.gemsCost == otherMessage.gemsCost) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1012,6 +1020,9 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
   }
   if (self.hasGemsCost) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsCost] hash];
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1065,6 +1076,9 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
   if (other.hasGemsCost) {
     [self setGemsCost:other.gemsCost];
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1101,6 +1115,10 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
       }
       case 24: {
         [self setGemsCost:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -1168,11 +1186,27 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
   result.gemsCost = 0;
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (FinishPerformingResearchRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (FinishPerformingResearchRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface FinishPerformingResearchResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property FinishPerformingResearchResponseProto_FinishPerformingResearchStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation FinishPerformingResearchResponseProto
@@ -1194,7 +1228,7 @@ static FinishPerformingResearchRequestProto* defaultFinishPerformingResearchRequ
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = FinishPerformingResearchResponseProto_FinishPerformingResearchStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1309,16 +1343,6 @@ static FinishPerformingResearchResponseProto* defaultFinishPerformingResearchRes
 }
 @end
 
-BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValidValue(FinishPerformingResearchResponseProto_FinishPerformingResearchStatus value) {
-  switch (value) {
-    case FinishPerformingResearchResponseProto_FinishPerformingResearchStatusSuccess:
-    case FinishPerformingResearchResponseProto_FinishPerformingResearchStatusFailOther:
-    case FinishPerformingResearchResponseProto_FinishPerformingResearchStatusFailNotEnoughGems:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface FinishPerformingResearchResponseProto_Builder()
 @property (strong) FinishPerformingResearchResponseProto* result;
 @end
@@ -1394,8 +1418,8 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
         break;
       }
       case 16: {
-        FinishPerformingResearchResponseProto_FinishPerformingResearchStatus value = (FinishPerformingResearchResponseProto_FinishPerformingResearchStatus)[input readEnum];
-        if (FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1438,17 +1462,17 @@ BOOL FinishPerformingResearchResponseProto_FinishPerformingResearchStatusIsValid
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (FinishPerformingResearchResponseProto_FinishPerformingResearchStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (FinishPerformingResearchResponseProto_Builder*) setStatus:(FinishPerformingResearchResponseProto_FinishPerformingResearchStatus) value {
+- (FinishPerformingResearchResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (FinishPerformingResearchResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = FinishPerformingResearchResponseProto_FinishPerformingResearchStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end

@@ -15,6 +15,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [ResearchRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -655,7 +656,7 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 @end
 
 @interface UserCreateResponseProto ()
-@property UserCreateResponseProto_UserCreateStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation UserCreateResponseProto
@@ -669,7 +670,7 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 @synthesize status;
 - (id) init {
   if ((self = [super init])) {
-    self.status = UserCreateResponseProto_UserCreateStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -767,19 +768,6 @@ static UserCreateResponseProto* defaultUserCreateResponseProtoInstance = nil;
 }
 @end
 
-BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProto_UserCreateStatus value) {
-  switch (value) {
-    case UserCreateResponseProto_UserCreateStatusSuccess:
-    case UserCreateResponseProto_UserCreateStatusFailInvalidName:
-    case UserCreateResponseProto_UserCreateStatusFailUserWithUdidAlreadyExists:
-    case UserCreateResponseProto_UserCreateStatusFailInvalidReferCode:
-    case UserCreateResponseProto_UserCreateStatusFailUserWithFacebookIdExists:
-    case UserCreateResponseProto_UserCreateStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface UserCreateResponseProto_Builder()
 @property (strong) UserCreateResponseProto* result;
 @end
@@ -843,8 +831,8 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
         break;
       }
       case 16: {
-        UserCreateResponseProto_UserCreateStatus value = (UserCreateResponseProto_UserCreateStatus)[input readEnum];
-        if (UserCreateResponseProto_UserCreateStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -857,17 +845,17 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (UserCreateResponseProto_UserCreateStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (UserCreateResponseProto_Builder*) setStatus:(UserCreateResponseProto_UserCreateStatus) value {
+- (UserCreateResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (UserCreateResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = UserCreateResponseProto_UserCreateStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -1142,7 +1130,7 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
 
 @interface LevelUpResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property LevelUpResponseProto_LevelUpStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation LevelUpResponseProto
@@ -1164,7 +1152,7 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = LevelUpResponseProto_LevelUpStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1279,15 +1267,6 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
 }
 @end
 
-BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUpStatus value) {
-  switch (value) {
-    case LevelUpResponseProto_LevelUpStatusSuccess:
-    case LevelUpResponseProto_LevelUpStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface LevelUpResponseProto_Builder()
 @property (strong) LevelUpResponseProto* result;
 @end
@@ -1363,8 +1342,8 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
         break;
       }
       case 16: {
-        LevelUpResponseProto_LevelUpStatus value = (LevelUpResponseProto_LevelUpStatus)[input readEnum];
-        if (LevelUpResponseProto_LevelUpStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1407,17 +1386,17 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (LevelUpResponseProto_LevelUpStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (LevelUpResponseProto_Builder*) setStatus:(LevelUpResponseProto_LevelUpStatus) value {
+- (LevelUpResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (LevelUpResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = LevelUpResponseProto_LevelUpStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -3069,7 +3048,7 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
 
 @interface SetFacebookIdResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property SetFacebookIdResponseProto_SetFacebookIdStatus status;
+@property ResponseStatus status;
 @property (strong) MinimumUserProto* existing;
 @end
 
@@ -3099,7 +3078,7 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = SetFacebookIdResponseProto_SetFacebookIdStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.existing = [MinimumUserProto defaultInstance];
   }
   return self;
@@ -3232,17 +3211,6 @@ static SetFacebookIdResponseProto* defaultSetFacebookIdResponseProtoInstance = n
 }
 @end
 
-BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdResponseProto_SetFacebookIdStatus value) {
-  switch (value) {
-    case SetFacebookIdResponseProto_SetFacebookIdStatusSuccess:
-    case SetFacebookIdResponseProto_SetFacebookIdStatusFailOther:
-    case SetFacebookIdResponseProto_SetFacebookIdStatusFailFbIdExists:
-    case SetFacebookIdResponseProto_SetFacebookIdStatusFailUserFbIdAlreadySet:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SetFacebookIdResponseProto_Builder()
 @property (strong) SetFacebookIdResponseProto* result;
 @end
@@ -3321,8 +3289,8 @@ BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdRes
         break;
       }
       case 16: {
-        SetFacebookIdResponseProto_SetFacebookIdStatus value = (SetFacebookIdResponseProto_SetFacebookIdStatus)[input readEnum];
-        if (SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -3374,17 +3342,17 @@ BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdRes
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SetFacebookIdResponseProto_SetFacebookIdStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SetFacebookIdResponseProto_Builder*) setStatus:(SetFacebookIdResponseProto_SetFacebookIdStatus) value {
+- (SetFacebookIdResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SetFacebookIdResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SetFacebookIdResponseProto_SetFacebookIdStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasExisting {
@@ -3919,7 +3887,7 @@ static UpdateUserCurrencyRequestProto* defaultUpdateUserCurrencyRequestProtoInst
 
 @interface UpdateUserCurrencyResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation UpdateUserCurrencyResponseProto
@@ -3941,7 +3909,7 @@ static UpdateUserCurrencyRequestProto* defaultUpdateUserCurrencyRequestProtoInst
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -4056,18 +4024,6 @@ static UpdateUserCurrencyResponseProto* defaultUpdateUserCurrencyResponseProtoIn
 }
 @end
 
-BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus value) {
-  switch (value) {
-    case UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess:
-    case UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailOther:
-    case UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientCash:
-    case UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientOil:
-    case UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientGems:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface UpdateUserCurrencyResponseProto_Builder()
 @property (strong) UpdateUserCurrencyResponseProto* result;
 @end
@@ -4143,8 +4099,8 @@ BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(Update
         break;
       }
       case 16: {
-        UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus value = (UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus)[input readEnum];
-        if (UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -4187,17 +4143,17 @@ BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(Update
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (UpdateUserCurrencyResponseProto_Builder*) setStatus:(UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) value {
+- (UpdateUserCurrencyResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (UpdateUserCurrencyResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -4473,7 +4429,7 @@ static SetGameCenterIdRequestProto* defaultSetGameCenterIdRequestProtoInstance =
 @interface SetGameCenterIdResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSString* gameCenterId;
-@property SetGameCenterIdResponseProto_SetGameCenterIdStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation SetGameCenterIdResponseProto
@@ -4503,7 +4459,7 @@ static SetGameCenterIdRequestProto* defaultSetGameCenterIdRequestProtoInstance =
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.gameCenterId = @"";
-    self.status = SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -4632,15 +4588,6 @@ static SetGameCenterIdResponseProto* defaultSetGameCenterIdResponseProtoInstance
 }
 @end
 
-BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCenterIdResponseProto_SetGameCenterIdStatus value) {
-  switch (value) {
-    case SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess:
-    case SetGameCenterIdResponseProto_SetGameCenterIdStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SetGameCenterIdResponseProto_Builder()
 @property (strong) SetGameCenterIdResponseProto* result;
 @end
@@ -4723,8 +4670,8 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
         break;
       }
       case 24: {
-        SetGameCenterIdResponseProto_SetGameCenterIdStatus value = (SetGameCenterIdResponseProto_SetGameCenterIdStatus)[input readEnum];
-        if (SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -4783,17 +4730,17 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SetGameCenterIdResponseProto_SetGameCenterIdStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SetGameCenterIdResponseProto_Builder*) setStatus:(SetGameCenterIdResponseProto_SetGameCenterIdStatus) value {
+- (SetGameCenterIdResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SetGameCenterIdResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -5068,7 +5015,7 @@ static SetAvatarMonsterRequestProto* defaultSetAvatarMonsterRequestProtoInstance
 
 @interface SetAvatarMonsterResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property SetAvatarMonsterResponseProto_SetAvatarMonsterStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation SetAvatarMonsterResponseProto
@@ -5090,7 +5037,7 @@ static SetAvatarMonsterRequestProto* defaultSetAvatarMonsterRequestProtoInstance
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = SetAvatarMonsterResponseProto_SetAvatarMonsterStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -5205,15 +5152,6 @@ static SetAvatarMonsterResponseProto* defaultSetAvatarMonsterResponseProtoInstan
 }
 @end
 
-BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarMonsterResponseProto_SetAvatarMonsterStatus value) {
-  switch (value) {
-    case SetAvatarMonsterResponseProto_SetAvatarMonsterStatusSuccess:
-    case SetAvatarMonsterResponseProto_SetAvatarMonsterStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SetAvatarMonsterResponseProto_Builder()
 @property (strong) SetAvatarMonsterResponseProto* result;
 @end
@@ -5289,8 +5227,8 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
         break;
       }
       case 16: {
-        SetAvatarMonsterResponseProto_SetAvatarMonsterStatus value = (SetAvatarMonsterResponseProto_SetAvatarMonsterStatus)[input readEnum];
-        if (SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -5333,17 +5271,17 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SetAvatarMonsterResponseProto_Builder*) setStatus:(SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) value {
+- (SetAvatarMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SetAvatarMonsterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SetAvatarMonsterResponseProto_SetAvatarMonsterStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -5619,7 +5557,7 @@ static UpdateClientTaskStateRequestProto* defaultUpdateClientTaskStateRequestPro
 @interface UpdateClientTaskStateResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSData* taskState;
-@property UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation UpdateClientTaskStateResponseProto
@@ -5649,7 +5587,7 @@ static UpdateClientTaskStateRequestProto* defaultUpdateClientTaskStateRequestPro
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.taskState = [NSData data];
-    self.status = UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -5778,15 +5716,6 @@ static UpdateClientTaskStateResponseProto* defaultUpdateClientTaskStateResponseP
 }
 @end
 
-BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus value) {
-  switch (value) {
-    case UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusSuccess:
-    case UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface UpdateClientTaskStateResponseProto_Builder()
 @property (strong) UpdateClientTaskStateResponseProto* result;
 @end
@@ -5869,8 +5798,8 @@ BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(
         break;
       }
       case 24: {
-        UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus value = (UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus)[input readEnum];
-        if (UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -5929,17 +5858,17 @@ BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (UpdateClientTaskStateResponseProto_Builder*) setStatus:(UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) value {
+- (UpdateClientTaskStateResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (UpdateClientTaskStateResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -6214,7 +6143,7 @@ static UpdateUserStrengthRequestProto* defaultUpdateUserStrengthRequestProtoInst
 
 @interface UpdateUserStrengthResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property UpdateUserStrengthResponseProto_UpdateUserStrengthStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation UpdateUserStrengthResponseProto
@@ -6236,7 +6165,7 @@ static UpdateUserStrengthRequestProto* defaultUpdateUserStrengthRequestProtoInst
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = UpdateUserStrengthResponseProto_UpdateUserStrengthStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -6351,15 +6280,6 @@ static UpdateUserStrengthResponseProto* defaultUpdateUserStrengthResponseProtoIn
 }
 @end
 
-BOOL UpdateUserStrengthResponseProto_UpdateUserStrengthStatusIsValidValue(UpdateUserStrengthResponseProto_UpdateUserStrengthStatus value) {
-  switch (value) {
-    case UpdateUserStrengthResponseProto_UpdateUserStrengthStatusSuccess:
-    case UpdateUserStrengthResponseProto_UpdateUserStrengthStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface UpdateUserStrengthResponseProto_Builder()
 @property (strong) UpdateUserStrengthResponseProto* result;
 @end
@@ -6435,8 +6355,8 @@ BOOL UpdateUserStrengthResponseProto_UpdateUserStrengthStatusIsValidValue(Update
         break;
       }
       case 16: {
-        UpdateUserStrengthResponseProto_UpdateUserStrengthStatus value = (UpdateUserStrengthResponseProto_UpdateUserStrengthStatus)[input readEnum];
-        if (UpdateUserStrengthResponseProto_UpdateUserStrengthStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -6479,17 +6399,17 @@ BOOL UpdateUserStrengthResponseProto_UpdateUserStrengthStatusIsValidValue(Update
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (UpdateUserStrengthResponseProto_UpdateUserStrengthStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (UpdateUserStrengthResponseProto_Builder*) setStatus:(UpdateUserStrengthResponseProto_UpdateUserStrengthStatus) value {
+- (UpdateUserStrengthResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (UpdateUserStrengthResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = UpdateUserStrengthResponseProto_UpdateUserStrengthStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -6765,7 +6685,7 @@ static SetTangoIdRequestProto* defaultSetTangoIdRequestProtoInstance = nil;
 @interface SetTangoIdResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSString* tangoId;
-@property SetTangoIdResponseProto_SetTangoIdStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation SetTangoIdResponseProto
@@ -6795,7 +6715,7 @@ static SetTangoIdRequestProto* defaultSetTangoIdRequestProtoInstance = nil;
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.tangoId = @"";
-    self.status = SetTangoIdResponseProto_SetTangoIdStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -6924,15 +6844,6 @@ static SetTangoIdResponseProto* defaultSetTangoIdResponseProtoInstance = nil;
 }
 @end
 
-BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProto_SetTangoIdStatus value) {
-  switch (value) {
-    case SetTangoIdResponseProto_SetTangoIdStatusSuccess:
-    case SetTangoIdResponseProto_SetTangoIdStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SetTangoIdResponseProto_Builder()
 @property (strong) SetTangoIdResponseProto* result;
 @end
@@ -7015,8 +6926,8 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
         break;
       }
       case 24: {
-        SetTangoIdResponseProto_SetTangoIdStatus value = (SetTangoIdResponseProto_SetTangoIdStatus)[input readEnum];
-        if (SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -7075,17 +6986,17 @@ BOOL SetTangoIdResponseProto_SetTangoIdStatusIsValidValue(SetTangoIdResponseProt
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SetTangoIdResponseProto_SetTangoIdStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SetTangoIdResponseProto_Builder*) setStatus:(SetTangoIdResponseProto_SetTangoIdStatus) value {
+- (SetTangoIdResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SetTangoIdResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SetTangoIdResponseProto_SetTangoIdStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end

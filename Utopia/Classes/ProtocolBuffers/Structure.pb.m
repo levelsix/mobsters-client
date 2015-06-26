@@ -22,19 +22,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
-BOOL ResourceTypeIsValidValue(ResourceType value) {
-  switch (value) {
-    case ResourceTypeNoResource:
-    case ResourceTypeCash:
-    case ResourceTypeOil:
-    case ResourceTypeGems:
-    case ResourceTypeGachaCredits:
-    case ResourceTypeMonster:
-      return YES;
-    default:
-      return NO;
-  }
-}
 BOOL StructOrientationIsValidValue(StructOrientation value) {
   switch (value) {
     case StructOrientationNoOrientation:

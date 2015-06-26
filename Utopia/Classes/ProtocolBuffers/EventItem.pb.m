@@ -17,6 +17,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [ItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [RewardRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -341,7 +342,7 @@ static TradeItemForBoosterRequestProto* defaultTradeItemForBoosterRequestProtoIn
 
 @interface TradeItemForBoosterResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property TradeItemForBoosterResponseProto_TradeItemForBoosterStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableUpdatedOrNewList;
 @property (strong) BoosterItemProto* prize;
 @property (strong) NSMutableArray * mutableUpdatedUserItemsList;
@@ -385,7 +386,7 @@ static TradeItemForBoosterRequestProto* defaultTradeItemForBoosterRequestProtoIn
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.prize = [BoosterItemProto defaultInstance];
     self.rewards = [UserRewardProto defaultInstance];
   }
@@ -580,16 +581,6 @@ static TradeItemForBoosterResponseProto* defaultTradeItemForBoosterResponseProto
 }
 @end
 
-BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(TradeItemForBoosterResponseProto_TradeItemForBoosterStatus value) {
-  switch (value) {
-    case TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess:
-    case TradeItemForBoosterResponseProto_TradeItemForBoosterStatusFailOther:
-    case TradeItemForBoosterResponseProto_TradeItemForBoosterStatusFailInsufficientItem:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface TradeItemForBoosterResponseProto_Builder()
 @property (strong) TradeItemForBoosterResponseProto* result;
 @end
@@ -685,8 +676,8 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
         break;
       }
       case 16: {
-        TradeItemForBoosterResponseProto_TradeItemForBoosterStatus value = (TradeItemForBoosterResponseProto_TradeItemForBoosterStatus)[input readEnum];
-        if (TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -759,17 +750,17 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (TradeItemForBoosterResponseProto_TradeItemForBoosterStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (TradeItemForBoosterResponseProto_Builder*) setStatus:(TradeItemForBoosterResponseProto_TradeItemForBoosterStatus) value {
+- (TradeItemForBoosterResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (TradeItemForBoosterResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)updatedOrNewList {
@@ -1276,7 +1267,7 @@ static TradeItemForSpeedUpsRequestProto* defaultTradeItemForSpeedUpsRequestProto
 
 @interface TradeItemForSpeedUpsResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableItemsUsedList;
 @end
 
@@ -1301,7 +1292,7 @@ static TradeItemForSpeedUpsRequestProto* defaultTradeItemForSpeedUpsRequestProto
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1438,15 +1429,6 @@ static TradeItemForSpeedUpsResponseProto* defaultTradeItemForSpeedUpsResponsePro
 }
 @end
 
-BOOL TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus value) {
-  switch (value) {
-    case TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess:
-    case TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface TradeItemForSpeedUpsResponseProto_Builder()
 @property (strong) TradeItemForSpeedUpsResponseProto* result;
 @end
@@ -1529,8 +1511,8 @@ BOOL TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(Tr
         break;
       }
       case 16: {
-        TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus value = (TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus)[input readEnum];
-        if (TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1579,17 +1561,17 @@ BOOL TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(Tr
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (TradeItemForSpeedUpsResponseProto_Builder*) setStatus:(TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus) value {
+- (TradeItemForSpeedUpsResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (TradeItemForSpeedUpsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)itemsUsedList {
@@ -1905,7 +1887,7 @@ static RemoveUserItemUsedRequestProto* defaultRemoveUserItemUsedRequestProtoInst
 
 @interface RemoveUserItemUsedResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation RemoveUserItemUsedResponseProto
@@ -1927,7 +1909,7 @@ static RemoveUserItemUsedRequestProto* defaultRemoveUserItemUsedRequestProtoInst
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -2042,15 +2024,6 @@ static RemoveUserItemUsedResponseProto* defaultRemoveUserItemUsedResponseProtoIn
 }
 @end
 
-BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus value) {
-  switch (value) {
-    case RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusSuccess:
-    case RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RemoveUserItemUsedResponseProto_Builder()
 @property (strong) RemoveUserItemUsedResponseProto* result;
 @end
@@ -2126,8 +2099,8 @@ BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(Remove
         break;
       }
       case 16: {
-        RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus value = (RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus)[input readEnum];
-        if (RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2170,17 +2143,17 @@ BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(Remove
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RemoveUserItemUsedResponseProto_Builder*) setStatus:(RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus) value {
+- (RemoveUserItemUsedResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RemoveUserItemUsedResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -2635,7 +2608,7 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
 
 @interface TradeItemForResourcesResponseProto ()
 @property (strong) MinimumUserProtoWithMaxResources* sender;
-@property TradeItemForResourcesResponseProto_TradeItemForResourcesStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation TradeItemForResourcesResponseProto
@@ -2657,7 +2630,7 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
-    self.status = TradeItemForResourcesResponseProto_TradeItemForResourcesStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -2772,15 +2745,6 @@ static TradeItemForResourcesResponseProto* defaultTradeItemForResourcesResponseP
 }
 @end
 
-BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(TradeItemForResourcesResponseProto_TradeItemForResourcesStatus value) {
-  switch (value) {
-    case TradeItemForResourcesResponseProto_TradeItemForResourcesStatusSuccess:
-    case TradeItemForResourcesResponseProto_TradeItemForResourcesStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface TradeItemForResourcesResponseProto_Builder()
 @property (strong) TradeItemForResourcesResponseProto* result;
 @end
@@ -2856,8 +2820,8 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
         break;
       }
       case 16: {
-        TradeItemForResourcesResponseProto_TradeItemForResourcesStatus value = (TradeItemForResourcesResponseProto_TradeItemForResourcesStatus)[input readEnum];
-        if (TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2900,17 +2864,17 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (TradeItemForResourcesResponseProto_Builder*) setStatus:(TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) value {
+- (TradeItemForResourcesResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (TradeItemForResourcesResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = TradeItemForResourcesResponseProto_TradeItemForResourcesStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end

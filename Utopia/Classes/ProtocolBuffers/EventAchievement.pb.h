@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "AchievementStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -16,76 +17,22 @@
 @class AchievementRedeemRequestProto_Builder;
 @class AchievementRedeemResponseProto;
 @class AchievementRedeemResponseProto_Builder;
-@class BattleItemFactoryProto;
-@class BattleItemFactoryProto_Builder;
-@class ClanHouseProto;
-@class ClanHouseProto_Builder;
-@class CoordinateProto;
-@class CoordinateProto_Builder;
-@class EvoChamberProto;
-@class EvoChamberProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class FullUserStructureProto;
-@class FullUserStructureProto_Builder;
-@class HospitalProto;
-@class HospitalProto_Builder;
-@class ItemGemPriceProto;
-@class ItemGemPriceProto_Builder;
-@class ItemProto;
-@class ItemProto_Builder;
-@class LabProto;
-@class LabProto_Builder;
-@class MiniJobCenterProto;
-@class MiniJobCenterProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
-@class MinimumObstacleProto;
-@class MinimumObstacleProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
-@class MoneyTreeProto;
-@class MoneyTreeProto_Builder;
-@class ObstacleProto;
-@class ObstacleProto_Builder;
-@class PvpBoardHouseProto;
-@class PvpBoardHouseProto_Builder;
-@class PvpBoardObstacleProto;
-@class PvpBoardObstacleProto_Builder;
-@class ResearchHouseProto;
-@class ResearchHouseProto_Builder;
-@class ResidenceProto;
-@class ResidenceProto_Builder;
-@class ResourceGeneratorProto;
-@class ResourceGeneratorProto_Builder;
-@class ResourceStorageProto;
-@class ResourceStorageProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
-@class StructureInfoProto;
-@class StructureInfoProto_Builder;
-@class TeamCenterProto;
-@class TeamCenterProto_Builder;
-@class TownHallProto;
-@class TownHallProto_Builder;
-@class TutorialStructProto;
-@class TutorialStructProto_Builder;
 @class UserAchievementProto;
 @class UserAchievementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
-@class UserItemProto;
-@class UserItemProto_Builder;
-@class UserItemUsageProto;
-@class UserItemUsageProto_Builder;
-@class UserObstacleProto;
-@class UserObstacleProto_Builder;
-@class UserPvpBoardObstacleProto;
-@class UserPvpBoardObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
 #ifndef __has_feature
@@ -99,22 +46,6 @@
     #define NS_RETURNS_NOT_RETAINED
   #endif
 #endif
-
-typedef NS_ENUM(SInt32, AchievementProgressResponseProto_AchievementProgressStatus) {
-  AchievementProgressResponseProto_AchievementProgressStatusSuccess = 1,
-  AchievementProgressResponseProto_AchievementProgressStatusFailOther = 2,
-};
-
-BOOL AchievementProgressResponseProto_AchievementProgressStatusIsValidValue(AchievementProgressResponseProto_AchievementProgressStatus value);
-
-typedef NS_ENUM(SInt32, AchievementRedeemResponseProto_AchievementRedeemStatus) {
-  AchievementRedeemResponseProto_AchievementRedeemStatusSuccess = 1,
-  AchievementRedeemResponseProto_AchievementRedeemStatusFailNotComplete = 2,
-  AchievementRedeemResponseProto_AchievementRedeemStatusFailOther = 3,
-  AchievementRedeemResponseProto_AchievementRedeemStatusFailAlreadyRedeemed = 4,
-};
-
-BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(AchievementRedeemResponseProto_AchievementRedeemStatus value);
 
 
 @interface EventAchievementRoot : NSObject {
@@ -197,12 +128,12 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  AchievementProgressResponseProto_AchievementProgressStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) AchievementProgressResponseProto_AchievementProgressStatus status;
+@property (readonly) ResponseStatus status;
 
 + (AchievementProgressResponseProto*) defaultInstance;
 - (AchievementProgressResponseProto*) defaultInstance;
@@ -247,8 +178,8 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (AchievementProgressResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (AchievementProgressResponseProto_AchievementProgressStatus) status;
-- (AchievementProgressResponseProto_Builder*) setStatus:(AchievementProgressResponseProto_AchievementProgressStatus) value;
+- (ResponseStatus) status;
+- (AchievementProgressResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (AchievementProgressResponseProto_Builder*) clearStatusList;
 @end
 
@@ -326,12 +257,12 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  AchievementRedeemResponseProto_AchievementRedeemStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) AchievementRedeemResponseProto_AchievementRedeemStatus status;
+@property (readonly) ResponseStatus status;
 
 + (AchievementRedeemResponseProto*) defaultInstance;
 - (AchievementRedeemResponseProto*) defaultInstance;
@@ -376,8 +307,8 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (AchievementRedeemResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (AchievementRedeemResponseProto_AchievementRedeemStatus) status;
-- (AchievementRedeemResponseProto_Builder*) setStatus:(AchievementRedeemResponseProto_AchievementRedeemStatus) value;
+- (ResponseStatus) status;
+- (AchievementRedeemResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (AchievementRedeemResponseProto_Builder*) clearStatusList;
 @end
 

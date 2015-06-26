@@ -643,8 +643,8 @@
 
 - (void) handleRequestJoinClanResponseProto:(FullEvent *)e {
   RequestJoinClanResponseProto *proto = (RequestJoinClanResponseProto *)e.event;
-  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin ||
-      proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest) {
+  if (proto.status == ResponseStatusSuccessJoin ||
+      proto.status == ResponseStatusSuccessRequest) {
     [Analytics joinSquad:proto.minClan.name isRequestType:proto.minClan.requestToJoinRequired];
   }
   
@@ -690,21 +690,21 @@
 #pragma mark Clan Event handlers
 
 - (void) handleClanEventLeaveClanResponseProto:(LeaveClanResponseProto *)proto {
-  if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     NSArray *arr = [self userRemoved:proto.sender.userUuid members:self.allMembers];
     [self closeSettingsAndReorderWithArray:arr];
   }
 }
 
 - (void) handleClanEventBootPlayerFromClanResponseProto:(BootPlayerFromClanResponseProto *)proto {
-  if (proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     NSArray *arr = [self userRemoved:proto.playerToBoot.userUuid members:self.allMembers];
     [self closeSettingsAndReorderWithArray:arr];
   }
 }
 
 - (void) handleClanEventTransferClanOwnershipResponseProto:(TransferClanOwnershipResponseProto *)proto {
-  if (proto.status == TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     NSArray *arr = [self userStatusChanged:proto.sender.userUuid newStatus:UserClanStatusJuniorLeader members:self.allMembers];
     arr = [self userStatusChanged:proto.clanOwnerNew.userUuid newStatus:UserClanStatusLeader members:arr];
     [self closeSettingsAndReorderWithArray:arr];
@@ -712,14 +712,14 @@
 }
 
 - (void) handleClanEventPromoteDemoteClanMemberResponseProto:(PromoteDemoteClanMemberResponseProto *)proto {
-  if (proto.status == PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     NSArray *arr = [self userStatusChanged:proto.victim.userUuid newStatus:proto.userClanStatus members:self.allMembers];
     [self closeSettingsAndReorderWithArray:arr];
   }
 }
 
 - (void) handleClanEventRequestJoinClanResponseProto:(RequestJoinClanResponseProto *)proto {
-  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin || proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest) {
+  if (proto.status == ResponseStatusSuccessJoin || proto.status == ResponseStatusSuccessRequest) {
     [self.curTeams setObject:[Globals convertCurrentTeamToArray:proto.requesterMonsters] forKey:proto.requesterMonsters.userUuid];
     NSArray *arr = [self userAdded:proto.requester members:self.allMembers];
     [self closeSettingsAndReorderWithArray:arr];
@@ -727,14 +727,14 @@
 }
 
 - (void) handleClanEventChangeClanSettingsResponseProto:(ChangeClanSettingsResponseProto *)proto {
-  if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     self.clan = proto.fullClan;
     [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
   }
 }
 
 - (void) handleClanEventApproveOrRejectRequestToJoinClanResponseProto:(ApproveOrRejectRequestToJoinClanResponseProto *)proto {
-  if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     NSArray *arr = nil;
     if (proto.accept) {
       arr = [self userStatusChanged:proto.requester.userUuid newStatus:UserClanStatusMember members:self.allMembers];
@@ -746,7 +746,7 @@
 }
 
 - (void) handleClanEventRetractRequestJoinClanResponseProto:(RetractRequestJoinClanResponseProto *)proto {
-  if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     NSArray *arr = [self userRemoved:proto.sender.userUuid members:self.allMembers];
     [self closeSettingsAndReorderWithArray:arr];
   }

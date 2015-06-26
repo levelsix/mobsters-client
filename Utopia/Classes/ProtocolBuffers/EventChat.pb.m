@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [ChatRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -1000,7 +1001,7 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
 
 @interface SendGroupChatResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property SendGroupChatResponseProto_SendGroupChatStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation SendGroupChatResponseProto
@@ -1022,7 +1023,7 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = SendGroupChatResponseProto_SendGroupChatStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1137,17 +1138,6 @@ static SendGroupChatResponseProto* defaultSendGroupChatResponseProtoInstance = n
 }
 @end
 
-BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatResponseProto_SendGroupChatStatus value) {
-  switch (value) {
-    case SendGroupChatResponseProto_SendGroupChatStatusSuccess:
-    case SendGroupChatResponseProto_SendGroupChatStatusTooLong:
-    case SendGroupChatResponseProto_SendGroupChatStatusOtherFail:
-    case SendGroupChatResponseProto_SendGroupChatStatusBanned:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SendGroupChatResponseProto_Builder()
 @property (strong) SendGroupChatResponseProto* result;
 @end
@@ -1223,8 +1213,8 @@ BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatRes
         break;
       }
       case 16: {
-        SendGroupChatResponseProto_SendGroupChatStatus value = (SendGroupChatResponseProto_SendGroupChatStatus)[input readEnum];
-        if (SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1267,17 +1257,17 @@ BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatRes
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SendGroupChatResponseProto_SendGroupChatStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SendGroupChatResponseProto_Builder*) setStatus:(SendGroupChatResponseProto_SendGroupChatStatus) value {
+- (SendGroupChatResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SendGroupChatResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SendGroupChatResponseProto_SendGroupChatStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -2087,7 +2077,7 @@ static PrivateChatPostRequestProto* defaultPrivateChatPostRequestProtoInstance =
 
 @interface PrivateChatPostResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property PrivateChatPostResponseProto_PrivateChatPostStatus status;
+@property ResponseStatus status;
 @property (strong) PrivateChatPostProto* post;
 @property (strong) PrivateChatDefaultLanguageProto* translationSetting;
 @property (strong) GroupChatMessageProto* adminMessage;
@@ -2133,7 +2123,7 @@ static PrivateChatPostRequestProto* defaultPrivateChatPostRequestProtoInstance =
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = PrivateChatPostResponseProto_PrivateChatPostStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.post = [PrivateChatPostProto defaultInstance];
     self.translationSetting = [PrivateChatDefaultLanguageProto defaultInstance];
     self.adminMessage = [GroupChatMessageProto defaultInstance];
@@ -2302,18 +2292,6 @@ static PrivateChatPostResponseProto* defaultPrivateChatPostResponseProtoInstance
 }
 @end
 
-BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatPostResponseProto_PrivateChatPostStatus value) {
-  switch (value) {
-    case PrivateChatPostResponseProto_PrivateChatPostStatusSuccess:
-    case PrivateChatPostResponseProto_PrivateChatPostStatusNoContentSent:
-    case PrivateChatPostResponseProto_PrivateChatPostStatusPostTooLarge:
-    case PrivateChatPostResponseProto_PrivateChatPostStatusOtherFail:
-    case PrivateChatPostResponseProto_PrivateChatPostStatusBanned:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface PrivateChatPostResponseProto_Builder()
 @property (strong) PrivateChatPostResponseProto* result;
 @end
@@ -2398,8 +2376,8 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
         break;
       }
       case 16: {
-        PrivateChatPostResponseProto_PrivateChatPostStatus value = (PrivateChatPostResponseProto_PrivateChatPostStatus)[input readEnum];
-        if (PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2469,17 +2447,17 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (PrivateChatPostResponseProto_PrivateChatPostStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (PrivateChatPostResponseProto_Builder*) setStatus:(PrivateChatPostResponseProto_PrivateChatPostStatus) value {
+- (PrivateChatPostResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (PrivateChatPostResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = PrivateChatPostResponseProto_PrivateChatPostStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasPost {
@@ -2943,7 +2921,7 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutablePostsList;
 @property int32_t beforePrivateChatId;
-@property RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus status;
+@property ResponseStatus status;
 @property (strong) NSString* otherUserUuid;
 @end
 
@@ -2983,7 +2961,7 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.beforePrivateChatId = 0;
-    self.status = RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.otherUserUuid = @"";
   }
   return self;
@@ -3149,15 +3127,6 @@ static RetrievePrivateChatPostsResponseProto* defaultRetrievePrivateChatPostsRes
 }
 @end
 
-BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValidValue(RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus value) {
-  switch (value) {
-    case RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusSuccess:
-    case RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusFail:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RetrievePrivateChatPostsResponseProto_Builder()
 @property (strong) RetrievePrivateChatPostsResponseProto* result;
 @end
@@ -3256,8 +3225,8 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
         break;
       }
       case 32: {
-        RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus value = (RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus)[input readEnum];
-        if (RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:4 value:value];
@@ -3344,17 +3313,17 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RetrievePrivateChatPostsResponseProto_Builder*) setStatus:(RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus) value {
+- (RetrievePrivateChatPostsResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RetrievePrivateChatPostsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasOtherUserUuid {
@@ -3861,7 +3830,7 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
 @interface TranslateSelectMessagesResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableMessagesTranslatedList;
-@property TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation TranslateSelectMessagesResponseProto
@@ -3885,7 +3854,7 @@ static TranslateSelectMessagesRequestProto* defaultTranslateSelectMessagesReques
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -4022,16 +3991,6 @@ static TranslateSelectMessagesResponseProto* defaultTranslateSelectMessagesRespo
 }
 @end
 
-BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidValue(TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus value) {
-  switch (value) {
-    case TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess:
-    case TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusFailOther:
-    case TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusFailNotValidLanguage:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface TranslateSelectMessagesResponseProto_Builder()
 @property (strong) TranslateSelectMessagesResponseProto* result;
 @end
@@ -4120,8 +4079,8 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
         break;
       }
       case 24: {
-        TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus value = (TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus)[input readEnum];
-        if (TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -4188,17 +4147,17 @@ BOOL TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusIsValidVa
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (TranslateSelectMessagesResponseProto_Builder*) setStatus:(TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatus) value {
+- (TranslateSelectMessagesResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (TranslateSelectMessagesResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end

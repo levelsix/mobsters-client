@@ -173,28 +173,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, BeginDungeonResponseProto_BeginDungeonStatus) {
-  BeginDungeonResponseProto_BeginDungeonStatusSuccess = 1,
-  BeginDungeonResponseProto_BeginDungeonStatusFailOther = 2,
-};
-
-BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonResponseProto_BeginDungeonStatus value);
-
-typedef NS_ENUM(SInt32, EndDungeonResponseProto_EndDungeonStatus) {
-  EndDungeonResponseProto_EndDungeonStatusSuccess = 1,
-  EndDungeonResponseProto_EndDungeonStatusFailOther = 2,
-};
-
-BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProto_EndDungeonStatus value);
-
-typedef NS_ENUM(SInt32, ReviveInDungeonResponseProto_ReviveInDungeonStatus) {
-  ReviveInDungeonResponseProto_ReviveInDungeonStatusSuccess = 1,
-  ReviveInDungeonResponseProto_ReviveInDungeonStatusFailInsufficientFunds = 2,
-  ReviveInDungeonResponseProto_ReviveInDungeonStatusFailOther = 3,
-};
-
-BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDungeonResponseProto_ReviveInDungeonStatus value);
-
 
 @interface EventDungeonRoot : NSObject {
 }
@@ -353,7 +331,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   int32_t taskId;
   NSString* userTaskUuid;
   MinimumUserProto* sender;
-  BeginDungeonResponseProto_BeginDungeonStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableTspList;
 }
 - (BOOL) hasSender;
@@ -364,7 +342,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @property (readonly, strong) NSArray * tspList;
 @property (readonly, strong) NSString* userTaskUuid;
 @property (readonly) int32_t taskId;
-@property (readonly) BeginDungeonResponseProto_BeginDungeonStatus status;
+@property (readonly) ResponseStatus status;
 - (TaskStageProto*)tspAtIndex:(NSUInteger)index;
 
 + (BeginDungeonResponseProto*) defaultInstance;
@@ -426,8 +404,8 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BeginDungeonResponseProto_Builder*) clearTaskId;
 
 - (BOOL) hasStatus;
-- (BeginDungeonResponseProto_BeginDungeonStatus) status;
-- (BeginDungeonResponseProto_Builder*) setStatus:(BeginDungeonResponseProto_BeginDungeonStatus) value;
+- (ResponseStatus) status;
+- (BeginDungeonResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (BeginDungeonResponseProto_Builder*) clearStatusList;
 @end
 
@@ -551,7 +529,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   MinimumUserProtoWithMaxResources* sender;
   UserItemProto* userItem;
   UserTaskCompletedProto* utcp;
-  EndDungeonResponseProto_EndDungeonStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
 }
 - (BOOL) hasSender;
@@ -562,7 +540,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasTaskMapSectionName;
 - (BOOL) hasUtcp;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
-@property (readonly) EndDungeonResponseProto_EndDungeonStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * updatedOrNewList;
 @property (readonly) int32_t taskId;
 - (BOOL) userWon;
@@ -614,8 +592,8 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EndDungeonResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (EndDungeonResponseProto_EndDungeonStatus) status;
-- (EndDungeonResponseProto_Builder*) setStatus:(EndDungeonResponseProto_EndDungeonStatus) value;
+- (ResponseStatus) status;
+- (EndDungeonResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (EndDungeonResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)updatedOrNewList;
@@ -746,12 +724,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  ReviveInDungeonResponseProto_ReviveInDungeonStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) ReviveInDungeonResponseProto_ReviveInDungeonStatus status;
+@property (readonly) ResponseStatus status;
 
 + (ReviveInDungeonResponseProto*) defaultInstance;
 - (ReviveInDungeonResponseProto*) defaultInstance;
@@ -796,8 +774,8 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (ReviveInDungeonResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (ReviveInDungeonResponseProto_ReviveInDungeonStatus) status;
-- (ReviveInDungeonResponseProto_Builder*) setStatus:(ReviveInDungeonResponseProto_ReviveInDungeonStatus) value;
+- (ResponseStatus) status;
+- (ReviveInDungeonResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (ReviveInDungeonResponseProto_Builder*) clearStatusList;
 @end
 

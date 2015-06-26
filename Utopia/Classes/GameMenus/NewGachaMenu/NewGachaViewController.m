@@ -745,7 +745,7 @@
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
   PurchaseBoosterPackResponseProto *proto = (PurchaseBoosterPackResponseProto *)fe.event;
   
-  BOOL success = proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess;
+  BOOL success = proto.status == ResponseStatusSuccess;
   NSArray* prizes = proto.prizeList;
   NSArray* monsters = proto.reward.updatedOrNewMonstersList;
   
@@ -755,7 +755,7 @@
 - (void) handleTradeItemForBoosterResponseProto:(FullEvent *)fe {
   TradeItemForBoosterResponseProto *proto = (TradeItemForBoosterResponseProto *)fe.event;
   
-  BOOL success = proto.status == TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess;
+  BOOL success = proto.status == ResponseStatusSuccess;
   BoosterItemProto *prize = proto.prize;
   NSArray *monsters = proto.updatedOrNewList;
   

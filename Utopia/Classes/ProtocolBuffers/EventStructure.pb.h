@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "City.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -143,72 +144,11 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, PurchaseNormStructureResponseProto_PurchaseNormStructureStatus) {
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess = 1,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientCash = 2,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientGems = 3,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientOil = 4,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailOther = 5,
-};
-
-BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value);
-
 typedef NS_ENUM(SInt32, MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType) {
   MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeMove = 1,
 };
 
 BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValue(MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType value);
-
-typedef NS_ENUM(SInt32, MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus) {
-  MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess = 1,
-  MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusOtherFail = 2,
-};
-
-BOOL MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsValidValue(MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus value);
-
-typedef NS_ENUM(SInt32, UpgradeNormStructureResponseProto_UpgradeNormStructureStatus) {
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess = 1,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughCash = 2,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughGems = 3,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughOil = 4,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotBuiltYet = 5,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotUsersStruct = 6,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailAtMaxLevelAlready = 8,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailOther = 9,
-};
-
-BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value);
-
-typedef NS_ENUM(SInt32, FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) {
-  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess = 1,
-  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusFailNotEnoughGems = 2,
-  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusFailOther = 3,
-};
-
-BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusIsValidValue(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus value);
-
-typedef NS_ENUM(SInt32, NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus) {
-  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess = 1,
-  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusFailNotDoneYet = 2,
-  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusFailOther = 3,
-};
-
-BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValue(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus value);
-
-typedef NS_ENUM(SInt32, RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) {
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess = 1,
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusFailOther = 2,
-};
-
-BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value);
-
-typedef NS_ENUM(SInt32, DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus) {
-  DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusSuccess = 1,
-  DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusFailNotExpiredYet = 2,
-  DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusFailOther = 3,
-};
-
-BOOL DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusIsValidValue(DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus value);
 
 typedef NS_ENUM(SInt32, ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus) {
   ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusSuccess = 1,
@@ -219,30 +159,6 @@ typedef NS_ENUM(SInt32, ExpansionWaitCompleteResponseProto_ExpansionWaitComplete
 };
 
 BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus value);
-
-typedef NS_ENUM(SInt32, SpawnObstacleResponseProto_SpawnObstacleStatus) {
-  SpawnObstacleResponseProto_SpawnObstacleStatusSuccess = 1,
-  SpawnObstacleResponseProto_SpawnObstacleStatusFailOther = 2,
-};
-
-BOOL SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(SpawnObstacleResponseProto_SpawnObstacleStatus value);
-
-typedef NS_ENUM(SInt32, BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus) {
-  BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess = 1,
-  BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailInsufficientGems = 2,
-  BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailInsufficientResource = 3,
-  BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailOther = 4,
-};
-
-BOOL BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus value);
-
-typedef NS_ENUM(SInt32, ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus) {
-  ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess = 1,
-  ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusFailInsufficientGems = 2,
-  ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusFailOther = 3,
-};
-
-BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidValue(ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus value);
 
 
 @interface EventStructureRoot : NSObject {
@@ -365,13 +281,13 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasStatus_:1;
   NSString* userStructUuid;
   MinimumUserProto* sender;
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasUserStructUuid;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) PurchaseNormStructureResponseProto_PurchaseNormStructureStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSString* userStructUuid;
 
 + (PurchaseNormStructureResponseProto*) defaultInstance;
@@ -417,8 +333,8 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (PurchaseNormStructureResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (PurchaseNormStructureResponseProto_PurchaseNormStructureStatus) status;
-- (PurchaseNormStructureResponseProto_Builder*) setStatus:(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus) value;
+- (ResponseStatus) status;
+- (PurchaseNormStructureResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (PurchaseNormStructureResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasUserStructUuid;
@@ -521,12 +437,12 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus status;
+@property (readonly) ResponseStatus status;
 
 + (MoveOrRotateNormStructureResponseProto*) defaultInstance;
 - (MoveOrRotateNormStructureResponseProto*) defaultInstance;
@@ -571,8 +487,8 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (MoveOrRotateNormStructureResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus) status;
-- (MoveOrRotateNormStructureResponseProto_Builder*) setStatus:(MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus) value;
+- (ResponseStatus) status;
+- (MoveOrRotateNormStructureResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (MoveOrRotateNormStructureResponseProto_Builder*) clearStatusList;
 @end
 
@@ -677,12 +593,12 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) UpgradeNormStructureResponseProto_UpgradeNormStructureStatus status;
+@property (readonly) ResponseStatus status;
 
 + (UpgradeNormStructureResponseProto*) defaultInstance;
 - (UpgradeNormStructureResponseProto*) defaultInstance;
@@ -727,8 +643,8 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (UpgradeNormStructureResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (UpgradeNormStructureResponseProto_UpgradeNormStructureStatus) status;
-- (UpgradeNormStructureResponseProto_Builder*) setStatus:(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus) value;
+- (ResponseStatus) status;
+- (UpgradeNormStructureResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (UpgradeNormStructureResponseProto_Builder*) clearStatusList;
 @end
 
@@ -815,12 +731,12 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus status;
+@property (readonly) ResponseStatus status;
 
 + (FinishNormStructWaittimeWithDiamondsResponseProto*) defaultInstance;
 - (FinishNormStructWaittimeWithDiamondsResponseProto*) defaultInstance;
@@ -865,24 +781,28 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) status;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setStatus:(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) value;
+- (ResponseStatus) status;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearStatusList;
 @end
 
 @interface NormStructWaitCompleteRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasCurTime_:1;
+  BOOL hasTimeOfCompletion_:1;
+  BOOL hasCurrentClientTime_:1;
   BOOL hasSender_:1;
-  int64_t curTime;
+  int64_t timeOfCompletion;
+  int64_t currentClientTime;
   MinimumUserProto* sender;
   NSMutableArray * mutableUserStructUuidList;
 }
 - (BOOL) hasSender;
-- (BOOL) hasCurTime;
+- (BOOL) hasTimeOfCompletion;
+- (BOOL) hasCurrentClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * userStructUuidList;
-@property (readonly) int64_t curTime;
+@property (readonly) int64_t timeOfCompletion;
+@property (readonly) int64_t currentClientTime;
 - (NSString*)userStructUuidAtIndex:(NSUInteger)index;
 
 + (NormStructWaitCompleteRequestProto*) defaultInstance;
@@ -933,10 +853,15 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (NormStructWaitCompleteRequestProto_Builder *)addAllUserStructUuid:(NSArray *)array;
 - (NormStructWaitCompleteRequestProto_Builder *)clearUserStructUuid;
 
-- (BOOL) hasCurTime;
-- (int64_t) curTime;
-- (NormStructWaitCompleteRequestProto_Builder*) setCurTime:(int64_t) value;
-- (NormStructWaitCompleteRequestProto_Builder*) clearCurTime;
+- (BOOL) hasTimeOfCompletion;
+- (int64_t) timeOfCompletion;
+- (NormStructWaitCompleteRequestProto_Builder*) setTimeOfCompletion:(int64_t) value;
+- (NormStructWaitCompleteRequestProto_Builder*) clearTimeOfCompletion;
+
+- (BOOL) hasCurrentClientTime;
+- (int64_t) currentClientTime;
+- (NormStructWaitCompleteRequestProto_Builder*) setCurrentClientTime:(int64_t) value;
+- (NormStructWaitCompleteRequestProto_Builder*) clearCurrentClientTime;
 @end
 
 @interface NormStructWaitCompleteResponseProto : PBGeneratedMessage {
@@ -944,13 +869,13 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableUserStructList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * userStructList;
 - (FullUserStructureProto*)userStructAtIndex:(NSUInteger)index;
 
@@ -997,8 +922,8 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (NormStructWaitCompleteResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus) status;
-- (NormStructWaitCompleteResponseProto_Builder*) setStatus:(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus) value;
+- (ResponseStatus) status;
+- (NormStructWaitCompleteResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (NormStructWaitCompleteResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)userStructList;
@@ -1140,12 +1065,12 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProtoWithMaxResources* sender;
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
-@property (readonly) RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
+@property (readonly) ResponseStatus status;
 
 + (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance;
 - (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance;
@@ -1190,8 +1115,8 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) status;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setStatus:(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) value;
+- (ResponseStatus) status;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1260,12 +1185,12 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus status;
+@property (readonly) ResponseStatus status;
 
 + (DestroyMoneyTreeStructureResponseProto*) defaultInstance;
 - (DestroyMoneyTreeStructureResponseProto*) defaultInstance;
@@ -1310,8 +1235,8 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (DestroyMoneyTreeStructureResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus) status;
-- (DestroyMoneyTreeStructureResponseProto_Builder*) setStatus:(DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus) value;
+- (ResponseStatus) status;
+- (DestroyMoneyTreeStructureResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (DestroyMoneyTreeStructureResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1556,14 +1481,14 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  SpawnObstacleResponseProto_SpawnObstacleStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableSpawnedObstaclesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * spawnedObstaclesList;
-@property (readonly) SpawnObstacleResponseProto_SpawnObstacleStatus status;
+@property (readonly) ResponseStatus status;
 - (UserObstacleProto*)spawnedObstaclesAtIndex:(NSUInteger)index;
 
 + (SpawnObstacleResponseProto*) defaultInstance;
@@ -1615,8 +1540,8 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (SpawnObstacleResponseProto_Builder *)clearSpawnedObstacles;
 
 - (BOOL) hasStatus;
-- (SpawnObstacleResponseProto_SpawnObstacleStatus) status;
-- (SpawnObstacleResponseProto_Builder*) setStatus:(SpawnObstacleResponseProto_SpawnObstacleStatus) value;
+- (ResponseStatus) status;
+- (SpawnObstacleResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (SpawnObstacleResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1721,12 +1646,12 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus status;
+@property (readonly) ResponseStatus status;
 
 + (BeginObstacleRemovalResponseProto*) defaultInstance;
 - (BeginObstacleRemovalResponseProto*) defaultInstance;
@@ -1771,8 +1696,8 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BeginObstacleRemovalResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus) status;
-- (BeginObstacleRemovalResponseProto_Builder*) setStatus:(BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus) value;
+- (ResponseStatus) status;
+- (BeginObstacleRemovalResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (BeginObstacleRemovalResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1877,12 +1802,12 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus status;
+@property (readonly) ResponseStatus status;
 
 + (ObstacleRemovalCompleteResponseProto*) defaultInstance;
 - (ObstacleRemovalCompleteResponseProto*) defaultInstance;
@@ -1927,8 +1852,8 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (ObstacleRemovalCompleteResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus) status;
-- (ObstacleRemovalCompleteResponseProto_Builder*) setStatus:(ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus) value;
+- (ResponseStatus) status;
+- (ObstacleRemovalCompleteResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (ObstacleRemovalCompleteResponseProto_Builder*) clearStatusList;
 @end
 

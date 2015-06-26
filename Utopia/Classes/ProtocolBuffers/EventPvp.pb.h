@@ -4,6 +4,7 @@
 
 #import "Battle.pb.h"
 #import "MonsterStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -168,52 +169,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, QueueUpResponseProto_QueueUpStatus) {
-  QueueUpResponseProto_QueueUpStatusSuccess = 1,
-  QueueUpResponseProto_QueueUpStatusFailNotEnoughCash = 2,
-  QueueUpResponseProto_QueueUpStatusFailOther = 3,
-  QueueUpResponseProto_QueueUpStatusFailNotEnoughGems = 4,
-};
-
-BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUpStatus value);
-
-typedef NS_ENUM(SInt32, BeginPvpBattleResponseProto_BeginPvpBattleStatus) {
-  BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess = 1,
-  BeginPvpBattleResponseProto_BeginPvpBattleStatusFailEnemyUnavailable = 2,
-  BeginPvpBattleResponseProto_BeginPvpBattleStatusFailOther = 3,
-};
-
-BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattleResponseProto_BeginPvpBattleStatus value);
-
-typedef NS_ENUM(SInt32, EndPvpBattleResponseProto_EndPvpBattleStatus) {
-  EndPvpBattleResponseProto_EndPvpBattleStatusSuccess = 1,
-  EndPvpBattleResponseProto_EndPvpBattleStatusFailOther = 2,
-  EndPvpBattleResponseProto_EndPvpBattleStatusFailBattleTookTooLong = 3,
-};
-
-BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleResponseProto_EndPvpBattleStatus value);
-
-typedef NS_ENUM(SInt32, SetDefendingMsgResponseProto_SetDefendingMsgStatus) {
-  SetDefendingMsgResponseProto_SetDefendingMsgStatusSuccess = 1,
-  SetDefendingMsgResponseProto_SetDefendingMsgStatusFailOther = 2,
-};
-
-BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefendingMsgResponseProto_SetDefendingMsgStatus value);
-
-typedef NS_ENUM(SInt32, CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus) {
-  CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusSuccess = 1,
-  CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusFailOther = 2,
-};
-
-BOOL CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusIsValidValue(CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus value);
-
-typedef NS_ENUM(SInt32, RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus) {
-  RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusSuccess = 1,
-  RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusFailOther = 2,
-};
-
-BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus value);
-
 
 @interface EventPvpRoot : NSObject {
 }
@@ -295,14 +250,14 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
   BOOL hasAttacker_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* attacker;
-  QueueUpResponseProto_QueueUpStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableDefenderInfoListList;
 }
 - (BOOL) hasAttacker;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* attacker;
 @property (readonly, strong) NSArray * defenderInfoListList;
-@property (readonly) QueueUpResponseProto_QueueUpStatus status;
+@property (readonly) ResponseStatus status;
 - (PvpProto*)defenderInfoListAtIndex:(NSUInteger)index;
 
 + (QueueUpResponseProto*) defaultInstance;
@@ -354,8 +309,8 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
 - (QueueUpResponseProto_Builder *)clearDefenderInfoList;
 
 - (BOOL) hasStatus;
-- (QueueUpResponseProto_QueueUpStatus) status;
-- (QueueUpResponseProto_Builder*) setStatus:(QueueUpResponseProto_QueueUpStatus) value;
+- (ResponseStatus) status;
+- (QueueUpResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (QueueUpResponseProto_Builder*) clearStatusList;
 @end
 
@@ -462,12 +417,12 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  BeginPvpBattleResponseProto_BeginPvpBattleStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) BeginPvpBattleResponseProto_BeginPvpBattleStatus status;
+@property (readonly) ResponseStatus status;
 
 + (BeginPvpBattleResponseProto*) defaultInstance;
 - (BeginPvpBattleResponseProto*) defaultInstance;
@@ -512,8 +467,8 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
 - (BeginPvpBattleResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (BeginPvpBattleResponseProto_BeginPvpBattleStatus) status;
-- (BeginPvpBattleResponseProto_Builder*) setStatus:(BeginPvpBattleResponseProto_BeginPvpBattleStatus) value;
+- (ResponseStatus) status;
+- (BeginPvpBattleResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (BeginPvpBattleResponseProto_Builder*) clearStatusList;
 @end
 
@@ -694,7 +649,7 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
   PvpHistoryProto* battleThatJustEnded;
   UserPvpLeagueProto* statsBefore;
   UserPvpLeagueProto* statsAfter;
-  EndPvpBattleResponseProto_EndPvpBattleStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
   NSMutableArray * mutableUpdatedUserStructsList;
 }
@@ -710,7 +665,7 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
 @property (readonly, strong) NSString* defenderUuid;
 - (BOOL) attackerAttacked;
 - (BOOL) attackerWon;
-@property (readonly) EndPvpBattleResponseProto_EndPvpBattleStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * updatedOrNewList;
 @property (readonly, strong) PvpHistoryProto* battleThatJustEnded;
 @property (readonly, strong) UserPvpLeagueProto* statsBefore;
@@ -777,8 +732,8 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
 - (EndPvpBattleResponseProto_Builder*) clearAttackerWon;
 
 - (BOOL) hasStatus;
-- (EndPvpBattleResponseProto_EndPvpBattleStatus) status;
-- (EndPvpBattleResponseProto_Builder*) setStatus:(EndPvpBattleResponseProto_EndPvpBattleStatus) value;
+- (ResponseStatus) status;
+- (EndPvpBattleResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (EndPvpBattleResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)updatedOrNewList;
@@ -938,12 +893,12 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  SetDefendingMsgResponseProto_SetDefendingMsgStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) SetDefendingMsgResponseProto_SetDefendingMsgStatus status;
+@property (readonly) ResponseStatus status;
 
 + (SetDefendingMsgResponseProto*) defaultInstance;
 - (SetDefendingMsgResponseProto*) defaultInstance;
@@ -988,8 +943,8 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
 - (SetDefendingMsgResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (SetDefendingMsgResponseProto_SetDefendingMsgStatus) status;
-- (SetDefendingMsgResponseProto_Builder*) setStatus:(SetDefendingMsgResponseProto_SetDefendingMsgStatus) value;
+- (ResponseStatus) status;
+- (SetDefendingMsgResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (SetDefendingMsgResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1068,12 +1023,12 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus status;
+@property (readonly) ResponseStatus status;
 
 + (CustomizePvpBoardObstacleResponseProto*) defaultInstance;
 - (CustomizePvpBoardObstacleResponseProto*) defaultInstance;
@@ -1118,8 +1073,8 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
 - (CustomizePvpBoardObstacleResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus) status;
-- (CustomizePvpBoardObstacleResponseProto_Builder*) setStatus:(CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatus) value;
+- (ResponseStatus) status;
+- (CustomizePvpBoardObstacleResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (CustomizePvpBoardObstacleResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1190,14 +1145,14 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   BattleReplayProto* brp;
-  RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasBrp;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) BattleReplayProto* brp;
-@property (readonly) RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus status;
+@property (readonly) ResponseStatus status;
 
 + (RetrieveBattleReplayResponseProto*) defaultInstance;
 - (RetrieveBattleReplayResponseProto*) defaultInstance;
@@ -1249,8 +1204,8 @@ BOOL RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatusIsValidValue(Re
 - (RetrieveBattleReplayResponseProto_Builder*) clearBrp;
 
 - (BOOL) hasStatus;
-- (RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus) status;
-- (RetrieveBattleReplayResponseProto_Builder*) setStatus:(RetrieveBattleReplayResponseProto_RetrieveBattleReplayStatus) value;
+- (ResponseStatus) status;
+- (RetrieveBattleReplayResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RetrieveBattleReplayResponseProto_Builder*) clearStatusList;
 @end
 

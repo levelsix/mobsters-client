@@ -135,7 +135,7 @@
 - (void) handleRedeemSecretGiftResponseProto:(FullEvent *)fe {
   RedeemSecretGiftResponseProto *proto = (RedeemSecretGiftResponseProto *)fe.event;
   
-  if (proto.status == RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     
     self.spinner.hidden = YES;
     self.collectLabel.hidden = NO;

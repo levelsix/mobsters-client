@@ -105,14 +105,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
 {
   RetrieveMiniEventResponseProto* proto = (RetrieveMiniEventResponseProto*)fe.event;
 
-  if (proto.status == RetrieveMiniEventResponseProto_RetrieveMiniEventStatusSuccess &&
+  if (proto.status == ResponseStatusSuccess &&
       proto.hasUserMiniEvent)
   {
     [self updateLocalUserMiniEvent:proto.userMiniEvent];
   }
   
   if (!_currentUserMiniEvent ||
-      proto.status == RetrieveMiniEventResponseProto_RetrieveMiniEventStatusFailOther)
+      proto.status == ResponseStatusFailOther)
   {
     [self startEventRetrievalTimer];
   }

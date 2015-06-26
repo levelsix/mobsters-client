@@ -7,6 +7,7 @@
 #import "MonsterStuff.pb.h"
 #import "Reward.pb.h"
 #import "Sales.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -171,31 +172,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, InAppPurchaseResponseProto_InAppPurchaseStatus) {
-  InAppPurchaseResponseProto_InAppPurchaseStatusSuccess = 1,
-  InAppPurchaseResponseProto_InAppPurchaseStatusFail = 2,
-  InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt = 3,
-};
-
-BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseResponseProto_InAppPurchaseStatus value);
-
-typedef NS_ENUM(SInt32, EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) {
-  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess = 1,
-  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusClientTooApartFromServerTime = 2,
-  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusMethodNotSupported = 3,
-  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusOtherFail = 4,
-};
-
-BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus value);
-
-typedef NS_ENUM(SInt32, ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus) {
-  ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess = 1,
-  ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusFailOther = 2,
-  ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusFailInsufficientGems = 3,
-};
-
-BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValidValue(ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus value);
-
 
 @interface EventInAppPurchaseRoot : NSObject {
 }
@@ -329,7 +305,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   SalesPackageProto* successorSalesPackage;
   SalesPackageProto* purchasedSalesPackage;
   UserRewardProto* rewards;
-  InAppPurchaseResponseProto_InAppPurchaseStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
   NSMutableArray * mutableUpdatedUserItemsList;
   NSMutableArray * mutableUpdatedMoneyTreeList;
@@ -345,7 +321,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasPurchasedSalesPackage;
 - (BOOL) hasRewards;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) InAppPurchaseResponseProto_InAppPurchaseStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly) int32_t diamondsGained;
 @property (readonly) int32_t coinsGained;
 @property (readonly, strong) NSString* packageName;
@@ -404,8 +380,8 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (InAppPurchaseResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (InAppPurchaseResponseProto_InAppPurchaseStatus) status;
-- (InAppPurchaseResponseProto_Builder*) setStatus:(InAppPurchaseResponseProto_InAppPurchaseStatus) value;
+- (ResponseStatus) status;
+- (InAppPurchaseResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (InAppPurchaseResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasDiamondsGained;
@@ -548,14 +524,14 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   BOOL hasStatus_:1;
   BOOL hasFreeDiamondsType_:1;
   MinimumUserProto* sender;
-  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
+  ResponseStatus status;
   EarnFreeDiamondsType freeDiamondsType;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasFreeDiamondsType;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly) EarnFreeDiamondsType freeDiamondsType;
 
 + (EarnFreeDiamondsResponseProto*) defaultInstance;
@@ -601,8 +577,8 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (EarnFreeDiamondsResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) status;
-- (EarnFreeDiamondsResponseProto_Builder*) setStatus:(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) value;
+- (ResponseStatus) status;
+- (EarnFreeDiamondsResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (EarnFreeDiamondsResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasFreeDiamondsType;
@@ -703,12 +679,12 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProtoWithMaxResources* sender;
-  ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
-@property (readonly) ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus status;
+@property (readonly) ResponseStatus status;
 
 + (ExchangeGemsForResourcesResponseProto*) defaultInstance;
 - (ExchangeGemsForResourcesResponseProto*) defaultInstance;
@@ -753,8 +729,8 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (ExchangeGemsForResourcesResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus) status;
-- (ExchangeGemsForResourcesResponseProto_Builder*) setStatus:(ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus) value;
+- (ResponseStatus) status;
+- (ExchangeGemsForResourcesResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (ExchangeGemsForResourcesResponseProto_Builder*) clearStatusList;
 @end
 

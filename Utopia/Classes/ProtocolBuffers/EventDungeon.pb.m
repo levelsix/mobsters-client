@@ -763,7 +763,7 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 @property (strong) NSMutableArray * mutableTspList;
 @property (strong) NSString* userTaskUuid;
 @property int32_t taskId;
-@property BeginDungeonResponseProto_BeginDungeonStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation BeginDungeonResponseProto
@@ -803,7 +803,7 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
     self.sender = [MinimumUserProto defaultInstance];
     self.userTaskUuid = @"";
     self.taskId = 0;
-    self.status = BeginDungeonResponseProto_BeginDungeonStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -968,15 +968,6 @@ static BeginDungeonResponseProto* defaultBeginDungeonResponseProtoInstance = nil
 }
 @end
 
-BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonResponseProto_BeginDungeonStatus value) {
-  switch (value) {
-    case BeginDungeonResponseProto_BeginDungeonStatusSuccess:
-    case BeginDungeonResponseProto_BeginDungeonStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface BeginDungeonResponseProto_Builder()
 @property (strong) BeginDungeonResponseProto* result;
 @end
@@ -1079,8 +1070,8 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
         break;
       }
       case 40: {
-        BeginDungeonResponseProto_BeginDungeonStatus value = (BeginDungeonResponseProto_BeginDungeonStatus)[input readEnum];
-        if (BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:5 value:value];
@@ -1179,17 +1170,17 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (BeginDungeonResponseProto_BeginDungeonStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (BeginDungeonResponseProto_Builder*) setStatus:(BeginDungeonResponseProto_BeginDungeonStatus) value {
+- (BeginDungeonResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (BeginDungeonResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = BeginDungeonResponseProto_BeginDungeonStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -1726,7 +1717,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 
 @interface EndDungeonResponseProto ()
 @property (strong) MinimumUserProtoWithMaxResources* sender;
-@property EndDungeonResponseProto_EndDungeonStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableUpdatedOrNewList;
 @property int32_t taskId;
 @property BOOL userWon;
@@ -1796,7 +1787,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
-    self.status = EndDungeonResponseProto_EndDungeonStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.taskId = 0;
     self.userWon = NO;
     self.userItem = [UserItemProto defaultInstance];
@@ -2014,15 +2005,6 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
 }
 @end
 
-BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProto_EndDungeonStatus value) {
-  switch (value) {
-    case EndDungeonResponseProto_EndDungeonStatusSuccess:
-    case EndDungeonResponseProto_EndDungeonStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface EndDungeonResponseProto_Builder()
 @property (strong) EndDungeonResponseProto* result;
 @end
@@ -2120,8 +2102,8 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
         break;
       }
       case 16: {
-        EndDungeonResponseProto_EndDungeonStatus value = (EndDungeonResponseProto_EndDungeonStatus)[input readEnum];
-        if (EndDungeonResponseProto_EndDungeonStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2200,17 +2182,17 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (EndDungeonResponseProto_EndDungeonStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (EndDungeonResponseProto_Builder*) setStatus:(EndDungeonResponseProto_EndDungeonStatus) value {
+- (EndDungeonResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (EndDungeonResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = EndDungeonResponseProto_EndDungeonStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)updatedOrNewList {
@@ -2771,7 +2753,7 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
 
 @interface ReviveInDungeonResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property ReviveInDungeonResponseProto_ReviveInDungeonStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation ReviveInDungeonResponseProto
@@ -2793,7 +2775,7 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = ReviveInDungeonResponseProto_ReviveInDungeonStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -2908,16 +2890,6 @@ static ReviveInDungeonResponseProto* defaultReviveInDungeonResponseProtoInstance
 }
 @end
 
-BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDungeonResponseProto_ReviveInDungeonStatus value) {
-  switch (value) {
-    case ReviveInDungeonResponseProto_ReviveInDungeonStatusSuccess:
-    case ReviveInDungeonResponseProto_ReviveInDungeonStatusFailInsufficientFunds:
-    case ReviveInDungeonResponseProto_ReviveInDungeonStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface ReviveInDungeonResponseProto_Builder()
 @property (strong) ReviveInDungeonResponseProto* result;
 @end
@@ -2993,8 +2965,8 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
         break;
       }
       case 16: {
-        ReviveInDungeonResponseProto_ReviveInDungeonStatus value = (ReviveInDungeonResponseProto_ReviveInDungeonStatus)[input readEnum];
-        if (ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -3037,17 +3009,17 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (ReviveInDungeonResponseProto_ReviveInDungeonStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (ReviveInDungeonResponseProto_Builder*) setStatus:(ReviveInDungeonResponseProto_ReviveInDungeonStatus) value {
+- (ReviveInDungeonResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (ReviveInDungeonResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = ReviveInDungeonResponseProto_ReviveInDungeonStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end

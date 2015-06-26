@@ -406,7 +406,7 @@
 
 - (void) handleUserCreateResponseProto:(FullEvent *)fe {
   UserCreateResponseProto *proto = (UserCreateResponseProto *)fe.event;
-  if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     _sendingUserCreateStartup = YES;
     [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:_facebookId isFreshRestart:YES delegate:self];
     

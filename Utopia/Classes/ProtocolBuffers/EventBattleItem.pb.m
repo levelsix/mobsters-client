@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [BattleItemRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -30,6 +31,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t cashChange;
 @property int32_t oilChange;
 @property int32_t gemCostForCreating;
+@property int64_t clientTime;
 @end
 
 @implementation CreateBattleItemRequestProto
@@ -68,12 +70,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasGemCostForCreating_ = !!value_;
 }
 @synthesize gemCostForCreating;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.cashChange = 0;
     self.oilChange = 0;
     self.gemCostForCreating = 0;
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -132,6 +142,9 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   if (self.hasGemCostForCreating) {
     [output writeInt32:7 value:self.gemCostForCreating];
   }
+  if (self.hasClientTime) {
+    [output writeInt64:8 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -161,6 +174,9 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   }
   if (self.hasGemCostForCreating) {
     size_ += computeInt32Size(7, self.gemCostForCreating);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(8, self.clientTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -230,6 +246,9 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   if (self.hasGemCostForCreating) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gemCostForCreating", [NSNumber numberWithInteger:self.gemCostForCreating]];
   }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -252,6 +271,8 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
       (!self.hasOilChange || self.oilChange == otherMessage.oilChange) &&
       self.hasGemCostForCreating == otherMessage.hasGemCostForCreating &&
       (!self.hasGemCostForCreating || self.gemCostForCreating == otherMessage.gemCostForCreating) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -276,6 +297,9 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   }
   if (self.hasGemCostForCreating) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemCostForCreating] hash];
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -353,6 +377,9 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   if (other.hasGemCostForCreating) {
     [self setGemCostForCreating:other.gemCostForCreating];
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -411,6 +438,10 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
       }
       case 56: {
         [self setGemCostForCreating:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -566,12 +597,28 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
   result.gemCostForCreating = 0;
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (CreateBattleItemRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (CreateBattleItemRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface CreateBattleItemResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableUserBattleItemsList;
-@property CreateBattleItemResponseProto_CreateBattleItemStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation CreateBattleItemResponseProto
@@ -595,7 +642,7 @@ static CreateBattleItemRequestProto* defaultCreateBattleItemRequestProtoInstance
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = CreateBattleItemResponseProto_CreateBattleItemStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -732,16 +779,6 @@ static CreateBattleItemResponseProto* defaultCreateBattleItemResponseProtoInstan
 }
 @end
 
-BOOL CreateBattleItemResponseProto_CreateBattleItemStatusIsValidValue(CreateBattleItemResponseProto_CreateBattleItemStatus value) {
-  switch (value) {
-    case CreateBattleItemResponseProto_CreateBattleItemStatusSuccess:
-    case CreateBattleItemResponseProto_CreateBattleItemStatusFailOther:
-    case CreateBattleItemResponseProto_CreateBattleItemStatusFailInsufficientFunds:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface CreateBattleItemResponseProto_Builder()
 @property (strong) CreateBattleItemResponseProto* result;
 @end
@@ -830,8 +867,8 @@ BOOL CreateBattleItemResponseProto_CreateBattleItemStatusIsValidValue(CreateBatt
         break;
       }
       case 24: {
-        CreateBattleItemResponseProto_CreateBattleItemStatus value = (CreateBattleItemResponseProto_CreateBattleItemStatus)[input readEnum];
-        if (CreateBattleItemResponseProto_CreateBattleItemStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -898,17 +935,17 @@ BOOL CreateBattleItemResponseProto_CreateBattleItemStatusIsValidValue(CreateBatt
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (CreateBattleItemResponseProto_CreateBattleItemStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (CreateBattleItemResponseProto_Builder*) setStatus:(CreateBattleItemResponseProto_CreateBattleItemStatus) value {
+- (CreateBattleItemResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (CreateBattleItemResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = CreateBattleItemResponseProto_CreateBattleItemStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -918,6 +955,7 @@ BOOL CreateBattleItemResponseProto_CreateBattleItemStatusIsValidValue(CreateBatt
 @property BOOL isSpeedup;
 @property int32_t gemsForSpeedup;
 @property (strong) NSMutableArray * mutableBiqfuCompletedList;
+@property int64_t clientTime;
 @end
 
 @implementation CompleteBattleItemRequestProto
@@ -950,11 +988,19 @@ BOOL CreateBattleItemResponseProto_CreateBattleItemStatusIsValidValue(CreateBatt
 @synthesize gemsForSpeedup;
 @synthesize mutableBiqfuCompletedList;
 @dynamic biqfuCompletedList;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.isSpeedup = NO;
     self.gemsForSpeedup = 0;
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -992,6 +1038,9 @@ static CompleteBattleItemRequestProto* defaultCompleteBattleItemRequestProtoInst
   [self.biqfuCompletedList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:4 value:element];
   }];
+  if (self.hasClientTime) {
+    [output writeInt64:5 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1013,6 +1062,9 @@ static CompleteBattleItemRequestProto* defaultCompleteBattleItemRequestProtoInst
   [self.biqfuCompletedList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(4, element);
   }];
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(5, self.clientTime);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -1066,6 +1118,9 @@ static CompleteBattleItemRequestProto* defaultCompleteBattleItemRequestProtoInst
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1084,6 +1139,8 @@ static CompleteBattleItemRequestProto* defaultCompleteBattleItemRequestProtoInst
       self.hasGemsForSpeedup == otherMessage.hasGemsForSpeedup &&
       (!self.hasGemsForSpeedup || self.gemsForSpeedup == otherMessage.gemsForSpeedup) &&
       [self.biqfuCompletedList isEqualToArray:otherMessage.biqfuCompletedList] &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1100,6 +1157,9 @@ static CompleteBattleItemRequestProto* defaultCompleteBattleItemRequestProtoInst
   [self.biqfuCompletedList enumerateObjectsUsingBlock:^(BattleItemQueueForUserProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -1159,6 +1219,9 @@ static CompleteBattleItemRequestProto* defaultCompleteBattleItemRequestProtoInst
       [result.mutableBiqfuCompletedList addObjectsFromArray:other.mutableBiqfuCompletedList];
     }
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1201,6 +1264,10 @@ static CompleteBattleItemRequestProto* defaultCompleteBattleItemRequestProtoInst
         BattleItemQueueForUserProto_Builder* subBuilder = [BattleItemQueueForUserProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addBiqfuCompleted:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -1292,11 +1359,27 @@ static CompleteBattleItemRequestProto* defaultCompleteBattleItemRequestProtoInst
   result.mutableBiqfuCompletedList = nil;
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (CompleteBattleItemRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (CompleteBattleItemRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface CompleteBattleItemResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property CompleteBattleItemResponseProto_CompleteBattleItemStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableUbiUpdatedList;
 @end
 
@@ -1321,7 +1404,7 @@ static CompleteBattleItemRequestProto* defaultCompleteBattleItemRequestProtoInst
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = CompleteBattleItemResponseProto_CompleteBattleItemStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1458,17 +1541,6 @@ static CompleteBattleItemResponseProto* defaultCompleteBattleItemResponseProtoIn
 }
 @end
 
-BOOL CompleteBattleItemResponseProto_CompleteBattleItemStatusIsValidValue(CompleteBattleItemResponseProto_CompleteBattleItemStatus value) {
-  switch (value) {
-    case CompleteBattleItemResponseProto_CompleteBattleItemStatusSuccess:
-    case CompleteBattleItemResponseProto_CompleteBattleItemStatusFailOther:
-    case CompleteBattleItemResponseProto_CompleteBattleItemStatusFailInvalidBattleItems:
-    case CompleteBattleItemResponseProto_CompleteBattleItemStatusFailInsufficientFunds:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface CompleteBattleItemResponseProto_Builder()
 @property (strong) CompleteBattleItemResponseProto* result;
 @end
@@ -1551,8 +1623,8 @@ BOOL CompleteBattleItemResponseProto_CompleteBattleItemStatusIsValidValue(Comple
         break;
       }
       case 16: {
-        CompleteBattleItemResponseProto_CompleteBattleItemStatus value = (CompleteBattleItemResponseProto_CompleteBattleItemStatus)[input readEnum];
-        if (CompleteBattleItemResponseProto_CompleteBattleItemStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1601,17 +1673,17 @@ BOOL CompleteBattleItemResponseProto_CompleteBattleItemStatusIsValidValue(Comple
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (CompleteBattleItemResponseProto_CompleteBattleItemStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (CompleteBattleItemResponseProto_Builder*) setStatus:(CompleteBattleItemResponseProto_CompleteBattleItemStatus) value {
+- (CompleteBattleItemResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (CompleteBattleItemResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = CompleteBattleItemResponseProto_CompleteBattleItemStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)ubiUpdatedList {
@@ -1643,6 +1715,7 @@ BOOL CompleteBattleItemResponseProto_CompleteBattleItemStatusIsValidValue(Comple
 @interface DiscardBattleItemRequestProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) PBAppendableArray * mutableDiscardedBattleItemIdsList;
+@property int64_t clientTime;
 @end
 
 @implementation DiscardBattleItemRequestProto
@@ -1656,9 +1729,17 @@ BOOL CompleteBattleItemResponseProto_CompleteBattleItemStatusIsValidValue(Comple
 @synthesize sender;
 @synthesize mutableDiscardedBattleItemIdsList;
 @dynamic discardedBattleItemIdsList;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -1694,6 +1775,9 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
       [output writeInt32:2 value:values[i]];
     }
   }
+  if (self.hasClientTime) {
+    [output writeInt64:3 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1715,6 +1799,9 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
     }
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(3, self.clientTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1760,6 +1847,9 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
   [self.discardedBattleItemIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@: %@\n", indent, @"discardedBattleItemIds", obj];
   }];
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1774,6 +1864,8 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       [self.discardedBattleItemIdsList isEqualToArray:otherMessage.discardedBattleItemIdsList] &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1784,6 +1876,9 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
   [self.discardedBattleItemIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [obj longValue];
   }];
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -1837,6 +1932,9 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
       [result.mutableDiscardedBattleItemIdsList appendArray:other.mutableDiscardedBattleItemIdsList];
     }
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1869,6 +1967,10 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
       }
       case 16: {
         [self addDiscardedBattleItemIds:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -1932,11 +2034,27 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
   result.mutableDiscardedBattleItemIdsList = nil;
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (DiscardBattleItemRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (DiscardBattleItemRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface DiscardBattleItemResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property DiscardBattleItemResponseProto_DiscardBattleItemStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation DiscardBattleItemResponseProto
@@ -1958,7 +2076,7 @@ static DiscardBattleItemRequestProto* defaultDiscardBattleItemRequestProtoInstan
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = DiscardBattleItemResponseProto_DiscardBattleItemStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -2073,16 +2191,6 @@ static DiscardBattleItemResponseProto* defaultDiscardBattleItemResponseProtoInst
 }
 @end
 
-BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardBattleItemResponseProto_DiscardBattleItemStatus value) {
-  switch (value) {
-    case DiscardBattleItemResponseProto_DiscardBattleItemStatusSuccess:
-    case DiscardBattleItemResponseProto_DiscardBattleItemStatusFailOther:
-    case DiscardBattleItemResponseProto_DiscardBattleItemStatusFailBattleItemsDontExist:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface DiscardBattleItemResponseProto_Builder()
 @property (strong) DiscardBattleItemResponseProto* result;
 @end
@@ -2158,8 +2266,8 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
         break;
       }
       case 16: {
-        DiscardBattleItemResponseProto_DiscardBattleItemStatus value = (DiscardBattleItemResponseProto_DiscardBattleItemStatus)[input readEnum];
-        if (DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2202,17 +2310,17 @@ BOOL DiscardBattleItemResponseProto_DiscardBattleItemStatusIsValidValue(DiscardB
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (DiscardBattleItemResponseProto_DiscardBattleItemStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (DiscardBattleItemResponseProto_Builder*) setStatus:(DiscardBattleItemResponseProto_DiscardBattleItemStatus) value {
+- (DiscardBattleItemResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (DiscardBattleItemResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = DiscardBattleItemResponseProto_DiscardBattleItemStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end

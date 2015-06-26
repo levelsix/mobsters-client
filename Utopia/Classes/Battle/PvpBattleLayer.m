@@ -535,7 +535,7 @@
 - (void) handleQueueUpResponseProto:(FullEvent *)fe {
   QueueUpResponseProto *proto = (QueueUpResponseProto *)fe.event;
   
-  if (proto.status == QueueUpResponseProto_QueueUpStatusSuccess && proto.defenderInfoListList.count > 0) {
+  if (proto.status == ResponseStatusSuccess && proto.defenderInfoListList.count > 0) {
     _curQueueNum = -1;
     self.defendersList = proto.defenderInfoListList;
   } else if (!_isExiting) {
@@ -559,7 +559,7 @@
 - (void) handleRetrieveUserMonsterTeamResponseProto:(FullEvent *)fe {
   RetrieveUserMonsterTeamResponseProto *proto = (RetrieveUserMonsterTeamResponseProto *)fe.event;
   
-  if (proto.status == RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     _curQueueNum = -1;
     self.defendersList = proto.userMonsterTeamList;
   } else {

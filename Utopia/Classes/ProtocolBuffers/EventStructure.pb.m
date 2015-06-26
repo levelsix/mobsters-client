@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -550,7 +551,7 @@ static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestPro
 
 @interface PurchaseNormStructureResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property PurchaseNormStructureResponseProto_PurchaseNormStructureStatus status;
+@property ResponseStatus status;
 @property (strong) NSString* userStructUuid;
 @end
 
@@ -580,7 +581,7 @@ static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestPro
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.userStructUuid = @"";
   }
   return self;
@@ -710,18 +711,6 @@ static PurchaseNormStructureResponseProto* defaultPurchaseNormStructureResponseP
 }
 @end
 
-BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value) {
-  switch (value) {
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientCash:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientGems:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientOil:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface PurchaseNormStructureResponseProto_Builder()
 @property (strong) PurchaseNormStructureResponseProto* result;
 @end
@@ -800,8 +789,8 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
         break;
       }
       case 16: {
-        PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value = (PurchaseNormStructureResponseProto_PurchaseNormStructureStatus)[input readEnum];
-        if (PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -848,17 +837,17 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (PurchaseNormStructureResponseProto_PurchaseNormStructureStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (PurchaseNormStructureResponseProto_Builder*) setStatus:(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus) value {
+- (PurchaseNormStructureResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (PurchaseNormStructureResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasUserStructUuid {
@@ -1327,7 +1316,7 @@ BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValu
 
 @interface MoveOrRotateNormStructureResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation MoveOrRotateNormStructureResponseProto
@@ -1349,7 +1338,7 @@ BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValu
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1464,15 +1453,6 @@ static MoveOrRotateNormStructureResponseProto* defaultMoveOrRotateNormStructureR
 }
 @end
 
-BOOL MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsValidValue(MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus value) {
-  switch (value) {
-    case MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess:
-    case MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusOtherFail:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface MoveOrRotateNormStructureResponseProto_Builder()
 @property (strong) MoveOrRotateNormStructureResponseProto* result;
 @end
@@ -1548,8 +1528,8 @@ BOOL MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsVal
         break;
       }
       case 16: {
-        MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus value = (MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus)[input readEnum];
-        if (MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1592,17 +1572,17 @@ BOOL MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsVal
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (MoveOrRotateNormStructureResponseProto_Builder*) setStatus:(MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus) value {
+- (MoveOrRotateNormStructureResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (MoveOrRotateNormStructureResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -2066,7 +2046,7 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
 
 @interface UpgradeNormStructureResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property UpgradeNormStructureResponseProto_UpgradeNormStructureStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation UpgradeNormStructureResponseProto
@@ -2088,7 +2068,7 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -2203,21 +2183,6 @@ static UpgradeNormStructureResponseProto* defaultUpgradeNormStructureResponsePro
 }
 @end
 
-BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value) {
-  switch (value) {
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughCash:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughGems:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughOil:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotBuiltYet:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotUsersStruct:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailAtMaxLevelAlready:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface UpgradeNormStructureResponseProto_Builder()
 @property (strong) UpgradeNormStructureResponseProto* result;
 @end
@@ -2293,8 +2258,8 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
         break;
       }
       case 16: {
-        UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value = (UpgradeNormStructureResponseProto_UpgradeNormStructureStatus)[input readEnum];
-        if (UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2337,17 +2302,17 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (UpgradeNormStructureResponseProto_UpgradeNormStructureStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (UpgradeNormStructureResponseProto_Builder*) setStatus:(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus) value {
+- (UpgradeNormStructureResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (UpgradeNormStructureResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -2714,7 +2679,7 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
 
 @interface FinishNormStructWaittimeWithDiamondsResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation FinishNormStructWaittimeWithDiamondsResponseProto
@@ -2736,7 +2701,7 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -2851,16 +2816,6 @@ static FinishNormStructWaittimeWithDiamondsResponseProto* defaultFinishNormStruc
 }
 @end
 
-BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusIsValidValue(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus value) {
-  switch (value) {
-    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess:
-    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusFailNotEnoughGems:
-    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface FinishNormStructWaittimeWithDiamondsResponseProto_Builder()
 @property (strong) FinishNormStructWaittimeWithDiamondsResponseProto* result;
 @end
@@ -2936,8 +2891,8 @@ BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeS
         break;
       }
       case 16: {
-        FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus value = (FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus)[input readEnum];
-        if (FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2980,17 +2935,17 @@ BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeS
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setStatus:(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) value {
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -2998,7 +2953,8 @@ BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeS
 @interface NormStructWaitCompleteRequestProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableUserStructUuidList;
-@property int64_t curTime;
+@property int64_t timeOfCompletion;
+@property int64_t currentClientTime;
 @end
 
 @implementation NormStructWaitCompleteRequestProto
@@ -3012,17 +2968,25 @@ BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeS
 @synthesize sender;
 @synthesize mutableUserStructUuidList;
 @dynamic userStructUuidList;
-- (BOOL) hasCurTime {
-  return !!hasCurTime_;
+- (BOOL) hasTimeOfCompletion {
+  return !!hasTimeOfCompletion_;
 }
-- (void) setHasCurTime:(BOOL) value_ {
-  hasCurTime_ = !!value_;
+- (void) setHasTimeOfCompletion:(BOOL) value_ {
+  hasTimeOfCompletion_ = !!value_;
 }
-@synthesize curTime;
+@synthesize timeOfCompletion;
+- (BOOL) hasCurrentClientTime {
+  return !!hasCurrentClientTime_;
+}
+- (void) setHasCurrentClientTime:(BOOL) value_ {
+  hasCurrentClientTime_ = !!value_;
+}
+@synthesize currentClientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.curTime = 0L;
+    self.timeOfCompletion = 0L;
+    self.currentClientTime = 0L;
   }
   return self;
 }
@@ -3054,8 +3018,11 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
   [self.userStructUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
     [output writeString:2 value:element];
   }];
-  if (self.hasCurTime) {
-    [output writeInt64:3 value:self.curTime];
+  if (self.hasTimeOfCompletion) {
+    [output writeInt64:3 value:self.timeOfCompletion];
+  }
+  if (self.hasCurrentClientTime) {
+    [output writeInt64:4 value:self.currentClientTime];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3078,8 +3045,11 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
   }
-  if (self.hasCurTime) {
-    size_ += computeInt64Size(3, self.curTime);
+  if (self.hasTimeOfCompletion) {
+    size_ += computeInt64Size(3, self.timeOfCompletion);
+  }
+  if (self.hasCurrentClientTime) {
+    size_ += computeInt64Size(4, self.currentClientTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3125,8 +3095,11 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
   [self.userStructUuidList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", obj];
   }];
-  if (self.hasCurTime) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"curTime", [NSNumber numberWithLongLong:self.curTime]];
+  if (self.hasTimeOfCompletion) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"timeOfCompletion", [NSNumber numberWithLongLong:self.timeOfCompletion]];
+  }
+  if (self.hasCurrentClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"currentClientTime", [NSNumber numberWithLongLong:self.currentClientTime]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -3142,8 +3115,10 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       [self.userStructUuidList isEqualToArray:otherMessage.userStructUuidList] &&
-      self.hasCurTime == otherMessage.hasCurTime &&
-      (!self.hasCurTime || self.curTime == otherMessage.curTime) &&
+      self.hasTimeOfCompletion == otherMessage.hasTimeOfCompletion &&
+      (!self.hasTimeOfCompletion || self.timeOfCompletion == otherMessage.timeOfCompletion) &&
+      self.hasCurrentClientTime == otherMessage.hasCurrentClientTime &&
+      (!self.hasCurrentClientTime || self.currentClientTime == otherMessage.currentClientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3154,8 +3129,11 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
   [self.userStructUuidList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  if (self.hasCurTime) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.curTime] hash];
+  if (self.hasTimeOfCompletion) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfCompletion] hash];
+  }
+  if (self.hasCurrentClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.currentClientTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3210,8 +3188,11 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
       [result.mutableUserStructUuidList addObjectsFromArray:other.mutableUserStructUuidList];
     }
   }
-  if (other.hasCurTime) {
-    [self setCurTime:other.curTime];
+  if (other.hasTimeOfCompletion) {
+    [self setTimeOfCompletion:other.timeOfCompletion];
+  }
+  if (other.hasCurrentClientTime) {
+    [self setCurrentClientTime:other.currentClientTime];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -3248,7 +3229,11 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
         break;
       }
       case 24: {
-        [self setCurTime:[input readInt64]];
+        [self setTimeOfCompletion:[input readInt64]];
+        break;
+      }
+      case 32: {
+        [self setCurrentClientTime:[input readInt64]];
         break;
       }
     }
@@ -3308,27 +3293,43 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
   result.mutableUserStructUuidList = nil;
   return self;
 }
-- (BOOL) hasCurTime {
-  return result.hasCurTime;
+- (BOOL) hasTimeOfCompletion {
+  return result.hasTimeOfCompletion;
 }
-- (int64_t) curTime {
-  return result.curTime;
+- (int64_t) timeOfCompletion {
+  return result.timeOfCompletion;
 }
-- (NormStructWaitCompleteRequestProto_Builder*) setCurTime:(int64_t) value {
-  result.hasCurTime = YES;
-  result.curTime = value;
+- (NormStructWaitCompleteRequestProto_Builder*) setTimeOfCompletion:(int64_t) value {
+  result.hasTimeOfCompletion = YES;
+  result.timeOfCompletion = value;
   return self;
 }
-- (NormStructWaitCompleteRequestProto_Builder*) clearCurTime {
-  result.hasCurTime = NO;
-  result.curTime = 0L;
+- (NormStructWaitCompleteRequestProto_Builder*) clearTimeOfCompletion {
+  result.hasTimeOfCompletion = NO;
+  result.timeOfCompletion = 0L;
+  return self;
+}
+- (BOOL) hasCurrentClientTime {
+  return result.hasCurrentClientTime;
+}
+- (int64_t) currentClientTime {
+  return result.currentClientTime;
+}
+- (NormStructWaitCompleteRequestProto_Builder*) setCurrentClientTime:(int64_t) value {
+  result.hasCurrentClientTime = YES;
+  result.currentClientTime = value;
+  return self;
+}
+- (NormStructWaitCompleteRequestProto_Builder*) clearCurrentClientTime {
+  result.hasCurrentClientTime = NO;
+  result.currentClientTime = 0L;
   return self;
 }
 @end
 
 @interface NormStructWaitCompleteResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus status;
+@property ResponseStatus status;
 @property (strong) NSMutableArray * mutableUserStructList;
 @end
 
@@ -3353,7 +3354,7 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -3490,16 +3491,6 @@ static NormStructWaitCompleteResponseProto* defaultNormStructWaitCompleteRespons
 }
 @end
 
-BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValue(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus value) {
-  switch (value) {
-    case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess:
-    case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusFailNotDoneYet:
-    case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface NormStructWaitCompleteResponseProto_Builder()
 @property (strong) NormStructWaitCompleteResponseProto* result;
 @end
@@ -3582,8 +3573,8 @@ BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValu
         break;
       }
       case 16: {
-        NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus value = (NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus)[input readEnum];
-        if (NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -3632,17 +3623,17 @@ BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValu
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (NormStructWaitCompleteResponseProto_Builder*) setStatus:(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus) value {
+- (NormStructWaitCompleteResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (NormStructWaitCompleteResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (NSMutableArray *)userStructList {
@@ -4249,7 +4240,7 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
 
 @interface RetrieveCurrencyFromNormStructureResponseProto ()
 @property (strong) MinimumUserProtoWithMaxResources* sender;
-@property RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation RetrieveCurrencyFromNormStructureResponseProto
@@ -4271,7 +4262,7 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
-    self.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -4386,15 +4377,6 @@ static RetrieveCurrencyFromNormStructureResponseProto* defaultRetrieveCurrencyFr
 }
 @end
 
-BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value) {
-  switch (value) {
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess:
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RetrieveCurrencyFromNormStructureResponseProto_Builder()
 @property (strong) RetrieveCurrencyFromNormStructureResponseProto* result;
 @end
@@ -4470,8 +4452,8 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
         break;
       }
       case 16: {
-        RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value = (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus)[input readEnum];
-        if (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -4514,17 +4496,17 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setStatus:(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) value {
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -4816,7 +4798,7 @@ static DestroyMoneyTreeStructureRequestProto* defaultDestroyMoneyTreeStructureRe
 
 @interface DestroyMoneyTreeStructureResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation DestroyMoneyTreeStructureResponseProto
@@ -4838,7 +4820,7 @@ static DestroyMoneyTreeStructureRequestProto* defaultDestroyMoneyTreeStructureRe
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -4953,16 +4935,6 @@ static DestroyMoneyTreeStructureResponseProto* defaultDestroyMoneyTreeStructureR
 }
 @end
 
-BOOL DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusIsValidValue(DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus value) {
-  switch (value) {
-    case DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusSuccess:
-    case DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusFailNotExpiredYet:
-    case DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface DestroyMoneyTreeStructureResponseProto_Builder()
 @property (strong) DestroyMoneyTreeStructureResponseProto* result;
 @end
@@ -5038,8 +5010,8 @@ BOOL DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusIsVal
         break;
       }
       case 16: {
-        DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus value = (DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus)[input readEnum];
-        if (DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -5082,17 +5054,17 @@ BOOL DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusIsVal
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (DestroyMoneyTreeStructureResponseProto_Builder*) setStatus:(DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatus) value {
+- (DestroyMoneyTreeStructureResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (DestroyMoneyTreeStructureResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = DestroyMoneyTreeStructureResponseProto_DestroyMoneyTreeStructureStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -6240,7 +6212,7 @@ static SpawnObstacleRequestProto* defaultSpawnObstacleRequestProtoInstance = nil
 @interface SpawnObstacleResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableSpawnedObstaclesList;
-@property SpawnObstacleResponseProto_SpawnObstacleStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation SpawnObstacleResponseProto
@@ -6264,7 +6236,7 @@ static SpawnObstacleRequestProto* defaultSpawnObstacleRequestProtoInstance = nil
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = SpawnObstacleResponseProto_SpawnObstacleStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -6401,15 +6373,6 @@ static SpawnObstacleResponseProto* defaultSpawnObstacleResponseProtoInstance = n
 }
 @end
 
-BOOL SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(SpawnObstacleResponseProto_SpawnObstacleStatus value) {
-  switch (value) {
-    case SpawnObstacleResponseProto_SpawnObstacleStatusSuccess:
-    case SpawnObstacleResponseProto_SpawnObstacleStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SpawnObstacleResponseProto_Builder()
 @property (strong) SpawnObstacleResponseProto* result;
 @end
@@ -6498,8 +6461,8 @@ BOOL SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(SpawnObstacleRes
         break;
       }
       case 24: {
-        SpawnObstacleResponseProto_SpawnObstacleStatus value = (SpawnObstacleResponseProto_SpawnObstacleStatus)[input readEnum];
-        if (SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -6566,17 +6529,17 @@ BOOL SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(SpawnObstacleRes
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SpawnObstacleResponseProto_SpawnObstacleStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SpawnObstacleResponseProto_Builder*) setStatus:(SpawnObstacleResponseProto_SpawnObstacleStatus) value {
+- (SpawnObstacleResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SpawnObstacleResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SpawnObstacleResponseProto_SpawnObstacleStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -7040,7 +7003,7 @@ static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProto
 
 @interface BeginObstacleRemovalResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation BeginObstacleRemovalResponseProto
@@ -7062,7 +7025,7 @@ static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProto
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -7177,17 +7140,6 @@ static BeginObstacleRemovalResponseProto* defaultBeginObstacleRemovalResponsePro
 }
 @end
 
-BOOL BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus value) {
-  switch (value) {
-    case BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess:
-    case BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailInsufficientGems:
-    case BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailInsufficientResource:
-    case BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface BeginObstacleRemovalResponseProto_Builder()
 @property (strong) BeginObstacleRemovalResponseProto* result;
 @end
@@ -7263,8 +7215,8 @@ BOOL BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(Be
         break;
       }
       case 16: {
-        BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus value = (BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus)[input readEnum];
-        if (BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -7307,17 +7259,17 @@ BOOL BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(Be
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (BeginObstacleRemovalResponseProto_Builder*) setStatus:(BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus) value {
+- (BeginObstacleRemovalResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (BeginObstacleRemovalResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -7786,7 +7738,7 @@ static ObstacleRemovalCompleteRequestProto* defaultObstacleRemovalCompleteReques
 
 @interface ObstacleRemovalCompleteResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation ObstacleRemovalCompleteResponseProto
@@ -7808,7 +7760,7 @@ static ObstacleRemovalCompleteRequestProto* defaultObstacleRemovalCompleteReques
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -7923,16 +7875,6 @@ static ObstacleRemovalCompleteResponseProto* defaultObstacleRemovalCompleteRespo
 }
 @end
 
-BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidValue(ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus value) {
-  switch (value) {
-    case ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess:
-    case ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusFailInsufficientGems:
-    case ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface ObstacleRemovalCompleteResponseProto_Builder()
 @property (strong) ObstacleRemovalCompleteResponseProto* result;
 @end
@@ -8008,8 +7950,8 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
         break;
       }
       case 16: {
-        ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus value = (ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus)[input readEnum];
-        if (ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -8052,17 +7994,17 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (ObstacleRemovalCompleteResponseProto_Builder*) setStatus:(ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus) value {
+- (ObstacleRemovalCompleteResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (ObstacleRemovalCompleteResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end

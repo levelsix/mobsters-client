@@ -4,6 +4,7 @@
 
 #import "BoosterPackStuff.pb.h"
 #import "Reward.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -98,15 +99,6 @@
     #define NS_RETURNS_NOT_RETAINED
   #endif
 #endif
-
-typedef NS_ENUM(SInt32, PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) {
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess = 1,
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGachaCredits = 2,
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailOther = 3,
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGems = 4,
-};
-
-BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus value);
 
 
 @interface EventBoosterPackRoot : NSObject {
@@ -227,14 +219,14 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   UserRewardProto* reward;
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
+  ResponseStatus status;
   NSMutableArray * mutablePrizeList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasReward;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * prizeList;
 @property (readonly, strong) UserRewardProto* reward;
 - (BoosterItemProto*)prizeAtIndex:(NSUInteger)index;
@@ -282,8 +274,8 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (PurchaseBoosterPackResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) status;
-- (PurchaseBoosterPackResponseProto_Builder*) setStatus:(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) value;
+- (ResponseStatus) status;
+- (PurchaseBoosterPackResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (PurchaseBoosterPackResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)prizeList;

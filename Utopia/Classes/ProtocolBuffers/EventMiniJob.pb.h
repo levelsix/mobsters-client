@@ -157,48 +157,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, SpawnMiniJobResponseProto_SpawnMiniJobStatus) {
-  SpawnMiniJobResponseProto_SpawnMiniJobStatusSuccess = 1,
-  SpawnMiniJobResponseProto_SpawnMiniJobStatusFailOther = 2,
-};
-
-BOOL SpawnMiniJobResponseProto_SpawnMiniJobStatusIsValidValue(SpawnMiniJobResponseProto_SpawnMiniJobStatus value);
-
-typedef NS_ENUM(SInt32, BeginMiniJobResponseProto_BeginMiniJobStatus) {
-  BeginMiniJobResponseProto_BeginMiniJobStatusSuccess = 1,
-  BeginMiniJobResponseProto_BeginMiniJobStatusFailOther = 2,
-  BeginMiniJobResponseProto_BeginMiniJobStatusFailNoMiniJobExists = 3,
-};
-
-BOOL BeginMiniJobResponseProto_BeginMiniJobStatusIsValidValue(BeginMiniJobResponseProto_BeginMiniJobStatus value);
-
-typedef NS_ENUM(SInt32, CompleteMiniJobResponseProto_CompleteMiniJobStatus) {
-  CompleteMiniJobResponseProto_CompleteMiniJobStatusSuccess = 1,
-  CompleteMiniJobResponseProto_CompleteMiniJobStatusFailOther = 2,
-  CompleteMiniJobResponseProto_CompleteMiniJobStatusFailInsufficientGems = 3,
-  CompleteMiniJobResponseProto_CompleteMiniJobStatusFailNoMiniJobExists = 4,
-};
-
-BOOL CompleteMiniJobResponseProto_CompleteMiniJobStatusIsValidValue(CompleteMiniJobResponseProto_CompleteMiniJobStatus value);
-
-typedef NS_ENUM(SInt32, RedeemMiniJobResponseProto_RedeemMiniJobStatus) {
-  RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess = 1,
-  RedeemMiniJobResponseProto_RedeemMiniJobStatusFailOther = 2,
-  RedeemMiniJobResponseProto_RedeemMiniJobStatusFailNoMiniJobExists = 3,
-  RedeemMiniJobResponseProto_RedeemMiniJobStatusFailMiniJobIncomplete = 4,
-};
-
-BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobResponseProto_RedeemMiniJobStatus value);
-
-typedef NS_ENUM(SInt32, RefreshMiniJobResponseProto_RefreshMiniJobStatus) {
-  RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess = 1,
-  RefreshMiniJobResponseProto_RefreshMiniJobStatusFailInsufficientGems = 2,
-  RefreshMiniJobResponseProto_RefreshMiniJobStatusFailInsufficientItems = 3,
-  RefreshMiniJobResponseProto_RefreshMiniJobStatusFailOther = 4,
-};
-
-BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJobResponseProto_RefreshMiniJobStatus value);
-
 
 @interface EventMiniJobRoot : NSObject {
 }
@@ -289,14 +247,14 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  SpawnMiniJobResponseProto_SpawnMiniJobStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableMiniJobsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * miniJobsList;
-@property (readonly) SpawnMiniJobResponseProto_SpawnMiniJobStatus status;
+@property (readonly) ResponseStatus status;
 - (UserMiniJobProto*)miniJobsAtIndex:(NSUInteger)index;
 
 + (SpawnMiniJobResponseProto*) defaultInstance;
@@ -348,8 +306,8 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
 - (SpawnMiniJobResponseProto_Builder *)clearMiniJobs;
 
 - (BOOL) hasStatus;
-- (SpawnMiniJobResponseProto_SpawnMiniJobStatus) status;
-- (SpawnMiniJobResponseProto_Builder*) setStatus:(SpawnMiniJobResponseProto_SpawnMiniJobStatus) value;
+- (ResponseStatus) status;
+- (SpawnMiniJobResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (SpawnMiniJobResponseProto_Builder*) clearStatusList;
 @end
 
@@ -436,12 +394,12 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  BeginMiniJobResponseProto_BeginMiniJobStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) BeginMiniJobResponseProto_BeginMiniJobStatus status;
+@property (readonly) ResponseStatus status;
 
 + (BeginMiniJobResponseProto*) defaultInstance;
 - (BeginMiniJobResponseProto*) defaultInstance;
@@ -486,8 +444,8 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
 - (BeginMiniJobResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (BeginMiniJobResponseProto_BeginMiniJobStatus) status;
-- (BeginMiniJobResponseProto_Builder*) setStatus:(BeginMiniJobResponseProto_BeginMiniJobStatus) value;
+- (ResponseStatus) status;
+- (BeginMiniJobResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (BeginMiniJobResponseProto_Builder*) clearStatusList;
 @end
 
@@ -583,12 +541,12 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  CompleteMiniJobResponseProto_CompleteMiniJobStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) CompleteMiniJobResponseProto_CompleteMiniJobStatus status;
+@property (readonly) ResponseStatus status;
 
 + (CompleteMiniJobResponseProto*) defaultInstance;
 - (CompleteMiniJobResponseProto*) defaultInstance;
@@ -633,8 +591,8 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
 - (CompleteMiniJobResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (CompleteMiniJobResponseProto_CompleteMiniJobStatus) status;
-- (CompleteMiniJobResponseProto_Builder*) setStatus:(CompleteMiniJobResponseProto_CompleteMiniJobStatus) value;
+- (ResponseStatus) status;
+- (CompleteMiniJobResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (CompleteMiniJobResponseProto_Builder*) clearStatusList;
 @end
 
@@ -725,7 +683,7 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
   MinimumUserProtoWithMaxResources* sender;
   FullUserMonsterProto* fump;
   UserRewardProto* rewards;
-  RedeemMiniJobResponseProto_RedeemMiniJobStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasFump;
@@ -733,7 +691,7 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
 - (BOOL) hasRewards;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) FullUserMonsterProto* fump;
-@property (readonly) RedeemMiniJobResponseProto_RedeemMiniJobStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) UserRewardProto* rewards;
 
 + (RedeemMiniJobResponseProto*) defaultInstance;
@@ -786,8 +744,8 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
 - (RedeemMiniJobResponseProto_Builder*) clearFump;
 
 - (BOOL) hasStatus;
-- (RedeemMiniJobResponseProto_RedeemMiniJobStatus) status;
-- (RedeemMiniJobResponseProto_Builder*) setStatus:(RedeemMiniJobResponseProto_RedeemMiniJobStatus) value;
+- (ResponseStatus) status;
+- (RedeemMiniJobResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RedeemMiniJobResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasRewards;
@@ -917,14 +875,14 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  RefreshMiniJobResponseProto_RefreshMiniJobStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableMiniJobsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * miniJobsList;
-@property (readonly) RefreshMiniJobResponseProto_RefreshMiniJobStatus status;
+@property (readonly) ResponseStatus status;
 - (UserMiniJobProto*)miniJobsAtIndex:(NSUInteger)index;
 
 + (RefreshMiniJobResponseProto*) defaultInstance;
@@ -976,8 +934,8 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
 - (RefreshMiniJobResponseProto_Builder *)clearMiniJobs;
 
 - (BOOL) hasStatus;
-- (RefreshMiniJobResponseProto_RefreshMiniJobStatus) status;
-- (RefreshMiniJobResponseProto_Builder*) setStatus:(RefreshMiniJobResponseProto_RefreshMiniJobStatus) value;
+- (ResponseStatus) status;
+- (RefreshMiniJobResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RefreshMiniJobResponseProto_Builder*) clearStatusList;
 @end
 

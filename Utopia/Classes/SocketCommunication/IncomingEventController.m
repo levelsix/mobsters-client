@@ -673,7 +673,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Level up response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == LevelUpResponseProto_LevelUpStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle level up"];
@@ -710,10 +710,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   IAPHelper *iap = [IAPHelper sharedIAPHelper];
-  if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
+  if (proto.status != ResponseStatusSuccess) {
     SKProduct *prod = iap.products[proto.packageName];
     // Duplicate receipt might occur if you close app before response comes back
-    if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt) {
+    if (proto.status != ResponseStatusFailDuplicateReceipt) {
       [Globals popupMessage:@"Sorry! The In App Purchase failed! Please email support@lvl6.com."];
       [Analytics iapFailedWithSKProduct:prod error:@"Receipt verification failed"];
     } else {
@@ -777,7 +777,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Exchange gems response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [gs removeAndUndoAllUpdatesForTag:tag];
@@ -804,7 +804,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Purchase norm struct response received with status: %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     // Get the userstruct without a userStructId
     UserStruct *us = nil;
     for (UserStruct *u in [[GameState sharedGameState] myStructs]) {
@@ -814,7 +814,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       }
     }
     
-    if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess) {
+    if (proto.status == ResponseStatusSuccess) {
       if (proto.hasUserStructUuid) {
         us.userStructUuid = proto.userStructUuid;
       } else {
@@ -837,7 +837,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   LNLog(@"Move norm struct response received with status: %d.", (int)proto.status);
   
-  if (proto.status != MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess) {
+  if (proto.status != ResponseStatusSuccess) {
     [Globals popupMessage:@"Server failed to change building location or orientation."];
   } else {
   }
@@ -850,7 +850,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Upgrade norm structure response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status != UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess) {
+  if (proto.status != ResponseStatusSuccess) {
     [Globals popupMessage:@"Server failed to upgrade building."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
@@ -865,7 +865,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Norm struct builds complete response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status != NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess) {
+  if (proto.status != ResponseStatusSuccess) {
     [Globals popupMessage:@"Server failed to complete normal structure wait time."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
@@ -880,7 +880,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Finish norm struct with diamonds response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status != FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess) {
+  if (proto.status != ResponseStatusSuccess) {
     [Globals popupMessage:@"Server failed to speed up normal structure wait time."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
@@ -895,7 +895,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Retrieve currency response received with status: %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status != RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess) {
+  if (proto.status != ResponseStatusSuccess) {
     [Globals popupMessage:@"Server failed to retrieve from normal structure."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
@@ -913,7 +913,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   
-  if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     if ([proto.cityOwner.userUuid isEqualToString:gs.userUuid]) {
       [gs.myStructs removeAllObjects];
       [gs addToMyStructs:proto.ownerNormStructsList];
@@ -949,7 +949,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 silverAmt:0 product:nil saleUuid:uuid delegate:nil];
       }
     }
-  } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer) {
+  } else if (proto.status == ResponseStatusFailNoSuchPlayer) {
     [Globals popupMessage:@"Trying to reach a nonexistent player's city."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
@@ -965,7 +965,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Load neutral city response received for city %d with status %d.", proto.cityId, (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == LoadCityResponseProto_LoadCityStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else if (proto.status == LoadCityResponseProto_LoadCityStatusNotAccessibleToUser) {
     [Globals popupMessage:@"Trying to reach inaccessible city.."];
@@ -985,7 +985,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Quest accept response received with status %d", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status != QuestAcceptResponseProto_QuestAcceptStatusSuccess) {
+  if (proto.status != ResponseStatusSuccess) {
     [Globals popupMessage:@"Server failed to accept quest"];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
@@ -1000,7 +1000,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Quest redeem response received with status %d", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == QuestRedeemResponseProto_QuestRedeemStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [[GameState sharedGameState] addToAvailableQuests:proto.newlyAvailableQuestsList];
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1015,7 +1015,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   LNLog(@"Received quest progress response with status %d.", (int)proto.status);
   
-  if (proto.status == QuestProgressResponseProto_QuestProgressStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
   } else {
     [Globals popupMessage:@"Server sent quest complete for invalid quest"];
   }
@@ -1039,7 +1039,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Update user currency response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to update user currency."];
@@ -1065,7 +1065,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Enable apns response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == EnableAPNSResponseProto_EnableAPNSStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1077,7 +1077,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   SetGameCenterIdResponseProto *proto = (SetGameCenterIdResponseProto *)fe.event;
   
   LNLog(@"Set game center response received with status %d.", (int)proto.status);
-  if (proto.status != SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess) {
+  if (proto.status != ResponseStatusSuccess) {
     [Globals popupMessage:@"Server failed to set game center id."];
   }
 }
@@ -1087,7 +1087,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   LNLog(@"Set facebook id response received with status %d.", (int)proto.status);
   
-  if (proto.status != SetFacebookIdResponseProto_SetFacebookIdStatusSuccess) {
+  if (proto.status != ResponseStatusSuccess) {
     GameState *gs = [GameState sharedGameState];
     gs.facebookId = nil;
   }
@@ -1100,7 +1100,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Earn free diamonds response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     if (proto.freeDiamondsType == EarnFreeDiamondsTypeFbConnect) {
       Globals *gl = [Globals sharedGlobals];
       [Globals popupMessage:[NSString stringWithFormat:@"Congrats! You have received %d gold for connecting to Facebook.", gl.fbConnectRewardDiamonds]];
@@ -1129,7 +1129,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Set avatar monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == SetAvatarMonsterResponseProto_SetAvatarMonsterStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to set avatar monster."];
@@ -1145,7 +1145,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Set defending message response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == SetDefendingMsgResponseProto_SetDefendingMsgStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to set defending message."];
@@ -1161,7 +1161,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Update user strength response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == UpdateUserStrengthResponseProto_UpdateUserStrengthStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to update user strength message."];
@@ -1178,7 +1178,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Send group chat response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == SendGroupChatResponseProto_SendGroupChatStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send group chat."];
@@ -1209,7 +1209,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   PrivateChatPostResponseProto *proto = (PrivateChatPostResponseProto *)fe.event;
   LNLog(@"Private chat post response received with status %d.", (int)proto.status);
   
-  if (proto.status == PrivateChatPostResponseProto_PrivateChatPostStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     GameState *gs = [GameState sharedGameState];
     [gs addPrivateChat:proto.post];
     //add here
@@ -1238,7 +1238,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   
-  if (proto.status == CreateClanResponseProto_CreateClanStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     if (proto.hasClanInfo) {
       gs.clan = proto.clanInfo;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
@@ -1263,7 +1263,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Retrieve clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1279,7 +1279,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Approve or reject request to join clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     if ([proto.requester.userUuid isEqualToString:gs.userUuid]) {
       [gs.requestedClans removeAllObjects];
       if (proto.accept) {
@@ -1301,10 +1301,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailAlreadyInAClan ||
-        proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailNotAuthorized) {
+    if (proto.status == ResponseStatusFailAlreadyInClan ||
+        proto.status == ResponseStatusFailNotAuthorized) {
       [Globals popupMessage:@"Hmm, it seems that this user has already joined another squad."];
-    } else if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailClanIsFull) {
+    } else if (proto.status == ResponseStatusFailClanIsFull) {
       [Globals popupMessage:@"Your squad is full. Boot a member and try again."];
     } else {
       [Globals popupMessage:@"Server failed to respond to squad request."];
@@ -1320,7 +1320,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Request join clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest) {
+  if (proto.status == ResponseStatusSuccessRequest) {
     if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
       [gs.requestedClans addObject:proto.clanUuid];
     } else {
@@ -1330,7 +1330,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
-  } else if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin) {
+  } else if (proto.status == ResponseStatusSuccessJoin) {
     if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
       [gs.requestedClans removeAllObjects];
       gs.clan = proto.minClan;
@@ -1344,7 +1344,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just joined your squad. Go say hi!", proto.requester.sender.name] isImmediate:NO];
     }
   } else {
-    if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusFailClanIsFull) {
+    if (proto.status == ResponseStatusFailClanIsFull) {
       [Globals addAlertNotification:@"Sorry, this squad is full. Please try another."];
     } else {
       [Globals popupMessage:@"Server failed to request to join squad request."];
@@ -1360,7 +1360,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Retract request to join clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
       [gs.requestedClans removeObject:proto.clanUuid];
     }
@@ -1379,7 +1379,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Transfer clan ownership response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     if (proto.hasMinClan) {
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
@@ -1413,7 +1413,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Change clan description response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     if (proto.hasMinClan) {
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
@@ -1423,9 +1423,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotAuthorized) {
+    if (proto.status == ResponseStatusFailNotAuthorized) {
       [Globals addAlertNotification:@"You do not have the permissions to change squad settings!"];
-    } else if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotInClan) {
+    } else if (proto.status == ResponseStatusFailNotInClan) {
       [Globals addAlertNotification:@"You can't change the settings of a squad you don't belong to!"];
     }
     
@@ -1439,7 +1439,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Promote demote clan member response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     BOOL isDemotion = proto.prevUserClanStatus < proto.userClanStatus;
     NSString *promoteOrDemote = isDemotion ? @"demoted" : @"promoted";
     NSString *position = [NSString stringWithFormat:@"%@%@", [Globals stringForClanStatus:proto.userClanStatus], isDemotion ? @"." : @"!"];
@@ -1471,7 +1471,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Leave clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
       [gs.requestedClans removeAllObjects];
       gs.clan = nil;
@@ -1501,7 +1501,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Boot player from clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     if ([proto.playerToBoot.userUuid isEqualToString:gs.userUuid]) {
       NSString *clanName = gs.clan.name;
       gs.clan = nil;
@@ -1546,7 +1546,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Solicit clan help response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs.clanHelpUtil addClanHelpProtos:proto.helpProtoList fromUser:nil];
   } else {
     [Globals popupMessage:@"Server failed to solicit clan help."];
@@ -1559,7 +1559,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Give clan help response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == GiveClanHelpResponseProto_GiveClanHelpStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs.clanHelpUtil addClanHelpProtos:proto.clanHelpsList fromUser:proto.sender];
   } else {
     [Globals popupMessage:@"Server failed to give clan help."];
@@ -1574,7 +1574,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"End clan help response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == EndClanHelpResponseProto_EndClanHelpStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs.clanHelpUtil removeClanHelpUuids:proto.clanHelpUuidsList];
   } else {
     [Globals popupMessage:@"Server failed to end clan help."];
@@ -1589,7 +1589,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Begin clan avenge response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs addClanAvengings:proto.clanAvengingsList];
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1606,7 +1606,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Avenge clan mate response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == AvengeClanMateResponseProto_AvengeClanMateStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to avenge clan mate."];
@@ -1621,7 +1621,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"End clan avenge response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == EndClanAvengingResponseProto_EndClanAvengingStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeClanAvengings:proto.clanAvengeUuidsList];
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1640,7 +1640,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Solicit team donation response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs.clanTeamDonateUtil addClanTeamDonations:@[proto.solicitation]];
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1657,7 +1657,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Fulfill team donation response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs.clanTeamDonateUtil addClanTeamDonations:@[proto.solicitation]];
     
     UserMonsterSnapshotProto *snap = [proto.solicitation.donationsList firstObject];
@@ -1669,7 +1669,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailAlreadyFulfilled) {
+    if (proto.status == ResponseStatusFailAlreadyFulfilled) {
       [Globals addAlertNotification:@"Sorry, this team donation request has already been fulfilled."];
     } else {
       [Globals popupMessage:@"Server failed to fulfill team donation."];
@@ -1685,7 +1685,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Void team donation response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs.clanTeamDonateUtil removeClanTeamDonationWithUuids:proto.clanTeamDonateUuidList];
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1705,7 +1705,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Trade item for speed ups response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs.itemUtil addToMyItemUsages:proto.itemsUsedList];
   } else {
     [Globals popupMessage:@"Server failed to trade item for speed up."];
@@ -1719,7 +1719,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   LNLog(@"Remove user item usage response received with status %d.", (int)proto.status);
   
-  if (proto.status == RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
   } else {
     [Globals popupMessage:@"Server failed to remove user item usages."];
   }
@@ -1732,7 +1732,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Trade item for resources response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == TradeItemForResourcesResponseProto_TradeItemForResourcesStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to trade item for resources."];
@@ -1748,7 +1748,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Redeem secret gift response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs.mySecretGifts addObjectsFromArray:proto.nuGiftsList];
     
     [self updateGameStateForUserRewardProto:proto.reward];
@@ -1768,7 +1768,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Dev response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == DevResponseProto_DevStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs addToMyMonsters:proto.fumpList];
     
     if (proto.hasUip) {
@@ -1826,7 +1826,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Submit monster enhancement received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to submit monster enhancement."];
@@ -1841,7 +1841,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Enhancement wait time complete received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to complete enhance wait time."];
@@ -1856,7 +1856,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Collect monster enhancement received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to collect monster enhancement."];
@@ -1873,7 +1873,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Purchase booster pack received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
     
     [self updateGameStateForUserRewardProto:proto.reward];
@@ -1892,7 +1892,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Trade item for booster pack received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     // Gems, oil, and cash are updated through UpdateUserClientResponseEvent. Don't do anything here
     
     [self updateGameStateForUserRewardProto:proto.rewards];
@@ -1917,7 +1917,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   BeginDungeonResponseProto *proto = (BeginDungeonResponseProto *)fe.event;
   LNLog(@"Begin dungeon response received with status %d.", (int)proto.status);
   
-  if (proto.status == BeginDungeonResponseProto_BeginDungeonStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
   } else {
     [Globals popupMessage:@"Server failed to enter dungeon."];
   }
@@ -1929,7 +1929,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"End dungeon response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == EndDungeonResponseProto_EndDungeonStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs addToMyMonsters:proto.updatedOrNewList];
     
     if (proto.userWon) {
@@ -1953,7 +1953,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Revive in dungeon response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == ReviveInDungeonResponseProto_ReviveInDungeonStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to revive in dungeon."];
@@ -1973,7 +1973,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   LNLog(@"Queue up response received with status %d.", (int)proto.status);
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == QueueUpResponseProto_QueueUpStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [gs removeAndUndoAllUpdatesForTag:tag];
@@ -1987,7 +1987,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Begin pvp battle response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to begin pvp battle."];
@@ -2003,7 +2003,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"End pvp battle response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     if (proto.attackerAttacked) {
       if ([proto.sender.minUserProto.userUuid isEqualToString:gs.userUuid]) {
         [gs addToMyMonsters:proto.updatedOrNewList];
@@ -2037,7 +2037,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Retrieve user monster team response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrieveUserMonsterTeamResponseProto_RetrieveUserMonsterTeamStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2054,7 +2054,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Customize PvP board obstacle response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == CustomizePvpBoardObstacleResponseProto_CustomizePvpBoardObstacleStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2073,7 +2073,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Heal monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == HealMonsterResponseProto_HealMonsterStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle heal monster."];
@@ -2090,7 +2090,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Create battle response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == CreateBattleItemResponseProto_CreateBattleItemStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to alter battle item queue."];
@@ -2105,7 +2105,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Complete battle response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == CompleteBattleItemResponseProto_CompleteBattleItemStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs.battleItemUtil addToMyItems:proto.ubiUpdatedList];
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -2122,7 +2122,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Discard battle response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == DiscardBattleItemResponseProto_DiscardBattleItemStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to discard battle item."];
@@ -2139,7 +2139,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Add monster to squad response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle add monster."];
@@ -2154,7 +2154,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Remove monster from squad response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle remove monster."];
@@ -2169,7 +2169,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Increase monster inventory slots response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle buying inventory slots."];
@@ -2184,7 +2184,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Update monster health response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle update monster health."];
@@ -2199,7 +2199,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Combine user monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to combine user monster."];
@@ -2214,7 +2214,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Sell user monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == SellUserMonsterResponseProto_SellUserMonsterStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to sell user monster."];
@@ -2229,7 +2229,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Restrict user monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to restrict user monster."];
@@ -2245,7 +2245,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Unrestrict user monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to unrestrict user monster."];
@@ -2263,7 +2263,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Invite fb friends for slots response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs addInventorySlotsRequests:proto.invitesNewList];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2279,12 +2279,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Accept and reject fb invite for slots response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs addInventorySlotsRequests:proto.acceptedInvitesList];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailAlreadyBeenUsed ||
-        proto.status == AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailExpired) {
+    if (proto.status == ResponseStatusFailAlreadyBeenUsed ||
+        proto.status == ResponseStatusFailExpired) {
       // Silently fail
     } else {
       [Globals popupMessage:@"Server failed to accept/reject slot invites."];
@@ -2302,7 +2302,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Evolve monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == EvolveMonsterResponseProto_EvolveMonsterStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to evolve monster."];
@@ -2318,7 +2318,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Evolution finished response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs addToMyMonsters:@[proto.evolvedMonster]];
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -2338,7 +2338,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Begin clan raid response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == BeginClanRaidResponseProto_BeginClanRaidStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     if (proto.hasEventDetails) {
       gs.curClanRaidInfo = proto.eventDetails;
     }
@@ -2361,8 +2361,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Attack clan raid monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccess ||
-      proto.status == AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccessMonsterJustDied) {
+  if (proto.status == ResponseStatusSuccess ||
+      proto.status == ResponseStatusSuccessMonsterJustDied) {
     NSDictionary *dict = [NSDictionary dictionaryWithObject:proto forKey:CLAN_RAID_ATTACK_KEY];
     [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_RAID_ATTACK_NOTIFICATION object:nil userInfo:dict];
     
@@ -2390,7 +2390,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Spawn obstacle response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == SpawnObstacleResponseProto_SpawnObstacleStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs addToMyObstacles:proto.spawnedObstaclesList];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2407,7 +2407,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Begin obstacle removal response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to begin obstacle removal."];
@@ -2423,7 +2423,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Obstacle removal complete response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to complete obstacle removal."];
@@ -2439,7 +2439,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   LNLog(@"Achievement progress response received with status %d.", (int)proto.status);
   
-  if (proto.status == AchievementProgressResponseProto_AchievementProgressStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
   } else {
     [Globals popupMessage:@"Server failed to progress achievement."];
   }
@@ -2452,7 +2452,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Achievement redeem response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == AchievementRedeemResponseProto_AchievementRedeemStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to redeem achievement."];
@@ -2470,7 +2470,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Spawn mini job response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == SpawnMiniJobResponseProto_SpawnMiniJobStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs addToMiniJobs:proto.miniJobsList isNew:YES];
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -2488,7 +2488,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Begin mini job response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == BeginMiniJobResponseProto_BeginMiniJobStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to begin mini job."];
@@ -2504,7 +2504,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Complete mini job response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == CompleteMiniJobResponseProto_CompleteMiniJobStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to complete mini job."];
@@ -2520,7 +2520,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Redeem mini job response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     
     [self updateGameStateForUserRewardProto:proto.rewards];
     
@@ -2538,7 +2538,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   LNLog(@"Finish refreshing miniJobs with status %d.", (int)proto.status);
   
-  if(proto.status == RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess) {
+  if(proto.status == ResponseStatusSuccess) {
     
     NSMutableArray *newJobsList = [NSMutableArray arrayWithArray:proto.miniJobsList];
     
@@ -2568,7 +2568,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Perform research response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == PerformResearchResponseProto_PerformResearchStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs.researchUtil currentResearch].userResearchUuid = proto.userResearchUuid;
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2587,7 +2587,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Finish performing research received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == FinishPerformingResearchResponseProto_FinishPerformingResearchStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2605,7 +2605,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Redeem mini event reward response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2623,7 +2623,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   LNLog(@"Retrieve mini event response received with status %d.", (int)proto.status);
   
-  if (proto.status == RetrieveMiniEventResponseProto_RetrieveMiniEventStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
   } else {
     [Globals popupMessage:@"Server failed to retrieve mini event."];
   }
@@ -2636,7 +2636,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Update mini event response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == UpdateMiniEventResponseProto_UpdateMiniEventStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2654,7 +2654,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Translate select messages response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == TranslateSelectMessagesResponseProto_TranslateSelectMessagesStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     for (PrivateChatPostProto *pcpp in proto.messagesTranslatedList) {
       [gs addPrivateChat:pcpp];
     }
@@ -2672,9 +2672,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Send Tango Gift Response recieved with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == SendTangoGiftResponseProto_SendTangoGiftStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
+    [Globals popupMessage:@"Server failed to send Tango request."];
+    
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
@@ -2729,7 +2731,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Collect Clan Gifts response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == CollectGiftResponseProto_CollectGiftStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     [self updateGameStateForUserRewardProto:proto.reward];
   } else {
     [Globals popupMessage:@"Server failed to redeem clan gift(s)."];
@@ -2743,7 +2745,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   LNLog(@"Clear expired gifts received with status %d.", (int)proto.status);
   
-  if (proto.status == DeleteGiftResponseProto_DeleteGiftStatusSuccess) {
+  if (proto.status == ResponseStatusSuccess) {
     
   } else {
     [Globals popupMessage:@"Server fail to clear expired gift(s)."];

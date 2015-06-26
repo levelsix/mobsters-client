@@ -62,7 +62,7 @@
 {
   RedeemMiniEventRewardResponseProto *proto = (RedeemMiniEventRewardResponseProto *)fe.event;
   
-  if (proto.status == RedeemMiniEventRewardResponseProto_RedeemMiniEventRewardStatusSuccess)
+  if (proto.status == ResponseStatusSuccess)
   {
     [[MiniEventManager sharedInstance] handleRedeemMiniEventRewards:proto.rewards tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)_rewardTier];
     

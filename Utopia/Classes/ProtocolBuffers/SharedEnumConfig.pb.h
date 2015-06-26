@@ -82,6 +82,88 @@ typedef NS_ENUM(SInt32, GameType) {
 
 BOOL GameTypeIsValidValue(GameType value);
 
+typedef NS_ENUM(SInt32, ResourceType) {
+  ResourceTypeNoResource = 4,
+  ResourceTypeCash = 1,
+  ResourceTypeOil = 2,
+  ResourceTypeGems = 3,
+  ResourceTypeGachaCredits = 5,
+  ResourceTypeMonster = 20,
+};
+
+BOOL ResourceTypeIsValidValue(ResourceType value);
+
+typedef NS_ENUM(SInt32, ResponseStatus) {
+  ResponseStatusSuccess = 1,
+  ResponseStatusFailOther = 2,
+  ResponseStatusFailTimeOutOfSync = 3,
+  ResponseStatusFailInsufficientFunds = 4,
+  ResponseStatusFailInsufficientCash = 5,
+  ResponseStatusFailInsufficientOil = 6,
+  ResponseStatusFailInsufficientGems = 7,
+  ResponseStatusFailNotComplete = 8,
+  ResponseStatusFailInsufficientItem = 9,
+  ResponseStatusFailDoesntExist = 10,
+  ResponseStatusFailAlreadyRedeemed = 100,
+  ResponseStatusFailNotEnabled = 200,
+  ResponseStatusFailInvalidBattleItems = 300,
+  ResponseStatusFailInsufficientGachaCredits = 400,
+  ResponseStatusFailTooLong = 500,
+  ResponseStatusFailBanned = 501,
+  ResponseStatusFailNoContentSent = 502,
+  ResponseStatusFailNotValidLanguage = 503,
+  ResponseStatusFailNoSuchPlayer = 600,
+  ResponseStatusSuccessRequest = 701,
+  ResponseStatusSuccessJoin = 702,
+  ResponseStatusSuccessMonsterJustDied = 703,
+  ResponseStatusFailNameTaken = 704,
+  ResponseStatusFailAlreadyInClan = 705,
+  ResponseStatusFailInvalidTagLength = 706,
+  ResponseStatusFailTagTaken = 707,
+  ResponseStatusFailAlreadyStarted = 708,
+  ResponseStatusFailNotInClan = 709,
+  ResponseStatusFailOwnerOfClanWithOthersStillIn = 710,
+  ResponseStatusFailAlreadyFulfilled = 711,
+  ResponseStatusFailRequestAlreadyFiled = 712,
+  ResponseStatusFailClanIsFull = 713,
+  ResponseStatusFailDidNotRequest = 714,
+  ResponseStatusFailNotAuthorized = 715,
+  ResponseStatusFailNoActiveClanRaid = 716,
+  ResponseStatusFailNoMonstersSent = 717,
+  ResponseStatusFailMonsterAlreadyDead = 718,
+  ResponseStatusFailFulfilledRequestExists = 719,
+  ResponseStatusFailDuplicateReceipt = 800,
+  ResponseStatusFailMethodNotSupported = 801,
+  ResponseStatusFailNoResults = 900,
+  ResponseStatusFailMonsterReachedEvolvingLimit = 1000,
+  ResponseStatusFailMaxNumEvolutionsReached = 1001,
+  ResponseStatusFailMonsterInEnhancing = 1002,
+  ResponseStatusFailMonsterInEvolution = 1003,
+  ResponseStatusFailMonsterNonexistent = 1004,
+  ResponseStatusFailMonsterRestricted = 1005,
+  ResponseStatusFailMonsterAlreadyInHealing = 1006,
+  ResponseStatusFailHealingNotComplete = 1007,
+  ResponseStatusFailInsufficientFacebookInvites = 1008,
+  ResponseStatusFailInconsistentInviteData = 1009,
+  ResponseStatusFailStructureAtMaxFbInviteLvl = 1010,
+  ResponseStatusFailMoreThanOneMonsterForSpeedup = 1011,
+  ResponseStatusFailExpired = 1012,
+  ResponseStatusFailAlreadyBeenUsed = 1013,
+  ResponseStatusFailEnemyUnavailable = 1100,
+  ResponseStatusFailBattleTookTooLong = 1101,
+  ResponseStatusFailNotBuiltYet = 1200,
+  ResponseStatusFailNotUsersStruct = 1201,
+  ResponseStatusFailAtMaxLevelAlready = 1202,
+  ResponseStatusFailNotExpiredYet = 1203,
+  ResponseStatusFailUserWithUdidAlreadyExists = 1300,
+  ResponseStatusFailInvalidReferCode = 1301,
+  ResponseStatusFailUserWithFacebookIdExists = 1302,
+  ResponseStatusFailFbIdExists = 1303,
+  ResponseStatusFailUserFbIdAlreadySet = 1304,
+};
+
+BOOL ResponseStatusIsValidValue(ResponseStatus value);
+
 
 @interface SharedEnumConfigRoot : NSObject {
 }

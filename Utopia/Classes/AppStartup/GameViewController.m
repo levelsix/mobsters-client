@@ -1776,10 +1776,10 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 - (void) handleSetFacebookIdResponseProto:(FullEvent *)fe {
   SetFacebookIdResponseProto *proto = (SetFacebookIdResponseProto *)fe.event;
-  if (proto.status == SetFacebookIdResponseProto_SetFacebookIdStatusFailFbIdExists) {
+  if (proto.status == ResponseStatusFailFbIdExists) {
     NSString *desc = [NSString stringWithFormat:@"This Facebook account is already linked to another player (%@). Would you like to load that account now?", proto.existing.name];
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Account Already Used" okayButton:@"Load" cancelButton:@"Cancel" okTarget:self okSelector:@selector(swapAccounts) cancelTarget:self cancelSelector:@selector(swapRejected)];
-  } else if (proto.status == SetFacebookIdResponseProto_SetFacebookIdStatusSuccess) {
+  } else if (proto.status == ResponseStatusSuccess) {
     FacebookDelegate *fbDelegate = [FacebookDelegate sharedFacebookDelegate];
     [Analytics connectedToFacebookWithData:fbDelegate.myFacebookUser];
     [FacebookDelegate facebookIdIsValid];

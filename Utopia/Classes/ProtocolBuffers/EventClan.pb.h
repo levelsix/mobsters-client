@@ -5,6 +5,7 @@
 #import "Battle.pb.h"
 #import "Clan.pb.h"
 #import "MonsterStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -292,59 +293,6 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, CreateClanResponseProto_CreateClanStatus) {
-  CreateClanResponseProto_CreateClanStatusSuccess = 1,
-  CreateClanResponseProto_CreateClanStatusFailOther = 2,
-  CreateClanResponseProto_CreateClanStatusFailNotEnoughCash = 3,
-  CreateClanResponseProto_CreateClanStatusFailNameTaken = 4,
-  CreateClanResponseProto_CreateClanStatusFailAlreadyInClan = 5,
-  CreateClanResponseProto_CreateClanStatusFailInvalidTagLength = 6,
-  CreateClanResponseProto_CreateClanStatusFailTagTaken = 7,
-  CreateClanResponseProto_CreateClanStatusFailInsufficientFunds = 8,
-};
-
-BOOL CreateClanResponseProto_CreateClanStatusIsValidValue(CreateClanResponseProto_CreateClanStatus value);
-
-typedef NS_ENUM(SInt32, LeaveClanResponseProto_LeaveClanStatus) {
-  LeaveClanResponseProto_LeaveClanStatusSuccess = 1,
-  LeaveClanResponseProto_LeaveClanStatusFailOther = 2,
-  LeaveClanResponseProto_LeaveClanStatusFailNotInClan = 3,
-  LeaveClanResponseProto_LeaveClanStatusFailOwnerOfClanWithOthersStillIn = 4,
-};
-
-BOOL LeaveClanResponseProto_LeaveClanStatusIsValidValue(LeaveClanResponseProto_LeaveClanStatus value);
-
-typedef NS_ENUM(SInt32, RequestJoinClanResponseProto_RequestJoinClanStatus) {
-  RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest = 1,
-  RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin = 2,
-  RequestJoinClanResponseProto_RequestJoinClanStatusFailAlreadyInClan = 3,
-  RequestJoinClanResponseProto_RequestJoinClanStatusFailRequestAlreadyFiled = 4,
-  RequestJoinClanResponseProto_RequestJoinClanStatusFailClanIsFull = 5,
-  RequestJoinClanResponseProto_RequestJoinClanStatusFailOther = 6,
-};
-
-BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinClanResponseProto_RequestJoinClanStatus value);
-
-typedef NS_ENUM(SInt32, RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) {
-  RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess = 1,
-  RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusFailOther = 2,
-  RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusFailAlreadyInClan = 3,
-  RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusFailDidNotRequest = 4,
-};
-
-BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValue(RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus value);
-
-typedef NS_ENUM(SInt32, ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) {
-  ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess = 1,
-  ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailOther = 2,
-  ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailNotAuthorized = 3,
-  ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailNotARequester = 4,
-  ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailAlreadyInAClan = 5,
-  ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailClanIsFull = 6,
-};
-
-BOOL ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusIsValidValue(ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus value);
-
 typedef NS_ENUM(SInt32, RetrieveClanInfoRequestProto_ClanInfoGrabType) {
   RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll = 1,
   RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo = 2,
@@ -352,163 +300,6 @@ typedef NS_ENUM(SInt32, RetrieveClanInfoRequestProto_ClanInfoGrabType) {
 };
 
 BOOL RetrieveClanInfoRequestProto_ClanInfoGrabTypeIsValidValue(RetrieveClanInfoRequestProto_ClanInfoGrabType value);
-
-typedef NS_ENUM(SInt32, RetrieveClanInfoResponseProto_RetrieveClanInfoStatus) {
-  RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess = 1,
-  RetrieveClanInfoResponseProto_RetrieveClanInfoStatusOtherFail = 2,
-};
-
-BOOL RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(RetrieveClanInfoResponseProto_RetrieveClanInfoStatus value);
-
-typedef NS_ENUM(SInt32, TransferClanOwnershipResponseProto_TransferClanOwnershipStatus) {
-  TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess = 1,
-  TransferClanOwnershipResponseProto_TransferClanOwnershipStatusFailOther = 2,
-  TransferClanOwnershipResponseProto_TransferClanOwnershipStatusFailNotAuthorized = 3,
-  TransferClanOwnershipResponseProto_TransferClanOwnershipStatusFailNewOwnerNotInClan = 4,
-};
-
-BOOL TransferClanOwnershipResponseProto_TransferClanOwnershipStatusIsValidValue(TransferClanOwnershipResponseProto_TransferClanOwnershipStatus value);
-
-typedef NS_ENUM(SInt32, BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) {
-  BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess = 1,
-  BootPlayerFromClanResponseProto_BootPlayerFromClanStatusFailOther = 2,
-  BootPlayerFromClanResponseProto_BootPlayerFromClanStatusFailNotAuthorized = 3,
-  BootPlayerFromClanResponseProto_BootPlayerFromClanStatusFailBootedNotInClan = 4,
-};
-
-BOOL BootPlayerFromClanResponseProto_BootPlayerFromClanStatusIsValidValue(BootPlayerFromClanResponseProto_BootPlayerFromClanStatus value);
-
-typedef NS_ENUM(SInt32, ChangeClanSettingsResponseProto_ChangeClanSettingsStatus) {
-  ChangeClanSettingsResponseProto_ChangeClanSettingsStatusSuccess = 1,
-  ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotAuthorized = 2,
-  ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotInClan = 3,
-  ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailOther = 4,
-};
-
-BOOL ChangeClanSettingsResponseProto_ChangeClanSettingsStatusIsValidValue(ChangeClanSettingsResponseProto_ChangeClanSettingsStatus value);
-
-typedef NS_ENUM(SInt32, BeginClanRaidResponseProto_BeginClanRaidStatus) {
-  BeginClanRaidResponseProto_BeginClanRaidStatusSuccess = 1,
-  BeginClanRaidResponseProto_BeginClanRaidStatusFailAlreadyStarted = 2,
-  BeginClanRaidResponseProto_BeginClanRaidStatusFailNotAuthorized = 3,
-  BeginClanRaidResponseProto_BeginClanRaidStatusFailNoActiveClanRaid = 4,
-  BeginClanRaidResponseProto_BeginClanRaidStatusFailNoMonstersSent = 5,
-  BeginClanRaidResponseProto_BeginClanRaidStatusFailOther = 6,
-};
-
-BOOL BeginClanRaidResponseProto_BeginClanRaidStatusIsValidValue(BeginClanRaidResponseProto_BeginClanRaidStatus value);
-
-typedef NS_ENUM(SInt32, AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) {
-  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccess = 1,
-  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccessMonsterJustDied = 2,
-  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailUserNotInClan = 3,
-  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailNoStageRaidInProgress = 4,
-  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailMonsterAlreadyDead = 5,
-  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailOther = 6,
-};
-
-BOOL AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusIsValidValue(AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus value);
-
-typedef NS_ENUM(SInt32, RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) {
-  RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusSuccess = 1,
-  RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusFailMonsterAlreadyDead = 2,
-  RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusFailOther = 3,
-};
-
-BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus value);
-
-typedef NS_ENUM(SInt32, PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) {
-  PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess = 1,
-  PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusFailNotInClan = 2,
-  PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusFailNotAuthorized = 3,
-  PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusFailOther = 4,
-};
-
-BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidValue(PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus value);
-
-typedef NS_ENUM(SInt32, SolicitClanHelpResponseProto_SolicitClanHelpStatus) {
-  SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess = 1,
-  SolicitClanHelpResponseProto_SolicitClanHelpStatusFailOther = 2,
-  SolicitClanHelpResponseProto_SolicitClanHelpStatusFailNotInClan = 3,
-};
-
-BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanHelpResponseProto_SolicitClanHelpStatus value);
-
-typedef NS_ENUM(SInt32, GiveClanHelpResponseProto_GiveClanHelpStatus) {
-  GiveClanHelpResponseProto_GiveClanHelpStatusSuccess = 1,
-  GiveClanHelpResponseProto_GiveClanHelpStatusFailOther = 2,
-};
-
-BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpResponseProto_GiveClanHelpStatus value);
-
-typedef NS_ENUM(SInt32, EndClanHelpResponseProto_EndClanHelpStatus) {
-  EndClanHelpResponseProto_EndClanHelpStatusSuccess = 1,
-  EndClanHelpResponseProto_EndClanHelpStatusFailOther = 2,
-};
-
-BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseProto_EndClanHelpStatus value);
-
-typedef NS_ENUM(SInt32, InviteToClanResponseProto_InviteToClanStatus) {
-  InviteToClanResponseProto_InviteToClanStatusSuccess = 1,
-  InviteToClanResponseProto_InviteToClanStatusFailOther = 2,
-  InviteToClanResponseProto_InviteToClanStatusFailNotAuthorized = 3,
-};
-
-BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanResponseProto_InviteToClanStatus value);
-
-typedef NS_ENUM(SInt32, AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) {
-  AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess = 1,
-  AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusFailOther = 2,
-  AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusFailClanIsFull = 3,
-};
-
-BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValidValue(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus value);
-
-typedef NS_ENUM(SInt32, BeginClanAvengingResponseProto_BeginClanAvengingStatus) {
-  BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess = 1,
-  BeginClanAvengingResponseProto_BeginClanAvengingStatusFailOther = 2,
-};
-
-BOOL BeginClanAvengingResponseProto_BeginClanAvengingStatusIsValidValue(BeginClanAvengingResponseProto_BeginClanAvengingStatus value);
-
-typedef NS_ENUM(SInt32, EndClanAvengingResponseProto_EndClanAvengingStatus) {
-  EndClanAvengingResponseProto_EndClanAvengingStatusSuccess = 1,
-  EndClanAvengingResponseProto_EndClanAvengingStatusFailOther = 2,
-};
-
-BOOL EndClanAvengingResponseProto_EndClanAvengingStatusIsValidValue(EndClanAvengingResponseProto_EndClanAvengingStatus value);
-
-typedef NS_ENUM(SInt32, AvengeClanMateResponseProto_AvengeClanMateStatus) {
-  AvengeClanMateResponseProto_AvengeClanMateStatusSuccess = 1,
-  AvengeClanMateResponseProto_AvengeClanMateStatusFailOther = 2,
-};
-
-BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMateResponseProto_AvengeClanMateStatus value);
-
-typedef NS_ENUM(SInt32, SolicitTeamDonationResponseProto_SolicitTeamDonationStatus) {
-  SolicitTeamDonationResponseProto_SolicitTeamDonationStatusSuccess = 1,
-  SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailOther = 2,
-  SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailInsufficientGems = 3,
-  SolicitTeamDonationResponseProto_SolicitTeamDonationStatusFailFulfilledRequestExists = 4,
-};
-
-BOOL SolicitTeamDonationResponseProto_SolicitTeamDonationStatusIsValidValue(SolicitTeamDonationResponseProto_SolicitTeamDonationStatus value);
-
-typedef NS_ENUM(SInt32, FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) {
-  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusSuccess = 1,
-  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailOther = 2,
-  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailNonexistentSolicitation = 3,
-  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusFailAlreadyFulfilled = 4,
-};
-
-BOOL FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatusIsValidValue(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus value);
-
-typedef NS_ENUM(SInt32, VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) {
-  VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusSuccess = 1,
-  VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusFailOther = 2,
-};
-
-BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatusIsValidValue(VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus value);
 
 
 @interface EventClanRoot : NSObject {
@@ -638,13 +429,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   MinimumClanProto* clanInfo;
-  CreateClanResponseProto_CreateClanStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasClanInfo;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) CreateClanResponseProto_CreateClanStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) MinimumClanProto* clanInfo;
 
 + (CreateClanResponseProto*) defaultInstance;
@@ -690,8 +481,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (CreateClanResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (CreateClanResponseProto_CreateClanStatus) status;
-- (CreateClanResponseProto_Builder*) setStatus:(CreateClanResponseProto_CreateClanStatus) value;
+- (ResponseStatus) status;
+- (CreateClanResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (CreateClanResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasClanInfo;
@@ -758,12 +549,12 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  LeaveClanResponseProto_LeaveClanStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) LeaveClanResponseProto_LeaveClanStatus status;
+@property (readonly) ResponseStatus status;
 
 + (LeaveClanResponseProto*) defaultInstance;
 - (LeaveClanResponseProto*) defaultInstance;
@@ -808,8 +599,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (LeaveClanResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (LeaveClanResponseProto_LeaveClanStatus) status;
-- (LeaveClanResponseProto_Builder*) setStatus:(LeaveClanResponseProto_LeaveClanStatus) value;
+- (ResponseStatus) status;
+- (LeaveClanResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (LeaveClanResponseProto_Builder*) clearStatusList;
 @end
 
@@ -901,7 +692,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   FullClanProtoWithClanSize* fullClan;
   PersistentClanEventClanInfoProto* eventDetails;
   UserCurrentMonsterTeamProto* requesterMonsters;
-  RequestJoinClanResponseProto_RequestJoinClanStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableClanUsersDetailsList;
 }
 - (BOOL) hasSender;
@@ -914,7 +705,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasRequesterMonsters;
 - (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) RequestJoinClanResponseProto_RequestJoinClanStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSString* clanUuid;
 @property (readonly, strong) MinimumUserProtoForClans* requester;
 @property (readonly, strong) MinimumClanProto* minClan;
@@ -968,8 +759,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (RequestJoinClanResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (RequestJoinClanResponseProto_RequestJoinClanStatus) status;
-- (RequestJoinClanResponseProto_Builder*) setStatus:(RequestJoinClanResponseProto_RequestJoinClanStatus) value;
+- (ResponseStatus) status;
+- (RequestJoinClanResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RequestJoinClanResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasClanUuid;
@@ -1091,13 +882,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasStatus_:1;
   NSString* clanUuid;
   MinimumUserProto* sender;
-  RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasClanUuid;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSString* clanUuid;
 
 + (RetractRequestJoinClanResponseProto*) defaultInstance;
@@ -1143,8 +934,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (RetractRequestJoinClanResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) status;
-- (RetractRequestJoinClanResponseProto_Builder*) setStatus:(RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) value;
+- (ResponseStatus) status;
+- (RetractRequestJoinClanResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RetractRequestJoinClanResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasClanUuid;
@@ -1235,7 +1026,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   MinimumUserProto* requester;
   MinimumClanProto* minClan;
   FullClanProtoWithClanSize* fullClan;
-  ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -1244,7 +1035,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasMinClan;
 - (BOOL) hasFullClan;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) MinimumUserProto* requester;
 - (BOOL) accept;
 @property (readonly, strong) MinimumClanProto* minClan;
@@ -1293,8 +1084,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) status;
-- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setStatus:(ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) value;
+- (ResponseStatus) status;
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasRequester;
@@ -1435,7 +1226,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   NSString* clanUuid;
   NSString* clanName;
   MinimumUserProto* sender;
-  RetrieveClanInfoResponseProto_RetrieveClanInfoStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableMembersList;
   NSMutableArray * mutableClanInfoList;
   NSMutableArray * mutableMonsterTeamsList;
@@ -1450,7 +1241,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * membersList;
 @property (readonly, strong) NSArray * clanInfoList;
-@property (readonly) RetrieveClanInfoResponseProto_RetrieveClanInfoStatus status;
+@property (readonly) ResponseStatus status;
 - (BOOL) isForSearch;
 - (BOOL) isForBrowsingList;
 @property (readonly, strong) NSString* clanUuid;
@@ -1516,8 +1307,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (RetrieveClanInfoResponseProto_Builder *)clearClanInfo;
 
 - (BOOL) hasStatus;
-- (RetrieveClanInfoResponseProto_RetrieveClanInfoStatus) status;
-- (RetrieveClanInfoResponseProto_Builder*) setStatus:(RetrieveClanInfoResponseProto_RetrieveClanInfoStatus) value;
+- (ResponseStatus) status;
+- (RetrieveClanInfoResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RetrieveClanInfoResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasIsForSearch;
@@ -1623,7 +1414,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   MinimumClanProto* minClan;
   FullClanProtoWithClanSize* fullClan;
   MinimumUserProto* clanOwnerNew;
-  TransferClanOwnershipResponseProto_TransferClanOwnershipStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -1631,7 +1422,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasFullClan;
 - (BOOL) hasClanOwnerNew;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) TransferClanOwnershipResponseProto_TransferClanOwnershipStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) MinimumClanProto* minClan;
 @property (readonly, strong) FullClanProtoWithClanSize* fullClan;
 @property (readonly, strong) MinimumUserProto* clanOwnerNew;
@@ -1679,8 +1470,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (TransferClanOwnershipResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (TransferClanOwnershipResponseProto_TransferClanOwnershipStatus) status;
-- (TransferClanOwnershipResponseProto_Builder*) setStatus:(TransferClanOwnershipResponseProto_TransferClanOwnershipStatus) value;
+- (ResponseStatus) status;
+- (TransferClanOwnershipResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (TransferClanOwnershipResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasMinClan;
@@ -1772,14 +1563,14 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   MinimumUserProto* playerToBoot;
-  BootPlayerFromClanResponseProto_BootPlayerFromClanStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasPlayerToBoot;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) MinimumUserProto* playerToBoot;
-@property (readonly) BootPlayerFromClanResponseProto_BootPlayerFromClanStatus status;
+@property (readonly) ResponseStatus status;
 
 + (BootPlayerFromClanResponseProto*) defaultInstance;
 - (BootPlayerFromClanResponseProto*) defaultInstance;
@@ -1831,8 +1622,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BootPlayerFromClanResponseProto_Builder*) clearPlayerToBoot;
 
 - (BOOL) hasStatus;
-- (BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) status;
-- (BootPlayerFromClanResponseProto_Builder*) setStatus:(BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) value;
+- (ResponseStatus) status;
+- (BootPlayerFromClanResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (BootPlayerFromClanResponseProto_Builder*) clearStatusList;
 @end
 
@@ -1950,14 +1741,14 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   MinimumUserProto* sender;
   MinimumClanProto* minClan;
   FullClanProtoWithClanSize* fullClan;
-  ChangeClanSettingsResponseProto_ChangeClanSettingsStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasMinClan;
 - (BOOL) hasFullClan;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) ChangeClanSettingsResponseProto_ChangeClanSettingsStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) MinimumClanProto* minClan;
 @property (readonly, strong) FullClanProtoWithClanSize* fullClan;
 
@@ -2004,8 +1795,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (ChangeClanSettingsResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (ChangeClanSettingsResponseProto_ChangeClanSettingsStatus) status;
-- (ChangeClanSettingsResponseProto_Builder*) setStatus:(ChangeClanSettingsResponseProto_ChangeClanSettingsStatus) value;
+- (ResponseStatus) status;
+- (ChangeClanSettingsResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (ChangeClanSettingsResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasMinClan;
@@ -2137,7 +1928,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   MinimumUserProto* sender;
   PersistentClanEventClanInfoProto* eventDetails;
   PersistentClanEventUserInfoProto* userDetails;
-  BeginClanRaidResponseProto_BeginClanRaidStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasEventDetails;
@@ -2145,7 +1936,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BOOL) hasUserDetails;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) PersistentClanEventClanInfoProto* eventDetails;
-@property (readonly) BeginClanRaidResponseProto_BeginClanRaidStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) PersistentClanEventUserInfoProto* userDetails;
 
 + (BeginClanRaidResponseProto*) defaultInstance;
@@ -2198,8 +1989,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BeginClanRaidResponseProto_Builder*) clearEventDetails;
 
 - (BOOL) hasStatus;
-- (BeginClanRaidResponseProto_BeginClanRaidStatus) status;
-- (BeginClanRaidResponseProto_Builder*) setStatus:(BeginClanRaidResponseProto_BeginClanRaidStatus) value;
+- (ResponseStatus) status;
+- (BeginClanRaidResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (BeginClanRaidResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasUserDetails;
@@ -2332,7 +2123,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   MinimumUserProto* sender;
   PersistentClanEventClanInfoProto* eventDetails;
   FullUserMonsterProto* userMonsterThatAttacked;
-  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableClanUsersDetailsList;
 }
 - (BOOL) hasSender;
@@ -2345,7 +2136,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 @property (readonly, strong) PersistentClanEventClanInfoProto* eventDetails;
 @property (readonly, strong) NSArray * clanUsersDetailsList;
 @property (readonly, strong) FullUserMonsterProto* userMonsterThatAttacked;
-@property (readonly) AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus status;
+@property (readonly) ResponseStatus status;
 - (PersistentClanEventUserInfoProto*)clanUsersDetailsAtIndex:(NSUInteger)index;
 
 + (AttackClanRaidMonsterResponseProto*) defaultInstance;
@@ -2416,8 +2207,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (AttackClanRaidMonsterResponseProto_Builder*) clearUserMonsterThatAttacked;
 
 - (BOOL) hasStatus;
-- (AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) status;
-- (AttackClanRaidMonsterResponseProto_Builder*) setStatus:(AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) value;
+- (ResponseStatus) status;
+- (AttackClanRaidMonsterResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (AttackClanRaidMonsterResponseProto_Builder*) clearStatusList;
 @end
 
@@ -2553,12 +2344,12 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus status;
+@property (readonly) ResponseStatus status;
 
 + (RecordClanRaidStatsResponseProto*) defaultInstance;
 - (RecordClanRaidStatsResponseProto*) defaultInstance;
@@ -2603,8 +2394,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (RecordClanRaidStatsResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) status;
-- (RecordClanRaidStatsResponseProto_Builder*) setStatus:(RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) value;
+- (ResponseStatus) status;
+- (RecordClanRaidStatsResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (RecordClanRaidStatsResponseProto_Builder*) clearStatusList;
 @end
 
@@ -2688,7 +2479,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   MinimumUserProto* victim;
   UserClanStatus userClanStatus;
   UserClanStatus prevUserClanStatus;
-  PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasVictim;
@@ -2699,7 +2490,7 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 @property (readonly, strong) MinimumUserProto* victim;
 @property (readonly) UserClanStatus userClanStatus;
 @property (readonly) UserClanStatus prevUserClanStatus;
-@property (readonly) PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus status;
+@property (readonly) ResponseStatus status;
 
 + (PromoteDemoteClanMemberResponseProto*) defaultInstance;
 - (PromoteDemoteClanMemberResponseProto*) defaultInstance;
@@ -2761,8 +2552,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (PromoteDemoteClanMemberResponseProto_Builder*) clearPrevUserClanStatusList;
 
 - (BOOL) hasStatus;
-- (PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) status;
-- (PromoteDemoteClanMemberResponseProto_Builder*) setStatus:(PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) value;
+- (ResponseStatus) status;
+- (PromoteDemoteClanMemberResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (PromoteDemoteClanMemberResponseProto_Builder*) clearStatusList;
 @end
 
@@ -2849,14 +2640,14 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  SolicitClanHelpResponseProto_SolicitClanHelpStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableHelpProtoList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * helpProtoList;
-@property (readonly) SolicitClanHelpResponseProto_SolicitClanHelpStatus status;
+@property (readonly) ResponseStatus status;
 - (ClanHelpProto*)helpProtoAtIndex:(NSUInteger)index;
 
 + (SolicitClanHelpResponseProto*) defaultInstance;
@@ -2908,8 +2699,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (SolicitClanHelpResponseProto_Builder *)clearHelpProto;
 
 - (BOOL) hasStatus;
-- (SolicitClanHelpResponseProto_SolicitClanHelpStatus) status;
-- (SolicitClanHelpResponseProto_Builder*) setStatus:(SolicitClanHelpResponseProto_SolicitClanHelpStatus) value;
+- (ResponseStatus) status;
+- (SolicitClanHelpResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (SolicitClanHelpResponseProto_Builder*) clearStatusList;
 @end
 
@@ -2978,14 +2769,14 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  GiveClanHelpResponseProto_GiveClanHelpStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableClanHelpsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * clanHelpsList;
-@property (readonly) GiveClanHelpResponseProto_GiveClanHelpStatus status;
+@property (readonly) ResponseStatus status;
 - (ClanHelpProto*)clanHelpsAtIndex:(NSUInteger)index;
 
 + (GiveClanHelpResponseProto*) defaultInstance;
@@ -3037,8 +2828,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (GiveClanHelpResponseProto_Builder *)clearClanHelps;
 
 - (BOOL) hasStatus;
-- (GiveClanHelpResponseProto_GiveClanHelpStatus) status;
-- (GiveClanHelpResponseProto_Builder*) setStatus:(GiveClanHelpResponseProto_GiveClanHelpStatus) value;
+- (ResponseStatus) status;
+- (GiveClanHelpResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (GiveClanHelpResponseProto_Builder*) clearStatusList;
 @end
 
@@ -3107,14 +2898,14 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  EndClanHelpResponseProto_EndClanHelpStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableClanHelpUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * clanHelpUuidsList;
-@property (readonly) EndClanHelpResponseProto_EndClanHelpStatus status;
+@property (readonly) ResponseStatus status;
 - (NSString*)clanHelpUuidsAtIndex:(NSUInteger)index;
 
 + (EndClanHelpResponseProto*) defaultInstance;
@@ -3166,8 +2957,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (EndClanHelpResponseProto_Builder *)clearClanHelpUuids;
 
 - (BOOL) hasStatus;
-- (EndClanHelpResponseProto_EndClanHelpStatus) status;
-- (EndClanHelpResponseProto_Builder*) setStatus:(EndClanHelpResponseProto_EndClanHelpStatus) value;
+- (ResponseStatus) status;
+- (EndClanHelpResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (EndClanHelpResponseProto_Builder*) clearStatusList;
 @end
 
@@ -3247,13 +3038,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   ClanInviteProto* invite;
-  InviteToClanResponseProto_InviteToClanStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasInvite;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) InviteToClanResponseProto_InviteToClanStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) ClanInviteProto* invite;
 
 + (InviteToClanResponseProto*) defaultInstance;
@@ -3299,8 +3090,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (InviteToClanResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (InviteToClanResponseProto_InviteToClanStatus) status;
-- (InviteToClanResponseProto_Builder*) setStatus:(InviteToClanResponseProto_InviteToClanStatus) value;
+- (ResponseStatus) status;
+- (InviteToClanResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (InviteToClanResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasInvite;
@@ -3398,13 +3189,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   FullClanProtoWithClanSize* fullClan;
-  AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasFullClan;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) FullClanProtoWithClanSize* fullClan;
 
 + (AcceptOrRejectClanInviteResponseProto*) defaultInstance;
@@ -3450,8 +3241,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (AcceptOrRejectClanInviteResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) status;
-- (AcceptOrRejectClanInviteResponseProto_Builder*) setStatus:(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) value;
+- (ResponseStatus) status;
+- (AcceptOrRejectClanInviteResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasFullClan;
@@ -3598,14 +3389,14 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  BeginClanAvengingResponseProto_BeginClanAvengingStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableClanAvengingsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * clanAvengingsList;
-@property (readonly) BeginClanAvengingResponseProto_BeginClanAvengingStatus status;
+@property (readonly) ResponseStatus status;
 - (PvpClanAvengeProto*)clanAvengingsAtIndex:(NSUInteger)index;
 
 + (BeginClanAvengingResponseProto*) defaultInstance;
@@ -3657,8 +3448,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (BeginClanAvengingResponseProto_Builder *)clearClanAvengings;
 
 - (BOOL) hasStatus;
-- (BeginClanAvengingResponseProto_BeginClanAvengingStatus) status;
-- (BeginClanAvengingResponseProto_Builder*) setStatus:(BeginClanAvengingResponseProto_BeginClanAvengingStatus) value;
+- (ResponseStatus) status;
+- (BeginClanAvengingResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (BeginClanAvengingResponseProto_Builder*) clearStatusList;
 @end
 
@@ -3727,14 +3518,14 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  EndClanAvengingResponseProto_EndClanAvengingStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableClanAvengeUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * clanAvengeUuidsList;
-@property (readonly) EndClanAvengingResponseProto_EndClanAvengingStatus status;
+@property (readonly) ResponseStatus status;
 - (NSString*)clanAvengeUuidsAtIndex:(NSUInteger)index;
 
 + (EndClanAvengingResponseProto*) defaultInstance;
@@ -3786,8 +3577,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (EndClanAvengingResponseProto_Builder *)clearClanAvengeUuids;
 
 - (BOOL) hasStatus;
-- (EndClanAvengingResponseProto_EndClanAvengingStatus) status;
-- (EndClanAvengingResponseProto_Builder*) setStatus:(EndClanAvengingResponseProto_EndClanAvengingStatus) value;
+- (ResponseStatus) status;
+- (EndClanAvengingResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (EndClanAvengingResponseProto_Builder*) clearStatusList;
 @end
 
@@ -3869,14 +3660,14 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   PvpProto* victim;
-  AvengeClanMateResponseProto_AvengeClanMateStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasVictim;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) PvpProto* victim;
-@property (readonly) AvengeClanMateResponseProto_AvengeClanMateStatus status;
+@property (readonly) ResponseStatus status;
 
 + (AvengeClanMateResponseProto*) defaultInstance;
 - (AvengeClanMateResponseProto*) defaultInstance;
@@ -3928,8 +3719,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (AvengeClanMateResponseProto_Builder*) clearVictim;
 
 - (BOOL) hasStatus;
-- (AvengeClanMateResponseProto_AvengeClanMateStatus) status;
-- (AvengeClanMateResponseProto_Builder*) setStatus:(AvengeClanMateResponseProto_AvengeClanMateStatus) value;
+- (ResponseStatus) status;
+- (AvengeClanMateResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (AvengeClanMateResponseProto_Builder*) clearStatusList;
 @end
 
@@ -4027,13 +3818,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   ClanMemberTeamDonationProto* solicitation;
-  SolicitTeamDonationResponseProto_SolicitTeamDonationStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasSolicitation;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) SolicitTeamDonationResponseProto_SolicitTeamDonationStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
 
 + (SolicitTeamDonationResponseProto*) defaultInstance;
@@ -4079,8 +3870,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (SolicitTeamDonationResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (SolicitTeamDonationResponseProto_SolicitTeamDonationStatus) status;
-- (SolicitTeamDonationResponseProto_Builder*) setStatus:(SolicitTeamDonationResponseProto_SolicitTeamDonationStatus) value;
+- (ResponseStatus) status;
+- (SolicitTeamDonationResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (SolicitTeamDonationResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasSolicitation;
@@ -4180,13 +3971,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   ClanMemberTeamDonationProto* solicitation;
-  FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
+  ResponseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasSolicitation;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) ClanMemberTeamDonationProto* solicitation;
 
 + (FulfillTeamDonationSolicitationResponseProto*) defaultInstance;
@@ -4232,8 +4023,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) status;
-- (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(FulfillTeamDonationSolicitationResponseProto_FulfillTeamDonationSolicitationStatus) value;
+- (ResponseStatus) status;
+- (FulfillTeamDonationSolicitationResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (FulfillTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasSolicitation;
@@ -4309,13 +4100,13 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus status;
+  ResponseStatus status;
   NSMutableArray * mutableClanTeamDonateUuidList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus status;
+@property (readonly) ResponseStatus status;
 @property (readonly, strong) NSArray * clanTeamDonateUuidList;
 - (NSString*)clanTeamDonateUuidAtIndex:(NSUInteger)index;
 
@@ -4362,8 +4153,8 @@ BOOL VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatu
 - (VoidTeamDonationSolicitationResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) status;
-- (VoidTeamDonationSolicitationResponseProto_Builder*) setStatus:(VoidTeamDonationSolicitationResponseProto_VoidTeamDonationSolicitationStatus) value;
+- (ResponseStatus) status;
+- (VoidTeamDonationSolicitationResponseProto_Builder*) setStatus:(ResponseStatus) value;
 - (VoidTeamDonationSolicitationResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)clanTeamDonateUuidList;

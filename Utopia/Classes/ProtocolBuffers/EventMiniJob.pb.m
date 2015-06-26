@@ -388,7 +388,7 @@ static SpawnMiniJobRequestProto* defaultSpawnMiniJobRequestProtoInstance = nil;
 @interface SpawnMiniJobResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableMiniJobsList;
-@property SpawnMiniJobResponseProto_SpawnMiniJobStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation SpawnMiniJobResponseProto
@@ -412,7 +412,7 @@ static SpawnMiniJobRequestProto* defaultSpawnMiniJobRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = SpawnMiniJobResponseProto_SpawnMiniJobStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -549,15 +549,6 @@ static SpawnMiniJobResponseProto* defaultSpawnMiniJobResponseProtoInstance = nil
 }
 @end
 
-BOOL SpawnMiniJobResponseProto_SpawnMiniJobStatusIsValidValue(SpawnMiniJobResponseProto_SpawnMiniJobStatus value) {
-  switch (value) {
-    case SpawnMiniJobResponseProto_SpawnMiniJobStatusSuccess:
-    case SpawnMiniJobResponseProto_SpawnMiniJobStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface SpawnMiniJobResponseProto_Builder()
 @property (strong) SpawnMiniJobResponseProto* result;
 @end
@@ -646,8 +637,8 @@ BOOL SpawnMiniJobResponseProto_SpawnMiniJobStatusIsValidValue(SpawnMiniJobRespon
         break;
       }
       case 24: {
-        SpawnMiniJobResponseProto_SpawnMiniJobStatus value = (SpawnMiniJobResponseProto_SpawnMiniJobStatus)[input readEnum];
-        if (SpawnMiniJobResponseProto_SpawnMiniJobStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -714,17 +705,17 @@ BOOL SpawnMiniJobResponseProto_SpawnMiniJobStatusIsValidValue(SpawnMiniJobRespon
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (SpawnMiniJobResponseProto_SpawnMiniJobStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (SpawnMiniJobResponseProto_Builder*) setStatus:(SpawnMiniJobResponseProto_SpawnMiniJobStatus) value {
+- (SpawnMiniJobResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (SpawnMiniJobResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = SpawnMiniJobResponseProto_SpawnMiniJobStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -1108,7 +1099,7 @@ static BeginMiniJobRequestProto* defaultBeginMiniJobRequestProtoInstance = nil;
 
 @interface BeginMiniJobResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property BeginMiniJobResponseProto_BeginMiniJobStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation BeginMiniJobResponseProto
@@ -1130,7 +1121,7 @@ static BeginMiniJobRequestProto* defaultBeginMiniJobRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = BeginMiniJobResponseProto_BeginMiniJobStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1245,16 +1236,6 @@ static BeginMiniJobResponseProto* defaultBeginMiniJobResponseProtoInstance = nil
 }
 @end
 
-BOOL BeginMiniJobResponseProto_BeginMiniJobStatusIsValidValue(BeginMiniJobResponseProto_BeginMiniJobStatus value) {
-  switch (value) {
-    case BeginMiniJobResponseProto_BeginMiniJobStatusSuccess:
-    case BeginMiniJobResponseProto_BeginMiniJobStatusFailOther:
-    case BeginMiniJobResponseProto_BeginMiniJobStatusFailNoMiniJobExists:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface BeginMiniJobResponseProto_Builder()
 @property (strong) BeginMiniJobResponseProto* result;
 @end
@@ -1330,8 +1311,8 @@ BOOL BeginMiniJobResponseProto_BeginMiniJobStatusIsValidValue(BeginMiniJobRespon
         break;
       }
       case 16: {
-        BeginMiniJobResponseProto_BeginMiniJobStatus value = (BeginMiniJobResponseProto_BeginMiniJobStatus)[input readEnum];
-        if (BeginMiniJobResponseProto_BeginMiniJobStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1374,17 +1355,17 @@ BOOL BeginMiniJobResponseProto_BeginMiniJobStatusIsValidValue(BeginMiniJobRespon
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (BeginMiniJobResponseProto_BeginMiniJobStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (BeginMiniJobResponseProto_Builder*) setStatus:(BeginMiniJobResponseProto_BeginMiniJobStatus) value {
+- (BeginMiniJobResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (BeginMiniJobResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = BeginMiniJobResponseProto_BeginMiniJobStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -1802,7 +1783,7 @@ static CompleteMiniJobRequestProto* defaultCompleteMiniJobRequestProtoInstance =
 
 @interface CompleteMiniJobResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property CompleteMiniJobResponseProto_CompleteMiniJobStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation CompleteMiniJobResponseProto
@@ -1824,7 +1805,7 @@ static CompleteMiniJobRequestProto* defaultCompleteMiniJobRequestProtoInstance =
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = CompleteMiniJobResponseProto_CompleteMiniJobStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -1939,17 +1920,6 @@ static CompleteMiniJobResponseProto* defaultCompleteMiniJobResponseProtoInstance
 }
 @end
 
-BOOL CompleteMiniJobResponseProto_CompleteMiniJobStatusIsValidValue(CompleteMiniJobResponseProto_CompleteMiniJobStatus value) {
-  switch (value) {
-    case CompleteMiniJobResponseProto_CompleteMiniJobStatusSuccess:
-    case CompleteMiniJobResponseProto_CompleteMiniJobStatusFailOther:
-    case CompleteMiniJobResponseProto_CompleteMiniJobStatusFailInsufficientGems:
-    case CompleteMiniJobResponseProto_CompleteMiniJobStatusFailNoMiniJobExists:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface CompleteMiniJobResponseProto_Builder()
 @property (strong) CompleteMiniJobResponseProto* result;
 @end
@@ -2025,8 +1995,8 @@ BOOL CompleteMiniJobResponseProto_CompleteMiniJobStatusIsValidValue(CompleteMini
         break;
       }
       case 16: {
-        CompleteMiniJobResponseProto_CompleteMiniJobStatus value = (CompleteMiniJobResponseProto_CompleteMiniJobStatus)[input readEnum];
-        if (CompleteMiniJobResponseProto_CompleteMiniJobStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -2069,17 +2039,17 @@ BOOL CompleteMiniJobResponseProto_CompleteMiniJobStatusIsValidValue(CompleteMini
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (CompleteMiniJobResponseProto_CompleteMiniJobStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (CompleteMiniJobResponseProto_Builder*) setStatus:(CompleteMiniJobResponseProto_CompleteMiniJobStatus) value {
+- (CompleteMiniJobResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (CompleteMiniJobResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = CompleteMiniJobResponseProto_CompleteMiniJobStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
@@ -2463,7 +2433,7 @@ static RedeemMiniJobRequestProto* defaultRedeemMiniJobRequestProtoInstance = nil
 @interface RedeemMiniJobResponseProto ()
 @property (strong) MinimumUserProtoWithMaxResources* sender;
 @property (strong) FullUserMonsterProto* fump;
-@property RedeemMiniJobResponseProto_RedeemMiniJobStatus status;
+@property ResponseStatus status;
 @property (strong) UserRewardProto* rewards;
 @end
 
@@ -2501,7 +2471,7 @@ static RedeemMiniJobRequestProto* defaultRedeemMiniJobRequestProtoInstance = nil
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.fump = [FullUserMonsterProto defaultInstance];
-    self.status = RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess;
+    self.status = ResponseStatusSuccess;
     self.rewards = [UserRewardProto defaultInstance];
   }
   return self;
@@ -2651,17 +2621,6 @@ static RedeemMiniJobResponseProto* defaultRedeemMiniJobResponseProtoInstance = n
 }
 @end
 
-BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobResponseProto_RedeemMiniJobStatus value) {
-  switch (value) {
-    case RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess:
-    case RedeemMiniJobResponseProto_RedeemMiniJobStatusFailOther:
-    case RedeemMiniJobResponseProto_RedeemMiniJobStatusFailNoMiniJobExists:
-    case RedeemMiniJobResponseProto_RedeemMiniJobStatusFailMiniJobIncomplete:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RedeemMiniJobResponseProto_Builder()
 @property (strong) RedeemMiniJobResponseProto* result;
 @end
@@ -2752,8 +2711,8 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
         break;
       }
       case 24: {
-        RedeemMiniJobResponseProto_RedeemMiniJobStatus value = (RedeemMiniJobResponseProto_RedeemMiniJobStatus)[input readEnum];
-        if (RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -2835,17 +2794,17 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RedeemMiniJobResponseProto_RedeemMiniJobStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RedeemMiniJobResponseProto_Builder*) setStatus:(RedeemMiniJobResponseProto_RedeemMiniJobStatus) value {
+- (RedeemMiniJobResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RedeemMiniJobResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 - (BOOL) hasRewards {
@@ -3449,7 +3408,7 @@ static RefreshMiniJobRequestProto* defaultRefreshMiniJobRequestProtoInstance = n
 @interface RefreshMiniJobResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableMiniJobsList;
-@property RefreshMiniJobResponseProto_RefreshMiniJobStatus status;
+@property ResponseStatus status;
 @end
 
 @implementation RefreshMiniJobResponseProto
@@ -3473,7 +3432,7 @@ static RefreshMiniJobRequestProto* defaultRefreshMiniJobRequestProtoInstance = n
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess;
+    self.status = ResponseStatusSuccess;
   }
   return self;
 }
@@ -3610,17 +3569,6 @@ static RefreshMiniJobResponseProto* defaultRefreshMiniJobResponseProtoInstance =
 }
 @end
 
-BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJobResponseProto_RefreshMiniJobStatus value) {
-  switch (value) {
-    case RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess:
-    case RefreshMiniJobResponseProto_RefreshMiniJobStatusFailInsufficientGems:
-    case RefreshMiniJobResponseProto_RefreshMiniJobStatusFailInsufficientItems:
-    case RefreshMiniJobResponseProto_RefreshMiniJobStatusFailOther:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface RefreshMiniJobResponseProto_Builder()
 @property (strong) RefreshMiniJobResponseProto* result;
 @end
@@ -3709,8 +3657,8 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
         break;
       }
       case 24: {
-        RefreshMiniJobResponseProto_RefreshMiniJobStatus value = (RefreshMiniJobResponseProto_RefreshMiniJobStatus)[input readEnum];
-        if (RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(value)) {
+        ResponseStatus value = (ResponseStatus)[input readEnum];
+        if (ResponseStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
@@ -3777,17 +3725,17 @@ BOOL RefreshMiniJobResponseProto_RefreshMiniJobStatusIsValidValue(RefreshMiniJob
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RefreshMiniJobResponseProto_RefreshMiniJobStatus) status {
+- (ResponseStatus) status {
   return result.status;
 }
-- (RefreshMiniJobResponseProto_Builder*) setStatus:(RefreshMiniJobResponseProto_RefreshMiniJobStatus) value {
+- (RefreshMiniJobResponseProto_Builder*) setStatus:(ResponseStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (RefreshMiniJobResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
-  result.status = RefreshMiniJobResponseProto_RefreshMiniJobStatusSuccess;
+  result.status = ResponseStatusSuccess;
   return self;
 }
 @end
