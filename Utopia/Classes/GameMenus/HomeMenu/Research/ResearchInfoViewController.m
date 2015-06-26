@@ -124,6 +124,11 @@
   self.bottomBarBgd.highlighted = YES;
   self.bottomNameLabel.highlighted = YES;
   self.bottomDescLabel.highlighted = YES;
+  
+  //ipad bottom bar bgd parts
+  self.bottomBarBgdLeft.highlighted = YES;
+  self.bottomBarBgdRight.highlighted = YES;
+  self.bottomBarBgdMiddle.highlighted = YES;
 }
 
 @end
