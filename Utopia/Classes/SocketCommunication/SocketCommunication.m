@@ -187,11 +187,19 @@ static NSString *udid = nil;
     [self.webSocket close];
   }
   
+  NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+  NSString *version = [info objectForKey:@"CFBundleShortVersionString"];
   
-  NSURL *url = [NSURL URLWithString:HOST_NAME];
+  // Convert version to use a '-' instead of a '.'
+  version = [version stringByReplacingOccurrencesOfString:@"." withString:@"-"];
+  NSString *hostName = HOST_NAME;
+  hostName = [NSString stringWithFormat:hostName, version];
+  NSURL *url = [NSURL URLWithString:hostName];
   self.webSocket = [[SRWebSocket alloc] initWithURL:url];
   self.webSocket.delegate = self;
   [self.webSocket open];
+  
+  LNLog(@"Attempting connection to \"%@\"", hostName);
 }
 
 - (void) initNetworkCommunicationWithDelegate:(id)delegate clearMessages:(BOOL)clearMessages {
@@ -269,7 +277,7 @@ static NSString *udid = nil;
 }
 
 - (void) connectedToHost {
-  LNLog(@"Connected to host \"%@\" on port %d", HOST_NAME, HOST_PORT);
+  LNLog(@"Connected to host \"%@\"", self.webSocket.url);
   
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = YES;
