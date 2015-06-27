@@ -967,7 +967,7 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
     case MiniEventGoalProto_MiniEventGoalTypePvpCatchUltra:
     case MiniEventGoalProto_MiniEventGoalTypePvpCatchEpic:
     case MiniEventGoalProto_MiniEventGoalTypeGainEnhanceStrength:
-    case MiniEventGoalProto_MiniEventGoalTypeEnhanceCakeKidBase:
+    case MiniEventGoalProto_MiniEventGoalTypeGainEnhanceStrengthFromCakeKid:
     case MiniEventGoalProto_MiniEventGoalTypeEnhanceCakeKidFeeder:
     case MiniEventGoalProto_MiniEventGoalTypeGainEvolutionStrength:
     case MiniEventGoalProto_MiniEventGoalTypePvpWinAgainstBronze:
@@ -2482,6 +2482,7 @@ static MiniEventLeaderboardRewardProto* defaultMiniEventLeaderboardRewardProtoIn
 
 @interface UserMiniEventProto ()
 @property int32_t miniEventId;
+@property int32_t miniEventTimetableId;
 @property (strong) NSString* userUuid;
 @property int32_t userLvl;
 @property BOOL tierOneRedeemed;
@@ -2500,6 +2501,13 @@ static MiniEventLeaderboardRewardProto* defaultMiniEventLeaderboardRewardProtoIn
   hasMiniEventId_ = !!value_;
 }
 @synthesize miniEventId;
+- (BOOL) hasMiniEventTimetableId {
+  return !!hasMiniEventTimetableId_;
+}
+- (void) setHasMiniEventTimetableId:(BOOL) value_ {
+  hasMiniEventTimetableId_ = !!value_;
+}
+@synthesize miniEventTimetableId;
 - (BOOL) hasUserUuid {
   return !!hasUserUuid_;
 }
@@ -2562,6 +2570,7 @@ static MiniEventLeaderboardRewardProto* defaultMiniEventLeaderboardRewardProtoIn
 - (id) init {
   if ((self = [super init])) {
     self.miniEventId = 0;
+    self.miniEventTimetableId = 0;
     self.userUuid = @"";
     self.userLvl = 0;
     self.tierOneRedeemed = NO;
@@ -2617,6 +2626,9 @@ static UserMiniEventProto* defaultUserMiniEventProtoInstance = nil;
   [self.goalsList enumerateObjectsUsingBlock:^(UserMiniEventGoalProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:8 value:element];
   }];
+  if (self.hasMiniEventTimetableId) {
+    [output writeInt32:9 value:self.miniEventTimetableId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2650,6 +2662,9 @@ static UserMiniEventProto* defaultUserMiniEventProtoInstance = nil;
   [self.goalsList enumerateObjectsUsingBlock:^(UserMiniEventGoalProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(8, element);
   }];
+  if (self.hasMiniEventTimetableId) {
+    size_ += computeInt32Size(9, self.miniEventTimetableId);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -2715,6 +2730,9 @@ static UserMiniEventProto* defaultUserMiniEventProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasMiniEventTimetableId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"miniEventTimetableId", [NSNumber numberWithInteger:self.miniEventTimetableId]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2741,6 +2759,8 @@ static UserMiniEventProto* defaultUserMiniEventProtoInstance = nil;
       self.hasMiniEvent == otherMessage.hasMiniEvent &&
       (!self.hasMiniEvent || [self.miniEvent isEqual:otherMessage.miniEvent]) &&
       [self.goalsList isEqualToArray:otherMessage.goalsList] &&
+      self.hasMiniEventTimetableId == otherMessage.hasMiniEventTimetableId &&
+      (!self.hasMiniEventTimetableId || self.miniEventTimetableId == otherMessage.miniEventTimetableId) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2769,6 +2789,9 @@ static UserMiniEventProto* defaultUserMiniEventProtoInstance = nil;
   [self.goalsList enumerateObjectsUsingBlock:^(UserMiniEventGoalProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasMiniEventTimetableId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.miniEventTimetableId] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -2814,6 +2837,9 @@ static UserMiniEventProto* defaultUserMiniEventProtoInstance = nil;
   }
   if (other.hasMiniEventId) {
     [self setMiniEventId:other.miniEventId];
+  }
+  if (other.hasMiniEventTimetableId) {
+    [self setMiniEventTimetableId:other.miniEventTimetableId];
   }
   if (other.hasUserUuid) {
     [self setUserUuid:other.userUuid];
@@ -2900,6 +2926,10 @@ static UserMiniEventProto* defaultUserMiniEventProtoInstance = nil;
         [self addGoals:[subBuilder buildPartial]];
         break;
       }
+      case 72: {
+        [self setMiniEventTimetableId:[input readInt32]];
+        break;
+      }
     }
   }
 }
@@ -2917,6 +2947,22 @@ static UserMiniEventProto* defaultUserMiniEventProtoInstance = nil;
 - (UserMiniEventProto_Builder*) clearMiniEventId {
   result.hasMiniEventId = NO;
   result.miniEventId = 0;
+  return self;
+}
+- (BOOL) hasMiniEventTimetableId {
+  return result.hasMiniEventTimetableId;
+}
+- (int32_t) miniEventTimetableId {
+  return result.miniEventTimetableId;
+}
+- (UserMiniEventProto_Builder*) setMiniEventTimetableId:(int32_t) value {
+  result.hasMiniEventTimetableId = YES;
+  result.miniEventTimetableId = value;
+  return self;
+}
+- (UserMiniEventProto_Builder*) clearMiniEventTimetableId {
+  result.hasMiniEventTimetableId = NO;
+  result.miniEventTimetableId = 0;
   return self;
 }
 - (BOOL) hasUserUuid {
@@ -3059,6 +3105,7 @@ static UserMiniEventProto* defaultUserMiniEventProtoInstance = nil;
 @property (strong) NSString* userUuid;
 @property int32_t miniEventGoalId;
 @property int32_t progress;
+@property int32_t miniEventTimetableId;
 @end
 
 @implementation UserMiniEventGoalProto
@@ -3084,11 +3131,19 @@ static UserMiniEventProto* defaultUserMiniEventProtoInstance = nil;
   hasProgress_ = !!value_;
 }
 @synthesize progress;
+- (BOOL) hasMiniEventTimetableId {
+  return !!hasMiniEventTimetableId_;
+}
+- (void) setHasMiniEventTimetableId:(BOOL) value_ {
+  hasMiniEventTimetableId_ = !!value_;
+}
+@synthesize miniEventTimetableId;
 - (id) init {
   if ((self = [super init])) {
     self.userUuid = @"";
     self.miniEventGoalId = 0;
     self.progress = 0;
+    self.miniEventTimetableId = 0;
   }
   return self;
 }
@@ -3117,6 +3172,9 @@ static UserMiniEventGoalProto* defaultUserMiniEventGoalProtoInstance = nil;
   if (self.hasProgress) {
     [output writeInt32:3 value:self.progress];
   }
+  if (self.hasMiniEventTimetableId) {
+    [output writeInt32:4 value:self.miniEventTimetableId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3134,6 +3192,9 @@ static UserMiniEventGoalProto* defaultUserMiniEventGoalProtoInstance = nil;
   }
   if (self.hasProgress) {
     size_ += computeInt32Size(3, self.progress);
+  }
+  if (self.hasMiniEventTimetableId) {
+    size_ += computeInt32Size(4, self.miniEventTimetableId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3179,6 +3240,9 @@ static UserMiniEventGoalProto* defaultUserMiniEventGoalProtoInstance = nil;
   if (self.hasProgress) {
     [output appendFormat:@"%@%@: %@\n", indent, @"progress", [NSNumber numberWithInteger:self.progress]];
   }
+  if (self.hasMiniEventTimetableId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"miniEventTimetableId", [NSNumber numberWithInteger:self.miniEventTimetableId]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3196,6 +3260,8 @@ static UserMiniEventGoalProto* defaultUserMiniEventGoalProtoInstance = nil;
       (!self.hasMiniEventGoalId || self.miniEventGoalId == otherMessage.miniEventGoalId) &&
       self.hasProgress == otherMessage.hasProgress &&
       (!self.hasProgress || self.progress == otherMessage.progress) &&
+      self.hasMiniEventTimetableId == otherMessage.hasMiniEventTimetableId &&
+      (!self.hasMiniEventTimetableId || self.miniEventTimetableId == otherMessage.miniEventTimetableId) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3208,6 +3274,9 @@ static UserMiniEventGoalProto* defaultUserMiniEventGoalProtoInstance = nil;
   }
   if (self.hasProgress) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.progress] hash];
+  }
+  if (self.hasMiniEventTimetableId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.miniEventTimetableId] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3261,6 +3330,9 @@ static UserMiniEventGoalProto* defaultUserMiniEventGoalProtoInstance = nil;
   if (other.hasProgress) {
     [self setProgress:other.progress];
   }
+  if (other.hasMiniEventTimetableId) {
+    [self setMiniEventTimetableId:other.miniEventTimetableId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3292,6 +3364,10 @@ static UserMiniEventGoalProto* defaultUserMiniEventGoalProtoInstance = nil;
       }
       case 24: {
         [self setProgress:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setMiniEventTimetableId:[input readInt32]];
         break;
       }
     }
@@ -3343,6 +3419,22 @@ static UserMiniEventGoalProto* defaultUserMiniEventGoalProtoInstance = nil;
 - (UserMiniEventGoalProto_Builder*) clearProgress {
   result.hasProgress = NO;
   result.progress = 0;
+  return self;
+}
+- (BOOL) hasMiniEventTimetableId {
+  return result.hasMiniEventTimetableId;
+}
+- (int32_t) miniEventTimetableId {
+  return result.miniEventTimetableId;
+}
+- (UserMiniEventGoalProto_Builder*) setMiniEventTimetableId:(int32_t) value {
+  result.hasMiniEventTimetableId = YES;
+  result.miniEventTimetableId = value;
+  return self;
+}
+- (UserMiniEventGoalProto_Builder*) clearMiniEventTimetableId {
+  result.hasMiniEventTimetableId = NO;
+  result.miniEventTimetableId = 0;
   return self;
 }
 @end

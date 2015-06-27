@@ -56,4 +56,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(MiniEventManager)
 - (void) checkClanDonate;
 - (void) checkBoosterPack:(int)boosterPackId multiSpin:(BOOL)multiSpin;
 
+- (void) checkEnhanceStrengthGained:(int)strengthGained;
+- (void) checkEvolutionStrengthGained:(int)strengthGained;
+- (void) checkCakeKidEnhanceStrengthGained:(int)strengthGained;
+- (void) checkEnhanceCakeKidFeeder;
+- (void) checkPvpWinAgainstLeagueId:(int)leagueId;
+- (void) checkCompleteMiniJob:(Quality)quality;
+- (void) checkSendClanGifts:(int)quantity;
+- (void) checkUseBattleItemsInPvp:(NSDictionary *)battleItemIdToQuantities;
+
 @end

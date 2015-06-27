@@ -3024,6 +3024,17 @@
     [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashSpent:0 oilSpent:0 gemsSpent:bip.inBattleGemCost reason:[NSString stringWithFormat:@"Purchased %@ in battle.", bip.name]];
   }
   
+  
+  
+  if (!self.battleItemIdToQuantities) {
+    self.battleItemIdToQuantities = [NSMutableDictionary dictionary];
+  }
+  
+  int quantity = [self.battleItemIdToQuantities[@(ubi.battleItemId)] intValue];
+  self.battleItemIdToQuantities[@(ubi.battleItemId)] = @(quantity+1);
+  
+  
+  
   if (self.dialogueViewController) { 
     [self.dialogueViewController animateNext];
   }

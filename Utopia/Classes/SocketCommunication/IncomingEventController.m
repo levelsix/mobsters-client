@@ -743,6 +743,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
           [gs.mySales removeObjectAtIndex:idx];
         }
       }
+      
+      // Check if this has a clan gift
+      int numClanGifts = 0;
+      for (SalesItemProto *sip in spp.sipList) {
+        if (sip.reward.typ == RewardTypeGift) {
+          GiftProto *gp = [gs giftWithId:sip.reward.staticDataId];
+          
+          if (gp.giftType == GiftProto_GiftTypeClanGift) {
+            numClanGifts++;
+          }
+        }
+      }
+      
+      [[MiniEventManager sharedInstance] checkSendClanGifts:numClanGifts];
+      
     } else {
       SKProduct *prod = iap.products[proto.packageName];
       // Duplicate receipt might occur if you close app before response comes back
@@ -2717,9 +2732,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
   }
   
-  [gs.myGifts addObjectsFromArray:arr];
-  [Globals addGiftNotification:arr];
-  [[NSNotificationCenter defaultCenter] postNotificationName:GIFTS_CHANGED_NOTIFICATION object:nil];
+  if (arr.count) {
+    [gs.myGifts addObjectsFromArray:arr];
+    [Globals addGiftNotification:arr];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GIFTS_CHANGED_NOTIFICATION object:nil];
+  }
   
 }
 

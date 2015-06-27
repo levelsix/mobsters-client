@@ -236,6 +236,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
     [[OutgoingEventController sharedOutgoingEventController] redeemMiniEventRewardWithDelegate:delegate
                                                                                   tierRedeemed:tierRedeemed
                                                                      miniEventForPlayerLevelId:_currentUserMiniEvent.miniEvent.lvlEntered.mefplId];
+    
+    if (tierRedeemed == 1) {
+      _currentUserMiniEvent.tierOneRedeemed = YES;
+    } else if (tierRedeemed == 2) {
+      _currentUserMiniEvent.tierTwoRedeemed = YES;
+    } else if (tierRedeemed == 3) {
+      _currentUserMiniEvent.tierThreeRedeemed = YES;
+    }
+    
+    MiniEventProto *event = _currentUserMiniEvent.miniEvent;
+    MiniEventForPlayerLevelProto *mepl = event.lvlEntered;
+    [Analytics eventTier:_currentUserMiniEvent.pointsEarned eventId:_currentUserMiniEvent.miniEventId eventTimeId:_currentUserMiniEvent.miniEventTimeId tier1threshold:mepl.tierOneMinPts tier2threshold:mepl.tierTwoMinPts tier3threshold:mepl.tierThreeMinPts tierReached:tierRedeemed];
   }
 }
 
@@ -454,6 +466,118 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
           [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeSpinUltimateGrab withAmount:1];
         }
       }
+    }
+  }
+}
+
+
+
+- (void) checkEnhanceStrengthGained:(int)strengthGained {
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeGainEnhanceStrength withAmount:strengthGained];
+}
+
+- (void) checkEvolutionStrengthGained:(int)strengthGained {
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeGainEvolutionStrength withAmount:strengthGained];
+}
+
+- (void) checkCakeKidEnhanceStrengthGained:(int)strengthGained {
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeGainEnhanceStrengthFromCakeKid withAmount:strengthGained];
+}
+
+- (void) checkEnhanceCakeKidFeeder {
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeEnhanceCakeKidFeeder withAmount:1];
+}
+
+- (void) checkPvpWinAgainstLeagueId:(int)leagueId {
+  GameState *gs = [GameState sharedGameState];
+  PvpLeagueProto *pvp = [gs leagueForId:leagueId];
+  
+  if ([pvp.leagueName containsString:@"Bronze"]) {
+    [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypePvpWinAgainstBronze withAmount:1];
+  } else if ([pvp.leagueName containsString:@"Silver"]) {
+    [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypePvpWinAgainstSilver withAmount:1];
+  } else if ([pvp.leagueName containsString:@"Gold"]) {
+    [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypePvpWinAgainstGold withAmount:1];
+  } else if ([pvp.leagueName containsString:@"Platinum"]) {
+    [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypePvpWinAgainstPlatinum withAmount:1];
+  } else if ([pvp.leagueName containsString:@"Diamond"]) {
+    [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypePvpWinAgainstDiamond withAmount:1];
+  }
+}
+
+- (void) checkCompleteMiniJob:(Quality)quality {
+  MiniEventGoalProto_MiniEventGoalType type = 0;
+  
+  switch (quality) {
+    case QualityCommon:
+      type = MiniEventGoalProto_MiniEventGoalTypeCompleteCommonJob;
+      break;
+    case QualityRare:
+      type = MiniEventGoalProto_MiniEventGoalTypeCompleteRareJob;
+      break;
+    case QualitySuper:
+      type = MiniEventGoalProto_MiniEventGoalTypeCompleteSuperJob;
+      break;
+    case QualityUltra:
+      type = MiniEventGoalProto_MiniEventGoalTypeCompleteUltraJob;
+      break;
+    case QualityEpic:
+      type = MiniEventGoalProto_MiniEventGoalTypeCompleteEpicJob;
+      break;
+      
+    default:
+      break;
+  }
+  
+  if (type) {
+    [self handleUserProgressOnMiniEventGoal:type withAmount:1];
+  }
+}
+
+- (void) checkSendClanGifts:(int)quantity {
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeSendClanGift withAmount:quantity];
+}
+
+- (void) checkUseBattleItemsInPvp:(NSDictionary *)battleItemIdToQuantities {
+  GameState *gs = [GameState sharedGameState];
+  
+  for (NSNumber *num in battleItemIdToQuantities) {
+    int battleItemId = [num intValue];
+    int quantity = [battleItemIdToQuantities[num] intValue];
+    
+    BattleItemProto *bip = [gs battleItemWithId:battleItemId];
+    
+    switch (bip.battleItemType) {
+      case BattleItemTypeHealingPotion:
+        [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeUseHealthPotionInPvp withAmount:quantity];
+        break;
+        
+      case BattleItemTypeChillAntidote:
+        [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeUseChillAntidoteInPvp withAmount:quantity];
+        break;
+        
+      case BattleItemTypePoisonAntidote:
+        [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeUsePoisonAntidoteInPvp withAmount:quantity];
+        break;
+        
+      case BattleItemTypeOrbHammer:
+        [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeUseOrbHammerInPvp withAmount:quantity];
+        break;
+        
+      case BattleItemTypeHandSwap:
+        [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeUseHandSwapInPvp withAmount:quantity];
+        break;
+        
+      case BattleItemTypeBoardShuffle:
+        [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeUseBoardShuffleInPvp withAmount:quantity];
+        break;
+        
+      case BattleItemTypePutty:
+        [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeUsePuttyInPvp withAmount:quantity];
+        break;
+        
+      default:
+        break;
     }
   }
 }

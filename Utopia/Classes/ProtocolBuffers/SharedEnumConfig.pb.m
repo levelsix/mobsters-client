@@ -114,6 +114,7 @@ BOOL ResponseStatusIsValidValue(ResponseStatus value) {
     case ResponseStatusSuccess:
     case ResponseStatusFailOther:
     case ResponseStatusFailTimeOutOfSync:
+    case ResponseStatusFailClientTimeNotSent:
     case ResponseStatusFailInsufficientFunds:
     case ResponseStatusFailInsufficientCash:
     case ResponseStatusFailInsufficientOil:

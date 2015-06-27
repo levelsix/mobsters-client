@@ -92,4 +92,6 @@
 
 + (void) redeemMiniJob:(int)miniJobId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance;
 
++ (void) eventTier:(int)currentPoints eventId:(int)eventId eventTimeId:(int)eventTimeId tier1threshold:(int)tier1Threshold tier2threshold:(int)tier2Threshold tier3threshold:(int)tier3Threshold tierReached:(int)tierReached;
+
 @end

@@ -123,7 +123,7 @@ typedef NS_ENUM(SInt32, MiniEventGoalProto_MiniEventGoalType) {
   MiniEventGoalProto_MiniEventGoalTypePvpCatchUltra = 21,
   MiniEventGoalProto_MiniEventGoalTypePvpCatchEpic = 22,
   MiniEventGoalProto_MiniEventGoalTypeGainEnhanceStrength = 24,
-  MiniEventGoalProto_MiniEventGoalTypeEnhanceCakeKidBase = 25,
+  MiniEventGoalProto_MiniEventGoalTypeGainEnhanceStrengthFromCakeKid = 25,
   MiniEventGoalProto_MiniEventGoalTypeEnhanceCakeKidFeeder = 26,
   MiniEventGoalProto_MiniEventGoalTypeGainEvolutionStrength = 27,
   MiniEventGoalProto_MiniEventGoalTypePvpWinAgainstBronze = 28,
@@ -663,6 +663,7 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
   BOOL hasTierTwoRedeemed_:1;
   BOOL hasTierThreeRedeemed_:1;
   BOOL hasMiniEventId_:1;
+  BOOL hasMiniEventTimetableId_:1;
   BOOL hasUserLvl_:1;
   BOOL hasUserUuid_:1;
   BOOL hasMiniEvent_:1;
@@ -670,12 +671,14 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
   BOOL tierTwoRedeemed_:1;
   BOOL tierThreeRedeemed_:1;
   int32_t miniEventId;
+  int32_t miniEventTimetableId;
   int32_t userLvl;
   NSString* userUuid;
   MiniEventProto* miniEvent;
   NSMutableArray * mutableGoalsList;
 }
 - (BOOL) hasMiniEventId;
+- (BOOL) hasMiniEventTimetableId;
 - (BOOL) hasUserUuid;
 - (BOOL) hasUserLvl;
 - (BOOL) hasTierOneRedeemed;
@@ -683,6 +686,7 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 - (BOOL) hasTierThreeRedeemed;
 - (BOOL) hasMiniEvent;
 @property (readonly) int32_t miniEventId;
+@property (readonly) int32_t miniEventTimetableId;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t userLvl;
 - (BOOL) tierOneRedeemed;
@@ -732,6 +736,11 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 - (UserMiniEventProto_Builder*) setMiniEventId:(int32_t) value;
 - (UserMiniEventProto_Builder*) clearMiniEventId;
 
+- (BOOL) hasMiniEventTimetableId;
+- (int32_t) miniEventTimetableId;
+- (UserMiniEventProto_Builder*) setMiniEventTimetableId:(int32_t) value;
+- (UserMiniEventProto_Builder*) clearMiniEventTimetableId;
+
 - (BOOL) hasUserUuid;
 - (NSString*) userUuid;
 - (UserMiniEventProto_Builder*) setUserUuid:(NSString*) value;
@@ -775,17 +784,21 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 @private
   BOOL hasMiniEventGoalId_:1;
   BOOL hasProgress_:1;
+  BOOL hasMiniEventTimetableId_:1;
   BOOL hasUserUuid_:1;
   int32_t miniEventGoalId;
   int32_t progress;
+  int32_t miniEventTimetableId;
   NSString* userUuid;
 }
 - (BOOL) hasUserUuid;
 - (BOOL) hasMiniEventGoalId;
 - (BOOL) hasProgress;
+- (BOOL) hasMiniEventTimetableId;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t miniEventGoalId;
 @property (readonly) int32_t progress;
+@property (readonly) int32_t miniEventTimetableId;
 
 + (UserMiniEventGoalProto*) defaultInstance;
 - (UserMiniEventGoalProto*) defaultInstance;
@@ -836,6 +849,11 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
 - (int32_t) progress;
 - (UserMiniEventGoalProto_Builder*) setProgress:(int32_t) value;
 - (UserMiniEventGoalProto_Builder*) clearProgress;
+
+- (BOOL) hasMiniEventTimetableId;
+- (int32_t) miniEventTimetableId;
+- (UserMiniEventGoalProto_Builder*) setMiniEventTimetableId:(int32_t) value;
+- (UserMiniEventGoalProto_Builder*) clearMiniEventTimetableId;
 @end
 
 

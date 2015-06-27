@@ -185,6 +185,8 @@
 @property (nonatomic, retain) IBOutlet UIButton *forcedSkillButton;
 @property (nonatomic, retain) IBOutlet UIView *forcedSkillInnerView;
 
+@property (nonatomic, retain) NSMutableDictionary *battleItemIdToQuantities;
+
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix layoutProto:(BoardLayoutProto *)layoutProto;

@@ -1414,6 +1414,7 @@
   if (self)
   {
     self.miniEventId = proto.miniEventId;
+    self.miniEventTimeId = proto.miniEventTimetableId;
     self.userUuid = proto.userUuid;
     self.userLvl = proto.userLvl;
     self.tierOneRedeemed = proto.tierOneRedeemed;

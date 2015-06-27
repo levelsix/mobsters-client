@@ -347,6 +347,7 @@ typedef enum {
 @interface UserMiniEvent : NSObject
 
 @property (nonatomic, assign) int32_t miniEventId;
+@property (nonatomic, assign) int32_t miniEventTimeId;
 @property (nonatomic, retain) NSString* userUuid;
 @property (nonatomic, assign) int32_t userLvl;
 @property (nonatomic, assign) BOOL tierOneRedeemed;

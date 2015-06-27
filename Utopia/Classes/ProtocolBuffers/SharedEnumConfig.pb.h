@@ -97,6 +97,7 @@ typedef NS_ENUM(SInt32, ResponseStatus) {
   ResponseStatusSuccess = 1,
   ResponseStatusFailOther = 2,
   ResponseStatusFailTimeOutOfSync = 3,
+  ResponseStatusFailClientTimeNotSent = 11,
   ResponseStatusFailInsufficientFunds = 4,
   ResponseStatusFailInsufficientCash = 5,
   ResponseStatusFailInsufficientOil = 6,

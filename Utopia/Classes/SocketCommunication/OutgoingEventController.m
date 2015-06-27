@@ -3438,6 +3438,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   UserEvolution *ue = gs.userEvolution;
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:ue.userMonsterUuid1];
   
   if (!gs.userEvolution) {
     [Globals popupMessage:@"Trying to finish evolution without one."];
@@ -3468,6 +3469,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       if (gems) {
         [Analytics instantFinish:@"evolveWait" gemChange:-numGems gemBalance:gs.gems];
       }
+      
+      // Check strength gained here since it happens in multiple places
+      int oldStrength = [gl calculateStrengthForMonster:um];
+      
+      um.monsterId = um.staticMonster.evolutionMonsterId;
+      um.level = 1;
+      
+      int evoStrength = [gl calculateStrengthForMonster:um];
+      int strengthGained = evoStrength-oldStrength;
+      [[MiniEventManager sharedInstance] checkEvolutionStrengthGained:strengthGained];
     }
   }
 }
@@ -3730,10 +3741,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) updateUserMiniEvent:(UserMiniEventGoal *)updatedUserMiniEventGoal shouldFlush:(BOOL)shouldFlush {
-  GameState* gs = [GameState sharedGameState];
-  if (!gs.connected || gs.isTutorial || !gs.userUuid || [gs.userUuid isEqualToString:@""])
-    return;
-  
   [[SocketCommunication sharedSocketCommunication] updateUserMiniEventMessage:updatedUserMiniEventGoal];
   
   if (shouldFlush) {
@@ -3742,9 +3749,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) redeemMiniEventRewardWithDelegate:(id)delegate tierRedeemed:(RedeemMiniEventRewardRequestProto_RewardTier)tierRedeemed miniEventForPlayerLevelId:(int32_t)mefplId {
-  GameState* gs = [GameState sharedGameState];
-  if (!gs.connected || gs.isTutorial || !gs.userUuid || [gs.userUuid isEqualToString:@""])
-    return;
   
   int tag = [[SocketCommunication sharedSocketCommunication] sendRedeemMiniEventRewardRequestProtoMessage:tierRedeemed miniEventForPlayerLevelId:mefplId clientTime:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];

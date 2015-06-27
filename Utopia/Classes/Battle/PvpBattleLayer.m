@@ -233,6 +233,14 @@
     if (_clanAvenging) {
       [[MiniEventManager sharedInstance] checkAvengeWin];
     }
+    
+    if (!_isRevenge && !_clanAvenging) {
+      [[MiniEventManager sharedInstance] checkPvpWinAgainstLeagueId:pvp.pvpLeagueStats.leagueId];
+    }
+    
+    if (self.battleItemIdToQuantities) {
+      [[MiniEventManager sharedInstance] checkUseBattleItemsInPvp:self.battleItemIdToQuantities];
+    }
   }
 }
 

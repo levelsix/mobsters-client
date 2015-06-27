@@ -13,6 +13,8 @@
 #import "GameViewController.h"
 #import "ChartboostDelegate.h"
 
+#import "MiniEventManager.h"
+
 #define SPACING_PER_NODE 46.f
 
 @implementation MiniJobsListCell
@@ -364,12 +366,15 @@
 
 - (void) miniJobsListCollectClicked:(MiniJobsListCell *)listCell {
   if (!_selectedCell) {
-    [[OutgoingEventController sharedOutgoingEventController] redeemMiniJob:listCell.userMiniJob delegate:self];
+    UserMiniJob *mj = listCell.userMiniJob;
+    [[OutgoingEventController sharedOutgoingEventController] redeemMiniJob:mj delegate:self];
     [listCell spinCollect];
     _selectedCell = listCell;
     
     [self.detailsViewController beginCollectSpinning];
-    [self.completeViewController beginSpinning]; 
+    [self.completeViewController beginSpinning];
+    
+    [[MiniEventManager sharedInstance] checkCompleteMiniJob:mj.miniJob.quality];
   }
 }
 

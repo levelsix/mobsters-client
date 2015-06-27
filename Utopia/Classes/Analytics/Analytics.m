@@ -50,7 +50,7 @@
 #endif
 
 #ifdef DEBUG
-#define AMPLITUDE_CLASS nil
+#define AMPLITUDE_CLASS [Amplitude class]
 #else
 #define AMPLITUDE_CLASS [Amplitude class]
 #endif
@@ -132,7 +132,7 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
     
     [dict setObject:@(segGroup) forKey:@"segmentation_group"];
     
-    [dict setObject:createTime forKey:@"create_time"];
+    [dict setObject:[NSString stringWithFormat:createTime] forKey:@"create_time"];
   }
   
   return dict;
@@ -891,6 +891,18 @@ static NSDate *timeSinceLastTutStep = nil;
 
 + (void) redeemMiniJob:(int)miniJobId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance {
   [self gameTransactionWithTransactionType:@"redeem_mini_job" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 tokenChange:0 tokenBalance:0 extraParams:@{@"id": @(miniJobId)}];
+}
+
++ (void) eventTier:(int)currentPoints eventId:(int)eventId eventTimeId:(int)eventTimeId tier1threshold:(int)tier1Threshold tier2threshold:(int)tier2Threshold tier3threshold:(int)tier3Threshold tierReached:(int)tierReached {
+  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+  
+  dict[@"current_points"] = @(currentPoints);
+  dict[@"event_id"] = @(eventId);
+  dict[@"event_time_id"] = @(eventTimeId);
+  dict[@"tier_1_threshold"] = @(tier1Threshold);
+  dict[@"tier_2_threshold"] = @(tier2Threshold);
+  dict[@"tier_3_threshold"] = @(tier3Threshold);
+  dict[@"tier_reached"] = @(tierReached);
 }
 
 @end

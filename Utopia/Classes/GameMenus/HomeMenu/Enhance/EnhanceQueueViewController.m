@@ -904,7 +904,38 @@
       
       _waitingForResponse = YES;
       
+      
+      // Mini event stuff
       [[MiniEventManager sharedInstance] checkEnhanceXp:pointsEnhanced baseMonsterRarity:baseUm.staticMonster.quality];
+      
+      // Calculate strength gained
+      GameState *gs = [GameState sharedGameState];
+      int oldStrength = [gl calculateStrengthForMonster:baseUm];
+      int newStrength = [gl calculateStrengthForMonster:[gs myMonsterWithUserMonsterUuid:baseUm.userMonsterUuid]];
+      int strengthGained = newStrength-oldStrength;
+      
+      // Cake kids use seperate mini event goal
+      BOOL isCakeKid = [baseUm.staticMonster.monsterGroup containsString:@"CakeKid"];
+      if (!isCakeKid) {
+        [[MiniEventManager sharedInstance] checkEnhanceStrengthGained:strengthGained];
+      } else {
+        [[MiniEventManager sharedInstance] checkCakeKidEnhanceStrengthGained:strengthGained];
+      }
+      
+      // Cake kid as feeder
+      BOOL numCakeKidFeeders = 0;
+      for (EnhancementItem *ei in ue.feeders) {
+        UserMonster *um = [gs myMonsterWithUserMonsterUuid:ei.userMonsterUuid];
+        
+        BOOL isCakeKid = [um.staticMonster.monsterGroup containsString:@"CakeKid"];
+        if (isCakeKid) {
+          numCakeKidFeeders++;
+        }
+      }
+      
+      if (numCakeKidFeeders) {
+        [[MiniEventManager sharedInstance] checkEnhanceCakeKidFeeder];
+      }
     }
   }
 }
