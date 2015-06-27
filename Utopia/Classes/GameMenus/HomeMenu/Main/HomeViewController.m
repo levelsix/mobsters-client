@@ -240,7 +240,7 @@
   if (svc.titleImageName && self.viewControllers.count == 1) {
     self.curHomeTitleView = [[NSBundle mainBundle] loadNibNamed:@"HomeTitleView" owner:self options:nil][0];
     self.curTitleLabel = self.curHomeTitleView.titleLabel;
-    [Globals imageNamed:svc.titleImageName withView:self.curHomeTitleView.titleImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    [Globals imageNamedWithiPadSuffix:svc.titleImageName withView:self.curHomeTitleView.titleImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
     
     self.curTitleView = self.selectorView;
   } else {
