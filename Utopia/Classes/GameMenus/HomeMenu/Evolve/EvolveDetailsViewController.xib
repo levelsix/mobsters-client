@@ -19,6 +19,7 @@
                 <outlet property="oilLabelsView" destination="Iyn-ro-tEN" id="tCJ-L0-MwT"/>
                 <outlet property="speedupIcon" destination="cna-OR-FiR" id="uei-8m-wq4"/>
                 <outlet property="spinner" destination="MAc-zk-rfM" id="6YB-QV-eWi"/>
+                <outlet property="strengthLabel" destination="ZvK-Px-8rY" id="yM0-y7-oeN"/>
                 <outlet property="timeLabel" destination="hAv-7a-wY7" id="ujl-Aq-tBi"/>
                 <outlet property="view" destination="Ojm-yd-v3e" id="pmy-Yf-QJa"/>
             </connections>

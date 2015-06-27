@@ -132,7 +132,7 @@ static NSString* urlEncodeString(NSString* nonEncodedString) {
     
     [dict setObject:@(segGroup) forKey:@"segmentation_group"];
     
-    [dict setObject:[NSString stringWithFormat:createTime] forKey:@"create_time"];
+    [dict setObject:[NSString stringWithFormat:@"%@", createTime] forKey:@"create_time"];
   }
   
   return dict;
@@ -701,7 +701,7 @@ static NSDate *timeSinceLastTutStep = nil;
 
 + (void) gameTransactionWithTransactionType:(NSString *)transactionType context:(NSString *)context itemIds:(NSArray *)itemIds itemChanges:(NSArray *)itemChanges itemBalances:(NSArray *)itemBalances extraParams:(NSDictionary *)extraParams  {
   NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:extraParams];
-  params[@"transaction_type"] = transactionType;
+  //params[@"transaction_type"] = transactionType;
   
   if (context) {
     params[@"context"] = context;
@@ -712,7 +712,8 @@ static NSDate *timeSinceLastTutStep = nil;
     params[[NSString stringWithFormat:@"%@_balance", itemIds[i]]] = itemBalances[i];
   }
   
-  [self event:@"game_transaction" withArgs:params];
+  //[self event:@"game_transaction" withArgs:params];
+  [self event:transactionType withArgs:params];
   
   //  [titanClass trackGameTransactions:itemIds quantities:itemChanges itemBalances:itemBalances transactionType:transactionType context:context extraParams:extraParams];
 }
@@ -903,6 +904,8 @@ static NSDate *timeSinceLastTutStep = nil;
   dict[@"tier_2_threshold"] = @(tier2Threshold);
   dict[@"tier_3_threshold"] = @(tier3Threshold);
   dict[@"tier_reached"] = @(tierReached);
+  
+  [self event:@"event_tier" withArgs:dict];
 }
 
 @end

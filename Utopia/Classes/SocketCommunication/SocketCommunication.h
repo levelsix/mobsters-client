@@ -180,8 +180,8 @@
 - (int) sendEvolveMonsterMessageWithEvolution:(UserMonsterEvolutionProto *)evo gemCost:(int)gemCost oilChange:(int)oilChange;
 - (int) sendEvolutionFinishedMessageWithGems:(int)gems clientTime:(uint64_t)clientTime;
 
-- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths;
-- (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost;
+- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths clientTime:(uint64_t)clientTime;
+- (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost clientTime:(uint64_t)clientTime;
 - (int) sendAddMonsterToTeam:(NSString *)userMonsterUuid teamSlot:(int)teamSlot;
 - (int) sendRemoveMonsterFromTeam:(NSString *)userMonsterUuid;
 - (int) sendBuyInventorySlotsWithGems:(NSString *)userStructUuid;

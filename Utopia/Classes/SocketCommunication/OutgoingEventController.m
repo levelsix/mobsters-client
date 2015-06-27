@@ -938,23 +938,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           req = DevRequestGetGachaCredits;
           msg = [NSString stringWithFormat:@"Awarded %d tokens.", quantity];
         }  else if ((r = [code rangeOfString:GET_MONSTER_CODE]).length > 0) {
-          r.length++;
-          code = [code stringByReplacingCharactersInRange:r withString:@""];
-          staticDataId = code.intValue;
-          req = DevRequestGetMonzter;
-          
-          r = [code rangeOfString:[NSString stringWithFormat:@"%d", staticDataId]];
           if (code.length > r.length+1) {
             r.length++;
             code = [code stringByReplacingCharactersInRange:r withString:@""];
-            quantity = code.intValue;
+            staticDataId = code.intValue;
+            req = DevRequestGetMonzter;
+            
+            r = [code rangeOfString:[NSString stringWithFormat:@"%d", staticDataId]];
+            if (code.length > r.length+1) {
+              r.length++;
+              code = [code stringByReplacingCharactersInRange:r withString:@""];
+              quantity = code.intValue;
+            }
+            
+            MonsterProto *mp = [gs monsterWithId:staticDataId];
+            if (mp) {
+              msg = [NSString stringWithFormat:@"Awarded %d %@.", quantity, mp.displayName];
+            } else {
+              quantity = 0;
+            }
           }
           
-          MonsterProto *mp = [gs monsterWithId:staticDataId];
-          if (mp) {
-            msg = [NSString stringWithFormat:@"Awarded %d %@.", quantity, mp.displayName];
-          } else {
-            quantity = 0;
+          if (!req) {
+            NSMutableString *str = [NSMutableString stringWithFormat:@"Format: %@%@ <id> <quantity>\n", CODE_PREFIX, GET_MONSTER_CODE];
+            NSArray *monsters = [gs.staticMonsters.allValues sortedArrayUsingComparator:^NSComparisonResult(MonsterProto *obj1, MonsterProto *obj2) {
+              return [@(obj1.monsterId) compare:@(obj2.monsterId)];
+            }];
+            for (MonsterProto *mp in monsters) {
+              [str appendFormat:@"\n%d - %@", mp.monsterId, mp.displayName];
+            }
+            msg = str;
           }
         } else if ((r = [code rangeOfString:GET_ITEM_CODE]).length > 0) {
           if (code.length > r.length+1) {
@@ -1970,8 +1983,46 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [[SocketCommunication sharedSocketCommunication] sendRedeemSecretGiftMessage:@[sg.uisgUuid] clientTime:clientTime];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
-    LastSecretGiftUpdate *gu = [LastSecretGiftUpdate updateWithTag:tag change:clientTime/1000.-gs.lastSecretGiftCollectTime.timeIntervalSince1970];
-    [gs addUnrespondedUpdate:gu];
+    int gemReward = 0;
+    int cashReward = 0;
+    int oilReward = 0;
+    int gachaCredits = 0;
+    
+    RewardProto *rp = sg.reward;
+    
+    switch (rp.typ) {
+      case RewardProto_RewardTypeCash:
+        cashReward += rp.amt;
+        break;
+      case RewardProto_RewardTypeOil:
+        oilReward += rp.amt;
+        break;
+      case RewardProto_RewardTypeGems:
+        gemReward += rp.amt;
+        break;
+      case RewardProto_RewardTypeGachaCredits:
+        gachaCredits += rp.amt;
+        break;
+      case RewardProto_RewardTypeItem:
+        [gs.itemUtil incrementItemId:rp.staticDataId quantity:rp.amt];
+        break;
+      case RewardProto_RewardTypeMonster:
+        //item and monsters are updated on the response
+      case RewardProto_RewardTypeNoReward:
+      case RewardProto_RewardTypeGift:
+      case RewardProto_RewardTypeReward:
+        //byron says the reward type will never be set to typeClanGift
+        break;
+    }
+    
+    GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemReward];
+    CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashReward];
+    OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilReward];
+    OilUpdate *tu = [TokensUpdate updateWithTag:tag change:gachaCredits];
+    
+    
+    LastSecretGiftUpdate *lsgu = [LastSecretGiftUpdate updateWithTag:tag change:clientTime/1000.-gs.lastSecretGiftCollectTime.timeIntervalSince1970];
+    [gs addUnrespondedUpdates:gu, cu, ou, tu, lsgu, nil];
     
     [gs.mySecretGifts removeObject:sg];
   }
@@ -2715,7 +2766,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [arr addObject:monsterHealth.build];
     }
     
-    int tag = [[SocketCommunication sharedSocketCommunication] sendHealQueueSpeedup:arr goldCost:goldCost];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendHealQueueSpeedup:arr goldCost:goldCost clientTime:[self getCurrentMilliseconds]];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
     
@@ -2755,7 +2806,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  [[SocketCommunication sharedSocketCommunication] sendHealQueueWaitTimeComplete:arr];
+  [[SocketCommunication sharedSocketCommunication] sendHealQueueWaitTimeComplete:arr clientTime:[self getCurrentMilliseconds]];
   
   // Remove after to let the queue update to not be affected
   for (UserMonsterHealingItem *item in healingItems) {

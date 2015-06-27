@@ -904,7 +904,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V7I-ZQ-HVP" customClass="NiceFontButton2">
-                                    <rect key="frame" x="177" y="5" width="99" height="21"/>
+                                    <rect key="frame" x="176" y="5" width="101" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <state key="normal" title="DEFENSIVE LOG">
@@ -919,7 +919,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(5)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="K4q-Pu-fo8" customClass="NiceFontLabel2">
-                                    <rect key="frame" x="263" y="4" width="18" height="20"/>
+                                    <rect key="frame" x="262" y="4" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.81578947368421051" green="0.065789473684210523" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

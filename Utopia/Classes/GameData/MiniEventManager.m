@@ -237,11 +237,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
                                                                                   tierRedeemed:tierRedeemed
                                                                      miniEventForPlayerLevelId:_currentUserMiniEvent.miniEvent.lvlEntered.mefplId];
     
-    if (tierRedeemed == 1) {
+    if (tierRedeemed == RedeemMiniEventRewardRequestProto_RewardTierTierOne) {
       _currentUserMiniEvent.tierOneRedeemed = YES;
-    } else if (tierRedeemed == 2) {
+    } else if (tierRedeemed == RedeemMiniEventRewardRequestProto_RewardTierTierTwo) {
       _currentUserMiniEvent.tierTwoRedeemed = YES;
-    } else if (tierRedeemed == 3) {
+    } else if (tierRedeemed == RedeemMiniEventRewardRequestProto_RewardTierTierThree) {
       _currentUserMiniEvent.tierThreeRedeemed = YES;
     }
     
@@ -484,8 +484,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
   [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeGainEnhanceStrengthFromCakeKid withAmount:strengthGained];
 }
 
-- (void) checkEnhanceCakeKidFeeder {
-  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeEnhanceCakeKidFeeder withAmount:1];
+- (void) checkEnhanceCakeKidFeeder:(int)quantity {
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeEnhanceCakeKidFeeder withAmount:quantity];
 }
 
 - (void) checkPvpWinAgainstLeagueId:(int)leagueId {

@@ -219,6 +219,7 @@
       }
     }
     
+    // Check donation monster
     if (pvp.hasCmtd && pvp.hasMonsterIdDropped && pvp.monsterIdDropped > 0) {
       MonsterProto *mp = [gs monsterWithId:pvp.monsterIdDropped];
       [[MiniEventManager sharedInstance] checkPvpCaughtMonster:mp.quality];
@@ -237,10 +238,10 @@
     if (!_isRevenge && !_clanAvenging) {
       [[MiniEventManager sharedInstance] checkPvpWinAgainstLeagueId:pvp.pvpLeagueStats.leagueId];
     }
-    
-    if (self.battleItemIdToQuantities) {
-      [[MiniEventManager sharedInstance] checkUseBattleItemsInPvp:self.battleItemIdToQuantities];
-    }
+  }
+  
+  if (self.battleItemIdToQuantities) {
+    [[MiniEventManager sharedInstance] checkUseBattleItemsInPvp:self.battleItemIdToQuantities];
   }
 }
 

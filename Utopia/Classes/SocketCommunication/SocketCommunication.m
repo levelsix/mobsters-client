@@ -244,7 +244,7 @@ static NSString *udid = nil;
     }
   } else {
     GameState *gs = [GameState sharedGameState];
-    if (!gs.isTutorial) {
+    if (!gs.isTutorial && gs.connected) {
       // Check if first event is already a reconnect
       FullEvent *fe = [self.queuedMessages firstObject];
       if (![fe.event isKindOfClass:[ReconnectRequestProto class]]) {
@@ -1493,10 +1493,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent];
 }
 
-- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {
-  HealMonsterRequestProto *req = [[[[HealMonsterRequestProto builder]
+- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths clientTime:(uint64_t)clientTime {
+  HealMonsterRequestProto *req = [[[[[HealMonsterRequestProto builder]
                                     setSender:[self senderWithMaxResources]]
                                    addAllUmchp:monsterHealths]
+                                  setClientTime:clientTime]
                                   build];
   
   int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
@@ -1504,12 +1505,13 @@ static NSString *udid = nil;
   return tag;
 }
 
-- (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost {
-  HealMonsterRequestProto *req = [[[[[[HealMonsterRequestProto builder]
+- (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost clientTime:(uint64_t)clientTime {
+  HealMonsterRequestProto *req = [[[[[[[HealMonsterRequestProto builder]
                                       setSender:[self senderWithMaxResources]]
                                      setIsSpeedup:YES]
                                     setGemsForSpeedup:goldCost]
                                    addAllUmchp:monsterHealths]
+                                  setClientTime:clientTime]
                                   build];
   
   int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
@@ -1732,7 +1734,7 @@ static NSString *udid = nil;
                                          setClientTime:clientTime]
                                         build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCDiscardBattleItemEvent flush:NO queueUp:YES incrementTagNum:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCDiscardBattleItemEvent flush:NO queueUp:YES incrementTagNum:NO];
 }
 
 - (int) sendUpdateUserStrengthMessage:(uint64_t)newStrength {
@@ -1741,7 +1743,7 @@ static NSString *udid = nil;
                                           setUpdatedStrength:newStrength]
                                          build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserStrengthEvent flush:NO queueUp:YES incrementTagNum:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserStrengthEvent flush:NO queueUp:YES incrementTagNum:NO];
 }
 
 - (int) sendRetrieveMiniEventRequestProtoMessageWithClientTime:(uint64_t)clientTime {
@@ -1872,7 +1874,7 @@ static NSString *udid = nil;
   
   LNLog(@"Sending trade item for speedups message with %d item usages.", (int)_speedupItemUsages.count);
   
-  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForSpeedUpsEvent flush:NO queueUp:YES incrementTagNum:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForSpeedUpsEvent flush:NO queueUp:YES incrementTagNum:NO];
 }
 
 

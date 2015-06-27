@@ -326,15 +326,17 @@
     int selfStrength = [gl calculateStrengthForMonster:self];
     int umStrength = [gl calculateStrengthForMonster:um];
     
-    // Ordering now becomes strength, curHp, rarity
+    // Ordering now becomes strength, curHp, rarity, monsterId, experience (for enhance percentage)
     if (selfStrength != umStrength) {
       return [@(umStrength) compare:@(selfStrength)];
     } else if (self.curHealth != um.curHealth) {
       return [@(um.curHealth) compare:@(self.curHealth)];
     } else if (self.staticMonster.quality != um.staticMonster.quality) {
       return [@(um.staticMonster.quality) compare:@(self.staticMonster.quality)];
-    } else {
+    } else if (self.monsterId != um.monsterId) {
       return [@(self.monsterId) compare:@(um.monsterId)];
+    } else {
+      return [@(um.experience) compare:@(self.experience)];
     }
 //  }
 }

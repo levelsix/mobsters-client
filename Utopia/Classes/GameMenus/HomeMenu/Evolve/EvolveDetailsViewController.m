@@ -109,6 +109,7 @@
   UserMonster *um = [[UserMonster alloc] init];
   um.monsterId = mp.evolutionMonsterId;
   um.level = 1;
+  um.isComplete = YES;
   
   int evoStrength = [gl calculateStrengthForMonster:um];
   

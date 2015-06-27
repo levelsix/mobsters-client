@@ -59,7 +59,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(MiniEventManager)
 - (void) checkEnhanceStrengthGained:(int)strengthGained;
 - (void) checkEvolutionStrengthGained:(int)strengthGained;
 - (void) checkCakeKidEnhanceStrengthGained:(int)strengthGained;
-- (void) checkEnhanceCakeKidFeeder;
+- (void) checkEnhanceCakeKidFeeder:(int)quantity;
 - (void) checkPvpWinAgainstLeagueId:(int)leagueId;
 - (void) checkCompleteMiniJob:(Quality)quality;
 - (void) checkSendClanGifts:(int)quantity;

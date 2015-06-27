@@ -882,12 +882,23 @@
     // We must set the enhancement item's user monster to fake monsters so that they can be animated
     UserEnhancement *ue = self.currentEnhancement;
     
+    GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     int pointsEnhanced = [gl calculateExperienceIncrease:ue];
     
     UserMonster *baseUm = ue.baseMonster.userMonster.copy;
     for (EnhancementItem *ei in ue.feeders) {
       [ei setFakedUserMonster:ei.userMonster.copy];
+    }
+    
+    int numCakeKidFeeders = 0;
+    for (EnhancementItem *ei in ue.feeders) {
+      UserMonster *um = [gs myMonsterWithUserMonsterUuid:ei.userMonsterUuid];
+      
+      BOOL isCakeKid = [um.staticMonster.monsterGroup containsString:@"CakeKid"];
+      if (isCakeKid) {
+        numCakeKidFeeders++;
+      }
     }
     
     BOOL success = [[OutgoingEventController sharedOutgoingEventController] collectEnhancementWithDelegate:self];
@@ -909,7 +920,6 @@
       [[MiniEventManager sharedInstance] checkEnhanceXp:pointsEnhanced baseMonsterRarity:baseUm.staticMonster.quality];
       
       // Calculate strength gained
-      GameState *gs = [GameState sharedGameState];
       int oldStrength = [gl calculateStrengthForMonster:baseUm];
       int newStrength = [gl calculateStrengthForMonster:[gs myMonsterWithUserMonsterUuid:baseUm.userMonsterUuid]];
       int strengthGained = newStrength-oldStrength;
@@ -923,18 +933,8 @@
       }
       
       // Cake kid as feeder
-      BOOL numCakeKidFeeders = 0;
-      for (EnhancementItem *ei in ue.feeders) {
-        UserMonster *um = [gs myMonsterWithUserMonsterUuid:ei.userMonsterUuid];
-        
-        BOOL isCakeKid = [um.staticMonster.monsterGroup containsString:@"CakeKid"];
-        if (isCakeKid) {
-          numCakeKidFeeders++;
-        }
-      }
-      
       if (numCakeKidFeeders) {
-        [[MiniEventManager sharedInstance] checkEnhanceCakeKidFeeder];
+        [[MiniEventManager sharedInstance] checkEnhanceCakeKidFeeder:numCakeKidFeeders];
       }
     }
   }
