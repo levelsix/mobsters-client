@@ -44,7 +44,7 @@
   
   NSString *str = nil;
   if(!_nextEvent) {
-    _nextEvent = [gs nextEventWithType:PersistentEventProto_EventTypeEnhance];
+    _nextEvent = [gs nextEventWithType:PersistentEventProto_EventTypeEvolution];
   }
   PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEvolution];
   if(_nextEvent && !pe) {
