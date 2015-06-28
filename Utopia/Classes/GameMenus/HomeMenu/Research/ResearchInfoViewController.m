@@ -178,6 +178,10 @@
     self.view.finishButtonView.hidden = YES;
     self.view.helpButtonView.hidden = YES;
     self.view.timeLeftLabel.superview.hidden = YES;
+    
+    if (self.speedupItemsFiller) {
+      [self.itemSelectViewController closeClicked:nil];
+    }
   }
 }
 

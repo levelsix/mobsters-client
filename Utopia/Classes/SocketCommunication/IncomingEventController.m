@@ -2586,7 +2586,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.researchUtil currentResearch].userResearchUuid = proto.userResearchUuid;
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to redeem research."];
+    [Globals popupMessage:@"Server failed to perform research."];
     
     [gs.researchUtil cancelCurrentResearch];
     

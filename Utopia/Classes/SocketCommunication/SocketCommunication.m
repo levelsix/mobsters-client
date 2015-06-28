@@ -2231,6 +2231,7 @@ static NSString *udid = nil;
   _canSendPreDbEvents = NO;
   _purposefulClose = YES;
   
+  self.webSocket.delegate = nil;
   [self.webSocket close];
   self.webSocket = nil;
   

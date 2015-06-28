@@ -460,6 +460,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   gs.isTutorial = NO;
   
   FullEvent *fe = [FullEvent createWithEvent:startupResponse tag:0 eventUuid:nil];
+  LNLog(@"Ignore dupicate log..");
   [[IncomingEventController sharedIncomingEventController] handleStartupResponseProto:fe];
   [self handleStartupResponseProto:fe];
 }
@@ -593,25 +594,31 @@ static const CGSize FIXED_SIZE = {568, 384};
     //int lastSaleId = (int)[def integerForKey:LAST_SHOWN_SALE_ID];
     SalesPackageProto *spp = [gs.mySales firstObject];
     
-//    if (YES)
+    //    if (YES)
     if (spp &&
         -gs.createTime.timeIntervalSinceNow > HOURS_AFTER_CREATE_TIME_TO_SHOW_SALE*3600 &&
         (//spp.salesPackageId != lastSaleId ||
          !lastDate ||
          -lastDate.timeIntervalSinceNow > HOURS_BEFORE_RESHOWING_SALE*3600))
     {
+      NSMutableArray *arr = [NSMutableArray array];
+      for (CustomMenuProto *cmp in spp.cmpList) {
+        [arr addObject:cmp.imageName];
+      }
       
-      SoloSaleViewController *svc = [[SoloSaleViewController alloc] initWithSalePackageProto:spp];
-      [self.notificationController addNotification:svc];
-      
-      [def setObject:[NSDate date] forKey:LAST_SHOWN_SALE_TIME];
-      [def setInteger:spp.salesPackageId forKey:LAST_SHOWN_SALE_ID];
+      [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
+        SoloSaleViewController *svc = [[SoloSaleViewController alloc] initWithSalePackageProto:spp];
+        [self.notificationController addNotification:svc];
+        
+        [def setObject:[NSDate date] forKey:LAST_SHOWN_SALE_TIME];
+        [def setInteger:spp.salesPackageId forKey:LAST_SHOWN_SALE_ID];
+      }];
       
     } else if (/*gs.tasksCompleted >= 2 && */(!gs.lastTangoGiftSentTime || hoursSinceLastTangoGift > 24)) {
 #ifdef TOONSQUAD
       if ([TangoDelegate isTangoAvailable] && [TangoDelegate isTangoAuthenticated] && [TangoDelegate getMyId]) {
         [TangoDelegate fetchCachedFriends:^(NSArray *friends) {
-//        [TangoDelegate fetchInvitableProfiles:^(NSArray *friends) {
+          //        [TangoDelegate fetchInvitableProfiles:^(NSArray *friends) {
           if (friends.count) {
             TangoGiftViewController *tgvc = [[TangoGiftViewController alloc] init];
             

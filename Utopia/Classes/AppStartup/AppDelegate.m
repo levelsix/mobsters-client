@@ -144,7 +144,7 @@
   GameViewController *gvc = [GameViewController baseController];
   //FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
   if (_shouldReconnect) {
-    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc clearMessages:!gs.connected];
+    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc clearMessages:!gs.connected && !gs.isTutorial];
     
     [Analytics connectStep:ConnectStepInitializeConnection];
     

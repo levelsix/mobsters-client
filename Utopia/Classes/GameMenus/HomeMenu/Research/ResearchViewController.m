@@ -56,6 +56,7 @@
   } else {
     self.curResearchBar.hidden = YES;
     self.selectFieldView.hidden = NO;
+    
   }
 }
 
