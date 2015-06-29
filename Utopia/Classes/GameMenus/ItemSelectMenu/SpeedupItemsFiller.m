@@ -101,7 +101,6 @@
   
   if ([io isKindOfClass:[UserItem class]]) {
     UserItem *item = (UserItem *)io;
-    [self.usedItems addObject:@([item itemId])];
     if (item.numOwned > 0) {
       [self.nonPurchasedItemsUsed addObject:@(item.itemId)];
     } else if ([item useGemsButton]) {
@@ -115,6 +114,8 @@
       [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@s.", item.name]];
       return;
     }
+    
+    [self.usedItems addObject:@([item itemId])];
   }
   
   [self.delegate speedupItemUsed:io viewController:viewController];

@@ -133,6 +133,9 @@
 		291E98321B3B6F55004F83AC /* AvatarMonsterSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291E98311B3B6F55004F83AC /* AvatarMonsterSelectCell.xib */; };
 		291E98331B3B6F55004F83AC /* AvatarMonsterSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291E98311B3B6F55004F83AC /* AvatarMonsterSelectCell.xib */; };
 		291E98341B3B6F55004F83AC /* AvatarMonsterSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 291E98311B3B6F55004F83AC /* AvatarMonsterSelectCell.xib */; };
+		291E98421B40DE49004F83AC /* keystore.cer in Resources */ = {isa = PBXBuildFile; fileRef = 291E98411B40DE49004F83AC /* keystore.cer */; };
+		291E98431B40DE49004F83AC /* keystore.cer in Resources */ = {isa = PBXBuildFile; fileRef = 291E98411B40DE49004F83AC /* keystore.cer */; };
+		291E98441B40DE49004F83AC /* keystore.cer in Resources */ = {isa = PBXBuildFile; fileRef = 291E98411B40DE49004F83AC /* keystore.cer */; };
 		292217C51B1CF3C200DED202 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217C41B1CF3C200DED202 /* libicucore.dylib */; };
 		292217C61B1CF3CB00DED202 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217C41B1CF3C200DED202 /* libicucore.dylib */; };
 		292217C71B1CF3D300DED202 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217C41B1CF3C200DED202 /* libicucore.dylib */; };
@@ -7146,6 +7149,7 @@
 		291E982C1B3B6DE6004F83AC /* AvatarMonstersFiller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvatarMonstersFiller.h; sourceTree = "<group>"; };
 		291E982D1B3B6DE6004F83AC /* AvatarMonstersFiller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvatarMonstersFiller.m; sourceTree = "<group>"; };
 		291E98311B3B6F55004F83AC /* AvatarMonsterSelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AvatarMonsterSelectCell.xib; sourceTree = "<group>"; };
+		291E98411B40DE49004F83AC /* keystore.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = keystore.cer; sourceTree = "<group>"; };
 		292217C41B1CF3C200DED202 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialoguebubble@2x.png"; sourceTree = "<group>"; };
 		292771371A71A52A00E3AB65 /* tutorialbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbackground@2x.png"; sourceTree = "<group>"; };
@@ -14219,6 +14223,7 @@
 				CF1256431538A94D00E0C1AD /* Products */,
 				7A2AF416E1B4BB3498E05A47 /* Pods */,
 				2982A1691A1973B700CEB283 /* cacert.pem */,
+				291E98411B40DE49004F83AC /* keystore.cer */,
 			);
 			sourceTree = "<group>";
 		};
@@ -19245,6 +19250,7 @@
 				9BC37F841ADF517D009571F1 /* CustomMenu.proto in Resources */,
 				CF0CF414196F452900ECD301 /* goldicon@2x.png in Resources */,
 				2933DC9A1ADFA836005D7620 /* SalePackageCell.xib in Resources */,
+				291E98431B40DE49004F83AC /* keystore.cer in Resources */,
 				CF0CF417196F452900ECD301 /* friendmask@2x.png in Resources */,
 				CF0CF41E196F452900ECD301 /* damagedealtbg@2x.png in Resources */,
 				CF0CF41F196F452900ECD301 /* menusquareactive@2x.png in Resources */,
@@ -21663,6 +21669,7 @@
 				CFC97184182C74E500FF1D83 /* nightpointsfont.fnt in Resources */,
 				CFB250641858528400BE0C05 /* GothamNarrow-UltraItalic.otf in Resources */,
 				CFEE89B118EBDD1400047CA4 /* buildingcomplete@2x.png in Resources */,
+				291E98421B40DE49004F83AC /* keystore.cer in Resources */,
 				CFA7283E1A0AE62A00FF6031 /* buildinggethelpbutton@2x.png in Resources */,
 				CFF513D818C8DE3C004B0E56 /* limitededitionbg@2x.png in Resources */,
 				CFF1D72D17DFC43700874339 /* ring@2x.png in Resources */,
@@ -22073,6 +22080,7 @@
 				29804FC21A241F4A00806253 /* squadrewardsheaderbuilding@2x.png in Resources */,
 				CF481A4319F7217F00041486 /* waterpointsfont@2x.png in Resources */,
 				29DCCFB91A8AF4B9003176FD /* Scientist1T1Big@2x.png in Resources */,
+				291E98441B40DE49004F83AC /* keystore.cer in Resources */,
 				63959E0E1B0AB37C00E5E302 /* tangogirlgradient@2x.png in Resources */,
 				CF481A4419F7217F00041486 /* timersbottommorebg@2x.png in Resources */,
 				CF481A4519F7217F00041486 /* OilStorageT1@2x.pvr.ccz in Resources */,

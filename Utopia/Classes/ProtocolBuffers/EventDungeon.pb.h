@@ -186,6 +186,7 @@
   BOOL hasIsEvent_:1;
   BOOL hasForceEnemyElem_:1;
   BOOL hasAlreadyCompletedMiniTutorialTask_:1;
+  BOOL hasHasBeatenTaskBefore_:1;
   BOOL hasClientTime_:1;
   BOOL hasTaskId_:1;
   BOOL hasPersistentEventId_:1;
@@ -196,6 +197,7 @@
   BOOL isEvent_:1;
   BOOL forceEnemyElem_:1;
   BOOL alreadyCompletedMiniTutorialTask_:1;
+  BOOL hasBeatenTaskBefore_:1;
   int64_t clientTime;
   int32_t taskId;
   int32_t persistentEventId;
@@ -214,6 +216,7 @@
 - (BOOL) hasElem;
 - (BOOL) hasForceEnemyElem;
 - (BOOL) hasAlreadyCompletedMiniTutorialTask;
+- (BOOL) hasHasBeatenTaskBefore;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int32_t taskId;
@@ -225,6 +228,7 @@
 @property (readonly) Element elem;
 - (BOOL) forceEnemyElem;
 - (BOOL) alreadyCompletedMiniTutorialTask;
+- (BOOL) hasBeatenTaskBefore;
 - (int32_t)questIdsAtIndex:(NSUInteger)index;
 
 + (BeginDungeonRequestProto*) defaultInstance;
@@ -320,6 +324,11 @@
 - (BOOL) alreadyCompletedMiniTutorialTask;
 - (BeginDungeonRequestProto_Builder*) setAlreadyCompletedMiniTutorialTask:(BOOL) value;
 - (BeginDungeonRequestProto_Builder*) clearAlreadyCompletedMiniTutorialTask;
+
+- (BOOL) hasHasBeatenTaskBefore;
+- (BOOL) hasBeatenTaskBefore;
+- (BeginDungeonRequestProto_Builder*) setHasBeatenTaskBefore:(BOOL) value;
+- (BeginDungeonRequestProto_Builder*) clearHasBeatenTaskBefore;
 @end
 
 @interface BeginDungeonResponseProto : PBGeneratedMessage {

@@ -195,7 +195,21 @@ static NSString *udid = nil;
   NSString *hostName = HOST_NAME;
   hostName = [NSString stringWithFormat:hostName, version];
   NSURL *url = [NSURL URLWithString:hostName];
-  self.webSocket = [[SRWebSocket alloc] initWithURL:url];
+  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+  
+  if (USE_SSL) {
+    NSString *cerPath = [[[[NSBundle mainBundle] bundleURL] absoluteString] stringByAppendingString:@"keystore.cer"];
+    NSData *certData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:cerPath]];
+    CFDataRef certDataRef = (__bridge CFDataRef)certData;
+    SecCertificateRef certRef = SecCertificateCreateWithData(NULL, certDataRef);
+    id certificate = (__bridge id)certRef;
+    
+    if (certificate) {
+      [request setSR_SSLPinnedCertificates:@[certificate]];
+    }
+  }
+  
+  self.webSocket = [[SRWebSocket alloc] initWithURLRequest:request];
   self.webSocket.delegate = self;
   [self.webSocket open];
   
@@ -1048,8 +1062,8 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCTranslateSelectMessagesEvent];
 }
 
-- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(Element)element shouldForceElem:(BOOL)shouldForceElem alreadyCompletedMiniTutorialTask:(BOOL)alreadyCompletedMiniTutorialTask questIds:(NSArray *)questIds {
-  BeginDungeonRequestProto *req = [[[[[[[[[[[[BeginDungeonRequestProto builder]
+- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(Element)element shouldForceElem:(BOOL)shouldForceElem alreadyCompletedMiniTutorialTask:(BOOL)alreadyCompletedMiniTutorialTask questIds:(NSArray *)questIds hasBeatenTaskBefore:(BOOL)hasBeatenTaskBefore {
+  BeginDungeonRequestProto *req = [[[[[[[[[[[[[BeginDungeonRequestProto builder]
                                              setSender:_sender]
                                             setClientTime:clientTime]
                                            setTaskId:taskId]
@@ -1060,6 +1074,7 @@ static NSString *udid = nil;
                                       setForceEnemyElem:shouldForceElem]
                                      setAlreadyCompletedMiniTutorialTask:alreadyCompletedMiniTutorialTask]
                                     addAllQuestIds:questIds]
+                                    setHasBeatenTaskBefore:hasBeatenTaskBefore]
                                    build];
   return [self sendData:req withMessageType:EventProtocolRequestCBeginDungeonEvent];
 }

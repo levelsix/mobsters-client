@@ -136,7 +136,6 @@
   if ([io isKindOfClass:[UserItem class]]) {
     UserItem *ui = (UserItem *)io;
     int numUsed = [self.usedItems[@(ui.itemId)] intValue];
-    self.usedItems[@(ui.itemId)] = @(numUsed+1);
     
     if (ui.numOwned > 0) {
       [self.nonPurchasedItemsUsed addObject:@(ui.itemId)];
@@ -153,6 +152,8 @@
       [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@ packages.", ui.name]];
       return;
     }
+    
+    self.usedItems[@(ui.itemId)] = @(numUsed+1);
     
     if (!_accumulate) {
       [self.delegate resourceItemUsed:io viewController:viewController];

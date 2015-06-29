@@ -182,11 +182,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   } else {
     LNLog(@"Buying %@...", product.debugDescription);
     
-    SKPayment *payment = [SKPayment paymentWithProduct:product];
-    [[SKPaymentQueue defaultQueue] addPayment:payment];
-    
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
     [def setObject:saleUuid forKey:SALE_UUID_DEFAULTS_KEY(product.productIdentifier)];
+    [def synchronize];
+    
+    SKPayment *payment = [SKPayment paymentWithProduct:product];
+    [[SKPaymentQueue defaultQueue] addPayment:payment];
   }
 }
 

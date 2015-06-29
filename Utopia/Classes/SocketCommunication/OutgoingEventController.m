@@ -1633,6 +1633,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) tradeItemForSpeedup:(NSArray *)uiups {
   // Assume that they all have the same itemId
+  // Basically only heal and battle items will have more than 1 in this array
   
   if (uiups.count > 0) {
     UserItemUsageProto *uiup = uiups[0];
@@ -1656,7 +1657,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       ui.userUuid = gs.userUuid;
     }
     
-    int gemsSpent = [ui costToPurchase] * ((int)uiups.count - ui.quantity);
+    int gemsSpent = ui.quantity > 0 ? 0 : [ui costToPurchase];
     
     if (gemsSpent == 0 && ui.quantity == 0) {
       [Globals popupMessage:@"Trying to use item with no quantity."];
@@ -1668,7 +1669,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       return;
     }
     
-    ui.quantity--;
+    if (ui.quantity > 0) {
+      ui.quantity--;
+    }
     
     [[SocketCommunication sharedSocketCommunication] tradeItemForSpeedups:uiups gemsSpent:gemsSpent updatedUserItem:[ui toProto]];
     
@@ -2083,7 +2086,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) beginDungeon:(int)taskId enemyElement:(Element)element withDelegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:element shouldForceElem:YES alreadyCompletedMiniTutorialTask:NO questIds:gs.inProgressIncompleteQuests.allKeys];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:element shouldForceElem:YES alreadyCompletedMiniTutorialTask:NO questIds:gs.inProgressIncompleteQuests.allKeys hasBeatenTaskBefore:NO];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
@@ -2115,7 +2118,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   BOOL mini = taskId == gl.miniTutorialConstants.miniTutorialTaskId && [gs isTaskCompleted:taskId];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:isEvent eventId:eventId gems:gems enemyElement:ElementFire shouldForceElem:NO alreadyCompletedMiniTutorialTask:mini questIds:nil];
+  BOOL isFirstTime = ![gs isTaskCompleted:taskId];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:isEvent eventId:eventId gems:gems enemyElement:ElementFire shouldForceElem:NO alreadyCompletedMiniTutorialTask:mini questIds:nil hasBeatenTaskBefore:!isFirstTime];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gems]];
   
