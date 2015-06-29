@@ -197,8 +197,8 @@ static NSString *udid = nil;
   NSURL *url = [NSURL URLWithString:hostName];
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
   
-  if (USE_SSL) {
-    NSString *cerPath = [[[[NSBundle mainBundle] bundleURL] absoluteString] stringByAppendingString:@"keystore.cer"];
+  if ([hostName containsString:@"wss://"]) {
+    NSString *cerPath = [[[[NSBundle mainBundle] bundleURL] absoluteString] stringByAppendingString:@"lvl6_crt.der"];
     NSData *certData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:cerPath]];
     CFDataRef certDataRef = (__bridge CFDataRef)certData;
     SecCertificateRef certRef = SecCertificateCreateWithData(NULL, certDataRef);
@@ -420,10 +420,14 @@ static NSString *udid = nil;
     NSData *messageWithHeader = [self serializeEvent:msg withMessageType:type tagNum:tagNum eventUuid:fe.eventUuid];
     [mutableData appendData:messageWithHeader];
     
+    NSLog(@"Event uuid: %@", fe.eventUuid);
+    
     [self.unrespondedMessages addObject:fe];
   }
   
   if (mutableData.length) {
+#warning remove
+    NSLog(@"Sending data of length %lu", (unsigned long)mutableData.length);
     [self.webSocket send:mutableData];
     //[self.webSocket performSelector:@selector(send:) withObject:mutableData afterDelay:2.5f];
   }

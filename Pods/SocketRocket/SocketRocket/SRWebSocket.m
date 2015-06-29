@@ -974,7 +974,8 @@ static const uint8_t SRPayloadLenMask   = 0x7F;
             [self _failWithError:[NSError errorWithDomain:@"org.lolrus.SocketRocket" code:2145 userInfo:[NSDictionary dictionaryWithObject:@"Error writing to stream" forKey:NSLocalizedDescriptionKey]]];
              return;
         }
-        
+      
+      NSLog(@"SOCKETROCKET: Wrote %ud bytes.", bytesWritten);
         _outputBufferOffset += bytesWritten;
         
         if (_outputBufferOffset > 4096 && _outputBufferOffset > (_outputBuffer.length >> 1)) {

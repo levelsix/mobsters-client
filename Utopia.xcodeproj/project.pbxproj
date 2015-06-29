@@ -136,6 +136,9 @@
 		291E98421B40DE49004F83AC /* keystore.cer in Resources */ = {isa = PBXBuildFile; fileRef = 291E98411B40DE49004F83AC /* keystore.cer */; };
 		291E98431B40DE49004F83AC /* keystore.cer in Resources */ = {isa = PBXBuildFile; fileRef = 291E98411B40DE49004F83AC /* keystore.cer */; };
 		291E98441B40DE49004F83AC /* keystore.cer in Resources */ = {isa = PBXBuildFile; fileRef = 291E98411B40DE49004F83AC /* keystore.cer */; };
+		291E98461B411973004F83AC /* lvl6_crt.der in Resources */ = {isa = PBXBuildFile; fileRef = 291E98451B411973004F83AC /* lvl6_crt.der */; };
+		291E98471B411973004F83AC /* lvl6_crt.der in Resources */ = {isa = PBXBuildFile; fileRef = 291E98451B411973004F83AC /* lvl6_crt.der */; };
+		291E98481B411973004F83AC /* lvl6_crt.der in Resources */ = {isa = PBXBuildFile; fileRef = 291E98451B411973004F83AC /* lvl6_crt.der */; };
 		292217C51B1CF3C200DED202 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217C41B1CF3C200DED202 /* libicucore.dylib */; };
 		292217C61B1CF3CB00DED202 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217C41B1CF3C200DED202 /* libicucore.dylib */; };
 		292217C71B1CF3D300DED202 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 292217C41B1CF3C200DED202 /* libicucore.dylib */; };
@@ -7150,6 +7153,7 @@
 		291E982D1B3B6DE6004F83AC /* AvatarMonstersFiller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvatarMonstersFiller.m; sourceTree = "<group>"; };
 		291E98311B3B6F55004F83AC /* AvatarMonsterSelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AvatarMonsterSelectCell.xib; sourceTree = "<group>"; };
 		291E98411B40DE49004F83AC /* keystore.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = keystore.cer; sourceTree = "<group>"; };
+		291E98451B411973004F83AC /* lvl6_crt.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = lvl6_crt.der; sourceTree = "<group>"; };
 		292217C41B1CF3C200DED202 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		292771361A71A52A00E3AB65 /* dialoguebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialoguebubble@2x.png"; sourceTree = "<group>"; };
 		292771371A71A52A00E3AB65 /* tutorialbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbackground@2x.png"; sourceTree = "<group>"; };
@@ -14224,6 +14228,7 @@
 				7A2AF416E1B4BB3498E05A47 /* Pods */,
 				2982A1691A1973B700CEB283 /* cacert.pem */,
 				291E98411B40DE49004F83AC /* keystore.cer */,
+				291E98451B411973004F83AC /* lvl6_crt.der */,
 			);
 			sourceTree = "<group>";
 		};
@@ -18565,6 +18570,7 @@
 				CF0CF0A6196F452900ECD301 /* AttackMapViewController.xib in Resources */,
 				9BB948491A65D37B006EE920 /* basicgrabinactivetabpressed@2x.png in Resources */,
 				CF6A650A19D252D00002E05D /* 6nightgrenade@2x.png in Resources */,
+				291E98471B411973004F83AC /* lvl6_crt.der in Resources */,
 				CF0CF0A9196F452900ECD301 /* Kamcord.bundle in Resources */,
 				CF0CF0AA196F452900ECD301 /* NRTouchImage.png in Resources */,
 				CFA728EE1A0B037900FF6031 /* fireeventtag@2x.png in Resources */,
@@ -20782,6 +20788,7 @@
 				CF746180196B9A5F002D6AE6 /* buildingheal@2x.png in Resources */,
 				638C87701A7340F80094C396 /* viewschedulepressed@2x.png in Resources */,
 				29C0D22D1A9BF4BF005A4EC0 /* lockedbubble@2x.png in Resources */,
+				291E98461B411973004F83AC /* lvl6_crt.der in Resources */,
 				CFFA326E18BC7D81008B81B9 /* Boat@2x.plist in Resources */,
 				CFA8FF3319F899B200F9908C /* readyforupgradebigcheck@2x.png in Resources */,
 				CFF5DBFA194F90720019EB2B /* profteamactive@2x.png in Resources */,
@@ -23664,6 +23671,7 @@
 				CF4823D519F7217F00041486 /* manageteammenuheader@2x.png in Resources */,
 				CF4823D619F7217F00041486 /* rankupspinner@2x.png in Resources */,
 				CF4823D719F7217F00041486 /* MenuResidenceT1@2x.png in Resources */,
+				291E98481B411973004F83AC /* lvl6_crt.der in Resources */,
 				CF4823D919F7217F00041486 /* KamcordiPad.storyboardc in Resources */,
 				29AF48DC1AAA93DA0034927C /* itemsbutton@2x.png in Resources */,
 				CF4823DA19F7217F00041486 /* Gotham-Ultra.otf in Resources */,

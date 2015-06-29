@@ -52,17 +52,23 @@
   _oilLost = 0;
   _cashLost = 0;
   _rankLost = 0;
+  BOOL changedLeague = NO;
   
   for( PvpHistoryProto *pvp in _curDefenses) {
     _oilLost += pvp.oilStolenFromStorage+pvp.oilStolenFromGenerators;
     _cashLost += pvp.cashStolenFromStorage+pvp.cashStolenFromGenerators;
+    
     int change = pvp.defenderBefore.rank - pvp.defenderAfter.rank;
     _rankLost += change;
+    
+    if (pvp.defenderBefore.leagueId != pvp.defenderAfter.leagueId) {
+      changedLeague = YES;
+    }
   }
   
   _oilLabel.text = [NSString stringWithFormat:@"%d", _oilLost];
   _cashLabel.text = [NSString stringWithFormat:@"%d", _cashLost];
-  _rankLabel.text = [NSString stringWithFormat:@"%s%d", _rankLost > 0 ? "+" : "", _rankLost];
+  _rankLabel.text = changedLeague ? @"New" : [NSString stringWithFormat:@"%s%d", _rankLost > 0 ? "+" : "", _rankLost];
   
   PvpLeagueProto *league = [gs leagueForId:gs.pvpLeague.leagueId];
   NSString *icon = [league.imgPrefix stringByAppendingString:@"icon.png"];
