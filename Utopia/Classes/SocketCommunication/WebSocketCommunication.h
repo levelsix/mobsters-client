@@ -12,22 +12,35 @@
 
 @protocol WebSocketCommunicationDelegate <NSObject>
 
-- (void) receivedData:(NSData *)data;
+- (void) receivedMessage:(NSData *)data;
+- (void) connectedToHost;
+- (void) unableToConnectToHost;
+- (void) attemptingReconnect;
+
 
 @end
 
-@interface WebSocketCommunication : NSObject {
+@interface WebSocketCommunication : NSObject <SRWebSocketDelegate> {
   BOOL _shouldReconnect;
   
   int _numDisconnects;
   BOOL _purposefulClose;
+  
+  NSString *_hostName;
+  NSString *_sslCertFile;
 }
 
 @property (nonatomic, retain) SRWebSocket *webSocket;
 
-@property (nonatomic, retain) NSMutableArray *queuedMessages;
-@property (nonatomic, retain) NSMutableArray *unrespondedMessages;
+@property (nonatomic, assign) id<WebSocketCommunicationDelegate> delegate;
 
-- (void) sendData:(NSData *)data;
+
+- (id) initWithURLString:(NSString *)hostName sslCert:(NSString *)sslCert;
+
+- (void) connect;
+
+- (void) sendMessage:(NSData *)data;
+
+- (void) closeDownConnection;
 
 @end

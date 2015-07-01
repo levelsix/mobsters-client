@@ -32,9 +32,6 @@
 #define READING_HEADER_TAG -1
 #define HEADER_SIZE 4
 
-#define RECONNECT_TIMEOUT 1.f
-#define NUM_SILENT_RECONNECTS 15
-
 #define CONNECTED_TO_HOST_DELEGATE_TAG 999998
 #define CLAN_EVENT_DELEGATE_TAG 999999
 
@@ -161,6 +158,19 @@ static NSString *udid = nil;
     self.clanEventDelegates = [NSMutableArray array];
     
     _updatedUserMiniEventGoals = [NSMutableDictionary dictionary];
+    
+    
+    // Web Socket Communication
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *version = [info objectForKey:@"CFBundleShortVersionString"];
+    
+    // Convert version to use a '-' instead of a '.'
+    version = [version stringByReplacingOccurrencesOfString:@"." withString:@"-"];
+    NSString *hostName = HOST_NAME;
+    hostName = [NSString stringWithFormat:hostName, version];
+    
+    self.webSocketCommunication = [[WebSocketCommunication alloc] initWithURLString:hostName sslCert:@"lvl6_crt.der"];
+    self.webSocketCommunication.delegate = self;
   }
   return self;
 }
@@ -181,56 +191,17 @@ static NSString *udid = nil;
   return res.build;
 }
 
-- (void) tryConnect {
-  // Close the old one just in case
-  if (self.webSocket) {
-    [self.webSocket close];
-  }
-  
-  NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-  NSString *version = [info objectForKey:@"CFBundleShortVersionString"];
-  
-  // Convert version to use a '-' instead of a '.'
-  version = [version stringByReplacingOccurrencesOfString:@"." withString:@"-"];
-  NSString *hostName = HOST_NAME;
-  hostName = [NSString stringWithFormat:hostName, version];
-  hostName = @"ws://dev1chatmobsters.lvl6.com:8081";
-  NSURL *url = [NSURL URLWithString:hostName];
-  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-  
-  if ([hostName containsString:@"wss://"]) {
-    NSString *cerPath = [[[[NSBundle mainBundle] bundleURL] absoluteString] stringByAppendingString:@"lvl6_crt.der"];
-    NSData *certData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:cerPath]];
-    CFDataRef certDataRef = (__bridge CFDataRef)certData;
-    SecCertificateRef certRef = SecCertificateCreateWithData(NULL, certDataRef);
-    id certificate = (__bridge id)certRef;
-    
-    if (certificate) {
-      [request setSR_SSLPinnedCertificates:@[certificate]];
-    }
-  }
-  
-  self.webSocket = [[SRWebSocket alloc] initWithURLRequest:request];
-  self.webSocket.delegate = self;
-  [self.webSocket open];
-  
-  LNLog(@"Attempting connection to \"%@\"", hostName);
-}
-
 - (void) initNetworkCommunicationWithDelegate:(id)delegate clearMessages:(BOOL)clearMessages {
   
-  [self tryConnect];
+  [self.webSocketCommunication connect];
   
   LNLog(@"Initializing network connection..");
   
   // In case we just came from inactive state
   _currentTagNum = ABS(arc4random());
-  _shouldReconnect = YES;
-  _numDisconnects = 0;
   
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
-  _purposefulClose = NO;
   
   _pauseFlushTimer = NO;
   
@@ -294,8 +265,6 @@ static NSString *udid = nil;
 }
 
 - (void) connectedToHost {
-  LNLog(@"Connected to host \"%@\"", self.webSocket.url);
-  
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = YES;
   
@@ -313,8 +282,6 @@ static NSString *udid = nil;
   }
   [self.queuedMessages removeObjectsInArray:toRemove];
   [self sendFullEvents:toRemove];
-  
-  _shouldReconnect = NO;
 }
 
 - (void) initUserIdMessageQueue {
@@ -340,27 +307,12 @@ static NSString *udid = nil;
   }
 }
 
-- (void) unableToConnectToHost:(NSString *)error
-{
-  LNLog(@"Unable to connect: %@", error);
-  
-  if (_shouldReconnect) {
-    _numDisconnects++;
-    if (_numDisconnects > NUM_SILENT_RECONNECTS) {
-      LNLog(@"Asking to reconnect..");
-      
-      _shouldReconnect = NO;
-      
-      [self callSelectorOnHostDelegate:@selector(unableToConnectToHost:)];
-    } else {
-      LNLog(@"Silently reconnecting..");
-      [self performBlockAfterDelay:RECONNECT_TIMEOUT block:^{
-        if (_shouldReconnect) {
-          [self tryConnect];
-        }
-      }];
-    }
-  }
+- (void) attemptingReconnect {
+  [self callSelectorOnHostDelegate:@selector(reconnectingToServer)];
+}
+
+- (void) unableToConnectToHost {
+  [self callSelectorOnHostDelegate:@selector(unableToConnectToHost)];
 }
 
 - (BOOL) isPreDbEventType:(EventProtocolRequest)type {
@@ -427,7 +379,7 @@ static NSString *udid = nil;
   }
   
   if (mutableData.length) {
-    [self.webSocket send:mutableData];
+    [self.webSocketCommunication sendMessage:mutableData];
     //[self.webSocket performSelector:@selector(send:) withObject:mutableData afterDelay:2.5f];
   }
 }
@@ -2250,53 +2202,10 @@ static NSString *udid = nil;
   
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
-  _purposefulClose = YES;
   
-  self.webSocket.delegate = nil;
-  [self.webSocket close];
-  self.webSocket = nil;
+  [self.webSocketCommunication closeDownConnection];
   
   LNLog(@"Closed down connection..");
-}
-
-#pragma mark - Web Socket Delegate
-
-- (void) webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
-  NSData *data = (NSData *)message;
-  [self receivedMessage:data];
-}
-
-- (void) webSocketDidOpen:(SRWebSocket *)webSocket {
-  LNLog(@"websocket opened..");
-  
-  if (webSocket != self.webSocket) {
-    LNLog(@"Somehow there are 2 websockets: %@, %@", self.webSocket, webSocket);
-    webSocket.delegate = nil;
-    [webSocket close];
-  } else {
-    [self connectedToHost];
-  }
-}
-
-- (void) webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
-  LNLog(@"websocket failed.");
-  if (_shouldReconnect) {
-    [self unableToConnectToHost:error.localizedDescription];
-  } else if (!_purposefulClose) {
-    [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
-  }
-}
-
-- (void) webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
-  LNLog(@"websocket closed. %@ code=%d clean=%d", reason, (int)code, wasClean);
-  
-  if (!_purposefulClose) {
-    if (webSocket != self.webSocket) {
-      LNLog(@"Somehow there are 2 websockets: %@, %@", self.webSocket, webSocket);
-    } else {
-      [self callSelectorOnHostDelegate:@selector(amqpDisconnected)];
-    }
-  }
 }
 
 @end
