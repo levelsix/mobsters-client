@@ -261,8 +261,10 @@ static NSString *udid = nil;
     GameState *gs = [GameState sharedGameState];
     if (!gs.isTutorial && gs.connected) {
       // Check if first event is already a reconnect
-      FullEvent *fe = [self.queuedMessages firstObject];
-      if (![fe.event isKindOfClass:[ReconnectRequestProto class]]) {
+      FullEvent *fe1 = [self.queuedMessages firstObject];
+      FullEvent *fe2 = [self.unrespondedMessages firstObject];
+      if (![fe1.event isKindOfClass:[ReconnectRequestProto class]] &&
+          ![fe2.event isKindOfClass:[ReconnectRequestProto class]]) {
         // Send reconnect msg at front
         NSMutableArray *oldQueuedMsgs = self.queuedMessages;
         self.queuedMessages = [NSMutableArray array];
