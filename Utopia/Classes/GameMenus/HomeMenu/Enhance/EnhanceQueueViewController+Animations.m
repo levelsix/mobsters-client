@@ -23,7 +23,7 @@
   CGMutablePathRef spiralPath = CGPathCreateMutable();
   
   float numPts = 64;
-  float maxRadius = 64;
+  float maxRadius = [Globals isiPad] ? 128 : 64;
   float numRotations = 2;
   
   float prevAngle = 0;
@@ -84,7 +84,7 @@
   CGMutablePathRef spiralPath = CGPathCreateMutable();
   
   float numPts = 64;
-  float maxRadius = 64;
+  float maxRadius = [Globals isiPad] ? 128 : 64;
   float numRotations = 2;
   
   float prevAngle = 0;
@@ -291,7 +291,7 @@ static int totalLevelUps = 0;
 }
 
 - (void) spawnLevelUp:(int)numLevelUps completion:(dispatch_block_t)completion {
-  CGPoint delta = ccp(-60, 11);
+  CGPoint delta = [Globals isiPad] ? ccp(-120, 22) : ccp(-60, 11);
   
   CGPoint levelCenter = self.levelIcon.center;
   CGPoint upCenter = self.upIcon.center;
