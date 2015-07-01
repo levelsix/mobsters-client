@@ -197,6 +197,7 @@ static NSString *host = HOST_NAME;
   version = [version stringByReplacingOccurrencesOfString:@"." withString:@"-"];
   NSString *hostName = host;
   hostName = [NSString stringWithFormat:hostName, version];
+  hostName = @"ws://dev1chatmobsters.lvl6.com:8081";
   NSURL *url = [NSURL URLWithString:hostName];
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
   
