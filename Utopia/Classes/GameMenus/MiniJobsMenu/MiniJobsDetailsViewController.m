@@ -207,7 +207,10 @@
   //self.hpLabel.highlighted = totalHp >= reqHp;
   //self.attackLabel.highlighted = totalAtk >= reqAtk;
   
-  self.timeLabel.text = [Globals convertTimeToMediumString:self.userMiniJob.durationSeconds];
+  if ([Globals isiPad])
+    self.timeLabel.text = [[Globals convertTimeToShorterString:self.userMiniJob.durationSeconds] uppercaseString];
+  else
+    self.timeLabel.text = [Globals convertTimeToMediumString:self.userMiniJob.durationSeconds];
   
   int maxAllowed = self.userMiniJob.miniJob.maxNumMonstersAllowed;
   self.slotsAvailableLabel.text = [NSString stringWithFormat:@"%d Slot%@ Available", maxAllowed, maxAllowed == 1 ? @"" : @"s"];
@@ -217,13 +220,13 @@
   
   if (totalHp >= reqHp && totalAtk >= reqAtk) {
     self.engageArrow.highlighted = NO;
-    [self.engageButton setImage:[Globals imageNamed:@"engagebutton.png"] forState:UIControlStateNormal];
+    [self.engageButton setImage:[Globals imageNamed:([Globals isiPad] ? @"greenmenuoption.png" : @"engagebutton.png")] forState:UIControlStateNormal];
     
     self.engageLabel.textColor = [UIColor colorWithRed:61/255.f green:114/255.f blue:1/255.f alpha:1.f];
     self.engageLabel.shadowColor = [UIColor colorWithRed:253/255.f green:255/255.f blue:95/255.f alpha:0.75];
   } else {
     self.engageArrow.highlighted = YES;
-    [self.engageButton setImage:[Globals imageNamed:@"engagedisabled.png"] forState:UIControlStateNormal];
+    [self.engageButton setImage:[Globals imageNamed:([Globals isiPad] ? @"greymenuoption.png" : @"engagedisabled.png")] forState:UIControlStateNormal];
     
     self.engageLabel.textColor = [UIColor colorWithWhite:0.5f alpha:1.f];
     self.engageLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.25];
