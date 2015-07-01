@@ -883,13 +883,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) updateUserStrength:(uint64_t)newStrength {
+- (void) updateUserStrength:(uint64_t)newStrength highestToonAtk:(int)highestToonAtk highestToonHp:(int)highestToonHp {
   GameState *gs = [GameState sharedGameState];
   
   if (newStrength > 0) {
-    [[SocketCommunication sharedSocketCommunication] sendUpdateUserStrengthMessage:newStrength];
+    [[SocketCommunication sharedSocketCommunication] sendUpdateUserStrengthMessage:newStrength highestToonAtk:highestToonAtk highestToonHp:highestToonHp];
     
-    LNLog(@"Updating total strength to %@", [Globals commafyNumber:newStrength]);
+    LNLog(@"Updating total strength to %@, highest toon atk to %@, highest toon hp to %@", [Globals commafyNumber:newStrength], [Globals commafyNumber:highestToonAtk], [Globals commafyNumber:highestToonHp]);
     
     gs.totalStrength = newStrength;
   }

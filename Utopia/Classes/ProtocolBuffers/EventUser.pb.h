@@ -1441,14 +1441,22 @@
 @interface UpdateUserStrengthRequestProto : PBGeneratedMessage {
 @private
   BOOL hasUpdatedStrength_:1;
+  BOOL hasHighestToonHp_:1;
+  BOOL hasHighestToonAtk_:1;
   BOOL hasSender_:1;
   int64_t updatedStrength;
+  int32_t highestToonHp;
+  int32_t highestToonAtk;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUpdatedStrength;
+- (BOOL) hasHighestToonHp;
+- (BOOL) hasHighestToonAtk;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t updatedStrength;
+@property (readonly) int32_t highestToonHp;
+@property (readonly) int32_t highestToonAtk;
 
 + (UpdateUserStrengthRequestProto*) defaultInstance;
 - (UpdateUserStrengthRequestProto*) defaultInstance;
@@ -1496,6 +1504,16 @@
 - (int64_t) updatedStrength;
 - (UpdateUserStrengthRequestProto_Builder*) setUpdatedStrength:(int64_t) value;
 - (UpdateUserStrengthRequestProto_Builder*) clearUpdatedStrength;
+
+- (BOOL) hasHighestToonHp;
+- (int32_t) highestToonHp;
+- (UpdateUserStrengthRequestProto_Builder*) setHighestToonHp:(int32_t) value;
+- (UpdateUserStrengthRequestProto_Builder*) clearHighestToonHp;
+
+- (BOOL) hasHighestToonAtk;
+- (int32_t) highestToonAtk;
+- (UpdateUserStrengthRequestProto_Builder*) setHighestToonAtk:(int32_t) value;
+- (UpdateUserStrengthRequestProto_Builder*) clearHighestToonAtk;
 @end
 
 @interface UpdateUserStrengthResponseProto : PBGeneratedMessage {

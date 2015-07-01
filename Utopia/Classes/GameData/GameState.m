@@ -203,6 +203,28 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return strength;
 }
 
+- (int) highestToonAtk {
+  Globals *gl = [Globals sharedGlobals];
+  int atk = 0;
+  
+  for (UserMonster *um in self.myMonsters) {
+    atk = MAX(atk, [gl calculateTotalDamageForMonster:um]);
+  }
+  
+  return atk;
+}
+
+- (int) highestToonHp {
+  Globals *gl = [Globals sharedGlobals];
+  int hp = 0;
+  
+  for (UserMonster *um in self.myMonsters) {
+    hp = MAX(hp, [gl calculateMaxHealthForMonster:um]);
+  }
+  
+  return hp;
+}
+
 - (void) recalculateStrength {
   uint64_t strength = 0;
   
@@ -215,7 +237,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   strength += [self researchStrength];
   
   if (self.totalStrength != strength) {
-    [[OutgoingEventController sharedOutgoingEventController] updateUserStrength:strength];
+    [[OutgoingEventController sharedOutgoingEventController] updateUserStrength:strength highestToonAtk:[self highestToonAtk] highestToonHp:[self highestToonHp]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:STRENGTH_CHANGED_NOTIFICATION object:nil];
   }

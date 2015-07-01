@@ -24,8 +24,8 @@
 
 @interface LeaderBoardViewCell : UITableViewCell
 
-- (void)updateWithLeaderBoardObject:(id<LeaderBoardObject>)leaderInfo scoreIcon:(NSString *)scoreIcon;
-- (void) updateWithRank:(int)rank score:(uint64_t)score userName:(NSString *)userName clanTag:(NSString *)clanTag scoreIcon:(NSString *)scoreIcon;
+- (void) updateWithLeaderBoardObject:(id<LeaderBoardObject>)leaderInfo scoreIcon:(NSString *)scoreIcon;
+- (void) updateWithRank:(int)rank score:(uint64_t)score userName:(NSString *)userName clanTag:(NSString *)clanTag avatarMonsterId:(int)avatarMonsterId scoreIcon:(NSString *)scoreIcon;
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rankLabel;
@@ -34,6 +34,8 @@
 @property (nonatomic, retain) IBOutlet UIImageView *cellBG;
 @property (nonatomic, retain) IBOutlet UIImageView *scoreImage;
 @property (nonatomic, retain) IBOutlet UIImageView *starImageView;
+
+@property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;
 
 @end
 

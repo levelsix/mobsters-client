@@ -5876,6 +5876,8 @@ static UpdateClientTaskStateResponseProto* defaultUpdateClientTaskStateResponseP
 @interface UpdateUserStrengthRequestProto ()
 @property (strong) MinimumUserProto* sender;
 @property int64_t updatedStrength;
+@property int32_t highestToonHp;
+@property int32_t highestToonAtk;
 @end
 
 @implementation UpdateUserStrengthRequestProto
@@ -5894,10 +5896,26 @@ static UpdateClientTaskStateResponseProto* defaultUpdateClientTaskStateResponseP
   hasUpdatedStrength_ = !!value_;
 }
 @synthesize updatedStrength;
+- (BOOL) hasHighestToonHp {
+  return !!hasHighestToonHp_;
+}
+- (void) setHasHighestToonHp:(BOOL) value_ {
+  hasHighestToonHp_ = !!value_;
+}
+@synthesize highestToonHp;
+- (BOOL) hasHighestToonAtk {
+  return !!hasHighestToonAtk_;
+}
+- (void) setHasHighestToonAtk:(BOOL) value_ {
+  hasHighestToonAtk_ = !!value_;
+}
+@synthesize highestToonAtk;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.updatedStrength = 0L;
+    self.highestToonHp = 0;
+    self.highestToonAtk = 0;
   }
   return self;
 }
@@ -5923,6 +5941,12 @@ static UpdateUserStrengthRequestProto* defaultUpdateUserStrengthRequestProtoInst
   if (self.hasUpdatedStrength) {
     [output writeInt64:2 value:self.updatedStrength];
   }
+  if (self.hasHighestToonHp) {
+    [output writeInt32:3 value:self.highestToonHp];
+  }
+  if (self.hasHighestToonAtk) {
+    [output writeInt32:4 value:self.highestToonAtk];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -5937,6 +5961,12 @@ static UpdateUserStrengthRequestProto* defaultUpdateUserStrengthRequestProtoInst
   }
   if (self.hasUpdatedStrength) {
     size_ += computeInt64Size(2, self.updatedStrength);
+  }
+  if (self.hasHighestToonHp) {
+    size_ += computeInt32Size(3, self.highestToonHp);
+  }
+  if (self.hasHighestToonAtk) {
+    size_ += computeInt32Size(4, self.highestToonAtk);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -5982,6 +6012,12 @@ static UpdateUserStrengthRequestProto* defaultUpdateUserStrengthRequestProtoInst
   if (self.hasUpdatedStrength) {
     [output appendFormat:@"%@%@: %@\n", indent, @"updatedStrength", [NSNumber numberWithLongLong:self.updatedStrength]];
   }
+  if (self.hasHighestToonHp) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"highestToonHp", [NSNumber numberWithInteger:self.highestToonHp]];
+  }
+  if (self.hasHighestToonAtk) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"highestToonAtk", [NSNumber numberWithInteger:self.highestToonAtk]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -5997,6 +6033,10 @@ static UpdateUserStrengthRequestProto* defaultUpdateUserStrengthRequestProtoInst
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasUpdatedStrength == otherMessage.hasUpdatedStrength &&
       (!self.hasUpdatedStrength || self.updatedStrength == otherMessage.updatedStrength) &&
+      self.hasHighestToonHp == otherMessage.hasHighestToonHp &&
+      (!self.hasHighestToonHp || self.highestToonHp == otherMessage.highestToonHp) &&
+      self.hasHighestToonAtk == otherMessage.hasHighestToonAtk &&
+      (!self.hasHighestToonAtk || self.highestToonAtk == otherMessage.highestToonAtk) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -6006,6 +6046,12 @@ static UpdateUserStrengthRequestProto* defaultUpdateUserStrengthRequestProtoInst
   }
   if (self.hasUpdatedStrength) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.updatedStrength] hash];
+  }
+  if (self.hasHighestToonHp) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.highestToonHp] hash];
+  }
+  if (self.hasHighestToonAtk) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.highestToonAtk] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -6056,6 +6102,12 @@ static UpdateUserStrengthRequestProto* defaultUpdateUserStrengthRequestProtoInst
   if (other.hasUpdatedStrength) {
     [self setUpdatedStrength:other.updatedStrength];
   }
+  if (other.hasHighestToonHp) {
+    [self setHighestToonHp:other.highestToonHp];
+  }
+  if (other.hasHighestToonAtk) {
+    [self setHighestToonAtk:other.highestToonAtk];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6088,6 +6140,14 @@ static UpdateUserStrengthRequestProto* defaultUpdateUserStrengthRequestProtoInst
       }
       case 16: {
         [self setUpdatedStrength:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setHighestToonHp:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setHighestToonAtk:[input readInt32]];
         break;
       }
     }
@@ -6137,6 +6197,38 @@ static UpdateUserStrengthRequestProto* defaultUpdateUserStrengthRequestProtoInst
 - (UpdateUserStrengthRequestProto_Builder*) clearUpdatedStrength {
   result.hasUpdatedStrength = NO;
   result.updatedStrength = 0L;
+  return self;
+}
+- (BOOL) hasHighestToonHp {
+  return result.hasHighestToonHp;
+}
+- (int32_t) highestToonHp {
+  return result.highestToonHp;
+}
+- (UpdateUserStrengthRequestProto_Builder*) setHighestToonHp:(int32_t) value {
+  result.hasHighestToonHp = YES;
+  result.highestToonHp = value;
+  return self;
+}
+- (UpdateUserStrengthRequestProto_Builder*) clearHighestToonHp {
+  result.hasHighestToonHp = NO;
+  result.highestToonHp = 0;
+  return self;
+}
+- (BOOL) hasHighestToonAtk {
+  return result.hasHighestToonAtk;
+}
+- (int32_t) highestToonAtk {
+  return result.highestToonAtk;
+}
+- (UpdateUserStrengthRequestProto_Builder*) setHighestToonAtk:(int32_t) value {
+  result.hasHighestToonAtk = YES;
+  result.highestToonAtk = value;
+  return self;
+}
+- (UpdateUserStrengthRequestProto_Builder*) clearHighestToonAtk {
+  result.hasHighestToonAtk = NO;
+  result.highestToonAtk = 0;
   return self;
 }
 @end

@@ -99,7 +99,7 @@
 - (void) setDefendingMessage:(NSString *)defendingMessage;
 - (void) protectUserMonster:(NSString *)userMonsterUuid;
 - (void) unprotectUserMonster:(NSString *)userMonsterUuid;
-- (void) updateUserStrength:(uint64_t)newStrength;
+- (void) updateUserStrength:(uint64_t)newStrength highestToonAtk:(int)highestToonAtk highestToonHp:(int)highestToonHp;
 
 - (void) beginDungeon:(int)taskId withDelegate:(id)delegate;
 - (void) beginDungeon:(int)taskId enemyElement:(Element)element withDelegate:(id)delegate;

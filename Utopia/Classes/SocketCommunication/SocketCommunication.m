@@ -884,9 +884,9 @@ static NSString *udid = nil;
 
 - (int) sendRequestJoinClanMessage:(NSString *)clanUuid clientTime:(uint64_t)clientTime {
   RequestJoinClanRequestProto *req = [[[[[RequestJoinClanRequestProto builder]
-                                        setSender:_sender]
-                                       setClanUuid:clanUuid]
-                                      setClientTime:clientTime]
+                                         setSender:_sender]
+                                        setClanUuid:clanUuid]
+                                       setClientTime:clientTime]
                                       build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRequestJoinClanEvent];
@@ -1065,16 +1065,16 @@ static NSString *udid = nil;
 
 - (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(Element)element shouldForceElem:(BOOL)shouldForceElem alreadyCompletedMiniTutorialTask:(BOOL)alreadyCompletedMiniTutorialTask questIds:(NSArray *)questIds hasBeatenTaskBefore:(BOOL)hasBeatenTaskBefore {
   BeginDungeonRequestProto *req = [[[[[[[[[[[[[BeginDungeonRequestProto builder]
-                                             setSender:_sender]
-                                            setClientTime:clientTime]
-                                           setTaskId:taskId]
-                                          setIsEvent:isEvent]
-                                         setPersistentEventId:eventId]
-                                        setGemsSpent:gems]
-                                       setElem:element]
-                                      setForceEnemyElem:shouldForceElem]
-                                     setAlreadyCompletedMiniTutorialTask:alreadyCompletedMiniTutorialTask]
-                                    addAllQuestIds:questIds]
+                                              setSender:_sender]
+                                             setClientTime:clientTime]
+                                            setTaskId:taskId]
+                                           setIsEvent:isEvent]
+                                          setPersistentEventId:eventId]
+                                         setGemsSpent:gems]
+                                        setElem:element]
+                                       setForceEnemyElem:shouldForceElem]
+                                      setAlreadyCompletedMiniTutorialTask:alreadyCompletedMiniTutorialTask]
+                                     addAllQuestIds:questIds]
                                     setHasBeatenTaskBefore:hasBeatenTaskBefore]
                                    build];
   return [self sendData:req withMessageType:EventProtocolRequestCBeginDungeonEvent];
@@ -1511,9 +1511,9 @@ static NSString *udid = nil;
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths clientTime:(uint64_t)clientTime {
   HealMonsterRequestProto *req = [[[[[HealMonsterRequestProto builder]
-                                    setSender:[self senderWithMaxResources]]
-                                   addAllUmchp:monsterHealths]
-                                  setClientTime:clientTime]
+                                     setSender:[self senderWithMaxResources]]
+                                    addAllUmchp:monsterHealths]
+                                   setClientTime:clientTime]
                                   build];
   
   int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
@@ -1523,11 +1523,11 @@ static NSString *udid = nil;
 
 - (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost clientTime:(uint64_t)clientTime {
   HealMonsterRequestProto *req = [[[[[[[HealMonsterRequestProto builder]
-                                      setSender:[self senderWithMaxResources]]
-                                     setIsSpeedup:YES]
-                                    setGemsForSpeedup:goldCost]
-                                   addAllUmchp:monsterHealths]
-                                  setClientTime:clientTime]
+                                       setSender:[self senderWithMaxResources]]
+                                      setIsSpeedup:YES]
+                                     setGemsForSpeedup:goldCost]
+                                    addAllUmchp:monsterHealths]
+                                   setClientTime:clientTime]
                                   build];
   
   int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
@@ -1753,10 +1753,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCDiscardBattleItemEvent flush:NO queueUp:YES incrementTagNum:NO];
 }
 
-- (int) sendUpdateUserStrengthMessage:(uint64_t)newStrength {
-  UpdateUserStrengthRequestProto *req = [[[[UpdateUserStrengthRequestProto builder]
-                                           setSender:_sender]
-                                          setUpdatedStrength:newStrength]
+- (int) sendUpdateUserStrengthMessage:(uint64_t)newStrength highestToonAtk:(int)highestToonAtk highestToonHp:(int)highestToonHp {
+  UpdateUserStrengthRequestProto *req = [[[[[[UpdateUserStrengthRequestProto builder]
+                                             setSender:_sender]
+                                            setUpdatedStrength:newStrength]
+                                           setHighestToonAtk:highestToonAtk]
+                                          setHighestToonHp:highestToonHp]
                                          build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserStrengthEvent flush:NO queueUp:YES incrementTagNum:NO];
