@@ -1369,6 +1369,12 @@
 		29E00D7B1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */; };
 		29E00D7C1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */; };
 		29E00D7D1A79B52D00F34D51 /* opendonatearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */; };
+		29E048CD1B447D2E00CCB0F1 /* ChatCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 29E048CC1B447D2E00CCB0F1 /* ChatCommunication.m */; };
+		29E048CE1B447D2E00CCB0F1 /* ChatCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 29E048CC1B447D2E00CCB0F1 /* ChatCommunication.m */; };
+		29E048CF1B447D2E00CCB0F1 /* ChatCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 29E048CC1B447D2E00CCB0F1 /* ChatCommunication.m */; };
+		29E048DA1B44802E00CCB0F1 /* WebSocketCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 29E048D91B44802E00CCB0F1 /* WebSocketCommunication.m */; };
+		29E048DB1B44802E00CCB0F1 /* WebSocketCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 29E048D91B44802E00CCB0F1 /* WebSocketCommunication.m */; };
+		29E048DC1B44802E00CCB0F1 /* WebSocketCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 29E048D91B44802E00CCB0F1 /* WebSocketCommunication.m */; };
 		29F636371B34F4A2006CF318 /* ChatGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29F636361B34F4A2006CF318 /* ChatGiftView.xib */; };
 		29F636381B34F4A2006CF318 /* ChatGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29F636361B34F4A2006CF318 /* ChatGiftView.xib */; };
 		29F636391B34F4A2006CF318 /* ChatGiftView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29F636361B34F4A2006CF318 /* ChatGiftView.xib */; };
@@ -7638,6 +7644,10 @@
 		29E00D5F1A79B52D00F34D51 /* donateenhancebottombar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donateenhancebottombar@2x.png"; sourceTree = "<group>"; };
 		29E00D611A79B52D00F34D51 /* fulldonatearro@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fulldonatearro@2x.png"; sourceTree = "<group>"; };
 		29E00D631A79B52D00F34D51 /* opendonatearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "opendonatearrow@2x.png"; sourceTree = "<group>"; };
+		29E048CB1B447D2E00CCB0F1 /* ChatCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCommunication.h; sourceTree = "<group>"; };
+		29E048CC1B447D2E00CCB0F1 /* ChatCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCommunication.m; sourceTree = "<group>"; };
+		29E048D81B44802E00CCB0F1 /* WebSocketCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketCommunication.h; sourceTree = "<group>"; };
+		29E048D91B44802E00CCB0F1 /* WebSocketCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketCommunication.m; sourceTree = "<group>"; };
 		29F636361B34F4A2006CF318 /* ChatGiftView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatGiftView.xib; sourceTree = "<group>"; };
 		29FC5E921A89427B00A50FA7 /* buysale@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buysale@2x.png"; sourceTree = "<group>"; };
 		29FC5EA41A89427B00A50FA7 /* saleiconbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saleiconbg@2x.png"; sourceTree = "<group>"; };
@@ -13182,6 +13192,31 @@
 			path = "Donate Enhancement";
 			sourceTree = "<group>";
 		};
+		29E048C61B44746500CCB0F1 /* Chat Server */ = {
+			isa = PBXGroup;
+			children = (
+				29E048CB1B447D2E00CCB0F1 /* ChatCommunication.h */,
+				29E048CC1B447D2E00CCB0F1 /* ChatCommunication.m */,
+			);
+			name = "Chat Server";
+			path = ../ChatFiles;
+			sourceTree = "<group>";
+		};
+		29E048D01B447E9900CCB0F1 /* Game Server */ = {
+			isa = PBXGroup;
+			children = (
+				CF1265CF1538ACC400E0C1AD /* IncomingEventController.h */,
+				CF1265D01538ACC400E0C1AD /* IncomingEventController.m */,
+				CF1265D11538ACC400E0C1AD /* OutgoingEventController.h */,
+				CF1265D21538ACC400E0C1AD /* OutgoingEventController.m */,
+				CF1265D31538ACC400E0C1AD /* SocketCommunication.h */,
+				CF1265D41538ACC400E0C1AD /* SocketCommunication.m */,
+				CFEB284515951ADA00B622FC /* FullEvent.h */,
+				CFEB284615951ADB00B622FC /* FullEvent.m */,
+			);
+			name = "Game Server";
+			sourceTree = "<group>";
+		};
 		29FC5E8F1A89427B00A50FA7 /* Builder Starter Pack */ = {
 			isa = PBXGroup;
 			children = (
@@ -14505,14 +14540,10 @@
 			isa = PBXGroup;
 			children = (
 				CF6BDC93156C3CD30056B45B /* ClientProperties.h */,
-				CF1265CF1538ACC400E0C1AD /* IncomingEventController.h */,
-				CF1265D01538ACC400E0C1AD /* IncomingEventController.m */,
-				CF1265D11538ACC400E0C1AD /* OutgoingEventController.h */,
-				CF1265D21538ACC400E0C1AD /* OutgoingEventController.m */,
-				CF1265D31538ACC400E0C1AD /* SocketCommunication.h */,
-				CF1265D41538ACC400E0C1AD /* SocketCommunication.m */,
-				CFEB284515951ADA00B622FC /* FullEvent.h */,
-				CFEB284615951ADB00B622FC /* FullEvent.m */,
+				29E048D81B44802E00CCB0F1 /* WebSocketCommunication.h */,
+				29E048D91B44802E00CCB0F1 /* WebSocketCommunication.m */,
+				29E048C61B44746500CCB0F1 /* Chat Server */,
+				29E048D01B447E9900CCB0F1 /* Game Server */,
 			);
 			name = "Socket Communication";
 			path = SocketCommunication;
@@ -24442,6 +24473,7 @@
 				CFA8B1BE19EF5D6600CF6BFD /* ChartboostDelegate.m in Sources */,
 				9B0E6E5E1A77087000118210 /* SkillBlindingLight.m in Sources */,
 				CF0CEDCD196F452900ECD301 /* MyTeamSprite.m in Sources */,
+				29E048DB1B44802E00CCB0F1 /* WebSocketCommunication.m in Sources */,
 				CF0CEDCE196F452900ECD301 /* PvpBattleLayer.m in Sources */,
 				CF0CEDCF196F452900ECD301 /* ClanCreateViewController.m in Sources */,
 				CF0CEDD0196F452900ECD301 /* MissionMap.m in Sources */,
@@ -24476,6 +24508,7 @@
 				29DCCFB01A8AB444003176FD /* TutorialEnhanceQueueViewController.m in Sources */,
 				CF0CEDE3196F452900ECD301 /* BuildingViews.m in Sources */,
 				29927EB01AAFAF9B00418683 /* ItemFactoryViews.m in Sources */,
+				29E048CE1B447D2E00CCB0F1 /* ChatCommunication.m in Sources */,
 				CF0CEDE4196F452900ECD301 /* CCSoundAnimation.m in Sources */,
 				9BB9494B1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				6BB5F8601A80095B006515B9 /* TutorialBuildingUpgradeController.m in Sources */,
@@ -24560,6 +24593,7 @@
 				CF9AE70E180CA78C0013DD44 /* LoadingViewController.m in Sources */,
 				6BB26BC61A78190C0014342B /* SkillPoisonPowder.m in Sources */,
 				CF126D361538ACCA00E0C1AD /* Globals.m in Sources */,
+				29E048CD1B447D2E00CCB0F1 /* ChatCommunication.m in Sources */,
 				CF6574AB1909CAF200ABF1F4 /* Clan.pb.m in Sources */,
 				CF4DB8E41807DA1F00062258 /* GameMap.m in Sources */,
 				CFF646C4195CD1D300C43641 /* HealViewController.m in Sources */,
@@ -24789,6 +24823,7 @@
 				CFF64650195A69A300C43641 /* EnhanceQueueViewController.m in Sources */,
 				DA0FC58219B65B0200393BF4 /* SkillControllerPassive.m in Sources */,
 				CF6574BA1909CAF200ABF1F4 /* EventStructure.pb.m in Sources */,
+				29E048DA1B44802E00CCB0F1 /* WebSocketCommunication.m in Sources */,
 				298708371AC3415D002BFF2E /* ResearchController.m in Sources */,
 				CF6574B21909CAF200ABF1F4 /* EventDungeon.pb.m in Sources */,
 				CF6574A61909CAF200ABF1F4 /* AchievementStuff.pb.m in Sources */,
@@ -25213,6 +25248,7 @@
 				CF48197B19F7217F00041486 /* ChartboostDelegate.m in Sources */,
 				9B0E6E5F1A77087000118210 /* SkillBlindingLight.m in Sources */,
 				CF48197C19F7217F00041486 /* MyTeamSprite.m in Sources */,
+				29E048DC1B44802E00CCB0F1 /* WebSocketCommunication.m in Sources */,
 				CF48197D19F7217F00041486 /* PvpBattleLayer.m in Sources */,
 				CF48197E19F7217F00041486 /* ClanCreateViewController.m in Sources */,
 				CF48197F19F7217F00041486 /* MissionMap.m in Sources */,
@@ -25247,6 +25283,7 @@
 				29DCCFB11A8AB444003176FD /* TutorialEnhanceQueueViewController.m in Sources */,
 				CF48199619F7217F00041486 /* BuildingViews.m in Sources */,
 				63B0452E1A9D7CD700C74F0C /* EventResearch.pb.m in Sources */,
+				29E048CF1B447D2E00CCB0F1 /* ChatCommunication.m in Sources */,
 				29927EB11AAFAF9B00418683 /* ItemFactoryViews.m in Sources */,
 				CF48199719F7217F00041486 /* CCSoundAnimation.m in Sources */,
 				9BB9494C1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,

@@ -14,20 +14,16 @@
 
 #import "GenericPopupController.h"
 
-#import <SRWebSocket.h>
+#import "WebSocketCommunication.h"
 
-@interface SocketCommunication : NSObject <UIAlertViewDelegate, SRWebSocketDelegate> {
-  BOOL _shouldReconnect;
+@interface SocketCommunication : WebSocketCommunication <UIAlertViewDelegate, SRWebSocketDelegate> {
   MinimumUserProto *_sender;
   int _currentTagNum;
-  int _nextMsgType;
   
   NSTimer *_flushTimer;
   
-  int _numDisconnects;
   BOOL _canSendRegularEvents;
   BOOL _canSendPreDbEvents;
-  BOOL _purposefulClose;
   
   int _healingQueueCashChange;
   int _healingQueueGemCost;
@@ -60,11 +56,6 @@
   BOOL _pauseFlushTimer;
   
 }
-
-@property (nonatomic, retain) SRWebSocket *webSocket;
-
-@property (nonatomic, retain) NSMutableArray *queuedMessages;
-@property (nonatomic, retain) NSMutableArray *unrespondedMessages;
 
 @property (nonatomic, retain) NSMutableArray *structRetrievals;
 @property (nonatomic, retain) NSMutableDictionary *structRetrievalAchievements;
