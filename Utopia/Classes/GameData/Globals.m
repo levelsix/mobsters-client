@@ -3130,12 +3130,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (BOOL) checkEnteringDungeon {
-  return [self checkEnteringDungeonWithTarget:[GameViewController baseController] noTeamSelector:@selector(pointArrowOnManageTeam) inventoryFullSelector:@selector(pointArrowOnEnhanceOrSell)];
+  return [self checkEnteringDungeonWithTarget:[GameViewController baseController] noTeamSelector:@selector(pointArrowOnManageTeam) inventoryFullSelector:@selector(pointArrowOnEnhanceOrSell) checkAvailableMobsters:YES];
 }
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-+ (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector {
++ (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector checkAvailableMobsters:(BOOL)checkAvailableMobsters {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSArray *fullTeam = [gs allBattleAvailableMonstersOnTeamWithClanSlot:YES];
@@ -3183,7 +3183,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     [target performSelector:noTeamSelector];
     
     return NO;
-  } else if (!hasFullTeam && hasAvailMobsters) {
+  } else if (!hasFullTeam && (checkAvailableMobsters && hasAvailMobsters)) {
     NSString *description = [NSString stringWithFormat:@"You have healthy %@s available. Manage your team now.", MONSTER_NAME];
     
     [Globals addGreenAlertNotification:description isImmediate:YES];

@@ -79,18 +79,18 @@
 @implementation LeaderBoardViewCell
 
 - (void)updateWithLeaderBoardObject:(id<LeaderBoardObject>)leaderInfo scoreIcon:(NSString *)scoreIcon {
-  [self updateWithRank:leaderInfo.rank score:leaderInfo.score userName:leaderInfo.mup.name scoreIcon:scoreIcon];
+  [self updateWithRank:leaderInfo.rank score:leaderInfo.score userName:leaderInfo.mup.name clanTag:leaderInfo.mup.clan.tag scoreIcon:scoreIcon];
   
   GameState *gs = [GameState sharedGameState];
   self.starImageView.hidden = ![gs.userUuid isEqualToString:leaderInfo.mup.userUuid];
 }
 
-- (void) updateWithRank:(int)rank score:(uint64_t)score userName:(NSString *)userName scoreIcon:(NSString *)scoreIcon {
+- (void) updateWithRank:(int)rank score:(uint64_t)score userName:(NSString *)userName clanTag:(NSString *)clanTag scoreIcon:(NSString *)scoreIcon {
   self.selectionStyle = UITableViewCellSelectionStyleNone;
 //  self.selectedBackgroundView.backgroundColor = [UIColor clearColor];
   self.rankLabel.text = [Globals commafyNumber:(float)rank];
   self.scoreLabel.text = [Globals commafyNumber:(float)score];
-  self.nameLabel.text = userName;
+  self.nameLabel.text = [Globals fullNameWithName:userName clanTag:clanTag];
   [Globals imageNamed:scoreIcon withView:self.scoreImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   self.starImageView.hidden = YES;
@@ -221,7 +221,7 @@
   }
   
   if (indexPath.section == 0) {
-    [cell updateWithRank:self.ownRanking.rank score:_ownScore userName:gs.name scoreIcon:_scoreIcon];
+    [cell updateWithRank:self.ownRanking.rank score:_ownScore userName:gs.name clanTag:gs.clan.tag scoreIcon:_scoreIcon];
   } else if(indexPath.row < self.leaderList.count) {
     [cell updateWithLeaderBoardObject:self.leaderList[indexPath.row] scoreIcon:_scoreIcon];
   } else if (self.leaderList.count > 0) {

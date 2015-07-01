@@ -376,7 +376,7 @@
 + (NSString *) urlStringForFacebookId:(NSString *)uid;
 
 + (BOOL) checkEnteringDungeon;
-+ (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector;
++ (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector checkAvailableMobsters:(BOOL)checkAvailableMobsters;
 
 + (BOOL) isSmallestiPhone;
 + (BOOL) isiPhone5orSmaller;

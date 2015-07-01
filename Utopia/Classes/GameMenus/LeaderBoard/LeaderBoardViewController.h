@@ -25,7 +25,7 @@
 @interface LeaderBoardViewCell : UITableViewCell
 
 - (void)updateWithLeaderBoardObject:(id<LeaderBoardObject>)leaderInfo scoreIcon:(NSString *)scoreIcon;
-- (void) updateWithRank:(int)rank score:(uint64_t)score userName:(NSString *)userName scoreIcon:(NSString *)scoreIcon;
+- (void) updateWithRank:(int)rank score:(uint64_t)score userName:(NSString *)userName clanTag:(NSString *)clanTag scoreIcon:(NSString *)scoreIcon;
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rankLabel;

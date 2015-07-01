@@ -28,6 +28,10 @@
   ItemType _itemType;
   int _requiredAmount;
   BOOL _accumulate;
+  
+  BOOL _askedGemPermission;
+  id _gemPermissionItem;
+  id _gemPermissionVc;
 }
 
 @property (nonatomic, assign) ResourceType resourceType;

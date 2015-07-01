@@ -223,7 +223,7 @@ static NSString *udid = nil;
   LNLog(@"Initializing network connection..");
   
   // In case we just came from inactive state
-  _currentTagNum = abs(arc4random());
+  _currentTagNum = ABS(arc4random());
   _shouldReconnect = YES;
   _numDisconnects = 0;
   
@@ -420,14 +420,10 @@ static NSString *udid = nil;
     NSData *messageWithHeader = [self serializeEvent:msg withMessageType:type tagNum:tagNum eventUuid:fe.eventUuid];
     [mutableData appendData:messageWithHeader];
     
-    NSLog(@"Event uuid: %@", fe.eventUuid);
-    
     [self.unrespondedMessages addObject:fe];
   }
   
   if (mutableData.length) {
-#warning remove
-    NSLog(@"Sending data of length %lu", (unsigned long)mutableData.length);
     [self.webSocket send:mutableData];
     //[self.webSocket performSelector:@selector(send:) withObject:mutableData afterDelay:2.5f];
   }
@@ -886,10 +882,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCLeaveClanEvent];
 }
 
-- (int) sendRequestJoinClanMessage:(NSString *)clanUuid {
-  RequestJoinClanRequestProto *req = [[[[RequestJoinClanRequestProto builder]
+- (int) sendRequestJoinClanMessage:(NSString *)clanUuid clientTime:(uint64_t)clientTime {
+  RequestJoinClanRequestProto *req = [[[[[RequestJoinClanRequestProto builder]
                                         setSender:_sender]
                                        setClanUuid:clanUuid]
+                                      setClientTime:clientTime]
                                       build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRequestJoinClanEvent];

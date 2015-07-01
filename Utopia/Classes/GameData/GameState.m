@@ -1663,8 +1663,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   // Basically don't count monsters that are enhancing
   int numEnhancing = (int)self.userEnhancement.feeders.count;
   int numMonsters = (int)self.myMonsters.count;
+  int numEvolving = self.userEvolution ? 2 : 0;
   
-  return numMonsters-numEnhancing;
+  return numMonsters-numEnhancing-numEvolving;
 }
 
 - (int) expNeededForLevel:(int)level {

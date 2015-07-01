@@ -28,9 +28,9 @@
 
 - (void) updateForItemObject:(id<ItemObject>)itemObject {
   BOOL available = [itemObject isValid] || ![itemObject canBeOwned];
+  BOOL showGreyScale = !available && ![itemObject useGemsButton];
   
   self.nameLabel.text = [itemObject name];
-  self.nameLabel.highlighted = !available;
   
   if ([itemObject canBeOwned])
   {
@@ -53,12 +53,12 @@
     self.nameLabel.height = CGRectGetMaxY(self.quantityLabel.frame) - self.nameLabel.originY;
   }
   
-  BOOL showGreyScale = !available && itemObject.itemType != ItemTypeRefreshMiniJob;
+  self.nameLabel.highlighted = showGreyScale;
   
   [Globals imageNamed:[itemObject iconImageName] withView:self.itemIcon greyscale:showGreyScale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.iconLabel.text = [itemObject iconText];
-  self.iconLabel.textColor = available ? _origIconLabelColor : self.nameLabel.highlightedTextColor;
+  self.iconLabel.textColor = !showGreyScale ? _origIconLabelColor : self.nameLabel.highlightedTextColor;
   
   if ([itemObject useGemsButton]) {
     [self updateForTime:itemObject];
@@ -69,11 +69,11 @@
     self.buttonLabel.text = [itemObject buttonText];
     
     self.useButton.type = 0;
-    if (available && [itemObject isKindOfClass:[UserItem class]]) {
+    if (!showGreyScale && [itemObject isKindOfClass:[UserItem class]]) {
       self.useButton.type = [(UserItem *)itemObject staticItem].itemType;
     }
     
-    if (!available) {
+    if (showGreyScale) {
       [self.useButton setImage:[Globals imageNamed:@"greyitemsbutton.png"] forState:UIControlStateNormal];
       self.buttonLabel.textColor = [UIColor colorWithHexString:@"666666"];
       self.buttonLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];

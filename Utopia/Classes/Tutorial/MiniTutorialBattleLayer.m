@@ -11,6 +11,8 @@
 
 @implementation MiniTutorialBattleLayer
 
+@dynamic orbLayer, delegate;
+
 - (void) beginFirstMove {
   [self.orbLayer.bgdLayer turnTheLights:YES instantly:YES];
   _allowTurnBegin = YES;

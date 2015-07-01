@@ -43,10 +43,30 @@
   DailyEventCornerView *cv = (DailyEventCornerView *)self.leftCornerView;
   cv.delegate = self;
   [cv updateForEnhance];
+  
+  [self reloadTitleView];
 }
 
 - (void) waitTimeComplete {
   [self reloadListViewAnimated:YES];
+  [self reloadTitleView];
+}
+
+- (void) reloadTitleView {
+  GameState *gs = [GameState sharedGameState];
+  
+  int cur = [gs currentlyUsedInventorySlots];
+  int max = [gs maxInventorySlots];
+  
+  NSString *s1 = [NSString stringWithFormat:@"ENHANCE %@S ", MONSTER_NAME.uppercaseString];
+  NSString *s2 = cur > max ? [NSString stringWithFormat:@"(%d/%d)", cur, max] : @"";
+  NSString *str = [NSString stringWithFormat:@"%@%@", s1, s2];
+  NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:nil];
+  
+  if (cur > max) {
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:219/255.f green:1/255.f blue:0.f alpha:1.f] range:NSMakeRange(s1.length, str.length-s1.length)];
+  }
+  self.attributedTitle = attrStr;
 }
 
 - (void) updateLabels {

@@ -159,14 +159,27 @@
   return _currentEnhancement;
 }
 
-- (NSString *) title {
+- (NSAttributedString *) attributedTitle {
   // DO it based on gs's enhancement since that will dictate whether we are base vc or not
   GameState *gs = [GameState sharedGameState];
   if (gs.userEnhancement) {
-    return [NSString stringWithFormat:@"ENHANCE %@S", MONSTER_NAME.uppercaseString];
+    GameState *gs = [GameState sharedGameState];
+    
+    int cur = [gs currentlyUsedInventorySlots];
+    int max = [gs maxInventorySlots];
+    
+    NSString *s1 = [NSString stringWithFormat:@"ENHANCE %@S ", MONSTER_NAME.uppercaseString];
+    NSString *s2 = cur > max ? [NSString stringWithFormat:@"(%d/%d)", cur, max] : @"";
+    NSString *str = [NSString stringWithFormat:@"%@%@", s1, s2];
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:nil];
+    
+    if (cur > max) {
+      [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:219/255.f green:1/255.f blue:0.f alpha:1.f] range:NSMakeRange(s1.length, str.length-s1.length)];
+    }
+    return attrStr;
   } else {
     MonsterProto *mp = self.currentEnhancement.baseMonster.userMonster.staticMonster;
-    return [NSString stringWithFormat:@"Enhance %@", mp.displayName];
+    return [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"Enhance %@", mp.displayName]];
   }
 }
 

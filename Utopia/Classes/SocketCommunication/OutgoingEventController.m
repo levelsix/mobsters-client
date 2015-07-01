@@ -1239,7 +1239,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (!clanHouse || (!clanHouse.isComplete && clanHouse.staticStruct.structInfo.level == 1)) {
     [Globals addAlertNotification:@"You can't join a clan without a clan house."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendRequestJoinClanMessage:clanUuid];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRequestJoinClanMessage:clanUuid clientTime:[self getCurrentMilliseconds]];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }

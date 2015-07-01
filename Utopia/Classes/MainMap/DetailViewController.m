@@ -64,7 +64,7 @@
   
   self.title = [NSString stringWithFormat:@"%@ Details", [_gameTypeProto statNameForIndex:_index]];
   self.columnNameLabel.text = _columnName;
-  [self.view updateWithGameTypeProto:_gameTypeProto index:_index imageNamed:_imageName];
+  [self.detailView updateWithGameTypeProto:_gameTypeProto index:_index imageNamed:_imageName];
 }
 
 #pragma TableView Delegates

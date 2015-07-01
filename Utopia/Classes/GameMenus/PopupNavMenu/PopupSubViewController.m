@@ -13,6 +13,8 @@
 
 @implementation PopupSubViewController
 
+@dynamic parentViewController;
+
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   

@@ -591,13 +591,13 @@ static const CGSize FIXED_SIZE = {568, 384};
     // Show sales if its been 48 hrs after create time, or its been 4 hrs after last shown time, or its a new sale than last time
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
     NSDate *lastDate = [def objectForKey:LAST_SHOWN_SALE_TIME];
-    //int lastSaleId = (int)[def integerForKey:LAST_SHOWN_SALE_ID];
+    int lastSaleId = (int)[def integerForKey:LAST_SHOWN_SALE_ID];
     SalesPackageProto *spp = [gs.mySales firstObject];
     
     //    if (YES)
     if (spp &&
         -gs.createTime.timeIntervalSinceNow > HOURS_AFTER_CREATE_TIME_TO_SHOW_SALE*3600 &&
-        (//spp.salesPackageId != lastSaleId ||
+        (spp.salesPackageId != lastSaleId ||
          !lastDate ||
          -lastDate.timeIntervalSinceNow > HOURS_BEFORE_RESHOWING_SALE*3600))
     {
@@ -806,7 +806,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   [self pointArrowOnManageTeamWithPulsingAlpha:NO closeOpenViews:YES];
 }
 
-- (void) pointArrowOnManageTeamWithPulsingAlpha:(BOOL)pulsing closeOpenViews:(BOOL)closeOpenViews{
+- (void) pointArrowOnManageTeamWithPulsingAlpha:(BOOL)pulsing closeOpenViews:(BOOL)closeOpenViews {
   if (self.currentMap.cityId != 0) {
     [self visitCityClicked:0];
   }
@@ -834,6 +834,8 @@ static const CGSize FIXED_SIZE = {568, 384};
       NSString *alertDescription = [NSString stringWithFormat:@"Your residences are full. Enhance %@s to free up space.", MONSTER_NAME];
       [Globals addAlertNotification:alertDescription];
       [(HomeMap *)self.currentMap pointArrowOnEnhanceMobsters];
+      
+      [self removeAllViewControllersWithExceptions:self.notificationController.currentNotifications];
     } else {
       [self pointArrowOnSellMobsters];
     }
@@ -1092,7 +1094,11 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems {
-  if (_isInBattle) {
+  [self enterDungeon:taskId isEvent:isEvent eventId:eventId useGems:useGems isReplay:NO];
+}
+
+- (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems isReplay:(BOOL)isReplay {
+  if (_isInBattle && !isReplay) {
     [self removeAllViewControllers];
     return;
   }
@@ -1126,7 +1132,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:isEvent eventId:eventId useGems:useGems withDelegate:bl];
       
       // Events come from a menus so we don't want to insta-transition
-      if (isEvent) {
+      if (isEvent || isReplay) {
         [self crossFadeIntoBattleLayer:bl];
       } else {
         [self blackFadeIntoBattleLayer:bl];
@@ -1161,7 +1167,11 @@ static const CGSize FIXED_SIZE = {568, 384};
   CCScene *scene = [CCScene node];
   [scene addChild:bl];
   if (dir.runningScene) {
-    [dir pushScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
+    if (_isInBattle) {
+      [dir replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
+    } else {
+      [dir pushScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
+    }
   } else {
     [dir replaceScene:scene];
   }
@@ -1427,6 +1437,31 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
   
   [self playMapMusic];
+}
+
+- (void) battleReplayRequested:(DungeonBattleLayer *)battleLayer {
+  if ([battleLayer isKindOfClass:[DungeonBattleLayer class]]) {
+    if ([Globals checkEnteringDungeonWithTarget:self noTeamSelector:@selector(battleReplayNoTeamSelector) inventoryFullSelector:@selector(battleReplayInventoryFullSelector) checkAvailableMobsters:NO]) {
+      GameState *gs = [GameState sharedGameState];
+      int taskId = battleLayer.dungeonInfo.taskId;
+      TaskMapElementProto *mapElement = [gs mapElementWithTaskId:taskId];
+      
+      // Make sure there's a map element
+      if (mapElement) {
+        [self enterDungeon:taskId isEvent:NO eventId:0 useGems:0 isReplay:YES];
+      }
+    }
+  } else {
+    LNLog(@"RECEIVED REPLAY REQUEST FROM NON-DungeonBattleLayer..");
+  }
+}
+
+- (void) battleReplayNoTeamSelector {
+  [Globals addAlertNotification:[NSString stringWithFormat:@"You have no %@s on your team. Return home to manage your team.", MONSTER_NAME]];
+}
+
+- (void) battleReplayInventoryFullSelector {
+  [Globals addAlertNotification:[NSString stringWithFormat:@"Your residences are full. Return home to sell or enhance %@s.", MONSTER_NAME]];
 }
 
 - (void) stageCompleteNodeBegan {

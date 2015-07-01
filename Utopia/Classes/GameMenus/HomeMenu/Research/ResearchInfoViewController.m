@@ -130,6 +130,8 @@
 
 @implementation ResearchInfoViewController
 
+@dynamic view;
+
 - (id) initWithResearch:(UserResearch *)userResearch {
   if ((self = [super init])) {
     _userResearch = userResearch;

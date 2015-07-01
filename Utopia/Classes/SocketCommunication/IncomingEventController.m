@@ -957,7 +957,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         NSString *receipt = arr[i];
         NSString *uuid = arr[i+1];
         
-        LNLog(@"Sending over unresponded receipt.");
+        LNLog(@"Sending over unresponded receipt for %@.", uuid);
         [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 silverAmt:0 product:nil saleUuid:uuid delegate:nil];
       }
     }

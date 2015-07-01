@@ -22,6 +22,10 @@
 
 @interface SpeedupItemsFiller : NSObject <ItemSelectDelegate, GemsItemDelegate> {
   GameActionType _gameActionType;
+  
+  BOOL _askedGemPermission;
+  id _gemPermissionItem;
+  id _gemPermissionVc;
 }
 
 - (id) initWithGameActionType:(GameActionType)gameActionType;

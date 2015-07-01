@@ -131,7 +131,7 @@
 
 - (int) sendCreateClanMessage:(NSString *)clanName tag:(NSString *)tag description:(NSString *)description requestOnly:(BOOL)requestOnly iconId:(int)iconId cashChange:(int)cashChange gemsSpent:(int)gemsSpent;
 - (int) sendLeaveClanMessage;
-- (int) sendRequestJoinClanMessage:(NSString *)clanUuid;
+- (int) sendRequestJoinClanMessage:(NSString *)clanUuid clientTime:(uint64_t)clientTime;
 - (int) sendRetractRequestJoinClanMessage:(NSString *)clanUuid;
 - (int) sendApproveOrRejectRequestToJoinClan:(NSString *)requesterUuid accept:(BOOL)accept;
 - (int) sendTransferClanOwnership:(NSString *)newClanOwnerUuid;

@@ -975,7 +975,6 @@ static const uint8_t SRPayloadLenMask   = 0x7F;
              return;
         }
       
-      NSLog(@"SOCKETROCKET: Wrote %ud bytes.", bytesWritten);
         _outputBufferOffset += bytesWritten;
         
         if (_outputBufferOffset > 4096 && _outputBufferOffset > (_outputBuffer.length >> 1)) {

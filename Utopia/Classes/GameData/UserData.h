@@ -332,13 +332,14 @@ typedef enum {
 
 @property (nonatomic, retain) NSString* userUuid;
 @property (nonatomic, assign) int32_t miniEventGoalId;
+@property (nonatomic, assign) int32_t miniEventTimetableId;
 @property (nonatomic, assign) int32_t goalAmt;
 @property (nonatomic, assign) int32_t pointsGained;
 @property (nonatomic, assign) int32_t progress;
 @property (nonatomic, retain) NSString* goalDesc;
 @property (nonatomic, retain) NSString* actionDescription;
 
-+ (instancetype) userMiniEventGoalWithProto:(MiniEventGoalProto*)proto;
++ (instancetype) userMiniEventGoalWithProto:(MiniEventGoalProto*)proto miniEventTimetableId:(int)miniEventTimetableId;
 
 - (UserMiniEventGoalProto*) convertToProto;
 

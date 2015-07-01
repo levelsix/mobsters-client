@@ -79,7 +79,7 @@
   [self.tipLabel removeFromParent];
 }
 
-- (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin allowsContinue:(BOOL)allowsContinue continueCost:(int)continueCost {
+- (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin showsReplay:(BOOL)showsReplay allowsContinue:(BOOL)allowsContinue continueCost:(int)continueCost {
   _isWin = isWin;
   
   if (!isWin) {
@@ -107,6 +107,10 @@
   
   if (allowsContinue) {
     [self setupContinueLayout:continueCost];
+  }
+  
+  if (showsReplay) {
+    self.shareButton.title = @"REPLAY";
   }
   
   

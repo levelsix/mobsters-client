@@ -54,7 +54,12 @@
 
 - (void) youWon {
   [super youWon];
-  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo droplessStageNums:self.droplessStageNums] isWin:YES allowsContinue:NO continueCost:0];
+  
+  // Make sure it is a map dungeon
+  GameState *gs = [GameState sharedGameState];
+  _displayingReplayButton = !_isFirstTime && [gs mapElementWithTaskId:self.dungeonInfo.taskId];
+  
+  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo droplessStageNums:self.droplessStageNums] isWin:YES showsReplay:_displayingReplayButton allowsContinue:NO continueCost:0];
   [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
   [self makeGoCarrotCalls];
   
@@ -66,9 +71,17 @@
   
   Globals *gl = [Globals sharedGlobals];
   int gemsAmount = [gl calculateGemCostToHealTeamDuringBattle:self.myTeam];
-  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1 droplessStageNums:self.droplessStageNums] isWin:NO allowsContinue:YES continueCost:gemsAmount];
+  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1 droplessStageNums:self.droplessStageNums] isWin:NO showsReplay:NO allowsContinue:YES continueCost:gemsAmount];
   
   [self saveCurrentStateWithForceFlush:YES];
+}
+
+- (IBAction)shareClicked:(id)sender {
+  if (!_displayingReplayButton) {
+    return [super shareClicked:sender];
+  } else {
+    [self.delegate battleReplayRequested:self];
+  }
 }
 
 - (void) makeGoCarrotCalls {

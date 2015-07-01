@@ -71,6 +71,9 @@
 
 - (void) battleComplete:(NSDictionary *)params;
 
+@optional
+- (void) battleReplayRequested:(id)battleLayer;
+
 @end
 
 @interface NewBattleLayer : CCNode <OrbMainLayerDelegate, BattleBgdLayerDelegate, BattleScheduleViewDelegate, BattleLayerSkillPopupDelegate, BattleItemSelectDelegate, DialogueViewControllerDelegate> {

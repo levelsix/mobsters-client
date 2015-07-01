@@ -34,6 +34,7 @@ static const int SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX = 1;
   BOOL _numContinues;
   
   BOOL _isFirstTime;
+  BOOL _displayingReplayButton;
   
   NSString *_resumedUserMonsterUuid;
   

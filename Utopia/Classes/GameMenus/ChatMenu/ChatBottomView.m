@@ -69,6 +69,8 @@
 
 @implementation ChatBottomView
 
+@dynamic delegate;
+
 - (void) awakeFromNib {
   self.unusedLineViews = [NSMutableArray array];
   self.currentLineViews = [NSMutableArray array];

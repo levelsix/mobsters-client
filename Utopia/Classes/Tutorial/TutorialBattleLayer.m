@@ -501,6 +501,8 @@
 
 @implementation TutorialBattleLayer
 
+@dynamic delegate;
+
 - (id) initWithConstants:(StartupResponseProto_TutorialConstants *)constants {
   Globals *gl = [Globals sharedGlobals];
   UserMonster *um1 = [[UserMonster alloc] init];

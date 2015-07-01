@@ -64,7 +64,7 @@
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
 @property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
 
-@property (nonatomic, assign) IBOutlet ResearchInfoView *view;
+@property (nonatomic, retain) IBOutlet ResearchInfoView *view;
 
 - (id) initWithResearch:(UserResearch *)userResearch;
 

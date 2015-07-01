@@ -1377,7 +1377,7 @@
 
 @implementation UserMiniEventGoal
 
-- (instancetype) initWithProto:(MiniEventGoalProto*)proto
+- (instancetype) initWithProto:(MiniEventGoalProto*)proto miniEventTimetableId:(int)miniEventTimetableId
 {
   self = [super init];
   if (self)
@@ -1389,21 +1389,24 @@
     self.progress = 0; // Will be set and updated by owner class
     self.goalDesc = proto.goalDesc;
     self.actionDescription = proto.actionDescription;
+    self.miniEventTimetableId = miniEventTimetableId;
   }
   return self;
 }
 
-+ (instancetype) userMiniEventGoalWithProto:(MiniEventGoalProto*)proto
++ (instancetype) userMiniEventGoalWithProto:(MiniEventGoalProto*)proto miniEventTimetableId:(int)miniEventTimetableId
 {
-  return [[UserMiniEventGoal alloc] initWithProto:proto];
+  return [[UserMiniEventGoal alloc] initWithProto:proto miniEventTimetableId:miniEventTimetableId];
 }
 
 - (UserMiniEventGoalProto*) convertToProto
 {
-  return [[[[[UserMiniEventGoalProto builder]
+  return [[[[[[UserMiniEventGoalProto builder]
              setUserUuid:self.userUuid]
             setMiniEventGoalId:self.miniEventGoalId]
-           setProgress:self.progress] build];
+           setProgress:self.progress]
+           setMiniEventTimetableId:self.miniEventTimetableId]
+          build];
 }
 
 @end
@@ -1427,7 +1430,7 @@
     self.miniEventGoals = [NSMutableDictionary dictionary];
     // All goals for this mini event
     for (MiniEventGoalProto* goalProto in proto.miniEvent.goalsList)
-      [self.miniEventGoals setObject:[UserMiniEventGoal userMiniEventGoalWithProto:goalProto] forKey:@(goalProto.miniEventGoalId)];
+      [self.miniEventGoals setObject:[UserMiniEventGoal userMiniEventGoalWithProto:goalProto miniEventTimetableId:self.miniEventTimeId] forKey:@(goalProto.miniEventGoalId)];
     // All goals on which the user has made some progress
     for (UserMiniEventGoalProto* userGoalProto in proto.goalsList)
       [(UserMiniEventGoal*)[self.miniEventGoals objectForKey:@(userGoalProto.miniEventGoalId)] setProgress:userGoalProto.progress];

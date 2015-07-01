@@ -104,6 +104,17 @@
     if (item.numOwned > 0) {
       [self.nonPurchasedItemsUsed addObject:@(item.itemId)];
     } else if ([item useGemsButton]) {
+      if (!_askedGemPermission) {
+        int cost = [item costToPurchase];
+        NSString *desc = [NSString stringWithFormat:@"Would you like to purchase a %@ for %@ gems?", item.name, [Globals commafyNumber:cost]];
+        [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Use Gems?" gemCost:cost target:self selector:@selector(gemPermissionGranted)];
+        
+        _gemPermissionItem = io;
+        _gemPermissionVc = viewController;
+        
+        return;
+      }
+      
       if (gs.gems >= [item costToPurchase]) {
         [gs changeFakeGemTotal:-[item costToPurchase]];
       } else {
@@ -119,6 +130,15 @@
   }
   
   [self.delegate speedupItemUsed:io viewController:viewController];
+}
+
+- (void) gemPermissionGranted {
+  _askedGemPermission = YES;
+  
+  [self itemSelected:_gemPermissionItem viewController:_gemPermissionVc];
+  
+  _gemPermissionItem = nil;
+  _gemPermissionVc = nil;
 }
 
 - (NSString *) titleName {

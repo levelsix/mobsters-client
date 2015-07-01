@@ -73,8 +73,6 @@
 
 @property (nonatomic, retain) NSMutableArray *miniJobsList;
 
-@property (nonatomic, retain) NSTimer *updateTimer;
-
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
 @property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
 @property (nonatomic, retain) MiniJobRefreshItemsFiller *miniJobRefreshItemsFiller;

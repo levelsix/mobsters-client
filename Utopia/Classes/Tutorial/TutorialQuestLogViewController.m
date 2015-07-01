@@ -11,6 +11,8 @@
 
 @implementation TutorialQuestLogViewController
 
+@dynamic delegate;
+
 - (id) init
 {
   if (self = [super initWithNibName:@"QuestLogViewController" bundle:nil]) {

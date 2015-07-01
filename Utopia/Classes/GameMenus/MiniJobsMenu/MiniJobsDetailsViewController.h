@@ -120,8 +120,6 @@ typedef enum {
 @property (nonatomic, retain) UserMiniJob *userMiniJob;
 @property (nonatomic, retain) UserMiniJob *activeMiniJob;
 
-@property (nonatomic, retain) NSTimer *updateTimer;
-
 - (id) initWithMiniJob:(UserMiniJob *)miniJob;
 
 - (void) beginEngageSpinning;

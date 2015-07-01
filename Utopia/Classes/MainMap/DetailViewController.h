@@ -44,6 +44,6 @@
 - (id) initWithGameTypeProto:(id<GameTypeProtocol>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName;
 - (id) initWithGameTypeProto:(id<GameTypeProtocol>)gameTypeProto index:(int)index imageNamed:(NSString *)imageName columnName:(NSString *)columnName;
 
-@property (nonatomic, assign) IBOutlet DetailView *view;
+@property (nonatomic, retain) IBOutlet DetailView *detailView;
 
 @end
