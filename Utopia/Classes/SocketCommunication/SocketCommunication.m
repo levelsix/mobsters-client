@@ -194,6 +194,7 @@ static NSString *udid = nil;
   version = [version stringByReplacingOccurrencesOfString:@"." withString:@"-"];
   NSString *hostName = HOST_NAME;
   hostName = [NSString stringWithFormat:hostName, version];
+  hostName = @"ws://dev1chatmobsters.lvl6.com:8081";
   NSURL *url = [NSURL URLWithString:hostName];
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
   
