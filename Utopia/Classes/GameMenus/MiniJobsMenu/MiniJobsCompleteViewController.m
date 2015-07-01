@@ -10,12 +10,13 @@
 #import "GameState.h"
 #import "Globals.h"
 
-#define SPACING_PER_NODE 46.f
+#define SPACING_PER_NODE ([Globals isiPad] ? 70.f : 46.f)
 
 @implementation MiniJobsCompleteMonsterView
 
 - (void) awakeFromNib {
-  self.monsterView.transform = CGAffineTransformMakeScale(0.67, 0.67);
+  if (![Globals isiPad])
+    self.monsterView.transform = CGAffineTransformMakeScale(0.67, 0.67);
 }
 
 - (void) updateForMonsterId:(int)monsterId hpLost:(int)hpLost {
