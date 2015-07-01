@@ -16,7 +16,7 @@
 
 #import "WebSocketCommunication.h"
 
-@interface SocketCommunication : WebSocketCommunication <UIAlertViewDelegate, SRWebSocketDelegate> {
+@interface SocketCommunication : NSObject <UIAlertViewDelegate, WebSocketCommunicationDelegate> {
   MinimumUserProto *_sender;
   int _currentTagNum;
   
@@ -66,6 +66,11 @@
 
 @property (nonatomic, retain) NSMutableDictionary *tagDelegates;
 @property (nonatomic, retain) NSMutableArray *clanEventDelegates;
+
+@property (nonatomic, retain) NSMutableArray *queuedMessages;
+@property (nonatomic, retain) NSMutableArray *unrespondedMessages;
+
+@property (nonatomic, retain) WebSocketCommunication *webSocketCommunication;
 
 + (BOOL) isForcedTutorial;
 + (NSString *) getUdid;

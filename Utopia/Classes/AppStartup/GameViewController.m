@@ -412,9 +412,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   [Analytics connectStep:ConnectStepInitializeConnection];
 }
 
-- (void) reconnectToServer {
-  [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self clearMessages:NO];
-  
+- (void) reconnectingToServer {
   GameState *gs = [GameState sharedGameState];
   if (!self.reconnectViewController && gs.connected && !gs.isTutorial) {
     self.reconnectViewController = [[ReconnectViewController alloc] init];
@@ -428,12 +426,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
 }
 
-- (void) amqpDisconnected {
-  LNLog(@"Disconnected from the server. Reconnecting...");
-  [self reconnectToServer];
-}
-
-- (void) unableToConnectToHost:(id)error {
+- (void) unableToConnectToHost {
   if (!self.loadingViewController) {
     [self fadeToLoadingScreenPercentage:PART_1_PERCENT animated:YES];
   }
