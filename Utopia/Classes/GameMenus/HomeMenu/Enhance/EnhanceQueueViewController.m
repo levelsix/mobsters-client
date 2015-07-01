@@ -94,11 +94,11 @@
   
   MonsterProto *mp = self.currentEnhancement.baseMonster.userMonster.staticMonster;
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES useiPhone6Prefix:YES useiPadSuffix:YES];
   
   self.titleImageName = @"enhancelabmenuheader.png";
   
-  self.curExpLabel.superview.layer.cornerRadius = 4.f;
+  self.curExpLabel.superview.layer.cornerRadius = POPUP_CORNER_RADIUS;
   
   self.selectMobsterLabel.strokeSize = 0.5f;
   self.selectMobsterLabel.strokeColor = [UIColor colorWithRed:127/255.f green:168/255.f blue:39/255.f alpha:1.f];
