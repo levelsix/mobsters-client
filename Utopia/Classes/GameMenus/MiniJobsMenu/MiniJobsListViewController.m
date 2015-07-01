@@ -12,10 +12,9 @@
 #import "GenericPopupController.h"
 #import "GameViewController.h"
 #import "ChartboostDelegate.h"
-
 #import "MiniEventManager.h"
 
-#define SPACING_PER_NODE 46.f
+#define SPACING_PER_NODE ([Globals isiPad] ? 70.f : 46.f)
 
 @implementation MiniJobsListCell
 
