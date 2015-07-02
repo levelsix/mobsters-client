@@ -10,6 +10,8 @@
 #import "GameState.h"
 #import "Globals.h"
 
+#define SCIENTIST_SPACING ([Globals isiPad] ? 18.f : 5.f)
+
 @implementation EvolveCardCell
 
 - (void) awakeFromNib {
@@ -137,7 +139,7 @@
   if (_currentSelection != tag) {
     float width = self.quantityView.frame.size.width;
     UIView *v1 = [self viewWithTag:1];
-    float x = v1.frame.origin.x+(v1.frame.size.width+5)*tag-2;
+    float x = v1.frame.origin.x+(v1.frame.size.width+SCIENTIST_SPACING)*tag-2;
     
     __block CGRect r = self.quantityView.frame;
     r.origin.x = _currentSelection > tag ? x : x+width;
@@ -148,9 +150,9 @@
       for (UIView *v in self.scientistViews) {
         if (v.tag > 1) {
           if (v.tag <= tag) {
-            v.center = ccp(v1.center.x+(v1.frame.size.width+5)*(v.tag-1), v.center.y);
+            v.center = ccp(v1.center.x+(v1.frame.size.width+SCIENTIST_SPACING)*(v.tag-1), v.center.y);
           } else {
-            v.center = ccp(v1.center.x+(v1.frame.size.width+5)*(v.tag-1)+width+3, v.center.y);
+            v.center = ccp(v1.center.x+(v1.frame.size.width+SCIENTIST_SPACING)*(v.tag-1)+width+3, v.center.y);
           }
         }
       }

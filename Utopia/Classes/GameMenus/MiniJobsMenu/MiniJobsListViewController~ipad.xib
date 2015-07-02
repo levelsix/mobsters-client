@@ -185,7 +185,7 @@
         </view>
     </objects>
     <resources>
-        <image name="functionalhomemenubottombarcap.png" width="28" height="28"/>
+        <image name="functionalhomemenubottombarcap.png" width="48" height="48"/>
         <image name="functionalhomemenubottombarmiddle.png" width="7" height="225"/>
         <image name="girl3.png" width="67" height="94"/>
         <image name="newjobstimerbg.png" width="70" height="31"/>
