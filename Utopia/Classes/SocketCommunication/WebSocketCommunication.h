@@ -28,6 +28,7 @@
   
   NSString *_hostName;
   NSString *_sslCertFile;
+  NSDictionary *_customHeaders;
 }
 
 @property (nonatomic, retain) SRWebSocket *webSocket;
@@ -35,7 +36,7 @@
 @property (nonatomic, assign) id<WebSocketCommunicationDelegate> delegate;
 
 
-- (id) initWithURLString:(NSString *)hostName sslCert:(NSString *)sslCert;
+- (id) initWithURLString:(NSString *)hostName sslCert:(NSString *)sslCert customHeaders:(NSDictionary *)customHeaders;
 
 - (void) connect;
 
