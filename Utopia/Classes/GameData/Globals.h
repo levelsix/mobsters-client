@@ -282,6 +282,8 @@
 + (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix;
 + (BOOL) isFileDownloaded:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix;
 + (NSString *) downloadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix;
++ (BOOL) checkAndLoadFile:(NSString *)fileName completion:(void (^)(BOOL success))completion;
++ (BOOL) checkAndLoadFiles:(NSArray *)fileNames completion:(void (^)(BOOL success))completion;
 + (BOOL) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix completion:(void (^)(BOOL success))completion;
 + (BOOL) checkAndLoadFiles:(NSArray *)fileNames useiPhone6Prefix:(BOOL)prefix useiPadSuffix:(BOOL)suffix completion:(void (^)(BOOL success))completion;
 + (BOOL) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion;
