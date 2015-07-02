@@ -713,9 +713,6 @@ static NSString *host = HOST_NAME;
 }
 
 - (int) sendLoadPlayerCityMessage:(NSString *)userUuid {
-#warning temp
-  self.chatCommunication = [[ChatCommunication alloc] init];
-  [self.chatCommunication connect];
   
   LoadPlayerCityRequestProto *req = [[[[LoadPlayerCityRequestProto builder]
                                        setSender:_sender]

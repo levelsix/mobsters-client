@@ -16,8 +16,6 @@
 
 #import "WebSocketCommunication.h"
 
-#import "ChatCommunication.h"
-
 @interface SocketCommunication : NSObject <UIAlertViewDelegate, WebSocketCommunicationDelegate> {
   MinimumUserProto *_sender;
   int _currentTagNum;
@@ -73,8 +71,6 @@
 @property (nonatomic, retain) NSMutableArray *unrespondedMessages;
 
 @property (nonatomic, retain) WebSocketCommunication *webSocketCommunication;
-
-@property (nonatomic, retain) ChatCommunication *chatCommunication;
 
 + (BOOL) isForcedTutorial;
 + (NSString *) getUdid;

@@ -140,7 +140,7 @@
   [[CCDirector sharedDirector] resume];
   //}
   
-  GameState *gs = [GameState sharedGameState];
+  //GameState *gs = [GameState sharedGameState];
   GameViewController *gvc = [GameViewController baseController];
   //FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
   if (_shouldReconnect) {
