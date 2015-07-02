@@ -470,12 +470,42 @@ static const CGSize FIXED_SIZE = {568, 384};
   self.tutController = nil;
 }
 
+- (void) beginConnection {
+  GameState *gs = [GameState sharedGameState];
+  
+  // If in battle, give 10 mins of leeway
+  _isFreshRestart = !gs.isTutorial && !(_isInBattle && _timeOfSoftClose.timeIntervalSinceNow > -10*60);
+  [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self clearMessages:!gs.connected && !gs.isTutorial];
+  
+  if (_isFreshRestart) {
+    [self handleSignificantTimeChange];
+  }
+}
+
+- (void) endConnection {
+  
+  [self invalidateAllTimers];
+  
+  GameState *gs = [GameState sharedGameState];
+  FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
+  if (gs.connected && !fd.timeOfLastLoginAttempt) {
+    [[OutgoingEventController sharedOutgoingEventController] logout];
+    
+    gs.connected = NO;
+  }
+  
+  [[SocketCommunication sharedSocketCommunication] closeDownConnection];
+  
+  _timeOfSoftClose = [NSDate date];
+}
+
 - (void) handleConnectedToHost {
   GameState *gs = [GameState sharedGameState];
-  if (!self.tutController && !_isFromFacebook && _isFreshRestart) {
-    [self progressTo:PART_2_PERCENT animated:YES];
+  if (!self.tutController && !_isFromFacebook) {
     
     if (_isFreshRestart) {
+      [self progressTo:PART_2_PERCENT animated:YES];
+      
       [self showTopBarDuration:0.f completion:nil];
       
       if (self.miniTutController) {
@@ -496,7 +526,6 @@ static const CGSize FIXED_SIZE = {568, 384};
         facebookId = nil;
       }
       [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:facebookId isFreshRestart:_isFreshRestart delegate:self];
-      _isFreshRestart = NO;
     }];
     
     [Analytics connectStep:ConnectStepAmqpConnected];

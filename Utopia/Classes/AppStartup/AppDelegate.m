@@ -144,7 +144,7 @@
   GameViewController *gvc = [GameViewController baseController];
   //FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
   if (_shouldReconnect) {
-    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc clearMessages:!gs.connected && !gs.isTutorial];
+    [gvc beginConnection];
     
     [Analytics connectStep:ConnectStepInitializeConnection];
     
@@ -154,7 +154,7 @@
   // This will restart loading screen
   // Must put this here instead of willEnterForeground because the ordering is foreground, openURL, active
   // This is required for Facebook App Switch
-  [gvc handleSignificantTimeChange];
+  //[gvc handleSignificantTimeChange];
   
   [FacebookDelegate handleDidBecomeActive];
 }
@@ -170,15 +170,8 @@
   [[CCDirector sharedDirector] stopAnimation];
   [self registerLocalNotifications];
   
-  [[GameViewController baseController] invalidateAllTimers];
+  [[GameViewController baseController] endConnection];
   
-  GameState *gs = [GameState sharedGameState];
-  FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
-  if (gs.connected && !fd.timeOfLastLoginAttempt) {
-    [[OutgoingEventController sharedOutgoingEventController] logout];
-    [[GameState sharedGameState] setConnected:NO];
-  }
-  [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   _shouldReconnect = YES;
 }
 

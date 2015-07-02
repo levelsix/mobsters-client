@@ -50,6 +50,8 @@ typedef enum {
   BOOL _isInBattle;
   
   AttackMapViewController *_amvc;
+  
+  NSDate *_timeOfSoftClose;
 }
 
 @property (nonatomic, strong) TopBarViewController *topBarViewController;
@@ -85,6 +87,9 @@ typedef enum {
 - (void) handleSignificantTimeChange;
 - (void) handleForceLogoutResponseProto:(ForceLogoutResponseProto *)proto;
 - (void) reconnectingToServer;
+
+- (void) beginConnection;
+- (void) endConnection;
 
 - (void) openedFromFacebook;
 - (void) handleConnectedToHost;
