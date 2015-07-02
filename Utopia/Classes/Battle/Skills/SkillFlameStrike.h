@@ -15,6 +15,8 @@
   
   // Temp
   int _tempDamageGained;
+  
+  int _baseElementDamage;
 }
 
 @end

@@ -20,6 +20,7 @@
   
   _damageMultiplier = 1.f;
   _tempDamageGained = 0;
+  _baseElementDamage = 0;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -39,9 +40,33 @@
 
 - (void)orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
 {
-  if ([self isActive] && color == OrbColorFire)
+  if ([self isActive] && color == self.userPlayer.element)
   {
-    _tempDamageGained += self.userPlayer.fireDamage * (_damageMultiplier);
+    if (!_baseElementDamage)
+    {
+      switch (self.userPlayer.element) {
+        case ElementEarth:
+          _baseElementDamage = self.userPlayer.earthDamage;
+          break;
+        case ElementFire:
+          _baseElementDamage = self.userPlayer.fireDamage;
+          break;
+        case ElementLight:
+          _baseElementDamage = self.userPlayer.lightDamage;
+          break;
+        case ElementWater:
+          _baseElementDamage = self.userPlayer.waterDamage;
+          break;
+        case ElementDark:
+          _baseElementDamage = self.userPlayer.nightDamage;
+          break;
+        default:
+          _baseElementDamage = 1;
+          break;
+      }
+    }
+    
+    _tempDamageGained += _baseElementDamage * (_damageMultiplier);
   }
   [super orbDestroyed:color special:type];
 }
@@ -52,7 +77,7 @@
   {
     if (orb.specialOrbType == SpecialOrbTypeNone &&
         orb.powerupType < PowerupTypeAllOfOneColor &&
-        orb.orbColor == OrbColorFire)
+        orb.orbColor == self.userPlayer.element)
     {
       orb.damageMultiplier = floorf(_damageMultiplier);
       return YES;
@@ -87,7 +112,29 @@
 {
   if (_tempDamageGained && player)
   {
-    [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i FIRE DAMAGE", _tempDamageGained]];
+    NSString *elementString;
+    switch (self.userPlayer.element) {
+      case ElementEarth:
+        elementString = @"EARTH";
+        break;
+      case ElementFire:
+        elementString = @"FIRE";
+        break;
+      case ElementLight:
+        elementString = @"LIGHT";
+        break;
+      case ElementWater:
+        elementString = @"WATER";
+        break;
+      case ElementDark:
+        elementString = @"DARK";
+        break;
+      default:
+        elementString = @"";
+        break;
+    }
+    
+    [self enqueueSkillPopupMiniOverlay:[NSString stringWithFormat:@"%i %@ DAMAGE", _tempDamageGained, elementString]];
     _tempDamageGained = 0;
   }
   
@@ -126,7 +173,7 @@
       BattleOrb* orb = [layout orbAtColumn:column row:row];
       if (orb.specialOrbType == SpecialOrbTypeNone &&
           orb.powerupType < PowerupTypeAllOfOneColor &&
-          orb.orbColor == OrbColorFire)
+          orb.orbColor == self.userPlayer.element)
       {
         orb.damageMultiplier = multiplier;
         
