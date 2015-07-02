@@ -21,6 +21,9 @@
 #define HEADER_NAME @"EvolveHeaderView"
 #define DESCRIPTION_HEADER_NAME @"EvolveDescriptionHeaderView"
 
+#define HEADER_SIZE ([Globals isiPad] ? 35.f : 25.f)
+#define DESCRIPTION_HEADER_SIZE ([Globals isiPad] ? 104.f : 77.f)
+
 @implementation EvolveChooserViewController
 
 - (void) viewDidLoad {
@@ -240,13 +243,13 @@
   CGFloat width = collectionView.frame.size.width;
   if (section == 0) {
     if (![self.evoItems[0] count]) {
-      return CGSizeMake(width, 77.f);
+      return CGSizeMake(width, DESCRIPTION_HEADER_SIZE);
     } else {
-      return CGSizeMake(width, 25.f);
+      return CGSizeMake(width, HEADER_SIZE);
     }
   } else {
     if ([self.evoItems[1] count]) {
-      return CGSizeMake(width, 25.f);
+      return CGSizeMake(width, HEADER_SIZE);
     } else {
       return CGSizeMake(0.f, 0.f);
     }
@@ -276,9 +279,11 @@
   } else {
     UICollectionReusableView *rv = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:DESCRIPTION_HEADER_NAME forIndexPath:indexPath];
     UIView *yellow = rv.subviews[0];
-    yellow.layer.cornerRadius = 5.f;
-    yellow.layer.borderColor = [UIColor colorWithRed:1.f green:211/255.f blue:145/255.f alpha:1.f].CGColor;
-    yellow.layer.borderWidth = 0.5f;
+    if (![Globals isiPad]) {
+      yellow.layer.cornerRadius = 5.f;
+      yellow.layer.borderColor = [UIColor colorWithRed:1.f green:211/255.f blue:145/255.f alpha:1.f].CGColor;
+      yellow.layer.borderWidth = 0.5f;
+    }
     
     for (UIView *sv in yellow.subviews) {
       if ([sv isKindOfClass:[UILabel class]]) {
