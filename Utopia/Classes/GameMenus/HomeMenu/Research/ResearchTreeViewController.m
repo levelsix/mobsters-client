@@ -50,10 +50,25 @@
   [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [proto.desc length])];
   self.selectionDescription.attributedText = attributedString;
   
-  NSString *barBGImage = isAvailable ? @"enhancenextbg.png" : @"researchmissingrequirements.png";
-  [self.barButton setImage:[Globals imageNamed:barBGImage] forState:UIControlStateNormal];
-  NSString *barClickedImageName = isAvailable ? @"enhancenextbgpressed.png" : @"researchmissingrequirementspressed.png";
-  [self.barButton setImage:[Globals imageNamed:barClickedImageName] forState:UIControlStateHighlighted];
+  if ([Globals isiPad]) {
+    NSString *capImage = [NSString stringWithFormat:@"functionalhomemenubottombar%@cap.png", isAvailable ? @"blue" : @"red"];
+    NSString *capPressedImage = [capImage stringByReplacingOccurrencesOfString:@".png" withString:@"pressed.png"];
+    NSString *midImage = [NSString stringWithFormat:@"functionalhomemenubottombar%@middle.png", isAvailable ? @"blue" : @"red"];
+    NSString *midPressedImage = [midImage stringByReplacingOccurrencesOfString:@".png" withString:@"pressed.png"];
+    
+    [self.barButtonBgdLeft setImage:[Globals imageNamed:capImage]];
+    [self.barButtonBgdLeft setHighlightedImage:[Globals imageNamed:capPressedImage]];
+    [self.barButtonBgdMiddle setImage:[Globals imageNamed:midImage]];
+    [self.barButtonBgdMiddle setHighlightedImage:[Globals imageNamed:midPressedImage]];
+    [self.barButtonBgdRight setImage:[Globals imageNamed:capImage]];
+    [self.barButtonBgdRight setHighlightedImage:[Globals imageNamed:capPressedImage]];
+  }
+  else {
+    NSString *barBGImage = isAvailable ? @"enhancenextbg.png" : @"researchmissingrequirements.png";
+    [self.barButton setImage:[Globals imageNamed:barBGImage] forState:UIControlStateNormal];
+    NSString *barClickedImageName = isAvailable ? @"enhancenextbgpressed.png" : @"researchmissingrequirementspressed.png";
+    [self.barButton setImage:[Globals imageNamed:barClickedImageName] forState:UIControlStateHighlighted];
+  }
 }
 
 - (void) animateIn:(dispatch_block_t)completion {
@@ -81,6 +96,20 @@
       completion();
     }
   }];
+}
+
+//iPad Only
+- (IBAction)barButtonClickStart:(id)sender {
+  self.barButtonBgdLeft.highlighted = YES;
+  self.barButtonBgdRight.highlighted = YES;
+  self.barButtonBgdMiddle.highlighted = YES;
+}
+
+//iPad Only
+- (IBAction)barButtonClickEnd:(id)sender {
+  self.barButtonBgdLeft.highlighted = NO;
+  self.barButtonBgdRight.highlighted = NO;
+  self.barButtonBgdMiddle.highlighted = NO;
 }
 
 - (IBAction) clicked:(id)sender {
@@ -195,8 +224,8 @@ int x = 0;
   _parentNodes = [NSHashTable hashTableWithOptions:NSHashTableWeakMemory]; // Similar to NSSet, but can hold weak references to its members
   _connectionsToParentNodes = [NSMutableSet set];
   
-  const CGFloat kLineWidth = 2.f;
-  const CGSize  kCornerSize = CGSizeMake(13.f, 13.f);
+  const CGFloat kLineWidth = [Globals isiPad] ? 3.f : 2.f;
+  const CGSize  kCornerSize = [Globals isiPad] ? CGSizeMake(20.f, 20.f) : CGSizeMake(13.f, 13.f);
   const CGFloat kMeetingPointYModifier = .25f;
   
   for (ResearchButtonView* parentButtonView in parentNodes)
@@ -218,8 +247,9 @@ int x = 0;
     }
     else
     {
-      const CGPoint meetingPointFromSelf = CGPointMake(connectionFromSelf.x, (connectionFromSelf.y + connectionToParent.y) * kMeetingPointYModifier + kCornerSize.height);
-      const CGPoint meetingPointToParent = CGPointMake(connectionToParent.x, (connectionFromSelf.y + connectionToParent.y) * kMeetingPointYModifier - kCornerSize.height);
+      const CGFloat meetingPointY = (connectionFromSelf.y + connectionToParent.y) * kMeetingPointYModifier;
+      const CGPoint meetingPointFromSelf = CGPointMake(connectionFromSelf.x, meetingPointY + kCornerSize.height);
+      const CGPoint meetingPointToParent = CGPointMake(connectionToParent.x, meetingPointY - kCornerSize.height + ([Globals isiPad] ? 1 : 0));
       
       UIView* lineFromSelf = [[UIView alloc] initWithFrame:CGRectMake(meetingPointFromSelf.x - kLineWidth * .5f, meetingPointFromSelf.y,
                                                                       kLineWidth, connectionFromSelf.y - meetingPointFromSelf.y + 2)];
@@ -389,7 +419,7 @@ int x = 0;
     }
   }
   
-  const CGSize  kResearchButtonViewSize = CGSizeMake(80.f, 135.f);
+  const CGSize  kResearchButtonViewSize = [Globals isiPad] ? CGSizeMake(150.f, 200.f) : CGSizeMake(80.f, 135.f);
   const CGFloat kResearchTreeTopPadding = 0.f;
   const CGFloat kResearchTreeBottomPadding = 0.f;
   

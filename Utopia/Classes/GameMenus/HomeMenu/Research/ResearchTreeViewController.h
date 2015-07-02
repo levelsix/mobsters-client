@@ -24,6 +24,10 @@
 @property (nonatomic, assign) IBOutlet THLabel *selectionDescription;
 @property (nonatomic, assign) IBOutlet UIButton *barButton;
 
+@property (nonatomic, retain) IBOutlet UIImageView *barButtonBgdLeft;
+@property (nonatomic, retain) IBOutlet UIImageView *barButtonBgdRight;
+@property (nonatomic, retain) IBOutlet UIImageView *barButtonBgdMiddle;
+
 @property (nonatomic, weak) id<ResearchSelectionBarDelegate> delegate;
 
 - (void) updateForUserResearch:(UserResearch *)userResearch;
