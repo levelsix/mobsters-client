@@ -1,0 +1,295 @@
+package ChatEvent;
+
+option java_package = "com.lvl6.chatserver";
+
+import "chat_info.proto";
+
+//high level actions:
+//==========================
+//send message
+//receive Message
+//send typing status
+//send read confirmation
+//login
+//logout
+//receive online status
+//create chat room
+//add user to chat room
+//create user
+//set user details
+//change translation settings
+//remove user from chat room
+
+
+enum EventResponseStatus {
+  success = 1;
+  error = 2;
+}
+
+
+enum ChatEventType {
+  create_user_request = 1;
+  create_user_response = 2;
+
+  create_chat_room_request = 3;
+  create_chat_room_response = 4;
+
+  add_user_to_chat_room_request = 5;
+  add_user_to_chat_room_response = 6;
+
+  remove_user_from_chat_room_request = 7;
+  remove_user_from_chat_room_response = 8;
+
+  send_message_request = 9;
+  send_message_response = 10;
+
+  receive_message = 11;
+
+  retrieve_room_messages_request = 12;
+  retrieve_room_messages_response = 13;
+
+  set_typing_status_request = 14;
+  set_typing_status_response = 15;
+
+  receive_typing_status = 16;
+
+  send_read_confirmation_request = 17;
+  send_read_confirmation_response = 18;
+
+  receive_read_confirmation = 19;
+
+  login_request = 20;
+  login_response = 21;
+
+  logout_request = 22;
+  logout_response = 23;
+
+  receive_online_status = 24;
+
+  set_user_details_request = 25;
+  set_user_details_response = 26;
+
+  set_room_translation_settings_request = 27;
+  set_room_translation_settings_response = 28;
+
+  receive_room_notification = 29;
+
+}
+
+message ChatEventResponseInfo {
+
+  optional EventResponseStatus status = 1;
+  optional string exceptionmessage = 2;
+  optional string exceptionstacktrace = 3;
+
+}
+
+//any event
+message ChatEventProto {
+  optional ChatEventType eventname = 1;
+  optional bytes eventdata = 2;
+  optional string uuid = 3;
+  optional ChatEventResponseInfo responseinfo = 4;
+}
+
+//create user
+message CreateUserRequestProto {
+  optional string useruuid = 1;
+  optional Chat.ChatUserDetailsProto userdetails = 2;
+}
+
+message CreateUserResponseProto {
+  optional string authtoken = 1;
+}
+
+
+//create chat room request
+message CreateChatRoomRequestProto {
+  optional string useruuid = 1;
+  optional string roomname = 2;
+}
+message CreateChatRoomResponseProto {
+  //TODO !!! remove this for rooms that user is not the owner of
+  optional Chat.ChatRoomProto room = 1;
+}
+
+
+
+
+//add user to chat room
+message AddUserToChatRoomRequestProto {
+  optional string useruuid = 1;
+  optional string roomuuid = 2;
+}
+
+message AddUserToChatRoomResponseProto {
+}
+
+
+
+//remove user from chat room
+message RemoveUserFromChatRoomRequestProto {
+  optional string useruuid = 1;
+  optional string roomuuid = 2;
+}
+message RemoveUserFromChatRoomResponseProto {
+}
+
+
+
+
+
+//send message
+message SendMessageRequestProto {
+//  optional string messageuuid = 1;
+//  optional string content = 2;
+  optional Chat.ChatMessageProto message = 1;
+  optional string roomuuid = 2;
+}
+
+message SendMessageResponseProto {
+}
+
+//receive message
+message ReceiveMessageProto {
+  optional Chat.ChatMessageProto message = 1;
+  optional string roomuuid = 2;
+}
+
+
+
+//retrieve room messages
+message RetrieveRoomMessagesRequestProto {
+  optional string roomuuid = 1;
+}
+
+message RetrieveRoomMessagesResponseProto {
+  repeated Chat.ChatMessageProto message = 1;
+}
+
+
+
+//set typing status
+message SetTypingStatusRequestProto {
+  optional string roomuuid = 1;
+  optional string useruuid = 2;
+  optional bool typingstatus = 3;
+}
+
+message SetTypingStatusResponseProto {
+}
+
+//receive typing status
+message ReceiveTypingStatusProto {
+  optional string roomuuid = 1;
+  optional string useruuid = 2;
+  optional bool typingstatus = 3;
+}
+
+
+
+//send read confirmation
+message SendReadConfirmationRequestProto {
+  optional string messageuuid = 1;
+  optional string useruuid = 2;
+  optional string roomuuid = 3;
+}
+
+message SendReadConfirmationResponseProto {
+}
+
+//receive read confirmation
+message ReceiveReadConfirmationProto {
+  optional string messageuuid = 1;
+  optional string useruuid = 2;
+  optional string roomuuid = 3;
+}
+
+
+
+//sign on
+message SignOnRequestProto {
+  optional string useruuid = 1;
+  //broadcasts online status to all people
+}
+
+message SignOnResponseProto {
+  //TODO !!! remove auth token for rooms that user is not the owner of
+  repeated Chat.ChatRoomProto room = 1;
+}
+
+
+
+//sign off
+message SignOffRequestProto {
+  optional string useruuid = 1;
+}
+message SignOffResponseProto {
+
+}
+
+//receive online status
+message ReceiveOnlineStatusProto {
+  optional string useruuid = 1;
+  optional int64 lastseentimestamp = 2;
+}
+
+
+//set user details
+message SetUserDetailsRequestProto {
+  optional string useruuid = 1;
+  optional Chat.ChatUserDetailsProto userdetails = 2;
+}
+
+message SetUserDetailsResponseProto {
+
+}
+
+
+//TODO NEXT
+//============================================
+
+
+
+
+
+//heartbeat
+message HeartbeatRequestProto {
+  optional string useruuid = 1;
+}
+message HeartbeatResponseProto {
+}
+
+message RoomMessagesHashRequestProto {
+
+  optional string roomuuid = 1;
+  optional int32 messagecount = 2;
+  optional string md5hash = 3;
+
+}
+message RoomMessagesHasResponseProto {
+
+  optional string roomuuid = 1;
+  //only return this if we're out of sync
+  optional Chat.ChatRoomProto room = 2;
+
+}
+
+//TOASK Do we really need translation settings per room or auto-detect of language is OK?
+//set room translation settings
+message SetRoomTranslationSettingsRequestProto {
+  optional string useruuid = 1;
+  optional string roomuuid = 2;
+  optional Chat.TranslateLanguage language = 3;
+  repeated Chat.ChatMessageProto messages = 4;
+}
+message SetRoomTranslationSettingsResponseProto {
+  repeated Chat.ChatMessageProto messages = 1;
+}
+
+
+//receive room notification
+message ReceiveRoomNotificationProto {
+  optional string roomuuid = 1;
+  optional string content = 2;
+}

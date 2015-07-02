@@ -169,7 +169,7 @@ static NSString *udid = nil;
     NSString *hostName = HOST_NAME;
     hostName = [NSString stringWithFormat:hostName, version];
     
-    self.webSocketCommunication = [[WebSocketCommunication alloc] initWithURLString:hostName sslCert:@"lvl6_crt.der"];
+    self.webSocketCommunication = [[WebSocketCommunication alloc] initWithURLString:hostName sslCert:@"lvl6_crt.der" customHeaders:nil];
     self.webSocketCommunication.delegate = self;
   }
   return self;
@@ -697,6 +697,10 @@ static NSString *udid = nil;
 }
 
 - (int) sendLoadPlayerCityMessage:(NSString *)userUuid {
+#warning temp
+  self.chatCommunication = [[ChatCommunication alloc] init];
+  [self.chatCommunication connect];
+  
   LoadPlayerCityRequestProto *req = [[[[LoadPlayerCityRequestProto builder]
                                        setSender:_sender]
                                       setCityOwnerUuid:userUuid]

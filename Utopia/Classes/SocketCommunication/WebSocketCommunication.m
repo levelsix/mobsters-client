@@ -17,11 +17,11 @@
 
 @implementation WebSocketCommunication
 
-- (id) initWithURLString:(NSString *)hostName sslCert:(NSString *)sslCert {
+- (id) initWithURLString:(NSString *)hostName sslCert:(NSString *)sslCert customHeaders:(NSDictionary *)customHeaders {
   if ((self = [super init])) {
     _hostName = hostName;
     _sslCertFile = sslCert;
-    
+    _customHeaders = customHeaders;
   }
   return self;
 }
@@ -43,6 +43,10 @@
   
   NSURL *url = [NSURL URLWithString:_hostName];
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+  
+  for (id key in _customHeaders) {
+    [request setValue:_customHeaders[key] forHTTPHeaderField:key];
+  }
   
   if ([_hostName containsString:@"wss://"] && _sslCertFile) {
     NSString *cerPath = [[[[NSBundle mainBundle] bundleURL] absoluteString] stringByAppendingString:_sslCertFile];
@@ -132,7 +136,7 @@
     webSocket.delegate = nil;
     [webSocket close];
   } else {
-    [self.delegate connectedToHost];
+    [self connectedToHost];
   }
 }
 

@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ChatCommunication : NSObject
+#import "WebSocketCommunication.h"
+
+@interface ChatCommunication : NSObject <WebSocketCommunicationDelegate>
+
+@property (nonatomic, retain) WebSocketCommunication *webSocketCommunication;
+
+- (void) connect;
 
 @end

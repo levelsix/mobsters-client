@@ -598,6 +598,15 @@
 		29927EAF1AAFAF9B00418683 /* ItemFactoryViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 29927EAE1AAFAF9B00418683 /* ItemFactoryViews.m */; };
 		29927EB01AAFAF9B00418683 /* ItemFactoryViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 29927EAE1AAFAF9B00418683 /* ItemFactoryViews.m */; };
 		29927EB11AAFAF9B00418683 /* ItemFactoryViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 29927EAE1AAFAF9B00418683 /* ItemFactoryViews.m */; };
+		2992981B1B44B2C600EB69CA /* Api.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 299298161B44B2C600EB69CA /* Api.pb.m */; };
+		2992981C1B44B2C600EB69CA /* Api.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 299298161B44B2C600EB69CA /* Api.pb.m */; };
+		2992981D1B44B2C600EB69CA /* Api.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 299298161B44B2C600EB69CA /* Api.pb.m */; };
+		2992981E1B44B2C600EB69CA /* Chat_event.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 299298181B44B2C600EB69CA /* Chat_event.pb.m */; };
+		2992981F1B44B2C600EB69CA /* Chat_event.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 299298181B44B2C600EB69CA /* Chat_event.pb.m */; };
+		299298201B44B2C600EB69CA /* Chat_event.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 299298181B44B2C600EB69CA /* Chat_event.pb.m */; };
+		299298211B44B2C600EB69CA /* Chat_info.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 2992981A1B44B2C600EB69CA /* Chat_info.pb.m */; };
+		299298221B44B2C600EB69CA /* Chat_info.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 2992981A1B44B2C600EB69CA /* Chat_info.pb.m */; };
+		299298231B44B2C600EB69CA /* Chat_info.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 2992981A1B44B2C600EB69CA /* Chat_info.pb.m */; };
 		2992D7571AA5326B00547B11 /* crossedout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2992D72A1AA5326B00547B11 /* crossedout@2x.png */; };
 		2992D7581AA5326B00547B11 /* crossedout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2992D72A1AA5326B00547B11 /* crossedout@2x.png */; };
 		2992D7591AA5326B00547B11 /* crossedout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2992D72A1AA5326B00547B11 /* crossedout@2x.png */; };
@@ -7361,6 +7370,15 @@
 		29927EA91AAF9D1700418683 /* ItemFactoryCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemFactoryCardCell.xib; sourceTree = "<group>"; };
 		29927EAD1AAFAF9B00418683 /* ItemFactoryViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemFactoryViews.h; sourceTree = "<group>"; };
 		29927EAE1AAFAF9B00418683 /* ItemFactoryViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemFactoryViews.m; sourceTree = "<group>"; };
+		299298121B44B27D00EB69CA /* api.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = api.proto; sourceTree = "<group>"; };
+		299298131B44B27D00EB69CA /* chat_event.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = chat_event.proto; sourceTree = "<group>"; };
+		299298141B44B27D00EB69CA /* chat_info.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = chat_info.proto; sourceTree = "<group>"; };
+		299298151B44B2C600EB69CA /* Api.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Api.pb.h; sourceTree = "<group>"; };
+		299298161B44B2C600EB69CA /* Api.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Api.pb.m; sourceTree = "<group>"; };
+		299298171B44B2C600EB69CA /* Chat_event.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chat_event.pb.h; sourceTree = "<group>"; };
+		299298181B44B2C600EB69CA /* Chat_event.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chat_event.pb.m; sourceTree = "<group>"; };
+		299298191B44B2C600EB69CA /* Chat_info.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chat_info.pb.h; sourceTree = "<group>"; };
+		2992981A1B44B2C600EB69CA /* Chat_info.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chat_info.pb.m; sourceTree = "<group>"; };
 		2992D72A1AA5326B00547B11 /* crossedout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "crossedout@2x.png"; sourceTree = "<group>"; };
 		2992D74E1AA5326B00547B11 /* gemminebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gemminebg@2x.png"; sourceTree = "<group>"; };
 		2992D74F1AA5326B00547B11 /* gemminebgpressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gemminebgpressed@2x.png"; sourceTree = "<group>"; };
@@ -12642,6 +12660,147 @@
 			name = "Battle Items";
 			sourceTree = "<group>";
 		};
+		2992980D1B44B1D600EB69CA /* Game Protos */ = {
+			isa = PBXGroup;
+			children = (
+				CF6574771909CAF100ABF1F4 /* Proto files */,
+				63959E191B0ABE4400E5E302 /* EventReward.pb.h */,
+				63959E1A1B0ABE4400E5E302 /* EventReward.pb.m */,
+				9BE9F52A1B0AA5AA007E3A2F /* EventLeaderBoard.pb.h */,
+				9BE9F52B1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m */,
+				9BE9F52C1B0AA5AA007E3A2F /* LeaderBoard.pb.h */,
+				9BE9F52D1B0AA5AA007E3A2F /* LeaderBoard.pb.m */,
+				9BCAA19C1AD4A5D50059CEDA /* Sales.pb.h */,
+				9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */,
+				9B2EFCE11AC4AEF5005B7B83 /* EventMiniEvent.pb.h */,
+				9B2EFCE21AC4AEF5005B7B83 /* EventMiniEvent.pb.m */,
+				9B2EFCE31AC4AEF5005B7B83 /* MiniEvent.pb.h */,
+				9B2EFCE41AC4AEF5005B7B83 /* MiniEvent.pb.m */,
+				9B2EFCE51AC4AEF5005B7B83 /* Reward.pb.h */,
+				9B2EFCE61AC4AEF5005B7B83 /* Reward.pb.m */,
+				9BC37F7C1ADF516C009571F1 /* CustomMenu.pb.h */,
+				9BC37F7D1ADF516C009571F1 /* CustomMenu.pb.m */,
+				29AF48901AAA87800034927C /* BattleItem.pb.h */,
+				29AF48911AAA87800034927C /* BattleItem.pb.m */,
+				29AF48921AAA87800034927C /* EventBattleItem.pb.h */,
+				29AF48931AAA87800034927C /* EventBattleItem.pb.m */,
+				63B0452A1A9D7CD600C74F0C /* EventResearch.pb.h */,
+				63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */,
+				3E1A0C001A645B4B00DF00AD /* Board.pb.h */,
+				3E1A0C011A645B4B00DF00AD /* Board.pb.m */,
+				3E1A0C021A645B4B00DF00AD /* Research.pb.h */,
+				3E1A0C031A645B4B00DF00AD /* Research.pb.m */,
+				CF4825B019F7549300041486 /* Prerequisite.pb.h */,
+				CF4825B119F7549300041486 /* Prerequisite.pb.m */,
+				CFB97D7C19C14173003ABA66 /* EventItem.pb.h */,
+				CFB97D7D19C14173003ABA66 /* EventItem.pb.m */,
+				CFF412AC19BFE761002672D4 /* Item.pb.h */,
+				CFF412AD19BFE761002672D4 /* Item.pb.m */,
+				DA075FB519AFEA3500E43E5A /* Skill.pb.h */,
+				DA075FB619AFEA3500E43E5A /* Skill.pb.m */,
+				CFFB3B6E19820E8F005D7AF5 /* Dev.pb.h */,
+				CFFB3B6F19820E8F005D7AF5 /* Dev.pb.m */,
+				CFFB3B7019820E8F005D7AF5 /* EventDev.pb.h */,
+				CFFB3B7119820E8F005D7AF5 /* EventDev.pb.m */,
+				CF68906F19145DC300FF1F71 /* EventMiniJob.pb.h */,
+				CF68907019145DC300FF1F71 /* EventMiniJob.pb.m */,
+				CF68907119145DC300FF1F71 /* MiniJobConfig.pb.h */,
+				CF68907219145DC300FF1F71 /* MiniJobConfig.pb.m */,
+				CF68907319145DC300FF1F71 /* SharedEnumConfig.pb.h */,
+				CF68907419145DC300FF1F71 /* SharedEnumConfig.pb.m */,
+				CF6574451909CAF100ABF1F4 /* AchievementStuff.pb.h */,
+				CF6574461909CAF100ABF1F4 /* AchievementStuff.pb.m */,
+				CF6574471909CAF100ABF1F4 /* Battle.pb.h */,
+				CF6574481909CAF100ABF1F4 /* Battle.pb.m */,
+				CF6574491909CAF100ABF1F4 /* BoosterPackStuff.pb.h */,
+				CF65744A1909CAF100ABF1F4 /* BoosterPackStuff.pb.m */,
+				CF65744B1909CAF100ABF1F4 /* Chat.pb.h */,
+				CF65744C1909CAF100ABF1F4 /* Chat.pb.m */,
+				CF65744D1909CAF100ABF1F4 /* City.pb.h */,
+				CF65744E1909CAF100ABF1F4 /* City.pb.m */,
+				CF65744F1909CAF100ABF1F4 /* Clan.pb.h */,
+				CF6574501909CAF100ABF1F4 /* Clan.pb.m */,
+				CF6574511909CAF100ABF1F4 /* EventAchievement.pb.h */,
+				CF6574521909CAF100ABF1F4 /* EventAchievement.pb.m */,
+				CF6574531909CAF100ABF1F4 /* EventApns.pb.h */,
+				CF6574541909CAF100ABF1F4 /* EventApns.pb.m */,
+				CF6574551909CAF100ABF1F4 /* EventBoosterPack.pb.h */,
+				CF6574561909CAF100ABF1F4 /* EventBoosterPack.pb.m */,
+				CF6574571909CAF100ABF1F4 /* EventChat.pb.h */,
+				CF6574581909CAF100ABF1F4 /* EventChat.pb.m */,
+				CF6574591909CAF100ABF1F4 /* EventCity.pb.h */,
+				CF65745A1909CAF100ABF1F4 /* EventCity.pb.m */,
+				CF65745B1909CAF100ABF1F4 /* EventClan.pb.h */,
+				CF65745C1909CAF100ABF1F4 /* EventClan.pb.m */,
+				CF65745D1909CAF100ABF1F4 /* EventDungeon.pb.h */,
+				CF65745E1909CAF100ABF1F4 /* EventDungeon.pb.m */,
+				CF65745F1909CAF100ABF1F4 /* EventInAppPurchase.pb.h */,
+				CF6574601909CAF100ABF1F4 /* EventInAppPurchase.pb.m */,
+				CF6574611909CAF100ABF1F4 /* EventMonster.pb.h */,
+				CF6574621909CAF100ABF1F4 /* EventMonster.pb.m */,
+				CF6574631909CAF100ABF1F4 /* EventPvp.pb.h */,
+				CF6574641909CAF100ABF1F4 /* EventPvp.pb.m */,
+				CF6574651909CAF100ABF1F4 /* EventQuest.pb.h */,
+				CF6574661909CAF100ABF1F4 /* EventQuest.pb.m */,
+				CF6574671909CAF100ABF1F4 /* EventReferral.pb.h */,
+				CF6574681909CAF100ABF1F4 /* EventReferral.pb.m */,
+				CF6574691909CAF100ABF1F4 /* EventStartup.pb.h */,
+				CF65746A1909CAF100ABF1F4 /* EventStartup.pb.m */,
+				CF65746B1909CAF100ABF1F4 /* EventStaticData.pb.h */,
+				CF65746C1909CAF100ABF1F4 /* EventStaticData.pb.m */,
+				CF65746D1909CAF100ABF1F4 /* EventStructure.pb.h */,
+				CF65746E1909CAF100ABF1F4 /* EventStructure.pb.m */,
+				CF65746F1909CAF100ABF1F4 /* EventTournament.pb.h */,
+				CF6574701909CAF100ABF1F4 /* EventTournament.pb.m */,
+				CF6574711909CAF100ABF1F4 /* EventUser.pb.h */,
+				CF6574721909CAF100ABF1F4 /* EventUser.pb.m */,
+				CF6574731909CAF100ABF1F4 /* InAppPurchase.pb.h */,
+				CF6574741909CAF100ABF1F4 /* InAppPurchase.pb.m */,
+				CF6574751909CAF100ABF1F4 /* MonsterStuff.pb.h */,
+				CF6574761909CAF100ABF1F4 /* MonsterStuff.pb.m */,
+				CF6574981909CAF200ABF1F4 /* Protocols.pb.h */,
+				CF6574991909CAF200ABF1F4 /* Protocols.pb.m */,
+				CF65749A1909CAF200ABF1F4 /* Quest.pb.h */,
+				CF65749B1909CAF200ABF1F4 /* Quest.pb.m */,
+				CF65749C1909CAF200ABF1F4 /* StaticData.pb.h */,
+				CF65749D1909CAF200ABF1F4 /* StaticData.pb.m */,
+				CF65749E1909CAF200ABF1F4 /* Structure.pb.h */,
+				CF65749F1909CAF200ABF1F4 /* Structure.pb.m */,
+				CF6574A01909CAF200ABF1F4 /* Task.pb.h */,
+				CF6574A11909CAF200ABF1F4 /* Task.pb.m */,
+				CF6574A21909CAF200ABF1F4 /* TournamentStuff.pb.h */,
+				CF6574A31909CAF200ABF1F4 /* TournamentStuff.pb.m */,
+				CF6574A41909CAF200ABF1F4 /* User.pb.h */,
+				CF6574A51909CAF200ABF1F4 /* User.pb.m */,
+			);
+			name = "Game Protos";
+			sourceTree = "<group>";
+		};
+		299298101B44B1F500EB69CA /* Chat Protos */ = {
+			isa = PBXGroup;
+			children = (
+				299298151B44B2C600EB69CA /* Api.pb.h */,
+				299298161B44B2C600EB69CA /* Api.pb.m */,
+				299298171B44B2C600EB69CA /* Chat_event.pb.h */,
+				299298181B44B2C600EB69CA /* Chat_event.pb.m */,
+				299298191B44B2C600EB69CA /* Chat_info.pb.h */,
+				2992981A1B44B2C600EB69CA /* Chat_info.pb.m */,
+				299298111B44B1FC00EB69CA /* Proto files */,
+			);
+			name = "Chat Protos";
+			sourceTree = "<group>";
+		};
+		299298111B44B1FC00EB69CA /* Proto files */ = {
+			isa = PBXGroup;
+			children = (
+				299298121B44B27D00EB69CA /* api.proto */,
+				299298131B44B27D00EB69CA /* chat_event.proto */,
+				299298141B44B27D00EB69CA /* chat_info.proto */,
+			);
+			name = "Proto files";
+			path = ProtoFiles;
+			sourceTree = "<group>";
+		};
 		2992D7291AA5326B00547B11 /* Gem Mine */ = {
 			isa = PBXGroup;
 			children = (
@@ -15338,115 +15497,8 @@
 		CF4DB9651808AE9100062258 /* Protocol Buffers */ = {
 			isa = PBXGroup;
 			children = (
-				CF6574771909CAF100ABF1F4 /* Proto files */,
-				63959E191B0ABE4400E5E302 /* EventReward.pb.h */,
-				63959E1A1B0ABE4400E5E302 /* EventReward.pb.m */,
-				9BE9F52A1B0AA5AA007E3A2F /* EventLeaderBoard.pb.h */,
-				9BE9F52B1B0AA5AA007E3A2F /* EventLeaderBoard.pb.m */,
-				9BE9F52C1B0AA5AA007E3A2F /* LeaderBoard.pb.h */,
-				9BE9F52D1B0AA5AA007E3A2F /* LeaderBoard.pb.m */,
-				9BCAA19C1AD4A5D50059CEDA /* Sales.pb.h */,
-				9BCAA19D1AD4A5D50059CEDA /* Sales.pb.m */,
-				9B2EFCE11AC4AEF5005B7B83 /* EventMiniEvent.pb.h */,
-				9B2EFCE21AC4AEF5005B7B83 /* EventMiniEvent.pb.m */,
-				9B2EFCE31AC4AEF5005B7B83 /* MiniEvent.pb.h */,
-				9B2EFCE41AC4AEF5005B7B83 /* MiniEvent.pb.m */,
-				9B2EFCE51AC4AEF5005B7B83 /* Reward.pb.h */,
-				9B2EFCE61AC4AEF5005B7B83 /* Reward.pb.m */,
-				9BC37F7C1ADF516C009571F1 /* CustomMenu.pb.h */,
-				9BC37F7D1ADF516C009571F1 /* CustomMenu.pb.m */,
-				29AF48901AAA87800034927C /* BattleItem.pb.h */,
-				29AF48911AAA87800034927C /* BattleItem.pb.m */,
-				29AF48921AAA87800034927C /* EventBattleItem.pb.h */,
-				29AF48931AAA87800034927C /* EventBattleItem.pb.m */,
-				63B0452A1A9D7CD600C74F0C /* EventResearch.pb.h */,
-				63B0452B1A9D7CD600C74F0C /* EventResearch.pb.m */,
-				3E1A0C001A645B4B00DF00AD /* Board.pb.h */,
-				3E1A0C011A645B4B00DF00AD /* Board.pb.m */,
-				3E1A0C021A645B4B00DF00AD /* Research.pb.h */,
-				3E1A0C031A645B4B00DF00AD /* Research.pb.m */,
-				CF4825B019F7549300041486 /* Prerequisite.pb.h */,
-				CF4825B119F7549300041486 /* Prerequisite.pb.m */,
-				CFB97D7C19C14173003ABA66 /* EventItem.pb.h */,
-				CFB97D7D19C14173003ABA66 /* EventItem.pb.m */,
-				CFF412AC19BFE761002672D4 /* Item.pb.h */,
-				CFF412AD19BFE761002672D4 /* Item.pb.m */,
-				DA075FB519AFEA3500E43E5A /* Skill.pb.h */,
-				DA075FB619AFEA3500E43E5A /* Skill.pb.m */,
-				CFFB3B6E19820E8F005D7AF5 /* Dev.pb.h */,
-				CFFB3B6F19820E8F005D7AF5 /* Dev.pb.m */,
-				CFFB3B7019820E8F005D7AF5 /* EventDev.pb.h */,
-				CFFB3B7119820E8F005D7AF5 /* EventDev.pb.m */,
-				CF68906F19145DC300FF1F71 /* EventMiniJob.pb.h */,
-				CF68907019145DC300FF1F71 /* EventMiniJob.pb.m */,
-				CF68907119145DC300FF1F71 /* MiniJobConfig.pb.h */,
-				CF68907219145DC300FF1F71 /* MiniJobConfig.pb.m */,
-				CF68907319145DC300FF1F71 /* SharedEnumConfig.pb.h */,
-				CF68907419145DC300FF1F71 /* SharedEnumConfig.pb.m */,
-				CF6574451909CAF100ABF1F4 /* AchievementStuff.pb.h */,
-				CF6574461909CAF100ABF1F4 /* AchievementStuff.pb.m */,
-				CF6574471909CAF100ABF1F4 /* Battle.pb.h */,
-				CF6574481909CAF100ABF1F4 /* Battle.pb.m */,
-				CF6574491909CAF100ABF1F4 /* BoosterPackStuff.pb.h */,
-				CF65744A1909CAF100ABF1F4 /* BoosterPackStuff.pb.m */,
-				CF65744B1909CAF100ABF1F4 /* Chat.pb.h */,
-				CF65744C1909CAF100ABF1F4 /* Chat.pb.m */,
-				CF65744D1909CAF100ABF1F4 /* City.pb.h */,
-				CF65744E1909CAF100ABF1F4 /* City.pb.m */,
-				CF65744F1909CAF100ABF1F4 /* Clan.pb.h */,
-				CF6574501909CAF100ABF1F4 /* Clan.pb.m */,
-				CF6574511909CAF100ABF1F4 /* EventAchievement.pb.h */,
-				CF6574521909CAF100ABF1F4 /* EventAchievement.pb.m */,
-				CF6574531909CAF100ABF1F4 /* EventApns.pb.h */,
-				CF6574541909CAF100ABF1F4 /* EventApns.pb.m */,
-				CF6574551909CAF100ABF1F4 /* EventBoosterPack.pb.h */,
-				CF6574561909CAF100ABF1F4 /* EventBoosterPack.pb.m */,
-				CF6574571909CAF100ABF1F4 /* EventChat.pb.h */,
-				CF6574581909CAF100ABF1F4 /* EventChat.pb.m */,
-				CF6574591909CAF100ABF1F4 /* EventCity.pb.h */,
-				CF65745A1909CAF100ABF1F4 /* EventCity.pb.m */,
-				CF65745B1909CAF100ABF1F4 /* EventClan.pb.h */,
-				CF65745C1909CAF100ABF1F4 /* EventClan.pb.m */,
-				CF65745D1909CAF100ABF1F4 /* EventDungeon.pb.h */,
-				CF65745E1909CAF100ABF1F4 /* EventDungeon.pb.m */,
-				CF65745F1909CAF100ABF1F4 /* EventInAppPurchase.pb.h */,
-				CF6574601909CAF100ABF1F4 /* EventInAppPurchase.pb.m */,
-				CF6574611909CAF100ABF1F4 /* EventMonster.pb.h */,
-				CF6574621909CAF100ABF1F4 /* EventMonster.pb.m */,
-				CF6574631909CAF100ABF1F4 /* EventPvp.pb.h */,
-				CF6574641909CAF100ABF1F4 /* EventPvp.pb.m */,
-				CF6574651909CAF100ABF1F4 /* EventQuest.pb.h */,
-				CF6574661909CAF100ABF1F4 /* EventQuest.pb.m */,
-				CF6574671909CAF100ABF1F4 /* EventReferral.pb.h */,
-				CF6574681909CAF100ABF1F4 /* EventReferral.pb.m */,
-				CF6574691909CAF100ABF1F4 /* EventStartup.pb.h */,
-				CF65746A1909CAF100ABF1F4 /* EventStartup.pb.m */,
-				CF65746B1909CAF100ABF1F4 /* EventStaticData.pb.h */,
-				CF65746C1909CAF100ABF1F4 /* EventStaticData.pb.m */,
-				CF65746D1909CAF100ABF1F4 /* EventStructure.pb.h */,
-				CF65746E1909CAF100ABF1F4 /* EventStructure.pb.m */,
-				CF65746F1909CAF100ABF1F4 /* EventTournament.pb.h */,
-				CF6574701909CAF100ABF1F4 /* EventTournament.pb.m */,
-				CF6574711909CAF100ABF1F4 /* EventUser.pb.h */,
-				CF6574721909CAF100ABF1F4 /* EventUser.pb.m */,
-				CF6574731909CAF100ABF1F4 /* InAppPurchase.pb.h */,
-				CF6574741909CAF100ABF1F4 /* InAppPurchase.pb.m */,
-				CF6574751909CAF100ABF1F4 /* MonsterStuff.pb.h */,
-				CF6574761909CAF100ABF1F4 /* MonsterStuff.pb.m */,
-				CF6574981909CAF200ABF1F4 /* Protocols.pb.h */,
-				CF6574991909CAF200ABF1F4 /* Protocols.pb.m */,
-				CF65749A1909CAF200ABF1F4 /* Quest.pb.h */,
-				CF65749B1909CAF200ABF1F4 /* Quest.pb.m */,
-				CF65749C1909CAF200ABF1F4 /* StaticData.pb.h */,
-				CF65749D1909CAF200ABF1F4 /* StaticData.pb.m */,
-				CF65749E1909CAF200ABF1F4 /* Structure.pb.h */,
-				CF65749F1909CAF200ABF1F4 /* Structure.pb.m */,
-				CF6574A01909CAF200ABF1F4 /* Task.pb.h */,
-				CF6574A11909CAF200ABF1F4 /* Task.pb.m */,
-				CF6574A21909CAF200ABF1F4 /* TournamentStuff.pb.h */,
-				CF6574A31909CAF200ABF1F4 /* TournamentStuff.pb.m */,
-				CF6574A41909CAF200ABF1F4 /* User.pb.h */,
-				CF6574A51909CAF200ABF1F4 /* User.pb.m */,
+				299298101B44B1F500EB69CA /* Chat Protos */,
+				2992980D1B44B1D600EB69CA /* Game Protos */,
 			);
 			name = "Protocol Buffers";
 			path = ProtocolBuffers;
@@ -24182,6 +24234,7 @@
 				9B9BA8021A73367B001B7D04 /* SkillConfusion.m in Sources */,
 				9BC9F3401A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */,
 				291A71ED1AEEEBDF00514D80 /* ReconnectViewController.m in Sources */,
+				299298221B44B2C600EB69CA /* Chat_info.pb.m in Sources */,
 				6BBBBFC01ABB7BD8006656C7 /* SkillChill.m in Sources */,
 				CF0CED1A196F452900ECD301 /* GenericPopupController.m in Sources */,
 				9BC9F3461A8C1420009DC3D5 /* SkillSideEffectBuff.m in Sources */,
@@ -24396,6 +24449,7 @@
 				CF0CEDAC196F452900ECD301 /* Quest.pb.m in Sources */,
 				CF0CEDAE196F452900ECD301 /* EventReferral.pb.m in Sources */,
 				9BB9485A1A674935006EE920 /* NewGachaTicker.m in Sources */,
+				2992981F1B44B2C600EB69CA /* Chat_event.pb.m in Sources */,
 				CFA9F7CD1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
 				9BB5AF9A1AA7B6AA002076E3 /* BoardDesignerObstacleView.m in Sources */,
 				CF0CEDB2196F452900ECD301 /* RewardsView.m in Sources */,
@@ -24433,6 +24487,7 @@
 				CF0CEDC6196F452900ECD301 /* MenuNavigationController.m in Sources */,
 				CF0CEDC7196F452900ECD301 /* PersistentEventProto+Time.m in Sources */,
 				9B41AE821A7824AA00529879 /* SkillKnockout.m in Sources */,
+				2992981C1B44B2C600EB69CA /* Api.pb.m in Sources */,
 				9BB5AF691AA661BA002076E3 /* BoardDesignerViewController.m in Sources */,
 				CF0CEDC8196F452900ECD301 /* ClanRaidListViewController.m in Sources */,
 				CF0CEDC9196F452900ECD301 /* ClanBrowseViewController.m in Sources */,
@@ -24717,6 +24772,7 @@
 				CFFB3B7219820E8F005D7AF5 /* Dev.pb.m in Sources */,
 				29A2FC5B1A4EB67B00FF93B6 /* BoardLayoutProto+Properties.m in Sources */,
 				CF7063FD183F5110005B30A1 /* HomeBuilding.m in Sources */,
+				299298211B44B2C600EB69CA /* Chat_info.pb.m in Sources */,
 				9BDA8B481A3A481300C7AC27 /* SkillShuffle.m in Sources */,
 				CF32EAF3195FFA6400A4AEE3 /* ShopViewController.m in Sources */,
 				9BBE37261B028E30001A0E81 /* GrabTokenItemsFiller.m in Sources */,
@@ -24798,6 +24854,7 @@
 				298708371AC3415D002BFF2E /* ResearchController.m in Sources */,
 				CF6574B21909CAF200ABF1F4 /* EventDungeon.pb.m in Sources */,
 				CF6574A61909CAF200ABF1F4 /* AchievementStuff.pb.m in Sources */,
+				2992981B1B44B2C600EB69CA /* Api.pb.m in Sources */,
 				6B3BC16D1A8BC68E00E0D457 /* SkillPoisonSkewer.m in Sources */,
 				CF48259A19F729D000041486 /* PPEmitterView.m in Sources */,
 				CFF3913C182A10CD0010A3BE /* DBFBProfilePictureView.m in Sources */,
@@ -24816,6 +24873,7 @@
 				9B41AF441A8058FC00529879 /* SkillEnergize.m in Sources */,
 				CFE0DAEE177AE26E00A3CEF7 /* GameState.m in Sources */,
 				9BC9F34A1A8C143B009DC3D5 /* SkillSideEffectNerf.m in Sources */,
+				2992981E1B44B2C600EB69CA /* Chat_event.pb.m in Sources */,
 				CF32EAF91960A9DD00A4AEE3 /* BuildingViewController.m in Sources */,
 				CFBF02D617C2F68D0082A9BF /* MenuNavigationController.m in Sources */,
 				CFC04D55188FAF8200F2DB59 /* PersistentEventProto+Time.m in Sources */,
@@ -24957,6 +25015,7 @@
 				CF4818C019F7217F00041486 /* EasyTableView.m in Sources */,
 				9B9BA8031A73367B001B7D04 /* SkillConfusion.m in Sources */,
 				291A71EE1AEEEBDF00514D80 /* ReconnectViewController.m in Sources */,
+				299298231B44B2C600EB69CA /* Chat_info.pb.m in Sources */,
 				9BC9F3411A8C12AF009DC3D5 /* SkillSideEffect.m in Sources */,
 				6BBBBFC11ABB7BD8006656C7 /* SkillChill.m in Sources */,
 				CF4818C119F7217F00041486 /* GenericPopupController.m in Sources */,
@@ -25171,6 +25230,7 @@
 				CF48195919F7217F00041486 /* MiniJobsCompleteViewController.m in Sources */,
 				CF48195A19F7217F00041486 /* Quest.pb.m in Sources */,
 				CF48195C19F7217F00041486 /* EventReferral.pb.m in Sources */,
+				299298201B44B2C600EB69CA /* Chat_event.pb.m in Sources */,
 				9BB9485B1A674935006EE920 /* NewGachaTicker.m in Sources */,
 				CFA9F7CE1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
 				9BB5AF9B1AA7B6AA002076E3 /* BoardDesignerObstacleView.m in Sources */,
@@ -25208,6 +25268,7 @@
 				CF48197419F7217F00041486 /* MenuNavigationController.m in Sources */,
 				CF48197519F7217F00041486 /* PersistentEventProto+Time.m in Sources */,
 				9B41AE831A7824AA00529879 /* SkillKnockout.m in Sources */,
+				2992981D1B44B2C600EB69CA /* Api.pb.m in Sources */,
 				9BB5AF6A1AA661BA002076E3 /* BoardDesignerViewController.m in Sources */,
 				CF48197619F7217F00041486 /* ClanRaidListViewController.m in Sources */,
 				CF48197719F7217F00041486 /* ClanBrowseViewController.m in Sources */,
