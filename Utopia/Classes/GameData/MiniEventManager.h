@@ -53,7 +53,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(MiniEventManager)
 - (void) checkAvengeWin;
 - (void) checkAvengeRequest;
 - (void) checkClanHelp:(int)amount;
-- (void) checkClanDonate;
+- (void) checkClanDonate:(uint64_t)strength;
 - (void) checkBoosterPack:(int)boosterPackId multiSpin:(BOOL)multiSpin;
 
 - (void) checkEnhanceStrengthGained:(int)strengthGained;

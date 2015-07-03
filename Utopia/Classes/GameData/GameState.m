@@ -24,7 +24,7 @@
 #import "StaticStructure.h"
 #import "MiniEventManager.h"
 
-#define TagLog(...) //LNLog(__VA_ARGS__)
+#define TagLog(...) LNLog(__VA_ARGS__)
 
 #define PURGE_EQUIP_KEY @"Purge Equip Images"
 
@@ -1586,6 +1586,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
         [update undo];
       }
       [updates addObject:update];
+      
+      if (tag == 0) {
+        LNLog(@"WARNING: Found update with tag 0. Undoing anyway..");
+      }
+    } else if (update.tag < tag) {
+      LNLog(@"WARNING: Found tag id for value lower than current tag (%@). Cleanup not done right.", NSStringFromClass([update class]));
     }
   }
   
@@ -1593,9 +1599,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [_unrespondedUpdates removeObject:update];
     TagLog(@"Removed and undid %@ for tag %d", NSStringFromClass([update class]), update.tag);
     
-    if (update.tag < tag) {
-      LNLog(@"WARNING: Found tag id for value lower than current tag (%@). Cleanup not done right.", NSStringFromClass([update class]));
-    }
+    
   }
 }
 

@@ -169,3 +169,19 @@
 }
 
 @end
+
+@implementation StrengthUpdate
+
+- (void) update {
+  GameState *gs = [GameState sharedGameState];
+  gs.totalStrength += _change;
+}
+
+- (void) undo {
+  GameState *gs = [GameState sharedGameState];
+  gs.totalStrength -= _change;
+  
+  [super undo];
+}
+
+@end

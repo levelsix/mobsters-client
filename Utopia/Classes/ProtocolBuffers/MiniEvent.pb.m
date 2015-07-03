@@ -956,6 +956,7 @@ BOOL MiniEventGoalProto_MiniEventGoalTypeIsValidValue(MiniEventGoalProto_MiniEve
     case MiniEventGoalProto_MiniEventGoalTypeClanHelp:
     case MiniEventGoalProto_MiniEventGoalTypeClanDonate:
     case MiniEventGoalProto_MiniEventGoalTypeSendClanGift:
+    case MiniEventGoalProto_MiniEventGoalTypeDonateToonStrength:
     case MiniEventGoalProto_MiniEventGoalTypeBattleAvengeRequest:
     case MiniEventGoalProto_MiniEventGoalTypeBattleAvengeWin:
     case MiniEventGoalProto_MiniEventGoalTypeBattleRevengeWin:

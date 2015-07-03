@@ -116,7 +116,8 @@
       }
       
       if (gs.gems >= [item costToPurchase]) {
-        [gs changeFakeGemTotal:-[item costToPurchase]];
+        // No need to use fake gem total since speedups aren't queued up
+        //[gs changeFakeGemTotal:-[item costToPurchase]];
       } else {
         [GenericPopupController displayNotEnoughGemsView];
         return;

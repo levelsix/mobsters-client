@@ -2042,6 +2042,9 @@
     self.myPlayerObject = nil;
     [self.orbLayer disallowInput];
     [self removeButtons];
+    
+    // Running away never allows you to continue
+    self.shouldShowContinueButton = NO;
   }
 }
 

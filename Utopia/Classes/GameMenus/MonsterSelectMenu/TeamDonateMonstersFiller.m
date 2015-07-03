@@ -125,7 +125,8 @@
     } else {
       [[OutgoingEventController sharedOutgoingEventController] fulfillClanTeamDonation:um solicitation:self.donation];
       
-      [[MiniEventManager sharedInstance] checkClanDonate];
+      Globals *gl = [Globals sharedGlobals];
+      [[MiniEventManager sharedInstance] checkClanDonate:[gl calculateStrengthForMonster:um]];
       
       [self.delegate monsterChosen];
     }

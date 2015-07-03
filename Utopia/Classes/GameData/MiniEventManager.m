@@ -445,8 +445,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MiniEventManager)
   [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeClanHelp withAmount:amount];
 }
 
-- (void) checkClanDonate {
+- (void) checkClanDonate:(uint64_t)strength {
   [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeClanDonate withAmount:1];
+  [self handleUserProgressOnMiniEventGoal:MiniEventGoalProto_MiniEventGoalTypeDonateToonStrength withAmount:(int)strength];
 }
 
 - (void) checkBoosterPack:(int)boosterPackId multiSpin:(BOOL)multiSpin {

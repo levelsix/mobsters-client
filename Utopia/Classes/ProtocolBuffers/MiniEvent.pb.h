@@ -112,6 +112,7 @@ typedef NS_ENUM(SInt32, MiniEventGoalProto_MiniEventGoalType) {
   MiniEventGoalProto_MiniEventGoalTypeClanHelp = 11,
   MiniEventGoalProto_MiniEventGoalTypeClanDonate = 12,
   MiniEventGoalProto_MiniEventGoalTypeSendClanGift = 38,
+  MiniEventGoalProto_MiniEventGoalTypeDonateToonStrength = 46,
   MiniEventGoalProto_MiniEventGoalTypeBattleAvengeRequest = 13,
   MiniEventGoalProto_MiniEventGoalTypeBattleAvengeWin = 14,
   MiniEventGoalProto_MiniEventGoalTypeBattleRevengeWin = 15,

@@ -887,11 +887,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   if (newStrength > 0) {
-    [[SocketCommunication sharedSocketCommunication] sendUpdateUserStrengthMessage:newStrength highestToonAtk:highestToonAtk highestToonHp:highestToonHp];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserStrengthMessage:newStrength highestToonAtk:highestToonAtk highestToonHp:highestToonHp];
+    [gs addUnrespondedUpdate:[StrengthUpdate updateWithTag:tag change:(int)(newStrength-gs.totalStrength)]];
     
     LNLog(@"Updating total strength to %@, highest toon atk to %@, highest toon hp to %@", [Globals commafyNumber:newStrength], [Globals commafyNumber:highestToonAtk], [Globals commafyNumber:highestToonHp]);
-    
-    gs.totalStrength = newStrength;
   }
 }
 
@@ -1673,7 +1672,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       ui.quantity--;
     }
     
-    [[SocketCommunication sharedSocketCommunication] tradeItemForSpeedups:uiups gemsSpent:gemsSpent updatedUserItem:[ui toProto]];
+    int tag = [[SocketCommunication sharedSocketCommunication] tradeItemForSpeedups:uiups gemsSpent:gemsSpent updatedUserItem:[ui toProto]];
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemsSpent]];
     
     [gs.itemUtil addToMyItemUsages:uiups];
     

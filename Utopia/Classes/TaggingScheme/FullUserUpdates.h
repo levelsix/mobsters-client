@@ -47,3 +47,6 @@
 
 @interface LastSecretGiftUpdate : FullUserUpdate
 @end
+
+@interface StrengthUpdate : FullUserUpdate
+@end

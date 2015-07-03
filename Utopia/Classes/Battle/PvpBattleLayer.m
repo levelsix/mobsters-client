@@ -424,6 +424,10 @@
 - (void) startMatchClicked {
   if (!self.queueNode.userInteractionEnabled) return;
   
+  if (_clanAvenging) {
+    [[OutgoingEventController sharedOutgoingEventController] queueUpForClanAvenge:_clanAvenging delegate:nil];
+  }
+  
   PvpProto *pvp = self.defendersList[_curQueueNum];
   [[OutgoingEventController sharedOutgoingEventController] beginPvpBattle:pvp isRevenge:_isRevenge previousBattleTime:_prevBattleStartTime];
   

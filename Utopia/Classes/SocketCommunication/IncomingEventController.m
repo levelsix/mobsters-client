@@ -2639,7 +2639,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   if (proto.status == ResponseStatusSuccess) {
   } else {
+#ifndef APPSTORE
     [Globals popupMessage:@"Server failed to retrieve mini event."];
+#endif
   }
 }
 
