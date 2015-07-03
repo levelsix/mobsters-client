@@ -273,7 +273,7 @@
   _damageMultiplier = [CCLabelTTF labelWithString:@"1x" fontName:@"Gotham-Ultra" fontSize:10.f];
   _damageMultiplier.position = CGPointMake(28.f / 33.f, 6.5f / 34.f);
   _damageMultiplier.positionType = CCPositionTypeNormalized;
-  _damageMultiplier.fontColor = [CCColor colorWithUIColor:[UIColor colorWithHexString:@"e2643d"]];
+  _damageMultiplier.fontColor =  [CCColor colorWithUIColor:[Globals colorForElementOnLightBackground:(Element)_orb.orbColor]];
   _damageMultiplier.outlineColor = [CCColor whiteColor];
   _damageMultiplier.shadowOffset = ccp(0.f, -1.f);
   _damageMultiplier.shadowColor = [CCColor colorWithWhite:0.f alpha:0.75f];
@@ -287,7 +287,32 @@
   pfx.position = CGPointMake(28.f / 33.f, 6.5f / 34.f);
   pfx.positionType = CCPositionTypeNormalized;
   pfx.scale = .6f;
+  pfx.startColor = pfx.endColor = [self particleColorForMultiplier];
   [_orbSprite addChild:pfx];
+}
+
+- (CCColor*) particleColorForMultiplier
+{
+  switch (_orb.orbColor) {
+    case OrbColorFire:
+      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"e2643d"]];
+      break;
+    case OrbColorWater:
+      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"00ffff"]];
+      break;
+    case OrbColorEarth:
+      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"00ff09"]];
+      break;
+    case OrbColorDark:
+      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"d400ff"]];
+      break;
+    case OrbColorLight:
+      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"fff500"]];
+      break;
+    default:
+      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"ffffff"]];
+      break;
+  }
 }
 
 #pragma mark - Helpers
