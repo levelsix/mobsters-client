@@ -15,6 +15,9 @@
 
 #define DISAPPEAR_ROTATION_ANGLE M_PI/3
 
+#define DISAPPEAR_BOTTOM_Y ([Globals isiPad] ? 575.f : 350.f)
+#define DISAPPEAR_BOTTOM_X ([Globals isiPad] ? 105.f : 75.f)
+
 @implementation GenericPopupController
 
 - (void) viewDidLoad {
@@ -108,6 +111,10 @@
   [gp.confOkayButton setImage:[Globals imageNamed:@"orangemenuoption.png"] forState:UIControlStateNormal];
   gp.titleBgd.image = [Globals imageNamed:@"orangenotificationheader.png"];
   
+  //iPad version of header
+  gp.titleBgdLeft.image = gp.titleBgdRight.image = [Globals imageNamed:@"orangenotificationheadercap.png"];
+  gp.titleBgdMiddle.image = [Globals imageNamed:@"orangenotificationheadermiddle.png"];
+  
   gp.confOkayButtonLabel.textColor = [UIColor colorWithRed:193/255.f green:38/255.f blue:12/255.f alpha:1.f];
   gp.confOkayButtonLabel.shadowColor = [UIColor colorWithRed:250/255.f green:199/255.f blue:72/255.f alpha:0.75f];
   
@@ -129,6 +136,10 @@
   
   [gp.notifButton setImage:[Globals imageNamed:@"purplemenuoption.png"] forState:UIControlStateNormal];
   gp.titleBgd.image = [Globals imageNamed:@"purplenotificationheader.png"];
+  
+  //iPad version of header
+  gp.titleBgdLeft.image = gp.titleBgdRight.image = [Globals imageNamed:@"purplenotificationheadercap.png"];
+  gp.titleBgdMiddle.image = [Globals imageNamed:@"purplenotificationheadermiddle.png"];
   
   gp.notifButtonLabel.textColor = [UIColor whiteColor];
   gp.notifButtonLabel.shadowColor = [UIColor colorWithRed:40/255.f green:0/255.f blue:100/255.f alpha:0.75f];
@@ -152,6 +163,11 @@
   
   gp.titleLabel.text = title;
   gp.titleBgd.image = [Globals imageNamed:@"purplenotificationheader.png"];
+  
+  //iPad version of header
+  gp.titleBgdLeft.image = gp.titleBgdRight.image = [Globals imageNamed:@"purplenotificationheadercap.png"];
+  gp.titleBgdMiddle.image = [Globals imageNamed:@"purplenotificationheadermiddle.png"];
+  
   [gp setDescriptionString:description];
   gp.gemButtonLabel.text = [Globals commafyNumber:gemCost];
   [Globals adjustViewForCentering:gp.gemButtonLabel.superview withLabel:gp.gemButtonLabel];
@@ -187,7 +203,7 @@
     t = CGAffineTransformScale(t, 0.75f, 0.75f);
     t = CGAffineTransformRotate(t, DISAPPEAR_ROTATION_ANGLE);
     self.mainView.transform = t;
-    self.mainView.center = CGPointMake(self.mainView.center.x-70, self.mainView.center.y+350);
+    self.mainView.center = CGPointMake(self.mainView.center.x-DISAPPEAR_BOTTOM_X, self.mainView.center.y+DISAPPEAR_BOTTOM_Y);
     self.bgdView.alpha = 0.f;
   } completion:^(BOOL finished) {
     [self removeView];
