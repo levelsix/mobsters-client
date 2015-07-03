@@ -15,11 +15,11 @@
             <rect key="frame" x="0.0" y="0.0" width="864" height="95"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G6r-Iw-eoM" id="uJR-w2-FZo">
-                <rect key="frame" x="0.0" y="0.0" width="864" height="94"/>
+                <rect key="frame" x="0.0" y="0.0" width="864" height="94.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="CsU-A7-Vym">
-                        <rect key="frame" x="0.0" y="0.0" width="864" height="96"/>
+                        <rect key="frame" x="0.0" y="0.0" width="864" height="97"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -51,16 +51,16 @@
                                         <nil key="highlightedColor"/>
                                         <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
-                                    <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="t9y-kY-Obl" customClass="MiniMonsterView">
-                                        <rect key="frame" x="0.0" y="0.0" width="72" height="70"/>
+                                    <view tag="1" contentMode="scaleToFill" id="t9y-kY-Obl" customClass="MiniMonsterView">
+                                        <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="NKg-7a-rFP">
-                                                <rect key="frame" x="0.0" y="0.0" width="72" height="70"/>
+                                            <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" id="NKg-7a-rFP">
+                                                <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="LBT-Mg-Ohn">
-                                                <rect key="frame" x="0.0" y="0.0" width="72" height="70"/>
+                                            <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="LBT-Mg-Ohn">
+                                                <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             </imageView>
                                         </subviews>
@@ -78,7 +78,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="Jvc-LR-ZDq" customClass="SplitImageProgressBar">
-                                        <rect key="frame" x="0.0" y="41" width="207" height="21"/>
+                                        <rect key="frame" x="0.0" y="39" width="207" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                         <subviews>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarbgcap.png" id="HO3-iw-n0f">
@@ -102,7 +102,7 @@
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" id="NOy-N3-vPY" customClass="SplitImageProgressBar">
-                                        <rect key="frame" x="0.0" y="41" width="207" height="21"/>
+                                        <rect key="frame" x="0.0" y="39" width="207" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                         <subviews>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="itembarbluebarcurrentcap.png" id="Mjw-Ql-HPU">
@@ -126,7 +126,7 @@
                                         </connections>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="HP:155" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="27I-aT-Tz6" customClass="NiceFontLabel9">
-                                        <rect key="frame" x="0.0" y="5" width="200" height="25"/>
+                                        <rect key="frame" x="0.0" y="7" width="200" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -141,7 +141,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="zfo-yM-pP3" customClass="SplitImageProgressBar">
-                                        <rect key="frame" x="0.0" y="41" width="207" height="21"/>
+                                        <rect key="frame" x="0.0" y="39" width="207" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                         <subviews>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebarbgcap.png" id="ptg-su-tIP">
@@ -165,7 +165,7 @@
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" id="Nzd-Q9-iEk" customClass="SplitImageProgressBar">
-                                        <rect key="frame" x="0.0" y="41" width="207" height="21"/>
+                                        <rect key="frame" x="0.0" y="39" width="207" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                         <subviews>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="itembarredbarcurrentcap.png" id="55o-ub-PhH">
@@ -189,7 +189,7 @@
                                         </connections>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="ATTACK: 20" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jFB-Ed-V7r" customClass="NiceFontLabel9">
-                                        <rect key="frame" x="0.0" y="5" width="200" height="25"/>
+                                        <rect key="frame" x="0.0" y="7" width="200" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>

@@ -22,7 +22,7 @@
 #define DESCRIPTION_HEADER_NAME @"EvolveDescriptionHeaderView"
 
 #define HEADER_SIZE ([Globals isiPad] ? 35.f : 25.f)
-#define DESCRIPTION_HEADER_SIZE ([Globals isiPad] ? 104.f : 77.f)
+#define DESCRIPTION_HEADER_SIZE ([Globals isiPad] ? 102.f : 77.f)
 
 @implementation EvolveChooserViewController
 
@@ -95,10 +95,21 @@
   [self.parentViewController pushViewController:eqvc animated:YES];
 }
 
+- (IBAction) bottomBarPress:(id)sender {
+  self.bottomBarLeft.highlighted = self.bottomBarMiddle.highlighted = self.bottomBarRight.highlighted = YES;
+}
+
+- (IBAction) bottomBarRelease:(id)sender {
+  self.bottomBarLeft.highlighted = self.bottomBarMiddle.highlighted = self.bottomBarRight.highlighted = NO;
+}
+
 - (void) updateLabels {
   GameState *gs = [GameState sharedGameState];
   int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
-  self.timeLeftLabel.text = [NSString stringWithFormat:@"Time Left: %@", [Globals convertTimeToShortString:timeLeft]];
+  if ([Globals isiPad])
+    self.timeLeftLabel.text = [NSString stringWithFormat:@"Time Left: %@", [[Globals convertTimeToShortString:timeLeft] uppercaseString]];
+  else
+    self.timeLeftLabel.text = [NSString stringWithFormat:@"Time Left: %@", [Globals convertTimeToShortString:timeLeft]];
   
   DailyEventCornerView *cv = (DailyEventCornerView *)self.leftCornerView;
   [cv updateLabels];

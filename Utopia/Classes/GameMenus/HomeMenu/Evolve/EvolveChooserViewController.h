@@ -22,6 +22,11 @@
 @property (nonatomic, retain) IBOutlet UIView *enhancingView;
 @property (nonatomic, retain) IBOutlet UIButton *bottomBarButton;
 
+//iPad ONLY
+@property (nonatomic, retain) IBOutlet UIImageView *bottomBarRight;
+@property (nonatomic, retain) IBOutlet UIImageView *bottomBarLeft;
+@property (nonatomic, retain) IBOutlet UIImageView *bottomBarMiddle;
+
 @property (nonatomic, retain) IBOutlet UICollectionView *collectionView;
 
 @property (nonatomic, retain) NSArray *evoItems;

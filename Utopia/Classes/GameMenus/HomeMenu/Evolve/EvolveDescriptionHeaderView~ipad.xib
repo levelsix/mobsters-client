@@ -12,7 +12,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="bsN-Yc-ub9" userLabel="bgd">
-                    <rect key="frame" x="6" y="16" width="864" height="88"/>
+                    <rect key="frame" x="9" y="16" width="861" height="88"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cantevolvecap.png" id="Flb-e8-EYy">
@@ -20,32 +20,32 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cantevolvecap.png" id="ytG-Ub-5hz" customClass="FlipImageView">
-                            <rect key="frame" x="850" y="0.0" width="14" height="88"/>
+                            <rect key="frame" x="847" y="0.0" width="14" height="88"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cantevolvemiddle.png" id="rtt-so-gIe">
-                            <rect key="frame" x="14" y="0.0" width="836" height="88"/>
+                            <rect key="frame" x="14" y="0.0" width="833" height="88"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="e4E-3q-PVI">
-                    <rect key="frame" x="3" y="16" width="800" height="67"/>
+                    <rect key="frame" x="3" y="16" width="800" height="88"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="You have no mobsters ready to evolve :(" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SQM-cn-ySX" customClass="NiceFontLabel12">
-                            <rect key="frame" x="119" y="4" width="285" height="29"/>
+                            <rect key="frame" x="135" y="16" width="500" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" text="You need 2 identical mobsters (1 Max Level) and a Scientist of their element to evolve" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="I5G-Sm-RTd" customClass="NiceFontLabel9">
-                            <rect key="frame" x="119" y="23" width="600" height="27"/>
+                            <rect key="frame" x="135" y="45" width="600" height="27"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
@@ -53,7 +53,7 @@
                     </subviews>
                 </view>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="girl3.png" id="yfw-Cl-vqZ">
-                    <rect key="frame" x="20" y="3" width="86" height="104"/>
+                    <rect key="frame" x="20" y="0.0" width="86" height="104"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
             </subviews>

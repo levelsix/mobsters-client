@@ -25,10 +25,25 @@
                     <rect key="frame" x="6" y="349" width="858" height="88"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="enhancebottom.png" id="P7z-Gc-Elg">
+                        <view contentMode="scaleToFill" id="XWo-ZP-tHi" userLabel="bgd view">
                             <rect key="frame" x="0.0" y="0.0" width="858" height="88"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                        </imageView>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="functionalhomemenubottombarcap.png" id="coQ-gg-QxV">
+                                    <rect key="frame" x="0.0" y="0.0" width="14" height="88"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="functionalhomemenubottombarcap.png" id="JxS-sZ-R5b" customClass="FlipImageView">
+                                    <rect key="frame" x="844" y="0.0" width="14" height="88"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="functionalhomemenubottombarmiddle.png" id="1LY-5i-TPn">
+                                    <rect key="frame" x="14" y="0.0" width="830" height="88"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="1rT-ZW-XEF">
                             <rect key="frame" x="6" y="0.0" width="858" height="88"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -71,7 +86,8 @@
         </view>
     </objects>
     <resources>
-        <image name="enhancebottom.png" width="424" height="60"/>
+        <image name="functionalhomemenubottombarcap.png" width="424" height="60"/>
+        <image name="functionalhomemenubottombarmiddle.png" width="424" height="60"/>
         <image name="girl1.png" width="71" height="88"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
