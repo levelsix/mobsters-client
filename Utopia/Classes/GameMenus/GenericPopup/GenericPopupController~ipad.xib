@@ -244,7 +244,7 @@
         <image name="closepopupx.png" width="25" height="26"/>
         <image name="diamond.png" width="28" height="28"/>
         <image name="greenmenuoption.png" width="80" height="40"/>
-        <image name="greennotificationheadercap.png" width="243" height="39"/>
+        <image name="greennotificationheadercap.png" width="1" height="1"/>
         <image name="greennotificationheadermiddle.png" width="243" height="39"/>
         <image name="greymenuoption.png" width="80" height="40"/>
         <image name="purplemenuoption.png" width="80" height="40"/>
