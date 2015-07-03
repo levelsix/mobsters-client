@@ -15,9 +15,8 @@
 #import "GameState.h"
 #import "GameViewController.h"
 
-//#define LOWEST_LABEL_BOT_POINT 20.f
 #define FIRST_AVATAR_OFFSET 14.f
-#define TEXT_BUFFER_FROM_AVATAR 21.f
+#define TEXT_BUFFER_FROM_AVATAR ([Globals isiPad] ? 42.f : 21.f)
 #define MAX_AVATAR_COUNT 5
 #define AVATAR_VERTICAL_OFFSET 2.f
 

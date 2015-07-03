@@ -38,8 +38,11 @@
   
   TopBarViewController *tvc = [[GameViewController baseController] topBarViewController];
   [tvc.view insertSubview:self aboveSubview:tvc.expView];
-  self.originX = tvc.expView.originX;
-  self.originY = CGRectGetMaxY(tvc.expView.frame)-8.f;
+  if (self.width > tvc.expView.width)
+    self.originX = tvc.expView.originX;
+  else
+    self.centerX = tvc.expView.centerX;
+  self.originY = CGRectGetMaxY(tvc.expView.frame)-([Globals isiPad]?3.f:8.f);
   
   [Globals bounceView:self fadeInBgdView:nil anchorPoint:ccp((61.f/self.width), 0.f) completion:^(BOOL success) {
     [self performSelector:@selector(end) withObject:nil afterDelay:3.f];

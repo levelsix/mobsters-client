@@ -10,12 +10,12 @@
 #import "Globals.h"
 #import "SoundEngine.h"
 
-#define LOWEST_LABEL_BOT_POINT 35.f
+#define LOWEST_LABEL_BOT_POINT ([Globals isiPad] ? 50.f : 35.f)
 
 @implementation MiniEventGoalNotificationView
 
 - (void) updateForGoalString:(NSString *)goalStr pointsStr:(NSString *)pointsStr image:(NSString *)img {
-  self.layer.cornerRadius = 7.f;
+  self.layer.cornerRadius = [Globals isiPad] ? 14.f : 7.f;
   
   NSString *str = [NSString stringWithFormat:@"%@: %@", goalStr, pointsStr];
   NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:str];
