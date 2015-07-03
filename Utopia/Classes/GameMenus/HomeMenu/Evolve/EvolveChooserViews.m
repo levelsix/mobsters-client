@@ -11,13 +11,14 @@
 #import "Globals.h"
 
 #define SCIENTIST_SPACING ([Globals isiPad] ? 18.f : 5.f)
+#define NAME_Y_BUFFER ([Globals isiPad] ? 5.f : 0.f)
 
 @implementation EvolveCardCell
 
 - (void) awakeFromNib {
   [self.topContainer.monsterCardView.nameLabel removeFromSuperview];
   UILabel *nameLabel = self.botContainer.monsterCardView.nameLabel;
-  nameLabel.center = ccp(self.frame.size.width/2-self.botContainer.frame.origin.x, nameLabel.center.y);
+  nameLabel.center = ccp(self.frame.size.width/2-self.botContainer.frame.origin.x, nameLabel.center.y + NAME_Y_BUFFER);
   self.topContainer.monsterCardView.nameLabel = nameLabel;
   self.botContainer.monsterCardView.nameLabel = nil;
   
