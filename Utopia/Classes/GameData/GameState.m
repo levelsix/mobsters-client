@@ -24,7 +24,7 @@
 #import "StaticStructure.h"
 #import "MiniEventManager.h"
 
-#define TagLog(...) LNLog(__VA_ARGS__)
+#define TagLog(...) //LNLog(__VA_ARGS__)
 
 #define PURGE_EQUIP_KEY @"Purge Equip Images"
 

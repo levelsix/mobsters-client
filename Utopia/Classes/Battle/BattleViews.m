@@ -110,7 +110,7 @@
   }
   
   if (showsReplay) {
-    self.shareButton.title = @"REPLAY";
+    self.shareButton.title = @"RE-ENTER";
   }
   
   
