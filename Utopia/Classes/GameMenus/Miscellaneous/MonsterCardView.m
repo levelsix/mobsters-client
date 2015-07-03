@@ -278,7 +278,7 @@ static UIImage *img = nil;
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale {
   NSString *file = [imgPrefix stringByAppendingString:@"Card.png"];
   [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  file = [Globals imageNameForElement:element suffix:@"avatar.png"];
+  file = [Globals imageNameForElement:element suffix:[Globals isiPad] ? @"bigavatar.png" : @"avatar.png"];
   [Globals imageNamed:file withView:self.bgdIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
