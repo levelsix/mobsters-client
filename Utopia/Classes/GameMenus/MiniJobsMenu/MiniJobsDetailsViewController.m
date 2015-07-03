@@ -207,10 +207,7 @@
   //self.hpLabel.highlighted = totalHp >= reqHp;
   //self.attackLabel.highlighted = totalAtk >= reqAtk;
   
-  if ([Globals isiPad])
-    self.timeLabel.text = [[Globals convertTimeToShorterString:self.userMiniJob.durationSeconds] uppercaseString];
-  else
-    self.timeLabel.text = [Globals convertTimeToMediumString:self.userMiniJob.durationSeconds];
+  self.timeLabel.text = [[Globals convertTimeToMediumString:self.userMiniJob.durationSeconds] uppercaseString];
   
   int maxAllowed = self.userMiniJob.miniJob.maxNumMonstersAllowed;
   self.slotsAvailableLabel.text = [NSString stringWithFormat:@"%d Slot%@ Available", maxAllowed, maxAllowed == 1 ? @"" : @"s"];
