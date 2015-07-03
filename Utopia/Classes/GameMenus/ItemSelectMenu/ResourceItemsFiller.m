@@ -170,6 +170,9 @@
       [self.delegate resourceItemUsed:io viewController:viewController];
     } else {
       if ([self currentAmount] >= _requiredAmount) {
+        GameState *gs = [GameState sharedGameState];
+        [gs disableFakeGemTotal];
+        
         [self.delegate resourceItemsUsed:self.usedItems];
         [viewController closeClicked:nil];
       } else {
@@ -182,6 +185,9 @@
     if (!_accumulate) {
       [self.delegate resourceItemUsed:io viewController:viewController];
     } else {
+      GameState *gs = [GameState sharedGameState];
+      [gs disableFakeGemTotal];
+      
       [self.delegate resourceItemsUsed:self.usedItems];
       [viewController closeClicked:nil];
     }
@@ -198,8 +204,6 @@
 }
 
 - (void) itemSelectClosed:(id)viewController {
-  GameState *gs = [GameState sharedGameState];
-  [gs disableFakeGemTotal];
   [self.delegate itemSelectClosed:viewController];
 }
 

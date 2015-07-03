@@ -29,29 +29,36 @@
   BOOL _canSendPreDbEvents;
   BOOL _purposefulClose;
   
-  BOOL _healingQueuePotentiallyChanged;
   int _healingQueueCashChange;
   int _healingQueueGemCost;
+  int _healTagNum;
   
-  BOOL _battleItemQueuePotentiallyChanged;
   int _battleItemQueueCashChange;
   int _battleItemQueueOilChange;
   int _battleItemQueueGemCost;
+  int _battleItemTagNum;
   
   NSMutableArray *_speedupItemUsages;
   NSMutableArray *_speedupUpdatedUserItems;
   int _speedupGems;
+  int _speedupItemTagNum;
   
   NSMutableArray *_resourceItemIdsUsed;
   NSMutableArray *_resourceUpdatedUserItems;
   int _resourceGems;
+  int _resourceItemTagNum;
+  
+  NSData *_latestTaskClientState;
+  int _taskClientStateTagNum;
+  
+  NSMutableDictionary *_updatedUserMiniEventGoals;
+  int _miniEventGoalsTagNum;
+  
+  int _structRetrievalTagNum;
   
   NSDate *_lastFlushedTime;
   BOOL _pauseFlushTimer;
   
-  NSData *_latestTaskClientState;
-  
-  NSMutableDictionary *_updatedUserMiniEventGoals;
 }
 
 @property (nonatomic, retain) SRWebSocket *webSocket;
