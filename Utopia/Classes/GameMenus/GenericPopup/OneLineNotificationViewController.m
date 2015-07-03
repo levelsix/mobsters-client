@@ -10,7 +10,7 @@
 #import "Globals.h"
 #import "SoundEngine.h"
 
-#define LOWEST_LABEL_BOT_POINT 20.f
+#define LOWEST_LABEL_BOT_POINT ([Globals isiPad] ? 30.f : 20.f)
 
 @implementation OneLineNotificationView
 
