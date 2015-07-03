@@ -18,19 +18,19 @@
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="j41-xs-mlv" userLabel="Monster Image">
-                    <rect key="frame" x="4" y="218" width="155" height="65.000000084439918"/>
+                    <rect key="frame" x="4" y="218" width="155" height="65.000000422075644"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                     <subviews>
                         <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="detailshadow.png" id="EKv-Ng-RX2">
-                            <rect key="frame" x="0.0" y="2" width="155" height="70.000000084439918"/>
+                            <rect key="frame" x="0.0" y="2" width="155" height="70.000000422075644"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
                         <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" id="BDg-CX-uHn">
-                            <rect key="frame" x="-34" y="0.0" width="228" height="65.000000084439918"/>
+                            <rect key="frame" x="-34" y="0.0" width="228" height="65.000000422075644"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
                         <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" id="agZ-jh-jpm">
-                            <rect key="frame" x="-34" y="0.0" width="228" height="65.000000084439918"/>
+                            <rect key="frame" x="-34" y="0.0" width="228" height="65.000000422075644"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
                     </subviews>

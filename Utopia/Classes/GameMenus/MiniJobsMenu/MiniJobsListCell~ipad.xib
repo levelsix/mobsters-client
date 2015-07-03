@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="864" height="80"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0TZ-OT-pvx" id="alT-h7-I9P">
-                <rect key="frame" x="0.0" y="0.0" width="864" height="79"/>
+                <rect key="frame" x="0.0" y="0.0" width="864" height="79.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="e8t-Dd-qgq">
@@ -32,7 +32,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Quest At Sea" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dNr-1f-m4j" customClass="NiceFontLabel12">
-                                        <rect key="frame" x="2" y="6" width="250" height="34"/>
+                                        <rect key="frame" x="2" y="9" width="250" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" red="0.043137254899999998" green="0.52156862749999999" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -40,7 +40,7 @@
                                         <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="epicjob.png" id="hnh-NZ-kk3">
-                                        <rect key="frame" x="2" y="43" width="109" height="14"/>
+                                        <rect key="frame" x="2" y="44" width="109" height="14"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
                                 </subviews>
@@ -75,7 +75,7 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="6 MINUTES" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5ep-Mt-Osn" customClass="NiceFontLabel8">
-                                        <rect key="frame" x="-4.0000011145122887" y="12" width="189" height="34"/>
+                                        <rect key="frame" x="-4" y="12" width="189" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
