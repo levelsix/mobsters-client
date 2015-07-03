@@ -295,22 +295,22 @@
 {
   switch (_orb.orbColor) {
     case OrbColorFire:
-      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"e2643d"]];
+      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"e2643d00"]];
       break;
     case OrbColorWater:
-      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"00ffff"]];
+      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"00ffff00"]];
       break;
     case OrbColorEarth:
-      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"00ff09"]];
+      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"00ff0900"]];
       break;
     case OrbColorDark:
-      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"d400ff"]];
+      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"d400ff00"]];
       break;
     case OrbColorLight:
-      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"fff500"]];
+      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"fff50000"]];
       break;
     default:
-      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"ffffff"]];
+      return [CCColor colorWithUIColor:[UIColor colorWithHexString:@"ffffff00"]];
       break;
   }
 }
