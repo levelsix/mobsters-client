@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController">
             <connections>
                 <outlet property="columnNameLabel" destination="wcu-UA-BWp" id="1DE-YH-nDX"/>
+                <outlet property="detailView" destination="ide-wI-NIp" id="2AU-Rf-BXp"/>
                 <outlet property="tableView" destination="wAf-Vq-gbV" id="wHf-RB-kMC"/>
                 <outlet property="view" destination="ide-wI-NIp" id="sDt-ag-s82"/>
             </connections>
