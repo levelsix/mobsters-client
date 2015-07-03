@@ -76,8 +76,6 @@
     int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     
     self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
-    if ([Globals isiPad])
-      self.timeLabel.text = [self.timeLabel.text uppercaseString];
     
     BOOL canHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEvolve userDataUuid:gs.userEvolution.userMonsterUuid1] < 0;
     
@@ -106,9 +104,7 @@
   self.oilCostLabel.text = [Globals commafyNumber:mp.evolutionCost];
   [Globals adjustViewForCentering:self.oilCostLabel.superview withLabel:self.oilCostLabel];
   
-  self.timeLabel.text = [Globals convertTimeToLongString:mp.minutesToEvolve*60];
-  if ([Globals isiPad])
-    self.timeLabel.text = [self.timeLabel.text uppercaseString];
+  self.timeLabel.text = [[Globals convertTimeToLongString:mp.minutesToEvolve*60] uppercaseString];
   
   UserMonster *um = [[UserMonster alloc] init];
   um.monsterId = mp.evolutionMonsterId;

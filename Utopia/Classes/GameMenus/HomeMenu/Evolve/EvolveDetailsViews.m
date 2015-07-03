@@ -73,20 +73,14 @@
   
   // Do overlay first so that when it downloads it doesn't flicker with the non-overlayed image first
   if (maskedColor) {
-    if ([Globals isiPad])
-      [Globals imageNamedWithiPadSuffix:fileName withView:self.monsterImageOverlay maskedColor:maskedColor indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-    else
-      [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImageOverlay maskedColor:maskedColor indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    [Globals imageNamed:fileName withView:self.monsterImageOverlay maskedColor:maskedColor greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES useiPhone6Prefix:YES useiPadSuffix:YES];
     self.monsterImageOverlay.hidden = NO;
   } else {
     self.monsterImageOverlay.hidden = YES;
   }
   
   if (showNonMaskedImage) {
-    if ([Globals isiPad])
-      [Globals imageNamedWithiPadSuffix:fileName withView:self.monsterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-    else
-      [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    [Globals imageNamed:fileName withView:self.monsterImage maskedColor:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES useiPhone6Prefix:YES useiPadSuffix:YES];
     self.monsterImage.hidden = NO;
   } else {
     self.monsterImage.hidden = YES;
