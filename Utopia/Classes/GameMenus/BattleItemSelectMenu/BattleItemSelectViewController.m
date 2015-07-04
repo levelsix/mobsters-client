@@ -252,11 +252,11 @@
     // Reload it
     NSString *prefix = nil;
     if (color == TimerProgressBarColorYellow) {
-      prefix = @"obtimeryellow";
+      prefix = [Globals isiPad] ? @"itembaryellowbarcurrent" : @"obtimeryellow";
     } else if (color == TimerProgressBarColorGreen) {
-      prefix = @"obtimergreen";
+      prefix = [Globals isiPad] ? @"upgradebarcurrent" : @"obtimergreen";
     } else if (color == TimerProgressBarColorPurple) {
-      prefix = @"obtimerpurple";
+      prefix = [Globals isiPad] ? @"itembarpurplebarcurrent" : @"obtimerpurple";
     }
     
     self.progressBar.leftCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];

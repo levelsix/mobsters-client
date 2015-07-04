@@ -63,15 +63,15 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="PJN-g1-UgN" userLabel="Monster Image">
-                            <rect key="frame" x="367" y="0.0" width="330" height="360.00000010449827"/>
+                            <rect key="frame" x="367" y="0.0" width="330" height="360"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="detailshadow.png" id="Drc-jd-KQO">
-                                    <rect key="frame" x="79" y="295" width="168" height="78.000000104498255"/>
+                                    <rect key="frame" x="79" y="295" width="168" height="78"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 </imageView>
                                 <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" id="KSJ-ff-BlV" userLabel="Align center to shadow so that it can be scaled on its own">
-                                    <rect key="frame" x="0.0" y="313" width="330" height="46.000000013389744"/>
+                                    <rect key="frame" x="0.0" y="313" width="330" height="46"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 </imageView>
                             </subviews>

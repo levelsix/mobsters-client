@@ -16,7 +16,7 @@
 - (void) updateForListObject:(BattleItemProto *)bip greyscale:(BOOL)greyscale {
   Globals *gl = [Globals sharedGlobals];
   
-  [Globals imageNamed:bip.imgName withView:self.itemIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamedWithiPadSuffix:bip.imgName withView:self.itemIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   self.bgdIcon.highlighted = greyscale;
   
   self.nameLabel.text = bip.name;
