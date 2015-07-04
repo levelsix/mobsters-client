@@ -158,7 +158,7 @@
 
 - (NSString *) longImprovementString {
   float prevBenefit = [self prevBenefit];
-  NSString *pre = prevBenefit > 0 ? [NSString stringWithFormat:@"%@%% ", [Globals commafyNumber:[self makePercent:prevBenefit]]] : @"";
+  NSString *pre = prevBenefit > 0 ? [NSString stringWithFormat:@"%@%%", [Globals commafyNumber:[self makePercent:prevBenefit]]] : @"";
   return [NSString stringWithFormat:@"%@ + %@%% %@", pre, [Globals commafyNumber:[self makePercent:[self percentBenefit]]], [self suffix]];
 }
 
@@ -190,7 +190,7 @@
 
 - (NSString *) longImprovementString {
   float prevBenefit = [self prevBenefit];
-  NSString *pre = prevBenefit > 0 ? [NSString stringWithFormat:@"%@ ", [Globals commafyNumber:prevBenefit]] : @"";
+  NSString *pre = prevBenefit > 0 ? [NSString stringWithFormat:@"%@", [Globals commafyNumber:prevBenefit]] : @"";
   return [NSString stringWithFormat:@"%@ + %@ %@", pre, [Globals commafyNumber:[self amountBenefit]], [self suffix]];
 }
 

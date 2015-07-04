@@ -142,7 +142,7 @@
     } else if ([ui useGemsButton]) {
       if (!_askedGemPermission) {
         int cost = [ui costToPurchase];
-        NSString *desc = [NSString stringWithFormat:@"Would you like to purchase a %@ package for %@ gems?", ui.name, [Globals commafyNumber:cost]];
+        NSString *desc = [NSString stringWithFormat:@"Would you like to purchase a %@ package for %@ gem%@?", ui.name, [Globals commafyNumber:cost], cost == 1 ? @"" : @"s"];
         [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Use Gems?" gemCost:cost target:self selector:@selector(gemPermissionGranted)];
         
         _gemPermissionItem = io;

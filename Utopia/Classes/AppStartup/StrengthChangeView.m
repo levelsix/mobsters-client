@@ -43,17 +43,18 @@
   
   [Globals bounceView:self fadeInBgdView:nil anchorPoint:ccp((61.f/self.width), 0.f) completion:^(BOOL success) {
     [self performSelector:@selector(end) withObject:nil afterDelay:3.f];
+    
+    // This goes here because we don't want this notification to eat up other notifications.. Can happen simultaneously
+    if (_completion) {
+      _completion();
+      _completion = nil;
+    }
   }];
 }
 
 - (void) end {
   [Globals shrinkView:self fadeOutBgdView:nil completion:^{
     [self removeFromSuperview];
-    
-    if (_completion) {
-      _completion();
-      _completion = nil;
-    }
   }];
 }
 

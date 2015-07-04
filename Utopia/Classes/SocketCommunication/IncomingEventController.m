@@ -757,30 +757,30 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       }
       
       [[MiniEventManager sharedInstance] checkSendClanGifts:numClanGifts];
-      
-    } else {
-      SKProduct *prod = iap.products[proto.packageName];
-      // Duplicate receipt might occur if you close app before response comes back
-      if (proto.status != ResponseStatusFailDuplicateReceipt) {
-        [Globals popupMessage:@"Sorry! The In App Purchase failed! Please email support@lvl6.com."];
-        [Analytics iapFailedWithSKProduct:prod error:@"Receipt verification failed"];
-      } else {
-        [Analytics iapFailedWithSKProduct:prod error:@"Duplicate receipt"];
-      }
-      [gs removeAndUndoAllUpdatesForTag:tag];
     }
     
-    // Post notification so all UI with that bar can update
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil userInfo:@{IAP_RESPONSE_KEY : proto}]];
-    
-    SKPaymentTransaction *lastTransaction = iap.lastTransaction;
-    SKProduct *prod = [iap.products objectForKey:lastTransaction.payment.productIdentifier];
-    NSString *uuid = proto.purchasedSalesPackage.uuid;
-    if (lastTransaction && prod) {
-      NSString *encodedReceipt = [iap base64forData:lastTransaction.transactionReceipt];
-      if ([encodedReceipt isEqualToString:proto.receipt]) {
-        [Analytics iapWithSKProduct:prod forTransacton:lastTransaction amountUS:proto.packagePrice uuid:uuid];
-      }
+  } else {
+    SKProduct *prod = iap.products[proto.packageName];
+    // Duplicate receipt might occur if you close app before response comes back
+    if (proto.status != ResponseStatusFailDuplicateReceipt) {
+      [Globals popupMessage:@"Sorry! The In App Purchase failed! Please email support@lvl6.com."];
+      [Analytics iapFailedWithSKProduct:prod error:@"Receipt verification failed"];
+    } else {
+      [Analytics iapFailedWithSKProduct:prod error:@"Duplicate receipt"];
+    }
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+  
+  // Post notification so all UI with that bar can update
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil userInfo:@{IAP_RESPONSE_KEY : proto}]];
+  
+  SKPaymentTransaction *lastTransaction = iap.lastTransaction;
+  SKProduct *prod = [iap.products objectForKey:lastTransaction.payment.productIdentifier];
+  NSString *uuid = proto.purchasedSalesPackage.uuid;
+  if (lastTransaction && prod) {
+    NSString *encodedReceipt = [iap base64forData:lastTransaction.transactionReceipt];
+    if ([encodedReceipt isEqualToString:proto.receipt]) {
+      [Analytics iapWithSKProduct:prod forTransacton:lastTransaction amountUS:proto.packagePrice uuid:uuid];
     }
   }
 }

@@ -38,6 +38,7 @@
     }
   }
   
+  
   // Add a gems item object.. maybe
   GemsItemObject *gio = [[GemsItemObject alloc] init];
   gio.delegate = self;
@@ -106,7 +107,7 @@
     } else if ([item useGemsButton]) {
       if (!_askedGemPermission) {
         int cost = [item costToPurchase];
-        NSString *desc = [NSString stringWithFormat:@"Would you like to purchase a %@ for %@ gems?", item.name, [Globals commafyNumber:cost]];
+        NSString *desc = [NSString stringWithFormat:@"Would you like to purchase a %@ for %@ gem%@?", item.name, [Globals commafyNumber:cost], cost == 1 ? @"" : @"s"];
         [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Use Gems?" gemCost:cost target:self selector:@selector(gemPermissionGranted)];
         
         _gemPermissionItem = io;
@@ -147,8 +148,6 @@
 }
 
 - (void) itemSelectClosed:(id)viewController {
-  GameState *gs = [GameState sharedGameState];
-  [gs disableFakeGemTotal];
   [self.delegate itemSelectClosed:viewController];
 }
 

@@ -2152,7 +2152,7 @@
     
     _buttonSender = sender;
     if (gemCost) {
-      NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
+      NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and remove this obstacle?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
       [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Busy Builder" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
     } else {
       [self speedupBuildingAndUpgradeOrPurchase];

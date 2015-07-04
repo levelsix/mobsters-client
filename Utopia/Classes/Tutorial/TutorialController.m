@@ -39,6 +39,7 @@
     gs.oil = _oil = constants.oilInit;
     gs.gems = _gems = constants.gemsInit;
     gs.tokens = _tokens = constants.gachaCreditsInit;
+    gs.totalStrength = 0;
     [gs.myMonsters removeAllObjects];
     [gs.myMiniJobs removeAllObjects];
     [gs.monsterHealingQueues removeAllObjects];
