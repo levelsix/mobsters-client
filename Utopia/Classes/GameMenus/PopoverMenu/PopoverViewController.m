@@ -78,7 +78,7 @@ static BOOL _instanceOpened = NO;
     CGPoint viewAnchorPoint = CGPointMake(.5f, .5f);
     
     const CGFloat screenPadding = 5.f; // Uniform padding from the edges of the screen
-    
+
     switch (direction)
     {
       case ViewAnchoringPreferTopPlacement:
@@ -95,7 +95,7 @@ static BOOL _instanceOpened = NO;
         [self.triangle setTransform:CGAffineTransformMakeRotation(M_PI_2)]; // Point arrow down
         
         arrowTargetX = invokingViewAbsolutePosition.x - (self.triangle.frame.size.width - invokingView.frame.size.width) * .5f - viewTargetX;
-        arrowTargetY = viewTargetHeight - 10.f; // This magic number is the bottom padding of the view, coming from the nib
+        arrowTargetY = viewTargetHeight - ([Globals isiPad] ? 21.f : 10.f); // This magic number is the bottom padding of the view, coming from the nib
         
         viewAnchorPoint = CGPointMake(.5f - (offCenterX / self.mainView.frame.size.width), 1.f);
       }
@@ -129,7 +129,7 @@ static BOOL _instanceOpened = NO;
         
         // Arrow is initially pointing to the right
         
-        arrowTargetX = self.mainView.frame.size.width - 9.f; // This magic number is the right padding of the view, coming from the nib
+        arrowTargetX = self.mainView.frame.size.width - ([Globals isiPad] ? 15.f : 9.f); // This magic number is the right padding of the view, coming from the nib
         arrowTargetY = invokingViewAbsolutePosition.y - (self.triangle.frame.size.height - invokingView.frame.size.height) * .5f - viewTargetY;
         
         CGFloat offCenterY = windowSize.height * .5f - (invokingViewAbsolutePosition.y + invokingView.frame.size.height * .5f);
