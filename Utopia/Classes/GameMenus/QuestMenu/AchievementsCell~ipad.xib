@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="649" height="128"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aBb-DG-wtM" id="2eI-K9-4wN">
-                <rect key="frame" x="0.0" y="0.0" width="649" height="127.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="649" height="127"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="Oo7-qz-ype">
@@ -41,30 +41,30 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="CIV-5I-XPO" customClass="NiceFontLabel12">
                                         <rect key="frame" x="0.0" y="16" width="68" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                         <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
                                     <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="top" image="fullachievementstar.png" highlightedImage="emptyachievementstar.png" id="4eV-MH-KCQ">
-                                        <rect key="frame" x="11" y="66" width="10" height="11"/>
+                                        <rect key="frame" x="12" y="66" width="10" height="11"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
                                     <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="top" image="fullachievementstar.png" highlightedImage="emptyachievementstar.png" id="9tZ-yp-wZk">
-                                        <rect key="frame" x="28" y="66" width="10" height="11"/>
+                                        <rect key="frame" x="29" y="66" width="10" height="11"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
                                     <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="top" image="fullachievementstar.png" highlightedImage="emptyachievementstar.png" id="Xi3-7i-yG0">
-                                        <rect key="frame" x="45" y="66" width="10" height="11"/>
+                                        <rect key="frame" x="46" y="66" width="10" height="11"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
                                 </subviews>
                             </view>
                             <view contentMode="scaleToFill" id="2jq-hH-okn" userLabel="Reward View">
-                                <rect key="frame" x="556" y="19" width="80" height="90"/>
+                                <rect key="frame" x="548" y="19" width="80" height="90"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="achievementrewardbg.png" id="0wu-W4-Az8">
+                                    <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="achievementrewardbg.png" id="0wu-W4-Az8">
                                         <rect key="frame" x="0.0" y="0.0" width="80" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
@@ -77,7 +77,7 @@
                                         <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="REWARD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Tdz-fH-G4N" customClass="NiceFontLabel10B">
-                                        <rect key="frame" x="0.0" y="-2" width="80" height="19"/>
+                                        <rect key="frame" x="1" y="-2" width="80" height="19"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -96,9 +96,9 @@
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Visit the pizza place" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="X19-CQ-YH3" customClass="NiceFontLabel5">
-                                <rect key="frame" x="108" y="45" width="232" height="20"/>
+                                <rect key="frame" x="108" y="46" width="232" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
@@ -106,7 +106,7 @@
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Makin' a Mint" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="3x2-27-ObW" customClass="NiceFontLabel12">
                                 <rect key="frame" x="108" y="23" width="232" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
@@ -172,10 +172,6 @@
                                         <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
                                         <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="re3-GZ-v9H">
-                                        <rect key="frame" x="0.0" y="1" width="226" height="1"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
