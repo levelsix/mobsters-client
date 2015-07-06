@@ -14,7 +14,7 @@
 - (void) updateForAction:(MiniEventGoalProto*)goalProto
 {
   self.actionName.text = goalProto.goalDesc;
-  self.actionPoints.text = [[Globals commafyNumber:goalProto.pointsGained] stringByAppendingString:@" Points"];
+  self.actionPoints.text = [NSString stringWithFormat:@"%@ Point%@", [Globals commafyNumber:goalProto.pointsGained], goalProto.pointsGained == 1 ? @"": @"s"];
 }
 
 @end

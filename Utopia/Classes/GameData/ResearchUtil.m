@@ -64,7 +64,7 @@
 @implementation ResearchUtil
 
 - (id) initWithResearches:(NSArray *)researches {
-  if((self = [super init])) {
+  if ((self = [super init])) {
     self.userResearches = [NSMutableArray array];
     for (UserResearchProto *urp in researches) {
       [self.userResearches addObject:[UserResearch userResearchWithProto:urp]];
