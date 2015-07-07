@@ -42,6 +42,8 @@
   
   if ([Globals isiPhone6] || [Globals isiPhone6Plus]) {
     self.monsterIcon.transform = CGAffineTransformMakeScale(0.82, 0.82);
+  } else if ([Globals isiPad]) {
+    self.monsterIcon.transform = CGAffineTransformMakeScale(0.66, 0.66);
   }
 }
 
@@ -58,7 +60,7 @@
   self.elementLabel.textColor = [Globals colorForElementOnLightBackground:proto.monsterElement];
   
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES useiPhone6Prefix:YES useiPadSuffix:YES];
   [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   int atk = [gl calculateTotalDamageForMonster:um];
@@ -81,6 +83,8 @@
 - (void) awakeFromNib {
   if ([Globals isiPhone6] || [Globals isiPhone6Plus]) {
     self.monsterIcon.transform = CGAffineTransformMakeScale(0.82, 0.82);
+  } else if ([Globals isiPad]) {
+    self.monsterIcon.transform = CGAffineTransformMakeScale(.7, .7);
   }
 }
 
@@ -89,7 +93,7 @@
   
   MonsterProto *mp = [gs monsterWithId:user.avatarMonsterId];
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES useiPhone6Prefix:YES useiPadSuffix:YES];
   
   self.winsLabel.text = [Globals commafyNumber:user.pvpLeagueInfo.battlesWon];
   self.levelLabel.text = [NSString stringWithFormat:@"%d", user.level];
