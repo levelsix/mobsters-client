@@ -16,7 +16,9 @@
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
 @property (nonatomic, strong) IBOutlet ListCollectionView *queueView;
+@property (nonatomic, strong) IBOutlet UILabel *sellTotalValueLabel;
 @property (nonatomic, strong) IBOutlet UILabel *sellCostLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *sellCostIcon;
 
 @property (nonatomic, strong) IBOutlet MonsterListCell *cardCell;
 @property (nonatomic, strong) IBOutlet MonsterQueueCell *queueCell;

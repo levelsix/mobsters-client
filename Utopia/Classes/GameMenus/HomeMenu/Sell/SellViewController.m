@@ -81,7 +81,13 @@
   
   // Only set it if its > 0 because otherwise it will just fade out
   if (sellAmt > 0) {
-    self.sellCostLabel.text = [Globals cashStringForNumber:sellAmt];
+    self.sellCostLabel.text = [NSString stringWithFormat:@"%i", sellAmt];
+    
+    if (self.sellTotalValueLabel && self.sellCostIcon) {
+      self.sellCostLabel.width = [self.sellCostLabel.text getSizeWithFont:self.sellCostLabel.font].width + 1;
+      self.sellCostLabel.centerX = self.sellTotalValueLabel.centerX + self.sellCostIcon.width * .5f + 2;
+      self.sellCostIcon.originX = self.sellCostLabel.originX - self.sellCostIcon.width - 4;
+    }
   }
 }
 

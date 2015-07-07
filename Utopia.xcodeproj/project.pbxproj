@@ -1842,63 +1842,6 @@
 		63CE45EB1AD8564400C5D8C5 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CE45EA1AD8564400C5D8C5 /* Reward.proto */; };
 		63CE45EC1AD8564400C5D8C5 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CE45EA1AD8564400C5D8C5 /* Reward.proto */; };
 		63CE45ED1AD8564400C5D8C5 /* Reward.proto in Resources */ = {isa = PBXBuildFile; fileRef = 63CE45EA1AD8564400C5D8C5 /* Reward.proto */; };
-		63F9003E1B262552006B6D65 /* LeaderBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9003A1B262552006B6D65 /* LeaderBoardCell.xib */; };
-		63F9003F1B262552006B6D65 /* LeaderBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9003A1B262552006B6D65 /* LeaderBoardCell.xib */; };
-		63F900401B262552006B6D65 /* LeaderBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9003A1B262552006B6D65 /* LeaderBoardCell.xib */; };
-		63F900411B262552006B6D65 /* LeaderBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F9003C1B262552006B6D65 /* LeaderBoardViewController.m */; };
-		63F900421B262552006B6D65 /* LeaderBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F9003C1B262552006B6D65 /* LeaderBoardViewController.m */; };
-		63F900431B262552006B6D65 /* LeaderBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F9003C1B262552006B6D65 /* LeaderBoardViewController.m */; };
-		63F900441B262552006B6D65 /* LeaderBoardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9003D1B262552006B6D65 /* LeaderBoardViewController.xib */; };
-		63F900451B262552006B6D65 /* LeaderBoardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9003D1B262552006B6D65 /* LeaderBoardViewController.xib */; };
-		63F900461B262552006B6D65 /* LeaderBoardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9003D1B262552006B6D65 /* LeaderBoardViewController.xib */; };
-		63F900521B26257C006B6D65 /* 1stplacebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900481B26257C006B6D65 /* 1stplacebg@2x.png */; };
-		63F900531B26257C006B6D65 /* 1stplacebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900481B26257C006B6D65 /* 1stplacebg@2x.png */; };
-		63F900541B26257C006B6D65 /* 1stplacebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900481B26257C006B6D65 /* 1stplacebg@2x.png */; };
-		63F900551B26257C006B6D65 /* 1stplaceicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900491B26257C006B6D65 /* 1stplaceicon@2x.png */; };
-		63F900561B26257C006B6D65 /* 1stplaceicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900491B26257C006B6D65 /* 1stplaceicon@2x.png */; };
-		63F900571B26257C006B6D65 /* 1stplaceicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900491B26257C006B6D65 /* 1stplaceicon@2x.png */; };
-		63F900581B26257C006B6D65 /* 2ndplacebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004A1B26257C006B6D65 /* 2ndplacebg@2x.png */; };
-		63F900591B26257C006B6D65 /* 2ndplacebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004A1B26257C006B6D65 /* 2ndplacebg@2x.png */; };
-		63F9005A1B26257C006B6D65 /* 2ndplacebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004A1B26257C006B6D65 /* 2ndplacebg@2x.png */; };
-		63F9005B1B26257C006B6D65 /* 2ndplaceicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004B1B26257C006B6D65 /* 2ndplaceicon@2x.png */; };
-		63F9005C1B26257C006B6D65 /* 2ndplaceicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004B1B26257C006B6D65 /* 2ndplaceicon@2x.png */; };
-		63F9005D1B26257C006B6D65 /* 2ndplaceicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004B1B26257C006B6D65 /* 2ndplaceicon@2x.png */; };
-		63F9005E1B26257C006B6D65 /* 3rdplacebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004C1B26257C006B6D65 /* 3rdplacebg@2x.png */; };
-		63F9005F1B26257C006B6D65 /* 3rdplacebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004C1B26257C006B6D65 /* 3rdplacebg@2x.png */; };
-		63F900601B26257C006B6D65 /* 3rdplacebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004C1B26257C006B6D65 /* 3rdplacebg@2x.png */; };
-		63F900611B26257C006B6D65 /* 3rdplaceicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004D1B26257C006B6D65 /* 3rdplaceicon@2x.png */; };
-		63F900621B26257C006B6D65 /* 3rdplaceicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004D1B26257C006B6D65 /* 3rdplaceicon@2x.png */; };
-		63F900631B26257C006B6D65 /* 3rdplaceicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004D1B26257C006B6D65 /* 3rdplaceicon@2x.png */; };
-		63F900641B26257C006B6D65 /* leaderboardbuilding@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004E1B26257C006B6D65 /* leaderboardbuilding@2x.png */; };
-		63F900651B26257C006B6D65 /* leaderboardbuilding@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004E1B26257C006B6D65 /* leaderboardbuilding@2x.png */; };
-		63F900661B26257C006B6D65 /* leaderboardbuilding@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004E1B26257C006B6D65 /* leaderboardbuilding@2x.png */; };
-		63F900671B26257C006B6D65 /* leaderboardlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004F1B26257C006B6D65 /* leaderboardlogo@2x.png */; };
-		63F900681B26257C006B6D65 /* leaderboardlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004F1B26257C006B6D65 /* leaderboardlogo@2x.png */; };
-		63F900691B26257C006B6D65 /* leaderboardlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F9004F1B26257C006B6D65 /* leaderboardlogo@2x.png */; };
-		63F9006A1B26257C006B6D65 /* leadererboardpopup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900501B26257C006B6D65 /* leadererboardpopup@2x.png */; };
-		63F9006B1B26257C006B6D65 /* leadererboardpopup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900501B26257C006B6D65 /* leadererboardpopup@2x.png */; };
-		63F9006C1B26257C006B6D65 /* leadererboardpopup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900501B26257C006B6D65 /* leadererboardpopup@2x.png */; };
-		63F9006D1B26257C006B6D65 /* refresharrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900511B26257C006B6D65 /* refresharrow@2x.png */; };
-		63F9006E1B26257C006B6D65 /* refresharrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900511B26257C006B6D65 /* refresharrow@2x.png */; };
-		63F9006F1B26257C006B6D65 /* refresharrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F900511B26257C006B6D65 /* refresharrow@2x.png */; };
-		63F900A91B263FC8006B6D65 /* LeaderBoardObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F900A81B263FC8006B6D65 /* LeaderBoardObject.m */; };
-		63F900AA1B263FC8006B6D65 /* LeaderBoardObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F900A81B263FC8006B6D65 /* LeaderBoardObject.m */; };
-		63F900AB1B263FC8006B6D65 /* LeaderBoardObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F900A81B263FC8006B6D65 /* LeaderBoardObject.m */; };
-		63F900AE1B264308006B6D65 /* LeaderBoardBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F900AD1B264308006B6D65 /* LeaderBoardBuilding.m */; };
-		63F900AF1B264308006B6D65 /* LeaderBoardBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F900AD1B264308006B6D65 /* LeaderBoardBuilding.m */; };
-		63F900B01B264308006B6D65 /* LeaderBoardBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F900AD1B264308006B6D65 /* LeaderBoardBuilding.m */; };
-		6B03C7CD1B47366C0037D53C /* 6graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */; };
-		6B03C7CE1B47366C0037D53C /* 6graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */; };
-		6B03C7CF1B47366C0037D53C /* 6graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */; };
-		6B03C7D01B47366C0037D53C /* graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */; };
-		6B03C7D11B47366C0037D53C /* graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */; };
-		6B03C7D21B47366C0037D53C /* graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */; };
-		6B03C7D51B47367B0037D53C /* 6graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */; };
-		6B03C7D61B47367B0037D53C /* 6graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */; };
-		6B03C7D71B47367B0037D53C /* 6graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */; };
-		6B03C7D91B47368D0037D53C /* graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D81B47368D0037D53C /* graveorb@2x.png */; };
-		6B03C7DA1B47368D0037D53C /* graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D81B47368D0037D53C /* graveorb@2x.png */; };
-		6B03C7DB1B47368D0037D53C /* graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D81B47368D0037D53C /* graveorb@2x.png */; };
 		63E23E6D1B166DE300F4A27C /* SecretGiftViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63E23E6C1B166DE300F4A27C /* SecretGiftViewController~ipad.xib */; };
 		63E23E6E1B166DE300F4A27C /* SecretGiftViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63E23E6C1B166DE300F4A27C /* SecretGiftViewController~ipad.xib */; };
 		63E23E6F1B166DE300F4A27C /* SecretGiftViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63E23E6C1B166DE300F4A27C /* SecretGiftViewController~ipad.xib */; };
@@ -2158,6 +2101,18 @@
 		63F9FFEF1B217BCF006B6D65 /* DetailViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9FFEB1B217BCF006B6D65 /* DetailViewController~ipad.xib */; };
 		63F9FFF01B217BCF006B6D65 /* DetailViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9FFEB1B217BCF006B6D65 /* DetailViewController~ipad.xib */; };
 		63F9FFF11B217BCF006B6D65 /* DetailViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9FFEB1B217BCF006B6D65 /* DetailViewController~ipad.xib */; };
+		6B03C7CD1B47366C0037D53C /* 6graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */; };
+		6B03C7CE1B47366C0037D53C /* 6graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */; };
+		6B03C7CF1B47366C0037D53C /* 6graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */; };
+		6B03C7D01B47366C0037D53C /* graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */; };
+		6B03C7D11B47366C0037D53C /* graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */; };
+		6B03C7D21B47366C0037D53C /* graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */; };
+		6B03C7D51B47367B0037D53C /* 6graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */; };
+		6B03C7D61B47367B0037D53C /* 6graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */; };
+		6B03C7D71B47367B0037D53C /* 6graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */; };
+		6B03C7D91B47368D0037D53C /* graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D81B47368D0037D53C /* graveorb@2x.png */; };
+		6B03C7DA1B47368D0037D53C /* graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D81B47368D0037D53C /* graveorb@2x.png */; };
+		6B03C7DB1B47368D0037D53C /* graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D81B47368D0037D53C /* graveorb@2x.png */; };
 		6B0783F91A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FA1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FB1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
@@ -3322,6 +3277,12 @@
 		9B127F521B1D1A4C007C82D4 /* timersyellowmiddle@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B127F421B1D1A4C007C82D4 /* timersyellowmiddle@2x~ipad.png */; };
 		9B127F531B1D1A4C007C82D4 /* timersyellowmiddle@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B127F421B1D1A4C007C82D4 /* timersyellowmiddle@2x~ipad.png */; };
 		9B127F541B1D1A4C007C82D4 /* timersyellowmiddle@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B127F421B1D1A4C007C82D4 /* timersyellowmiddle@2x~ipad.png */; };
+		9B1468971B4B1CF500E8D0ED /* SellViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B1468961B4B1CF500E8D0ED /* SellViewController~ipad.xib */; };
+		9B1468981B4B1CF500E8D0ED /* SellViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B1468961B4B1CF500E8D0ED /* SellViewController~ipad.xib */; };
+		9B1468991B4B1CF500E8D0ED /* SellViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B1468961B4B1CF500E8D0ED /* SellViewController~ipad.xib */; };
+		9B14689C1B4B1CFA00E8D0ED /* SellCardCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B14689B1B4B1CFA00E8D0ED /* SellCardCell~ipad.xib */; };
+		9B14689D1B4B1CFA00E8D0ED /* SellCardCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B14689B1B4B1CFA00E8D0ED /* SellCardCell~ipad.xib */; };
+		9B14689E1B4B1CFA00E8D0ED /* SellCardCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B14689B1B4B1CFA00E8D0ED /* SellCardCell~ipad.xib */; };
 		9B15BA401B45E2D0002B251D /* notendcapblue@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B15BA3F1B45E2D0002B251D /* notendcapblue@2x~ipad.png */; };
 		9B15BA411B45E2D0002B251D /* notendcapblue@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B15BA3F1B45E2D0002B251D /* notendcapblue@2x~ipad.png */; };
 		9B15BA421B45E2D0002B251D /* notendcapblue@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B15BA3F1B45E2D0002B251D /* notendcapblue@2x~ipad.png */; };
@@ -10379,6 +10340,8 @@
 		9B127F401B1D1A4C007C82D4 /* timerspurplemiddle@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timerspurplemiddle@2x~ipad.png"; sourceTree = "<group>"; };
 		9B127F411B1D1A4C007C82D4 /* timersyellowcap@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timersyellowcap@2x~ipad.png"; sourceTree = "<group>"; };
 		9B127F421B1D1A4C007C82D4 /* timersyellowmiddle@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timersyellowmiddle@2x~ipad.png"; sourceTree = "<group>"; };
+		9B1468961B4B1CF500E8D0ED /* SellViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "SellViewController~ipad.xib"; sourceTree = "<group>"; };
+		9B14689B1B4B1CFA00E8D0ED /* SellCardCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "SellCardCell~ipad.xib"; sourceTree = "<group>"; };
 		9B15BA3F1B45E2D0002B251D /* notendcapblue@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notendcapblue@2x~ipad.png"; sourceTree = "<group>"; };
 		9B15BA441B45E2E8002B251D /* notmiddleblue@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notmiddleblue@2x~ipad.png"; sourceTree = "<group>"; };
 		9B15BA481B45E2F2002B251D /* notendcaporange@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notendcaporange@2x~ipad.png"; sourceTree = "<group>"; };
@@ -19966,7 +19929,9 @@
 				CFF64633195A3A3B00C43641 /* SellViewController.h */,
 				CFF64634195A3A3B00C43641 /* SellViewController.m */,
 				CFF64635195A3A3B00C43641 /* SellViewController.xib */,
+				9B1468961B4B1CF500E8D0ED /* SellViewController~ipad.xib */,
 				CFF64631195A3A3B00C43641 /* SellCardCell.xib */,
+				9B14689B1B4B1CFA00E8D0ED /* SellCardCell~ipad.xib */,
 			);
 			path = Sell;
 			sourceTree = "<group>";
@@ -21910,7 +21875,6 @@
 				636C3E7A1AAA865400B02980 /* canresearchclickedborder@2x.png in Resources */,
 				DA86924219C7C64500320A74 /* skillbottom@2x.png in Resources */,
 				6B03C7DA1B47368D0037D53C /* graveorb@2x.png in Resources */,
-				6B19FC0A1B1527B1007C8C62 /* darkboardsquare@2x~ipad.png in Resources */,
 				CFF9DD8519B861F200CA9A8E /* level@2x.png in Resources */,
 				CF4F782819BACF4F001B7B7C /* missionmap3@2x.tmx in Resources */,
 				CF0CEFFA196F452900ECD301 /* rankbg@2x.png in Resources */,
@@ -22842,6 +22806,7 @@
 				CF0CDEAF19E50B94006A5ECB /* TimerCell.xib in Resources */,
 				9BC535961A845C1200E49F4D /* minilight@2x.png in Resources */,
 				299AA32B1A7856AA00A2D806 /* 6fireupdown-9@2x.png in Resources */,
+				9B1468981B4B1CF500E8D0ED /* SellViewController~ipad.xib in Resources */,
 				9B127F131B1CE82C007C82D4 /* speedupicon@2x~ipad.png in Resources */,
 				CF0CF3B1196F452900ECD301 /* sellbubble5@2x.png in Resources */,
 				29AE75A91A6F36E000264070 /* TribalGuy0T1P4TutBig@2x.png in Resources */,
@@ -23183,6 +23148,7 @@
 				299AA3DC1A7856AA00A2D806 /* rockpoison-9@2x.png in Resources */,
 				CF0CF504196F452900ECD301 /* achievementsiconinactive@2x.png in Resources */,
 				6B5146A01AA1487100B2844A /* 6waterlsorb@2x.png in Resources */,
+				9B14689D1B4B1CFA00E8D0ED /* SellCardCell~ipad.xib in Resources */,
 				299AA3A31A7856AA00A2D806 /* firesideways-9@2x.png in Resources */,
 				CF0CF508196F452900ECD301 /* lp_beach_forest_amb.mp3 in Resources */,
 				9BB5AF721AA6874A002076E3 /* obstaclesdescriptioncap@2x.png in Resources */,
@@ -25003,7 +24969,6 @@
 				9BC9F39C1A8EB9C5009DC3D5 /* Titillium-BoldUpright.otf in Resources */,
 				2985E5C61A30044E0041ABF4 /* bubbleright.png in Resources */,
 				6B03C7D51B47367B0037D53C /* 6graveorb@2x.png in Resources */,
-				6BF1CB801B226823004190E6 /* greymenuoption@2x~ipad.png in Resources */,
 				6B2656AF1B2B8FBC00969EB9 /* firepoison@2x~ipad.png in Resources */,
 				CFC4D2B218D7E131004681FD /* sfx_firework_03.mp3 in Resources */,
 				CFC4D29A18D7BD04004681FD /* sfx_points_fly_from_match_02.mp3 in Resources */,
@@ -25241,6 +25206,7 @@
 				CFDA78EA198C303C0014A8CD /* lockedcity@2x.png in Resources */,
 				29C0D2321A9BFA79005A4EC0 /* ultimategrabitem@2x.png in Resources */,
 				633CCAD61AA139B200C6649F /* ResearchCategoryCell.xib in Resources */,
+				9B1468971B4B1CF500E8D0ED /* SellViewController~ipad.xib in Resources */,
 				CF37377A19E36B1D00CB16E3 /* youmissoutonribbon@2x.png in Resources */,
 				299AA4BB1A7872C300A2D806 /* allcocktail@2x.png in Resources */,
 				CFFC50F919C4C57700BDAA62 /* notendcapgreen@2x.png in Resources */,
@@ -25721,6 +25687,7 @@
 				29AE75BA1A6F36E000264070 /* MilitaryChicken1T1AttackNF@2x.plist in Resources */,
 				6B5146B71AA1487100B2844A /* nightlsorb@2x.png in Resources */,
 				6B2657641B2B91E900969EB9 /* earthskillcounterbarcap@2x~ipad.png in Resources */,
+				9B14689C1B4B1CFA00E8D0ED /* SellCardCell~ipad.xib in Resources */,
 				9BE489E41B38EAB700696FB0 /* activeskillarrow@2x~ipad.png in Resources */,
 				CFF646D1195CDDEB00C43641 /* emptysmallsquare@2x.png in Resources */,
 				9BA7E59E1B44A5B400F8743F /* blueresearchcircle@2x~ipad.png in Resources */,
@@ -27202,6 +27169,7 @@
 				CF481C4619F7217F00041486 /* bluesmallbutton@2x.png in Resources */,
 				63E23EAA1B169BE500F4A27C /* itemsheaderbg@2x~ipad.png in Resources */,
 				CFA728AD1A0B037900FF6031 /* lighteventbigbg@2x.png in Resources */,
+				9B14689E1B4B1CFA00E8D0ED /* SellCardCell~ipad.xib in Resources */,
 				9BA69C531B1FB42B00FE01A8 /* menuultimategrab@2x~ipad.png in Resources */,
 				CF481C4919F7217F00041486 /* 4x4dark@2x.png in Resources */,
 				29DCCFB51A8ACCBB003176FD /* TribalGirl1T1Big@2x.png in Resources */,
@@ -28107,6 +28075,7 @@
 				9BC0B4091B46043E001D2700 /* firebigavatar@2x~ipad.png in Resources */,
 				63F900D21B26550D006B6D65 /* itemsquaregrey@2x~ipad.png in Resources */,
 				CF48209B19F7217F00041486 /* 6lightsideways@2x.png in Resources */,
+				9B1468991B4B1CF500E8D0ED /* SellViewController~ipad.xib in Resources */,
 				9BE48AA71B3B8C7400696FB0 /* eventpointcounter@2x~ipad.png in Resources */,
 				9B6B77D21A858B1A0080C8E5 /* 2moveslabel@2x.png in Resources */,
 				9BBE37211AFD8777001A0E81 /* grabstokenlabel@2x.png in Resources */,
