@@ -7,11 +7,13 @@
 //
 
 #import "CreditsViewController.h"
+#import "Globals.h"
 
 @implementation CreditsViewController
 
 - (void)loadFAQ {
-  [self loadFile:@"Credits5.txt"];
+  Globals *gl = [Globals sharedGlobals];
+  [self loadFile:gl.creditsFileName ? gl.creditsFileName : @"Credits5.txt"];
 }
 
 @end
