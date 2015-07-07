@@ -2701,7 +2701,11 @@
 
 - (void) onEnterTransitionDidFinish {
   [super onEnterTransitionDidFinish];
-  [self beginTimers];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (gs.connected) {
+    [self beginTimers];
+  }
 }
 
 - (void) onEnter {

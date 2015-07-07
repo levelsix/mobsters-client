@@ -122,6 +122,8 @@
     
     self.nameLabel.text = self.fup.name;
     
+    self.spinner.hidden = YES;
+    
     [self loadAvatarIcon];
     
     [self button1Clicked:self.navBar];

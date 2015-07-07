@@ -167,7 +167,6 @@
                                     <state key="normal" image="itemsbutton.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
-                                    <state key="disabled" image="itemsbuttongray.png"/>
                                     <connections>
                                         <action selector="itemsClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="O4Q-OF-pgT"/>
                                     </connections>
@@ -945,7 +944,6 @@
         <image name="hospitaltimeleftbg.png" width="37" height="8"/>
         <image name="itemsbag.png" width="30" height="34"/>
         <image name="itemsbutton.png" width="66" height="50"/>
-        <image name="itemsbuttongray.png" width="66" height="50"/>
         <image name="movesqueuebgwide.png" width="234" height="62"/>
         <image name="runawaybgwide.png" width="84" height="21"/>
         <image name="runawaybgwidepressed.png" width="75" height="21"/>

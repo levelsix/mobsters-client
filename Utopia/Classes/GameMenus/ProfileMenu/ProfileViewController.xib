@@ -17,6 +17,7 @@
                 <outlet property="nameLabel" destination="sdQ-3c-UYA" id="QUR-tq-AOz"/>
                 <outlet property="navBar" destination="biS-JX-Cwd" id="ayj-vn-ZUN"/>
                 <outlet property="slotEmptyView" destination="YqB-Tn-rbS" id="sQh-f5-Na9"/>
+                <outlet property="spinner" destination="pm7-Xp-pPo" id="mWt-Fn-S8O"/>
                 <outlet property="statsView" destination="loT-J6-7Vc" id="c5R-wP-4j0"/>
                 <outlet property="teamView" destination="wSV-2A-hyI" id="rRk-iv-mkM"/>
                 <outlet property="view" destination="nvX-oy-fUb" id="ATE-O8-DUk"/>
@@ -544,6 +545,10 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" id="pm7-Xp-pPo">
+                                            <rect key="frame" x="154" y="139" width="20" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -594,7 +599,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="4cS-QM-VMH">
-                    <rect key="frame" x="6" y="5" width="149" height="174"/>
+                    <rect key="frame" x="6" y="12" width="149" height="174"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="detailshadow.png" id="rdt-TH-hte">
@@ -682,7 +687,7 @@
                             <rect key="frame" x="61" y="2" width="110" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="shield.png" id="s3a-UC-DZ5">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="s3a-UC-DZ5">
                                     <rect key="frame" x="0.0" y="4" width="16" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
@@ -824,7 +829,6 @@
         <image name="profteamactive.png" width="15" height="13"/>
         <image name="profteaminactive.png" width="15" height="13"/>
         <image name="sendmessageicon.png" width="12" height="11"/>
-        <image name="shield.png" width="31" height="34"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
