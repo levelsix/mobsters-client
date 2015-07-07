@@ -36,12 +36,12 @@
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  self.tableContainerView.layer.cornerRadius = 5.f;
+  self.tableContainerView.layer.cornerRadius = POPUP_CORNER_RADIUS;
   self.tableContainerView.layer.masksToBounds = YES;
-  self.resultsContainerView.layer.cornerRadius = 5.f;
+  self.resultsContainerView.layer.cornerRadius = POPUP_CORNER_RADIUS;
   self.alertsTable.backgroundColor = [UIColor clearColor];
   
-  self.titleView.layer.cornerRadius = 5.f;
+  self.titleView.layer.cornerRadius = POPUP_CORNER_RADIUS;
   self.titleView.layer.masksToBounds = YES;
   
   self.titleLabel.gradientStartColor = [UIColor colorWithHexString:LIGHT_RED];
