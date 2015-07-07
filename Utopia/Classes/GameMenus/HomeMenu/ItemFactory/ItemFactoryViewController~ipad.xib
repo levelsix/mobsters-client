@@ -124,10 +124,6 @@
                     <rect key="frame" x="0.0" y="358" width="876" height="91"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="sellbarbg.png" id="vRV-KF-XPZ">
-                            <rect key="frame" x="3" y="0.0" width="424" height="50"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
                         <view contentMode="scaleToFill" id="ZD9-fr-sVY" userLabel="BG">
                             <rect key="frame" x="0.0" y="0.0" width="876" height="88"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -191,7 +187,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="rQW-jQ-jg4" customClass="CancellableCollectionView">
-                                    <rect key="frame" x="110" y="2" width="300" height="86"/>
+                                    <rect key="frame" x="4" y="2" width="406" height="86"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="1" minimumInteritemSpacing="13" id="RZA-DU-wzh">
@@ -327,12 +323,8 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="838" y="2251"/>
+            <point key="canvasLocation" x="884" y="820"/>
         </view>
-        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="hPw-XZ-9vh">
-            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-        </imageView>
     </objects>
     <resources>
         <image name="fullhospitalarrow.png" width="185" height="39"/>
@@ -345,8 +337,7 @@
         <image name="orangemenuoption.png" width="80" height="40"/>
         <image name="popuplinevertical.png" width="1" height="1"/>
         <image name="purplemenuoption.png" width="80" height="40"/>
-        <image name="sellbarbg.png" width="424" height="50"/>
-        <image name="smallnavheader.png" width="1" height="1"/>
+        <image name="smallnavheader.png" width="7" height="225"/>
         <image name="speedupiconbig.png" width="9" height="18"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

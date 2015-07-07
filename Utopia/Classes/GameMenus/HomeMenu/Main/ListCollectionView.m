@@ -105,16 +105,27 @@
   Globals *gl = [Globals sharedGlobals];
   
   [self.cardContainer.monsterCardView updateForMonster:um backupString:@"" greyscale:greyscale];
-  self.sellCostLabel.text = [Globals cashStringForNumber:[um sellPrice]];
   
-  self.healCostLabel.text = [NSString stringWithFormat:@"%i", [gl calculateCostToHealMonster:um]];
+  if (self.sellCostLabel) {
+    self.sellCostLabel.text = [NSString stringWithFormat:@"%i", [um sellPrice]];
+    //Shrink sellCostLabel to be just long enough to fit the text
+    float sellCostLabelRight = self.sellCostLabel.originX + self.sellCostLabel.width;
+    self.sellCostLabel.width = [self.sellCostLabel.text getSizeWithFont:self.sellCostLabel.font].width + 1;
+    self.sellCostLabel.originX = sellCostLabelRight - self.sellCostLabel.width;
+  }
   
-  //Shrink healCostLabel to be just long enough to fit the text
-  float healCostLabelRight = self.healCostLabel.originX + self.healCostLabel.width;
-  self.healCostLabel.width = [self.healCostLabel.text getSizeWithFont:self.healCostLabel.font].width + 1;
-  self.healCostLabel.originX = healCostLabelRight - self.healCostLabel.width;
+  if (self.healCostLabel) {
+    self.healCostLabel.text = [NSString stringWithFormat:@"%i", [gl calculateCostToHealMonster:um]];
+    //Shrink healCostLabel to be just long enough to fit the text
+    float healCostLabelRight = self.healCostLabel.originX + self.healCostLabel.width;
+    self.healCostLabel.width = [self.healCostLabel.text getSizeWithFont:self.healCostLabel.font].width + 1;
+    self.healCostLabel.originX = healCostLabelRight - self.healCostLabel.width;
+  }
   
-  self.healCostMoneyIcon.originX = self.healCostLabel.originX - self.healCostMoneyIcon.width - 2;
+  if (self.healCostMoneyIcon) {
+    UIView *costLabel = self.healCostLabel ?: self.sellCostLabel;
+    self.healCostMoneyIcon.originX = costLabel.originX - self.healCostMoneyIcon.width - 2;
+  }
   
   if (um.level >= um.staticMonster.maxLevel) {
     self.enhancePercentLabel.text = @"Max";
@@ -131,6 +142,7 @@
   // For selling
   self.lockIcon.hidden = !um.isProtected;
   self.sellCostLabel.hidden = um.isProtected;
+  if (self.sellCostLabel) self.healCostMoneyIcon.hidden = self.sellCostLabel.hidden;
   
   if ([um isAvailable] && !greyscale) {
     self.availableView.hidden = NO;
