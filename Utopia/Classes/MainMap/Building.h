@@ -66,3 +66,7 @@
 - (void) disappear;
 
 @end
+
+@interface CaveBuilding : Building
+
+@end

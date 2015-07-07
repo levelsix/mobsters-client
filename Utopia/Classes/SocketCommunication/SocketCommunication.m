@@ -147,6 +147,8 @@ static NSString *host = HOST_NAME;
 
 + (void) setHost:(NSString *)hn {
   host = hn;
+  
+  sharedSocketCommunication.webSocketCommunication.hostName = host;
 }
 
 - (id) init {

@@ -35,6 +35,7 @@
 
 @property (nonatomic, assign) id<WebSocketCommunicationDelegate> delegate;
 
+@property (nonatomic, retain) NSString *hostName;
 
 - (id) initWithURLString:(NSString *)hostName sslCert:(NSString *)sslCert customHeaders:(NSDictionary *)customHeaders;
 

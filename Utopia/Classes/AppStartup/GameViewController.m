@@ -414,7 +414,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 - (void) reconnectingToServer {
   GameState *gs = [GameState sharedGameState];
-  if (!self.reconnectViewController && gs.connected && !gs.isTutorial) {
+  if (!self.reconnectViewController && !self.loadingViewController && !gs.isTutorial) {
     self.reconnectViewController = [[ReconnectViewController alloc] init];
     
     // 2 second delay before displaying reconnect vc
@@ -475,6 +475,8 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   // If in battle, give 10 mins of leeway
   _isFreshRestart = !gs.isTutorial && !(_isInBattle && _timeOfSoftClose.timeIntervalSinceNow > -10*60);
+#warning change back
+  _isFreshRestart = YES;
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self clearMessages:!gs.connected && !gs.isTutorial];
   
   if (_isFreshRestart) {
