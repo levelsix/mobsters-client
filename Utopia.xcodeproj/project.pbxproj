@@ -2101,21 +2101,6 @@
 		63F9FFEF1B217BCF006B6D65 /* DetailViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9FFEB1B217BCF006B6D65 /* DetailViewController~ipad.xib */; };
 		63F9FFF01B217BCF006B6D65 /* DetailViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9FFEB1B217BCF006B6D65 /* DetailViewController~ipad.xib */; };
 		63F9FFF11B217BCF006B6D65 /* DetailViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F9FFEB1B217BCF006B6D65 /* DetailViewController~ipad.xib */; };
-		6B03C7CD1B47366C0037D53C /* 6graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */; };
-		6B03C7CE1B47366C0037D53C /* 6graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */; };
-		6B03C7CF1B47366C0037D53C /* 6graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */; };
-		6B03C7D01B47366C0037D53C /* graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */; };
-		6B03C7D11B47366C0037D53C /* graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */; };
-		6B03C7D21B47366C0037D53C /* graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */; };
-		6B03C7D51B47367B0037D53C /* 6graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */; };
-		6B03C7D61B47367B0037D53C /* 6graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */; };
-		6B03C7D71B47367B0037D53C /* 6graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */; };
-		6B03C7D91B47368D0037D53C /* graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D81B47368D0037D53C /* graveorb@2x.png */; };
-		6B03C7DA1B47368D0037D53C /* graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D81B47368D0037D53C /* graveorb@2x.png */; };
-		6B03C7DB1B47368D0037D53C /* graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D81B47368D0037D53C /* graveorb@2x.png */; };
-		6B03B29E1B46E21E0014B0D2 /* ProfileViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B03B29D1B46E21E0014B0D2 /* ProfileViewController~ipad.xib */; };
-		6B03B29F1B46E21E0014B0D2 /* ProfileViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B03B29D1B46E21E0014B0D2 /* ProfileViewController~ipad.xib */; };
-		6B03B2A01B46E21E0014B0D2 /* ProfileViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B03B29D1B46E21E0014B0D2 /* ProfileViewController~ipad.xib */; };
 		6B03B2A71B46E38F0014B0D2 /* achievementrewardbg@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03B2A21B46E38F0014B0D2 /* achievementrewardbg@2x~ipad.png */; };
 		6B03B2A81B46E38F0014B0D2 /* achievementrewardbg@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03B2A21B46E38F0014B0D2 /* achievementrewardbg@2x~ipad.png */; };
 		6B03B2A91B46E38F0014B0D2 /* achievementrewardbg@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03B2A21B46E38F0014B0D2 /* achievementrewardbg@2x~ipad.png */; };
@@ -2140,6 +2125,18 @@
 		6B03B2BF1B46E6E40014B0D2 /* QuestLogViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B03B2BE1B46E6E40014B0D2 /* QuestLogViewController~ipad.xib */; };
 		6B03B2C01B46E6E40014B0D2 /* QuestLogViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B03B2BE1B46E6E40014B0D2 /* QuestLogViewController~ipad.xib */; };
 		6B03B2C11B46E6E40014B0D2 /* QuestLogViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B03B2BE1B46E6E40014B0D2 /* QuestLogViewController~ipad.xib */; };
+		6B03C7CD1B47366C0037D53C /* 6graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */; };
+		6B03C7CE1B47366C0037D53C /* 6graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */; };
+		6B03C7CF1B47366C0037D53C /* 6graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */; };
+		6B03C7D01B47366C0037D53C /* graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */; };
+		6B03C7D11B47366C0037D53C /* graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */; };
+		6B03C7D21B47366C0037D53C /* graveorb-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */; };
+		6B03C7D51B47367B0037D53C /* 6graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */; };
+		6B03C7D61B47367B0037D53C /* 6graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */; };
+		6B03C7D71B47367B0037D53C /* 6graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */; };
+		6B03C7D91B47368D0037D53C /* graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D81B47368D0037D53C /* graveorb@2x.png */; };
+		6B03C7DA1B47368D0037D53C /* graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D81B47368D0037D53C /* graveorb@2x.png */; };
+		6B03C7DB1B47368D0037D53C /* graveorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03C7D81B47368D0037D53C /* graveorb@2x.png */; };
 		6B0783F91A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FA1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
 		6B0783FB1A828468005CDFCF /* SkillCurse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0783F81A828468005CDFCF /* SkillCurse.m */; };
@@ -2842,9 +2839,9 @@
 		6B36565B1B0796AE009BB2DA /* CreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B36565A1B0796AE009BB2DA /* CreditsViewController.m */; };
 		6B36565C1B0796AE009BB2DA /* CreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B36565A1B0796AE009BB2DA /* CreditsViewController.m */; };
 		6B36565D1B0796AE009BB2DA /* CreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B36565A1B0796AE009BB2DA /* CreditsViewController.m */; };
-		6B36565F1B07A183009BB2DA /* Credits5@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6B36565E1B07A183009BB2DA /* Credits5@2x.txt */; };
-		6B3656601B07A183009BB2DA /* Credits5@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6B36565E1B07A183009BB2DA /* Credits5@2x.txt */; };
-		6B3656611B07A183009BB2DA /* Credits5@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6B36565E1B07A183009BB2DA /* Credits5@2x.txt */; };
+		6B36565F1B07A183009BB2DA /* Credits.1@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6B36565E1B07A183009BB2DA /* Credits.1@2x.txt */; };
+		6B3656601B07A183009BB2DA /* Credits.1@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6B36565E1B07A183009BB2DA /* Credits.1@2x.txt */; };
+		6B3656611B07A183009BB2DA /* Credits.1@2x.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6B36565E1B07A183009BB2DA /* Credits.1@2x.txt */; };
 		6B3656631B07B0D8009BB2DA /* CreditsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B3656621B07B0D8009BB2DA /* CreditsViewController.xib */; };
 		6B3656641B07B0D8009BB2DA /* CreditsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B3656621B07B0D8009BB2DA /* CreditsViewController.xib */; };
 		6B3656651B07B0D8009BB2DA /* CreditsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B3656621B07B0D8009BB2DA /* CreditsViewController.xib */; };
@@ -10048,11 +10045,6 @@
 		63F9FFFE1B2271CB006B6D65 /* arrow@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x~ipad.png"; sourceTree = "<group>"; };
 		63F9FFFF1B2271CB006B6D65 /* arrowlight@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrowlight@2x~ipad.png"; sourceTree = "<group>"; };
 		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
-		6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6graveorb-9@2x.png"; sourceTree = "<group>"; };
-		6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "graveorb-9@2x.png"; sourceTree = "<group>"; };
-		6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6graveorb@2x.png"; sourceTree = "<group>"; };
-		6B03C7D81B47368D0037D53C /* graveorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "graveorb@2x.png"; sourceTree = "<group>"; };
-		6B03B29D1B46E21E0014B0D2 /* ProfileViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ProfileViewController~ipad.xib"; sourceTree = "<group>"; };
 		6B03B2A21B46E38F0014B0D2 /* achievementrewardbg@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "achievementrewardbg@2x~ipad.png"; sourceTree = "<group>"; };
 		6B03B2A31B46E38F0014B0D2 /* collectachievement@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "collectachievement@2x~ipad.png"; sourceTree = "<group>"; };
 		6B03B2A41B46E38F0014B0D2 /* emptyachievementstar@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emptyachievementstar@2x~ipad.png"; sourceTree = "<group>"; };
@@ -10061,6 +10053,10 @@
 		6B03B2B61B46E3C50014B0D2 /* AchievementsCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AchievementsCell~ipad.xib"; sourceTree = "<group>"; };
 		6B03B2B71B46E3C50014B0D2 /* AchievementsViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AchievementsViewController~ipad.xib"; sourceTree = "<group>"; };
 		6B03B2BE1B46E6E40014B0D2 /* QuestLogViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "QuestLogViewController~ipad.xib"; sourceTree = "<group>"; };
+		6B03C7CB1B47366C0037D53C /* 6graveorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6graveorb-9@2x.png"; sourceTree = "<group>"; };
+		6B03C7CC1B47366C0037D53C /* graveorb-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "graveorb-9@2x.png"; sourceTree = "<group>"; };
+		6B03C7D41B47367B0037D53C /* 6graveorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6graveorb@2x.png"; sourceTree = "<group>"; };
+		6B03C7D81B47368D0037D53C /* graveorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "graveorb@2x.png"; sourceTree = "<group>"; };
 		6B0783F61A82845B005CDFCF /* SkillCurse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillCurse.h; sourceTree = "<group>"; };
 		6B0783F81A828468005CDFCF /* SkillCurse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCurse.m; sourceTree = "<group>"; };
 		6B0784011A828C10005CDFCF /* SkillInsurance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillInsurance.h; sourceTree = "<group>"; };
@@ -10302,7 +10298,7 @@
 		6B2DA9A61AC9C0B2000B37A8 /* bringdownarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bringdownarrow@2x.png"; sourceTree = "<group>"; };
 		6B3656591B079669009BB2DA /* CreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreditsViewController.h; sourceTree = "<group>"; };
 		6B36565A1B0796AE009BB2DA /* CreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreditsViewController.m; sourceTree = "<group>"; };
-		6B36565E1B07A183009BB2DA /* Credits5@2x.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Credits5@2x.txt"; sourceTree = "<group>"; };
+		6B36565E1B07A183009BB2DA /* Credits.1@2x.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Credits.1@2x.txt"; sourceTree = "<group>"; };
 		6B3656621B07B0D8009BB2DA /* CreditsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreditsViewController.xib; sourceTree = "<group>"; };
 		6B3BC16A1A8BC67E00E0D457 /* SkillPoisonSkewer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkillPoisonSkewer.h; sourceTree = "<group>"; };
 		6B3BC16C1A8BC68E00E0D457 /* SkillPoisonSkewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPoisonSkewer.m; sourceTree = "<group>"; };
@@ -16683,7 +16679,7 @@
 				6B36565A1B0796AE009BB2DA /* CreditsViewController.m */,
 				6B3656621B07B0D8009BB2DA /* CreditsViewController.xib */,
 				6B975DE91B4C6EC4002F008E /* CreditsViewController~ipad.xib */,
-				6B36565E1B07A183009BB2DA /* Credits5@2x.txt */,
+				6B36565E1B07A183009BB2DA /* Credits.1@2x.txt */,
 			);
 			name = Credits;
 			sourceTree = "<group>";
@@ -23765,7 +23761,7 @@
 				9BE48A0C1B3A21A500696FB0 /* obstaclespowerbarcap@2x~ipad.png in Resources */,
 				63BACB321A71EF64000A641A /* nightscientisteventguy@2x.png in Resources */,
 				6B14721A1B339828001453C1 /* DailyEventViewController~ipad.xib in Resources */,
-				6B3656601B07A183009BB2DA /* Credits5@2x.txt in Resources */,
+				6B3656601B07A183009BB2DA /* Credits.1@2x.txt in Resources */,
 				63E23E8A1B16766F00F4A27C /* collectgiftpressed@2x~ipad.png in Resources */,
 				9B0ECAA31B34CF0C00C442F3 /* lightmediumsquare@2x~ipad.png in Resources */,
 				2933DCAF1ADFA836005D7620 /* SalesViewController.xib in Resources */,
@@ -25893,7 +25889,7 @@
 				299AA3BD1A7856AA00A2D806 /* lockedorb-9@2x.png in Resources */,
 				CFDA78E2198C303C0014A8CD /* glowring@2x.png in Resources */,
 				CFC4D27A18D7BD03004681FD /* mus_mobsquad_gameplay.mp3 in Resources */,
-				6B36565F1B07A183009BB2DA /* Credits5@2x.txt in Resources */,
+				6B36565F1B07A183009BB2DA /* Credits.1@2x.txt in Resources */,
 				9BA69DDD1B2679A600FE01A8 /* gradientearthdailylab@2x~ipad.png in Resources */,
 				9BB5AF911AA79C85002076E3 /* holeobstacle@2x.png in Resources */,
 				9B2389C31A30048D00FA3743 /* itemssidearrow@2x.png in Resources */,
@@ -29058,7 +29054,7 @@
 				6B26566A1B2B8F9900969EB9 /* lightboardsquare@2x~ipad.png in Resources */,
 				9BDA8B9C1A3B8E1700C7AC27 /* rockheadshot@2x.png in Resources */,
 				63CA0A981AD37EF600E92774 /* timerheal@2x.png in Resources */,
-				6B3656611B07A183009BB2DA /* Credits5@2x.txt in Resources */,
+				6B3656611B07A183009BB2DA /* Credits.1@2x.txt in Resources */,
 				9B0ECA981B34CE9C00C442F3 /* firemediumsquare@2x~ipad.png in Resources */,
 				9BA69DB31B26764700FE01A8 /* maptaskdonecheck@2x~ipad.png in Resources */,
 				9B0ECAE01B34D0B100C442F3 /* MonsterCardView~ipad.xib in Resources */,
