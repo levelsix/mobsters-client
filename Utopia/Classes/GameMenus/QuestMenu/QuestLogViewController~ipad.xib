@@ -70,7 +70,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="b8W-pg-Sa7" userLabel="Close Button" customClass="CloseButton">
-                            <rect key="frame" x="590.00000023616929" y="6" width="53" height="53"/>
+                            <rect key="frame" x="590.00000047454228" y="6" width="53" height="53"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" image="closepopupx.png">
