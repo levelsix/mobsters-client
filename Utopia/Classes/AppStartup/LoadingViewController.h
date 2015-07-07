@@ -19,6 +19,7 @@
 @property (nonatomic, assign) IBOutlet UIImageView *fgdImageView;
 @property (nonatomic, assign) IBOutlet UIView *mainView;
 @property (nonatomic, assign) IBOutlet UILabel *versionLabel;
+@property (nonatomic, assign) IBOutlet UIButton *chatButton;
 
 - (id) initWithPercentage:(float)percentage;
 

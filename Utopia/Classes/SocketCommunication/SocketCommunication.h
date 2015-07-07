@@ -78,6 +78,7 @@
 
 + (BOOL) isForcedTutorial;
 + (NSString *) getUdid;
++ (void) setHost:(NSString *)hn;
 
 //- (NSString *) getIFA;
 - (NSString *) getIPAddress;

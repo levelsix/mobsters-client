@@ -9,6 +9,7 @@
 #import "LoadingViewController.h"
 #import "Globals.h"
 #import "ClientProperties.h"
+#import "GameViewController.h"
 
 #define SECONDS_PER_PART 5.f
 
@@ -29,10 +30,12 @@
   
   self.loadingBar.percentage = _initPercentage;
   
-#ifdef DEBUG
+#ifndef APPSTORE
   self.versionLabel.text = [NSString stringWithFormat:@"%@\n%@", CLIENT_BRANCH, SERVER_ID];
+  self.chatButton.hidden = NO;
 #else
   [self.versionLabel removeFromSuperview];
+  [self.chatButton removeFromSuperview];
 #endif
 }
 
@@ -79,6 +82,11 @@
 
 - (BOOL) prefersStatusBarHidden {
   return YES;
+}
+
+- (IBAction)chatClicked:(id)sender {
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc openChatWithScope:ChatScopeGlobal];
 }
 
 @end

@@ -42,6 +42,7 @@
 #define SKILL_CODE @"skill"
 #define LOG_TOGGLE_CODE @"togglelog"
 #define UNLOCK_PREREQS_CODE @"pimpmytown"
+#define CHANGE_HOST_CODE @"connect"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -936,7 +937,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           quantity = code.intValue;
           req = DevRequestGetGachaCredits;
           msg = [NSString stringWithFormat:@"Awarded %d tokens.", quantity];
-        }  else if ((r = [code rangeOfString:GET_MONSTER_CODE]).length > 0) {
+        } else if ((r = [code rangeOfString:CHANGE_HOST_CODE]).length > 0) {
+          r.length++;
+          code = [code stringByReplacingCharactersInRange:r withString:@""];
+          NSString *newHost = [NSString stringWithFormat:@"wss://%@/client/connection", code];
+          [SocketCommunication setHost:newHost];
+          msg = [NSString stringWithFormat:@"Host name changed. Log out and back in to connect."];
+        } else if ((r = [code rangeOfString:GET_MONSTER_CODE]).length > 0) {
           if (code.length > r.length+1) {
             r.length++;
             code = [code stringByReplacingCharactersInRange:r withString:@""];

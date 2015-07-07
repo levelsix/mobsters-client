@@ -438,8 +438,10 @@ static const CGSize FIXED_SIZE = {568, 384};
     [self fadeToLoadingScreenPercentage:PART_1_PERCENT animated:YES];
   }
   
-  [self removeAllViewControllers];
-  [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(doFreshRestart)];
+  if (!self.chatViewController) {
+    [self removeAllViewControllers];
+    [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(doFreshRestart)];
+  }
 }
 
 - (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse {

@@ -43,6 +43,7 @@
 LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
 static NSString *udid = nil;
+static NSString *host = HOST_NAME;
 
 - (NSString *)getIPAddress
 {
@@ -147,6 +148,10 @@ static NSString *udid = nil;
   return udid;
 }
 
++ (void) setHost:(NSString *)hn {
+  host = hn;
+}
+
 - (id) init {
   if ((self = [super init])) {
     if ([SocketCommunication isForcedTutorial]) {
@@ -190,7 +195,7 @@ static NSString *udid = nil;
   
   // Convert version to use a '-' instead of a '.'
   version = [version stringByReplacingOccurrencesOfString:@"." withString:@"-"];
-  NSString *hostName = HOST_NAME;
+  NSString *hostName = host;
   hostName = [NSString stringWithFormat:hostName, version];
   NSURL *url = [NSURL URLWithString:hostName];
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
