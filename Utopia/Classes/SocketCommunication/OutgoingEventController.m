@@ -940,7 +940,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         } else if ((r = [code rangeOfString:CHANGE_HOST_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
-          NSString *newHost = [NSString stringWithFormat:@"wss://%@/client/connection", code];
+          NSString *newHost = [NSString stringWithFormat:@"wss://%@/client/connection", [code stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
           [SocketCommunication setHost:newHost];
           msg = [NSString stringWithFormat:@"Host name changed. Log out and back in to connect."];
         } else if ((r = [code rangeOfString:GET_MONSTER_CODE]).length > 0) {
