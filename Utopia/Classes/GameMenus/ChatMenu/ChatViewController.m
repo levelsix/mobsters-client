@@ -558,10 +558,6 @@
     [gvc addChildViewController:svc];
     [gvc.view addSubview:svc.view];
     
-    // Make sure whole chat is in the view
-    UITableViewCell *cell = [sender getAncestorInViewHierarchyOfType:[UITableViewCell class]];
-    [self.clanChatView.chatTable scrollToRowAtIndexPath:[self.clanChatView.chatTable indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionNone animated:NO];
-    
     if (sender == nil)
     {
       [svc showCenteredOnScreen];

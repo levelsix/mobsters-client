@@ -24,7 +24,7 @@
 @implementation AvatarMonstersFiller
 
 - (NSString *) titleName {
-  return [NSString stringWithFormat:@"CHOOSE %@", MONSTER_NAME.uppercaseString];
+  return [NSString stringWithFormat:@"SELECT AN AVATAR"];
 }
 
 - (NSString *) cellClassName {

@@ -493,7 +493,9 @@ static int numLeagues = 6;
   
   GameState *gs = [GameState sharedGameState];
   TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
-  self.cashCostLabel.text = [NSString stringWithFormat:@"Match Cost: %@", [Globals cashStringForNumber:thp.pvpQueueCashCost]];
+  // Cash stack goes in the middle
+  self.cashCostLabel.text = [NSString stringWithFormat:@"Match Cost:        %@", [Globals commafyNumber:thp.pvpQueueCashCost]];
+  [Globals adjustViewForCentering:self.cashCostLabel.superview withLabel:self.cashCostLabel];
   
   self.backButton.alpha = 0.f;
   self.titleLabel.text = @"Multiplayer";

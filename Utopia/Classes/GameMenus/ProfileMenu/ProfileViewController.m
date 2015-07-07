@@ -93,15 +93,17 @@
 }
 
 - (void)loadProfile {
-  GameState *gs = [GameState sharedGameState];
-  
   if (!self.fup) {
     self.statsView.hidden = YES;
     self.teamView.hidden = YES;
     
     self.nameLabel.text = @"Loading...";
+    self.spinner.hidden = NO;
+    [self.spinner startAnimating];
+    
     self.avatarIcon.image = nil;
     self.avatarBgd.image = nil;
+    self.avatarButton.hidden = YES;
     
     [self.navBar clickButton:0];
   } else {
@@ -120,15 +122,23 @@
     
     self.nameLabel.text = self.fup.name;
     
-    MonsterProto *avMonster = [gs monsterWithId:self.fup.avatarMonsterId];
-    NSString *file = [Globals imageNameForElement:avMonster.monsterElement suffix:@"bigavatar.png"];
-    [Globals imageNamed:file withView:self.avatarBgd greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
-    file = [avMonster.imagePrefix stringByAppendingString:@"Card.png"];
-    [Globals imageNamed:file withView:self.avatarIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [self loadAvatarIcon];
     
     [self button1Clicked:self.navBar];
     [self button1Clicked:self.monsterBar];
   }
+}
+
+- (void) loadAvatarIcon {
+  GameState *gs = [GameState sharedGameState];
+  
+  self.avatarButton.hidden = ![gs.userUuid isEqualToString:self.fup.userUuid];
+  
+  MonsterProto *avMonster = [gs monsterWithId:self.fup.avatarMonsterId];
+  NSString *file = [Globals imageNameForElement:avMonster.monsterElement suffix:@"bigavatar.png"];
+  [Globals imageNamed:file withView:self.avatarBgd greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+  file = [avMonster.imagePrefix stringByAppendingString:@"Card.png"];
+  [Globals imageNamed:file withView:self.avatarIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 - (IBAction)clanClicked:(id)sender {
@@ -210,6 +220,53 @@
     
     [sender clickButton:3];
   }
+}
+
+#pragma mark Avatar Chooser
+
+- (IBAction)avatarClicked:(id)sender {
+  
+  MonsterSelectViewController *svc = [[MonsterSelectViewController alloc] init];
+  if (svc) {
+    self.monsterSelectViewController = svc;
+    
+    AvatarMonstersFiller *td = [[AvatarMonstersFiller alloc] init];
+    svc.delegate = td;
+    td.delegate = self;
+    self.avatarMonstersFiller = td;
+    
+    GameViewController *gvc = [GameViewController baseController];
+    svc.view.frame = gvc.view.bounds;
+    [gvc addChildViewController:svc];
+    [gvc.view addSubview:svc.view];
+    
+    if (sender == nil)
+    {
+      [svc showCenteredOnScreen];
+    }
+    else
+    {
+      if ([sender isKindOfClass:[UIButton class]])
+      {
+        UIButton* invokingButton = (UIButton*)sender;
+        [svc showAnchoredToInvokingView:invokingButton
+                          withDirection:ViewAnchoringPreferRightPlacement
+                      inkovingViewImage:[invokingButton imageForState:invokingButton.state]];
+      }
+    }
+  }
+}
+
+- (void) avatarMonsterChosen {
+  GameState *gs = [GameState sharedGameState];
+  self.fup = [gs convertToFullUserProto];
+  
+  [self loadProfile];
+}
+
+- (void) monsterSelectClosed {
+  self.monsterSelectViewController = nil;
+  self.avatarMonstersFiller = nil;
 }
 
 @end

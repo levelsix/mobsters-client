@@ -18123,9 +18123,6 @@
 							};
 						};
 					};
-					CF48189719F7217F00041486 = {
-						DevelopmentTeam = 5QTK7A946J;
-					};
 				};
 			};
 			buildConfigurationList = CF12563C1538A94D00E0C1AD /* Build configuration list for PBXProject "Utopia" */;
@@ -25925,7 +25922,7 @@
 					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = "Toon Squad";
-				PROVISIONING_PROFILE = "0c3d613a-026d-435e-819b-79575b89800e";
+				PROVISIONING_PROFILE = "121bbbd0-7417-4ff5-8b9a-df34af95a031";
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
@@ -26007,7 +26004,7 @@
 					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = "Toon Squad";
-				PROVISIONING_PROFILE = "0c3d613a-026d-435e-819b-79575b89800e";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -26090,7 +26087,7 @@
 					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = "Toon Squad";
-				PROVISIONING_PROFILE = "0c3d613a-026d-435e-819b-79575b89800e";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = all;

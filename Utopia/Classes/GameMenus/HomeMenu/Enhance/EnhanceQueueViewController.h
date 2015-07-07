@@ -38,6 +38,8 @@
   id _buttonSender;
   
   BOOL _waitingForResponse;
+  
+  BOOL _isClosing;
 }
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *queueView;

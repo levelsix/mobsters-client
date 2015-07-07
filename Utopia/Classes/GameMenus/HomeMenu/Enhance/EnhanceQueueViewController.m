@@ -59,6 +59,8 @@
 
 @implementation EnhanceQueueViewController
 
+static int listViewContentOffset = 0.f;
+
 - (id) initWithBaseMonster:(UserMonster *)um {
   // Changed to [self init] for tutorial vc
   if ((self = [self init])) {
@@ -135,6 +137,8 @@
   [cv updateForEnhance];
   
   [[SocketCommunication sharedSocketCommunication] pauseFlushTimer];
+  
+  self.listView.collectionView.contentOffset = CGPointMake(listViewContentOffset, 0.f);
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -144,6 +148,16 @@
   
   [[SocketCommunication sharedSocketCommunication] flush];
   [[SocketCommunication sharedSocketCommunication] resumeFlushTimer];
+  
+  if (!_isClosing) {
+    listViewContentOffset = self.listView.collectionView.contentOffset.x;
+  }
+}
+
+- (BOOL) canClose {
+  listViewContentOffset = 0.f;
+  _isClosing = YES;
+  return YES;
 }
 
 - (int) maxQueueSize {

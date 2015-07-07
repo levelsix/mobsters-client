@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController">
             <connections>
                 <outlet property="avatarBgd" destination="EvG-SR-TWR" id="Jmy-lg-7MX"/>
+                <outlet property="avatarButton" destination="3Oa-DS-mge" id="zSy-Sc-TrY"/>
                 <outlet property="avatarIcon" destination="Q2b-bc-OOo" id="78A-TS-zaO"/>
                 <outlet property="bgdView" destination="6aY-5U-QMu" id="Nzd-Nm-1fY"/>
                 <outlet property="mainView" destination="o0C-dU-Hv2" id="HbF-ze-BZm"/>
@@ -565,6 +566,17 @@
                                     <rect key="frame" x="4" y="4" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3Oa-DS-mge" customClass="MaskedButton">
+                                    <rect key="frame" x="4" y="4" width="40" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="avatarClicked:" destination="-1" eventType="touchUpInside" id="Cb1-mC-j10"/>
+                                        <outlet property="baseImage" destination="EvG-SR-TWR" id="qAx-0i-gKK"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>

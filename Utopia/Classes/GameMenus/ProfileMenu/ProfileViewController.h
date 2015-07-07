@@ -12,6 +12,8 @@
 #import "MonsterCardView.h"
 #import "ProfileViews.h"
 
+#import "AvatarMonstersFiller.h"
+
 @interface ProfileMonsterBar : ButtonTabBar
 
 @property (nonatomic, retain) IBOutlet UIButton *button1;
@@ -20,7 +22,7 @@
 
 @end
 
-@interface ProfileViewController : UIViewController <TabBarDelegate>
+@interface ProfileViewController : UIViewController <TabBarDelegate, AvatarMonstersFillerDelegate>
 
 @property (nonatomic, strong) IBOutlet UIView *mainView;
 @property (nonatomic, strong) IBOutlet UIView *bgdView;
@@ -35,6 +37,8 @@
 @property (nonatomic, strong) IBOutlet ProfileStatsView *statsView;
 @property (nonatomic, strong) IBOutlet UIView *teamView;
 @property (nonatomic, strong) IBOutlet UILabel *slotEmptyView;
+@property (nonatomic, strong) IBOutlet UIButton *avatarButton;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic, strong) IBOutletCollection(ProfileMonsterTeamView) NSArray *monsterTeamViews;
 @property (nonatomic, strong) IBOutlet ProfileMonsterDescriptionView *monsterDescriptionView;
@@ -42,6 +46,9 @@
 @property (nonatomic, strong) FullUserProto *fup;
 @property (nonatomic, copy) NSArray *curTeam;
 @property (nonatomic, strong) ResearchUtil *researchUtil;
+
+@property (nonatomic, retain) MonsterSelectViewController *monsterSelectViewController;
+@property (nonatomic, retain) AvatarMonstersFiller *avatarMonstersFiller;
 
 - (id)initWithUserUuid:(NSString *)userUuid;
 - (id)initWithFullUserProto:(FullUserProto *)fup andCurrentTeam:(NSArray *)curTeam;

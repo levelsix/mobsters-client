@@ -36,8 +36,6 @@
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  self.listView.collectionView.contentOffset = ccp(0,0);
-  
   [self reloadListViewAnimated:NO];
   
   DailyEventCornerView *cv = (DailyEventCornerView *)self.leftCornerView;
