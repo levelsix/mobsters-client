@@ -140,6 +140,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.levelToShowRateUsPopup = constants.levelToShowRateUsPopup;
   self.fbConnectRewardDiamonds = constants.fbConnectRewardDiamonds;
   self.faqFileName = constants.faqFileName;
+  self.creditsFileName = constants.creditsFileName;
   self.adminChatUser = constants.adminChatUserProto;
   self.numBeginnerSalesAllowed = constants.numBeginnerSalesAllowed;
   self.minutesPerGem = constants.minutesPerGem;

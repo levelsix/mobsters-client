@@ -13,6 +13,8 @@
 #import "OutgoingEventController.h"
 #import "Analytics.h"
 
+#define IPAD_CORNER_RADIUS 5
+
 @implementation FriendAcceptView
 
 - (void) awakeFromNib {
@@ -302,6 +304,8 @@
   [super viewDidLoad];
   [self.menuContainer addSubview:self.bonusView];
   
+  if ([Globals isiPad]) self.mainView.layer.cornerRadius = IPAD_CORNER_RADIUS;
+  
   self.bonusTopBar.alpha = 0.f;
   self.backView.alpha = 0.f;
   [self.bonusView updateForUserStruct:self.userStruct];
@@ -320,6 +324,8 @@
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fbInviteAccepted) name:FB_INVITE_ACCEPTED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fbIncreasedSlots:) name:FB_INCREASE_SLOTS_NOTIFICATION object:nil];
+  
+  if ([Globals isiPad]) self.view.transform = CGAffineTransformMakeScale(1.5, 1.5);
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

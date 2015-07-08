@@ -150,6 +150,7 @@
 @property (nonatomic, assign) int fbConnectRewardDiamonds;
 
 @property (nonatomic, retain) NSString *faqFileName;
+@property (nonatomic, retain) NSString *creditsFileName;
 
 @property (nonatomic, retain) MinimumUserProto *adminChatUser;
 

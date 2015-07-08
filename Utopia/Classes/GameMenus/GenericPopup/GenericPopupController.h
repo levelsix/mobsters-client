@@ -29,6 +29,11 @@
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *titleBgd;
 
+@property (nonatomic, retain) IBOutlet UIImageView *titleBgdLeft;
+@property (nonatomic, retain) IBOutlet UIImageView *titleBgdRight;
+@property (nonatomic, retain) IBOutlet UIImageView *titleBgdMiddle;
+
+
 @property (nonatomic, retain) IBOutlet UIView *descriptionView;
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 
