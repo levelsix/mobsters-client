@@ -25,8 +25,6 @@
 #define PURPLE_TEXT @"9100DE"
 #define DARK_GREY_TEXT @"333333"
 
-#define CORNER_RADIUS ([Globals isiPad] ? 10.f : 5.f)
-
 @implementation ClanRewardsQuestView
 
 - (void) updateForUserAchievement:(UserAchievement *)ua achievement:(AchievementProto *)ap {
@@ -97,7 +95,7 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  self.containerView.superview.layer.cornerRadius = CORNER_RADIUS;
+  self.containerView.superview.layer.cornerRadius = POPUP_CORNER_RADIUS;
   self.containerView.superview.clipsToBounds = YES;
 }
 

@@ -13,7 +13,7 @@
 
 - (void)loadFAQ {
   Globals *gl = [Globals sharedGlobals];
-  [self loadFile:gl.creditsFileName ? gl.creditsFileName : @"Credits5.txt"];
+  [self loadFile:gl.creditsFileName ? gl.creditsFileName : @"Credits.1.txt"];
 }
 
 @end
