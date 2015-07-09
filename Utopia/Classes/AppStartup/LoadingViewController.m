@@ -28,7 +28,6 @@
   [super viewDidLoad];
   
   self.loadingBar.percentage = _initPercentage;
-  self.splitLoadingBar.percentage = _initPercentage;
   
 #ifdef DEBUG
   self.versionLabel.text = [NSString stringWithFormat:@"%@\n%@", CLIENT_BRANCH, SERVER_ID];
@@ -68,7 +67,6 @@
   if (percentage > 0.01) {
     [UIView animateWithDuration:SECONDS_PER_PART animations:^{
       self.loadingBar.percentage = percentage;
-      self.splitLoadingBar.percentage = percentage;
     }];
   } else {
     [self setPercentage:percentage];
@@ -77,7 +75,6 @@
 
 - (void) setPercentage:(float)percentage {
   self.loadingBar.percentage = percentage;
-  self.splitLoadingBar.percentage = percentage;
 }
 
 - (BOOL) prefersStatusBarHidden {
