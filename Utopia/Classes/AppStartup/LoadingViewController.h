@@ -14,7 +14,6 @@
 }
 
 @property (nonatomic, assign) IBOutlet ProgressBar *loadingBar;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *splitLoadingBar; //IPAD VERSION
 @property (nonatomic, assign) IBOutlet UILabel *tipLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *bgdImageView;
 @property (nonatomic, assign) IBOutlet UIImageView *fgdImageView;

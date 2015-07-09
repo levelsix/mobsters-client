@@ -114,7 +114,7 @@
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="girl2.png" id="bri-9Q-VHs">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="girl2.png" id="bri-9Q-VHs">
                                             <rect key="frame" x="10" y="-32" width="62" height="88"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>

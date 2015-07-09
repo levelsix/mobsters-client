@@ -20,6 +20,8 @@
 
 #define ANIMATION_SPEED 800.f
 
+#define HEIGHT_OFFSET ([Globals isiPad] ? 68.f : 28.f)
+
 @implementation ChatMainView
 
 - (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
@@ -66,7 +68,7 @@
   [Analytics openChat];
   
   // Increase
-  float newHeight = self.view.height-28.f;
+  float newHeight = self.view.height-HEIGHT_OFFSET;
   self.mainView.height = newHeight;
   self.mainView.center = ccp(self.view.width/2, self.view.height/2);
   
@@ -101,6 +103,8 @@
   [self updateAvatarIcons];
   
   [[GameViewController baseController] clearTutorialArrows];
+  
+  self.mainView.layer.cornerRadius = 5.f;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
