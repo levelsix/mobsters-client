@@ -971,8 +971,12 @@
 
 - (void) doReorder {
   [super doReorder];
-  
+
+  /*
   if ((_isMoving && self.selected) || ([self.selected isKindOfClass:[HomeBuilding class]] && !((HomeBuilding *)self.selected).isSetDown)) {
+    self.selected.zOrder = 1000;
+  } */
+  if (self.selected) {
     self.selected.zOrder = 1000;
   }
 }

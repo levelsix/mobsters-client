@@ -12,6 +12,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "SoundEngine.h"
+#import "BuildingButton.h"
 
 #define BOUNCE_DURATION 0.1f // 1-way
 #define BOUNCE_SCALE 1.1
@@ -257,6 +258,69 @@
   }
 }
 
+- (void) displayBuildingButtons:(NSArray*)buttons targetSelector:(SEL)selector
+{
+  if (!_buildingButtons) {
+    _buildingButtons = [CCNode node];
+    _buildingButtons.position = ccp(self.contentSize.width * .5f, 0.f);
+    _buildingButtons.scale = 1.f / MAX_ZOOM; // Button assets are built with correct size at max zoom level
+    
+    [self addChild:_buildingButtons];
+  }
+  
+  if (buttons.count) {
+    [_buildingButtons addChild:[CCSprite spriteWithImageNamed:@"roundbuildingoval.png"]]; // TODO - Fade in
+  }
+  
+  const NSInteger c = buttons.count;
+  for (int i = 0; i < c; ++i) {
+    BuildingButton* button = buttons[i];
+    
+    const float dx = i - (float)(c - 1) * .5f;
+    const float dy = ABS(dx);
+    button.anchorPoint = ccp(.5f, 1.f);
+    button.position = CGPointMake(dx * 115.f, -16.f + dy * 25.f);
+    
+    [button setTarget:self selector:selector];
+    [_buildingButtons addChild:button]; // TODO - Animate in
+  }
+}
+
+- (void) removeBuildingButtons
+{
+  if (_buildingButtons) {
+    [_buildingButtons removeAllChildren]; // TODO - Animate out
+  }
+}
+
+- (void) displayBuildingTitle:(NSString*)title subtitle:(NSString*)subtitle
+{
+  if (!_buildingTitle) {
+    _buildingTitle = [CCNode node];
+    _buildingTitle.anchorPoint = ccp(.5f, 0.f);
+    _buildingTitle.position = ccp(self.contentSize.width * .5f, self.contentSize.height + 8.f);
+    
+    [self addChild:_buildingTitle];
+  }
+  
+  CCLabelTTF* subtitleLabel = [BuildingButton styledLabelWithString:subtitle fontSize:16.f];
+  subtitleLabel.anchorPoint = ccp(.5f, 0.f);
+  
+  CCLabelTTF* titleLabel = [BuildingButton styledLabelWithString:title fontSize:16.f];
+  titleLabel.anchorPoint = ccp(.5f, 0.f);
+  titleLabel.position = ccp(0.f, subtitleLabel.contentSize.height - 8.f);
+  
+  [_buildingTitle addChild:titleLabel]; // TODO - Fade in
+  [_buildingTitle addChild:subtitleLabel];
+}
+
+- (void) removeBuildingTitle
+{
+  if (_buildingTitle) {
+    [_buildingTitle removeAllChildren]; // TODO - Animate out
+  }
+}
+
 @end
 
 @implementation MissionBuilding
@@ -350,6 +414,49 @@
     [CCActionRemove action],
     nil]];
   [(HomeMap *)_map changeTiles:self.location toBuildable:YES];
+}
+
+- (BOOL) select {
+  BOOL select = [super select];
+  [self displayBuildingInfo];
+  return select;
+}
+
+- (void) unselect {
+  [super unselect];
+  [self removeBuildingInfo];
+}
+
+- (void) displayBuildingInfo {
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSMutableArray *buildingButtons = [NSMutableArray array];
+  
+  UserObstacle *ue = self.obstacle;
+  ObstacleProto *op = ue.staticObstacle;
+  
+  [self displayBuildingTitle:op.name subtitle:@""];
+  
+  if (!ue.removalTime) {
+    [buildingButtons addObject:[BuildingButton buttonRemoveWithResourceType:op.removalCostType cost:op.cost]];
+  } else {
+    int timeLeft = [(HomeMap *)_map timeLeftForConstructionBuildingOrObstacle:self];
+    [buildingButtons addObject:[BuildingButton buttonSpeedup:![gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO]]];
+  }
+  
+  [self displayBuildingButtons:buildingButtons targetSelector:@selector(buildingButtonTapped:)];
+}
+
+- (void) removeBuildingInfo {
+  [self removeBuildingButtons];
+  [self removeBuildingTitle];
+}
+
+- (void) buildingButtonTapped:(BuildingButton*)sender {
+  // Create a fake button to carry the message up the chain
+  MapBotViewButton* button = [[MapBotViewButton alloc] init];
+  button.config = sender.buttonConfig;
+  [(HomeMap *)_map mapBotViewButtonSelected:button];
 }
 
 @end

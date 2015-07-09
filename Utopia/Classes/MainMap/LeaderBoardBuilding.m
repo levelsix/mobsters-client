@@ -10,6 +10,8 @@
 #import "CCAnimation+SpriteLoading.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "BuildingButton.h"
+#import "HomeMap.h"
 
 @implementation LeaderBoardBuilding
 
@@ -76,6 +78,35 @@
       [self.buildingSprite addChild:monsterShadow z:1];
     }
   }];
+}
+
+- (BOOL) select {
+  BOOL select = [super select];
+  [self displayBuildingInfo];
+  return select;
+}
+
+- (void) unselect {
+  [super unselect];
+  [self removeBuildingInfo];
+}
+
+- (void) displayBuildingInfo {
+  [self displayBuildingTitle:@"Leaderboard" subtitle:@""];
+  
+  [self displayBuildingButtons:@[ [BuildingButton buttonLeaderboard] ] targetSelector:@selector(buildingButtonTapped:)];
+}
+
+- (void) removeBuildingInfo {
+  [self removeBuildingButtons];
+  [self removeBuildingTitle];
+}
+
+- (void) buildingButtonTapped:(BuildingButton*)sender {
+  // Create a fake button to carry the message up the chain
+  MapBotViewButton* button = [[MapBotViewButton alloc] init];
+  button.config = sender.buttonConfig;
+  [(HomeMap *)_map mapBotViewButtonSelected:button];
 }
 
 @end

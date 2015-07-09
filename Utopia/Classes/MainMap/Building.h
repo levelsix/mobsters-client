@@ -21,6 +21,9 @@
 @interface Building : SelectableSprite {
   float _percentage;
   BuildingBubble *_bubble;
+  
+  CCNode *_buildingButtons;
+  CCNode *_buildingTitle;
 }
 
 @property (nonatomic, retain) CCSprite *buildingSprite;
@@ -47,6 +50,11 @@
 - (void) setBubbleType:(BuildingBubbleType)bubbleType;
 - (void) setBubbleType:(BuildingBubbleType)bubbleType withNum:(int)num;
 - (void) displayBubble;
+
+- (void) displayBuildingButtons:(NSArray*)buttons targetSelector:(SEL)selector;
+- (void) removeBuildingButtons;
+- (void) displayBuildingTitle:(NSString*)title subtitle:(NSString*)subtitle;
+- (void) removeBuildingTitle;
 
 @end
 

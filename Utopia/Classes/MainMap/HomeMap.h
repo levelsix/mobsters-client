@@ -73,6 +73,7 @@
 - (void) preparePurchaseOfStruct:(int)structId;
 - (UserStruct *) sendPurchaseStructWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems;
 - (void) purchaseBuildingWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems;
+- (int) timeLeftForConstructionBuildingOrObstacle:(id)building;
 
 - (void) pointArrowOnManageTeamWithPulsingAlpha:(BOOL)pulsing;
 - (void) pointArrowOnEnhanceMobsters;

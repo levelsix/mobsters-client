@@ -13,6 +13,8 @@
 #import "Globals.h"
 #import "CCSoundAnimation.h"
 #import "SoundEngine.h"
+#import "BuildingButton.h"
+#import "IAPHelper.h"
 
 #define DARK_SHADOW_TAG @"DarkShadow"
 #define CONSTR_FRAME_TAG @"ConstrFrame"
@@ -153,6 +155,7 @@
     _startMoveCoordinate = _location.origin;
     _startOrientation = self.orientation;
     [self displayMoveArrows];
+    [self displayBuildingInfo];
     
     CCSprite *frame = (CCSprite *)[self getChildByName:CONSTR_FRAME_TAG recursively:YES];
     [frame stopActionByTag:BOUNCE_ACTION_TAG];
@@ -181,6 +184,124 @@
     [self cancelMove];
   }
   [self removeMoveArrows];
+  [self removeBuildingInfo];
+}
+
+- (void) displayBuildingInfo {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSMutableArray *buildingButtons = [NSMutableArray array];
+  
+  UserStruct *us = self.userStruct;
+  StructureInfoProto *fsp = us.staticStruct.structInfo;
+  StructureInfoProto *nextFsp = us.staticStructForNextLevel.structInfo;
+  
+  BOOL isUpgradableBuilding = fsp.predecessorStructId || fsp.successorStructId;
+  if (fsp.structType != StructureInfoProto_StructTypeMoneyTree) {
+    [self displayBuildingTitle:fsp.name subtitle:isUpgradableBuilding ? (fsp.level ? [NSString stringWithFormat:@"LVL %d", fsp.level] : @"Broken") : @""];
+  } else {
+    [self displayBuildingTitle:fsp.name subtitle:us.isExpired ? @"Expired" : [Globals convertTimeToSingleLongString:[us timeTillExpiry]]];
+  }
+
+  // SPECIAL CASE.. Money Tree
+  BOOL continueNormally = YES;
+  if (fsp.structType == StructureInfoProto_StructTypeMoneyTree && us.isExpired) {
+    MoneyTreeProto *mtp = (MoneyTreeProto *)us.staticStruct;
+    
+    IAPHelper *iap = [IAPHelper sharedIAPHelper];
+    SKProduct *prod = [iap productForIdentifier:mtp.iapProductId];
+    NSString *price = [iap priceForProduct:prod];
+    [buildingButtons addObject:[BuildingButton buttonFixWithIAPString:price]];
+    
+    continueNormally = NO;
+  }
+  
+  if (continueNormally) {
+    if (us.isComplete) {
+      if (fsp.successorStructId) {
+        if (fsp.level == 0) {
+          [buildingButtons addObject:[BuildingButton buttonFixWithResourceType:nextFsp.buildResourceType cost:nextFsp.buildCost]];
+        } else {
+          [buildingButtons addObject:[BuildingButton buttonUpgradeWithResourceType:nextFsp.buildResourceType cost:nextFsp.buildCost]];
+        }
+      } else {
+        [buildingButtons addObject:[BuildingButton buttonInfo]];
+      }
+    } else {
+      int timeLeft = [_homeMap timeLeftForConstructionBuildingOrObstacle:self];
+      int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+      BOOL canGetHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataUuid:us.userStructUuid] < 0;
+      
+      if (gemCost && canGetHelp) {
+        [buildingButtons addObject:[BuildingButton buttonClanHelp]];
+      } else {
+        [buildingButtons addObject:[BuildingButton buttonSpeedup:!gemCost]];
+      }
+    }
+    
+    if (fsp.level > 1 || (us.isComplete && fsp.level == 1)) {
+      switch (fsp.structType) {
+        case StructureInfoProto_StructTypeResidence:
+          [buildingButtons addObject:[BuildingButton buttonBonusSlots]];
+          [buildingButtons addObject:[BuildingButton buttonSell]];
+          break;
+          
+        case StructureInfoProto_StructTypeHospital:
+          [buildingButtons addObject:[BuildingButton buttonHeal]];
+          break;
+          
+        case StructureInfoProto_StructTypeEvo:
+          [buildingButtons addObject:[BuildingButton buttonEvolve]];
+          break;
+          
+        case StructureInfoProto_StructTypeResearchHouse:
+          [buildingButtons addObject:[BuildingButton buttonResearch]];
+          break;
+          
+        case StructureInfoProto_StructTypeLab:
+          [buildingButtons addObject:[BuildingButton buttonEnhance]];
+          break;
+          
+        case StructureInfoProto_StructTypeMiniJob:
+          [buildingButtons addObject:[BuildingButton buttonMiniJobs]];
+          break;
+          
+        case StructureInfoProto_StructTypeTeamCenter:
+          [buildingButtons addObject:[BuildingButton buttonTeam]];
+          break;
+          
+        case StructureInfoProto_StructTypeClan:
+          [buildingButtons addObject:[BuildingButton buttonJoinClan]];
+          break;
+          
+        case StructureInfoProto_StructTypePvpBoard:
+          [buildingButtons addObject:[BuildingButton buttonPvPBoard]];
+          break;
+          
+        case StructureInfoProto_StructTypeBattleItemFactory:
+          [buildingButtons addObject:[BuildingButton buttonItemFactory]];
+          break;
+          
+        default:
+          break;
+      }
+    }
+  }
+  
+  [self displayBuildingButtons:buildingButtons targetSelector:@selector(buildingButtonTapped:)];
+}
+
+- (void) removeBuildingInfo {
+  [self removeBuildingButtons];
+  [self removeBuildingTitle];
+}
+
+- (void) buildingButtonTapped:(BuildingButton*)sender {
+  // Create a fake button to carry the message up the chain
+  MapBotViewButton* button = [[MapBotViewButton alloc] init];
+  button.config = sender.buttonConfig;
+  [_homeMap mapBotViewButtonSelected:button];
 }
 
 - (void) setIsConstructing:(BOOL)isConstructing {
@@ -286,6 +407,9 @@
     _startMoveCoordinate = _location.origin;
     _startOrientation = self.orientation;
     
+    if (_isSelected) {
+      [self displayBuildingInfo];
+    }
     if (shouldPlaySound) {
       [SoundEngine structDropped];
     }
@@ -305,6 +429,10 @@
     if (self.isSetDown) {
       sprite.opacity = 0.6f;
       [_homeMap changeTiles:self.location toBuildable:YES];
+      
+      if (_isSelected) {
+        [self removeBuildingInfo];
+      }
     }
     self.isSetDown = NO;
   }
