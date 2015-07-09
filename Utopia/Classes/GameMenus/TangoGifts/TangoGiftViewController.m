@@ -59,6 +59,8 @@
   self.containerView.superview.clipsToBounds = YES;
   
   [self updateUI];
+  
+  if ([Globals isiPad]) self.view.transform = CGAffineTransformMakeScale(1.5, 1.5);
 }
 
 - (void) updateForTangoFriends:(NSArray *)friends {
