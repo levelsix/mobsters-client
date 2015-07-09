@@ -22,7 +22,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="splashwithtango.png" id="EsX-Ch-aiU">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="splashwithtango.jpg" id="EsX-Ch-aiU">
                             <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
@@ -107,7 +107,7 @@ prod</string>
     </objects>
     <resources>
         <image name="splashloadingbarbg.png" width="133" height="15"/>
-        <image name="splashwithtango.png" width="667" height="375"/>
+        <image name="splashwithtango.jpg" width="667" height="375"/>
         <image name="tipbg.png" width="248" height="57"/>
         <image name="upgradebarcurrentcap.png" width="3" height="12"/>
         <image name="upgradebarcurrentmiddle.png" width="1" height="12"/>
