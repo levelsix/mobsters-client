@@ -94,7 +94,9 @@
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
-  [_selected unselect];
+  if (_selected != selected) {
+    [_selected unselect];
+  }
   
   if ([selected select]) {
     _selected = selected;

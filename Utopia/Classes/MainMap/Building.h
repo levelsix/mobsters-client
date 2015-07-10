@@ -51,10 +51,12 @@
 - (void) setBubbleType:(BuildingBubbleType)bubbleType withNum:(int)num;
 - (void) displayBubble;
 
-- (void) displayBuildingButtons:(NSArray*)buttons targetSelector:(SEL)selector;
-- (void) removeBuildingButtons;
-- (void) displayBuildingTitle:(NSString*)title subtitle:(NSString*)subtitle;
-- (void) removeBuildingTitle;
+- (void) displayBuildingInfo:(BOOL)animate;
+- (void) removeBuildingInfo:(BOOL)animate;
+- (void) displayBuildingButtons:(NSArray*)buttons targetSelector:(SEL)selector animate:(BOOL)animate;
+- (void) removeBuildingButtons:(BOOL)animate;
+- (void) displayBuildingTitle:(NSString*)title subtitle:(NSString*)subtitle animate:(BOOL)animate;
+- (void) removeBuildingTitle:(BOOL)animate;
 
 @end
 

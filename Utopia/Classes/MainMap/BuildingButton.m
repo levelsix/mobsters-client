@@ -135,7 +135,8 @@
     
     CCLabelTTF* label = [BuildingButton styledLabelWithString:title fontSize:18.f];
     label.anchorPoint = ccp(.5f, 1.f);
-    label.position = ccp(self.contentSize.width * .5f, 16.f);
+    label.position = ccp(self.contentSize.width * .5f, 46.f);
+    label.dimensions = CGSizeMake(125.f, 125.f);
     
     [self addChild:buttonImage];
     [self addChild:label];
@@ -187,7 +188,6 @@
 + (CCLabelTTF*) styledLabelWithString:(NSString*)string fontSize:(CGFloat)size
 {
   CCLabelTTF* label = [CCLabelTTF labelWithString:string fontName:@"Ziggurat-HTF-Black" fontSize:size];
-  label.adjustsFontSizeToFit = YES;
   label.horizontalAlignment = CCTextAlignmentCenter;
   label.verticalAlignment = CCVerticalTextAlignmentCenter;
   label.fontColor = [CCColor whiteColor];

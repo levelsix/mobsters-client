@@ -82,24 +82,23 @@
 
 - (BOOL) select {
   BOOL select = [super select];
-  [self displayBuildingInfo];
+  [self displayBuildingInfo:YES];
   return select;
 }
 
 - (void) unselect {
   [super unselect];
-  [self removeBuildingInfo];
+  [self removeBuildingInfo:YES];
 }
 
-- (void) displayBuildingInfo {
-  [self displayBuildingTitle:@"Leaderboard" subtitle:@""];
-  
-  [self displayBuildingButtons:@[ [BuildingButton buttonLeaderboard] ] targetSelector:@selector(buildingButtonTapped:)];
+- (void) displayBuildingInfo:(BOOL)animate {
+  [self displayBuildingTitle:@"Leaderboard" subtitle:@"" animate:animate];
+  [self displayBuildingButtons:@[ [BuildingButton buttonLeaderboard] ] targetSelector:@selector(buildingButtonTapped:) animate:animate];
 }
 
-- (void) removeBuildingInfo {
-  [self removeBuildingButtons];
-  [self removeBuildingTitle];
+- (void) removeBuildingInfo:(BOOL)animate {
+  [self removeBuildingButtons:animate];
+  [self removeBuildingTitle:animate];
 }
 
 - (void) buildingButtonTapped:(BuildingButton*)sender {

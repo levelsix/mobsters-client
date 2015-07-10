@@ -971,12 +971,8 @@
 
 - (void) doReorder {
   [super doReorder];
-
-  /*
+  
   if ((_isMoving && self.selected) || ([self.selected isKindOfClass:[HomeBuilding class]] && !((HomeBuilding *)self.selected).isSetDown)) {
-    self.selected.zOrder = 1000;
-  } */
-  if (self.selected) {
     self.selected.zOrder = 1000;
   }
 }
@@ -1720,6 +1716,10 @@
   }
   
   [self updateMapBotView:self.bottomOptionView];
+  
+  if (self.selected && [self.selected isKindOfClass:[Building class]]) {
+    [(Building*)self.selected displayBuildingInfo:NO]; // Update building buttons to reflect change in speed-up
+  }
   
   [_timers removeObject:timer];
 }
@@ -2554,6 +2554,10 @@
         [viewController reloadDataAnimated:YES];
         [self updateTimersForBuilding:_speedupBuilding];
         [self updateMapBotView:self.bottomOptionView];
+      }
+      
+      if (self.selected && [self.selected isKindOfClass:[Building class]]) {
+        [(Building*)self.selected displayBuildingInfo:NO]; // Update building buttons to reflect change in speed-up
       }
     }
     

@@ -16,6 +16,8 @@
 
 #define BOUNCE_DURATION 0.1f // 1-way
 #define BOUNCE_SCALE 1.1
+#define BUILDING_BUTTONS_ANIM_TIME .15f
+#define BUILDING_BUTTONS_ANIM_DIST 50.f
 
 @implementation Building
 
@@ -69,6 +71,8 @@
   bounce = [CCActionEaseInOut actionWithAction:bounce];
   bounce.tag = BOUNCE_ACTION_TAG;
   [self.buildingSprite runAction:bounce];
+  
+  [self removeBubble];
   
   [SoundEngine structSelected];
   
@@ -252,24 +256,34 @@
 }
 
 - (void) displayBubble {
-  if (!self.progressBar && !self.arrow) {
+  if (!self.progressBar && !self.arrow && !_isSelected) {
     [_bubble stopAllActions];
     [_bubble runAction:[RecursiveFadeTo actionWithDuration:0.3 opacity:1.f]];
   }
 }
 
-- (void) displayBuildingButtons:(NSArray*)buttons targetSelector:(SEL)selector
+- (void) displayBuildingButtons:(NSArray*)buttons targetSelector:(SEL)selector animate:(BOOL)animate
 {
   if (!_buildingButtons) {
     _buildingButtons = [CCNode node];
-    _buildingButtons.position = ccp(self.contentSize.width * .5f, 0.f);
     _buildingButtons.scale = 1.f / MAX_ZOOM; // Button assets are built with correct size at max zoom level
+    _buildingButtons.zOrder = 1000; // Need them to be in front of all sibling buildings and obstacles
     
-    [self addChild:_buildingButtons];
+    [self.parent addChild:_buildingButtons];
   }
+  _buildingButtons.position = [self.parent convertToNodeSpace:[self convertToWorldSpace:ccp(self.contentSize.width * .5f, 0.f)]];
+  
+  [self removeBuildingButtons:NO];
   
   if (buttons.count) {
-    [_buildingButtons addChild:[CCSprite spriteWithImageNamed:@"roundbuildingoval.png"]]; // TODO - Fade in
+    CCNode* belt = [CCSprite spriteWithImageNamed:@"roundbuildingoval.png"];
+    belt.name = @"ButtonsBelt";
+    [_buildingButtons addChild:belt];
+
+    if (animate) {
+      // Fade in
+      [belt runAction:[CCActionFadeIn actionWithDuration:BUILDING_BUTTONS_ANIM_TIME]];
+    }
   }
   
   const NSInteger c = buttons.count;
@@ -282,26 +296,61 @@
     button.position = CGPointMake(dx * 115.f, -16.f + dy * 25.f);
     
     [button setTarget:self selector:selector];
-    [_buildingButtons addChild:button]; // TODO - Animate in
+    [_buildingButtons addChild:button];
+    
+    if (animate) {
+      // Animate in
+      button.opacity = 0.f;
+      button.position = ccpAdd(button.position, ccp(0.f, BUILDING_BUTTONS_ANIM_DIST));
+      [button runAction:[CCActionSpawn actions:
+                         [CCActionMoveBy actionWithDuration:BUILDING_BUTTONS_ANIM_TIME position:ccp(0.f, -BUILDING_BUTTONS_ANIM_DIST)],
+                         [RecursiveFadeTo actionWithDuration:BUILDING_BUTTONS_ANIM_TIME opacity:1.f], nil]];
+    }
   }
 }
 
-- (void) removeBuildingButtons
+- (void) removeBuildingButtons:(BOOL)animate
 {
   if (_buildingButtons) {
-    [_buildingButtons removeAllChildren]; // TODO - Animate out
+    if (animate) {
+      for (CCNode* node in _buildingButtons.children) {
+        [node stopAllActions];
+        
+        if ([node.name isEqualToString:@"ButtonsBelt"]) {
+          // Fade out and remove
+          [node runAction:[CCActionSequence actions:
+                           [CCActionFadeOut actionWithDuration:BUILDING_BUTTONS_ANIM_TIME],
+                           [CCActionRemove action], nil]];
+        }
+        else {
+          // Animate out and remove
+          [node runAction:[CCActionSequence actions:
+                           [CCActionSpawn actions:
+                            [CCActionMoveBy actionWithDuration:BUILDING_BUTTONS_ANIM_TIME position:ccp(0.f, BUILDING_BUTTONS_ANIM_DIST)],
+                            [RecursiveFadeTo actionWithDuration:BUILDING_BUTTONS_ANIM_TIME opacity:0.f], nil],
+                           [CCActionRemove action], nil]];
+        }
+      }
+    }
+    else {
+      [_buildingButtons.children makeObjectsPerformSelector:@selector(stopAllActions)];
+      [_buildingButtons removeAllChildren];
+    }
   }
 }
 
-- (void) displayBuildingTitle:(NSString*)title subtitle:(NSString*)subtitle
+- (void) displayBuildingTitle:(NSString*)title subtitle:(NSString*)subtitle animate:(BOOL)animate
 {
   if (!_buildingTitle) {
     _buildingTitle = [CCNode node];
     _buildingTitle.anchorPoint = ccp(.5f, 0.f);
-    _buildingTitle.position = ccp(self.contentSize.width * .5f, self.contentSize.height + 8.f);
+    _buildingTitle.zOrder = 1000; // Need them to be in front of all sibling buildings and obstacles
     
-    [self addChild:_buildingTitle];
+    [self.parent addChild:_buildingTitle];
   }
+  _buildingTitle.position = [self.parent convertToNodeSpace:[self convertToWorldSpace:ccp(self.contentSize.width * .5f, self.contentSize.height + 8.f)]];
+  
+  [self removeBuildingTitle:NO];
   
   CCLabelTTF* subtitleLabel = [BuildingButton styledLabelWithString:subtitle fontSize:16.f];
   subtitleLabel.anchorPoint = ccp(.5f, 0.f);
@@ -310,14 +359,33 @@
   titleLabel.anchorPoint = ccp(.5f, 0.f);
   titleLabel.position = ccp(0.f, subtitleLabel.contentSize.height - 8.f);
   
-  [_buildingTitle addChild:titleLabel]; // TODO - Fade in
+  [_buildingTitle addChild:titleLabel];
   [_buildingTitle addChild:subtitleLabel];
+  
+  if (animate) {
+    // Fade in
+    [titleLabel runAction:[CCActionFadeIn actionWithDuration:BUILDING_BUTTONS_ANIM_TIME]];
+    [subtitleLabel runAction:[CCActionFadeIn actionWithDuration:BUILDING_BUTTONS_ANIM_TIME]];
+  }
 }
 
-- (void) removeBuildingTitle
+- (void) removeBuildingTitle:(BOOL)animate
 {
   if (_buildingTitle) {
-    [_buildingTitle removeAllChildren]; // TODO - Animate out
+    if (animate) {
+      for (CCNode* node in _buildingTitle.children) {
+        [node stopAllActions];
+        
+        // Fade out and remove
+        [node runAction:[CCActionSequence actions:
+                         [CCActionFadeOut actionWithDuration:BUILDING_BUTTONS_ANIM_TIME],
+                         [CCActionRemove action], nil]];
+      }
+    }
+    else {
+      [_buildingTitle.children makeObjectsPerformSelector:@selector(stopAllActions)];
+      [_buildingTitle removeAllChildren];
+    }
   }
 }
 
@@ -418,16 +486,16 @@
 
 - (BOOL) select {
   BOOL select = [super select];
-  [self displayBuildingInfo];
+  [self displayBuildingInfo:YES];
   return select;
 }
 
 - (void) unselect {
   [super unselect];
-  [self removeBuildingInfo];
+  [self removeBuildingInfo:YES];
 }
 
-- (void) displayBuildingInfo {
+- (void) displayBuildingInfo:(BOOL)animate {
   Globals *gl = [Globals sharedGlobals];
   
   NSMutableArray *buildingButtons = [NSMutableArray array];
@@ -435,7 +503,7 @@
   UserObstacle *ue = self.obstacle;
   ObstacleProto *op = ue.staticObstacle;
   
-  [self displayBuildingTitle:op.name subtitle:@""];
+  [self displayBuildingTitle:op.name subtitle:@"" animate:animate];
   
   if (!ue.removalTime) {
     [buildingButtons addObject:[BuildingButton buttonRemoveWithResourceType:op.removalCostType cost:op.cost]];
@@ -444,12 +512,12 @@
     [buildingButtons addObject:[BuildingButton buttonSpeedup:![gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO]]];
   }
   
-  [self displayBuildingButtons:buildingButtons targetSelector:@selector(buildingButtonTapped:)];
+  [self displayBuildingButtons:buildingButtons targetSelector:@selector(buildingButtonTapped:) animate:animate];
 }
 
-- (void) removeBuildingInfo {
-  [self removeBuildingButtons];
-  [self removeBuildingTitle];
+- (void) removeBuildingInfo:(BOOL)animate {
+  [self removeBuildingButtons:animate];
+  [self removeBuildingTitle:animate];
 }
 
 - (void) buildingButtonTapped:(BuildingButton*)sender {

@@ -155,7 +155,7 @@
     _startMoveCoordinate = _location.origin;
     _startOrientation = self.orientation;
     [self displayMoveArrows];
-    [self displayBuildingInfo];
+    [self displayBuildingInfo:YES];
     
     CCSprite *frame = (CCSprite *)[self getChildByName:CONSTR_FRAME_TAG recursively:YES];
     [frame stopActionByTag:BOUNCE_ACTION_TAG];
@@ -184,10 +184,10 @@
     [self cancelMove];
   }
   [self removeMoveArrows];
-  [self removeBuildingInfo];
+  [self removeBuildingInfo:YES];
 }
 
-- (void) displayBuildingInfo {
+- (void) displayBuildingInfo:(BOOL)animate {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
@@ -199,9 +199,9 @@
   
   BOOL isUpgradableBuilding = fsp.predecessorStructId || fsp.successorStructId;
   if (fsp.structType != StructureInfoProto_StructTypeMoneyTree) {
-    [self displayBuildingTitle:fsp.name subtitle:isUpgradableBuilding ? (fsp.level ? [NSString stringWithFormat:@"LVL %d", fsp.level] : @"Broken") : @""];
+    [self displayBuildingTitle:fsp.name subtitle:isUpgradableBuilding ? (fsp.level ? [NSString stringWithFormat:@"LVL %d", fsp.level] : @"Broken") : @"" animate:animate];
   } else {
-    [self displayBuildingTitle:fsp.name subtitle:us.isExpired ? @"Expired" : [Globals convertTimeToSingleLongString:[us timeTillExpiry]]];
+    [self displayBuildingTitle:fsp.name subtitle:us.isExpired ? @"Expired" : [Globals convertTimeToSingleLongString:[us timeTillExpiry]] animate:animate];
   }
 
   // SPECIAL CASE.. Money Tree
@@ -289,12 +289,12 @@
     }
   }
   
-  [self displayBuildingButtons:buildingButtons targetSelector:@selector(buildingButtonTapped:)];
+  [self displayBuildingButtons:buildingButtons targetSelector:@selector(buildingButtonTapped:) animate:animate];
 }
 
-- (void) removeBuildingInfo {
-  [self removeBuildingButtons];
-  [self removeBuildingTitle];
+- (void) removeBuildingInfo:(BOOL)animate {
+  [self removeBuildingButtons:animate];
+  [self removeBuildingTitle:animate];
 }
 
 - (void) buildingButtonTapped:(BuildingButton*)sender {
@@ -408,7 +408,7 @@
     _startOrientation = self.orientation;
     
     if (_isSelected) {
-      [self displayBuildingInfo];
+      [self displayBuildingInfo:YES];
     }
     if (shouldPlaySound) {
       [SoundEngine structDropped];
@@ -431,7 +431,7 @@
       [_homeMap changeTiles:self.location toBuildable:YES];
       
       if (_isSelected) {
-        [self removeBuildingInfo];
+        [self removeBuildingInfo:YES];
       }
     }
     self.isSetDown = NO;
