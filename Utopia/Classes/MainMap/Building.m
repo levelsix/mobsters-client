@@ -16,8 +16,10 @@
 
 #define BOUNCE_DURATION 0.1f // 1-way
 #define BOUNCE_SCALE 1.1
-#define BUILDING_BUTTONS_ANIM_TIME .15f
-#define BUILDING_BUTTONS_ANIM_DIST 50.f
+#define BUILDING_BUTTONS_ANIM_TIME_IN .15f
+#define BUILDING_BUTTONS_ANIM_TIME_OUT .1f
+#define BUILDING_BUTTONS_ANIM_DELAY .05f
+#define BUILDING_BUTTONS_ANIM_OFFSET 50.f
 
 @implementation Building
 
@@ -282,7 +284,7 @@
 
     if (animate) {
       // Fade in
-      [belt runAction:[CCActionFadeIn actionWithDuration:BUILDING_BUTTONS_ANIM_TIME]];
+      [belt runAction:[CCActionFadeIn actionWithDuration:BUILDING_BUTTONS_ANIM_TIME_IN]];
     }
   }
   
@@ -300,11 +302,13 @@
     
     if (animate) {
       // Animate in
-      button.opacity = 0.f;
-      button.position = ccpAdd(button.position, ccp(0.f, BUILDING_BUTTONS_ANIM_DIST));
-      [button runAction:[CCActionSpawn actions:
-                         [CCActionMoveBy actionWithDuration:BUILDING_BUTTONS_ANIM_TIME position:ccp(0.f, -BUILDING_BUTTONS_ANIM_DIST)],
-                         [RecursiveFadeTo actionWithDuration:BUILDING_BUTTONS_ANIM_TIME opacity:1.f], nil]];
+      button.position = ccpAdd(button.position, ccp(0.f, BUILDING_BUTTONS_ANIM_OFFSET));
+      [button recursivelyApplyOpacity:0.f];
+      [button runAction:[CCActionSequence actions:
+                         [CCActionDelay actionWithDuration:i * BUILDING_BUTTONS_ANIM_DELAY],
+                         [CCActionSpawn actions:
+                          [CCActionMoveBy actionWithDuration:BUILDING_BUTTONS_ANIM_TIME_IN position:ccp(0.f, -BUILDING_BUTTONS_ANIM_OFFSET)],
+                          [RecursiveFadeTo actionWithDuration:BUILDING_BUTTONS_ANIM_TIME_IN opacity:1.f], nil], nil]];
     }
   }
 }
@@ -313,21 +317,23 @@
 {
   if (_buildingButtons) {
     if (animate) {
+      int i = 0;
       for (CCNode* node in _buildingButtons.children) {
         [node stopAllActions];
         
         if ([node.name isEqualToString:@"ButtonsBelt"]) {
           // Fade out and remove
           [node runAction:[CCActionSequence actions:
-                           [CCActionFadeOut actionWithDuration:BUILDING_BUTTONS_ANIM_TIME],
+                           [CCActionFadeOut actionWithDuration:BUILDING_BUTTONS_ANIM_TIME_OUT],
                            [CCActionRemove action], nil]];
         }
         else {
           // Animate out and remove
           [node runAction:[CCActionSequence actions:
+                           [CCActionDelay actionWithDuration:i++ * BUILDING_BUTTONS_ANIM_DELAY],
                            [CCActionSpawn actions:
-                            [CCActionMoveBy actionWithDuration:BUILDING_BUTTONS_ANIM_TIME position:ccp(0.f, BUILDING_BUTTONS_ANIM_DIST)],
-                            [RecursiveFadeTo actionWithDuration:BUILDING_BUTTONS_ANIM_TIME opacity:0.f], nil],
+                            [CCActionMoveBy actionWithDuration:BUILDING_BUTTONS_ANIM_TIME_OUT position:ccp(0.f, BUILDING_BUTTONS_ANIM_OFFSET)],
+                            [RecursiveFadeTo actionWithDuration:BUILDING_BUTTONS_ANIM_TIME_OUT opacity:0.f], nil],
                            [CCActionRemove action], nil]];
         }
       }
@@ -364,8 +370,8 @@
   
   if (animate) {
     // Fade in
-    [titleLabel runAction:[CCActionFadeIn actionWithDuration:BUILDING_BUTTONS_ANIM_TIME]];
-    [subtitleLabel runAction:[CCActionFadeIn actionWithDuration:BUILDING_BUTTONS_ANIM_TIME]];
+    [titleLabel runAction:[CCActionFadeIn actionWithDuration:BUILDING_BUTTONS_ANIM_TIME_IN]];
+    [subtitleLabel runAction:[CCActionFadeIn actionWithDuration:BUILDING_BUTTONS_ANIM_TIME_IN]];
   }
 }
 
@@ -378,7 +384,7 @@
         
         // Fade out and remove
         [node runAction:[CCActionSequence actions:
-                         [CCActionFadeOut actionWithDuration:BUILDING_BUTTONS_ANIM_TIME],
+                         [CCActionFadeOut actionWithDuration:BUILDING_BUTTONS_ANIM_TIME_OUT],
                          [CCActionRemove action], nil]];
       }
     }

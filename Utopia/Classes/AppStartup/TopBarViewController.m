@@ -510,7 +510,7 @@
       [self.secretGiftIcon stopAnimating];
       
       self.secretGiftIcon.superview.height = self.secretGiftTimerView.originY;
-      if ([Globals isiPad]) ++self.secretGiftIcon.superview.height;
+      if ([Globals isiPad]) self.secretGiftIcon.superview.height += 2;
       
       self.secretGiftTimerView.hidden = NO;
       
