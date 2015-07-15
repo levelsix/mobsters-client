@@ -10,6 +10,7 @@
 #import "UserData.h"
 #import "MapSprite.h"
 #import "HomeBuildingMenus.h"
+#import "BuildingButton.h"
 
 #define CONSTRUCTION_TAG @"Construction"
 #define SHADOW_TAG @"Shadow"
@@ -57,6 +58,8 @@
 - (void) removeBuildingButtons:(BOOL)animate;
 - (void) displayBuildingTitle:(NSString*)title subtitle:(NSString*)subtitle animate:(BOOL)animate;
 - (void) removeBuildingTitle:(BOOL)animate;
+- (void) displayBuildingButtonArrow:(MapBotViewButtonConfig)buttonConfig;
+- (void) removeBuildingButtonArrow;
 
 @end
 

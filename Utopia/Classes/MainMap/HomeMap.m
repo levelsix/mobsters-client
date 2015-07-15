@@ -962,6 +962,7 @@
   if (_arrowBuilding) {
     [Globals removeUIArrowFromViewRecursively:self.buildBotView];
     [_arrowBuilding removeArrowAnimated:YES];
+    [_arrowBuilding removeBuildingButtonArrow];
     _arrowBuilding = nil;
     _arrowButtonConfig = 0;
   }
@@ -1249,6 +1250,8 @@
       float angle = idx == buttonViews.count-1 ? 0 : idx == 0 ?  M_PI : M_PI_2;
       [Globals createUIArrowForView:button atAngle:angle];
     }
+    
+    [_arrowBuilding displayBuildingButtonArrow:_arrowButtonConfig];
   }
 }
 
@@ -2697,7 +2700,7 @@
 
 - (void) reselectCurrentSelection {
   SelectableSprite *n = self.selected;
-  //  self.selected = nil;
+  self.selected = nil;
   self.selected = n;
   
   [self closeCurrentViewController];

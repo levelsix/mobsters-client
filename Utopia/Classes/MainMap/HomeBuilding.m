@@ -155,7 +155,9 @@
     _startMoveCoordinate = _location.origin;
     _startOrientation = self.orientation;
     [self displayMoveArrows];
-    [self displayBuildingInfo:YES];
+    if (!_isPurchasing) {
+      [self displayBuildingInfo:YES];
+    }
     
     CCSprite *frame = (CCSprite *)[self getChildByName:CONSTR_FRAME_TAG recursively:YES];
     [frame stopActionByTag:BOUNCE_ACTION_TAG];
@@ -407,7 +409,7 @@
     _startMoveCoordinate = _location.origin;
     _startOrientation = self.orientation;
     
-    if (_isSelected) {
+    if (_isSelected && !_isPurchasing) {
       [self displayBuildingInfo:YES];
     }
     if (shouldPlaySound) {

@@ -136,7 +136,7 @@
     CCLabelTTF* label = [BuildingButton styledLabelWithString:title fontSize:18.f];
     label.anchorPoint = ccp(.5f, 1.f);
     label.position = ccp(self.contentSize.width * .5f, 16.f);
-    label.dimensions = CGSizeMake(125.f, 125.f);
+    label.dimensions = CGSizeMake(140.f, 140.f);
     
     [self addChild:buttonImage];
     [self addChild:label];
@@ -181,6 +181,57 @@
   [self addChild:icon];
   
   return self;
+}
+
+#pragma mark - Arrows
+
+- (void) displayArrow:(ArrowPlacement)placement
+{
+  [self removeArrow];
+  
+  CCSprite* arrow = [CCSprite spriteWithImageNamed:@"arrow.png"];
+  arrow.name = @"AnimatedArrow";
+
+  float angle = 0.f;
+  switch (placement)
+  {
+    case ArrowPlacementTop:
+      arrow.anchorPoint = ccp(.5f, 0.f);
+      arrow.position = ccp(self.contentSize.width * .5f, self.contentSize.height);
+      angle = -M_PI_2;
+      break;
+    case ArrowPlacementRight:
+      arrow.anchorPoint = ccp(0.f, .5f);
+      arrow.position = ccp(self.contentSize.width + 15.f, self.contentSize.height * .5f + 40.f);
+      angle = -M_PI;
+      break;
+    case ArrowPlacementBottom:
+      arrow.anchorPoint = ccp(.5f, 1.f);
+      arrow.position = ccp(self.contentSize.width * .5f, -40.f);
+      angle = -M_PI - M_PI_2;
+      break;
+    case ArrowPlacementLeft:
+      arrow.anchorPoint = ccp(1.f, .5f);
+      arrow.position = ccp(-15.f, self.contentSize.height * .5f + 40.f);
+      angle = -M_PI * 2;
+      break;
+      
+    default:
+      return;
+  }
+  
+  [self addChild:arrow];
+  [arrow runAction:[CCActionFadeIn actionWithDuration:.5f]];
+  [Globals animateCCArrow:arrow atAngle:angle pulseAlpha:NO];
+}
+
+- (void) removeArrow
+{
+  CCNode* arrow = [self getChildByName:@"AnimatedArrow" recursively:NO];
+  if (arrow)
+  {
+    [arrow runAction:[CCActionSequence actions:[CCActionFadeOut actionWithDuration:.5f], [CCActionRemove action], nil]];
+  }
 }
 
 #pragma mark - Helpers

@@ -12,10 +12,11 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "SoundEngine.h"
-#import "BuildingButton.h"
 
 #define BOUNCE_DURATION 0.1f // 1-way
 #define BOUNCE_SCALE 1.1
+
+#define BUILDING_BUTTONS_DISPLAY_BELT NO
 #define BUILDING_BUTTONS_ANIM_TIME_IN .15f
 #define BUILDING_BUTTONS_ANIM_TIME_OUT .1f
 #define BUILDING_BUTTONS_ANIM_DELAY .05f
@@ -264,8 +265,15 @@
   }
 }
 
-- (void) displayBuildingButtons:(NSArray*)buttons targetSelector:(SEL)selector animate:(BOOL)animate
-{
+- (void) displayBuildingInfo:(BOOL)animate {
+  // Thou shalt override
+}
+
+- (void) removeBuildingInfo:(BOOL)animate {
+  // Thou shalt override
+}
+
+- (void) displayBuildingButtons:(NSArray*)buttons targetSelector:(SEL)selector animate:(BOOL)animate {
   if (!_buildingButtons) {
     _buildingButtons = [CCNode node];
     _buildingButtons.scale = 1.f / MAX_ZOOM; // Button assets are built with correct size at max zoom level
@@ -277,7 +285,7 @@
   
   [self removeBuildingButtons:NO];
   
-  if (buttons.count) {
+  if (BUILDING_BUTTONS_DISPLAY_BELT && buttons.count) {
     CCNode* belt = [CCSprite spriteWithImageNamed:@"roundbuildingoval.png"];
     belt.name = @"ButtonsBelt";
     [_buildingButtons addChild:belt];
@@ -313,8 +321,7 @@
   }
 }
 
-- (void) removeBuildingButtons:(BOOL)animate
-{
+- (void) removeBuildingButtons:(BOOL)animate {
   if (_buildingButtons) {
     if (animate) {
       int i = 0;
@@ -345,8 +352,7 @@
   }
 }
 
-- (void) displayBuildingTitle:(NSString*)title subtitle:(NSString*)subtitle animate:(BOOL)animate
-{
+- (void) displayBuildingTitle:(NSString*)title subtitle:(NSString*)subtitle animate:(BOOL)animate {
   if (!_buildingTitle) {
     _buildingTitle = [CCNode node];
     _buildingTitle.anchorPoint = ccp(.5f, 0.f);
@@ -358,7 +364,7 @@
   
   [self removeBuildingTitle:NO];
   
-  CCLabelTTF* subtitleLabel = [BuildingButton styledLabelWithString:subtitle fontSize:16.f];
+  CCLabelTTF* subtitleLabel = [BuildingButton styledLabelWithString:subtitle fontSize:13.f];
   subtitleLabel.anchorPoint = ccp(.5f, 0.f);
   
   CCLabelTTF* titleLabel = [BuildingButton styledLabelWithString:title fontSize:16.f];
@@ -375,8 +381,7 @@
   }
 }
 
-- (void) removeBuildingTitle:(BOOL)animate
-{
+- (void) removeBuildingTitle:(BOOL)animate {
   if (_buildingTitle) {
     if (animate) {
       for (CCNode* node in _buildingTitle.children) {
@@ -391,6 +396,30 @@
     else {
       [_buildingTitle.children makeObjectsPerformSelector:@selector(stopAllActions)];
       [_buildingTitle removeAllChildren];
+    }
+  }
+}
+
+- (void) displayBuildingButtonArrow:(MapBotViewButtonConfig)buttonConfig {
+  if (_buildingButtons) {
+    for (CCNode* node in _buildingButtons.children) {
+      if ([node isKindOfClass:[BuildingButton class]]) {
+        BuildingButton* button = (BuildingButton*)node;
+        if (button.buttonConfig == buttonConfig) {
+          [button displayArrow:(button.position.x >= 0.f ? ArrowPlacementRight : ArrowPlacementLeft)];
+        }
+      }
+    }
+  }
+}
+
+- (void) removeBuildingButtonArrow {
+  if (_buildingButtons) {
+    for (CCNode* node in _buildingButtons.children) {
+      if ([node isKindOfClass:[BuildingButton class]]) {
+        BuildingButton* button = (BuildingButton*)node;
+        [button removeArrow];
+      }
     }
   }
 }

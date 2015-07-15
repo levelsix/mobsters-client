@@ -616,6 +616,13 @@
   
   [Globals removeUIArrowFromViewRecursively:botView];
   [Globals createUIArrowForView:botView.animateViews.lastObject atAngle:0];
+  
+  // The code above asks for an arrow to be displayed on the last button of the selected
+  // building's array of buttons. Feel free to blame whomever wrote that for the hackiness
+  if (self.selected && [self.selected isKindOfClass:[Building class]] &&
+      botView.animateViews.count && [botView.animateViews.lastObject isKindOfClass:[MapBotViewButton class]]) {
+    [(Building*)self.selected displayBuildingButtonArrow:((MapBotViewButton*)botView.animateViews.lastObject).config];
+  }
 }
 
 - (UserStruct *) sendPurchaseStructWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems {
