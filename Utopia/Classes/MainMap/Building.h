@@ -39,6 +39,8 @@
 @property (nonatomic, retain) UpgradeSign *greenSign;
 @property (nonatomic, retain) UpgradeSign *redSign;
 
+@property (nonatomic, readonly) NSArray *buildingButtons;
+
 - (void) setupBuildingSprite:(NSString *)fileName;
 - (void) adjustBuildingSprite;
 

@@ -424,6 +424,16 @@
   }
 }
 
+- (NSArray*) buildingButtons {
+  NSMutableArray* buttons = [NSMutableArray array];
+  for (CCNode* node in _buildingButtons.children) {
+    if (![node.name isEqualToString:@"ButtonsBelt"] && [node isKindOfClass:[BuildingButton class]]) {
+      [buttons addObject:node];
+    }
+  }
+  return buttons;
+}
+
 @end
 
 @implementation MissionBuilding

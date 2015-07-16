@@ -599,12 +599,20 @@
 
 - (void) setSelected:(SelectableSprite *)selected {
   // This will prevent unclicking the selected building.
-  if (self.selected != selected &&
-      [self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructUuid)]) {
+  if (self.selected && [self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructUuid)]) {
     return;
   }
   
   [super setSelected:selected];
+  
+  // A deprecated line of code in updateMapBotView: asks for an arrow to be displayed on the last button
+  // of the selected building's array of buttons. Feel free to blame whomever wrote that for the hackiness
+  if (self.selected && [self.selected isKindOfClass:[Building class]])
+  {
+    Building* selectedBuilding = (Building*)self.selected;
+    MapBotViewButtonConfig lastButtonConfig = ((BuildingButton*)selectedBuilding.buildingButtons.lastObject).buttonConfig;
+    [selectedBuilding displayBuildingButtonArrow:lastButtonConfig];
+  }
   
   if (selected != _purchBuilding) {
     _canMove = NO;
@@ -616,13 +624,6 @@
   
   [Globals removeUIArrowFromViewRecursively:botView];
   [Globals createUIArrowForView:botView.animateViews.lastObject atAngle:0];
-  
-  // The code above asks for an arrow to be displayed on the last button of the selected
-  // building's array of buttons. Feel free to blame whomever wrote that for the hackiness
-  if (self.selected && [self.selected isKindOfClass:[Building class]] &&
-      botView.animateViews.count && [botView.animateViews.lastObject isKindOfClass:[MapBotViewButton class]]) {
-    [(Building*)self.selected displayBuildingButtonArrow:((MapBotViewButton*)botView.animateViews.lastObject).config];
-  }
 }
 
 - (UserStruct *) sendPurchaseStructWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems {

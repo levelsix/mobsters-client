@@ -100,7 +100,10 @@
     layer = [self layerNamed:WALKABLE_LAYER_NAME];
     layer.visible = NO;
     
+    /*
+     * Getting rid of MapBotView in favor of new building buttons
     [self setUpHomeBuildingMenu];
+     */
     
     _timers = [[NSMutableArray alloc] init];
     
@@ -1060,6 +1063,10 @@
 - (void) setSelected:(SelectableSprite *)selected {
   [super setSelected:selected];
   
+  if (self.selected == _arrowBuilding) {
+    [_arrowBuilding displayBuildingButtonArrow:_arrowButtonConfig];
+  }
+  
   // Turn off moving so you can't do some janky stuff like dragging after it's been placed.
   // Previous bug occurred where you speedup and then drag so selection gets reset, but you can continue dragging after and place anywhere.
   _isMoving = NO;
@@ -1104,6 +1111,7 @@
 }
 
 - (void) updateMapBotView:(MapBotView *)botView {
+  /*
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSMutableArray *buttonViews = [NSMutableArray array];
@@ -1250,9 +1258,8 @@
       float angle = idx == buttonViews.count-1 ? 0 : idx == 0 ?  M_PI : M_PI_2;
       [Globals createUIArrowForView:button atAngle:angle];
     }
-    
-    [_arrowBuilding displayBuildingButtonArrow:_arrowButtonConfig];
   }
+   */
 }
 
 - (void) mapBotViewButtonSelected:(MapBotViewButton *)button {

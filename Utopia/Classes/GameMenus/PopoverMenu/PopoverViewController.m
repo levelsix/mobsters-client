@@ -10,9 +10,7 @@
 
 #import "Globals.h"
 
-@interface PopoverViewController ()
-
-@end
+const CGFloat kPopoverViewScreenPadding = 5.f; // Uniform padding from the edges of the screen
 
 @implementation PopoverViewController
 
@@ -51,6 +49,12 @@ static BOOL _instanceOpened = NO;
 {
   _centeredOnScreen = YES;
   
+  // Fill up available vertical space
+  [self.mainView setFrame:CGRectMake(self.mainView.frame.origin.x,
+                                     kPopoverViewScreenPadding,
+                                     self.mainView.frame.size.width,
+                                     [Globals screenSize].height - kPopoverViewScreenPadding * 2.f)];
+  
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
@@ -76,20 +80,18 @@ static BOOL _instanceOpened = NO;
     CGFloat arrowTargetX = -1.f;
     CGFloat arrowTargetY = -1.f;
     CGPoint viewAnchorPoint = CGPointMake(.5f, .5f);
-    
-    const CGFloat screenPadding = 5.f; // Uniform padding from the edges of the screen
 
     switch (direction)
     {
       case ViewAnchoringPreferTopPlacement:
       {
-        if (!preserveHeight) viewTargetHeight = invokingViewAbsolutePosition.y - screenPadding; // Fill up available vertical space
+        if (!preserveHeight) viewTargetHeight = invokingViewAbsolutePosition.y - kPopoverViewScreenPadding; // Fill up available vertical space
         viewTargetX = invokingViewAbsolutePosition.x - (self.mainView.frame.size.width - invokingView.frame.size.width) * .5f;
         viewTargetY = invokingViewAbsolutePosition.y - viewTargetHeight;
         
         CGFloat offCenterX = 0.f;
-        offCenterX += MAX(screenPadding - viewTargetX, 0.f); // Shift right if needed to remain on screen
-        offCenterX -= MAX(viewTargetX + self.mainView.frame.size.width - (windowSize.width - screenPadding), 0.f); // Shift left if needed to remain on screen
+        offCenterX += MAX(kPopoverViewScreenPadding - viewTargetX, 0.f); // Shift right if needed to remain on screen
+        offCenterX -= MAX(viewTargetX + self.mainView.frame.size.width - (windowSize.width - kPopoverViewScreenPadding), 0.f); // Shift left if needed to remain on screen
         viewTargetX += offCenterX;
         
         [self.triangle setTransform:CGAffineTransformMakeRotation(M_PI_2)]; // Point arrow down
@@ -103,13 +105,13 @@ static BOOL _instanceOpened = NO;
         
       case ViewAnchoringPreferBottomPlacement:
       {
-        if (!preserveHeight) viewTargetHeight = windowSize.height - (invokingViewAbsolutePosition.y + invokingView.frame.size.height) - screenPadding; // Fill up available vertical space
+        if (!preserveHeight) viewTargetHeight = windowSize.height - (invokingViewAbsolutePosition.y + invokingView.frame.size.height) - kPopoverViewScreenPadding; // Fill up available vertical space
         viewTargetX = invokingViewAbsolutePosition.x - (self.mainView.frame.size.width - invokingView.frame.size.width) * .5f;
         viewTargetY = invokingViewAbsolutePosition.y + invokingView.frame.size.height;
         
         CGFloat offCenterX = 0.f;
-        offCenterX += MAX(screenPadding - viewTargetX, 0.f); // Shift right if needed to remain on screen
-        offCenterX -= MAX(viewTargetX + self.mainView.frame.size.width - (windowSize.width - screenPadding), 0.f); // Shift left if needed to remain on screen
+        offCenterX += MAX(kPopoverViewScreenPadding - viewTargetX, 0.f); // Shift right if needed to remain on screen
+        offCenterX -= MAX(viewTargetX + self.mainView.frame.size.width - (windowSize.width - kPopoverViewScreenPadding), 0.f); // Shift left if needed to remain on screen
         viewTargetX += offCenterX;
         
         [self.triangle setTransform:CGAffineTransformMakeRotation(-M_PI_2)]; // Point arrow up
@@ -123,9 +125,9 @@ static BOOL _instanceOpened = NO;
         
       case ViewAnchoringPreferLeftPlacement:
       {
-        if (!preserveHeight) viewTargetHeight = windowSize.height - screenPadding * 2.f; // Fill up available vertical space
+        if (!preserveHeight) viewTargetHeight = windowSize.height - kPopoverViewScreenPadding * 2.f; // Fill up available vertical space
         viewTargetX = invokingViewAbsolutePosition.x - self.mainView.frame.size.width;
-        viewTargetY = screenPadding;
+        viewTargetY = kPopoverViewScreenPadding;
         
         // Arrow is initially pointing to the right
         
@@ -147,9 +149,9 @@ static BOOL _instanceOpened = NO;
         
       case ViewAnchoringPreferRightPlacement:
       {
-        if (!preserveHeight) viewTargetHeight = windowSize.height - screenPadding * 2.f; // Fill up available vertical space
+        if (!preserveHeight) viewTargetHeight = windowSize.height - kPopoverViewScreenPadding * 2.f; // Fill up available vertical space
         viewTargetX = invokingViewAbsolutePosition.x + invokingView.frame.size.width;
-        viewTargetY = screenPadding;
+        viewTargetY = kPopoverViewScreenPadding;
         
         [self.triangle setTransform:CGAffineTransformMakeRotation(M_PI)]; // Point arrow to the left
         
