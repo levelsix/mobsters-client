@@ -200,7 +200,7 @@ static NSString *host = HOST_NAME;
   NSURL *url = [NSURL URLWithString:hostName];
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
   
-  if ([hostName containsString:@"wss://"]) {
+  if ([hostName rangeOfString:@"wss://"].length > 0) {
     NSString *cerPath = [[[[NSBundle mainBundle] bundleURL] absoluteString] stringByAppendingString:@"lvl6_crt.der"];
     NSData *certData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:cerPath]];
     CFDataRef certDataRef = (__bridge CFDataRef)certData;
