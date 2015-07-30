@@ -616,12 +616,12 @@ static const CGSize FIXED_SIZE = {568, 384};
     int lastSaleId = (int)[def integerForKey:LAST_SHOWN_SALE_ID];
     SalesPackageProto *spp = [gs.mySales firstObject];
     
-    //    if (YES)
-    if (spp &&
-        -gs.createTime.timeIntervalSinceNow > HOURS_AFTER_CREATE_TIME_TO_SHOW_SALE*3600 &&
-        (spp.salesPackageId != lastSaleId ||
-         !lastDate ||
-         -lastDate.timeIntervalSinceNow > HOURS_BEFORE_RESHOWING_SALE*3600))
+        if (YES)
+//    if (spp &&
+//        -gs.createTime.timeIntervalSinceNow > HOURS_AFTER_CREATE_TIME_TO_SHOW_SALE*3600 &&
+//        (spp.salesPackageId != lastSaleId ||
+//         !lastDate ||
+//         -lastDate.timeIntervalSinceNow > HOURS_BEFORE_RESHOWING_SALE*3600))
     {
       NSMutableArray *arr = [NSMutableArray array];
       for (CustomMenuProto *cmp in spp.cmpList) {
