@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -40,7 +40,6 @@
                 <outlet property="singleSpinSpinner" destination="huN-Fb-DR1" id="WpO-0x-Tea"/>
                 <outlet property="singleSpinView" destination="V5u-wm-3RB" id="UKG-FP-Dx7"/>
                 <outlet property="skillPopup" destination="R1D-O9-H9q" id="lS4-n7-cRN"/>
-                <outlet property="skillPopupCloseButton" destination="ANh-ac-PJh" id="i9L-sQ-jhf"/>
                 <outlet property="tableContainerView" destination="wEM-ra-GYV" id="FSb-4C-1o9"/>
                 <outlet property="ticker" destination="DJT-fB-FWb" id="7fI-7h-QQW"/>
                 <outlet property="topBar" destination="L2P-0l-ua5" id="qqR-r3-ldN"/>
@@ -113,12 +112,12 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="vIR-lU-z16" userLabel="Single Spin">
-                            <rect key="frame" x="80" y="385" width="106" height="41"/>
+                            <rect key="frame" x="47" y="374" width="172" height="64"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YYO-db-KXt" customClass="GemsButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="106" height="41"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="172" height="64"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <state key="normal" image="smallspinpurple.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -128,23 +127,23 @@
                                     </connections>
                                 </button>
                                 <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="huN-Fb-DR1">
-                                    <rect key="frame" x="43" y="7" width="20" height="20"/>
+                                    <rect key="frame" x="76" y="14" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
                                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="V5u-wm-3RB" userLabel="Spin View">
-                                    <rect key="frame" x="0.0" y="0.0" width="106" height="33"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <rect key="frame" x="35" y="11" width="102" height="33"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" id="ogu-T6-vYN">
-                                            <rect key="frame" x="50" y="5" width="56" height="26"/>
+                                            <rect key="frame" x="48" y="5" width="54" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="grabchip.png" id="Qbr-o4-1PT">
-                                                    <rect key="frame" x="2" y="2" width="24" height="24"/>
+                                                    <rect key="frame" x="2" y="2" width="23" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="X6C-RO-et1" customClass="NiceFontLabel12S">
-                                                    <rect key="frame" x="25" y="0.0" width="31" height="26"/>
+                                                    <rect key="frame" x="24" y="0.0" width="30" height="26"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -156,7 +155,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 SPIN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s8w-A6-agC" customClass="NiceFontLabel12S">
-                                            <rect key="frame" x="8" y="3" width="90" height="30"/>
+                                            <rect key="frame" x="8" y="3" width="86" height="30"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -248,16 +247,6 @@
                     <rect key="frame" x="258" y="200" width="508" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ANh-ac-PJh">
-                    <rect key="frame" x="0.0" y="0.0" width="1024" height="651"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <state key="normal">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="hideSkillPopup:" destination="-1" eventType="touchUpInside" id="Xj2-XD-bAq"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -695,7 +684,7 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="poa-Mq-dCK" userLabel="Orbs Description Label" customClass="NiceFontLabel2B">
-                    <rect key="frame" x="16" y="146" width="297" height="27"/>
+                    <rect key="frame" x="16" y="146.00000053313045" width="297" height="27"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -704,11 +693,11 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fireorb.png" id="Vbd-SE-qCo" userLabel="Orb Icon">
-                    <rect key="frame" x="123" y="146.0000011309761" width="26" height="27"/>
+                    <rect key="frame" x="123" y="146.00000053313045" width="26" height="27"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00/00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UXO-Wx-Okv" userLabel="Orbs Counter Label" customClass="NiceFontLabel18B">
-                    <rect key="frame" x="157" y="146.0000011309761" width="83" height="27"/>
+                    <rect key="frame" x="157" y="146.00000053313045" width="83" height="27"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
