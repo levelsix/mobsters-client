@@ -260,7 +260,7 @@
 - (void) displayPopoverOverCell:(UITableViewCell *)cell {
   self.popoverView.layer.anchorPoint = ccp(0.5, 1);
   CGPoint pt = [self.popoverView.superview convertPoint:cell.frame.origin fromView:cell.superview];
-  pt.x += self.popoverView.layer.anchorPoint.x*self.popoverView.frame.size.width + 10.f;
+  pt.x += self.popoverView.layer.anchorPoint.x*self.popoverView.frame.size.width + ([Globals isiPad] ? 51.f : 10.f);
   [self.popoverView openAtPoint:pt];
   self.popoverView.delegate = self;
   
