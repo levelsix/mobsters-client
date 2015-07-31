@@ -37,7 +37,10 @@
   self.inClanTopBar.center = self.noClanTopBar.center;
   [self.noClanTopBar.superview addSubview:self.inClanTopBar];
   
-  if ([Globals isiPad]) self.view.transform = CGAffineTransformMakeScale(1.5, 1.5);
+  if ([Globals isiPad]) {
+    self.view.transform = CGAffineTransformMakeScale(1.5, 1.5);
+    self.mainView.layer.cornerRadius = 5.f;
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
