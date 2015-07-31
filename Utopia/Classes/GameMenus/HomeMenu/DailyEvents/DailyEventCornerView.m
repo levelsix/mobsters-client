@@ -26,7 +26,7 @@
   self.characterIcon.layer.transform = CATransform3DMakeScale(0.73, 0.73, 1.f);
   _initCharCenterX = self.characterIcon.centerX;
   
-  _initTimeLabelX = self.timeLabel.centerX;
+  _initTimeLabelX = self.timeLabel.originX;
   
   self.nameLabel.gradientStartColor = [UIColor whiteColor];
   self.nameLabel.strokeSize = 0.5f;
@@ -181,7 +181,7 @@
       self.timerIcon.image = [Globals imageNamed:file];
     } else {
       self.timerIcon.hidden = YES;
-      self.timeLabel.centerX = _initTimeLabelX - self.timerIcon.width;
+      self.timeLabel.originX = _initTimeLabelX - self.timerIcon.width;
       self.timeLabel.text = greyscaleString;
     }
     
