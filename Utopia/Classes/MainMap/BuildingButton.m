@@ -191,6 +191,10 @@
   
   CCSprite* arrow = [CCSprite spriteWithImageNamed:@"arrow.png"];
   arrow.name = @"AnimatedArrow";
+  
+  float scale = 1.f / self.parent.scale;
+  
+  arrow.scale = scale;
 
   float angle = 0.f;
   switch (placement)
@@ -202,23 +206,25 @@
       break;
     case ArrowPlacementRight:
       arrow.anchorPoint = ccp(0.f, .5f);
-      arrow.position = ccp(self.contentSize.width + 15.f, self.contentSize.height * .5f + 40.f);
+      arrow.position = ccp(self.contentSize.width + 15.f * scale, self.contentSize.height * .5f + 40.f * scale);
       angle = -M_PI;
       break;
     case ArrowPlacementBottom:
       arrow.anchorPoint = ccp(.5f, 1.f);
-      arrow.position = ccp(self.contentSize.width * .5f, -40.f);
+      arrow.position = ccp(self.contentSize.width * .5f, -40.f * scale);
       angle = -M_PI - M_PI_2;
       break;
     case ArrowPlacementLeft:
       arrow.anchorPoint = ccp(1.f, .5f);
-      arrow.position = ccp(-15.f, self.contentSize.height * .5f + 40.f);
+      arrow.position = ccp(-15.f * scale, (self.contentSize.height * .5f + 40.f * scale));
       angle = -M_PI * 2;
       break;
       
     default:
       return;
   }
+  
+  
   
   [self addChild:arrow];
   [arrow runAction:[CCActionFadeIn actionWithDuration:.5f]];
