@@ -53,42 +53,50 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="70X-hf-Cvo" userLabel="InnerView" customClass="ResearchSelectionBarView">
-                            <rect key="frame" x="6" y="0.0" width="864" height="88"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                        <view contentMode="scaleToFill" id="afd-0x-h2X" customClass="LeaderBoardBotBar">
+                            <rect key="frame" x="6" y="36" width="864" height="54"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" id="eVx-ES-OWn">
-                                    <rect key="frame" x="0.0" y="0.0" width="864" height="88"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view contentMode="scaleToFill" id="AWo-AD-K9l" userLabel="bgd view">
+                                    <rect key="frame" x="0.0" y="0.0" width="864" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="functionalhomemenubottombarcap.png" id="C6i-o5-5LY">
-                                            <rect key="frame" x="0.0" y="0.0" width="14" height="88"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="smallbarbottomcap.png" id="9ie-I3-JOY">
+                                            <rect key="frame" x="0.0" y="0.0" width="9" height="50"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="functionalhomemenubottombarcap.png" id="eYB-dG-PxJ" customClass="FlipImageView">
-                                            <rect key="frame" x="850" y="0.0" width="14" height="88"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="smallbarbottomcap.png" id="dfk-n3-Z7P" customClass="FlipImageView">
+                                            <rect key="frame" x="855" y="0.0" width="9" height="50"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="functionalhomemenubottombarmiddle.png" id="Xiy-Uu-sn1">
-                                            <rect key="frame" x="14" y="0.0" width="836" height="88"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="smallbarbottommiddle.png" id="SSO-2G-A5i">
+                                            <rect key="frame" x="9" y="0.0" width="846" height="50"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" image="girl2.png" id="1zI-ML-05r">
-                                    <rect key="frame" x="207" y="0.0" width="62" height="88"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tap a Research Item" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d4z-dE-d17" customClass="NiceFontLabel12">
-                                    <rect key="frame" x="279" y="27" width="334" height="37"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
+                                <view contentMode="scaleToFill" id="yE2-R5-h6j" userLabel="InnerView">
+                                    <rect key="frame" x="5.5" y="4" width="852.5" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tap a Research Item" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9eC-Gu-WlF" customClass="NiceFontLabel12">
+                                            <rect key="frame" x="113.5" y="0.0" width="616" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="girl2.png" id="SwS-Cm-i8w">
+                                            <rect key="frame" x="240" y="-14" width="106" height="60"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
                             </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                     </subviews>
                 </view>
@@ -101,9 +109,9 @@
         </view>
     </objects>
     <resources>
-        <image name="functionalhomemenubottombarcap.png" width="424" height="59"/>
-        <image name="functionalhomemenubottombarmiddle.png" width="10" height="8"/>
         <image name="girl2.png" width="62" height="88"/>
+        <image name="smallbarbottomcap.png" width="1" height="57"/>
+        <image name="smallbarbottommiddle.png" width="1" height="57"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
