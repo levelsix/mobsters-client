@@ -549,6 +549,7 @@
   ObstacleProto *op = ue.staticObstacle;
   
   [self displayBuildingTitle:op.name subtitle:@"" animate:animate];
+  self.buildingTitle.position = CGPointMake(self.buildingTitle.position.x, self.buildingTitle.position.y + 5.f);
   
   if (!ue.removalTime) {
     [buildingButtons addObject:[BuildingButton buttonRemoveWithResourceType:op.removalCostType cost:op.cost]];

@@ -24,9 +24,8 @@
   BuildingBubble *_bubble;
   
   CCNode *_buildingButtons;
-  CCNode *_buildingTitle;
 }
-
+@property (nonatomic, retain) CCNode *buildingTitle;
 @property (nonatomic, retain) CCSprite *buildingSprite;
 @property (nonatomic, assign) StructOrientation orientation;
 @property (nonatomic, assign) float verticalOffset;
