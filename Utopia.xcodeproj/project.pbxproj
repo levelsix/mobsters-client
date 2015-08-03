@@ -2926,6 +2926,9 @@
 		6B67FE341A940A6C00DBA8AE /* cloudexploding1.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B67FE331A940A6C00DBA8AE /* cloudexploding1.plist */; };
 		6B67FE351A940A6C00DBA8AE /* cloudexploding1.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B67FE331A940A6C00DBA8AE /* cloudexploding1.plist */; };
 		6B67FE361A940A6C00DBA8AE /* cloudexploding1.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B67FE331A940A6C00DBA8AE /* cloudexploding1.plist */; };
+		6B7EB2F91B6FFAED0047F818 /* moneystack@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7EB2F81B6FFAED0047F818 /* moneystack@2x~ipad.png */; };
+		6B7EB2FA1B6FFAED0047F818 /* moneystack@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7EB2F81B6FFAED0047F818 /* moneystack@2x~ipad.png */; };
+		6B7EB2FB1B6FFAED0047F818 /* moneystack@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7EB2F81B6FFAED0047F818 /* moneystack@2x~ipad.png */; };
 		6B89A6E41A967BF6004C16B6 /* lockbreak.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6E31A967BF6004C16B6 /* lockbreak.plist */; };
 		6B89A6E51A967BF6004C16B6 /* lockbreak.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6E31A967BF6004C16B6 /* lockbreak.plist */; };
 		6B89A6E61A967BF6004C16B6 /* lockbreak.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B89A6E31A967BF6004C16B6 /* lockbreak.plist */; };
@@ -10489,6 +10492,7 @@
 		6B67FE211A93F69900DBA8AE /* cloud2-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloud2-9@2x.png"; sourceTree = "<group>"; };
 		6B67FE221A93F69900DBA8AE /* cloud2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloud2@2x.png"; sourceTree = "<group>"; };
 		6B67FE331A940A6C00DBA8AE /* cloudexploding1.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cloudexploding1.plist; sourceTree = "<group>"; };
+		6B7EB2F81B6FFAED0047F818 /* moneystack@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "moneystack@2x~ipad.png"; sourceTree = "<group>"; };
 		6B89A6E31A967BF6004C16B6 /* lockbreak.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = lockbreak.plist; sourceTree = "<group>"; };
 		6B8CD5821A9BAE0C000DAAB8 /* SkillControllerSplitOffDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillControllerSplitOffDef.h; sourceTree = "<group>"; };
 		6B8CD5841A9BAE20000DAAB8 /* SkillControllerSplitOffDef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillControllerSplitOffDef.m; sourceTree = "<group>"; };
@@ -20511,6 +20515,7 @@
 				CFEE89A918EBB01600047CA4 /* oiloverflow@2x.png */,
 				CF19088C18D8319900D6F0E4 /* cashcollected.fnt */,
 				CF19088D18D8319900D6F0E4 /* cashcollected@2x.png */,
+				6B7EB2F81B6FFAED0047F818 /* moneystack@2x~ipad.png */,
 				CF19088E18D8319900D6F0E4 /* oilcollected.fnt */,
 				CF19088F18D8319900D6F0E4 /* oilcollected@2x.png */,
 				CF19089518D8325C00D6F0E4 /* 2x2dark@2x.png */,
@@ -24336,6 +24341,7 @@
 				CF0CF727196F452900ECD301 /* achievementrewardbg@2x.png in Resources */,
 				CF0CF72B196F452900ECD301 /* TopBarViewController.xib in Resources */,
 				CF0CF72D196F452900ECD301 /* healredbubble7@2x.png in Resources */,
+				6B7EB2FA1B6FFAED0047F818 /* moneystack@2x~ipad.png in Resources */,
 				CFA729301A0B037900FF6031 /* eventdivider@2x.png in Resources */,
 				CF0CF732196F452900ECD301 /* MiniJobsDetailsCell.xib in Resources */,
 				296548951A81C4170080B195 /* waterstatue@2x.png in Resources */,
@@ -27030,6 +27036,7 @@
 				CFF4128819BFC223002672D4 /* pinknotificationbubble@2x.png in Resources */,
 				290DFB0B1ABB974600CCE082 /* noelementdailylab@2x.png in Resources */,
 				6B20E4EE1B41A1CD00787823 /* MiniJobsCompleteViewController~ipad.xib in Resources */,
+				6B7EB2F91B6FFAED0047F818 /* moneystack@2x~ipad.png in Resources */,
 				63F900281B229F0F006B6D65 /* doneusername@2x~ipad.png in Resources */,
 				9BA69C1D1B1FA1BE00FE01A8 /* navshelf@2x~ipad.png in Resources */,
 				290DFB181ABBA2B300CCE082 /* itemsbubble@2x.png in Resources */,
@@ -29640,6 +29647,7 @@
 				CFA728371A0AE62A00FF6031 /* buildingfinishnowbuttonpressed@2x.png in Resources */,
 				6B975E521B4DB375002F008E /* splashwithtango@2x~ipad.jpg in Resources */,
 				CF4823E519F7217F00041486 /* 6earthpoison@2x.png in Resources */,
+				6B7EB2FB1B6FFAED0047F818 /* moneystack@2x~ipad.png in Resources */,
 				9B2EFCC11AC39544005B7B83 /* MiniEventPointsActionCell.xib in Resources */,
 				CF4823E619F7217F00041486 /* ballin@2x.png in Resources */,
 				9B0ECABC1B34CF6D00C442F3 /* commonband@2x~ipad.png in Resources */,
