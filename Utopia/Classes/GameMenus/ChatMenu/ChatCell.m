@@ -460,8 +460,8 @@ static float buttonInitialWidth = 159.f;
     NSString *sign = [pvp userIsAttacker] ? @"+" : @"-";
     int oilStolen = pvp.oilStolenFromGenerators+pvp.oilStolenFromStorage;
     int cashStolen = pvp.cashStolenFromGenerators+pvp.cashStolenFromStorage;
-    self.cashLabel.text = [NSString stringWithFormat:@"%@%@", sign, [Globals commafyNumber:ABS(oilStolen)]];
-    self.oilLabel.text = [NSString stringWithFormat:@"%@%@", sign, [Globals commafyNumber:ABS(cashStolen)]];
+    self.cashLabel.text = [NSString stringWithFormat:@"%@%@", sign, [Globals commafyNumber:ABS(cashStolen)]];
+    self.oilLabel.text = [NSString stringWithFormat:@"%@%@", sign, [Globals commafyNumber:ABS(oilStolen)]];
     
     UILabel *label = self.cashLabel;
     CGSize size = [label.text getSizeWithFont:label.font constrainedToSize:label.frame.size lineBreakMode:label.lineBreakMode];
