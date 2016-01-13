@@ -424,7 +424,7 @@ static BOOL isAnimating = NO;
                 (midY > refY - 10.f && midY < refY + 10.f))                                         // Cell roughly centered vertically in container
             {
               // UICollectionView will not scroll; force the callback
-              [self scrollViewDidEndScrollingAnimation:nil];
+              [self scrollViewDidEndScrollingAnimation:self.listView.collectionView];
             }
             else
             {

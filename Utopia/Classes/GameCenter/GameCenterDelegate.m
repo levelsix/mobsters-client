@@ -30,7 +30,7 @@ BOOL isGameCenterAPIAvailable()
 }
 
 + (void) authenticateGameCenter {
-  if (isGameCenterAPIAvailable()) {
+  if (false && isGameCenterAPIAvailable()) {
     [[GKLocalPlayer localPlayer] setAuthenticateHandler:^(UIViewController *vc, NSError *error) {
       GKLocalPlayer *player = [GKLocalPlayer localPlayer];
       if (player.isAuthenticated) {

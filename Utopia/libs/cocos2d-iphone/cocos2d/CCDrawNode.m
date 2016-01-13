@@ -35,10 +35,10 @@
 
 
 static NSString *FRAGMENT_SHADER_SOURCE = 
-	@"#ifdef GL_ES\n"
-	@"#extension GL_OES_standard_derivatives : enable\n"
-	@"#endif\n"
-	@"\n"
+//	@"#ifdef GL_ES\n"
+//	@"#extension GL_OES_standard_derivatives : enable\n"
+//	@"#endif\n"
+//	@"\n"
 	@"void main(){\n"
 	@"	gl_FragColor = cc_FragColor*smoothstep(0.0, length(fwidth(cc_FragTexCoord1)), 1.0 - length(cc_FragTexCoord1));\n"
 	@"}\n";

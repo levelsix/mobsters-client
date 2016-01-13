@@ -17,6 +17,7 @@
 #import "ColoredLogs.h"
 #import "NSString+Sizing.h"
 #import "UIView+Superview.h"
+#import "FontLabels.h"
 
 typedef enum {
   kButton1 = 1,

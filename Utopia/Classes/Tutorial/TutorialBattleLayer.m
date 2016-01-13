@@ -12,6 +12,8 @@
 #import "CCSoundAnimation.h"
 #import "SoundEngine.h"
 
+#import "CCAnimation+SpriteLoading.h"
+
 #define ENEMY_INDEX 1
 #define ENEMY_TWO_INDEX 2
 #define ENEMY_BOSS_INDEX 0
@@ -496,6 +498,83 @@
 - (NSString *) presetLayoutFile {
   return @"TutorialBattle1Layout.txt";
 }
+
+#pragma mark For Fox
+
+//- (CCAction *) actionWithPrefix:(NSString *)p repeat:(BOOL)repeat delay:(float)delay {
+//  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", p];
+//  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+//    
+//    if (success) {
+//      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+//    }
+//    
+//  }];
+//  
+//  CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:delay];
+//  return repeat ? [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]] :
+//  [CCActionAnimate actionWithAnimation:anim];
+//}
+//
+//- (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector {
+//  CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
+//  CGPoint finalPos = ccpAdd(player.position, ccpMult(offsetPerScene, -0.05f));
+//  float startX = -player.contentSize.width;
+//  float xDelta = finalPos.x-startX;
+//  CGPoint newPos = ccp(startX, finalPos.y-xDelta*offsetPerScene.y/offsetPerScene.x);
+//  
+//  // Walk
+//  CCAction *action = [self actionWithPrefix:@"Peter1T1RunF" repeat:YES delay:0.1f];
+//  [player runAction:action];
+//  
+//  player.position = newPos;
+//  [player runAction:
+//   [CCActionSequence actions:
+//    [CCActionMoveTo actionWithDuration:ccpDistance(finalPos, newPos)/MY_WALKING_SPEED position:finalPos],
+//    [CCActionCallBlock actionWithBlock:
+//     ^{
+//       [player stopAction:action];
+//       
+//       CCSprite *shadow = (CCSprite *)[player getChildByName:SHADOW_TAG recursively:NO];
+//       [shadow runAction:[CCActionFadeOut actionWithDuration:0.2f]];
+//       
+//       // Trip
+//       CCActionAnimate *trip = (CCActionAnimate *)[self actionWithPrefix:@"Peter1T1TripF" repeat:NO delay:0.1f];
+//       CCAction *rock = [self actionWithPrefix:@"Peter1T1RockF" repeat:YES delay:0.3f];
+//       [player runAction:
+//        [CCActionSequence actions:trip, [CCActionCallBlock actionWithBlock:^{
+//         [player runAction:rock];
+//       }], nil]];
+//       
+////       if (selector) {
+////         [self performSelector:selector withObject:player];
+////       }
+//     }],
+//    nil]];
+//  
+//  [super displayOrbLayer];
+//  [self placeChickenAtSpot];
+//  player.healthBgd.visible = NO;
+//}
+//
+//- (void) placeChickenAtSpot {
+//  int idx = ENEMY_TWO_INDEX;
+//  BattlePlayer *bp = self.enemyTeam[idx];
+//  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
+//  bs.battleLayer = self;
+//  bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
+//  [self.bgdContainer addChild:bs z:-idx-2];
+//  
+//  bs.healthBar.percentage = ((float)bp.curHealth)/bp.maxHealth*100;
+//  bs.healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:bp.curHealth], [Globals commafyNumber:bp.maxHealth]];
+//  
+//  bs.isFacingNear = YES;
+//  
+//  CGPoint finalPos = ccpAdd(ENEMY_PLAYER_LOCATION, ccpMult(POINT_OFFSET_PER_SCENE, 0.1f));
+//  bs.position = finalPos;
+//  
+//  bs.healthBgd.visible = NO;
+//}
 
 @end
 
