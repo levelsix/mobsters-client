@@ -526,7 +526,7 @@ typedef enum {
 
 @end
 
-@interface NumTransitionLabel : NiceFontLabel8B
+@interface NumTransitionLabel : FontLabelMikadoBlackB
 
 @property (nonatomic, weak) IBOutlet id<NumTransitionLabelDelegate> transitionDelegate;
 @property (nonatomic, strong) NSTimer *timer;

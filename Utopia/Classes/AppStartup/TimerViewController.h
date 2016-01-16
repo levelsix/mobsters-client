@@ -12,7 +12,7 @@
 
 @interface TimerCell : UIView
 
-@property (weak, nonatomic) IBOutlet SplitImageProgressBar *progressBar;
+@property (weak, nonatomic) IBOutlet ProgressBar *progressBar;
 @property (weak, nonatomic) IBOutlet UILabel *gemsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *freeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *speedupIcon;

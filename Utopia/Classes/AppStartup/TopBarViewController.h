@@ -39,9 +39,9 @@
   BOOL _toggleMiniEventLabels;
 }
 
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *expBar;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *cashBar;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *oilBar;
+@property (nonatomic, assign) IBOutlet ProgressBar *expBar;
+@property (nonatomic, assign) IBOutlet ProgressBar *cashBar;
+@property (nonatomic, assign) IBOutlet ProgressBar *oilBar;
 
 @property (nonatomic, assign) IBOutlet UILabel *nameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *levelLabel;

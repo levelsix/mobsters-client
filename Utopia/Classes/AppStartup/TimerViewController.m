@@ -17,7 +17,7 @@
 #define SCROLLVIEW_INSET 3
 #define CELL_SPACING 3
 #define MINIMIZED_CELLS_SHOWN 2
-#define MIN_HEIGHT ([Globals isiPad] ? 24.f : 15.5f)
+#define MIN_HEIGHT ([Globals isiPad] ? 24.f : 22.f)
 
 @implementation TimerCell
 
@@ -36,16 +36,18 @@
     // Reload it
     NSString *prefix = nil;
     if (color == TimerProgressBarColorYellow) {
-      prefix = [Globals isiPad] ? @"timersyellow" : @"obtimeryellow";
+      prefix = [Globals isiPad] ? @"timersyellow" : @"yellowtimer";
     } else if (color == TimerProgressBarColorGreen) {
-      prefix = [Globals isiPad] ? @"timersgreen" : @"obtimergreen";
+      prefix = [Globals isiPad] ? @"timersgreen" : @"greentimer";
     } else if (color == TimerProgressBarColorPurple) {
-      prefix = [Globals isiPad] ? @"timerspurple": @"obtimerpurple";
+      prefix = [Globals isiPad] ? @"timerspurple": @"purpletimer";
     }
     
-    self.progressBar.leftCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];
-    self.progressBar.rightCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];
-    self.progressBar.middleBar.image = [Globals imageNamed:[prefix stringByAppendingString:@"middle.png"]];
+    // For split progress bar
+//    self.progressBar.leftCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];
+//    self.progressBar.rightCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];
+//    self.progressBar.middleBar.image = [Globals imageNamed:[prefix stringByAppendingString:@"middle.png"]];
+    self.progressBar.image = [Globals imageNamed:[prefix stringByAppendingString:@".png"]];
     
     self.progressBar.tag = color;
   }
@@ -338,7 +340,7 @@
   
   dispatch_block_t block = ^{
     BOOL moreRows = self.timerCells.count > closedCellsShown;
-    self.bottomBgdView.highlighted = !moreRows;
+    self.bottomBgdView.hidden = !moreRows;
     self.openButtonView.hidden = !moreRows;
     
     // Adjust mainView's height. Try to get it as tall as we can if open.

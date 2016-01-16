@@ -8,8 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+#import "THLabel.h"
+
 @interface FontLabelMikadoBlack : UILabel
 @end
 
+@interface FontLabelMikadoBlackB : THLabel
+@end
+
 @interface FontLabelMikadoBold : UILabel
+@end
+
+@interface FontLabelMikadoBoldB : THLabel
 @end

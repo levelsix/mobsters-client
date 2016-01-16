@@ -214,70 +214,70 @@
 }
 
 - (void) adjustTopBarForPhoneSize {
-  if (![Globals isSmallestiPhone]) {
-    // Turn off autoresizing for coinbarsview while we adjust for diff
-    self.coinBarsView.autoresizesSubviews = NO;
-
-    if (![Globals isiPad]) {
-      NSArray *arr = @[self.cashBgd, self.oilBgd];
-      for (UIImageView *iv in arr) {
-        iv.image = [Globals imageNamed:@"toplongbar.png"];
-        
-        CGSize s = iv.image.size;
-        CGSize cur = iv.size;
-        
-        // This will get auto readjusted
-        //iv.width = s.width;
-        
-        float diff = s.width-cur.width;
-        iv.superview.width += diff;
-        
-        // Check in case view is not part of coin bars view
-        if ([iv isDescendantOfView:self.coinBarsView]) {
-          self.coinBarsView.width += diff;
-          self.coinBarsView.originX -= diff;
-        }
-      }
-    }
-    
-    self.coinBarsView.autoresizesSubviews = YES;
-    
-    // Put cash bgd flush with right side
-    self.cashView.originX = self.cashView.superview.width-self.cashView.width;
-    
-    int extraSpace = self.view.frame.size.width-self.coinBarsView.frame.size.width-self.expView.frame.size.width;
-    if (extraSpace >= self.timersView.width || [Globals isiPhone6]) {
-      // iPhone 6 and bigger
-      // Move timers to top and move coin bars over
-      self.timersView.height += self.timersView.originY;
-      self.timersView.originY = self.coinBarsView.originY;
-      
-      self.coinBarsView.originX -= self.timersView.width;
-      
-      
-      // Move gem bar to the end and adjust auto resizing masks
-      float diff = self.oilView.originX;
-      self.oilView.originX -= diff;
-      self.cashView.originX -= diff;
-      
-      self.gemsView.originX = self.coinBarsView.width-self.gemsView.width;
-      
-      self.oilView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-      self.cashView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
-      self.gemsView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-      
-      self.timerHeaderLabel.originX -= 14;
-    }
-  }
+//  if (![Globals isSmallestiPhone]) {
+//    // Turn off autoresizing for coinbarsview while we adjust for diff
+//    self.coinBarsView.autoresizesSubviews = NO;
+//
+//    if (![Globals isiPad]) {
+//      NSArray *arr = @[self.cashBgd, self.oilBgd];
+//      for (UIImageView *iv in arr) {
+//        iv.image = [Globals imageNamed:@"toplongbar.png"];
+//        
+//        CGSize s = iv.image.size;
+//        CGSize cur = iv.size;
+//        
+//        // This will get auto readjusted
+//        //iv.width = s.width;
+//        
+//        float diff = s.width-cur.width;
+//        iv.superview.width += diff;
+//        
+//        // Check in case view is not part of coin bars view
+//        if ([iv isDescendantOfView:self.coinBarsView]) {
+//          self.coinBarsView.width += diff;
+//          self.coinBarsView.originX -= diff;
+//        }
+//      }
+//    }
+//    
+//    self.coinBarsView.autoresizesSubviews = YES;
+//    
+//    // Put cash bgd flush with right side
+//    self.cashView.originX = self.cashView.superview.width-self.cashView.width;
+//    
+//    int extraSpace = self.view.frame.size.width-self.coinBarsView.frame.size.width-self.expView.frame.size.width;
+//    if (extraSpace >= self.timersView.width || [Globals isiPhone6]) {
+//      // iPhone 6 and bigger
+//      // Move timers to top and move coin bars over
+//      self.timersView.height += self.timersView.originY;
+//      self.timersView.originY = self.coinBarsView.originY;
+//      
+//      self.coinBarsView.originX -= self.timersView.width;
+//      
+//      
+//      // Move gem bar to the end and adjust auto resizing masks
+//      float diff = self.oilView.originX;
+//      self.oilView.originX -= diff;
+//      self.cashView.originX -= diff;
+//      
+//      self.gemsView.originX = self.coinBarsView.width-self.gemsView.width;
+//      
+//      self.oilView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+//      self.cashView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
+//      self.gemsView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+//      
+//      self.timerHeaderLabel.originX -= 14;
+//    }
+//  }
   
   // For iPhone 4, just squish top bar. autoresizing will put it into place
   if (self.expView.originX+self.expView.width > self.coinBarsView.originX) {
-    float newX = CGRectGetMaxX(self.expView.frame);
-    float oldWidth = self.coinBarsView.width;
-    float newWidth = CGRectGetMaxX(self.coinBarsView.frame)-newX;
-    float maxWidth = self.view.width-newX;
-    self.coinBarsView.width = MIN(maxWidth, newWidth + (oldWidth-newWidth)/4);
-    self.coinBarsView.originX = newX;
+    self.coinBarsView.originX = self.coinBarsView.superview.width-self.coinBarsView.width;
+    
+    int timerAmt = 30.f;
+    self.timersView.height -= timerAmt;
+    self.timersView.originY += timerAmt;
+    self.timersView.originX -= 5.f;
   }
 }
 

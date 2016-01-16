@@ -18,11 +18,31 @@
 
 @end
 
+@implementation FontLabelMikadoBlackB
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"MikadoBlack" size:self.font.pointSize];
+  self.shadowBlur = 0.9f;
+}
+
+@end
+
 @implementation FontLabelMikadoBold
 
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
   self.font = [UIFont fontWithName:@"MikadoBold" size:self.font.pointSize];
+}
+
+@end
+
+@implementation FontLabelMikadoBoldB
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"MikadoBold" size:self.font.pointSize];
+  self.shadowBlur = 0.9f;
 }
 
 @end
