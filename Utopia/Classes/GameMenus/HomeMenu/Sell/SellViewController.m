@@ -59,7 +59,7 @@
   int cur = [gs currentlyUsedInventorySlots];
   int max = [gs maxInventorySlots];
   
-  NSString *s1 = [NSString stringWithFormat:@"SELL %@S ", MONSTER_NAME.uppercaseString];
+  NSString *s1 = [NSString stringWithFormat:@"Sell %@s ", MONSTER_NAME.capitalizedString];
   NSString *str = [NSString stringWithFormat:@"%@(%d/%d)", s1, cur, max];
   NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:nil];
   

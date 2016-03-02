@@ -33,6 +33,8 @@
 
 @property (nonatomic, retain) IBOutlet UIView *selectorView;
 
+@property (nonatomic, retain) IBOutlet UIImageView *bgdImgView;
+
 @property (nonatomic, retain) NSMutableArray *mainViewControllers;
 
 @property (nonatomic, weak) id<HomeViewControllerDelegate> delegate;

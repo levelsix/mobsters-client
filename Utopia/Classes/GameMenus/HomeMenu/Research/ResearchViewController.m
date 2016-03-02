@@ -22,7 +22,7 @@
   [super viewDidLoad];
   
   self.titleImageName = @"researchcentermenuheader.png";
-  self.title = @"RESEARCH";
+  self.title = @"Research";
   
   self.curResearchBar.frame = self.selectFieldView.frame;
   [self.selectFieldView.superview addSubview:self.curResearchBar];

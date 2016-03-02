@@ -43,7 +43,7 @@
   
   self.listView.cellClassName = @"HealCardCell";
   
-  self.title = [NSString stringWithFormat:@"HEAL %@S", MONSTER_NAME.uppercaseString];
+  self.title = [NSString stringWithFormat:@"Heal %@s", MONSTER_NAME.capitalizedString];
   self.titleImageName = @"hospitalmenuheader.png";
   
   self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no injured %@s.", MONSTER_NAME];
@@ -179,13 +179,16 @@
   int openSlots = maxQueueSize-curQueueSize;
   
   if (openSlots > 0) {
-    _footerView.openSlotsLabel.text = [NSString stringWithFormat:@"%d SLOT%@ OPEN", openSlots, openSlots == 1 ? @"" : @"S"];
+    _footerView.openSlotsLabel.text = [NSString stringWithFormat:@"Slot%@\nOpen", openSlots == 1 ? @"" : @"s"];
+    _footerView.openSlotsNumLabel.text = [NSString stringWithFormat:@"%d", openSlots];
     
     _footerView.openSlotsLabel.hidden = NO;
+    _footerView.openSlotsNumLabel.hidden = NO;
     _footerView.openSlotsBorder.hidden = NO;
     _footerView.queueFullLabel.hidden = YES;
   } else {
     _footerView.openSlotsLabel.hidden = YES;
+    _footerView.openSlotsNumLabel.hidden = YES;
     _footerView.openSlotsBorder.hidden = YES;
     _footerView.queueFullLabel.hidden = NO;
   }
@@ -239,7 +242,7 @@ static BOOL isAnimating = NO;
   NSString *imgName = [@"Queue" stringByAppendingString:sip.imgName];
   [Globals imageNamedWithiPadSuffix:imgName withView:self.hospitalIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  self.hospitalLevelLabel.text = [NSString stringWithFormat:@"LEVEL %d", sip.level];
+  self.hospitalLevelLabel.text = [NSString stringWithFormat:@"Level %d", sip.level];
   
   // Update arrows
   self.hospitalLeftArrow.hidden = self.hospitals.count <= 1;

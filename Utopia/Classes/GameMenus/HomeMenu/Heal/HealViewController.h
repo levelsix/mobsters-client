@@ -16,6 +16,7 @@
 
 @interface HealQueueFooterView : UICollectionReusableView
 
+@property (nonatomic, retain) IBOutlet UILabel *openSlotsNumLabel;
 @property (nonatomic, retain) IBOutlet UILabel *openSlotsLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueFullLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *openSlotsBorder;

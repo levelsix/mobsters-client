@@ -182,7 +182,7 @@ static int listViewContentOffset = 0.f;
     int cur = [gs currentlyUsedInventorySlots];
     int max = [gs maxInventorySlots];
     
-    NSString *s1 = [NSString stringWithFormat:@"ENHANCE %@S ", MONSTER_NAME.uppercaseString];
+    NSString *s1 = [NSString stringWithFormat:@"Enhance %@s ", MONSTER_NAME.capitalizedString];
     NSString *s2 = cur > max ? [NSString stringWithFormat:@"(%d/%d)", cur, max] : @"";
     NSString *str = [NSString stringWithFormat:@"%@%@", s1, s2];
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:nil];

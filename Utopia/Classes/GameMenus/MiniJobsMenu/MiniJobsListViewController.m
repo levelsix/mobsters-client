@@ -138,7 +138,7 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  self.title = @"MINI JOBS";
+  self.title = @"Mini Jobs";
   self.titleImageName = @"minijobsbuilding.png";
 }
 

@@ -115,16 +115,16 @@
   }
   
   if (self.healCostLabel) {
-    self.healCostLabel.text = [NSString stringWithFormat:@"%i", [gl calculateCostToHealMonster:um]];
+    self.healCostLabel.text = [NSString stringWithFormat:@" %i", [gl calculateCostToHealMonster:um]];
     //Shrink healCostLabel to be just long enough to fit the text
-    float healCostLabelRight = self.healCostLabel.originX + self.healCostLabel.width;
-    self.healCostLabel.width = [self.healCostLabel.text getSizeWithFont:self.healCostLabel.font].width + 1;
-    self.healCostLabel.originX = healCostLabelRight - self.healCostLabel.width;
+//    float healCostLabelRight = self.healCostLabel.originX + self.healCostLabel.width;
+//    self.healCostLabel.width = [self.healCostLabel.text getSizeWithFont:self.healCostLabel.font].width + 1;
+//    self.healCostLabel.originX = healCostLabelRight - self.healCostLabel.width;
   }
   
   if (self.healCostMoneyIcon) {
-    UIView *costLabel = self.healCostLabel ?: self.sellCostLabel;
-    self.healCostMoneyIcon.originX = costLabel.originX - self.healCostMoneyIcon.width - 2;
+    UILabel *costLabel = self.healCostLabel ?: self.sellCostLabel;
+    [Globals adjustViewForCentering:costLabel.superview withLabel:costLabel];
   }
   
   if (um.level >= um.staticMonster.maxLevel) {

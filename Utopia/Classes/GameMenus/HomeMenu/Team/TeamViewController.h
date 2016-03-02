@@ -31,7 +31,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *topLabel;
 @property (nonatomic, retain) IBOutlet UILabel *botLabel;
 @property (nonatomic, retain) IBOutlet UIButton *toonDetailsView;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *healthBar;
+@property (nonatomic, retain) IBOutlet ProgressBar *healthBar;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;
 @property (nonatomic, retain) IBOutlet UILabel *slotNumLabel;
 @property (nonatomic, retain) IBOutlet UILabel *tapToAddLabel;

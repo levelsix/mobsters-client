@@ -79,7 +79,7 @@
   GameState *gs = [GameState sharedGameState];
   
   BattleItemFactoryProto *factory = (BattleItemFactoryProto *)gs.myBattleItemFactory.staticStructForCurrentConstructionLevel;
-  NSString *str = [NSString stringWithFormat:@"%@ (%d/%d POWER)", factory.structInfo.name.uppercaseString, self.battleItemUtil.totalPowerAmount, factory.powerLimit];
+  NSString *str = [NSString stringWithFormat:@"%@ (%d/%d Power)", factory.structInfo.name.capitalizedString, self.battleItemUtil.totalPowerAmount, factory.powerLimit];
   self.title = str;
   
   int quantity = 0;

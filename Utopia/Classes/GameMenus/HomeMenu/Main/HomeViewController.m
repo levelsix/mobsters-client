@@ -22,6 +22,11 @@
 
 @implementation HomeTitleView
 
+- (void) awakeFromNib {
+//  self.titleLabel.strokeColor = [UIColor colorWithHexString:@"612000"];
+//  self.titleLabel.strokeSize = 1.f;
+}
+
 @end
 
 @implementation HomeViewController
@@ -125,6 +130,11 @@
   
   self.containerView.superview.layer.cornerRadius = POPUP_CORNER_RADIUS;
   self.containerView.superview.clipsToBounds = YES;
+  
+  CALayer *_maskingLayer = [CALayer layer];
+  _maskingLayer.frame = CGRectMake((self.containerView.width-self.bgdImgView.width)/2, self.containerView.height-self.bgdImgView.height, self.bgdImgView.width, self.bgdImgView.height);
+  [_maskingLayer setContents:(id)[_bgdImgView.image CGImage]];
+  [self.containerView.layer setMask:_maskingLayer];
 }
 
 - (void) loadMainViewControllers {

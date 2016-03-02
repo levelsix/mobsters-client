@@ -28,8 +28,8 @@
 
 - (void) updateForToon:(MonsterProto *)proto greyscale:(BOOL)greyscale {
   [Globals imageNamed:@"evobadge2.png" withView:self.bg greyscale:greyscale indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  self.evoLevel.text = [NSString stringWithFormat:@"%i", proto.evolutionLevel];
-  self.hidden = proto.evolutionLevel <= 1;
+  self.evoLevel.text = [NSString stringWithFormat:@"L%i", proto.evolutionLevel];
+//  self.hidden = proto.evolutionLevel <= 1;
 }
 
 @end
@@ -40,8 +40,6 @@ static UIImage *img = nil;
 
 - (void) awakeFromNib {
   [self addSubview:self.noMonsterView];
-  
-  self.qualityLabel.superview.transform = CGAffineTransformMakeRotation(-M_PI_4);
   
   self.overlayButton.hidden = YES;
   self.infoButton.hidden = YES;
@@ -81,10 +79,10 @@ static UIImage *img = nil;
   self.qualityLabel.text = [[Globals shortenedStringForRarity:mp.quality] uppercaseString];
   
   
-  NSString *bgdImgName = !greyscale ? [Globals imageNameForElement:mp.monsterElement suffix:@"square.png"] : @"greysquare.png";
+  NSString *bgdImgName = !greyscale ? [Globals imageNameForElement:mp.monsterElement suffix:@"mediumsquare.png"] : @"greymediumsquare.png";
   [Globals imageNamed:bgdImgName withView:self.cardBgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  NSString *tagName = !greyscale ? [Globals imageNameForRarity:mp.quality suffix:@"band.png"] : @"greyband.png";
+  NSString *tagName = !greyscale ? [Globals imageNameForRarity:mp.quality suffix:@"bottom.png"] : @"greybottom.png";
   [Globals imageNamed:tagName withView:self.qualityBgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   [Globals imageNamed:@"infoi.png" withView:self.infoButton greyscale:greyscale indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
@@ -132,6 +130,8 @@ static UIImage *img = nil;
       [self.monsterCardView.mainView insertSubview:v belowSubview:self.monsterCardView.overlayButton];
     }
   }
+  // Bring info button to front
+  [self.monsterCardView.mainView bringSubviewToFront:self.monsterCardView.infoButton];
 }
 
 @end
@@ -161,7 +161,7 @@ static UIImage *img = nil;
     [self.evoBadge updateForToon:mp];
     self.monsterIcon.hidden = NO;
   } else {
-    self.bgdIcon.image = [Globals imageNamed:@"teamslotopen.png"];
+    self.bgdIcon.image = [Globals imageNamed:@"emptysquare.png"];
     self.monsterIcon.hidden = YES;
     self.evoBadge.hidden = YES;
   }
@@ -185,10 +185,10 @@ static UIImage *img = nil;
   [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   if (element != ElementNoElement) {
-    const CGFloat bigSquareSize = [Globals isiPad] ? 94 : 74;
-    const CGFloat mediumSquareSize = [Globals isiPad] ? 72 : 48;
+//    const CGFloat bigSquareSize = [Globals isiPad] ? 94 : 74;
+//    const CGFloat mediumSquareSize = [Globals isiPad] ? 72 : 48;
     
-    NSString *suffix = self.bgdIcon.frame.size.width >= bigSquareSize ? @"square.png" : (self.bgdIcon.frame.size.width >= mediumSquareSize ? @"mediumsquare.png" : @"smallsquare.png");
+    NSString *suffix = @"mediumsquare.png" ;//self.bgdIcon.frame.size.width >= bigSquareSize ? @"square.png" : (self.bgdIcon.frame.size.width >= mediumSquareSize ? @"mediumsquare.png" : @"smallsquare.png");
     file = !greyscale ? [Globals imageNameForElement:element suffix:suffix] : [@"grey" stringByAppendingString:suffix];
     [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   }

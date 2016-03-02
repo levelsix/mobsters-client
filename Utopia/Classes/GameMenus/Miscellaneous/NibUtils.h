@@ -29,6 +29,16 @@ typedef enum {
 
 // B means blur, S means stroke, WS means white stroke, R means resize for iPhones
 
+IB_DESIGNABLE
+@interface ShadowBlurLabel : THLabel
+
+@property (nonatomic, assign) IBInspectable CGFloat shadowBlur;
+
+@property (nonatomic, assign) IBInspectable CGFloat strokeSize;
+@property (nonatomic, strong) IBInspectable UIColor *strokeColor;
+
+@end
+
 @interface NiceFontLabelS : UILabel
 
 @property (nonatomic, assign) float strokeSize;

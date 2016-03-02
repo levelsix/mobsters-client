@@ -47,7 +47,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *combineFreeLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *combineSpeedupIcon;
 
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *healthBar;
+@property (nonatomic, retain) IBOutlet ProgressBar *healthBar;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;
 
 @property (nonatomic, retain) IBOutlet UIImageView *lockIcon;
@@ -68,7 +68,7 @@
 @property (nonatomic, strong) IBOutlet MiniMonsterView *monsterView;
 
 @property (nonatomic, strong) IBOutlet UIView *timerView;
-@property (nonatomic, strong) IBOutlet SplitImageProgressBar *progressBar;
+@property (nonatomic, strong) IBOutlet ProgressBar *progressBar;
 @property (nonatomic, strong) IBOutlet UILabel *timeLabel;
 
 @property (nonatomic, strong) IBOutlet UIView *checkView;

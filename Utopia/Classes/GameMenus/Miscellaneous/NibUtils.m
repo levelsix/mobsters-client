@@ -11,6 +11,18 @@
 #import "GameState.h"
 #import "SoundEngine.h"
 
+@implementation ShadowBlurLabel
+
+@dynamic shadowBlur, strokeSize, strokeColor;
+
+- (void) awakeFromNib {
+  if (self.shadowBlur == 0) {
+    self.shadowBlur = 0.9f;
+  }
+}
+
+@end
+
 @implementation NiceFontLabelS
 
 - (void) awakeFromNib {
