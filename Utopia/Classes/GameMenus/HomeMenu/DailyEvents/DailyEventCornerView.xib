@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBlack.otf">
+            <string>MikadoBlack</string>
+        </mutableArray>
+        <mutableArray key="HVD Fonts - MikadoBold.otf">
+            <string>MikadoBold</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="DailyEventCornerView">
-            <rect key="frame" x="0.0" y="0.0" width="138" height="100"/>
+            <rect key="frame" x="0.0" y="0.0" width="157" height="100"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="75i-bY-Mox" customClass="GeneralButton">
-                    <rect key="frame" x="0.0" y="0.0" width="138" height="100"/>
+                    <rect key="frame" x="0.0" y="42" width="157" height="58"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -21,47 +29,44 @@
                         <action selector="buttonClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="1O5-9Z-vb1"/>
                     </connections>
                 </button>
-                <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="uYc-tD-DxI">
-                    <rect key="frame" x="0.0" y="47" width="159" height="66"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nighteventbg.png" id="P02-qJ-XEg">
-                            <rect key="frame" x="0.0" y="0.0" width="146" height="53"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
                 <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="bottom" id="IV2-hq-jgQ">
-                    <rect key="frame" x="-27" y="0.0" width="100" height="100"/>
+                    <rect key="frame" x="-14" y="0.0" width="100" height="100"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="nighteventtag.png" id="4KT-L5-mUb">
-                    <rect key="frame" x="53" y="43" width="23" height="18"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Purple Cake" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rai-aV-HyF" customClass="NiceFontLabel12T">
-                    <rect key="frame" x="53" y="59" width="138" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Purple Cake" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rai-aV-HyF" customClass="ShadowBlurLabel">
+                    <rect key="frame" x="69" y="58" width="138" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="14"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.45000000000000001" colorSpace="deviceRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="strokeSize">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                            <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 12H 12M" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="krv-Yx-wgp" customClass="NiceFontLabel8T">
-                    <rect key="frame" x="68" y="75" width="92" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ends in: 2H 12M" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="krv-Yx-wgp" customClass="ShadowBlurLabel">
+                    <rect key="frame" x="71" y="75" width="92" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="11"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.45000000000000001" colorSpace="deviceRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="strokeSize">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                            <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                 </label>
-                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="nighteventtimer.png" id="tSo-Gy-YtC">
-                    <rect key="frame" x="55" y="78" width="14" height="16"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -69,23 +74,10 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="characterIcon" destination="IV2-hq-jgQ" id="wA3-Z0-mDJ"/>
-                <outlet property="eventTagIcon" destination="4KT-L5-mUb" id="zyD-KZ-mvS"/>
-                <outlet property="gradientView" destination="P02-qJ-XEg" id="55D-Ql-aoj"/>
                 <outlet property="nameLabel" destination="rai-aV-HyF" id="75v-in-4NG"/>
                 <outlet property="timeLabel" destination="krv-Yx-wgp" id="Eho-1K-qZY"/>
-                <outlet property="timerIcon" destination="tSo-Gy-YtC" id="o17-4h-EbP"/>
             </connections>
-            <point key="canvasLocation" x="807" y="274"/>
+            <point key="canvasLocation" x="342.5" y="362"/>
         </view>
     </objects>
-    <resources>
-        <image name="nighteventbg.png" width="146" height="53"/>
-        <image name="nighteventtag.png" width="23" height="18"/>
-        <image name="nighteventtimer.png" width="14" height="16"/>
-    </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

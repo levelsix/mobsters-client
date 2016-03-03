@@ -127,12 +127,23 @@
     [Globals adjustViewForCentering:costLabel.superview withLabel:costLabel];
   }
   
-  if (um.level >= um.staticMonster.maxLevel) {
-    self.enhancePercentLabel.text = @"Max";
-  } else {
-    float baseLevel = [gl calculateLevelForMonster:um.monsterId experience:um.experience];
-    float curPerc = baseLevel-(int)baseLevel;
-    self.enhancePercentLabel.text = [NSString stringWithFormat:@"%d%%", (int)floorf(curPerc*100)];
+  if (self.enhancePercentLabel) {
+    [self.cardContainer.monsterCardView.bottomView removeFromSuperview];
+    
+    if (um.level >= um.staticMonster.maxLevel) {
+      self.enhancePercentLabel.text = @"Max";
+    } else {
+      float baseLevel = [gl calculateLevelForMonster:um.monsterId experience:um.experience];
+      float curPerc = baseLevel-(int)baseLevel;
+      
+      NSString *p1 = [NSString stringWithFormat:@"L%d  ", um.level];
+      NSString *p2 = [NSString stringWithFormat:@"%d%%", (int)floorf(curPerc*100)];
+      NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[p1 stringByAppendingString:p2] attributes:nil];
+      if (!greyscale) {
+        [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:48/255.f green:124/255.f blue:238/255.f alpha:1.f] range:NSMakeRange(0, p1.length)];
+      }
+      self.enhancePercentLabel.attributedText = attr;
+    }
   }
   
   int maxHealth = [gl calculateMaxHealthForMonster:um];

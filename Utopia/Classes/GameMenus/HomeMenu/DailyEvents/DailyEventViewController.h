@@ -32,9 +32,9 @@
 @property (nonatomic, retain) IBOutlet UIImageView *characterIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *eventTagIcon;
 
-@property (nonatomic, retain) IBOutlet THLabel *dateLabel;
-@property (nonatomic, retain) IBOutlet THLabel *nameLabel;
-@property (nonatomic, retain) IBOutlet THLabel *timeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *dateLabel;
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *endsInLabel;
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 
@@ -48,7 +48,7 @@
 
 @property (nonatomic, retain) IBOutlet UIView *secondaryButtonView;
 @property (nonatomic, retain) IBOutlet UIView *defaultButtonView;
-@property (nonatomic, retain) IBOutlet THLabel *timeLabelB;
+@property (nonatomic, retain) IBOutlet UILabel *timeLabelB;
 
 - (void) updateForEvo;
 - (void) updateForEnhance;

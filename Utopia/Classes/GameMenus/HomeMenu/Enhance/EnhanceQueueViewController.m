@@ -23,11 +23,6 @@
 
 @implementation EnhanceSmallCardCell
 
-- (void) awakeFromNib {
-  [super awakeFromNib];
-  self.qualityLabel.superview.transform = CGAffineTransformMakeRotation(-M_PI_4);
-}
-
 - (void) updateForListObject:(UserMonster *)listObject userEnhancement:(UserEnhancement *)ue {
   MonsterProto *mp = listObject.staticMonster;
   BOOL greyscale = listObject.isProtected || ue.isActive;
@@ -38,21 +33,14 @@
   NSString *bgdImgName = [Globals imageNameForElement:mp.monsterElement suffix:@"mediumsquare.png"];
   [Globals imageNamed:bgdImgName withView:self.bgdIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  [self.evoBadge updateForToon:mp greyscale:greyscale];
-  
   if (listObject.isProtected) {
     self.enhancePercentLabel.text = @"Locked";
   } else {
     int ptsIncrease = [ue experienceIncreaseOfNewUserMonster:listObject];
-    self.enhancePercentLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:ptsIncrease]];
+    self.enhancePercentLabel.text = [NSString stringWithFormat:@"%@XP", [Globals commafyNumber:ptsIncrease]];
   }
   
   self.lockIcon.hidden = !listObject.isProtected;
-  
-  self.qualityLabel.text = [[Globals shortenedStringForRarity:mp.quality] uppercaseString];
-  
-  NSString *tagName = [Globals imageNameForRarity:mp.quality suffix:@"band.png"];
-  [Globals imageNamed:tagName withView:self.qualityBgdView greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 @end
@@ -245,9 +233,9 @@ static int listViewContentOffset = 0.f;
   if (newLevel <= maxLevel) {
     int expToNewLevel = [gl calculateExperienceRequiredForMonster:um.monsterId level:newLevel];
     int curExp = [gl calculateExperienceIncrease:ue]+um.experience;
-    self.curExpLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:MAX(0, expToNewLevel-curExp)]];
+    self.curExpLabel.text = [NSString stringWithFormat:@"%@XP", [Globals commafyNumber:MAX(0, expToNewLevel-curExp)]];
     
-    self.nextLevelLabel.text = [NSString stringWithFormat:@"to level %d", newLevel];
+    self.nextLevelLabel.text = [NSString stringWithFormat:@"to Level %d", newLevel];
     
     self.curExpLabel.hidden = NO;
     self.nextLevelLabel.hidden = NO;

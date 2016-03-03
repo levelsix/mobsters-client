@@ -23,18 +23,18 @@
   
   self.characterIcon.layer.anchorPoint = ccp(0.5, 1.f);
   self.characterIcon.originY += self.characterIcon.height/2-0.5;
-  self.characterIcon.layer.transform = CATransform3DMakeScale(0.73, 0.73, 1.f);
+  self.characterIcon.layer.transform = CATransform3DMakeScale(0.9, 0.9, 1.f);
   _initCharCenterX = self.characterIcon.centerX;
   
   _initTimeLabelX = self.timeLabel.centerX;
   
-  self.nameLabel.gradientStartColor = [UIColor whiteColor];
-  self.nameLabel.strokeSize = 0.5f;
-  self.nameLabel.shadowBlur = 0.5f;
-  
-  self.timeLabel.strokeSize = 1.f;
-  self.timeLabel.strokeColor = [UIColor whiteColor];
-  self.timeLabel.shadowBlur = 0.9f;
+//  self.nameLabel.gradientStartColor = [UIColor whiteColor];
+//  self.nameLabel.strokeSize = 0.5f;
+//  self.nameLabel.shadowBlur = 0.5f;
+//  
+//  self.timeLabel.strokeSize = 1.f;
+//  self.timeLabel.strokeColor = [UIColor whiteColor];
+//  self.timeLabel.shadowBlur = 0.9f;
 }
 
 - (void) updateForEvo {
@@ -186,16 +186,16 @@
     }
     
     if (idx <= ElementRock && idx >= ElementFire) {
-      self.nameLabel.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
-      self.nameLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
-      self.nameLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
-      
-      self.timeLabel.gradientStartColor = [UIColor colorWithHexString:TimeTopColor[idx]];
-      self.timeLabel.gradientEndColor = [UIColor colorWithHexString:TimeBotColor[idx]];
-      self.timeLabel.shadowColor = [UIColor colorWithHexString:[NameStrokeColor[idx] stringByAppendingString:@"c0"]];
+//      self.nameLabel.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
+//      self.nameLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+//      self.nameLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+//      
+//      self.timeLabel.gradientStartColor = [UIColor colorWithHexString:TimeTopColor[idx]];
+//      self.timeLabel.gradientEndColor = [UIColor colorWithHexString:TimeBotColor[idx]];
+//      self.timeLabel.shadowColor = [UIColor colorWithHexString:[NameStrokeColor[idx] stringByAppendingString:@"c0"]];
     }
     
-    self.nameLabel.text = [@" " stringByAppendingString:task.name];
+    self.nameLabel.text = [NSString stringWithFormat:@" %@", task.name];
     
     _persistentEventId = pe.eventId;
     
@@ -230,7 +230,7 @@
     int cdTimeLeft = [cdTime timeIntervalSinceNow];
     
     if (cdTimeLeft <= 0) {
-      self.timeLabel.text = [@" " stringByAppendingString:[[Globals convertTimeToShortString:timeLeft] uppercaseString]];
+      self.timeLabel.text = [@" Ends in: " stringByAppendingString:[[Globals convertTimeToShortString:timeLeft] uppercaseString]];
     } else {
       self.timeLabel.text = [@" Reenter: " stringByAppendingString:[[Globals convertTimeToShortString:cdTimeLeft] uppercaseString]];
     }

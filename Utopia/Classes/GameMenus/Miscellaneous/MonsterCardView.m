@@ -76,6 +76,8 @@ static UIImage *img = nil;
   }
   self.nameLabel.attributedText = attr;
   
+  self.levelLabel.text = p2;
+  
   self.qualityLabel.text = [[Globals shortenedStringForRarity:mp.quality] uppercaseString];
   
   

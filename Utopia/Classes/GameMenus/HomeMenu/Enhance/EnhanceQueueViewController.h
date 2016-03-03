@@ -21,12 +21,8 @@
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *qualityBgdView;
-@property (nonatomic, retain) IBOutlet UILabel *qualityLabel;
 @property (nonatomic, retain) IBOutlet UILabel *enhancePercentLabel;
-@property (nonatomic, retain) IBOutlet MonsterCardView *cardView;
 @property (nonatomic, retain) IBOutlet UIImageView *lockIcon;
-@property (nonatomic, retain) IBOutlet EvoBadge *evoBadge;
 
 @end
 
@@ -80,8 +76,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *curLevelLabel;
 @property (nonatomic, retain) IBOutlet UILabel *curExpLabel;
 @property (nonatomic, retain) IBOutlet UILabel *maxLevelLabel;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *curProgressBar;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *addedProgressBar;
+@property (nonatomic, retain) IBOutlet ProgressBar *curProgressBar;
+@property (nonatomic, retain) IBOutlet ProgressBar *addedProgressBar;
 
 @property (nonatomic, retain) IBOutlet UIImageView *queueArrow;
 

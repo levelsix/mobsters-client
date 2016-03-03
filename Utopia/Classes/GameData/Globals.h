@@ -112,7 +112,7 @@
 
 #define LEADERBOARD_UPDATE_NOTIFICATION @"LeaderboardUpdateNotification"
 
-#ifdef MOBSTERS
+#ifdef MOBSTERSx
 #define GAME_NAME @"Mob Squad"
 #define GAME_ABBREV @"MS"
 #define MONSTER_NAME @"Mobster"

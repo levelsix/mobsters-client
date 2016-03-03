@@ -38,12 +38,15 @@
 @property (nonatomic, assign) IBOutlet UIImageView *cardBgdView;
 @property (nonatomic, assign) IBOutlet UILabel *nameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *qualityLabel;
+@property (nonatomic, assign) IBOutlet UILabel *levelLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *qualityBgdView;
 @property (nonatomic, assign) IBOutlet MaskedButton *overlayButton;
 @property (nonatomic, assign) IBOutlet UIButton *infoButton;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *noMonsterView;
+
+@property (nonatomic, retain) IBOutlet UIView *bottomView;
 
 @property (nonatomic, retain) IBOutlet EvoBadge *evoBadge;
 

@@ -279,7 +279,9 @@ static int totalLevelUps = 0;
   
   int nextLevel = (int)endLevel;
   float duration = (nextPerc-basePerc)*0.9f;
-  [self.curProgressBar animateToPercentage:nextPerc duration:duration completion:^{
+  [UIView animateWithDuration:duration animations:^{
+    self.curProgressBar.percentage = nextPerc;
+  } completion:^(BOOL finished) {
     if (baseLevel < nextLevel) {
       [self spawnLevelUp:1 completion:^{
         [self animateProgressBarAndLevelUpsWithLevel:baseLevel+1];
@@ -365,7 +367,7 @@ static int totalLevelUps = 0;
   // Stop the currently animating 
   [self.queueCell removeFromSuperview];
   [self.levelUpView removeFromSuperview];
-  [self.curProgressBar stopAnimation];
+  [self.curProgressBar.layer removeAllAnimations];
   [self.monsterImageView.superview.layer removeAllAnimations];
   [self.monsterGlowIcon.layer removeAllAnimations];
   

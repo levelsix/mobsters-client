@@ -147,6 +147,6 @@ MSDate *startTime(int dayOfWeek, int startHour, int durationMinutes) {
   int64_t ti = date.timeIntervalSince1970;
   ti = ti-ti%60;
   ti += diff*60;
-  MSDate *start = [MSDate dateWithTimeIntervalSince1970:ti+52*60];
+  MSDate *start = [MSDate dateWithTimeIntervalSince1970:ti];
   return start;
 }

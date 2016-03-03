@@ -35,21 +35,21 @@
   
   self.characterIcon.transform = CGAffineTransformMakeScale(0.9, 0.9);
   
-  self.nameLabel.gradientStartColor = [UIColor whiteColor];
-  self.nameLabel.strokeSize = 1.f;
-  self.nameLabel.shadowBlur = 0.5f;
-  
-  self.timeLabel.gradientStartColor = [UIColor whiteColor];
-  self.timeLabel.strokeSize = 1.f;
-  self.timeLabel.shadowBlur = 0.5f;
-  
-  self.timeLabelB.gradientStartColor = [UIColor whiteColor];
-  self.timeLabelB.strokeSize = 1.f;
-  self.timeLabelB.shadowBlur = 0.5f;
-  
-  self.dateLabel.gradientStartColor = [UIColor whiteColor];
-  self.dateLabel.strokeSize = 1.f;
-  self.dateLabel.shadowBlur = 0.5f;
+//  self.nameLabel.gradientStartColor = [UIColor whiteColor];
+//  self.nameLabel.strokeSize = 1.f;
+//  self.nameLabel.shadowBlur = 0.5f;
+//  
+//  self.timeLabel.gradientStartColor = [UIColor whiteColor];
+//  self.timeLabel.strokeSize = 1.f;
+//  self.timeLabel.shadowBlur = 0.5f;
+//  
+//  self.timeLabelB.gradientStartColor = [UIColor whiteColor];
+//  self.timeLabelB.strokeSize = 1.f;
+//  self.timeLabelB.shadowBlur = 0.5f;
+//  
+//  self.dateLabel.gradientStartColor = [UIColor whiteColor];
+//  self.dateLabel.strokeSize = 1.f;
+//  self.dateLabel.shadowBlur = 0.5f;
   
   self.cooldownView.frame = self.enterView.frame;
 }
@@ -126,28 +126,28 @@
     
     int idx = pe.monsterElement;
     if (idx <= 5 && idx >= 1) {
-      self.nameLabel.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
-      self.nameLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
-      self.nameLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
-      
-      self.timeLabel.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
-      self.timeLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
-      self.timeLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
-      
-      self.timeLabelB.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
-      self.timeLabelB.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
-      self.timeLabelB.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
-      
-      self.dateLabel.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
-      self.dateLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
-      self.dateLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
-      
-      self.descriptionLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
-      
-      self.endsInLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+//      self.nameLabel.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
+//      self.nameLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+//      self.nameLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+//      
+//      self.timeLabel.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
+//      self.timeLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+//      self.timeLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+//      
+//      self.timeLabelB.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
+//      self.timeLabelB.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+//      self.timeLabelB.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+//      
+//      self.dateLabel.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
+//      self.dateLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+//      self.dateLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+//      
+//      self.descriptionLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+//      
+//      self.endsInLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
     }
     
-    self.dateLabel.text = [[Globals stringOfCurDate] uppercaseString];
+    self.dateLabel.text = [Globals stringOfCurDate];
     
     self.nameLabel.text = [task.name stringByAppendingString:@" Event"];
     self.title = self.nameLabel.text;

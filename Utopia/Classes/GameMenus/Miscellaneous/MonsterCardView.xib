@@ -31,27 +31,27 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view contentMode="scaleToFill" id="TgN-zJ-s3Y" customClass="MonsterCardView">
-            <rect key="frame" x="0.0" y="0.0" width="65" height="83"/>
+            <rect key="frame" x="0.0" y="0.0" width="65" height="88"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="vwy-q7-7ay">
-                    <rect key="frame" x="0.0" y="-2" width="65" height="86"/>
+                    <rect key="frame" x="0.0" y="-2" width="65" height="90"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="mediumshadow.png" id="Rt8-xT-yNA">
-                            <rect key="frame" x="6" y="9" width="57" height="77"/>
+                            <rect key="frame" x="7" y="10" width="57" height="77"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="lightmediumsquare.png" id="tje-Ke-lN0">
-                            <rect key="frame" x="3" y="7" width="57" height="77"/>
+                            <rect key="frame" x="4" y="8" width="57" height="77"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="QGE-5v-T15">
-                            <rect key="frame" x="3" y="7" width="57" height="77"/>
+                            <rect key="frame" x="4" y="8" width="57" height="77"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <button opaque="NO" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TDV-EE-UeW" userLabel="Info Button" customClass="GeneralButton">
-                            <rect key="frame" x="-2" y="0.0" width="25" height="26"/>
+                            <rect key="frame" x="-4" y="0.0" width="25" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <state key="normal" image="infoi.png">
@@ -61,42 +61,49 @@
                                 <action selector="infoClicked:" destination="TgN-zJ-s3Y" eventType="touchUpInside" id="hoW-Oe-dd7"/>
                             </connections>
                         </button>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="levelbottom.png" id="yr3-m3-MWL">
-                            <rect key="frame" x="36" y="73" width="22" height="11"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Zt7-LU-qsv" customClass="ShadowBlurLabel">
-                            <rect key="frame" x="41" y="73" width="15" height="11"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="8"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <view contentMode="scaleToFill" id="DIt-zR-oJG" userLabel="Rarity View">
-                            <rect key="frame" x="5" y="73" width="34" height="12"/>
+                        <view contentMode="scaleToFill" id="icH-B1-ogx">
+                            <rect key="frame" x="4" y="74" width="57" height="13"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="rarebottom.png" id="JHN-xt-aaB">
-                                    <rect key="frame" x="0.0" y="0.0" width="35" height="11"/>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="levelbottom.png" id="yr3-m3-MWL">
+                                    <rect key="frame" x="33" y="0.0" width="22" height="11"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Rare" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="7" id="hHj-l9-s7W" customClass="ShadowBlurLabel">
-                                    <rect key="frame" x="1" y="0.0" width="33" height="11"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Zt7-LU-qsv" customClass="ShadowBlurLabel">
+                                    <rect key="frame" x="38" y="0.0" width="15" height="11"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="8"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.55000000000000004" colorSpace="calibratedRGB"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
+                                <view contentMode="scaleToFill" id="DIt-zR-oJG" userLabel="Rarity View">
+                                    <rect key="frame" x="2" y="0.0" width="34" height="12"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="rarebottom.png" id="JHN-xt-aaB">
+                                            <rect key="frame" x="0.0" y="0.0" width="35" height="11"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Rare" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="7" id="hHj-l9-s7W" customClass="ShadowBlurLabel">
+                                            <rect key="frame" x="1" y="0.0" width="33" height="11"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="8"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.55000000000000004" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" lineBreakMode="middleTruncation" id="muq-Gu-1ar" userLabel="Card Button" customClass="MaskedButton">
-                            <rect key="frame" x="3" y="7" width="57" height="77"/>
+                            <rect key="frame" x="4" y="8" width="57" height="75"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <state key="normal">
@@ -115,8 +122,10 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="bottomView" destination="icH-B1-ogx" id="kSM-X9-yQp"/>
                 <outlet property="cardBgdView" destination="tje-Ke-lN0" id="G7x-1J-HaY"/>
                 <outlet property="infoButton" destination="TDV-EE-UeW" id="nxm-dE-ZoG"/>
+                <outlet property="levelLabel" destination="Zt7-LU-qsv" id="4QP-fl-TEj"/>
                 <outlet property="mainView" destination="vwy-q7-7ay" id="Uva-wQ-MXn"/>
                 <outlet property="monsterIcon" destination="QGE-5v-T15" id="byg-u5-DeB"/>
                 <outlet property="noMonsterView" destination="uzP-Kc-Yzl" id="Sh1-dT-T90"/>
@@ -124,7 +133,7 @@
                 <outlet property="qualityBgdView" destination="JHN-xt-aaB" id="mj1-2o-xMN"/>
                 <outlet property="qualityLabel" destination="hHj-l9-s7W" id="mGE-lu-y4S"/>
             </connections>
-            <point key="canvasLocation" x="451.5" y="429.5"/>
+            <point key="canvasLocation" x="451.5" y="432"/>
         </view>
     </objects>
     <resources>

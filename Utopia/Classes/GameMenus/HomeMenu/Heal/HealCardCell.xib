@@ -17,14 +17,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="xrN-j6-6DL" customClass="MonsterListCell">
-            <rect key="frame" x="0.0" y="0.0" width="65" height="83"/>
+            <rect key="frame" x="0.0" y="0.0" width="65" height="88"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="65" height="83"/>
+                <rect key="frame" x="0.0" y="0.0" width="65" height="88"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="enV-qE-WxJ" customClass="MonsterCardContainerView">
-                        <rect key="frame" x="0.0" y="0.0" width="65" height="83"/>
+                        <rect key="frame" x="0.0" y="0.0" width="65" height="88"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Healing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="88H-hm-ORr" customClass="NiceFontLabel10">
@@ -122,7 +122,7 @@
                 <outlet property="statusLabel" destination="88H-hm-ORr" id="l3P-Xh-OJC"/>
                 <outlet property="unavailableView" destination="88H-hm-ORr" id="R6z-KU-EE3"/>
             </connections>
-            <point key="canvasLocation" x="354.5" y="461.5"/>
+            <point key="canvasLocation" x="354.5" y="461"/>
         </collectionViewCell>
     </objects>
     <resources>
