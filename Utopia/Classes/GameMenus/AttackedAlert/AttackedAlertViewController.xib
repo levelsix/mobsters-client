@@ -4,6 +4,11 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBlack.otf">
+            <string>MikadoBlack</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AttackedAlertViewController">
             <connections>
@@ -44,57 +49,58 @@
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.65000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="boL-iZ-CCo" userLabel="MainView">
-                    <rect key="frame" x="133" y="38" width="400" height="294"/>
+                    <rect key="frame" x="95" y="38" width="478" height="294"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" id="k5T-oJ-RUe" customClass="PopupShadowView">
-                            <rect key="frame" x="0.0" y="26" width="400" height="247"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="homemenushadow.png" id="Udf-7i-cqd">
+                            <rect key="frame" x="-3" y="0.0" width="481" height="294"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="homemenubg.png" id="iJS-sq-2E3">
+                            <rect key="frame" x="0.0" y="3" width="475" height="288"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="0tE-dE-njz" userLabel="TitleView">
+                            <rect key="frame" x="46" y="-6" width="400" height="68"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" id="0tE-dE-njz" userLabel="TitleView">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="68"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="izH-iS-9GO">
+                                    <rect key="frame" x="366" y="19" width="34" height="27"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="beenattackedheader.png" id="zdk-GV-vGA">
-                                            <rect key="frame" x="0.0" y="0.0" width="400" height="48"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="izH-iS-9GO">
-                                            <rect key="frame" x="358" y="8" width="34" height="27"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="menuclosex.png">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="clickedClose:" destination="-1" eventType="touchUpInside" id="WXf-c1-w2D"/>
-                                            </connections>
-                                        </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You've Been Attacked!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="333-pO-I2v" customClass="NiceFontLabel12T">
-                                            <rect key="frame" x="58" y="11" width="314" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
-                                            <color key="textColor" red="0.9137254901960784" green="0.0" blue="0.019607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </view>
-                                <view contentMode="scaleToFill" id="slr-JT-9xh" userLabel="ListView">
-                                    <rect key="frame" x="113" y="56" width="270" height="126"/>
+                                    <state key="normal" image="closearrow.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="clickedClose:" destination="-1" eventType="touchUpInside" id="WXf-c1-w2D"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You've Been Attacked!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="333-pO-I2v" customClass="ShadowBlurLabel">
+                                    <rect key="frame" x="35" y="23" width="314" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="49" sectionHeaderHeight="22" sectionFooterHeight="22" id="FYs-kn-evQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="270" height="126"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <outlet property="dataSource" destination="-1" id="PQG-Qc-4Tj"/>
-                                                <outlet property="delegate" destination="-1" id="TOW-GK-xuh"/>
-                                            </connections>
-                                        </tableView>
-                                    </subviews>
-                                </view>
+                                    <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                            <real key="value" value="1"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="strokeSize">
+                                            <real key="value" value="1"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </label>
+                            </subviews>
+                        </view>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="beenattackedgirl.png" id="GSp-lN-mDh">
+                            <rect key="frame" x="18" y="18" width="103" height="275"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="slr-JT-9xh" userLabel="ListView">
+                            <rect key="frame" x="141" y="199" width="270" height="87"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" id="PZx-0A-dEM" userLabel="ResultView">
-                                    <rect key="frame" x="113" y="194" width="270" height="40"/>
+                                    <rect key="frame" x="0.0" y="24" width="270" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" id="SOv-z2-yFP" userLabel="OilView">
@@ -109,6 +115,22 @@
                                                     <rect key="frame" x="19" y="9" width="35" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <fontDescription key="fontDescription" name="ZapfDingbatsITC" family="Zapf Dingbats" pointSize="13"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </view>
+                                        <view contentMode="scaleToFill" id="TA0-qO-5w3" userLabel="CashView">
+                                            <rect key="frame" x="90" y="0.0" width="66" height="40"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="SKl-dl-tOB">
+                                                    <rect key="frame" x="3" y="11" width="20" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,236" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="owP-VK-tEJ" customClass="NiceFontLabel10">
+                                                    <rect key="frame" x="31" y="8" width="35" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -129,32 +151,20 @@
                                                 </label>
                                             </subviews>
                                         </view>
-                                        <view contentMode="scaleToFill" id="TA0-qO-5w3" userLabel="CashView">
-                                            <rect key="frame" x="90" y="0.0" width="66" height="40"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="SKl-dl-tOB">
-                                                    <rect key="frame" x="3" y="11" width="20" height="15"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,236" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="owP-VK-tEJ" customClass="NiceFontLabel10">
-                                                    <rect key="frame" x="28" y="8" width="35" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="beenattackedgirl.png" id="GSp-lN-mDh">
-                            <rect key="frame" x="-2" y="-1" width="103" height="275"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        </imageView>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="49" sectionHeaderHeight="22" sectionFooterHeight="22" id="FYs-kn-evQ">
+                            <rect key="frame" x="141" y="65" width="270" height="126"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" red="0.92549019607843142" green="0.92549019607843142" blue="0.92549019607843142" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="PQG-Qc-4Tj"/>
+                                <outlet property="delegate" destination="-1" id="TOW-GK-xuh"/>
+                            </connections>
+                        </tableView>
                     </subviews>
                 </view>
             </subviews>
@@ -166,9 +176,10 @@
     </objects>
     <resources>
         <image name="beenattackedgirl.png" width="103" height="274"/>
-        <image name="beenattackedheader.png" width="1" height="48"/>
         <image name="championicon.png" width="46" height="42"/>
-        <image name="menuclosex.png" width="17" height="17"/>
+        <image name="closearrow.png" width="25" height="26"/>
+        <image name="homemenubg.png" width="475" height="288"/>
+        <image name="homemenushadow.png" width="481" height="294"/>
         <image name="moneystack.png" width="29" height="25"/>
         <image name="oilicon.png" width="21" height="26"/>
     </resources>
