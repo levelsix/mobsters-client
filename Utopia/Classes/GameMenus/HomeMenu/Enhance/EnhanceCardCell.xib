@@ -24,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" id="v69-bu-UrN">
-                                <rect key="frame" x="6" y="70" width="53" height="19"/>
+                                <rect key="frame" x="6" y="71" width="53" height="19"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="enhancebottom.png" id="bSs-qZ-abB">

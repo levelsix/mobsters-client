@@ -8,7 +8,15 @@
         <mutableArray key="HVD Fonts - MikadoBlack.otf">
             <string>MikadoBlack</string>
         </mutableArray>
+        <mutableArray key="HVD Fonts - MikadoBold.otf">
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+        </mutableArray>
         <mutableArray key="HVD Fonts - MikadoRegular.otf">
+            <string>MikadoRegular</string>
+            <string>MikadoRegular</string>
+            <string>MikadoRegular</string>
             <string>MikadoRegular</string>
         </mutableArray>
     </customFonts>
@@ -27,20 +35,20 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="HdB-zc-FNg">
-            <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
+            <rect key="frame" x="0.0" y="0.0" width="464" height="243"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="ll4-et-CB9">
-                    <rect key="frame" x="0.0" y="0.0" width="430" height="173"/>
+                    <rect key="frame" x="0.0" y="0.0" width="464" height="176"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="ULn-de-lBN" customClass="CancellableCollectionView">
-                            <rect key="frame" x="0.0" y="0.0" width="430" height="173"/>
+                            <rect key="frame" x="0.0" y="0.0" width="464" height="176"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="9" id="g0l-0s-KaK">
-                                <size key="itemSize" width="84" height="102"/>
-                                <size key="headerReferenceSize" width="430" height="26"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="4" id="g0l-0s-KaK">
+                                <size key="itemSize" width="75" height="98"/>
+                                <size key="headerReferenceSize" width="464" height="26"/>
                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                 <inset key="sectionInset" minX="21" minY="4" maxX="21" maxY="0.0"/>
                             </collectionViewFlowLayout>
@@ -54,12 +62,12 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="UG9-K6-22d">
-                    <rect key="frame" x="0.0" y="173" width="430" height="63"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <rect key="frame" x="0.0" y="173" width="464" height="70"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2qe-IS-wKO">
-                            <rect key="frame" x="0.0" y="-7" width="430" height="79"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <rect key="frame" x="0.0" y="0.0" width="464" height="79"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <state key="normal" backgroundImage="menubottombar.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -69,7 +77,7 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" id="Y9G-cD-yPK" customClass="EvolveChooserBottomView">
-                            <rect key="frame" x="0.0" y="0.0" width="430" height="60"/>
+                            <rect key="frame" x="13" y="5" width="438" height="60"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="XKp-Ug-X5j">
@@ -84,7 +92,7 @@
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="bWz-vc-egK" customClass="NiceFontLabel9">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="bWz-vc-egK">
                                             <rect key="frame" x="13" y="21" width="76" height="32"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <string key="text">Tap to see
@@ -98,7 +106,7 @@ by evolution</string>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <view tag="1" contentMode="scaleToFill" id="wfh-4R-Rj2" customClass="EvolveScientistView">
-                                    <rect key="frame" x="85" y="6" width="48" height="48"/>
+                                    <rect key="frame" x="99" y="6" width="41" height="56"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <connections>
@@ -106,7 +114,7 @@ by evolution</string>
                                     </connections>
                                 </view>
                                 <view tag="2" contentMode="scaleToFill" id="IQ2-am-BrA" customClass="EvolveScientistView">
-                                    <rect key="frame" x="140" y="6" width="48" height="48"/>
+                                    <rect key="frame" x="153" y="6" width="41" height="56"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <connections>
@@ -114,7 +122,7 @@ by evolution</string>
                                     </connections>
                                 </view>
                                 <view tag="3" contentMode="scaleToFill" id="Cqs-NH-a6w" customClass="EvolveScientistView">
-                                    <rect key="frame" x="195" y="6" width="48" height="48"/>
+                                    <rect key="frame" x="207" y="6" width="41" height="56"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <connections>
@@ -122,7 +130,7 @@ by evolution</string>
                                     </connections>
                                 </view>
                                 <view tag="4" contentMode="scaleToFill" id="PUm-q6-NLr" customClass="EvolveScientistView">
-                                    <rect key="frame" x="250" y="6" width="48" height="48"/>
+                                    <rect key="frame" x="261" y="6" width="41" height="56"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <connections>
@@ -130,7 +138,7 @@ by evolution</string>
                                     </connections>
                                 </view>
                                 <view tag="5" contentMode="scaleToFill" id="w7M-Xo-84e" customClass="EvolveScientistView">
-                                    <rect key="frame" x="305" y="6" width="48" height="48"/>
+                                    <rect key="frame" x="315" y="6" width="41" height="56"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <connections>
@@ -138,65 +146,65 @@ by evolution</string>
                                     </connections>
                                 </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" id="zKe-bS-39T">
-                                    <rect key="frame" x="356" y="6" width="62" height="48"/>
+                                    <rect key="frame" x="368" y="7" width="70" height="54"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="scievobox.png" id="t7s-0p-QN2">
-                                            <rect key="frame" x="42" y="6" width="15" height="11"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="wizardcount.png" id="t7s-0p-QN2">
+                                            <rect key="frame" x="42" y="3" width="20" height="13"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="scievobox.png" id="P4Z-q9-xWv">
-                                            <rect key="frame" x="42" y="20" width="15" height="11"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="wizardcount.png" id="P4Z-q9-xWv">
+                                            <rect key="frame" x="42" y="21" width="20" height="13"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="scievobox.png" id="8xk-0r-PHR">
-                                            <rect key="frame" x="42" y="34" width="15" height="11"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="wizardcount.png" id="8xk-0r-PHR">
+                                            <rect key="frame" x="42" y="39" width="20" height="13"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EVO 1:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="eAv-gL-Xr8" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="8" y="-2" width="30" height="24"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Evo 1:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="eAv-gL-Xr8">
+                                            <rect key="frame" x="8" y="-3" width="30" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                            <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="9"/>
                                             <color key="textColor" red="0.40000003576278687" green="0.40000003576278687" blue="0.40000003576278687" alpha="1" colorSpace="deviceRGB"/>
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EVO 2:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Msa-sd-YHZ" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="8" y="12" width="30" height="24"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Evo 2:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Msa-sd-YHZ">
+                                            <rect key="frame" x="8" y="15" width="30" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                            <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="9"/>
                                             <color key="textColor" red="0.40000003576278687" green="0.40000003576278687" blue="0.40000003576278687" alpha="1" colorSpace="deviceRGB"/>
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EVO 3:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Etv-to-fNU" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="8" y="27" width="30" height="24"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Evo 3:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Etv-to-fNU">
+                                            <rect key="frame" x="8" y="33" width="30" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                            <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="9"/>
                                             <color key="textColor" red="0.40000003579999999" green="0.40000003579999999" blue="0.40000003579999999" alpha="1" colorSpace="deviceRGB"/>
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="cq9-J4-WJG" customClass="NiceFontLabel8">
-                                            <rect key="frame" x="43" y="-1" width="13" height="24"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="cq9-J4-WJG">
+                                            <rect key="frame" x="45" y="-3" width="13" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="9"/>
                                             <color key="textColor" red="0.20000001788139343" green="0.20000001788139343" blue="0.20000001788139343" alpha="1" colorSpace="deviceRGB"/>
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="MOJ-7K-8pv" customClass="NiceFontLabel8">
-                                            <rect key="frame" x="43" y="13" width="13" height="24"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="MOJ-7K-8pv">
+                                            <rect key="frame" x="45" y="15" width="13" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="9"/>
                                             <color key="textColor" red="0.20000001788139343" green="0.20000001788139343" blue="0.20000001788139343" alpha="1" colorSpace="deviceRGB"/>
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="SCr-Ga-MT9" customClass="NiceFontLabel8">
-                                            <rect key="frame" x="43" y="27" width="13" height="24"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="SCr-Ga-MT9">
+                                            <rect key="frame" x="45" y="33" width="13" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="9"/>
                                             <color key="textColor" red="0.20000001788139343" green="0.20000001788139343" blue="0.20000001788139343" alpha="1" colorSpace="deviceRGB"/>
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
@@ -226,6 +234,7 @@ by evolution</string>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="336" y="325.5"/>
         </view>
         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="sh6-pn-Gyb">
             <rect key="frame" x="0.0" y="0.0" width="430" height="60"/>
@@ -286,6 +295,6 @@ by evolution</string>
         <image name="menubottombar.png" width="1" height="79"/>
         <image name="menubottombarpressed.png" width="1" height="79"/>
         <image name="openquestarrow.png" width="13" height="21"/>
-        <image name="scievobox.png" width="15" height="11"/>
+        <image name="wizardcount.png" width="20" height="13"/>
     </resources>
 </document>

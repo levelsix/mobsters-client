@@ -22,6 +22,8 @@
             <string>MikadoBold</string>
             <string>MikadoBold</string>
             <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
         </mutableArray>
         <mutableArray key="HVD Fonts - MikadoMedium.otf">
             <string>MikadoMedium</string>
@@ -66,7 +68,7 @@
                 <outlet property="nextLevelLabel" destination="gbE-u9-h3K" id="mIV-PS-yvq"/>
                 <outlet property="noMobstersLabel" destination="Wr2-li-WYF" id="JdM-CA-bZ1"/>
                 <outlet property="oilButtonView" destination="omU-6M-FoE" id="oly-eb-Nj8"/>
-                <outlet property="oilLabelsView" destination="BRH-lq-S4F" id="AZo-B0-h4u"/>
+                <outlet property="oilLabelsView" destination="cPe-vc-RNL" id="6Us-sp-NlM"/>
                 <outlet property="queueArrow" destination="dnl-qE-TpI" id="FqJ-Lo-AvR"/>
                 <outlet property="queueEmptyLabel" destination="7bQ-P1-4gI" id="ihG-5L-TIq"/>
                 <outlet property="queueView" destination="sKg-bF-Rg6" id="4JJ-66-9ia"/>
@@ -330,9 +332,9 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Tio-iI-s4U" customClass="GeneralButton">
-                                                            <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="77" height="42"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" image="orangemenuoption.png">
+                                                            <state key="normal" image="orangemediumbutton.png">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <connections>
@@ -340,9 +342,9 @@
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Help!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="k06-2o-bFq" customClass="NiceFontLabel12B">
-                                                            <rect key="frame" x="7" y="7" width="67" height="23"/>
+                                                            <rect key="frame" x="5" y="9" width="67" height="23"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="12"/>
                                                             <color key="textColor" red="0.75686274509999996" green="0.14901960780000001" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                             <color key="shadowColor" red="0.98039215690000003" green="0.78039215689999997" blue="0.28235294119999998" alpha="0.75" colorSpace="calibratedRGB"/>
@@ -392,30 +394,23 @@
                                                                 <action selector="enhanceButtonClicked:" destination="-1" eventType="touchUpInside" id="Arb-Xs-R9q"/>
                                                             </connections>
                                                         </button>
-                                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="BRH-lq-S4F">
-                                                            <rect key="frame" x="0.0" y="0.0" width="77" height="42"/>
+                                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="cPe-vc-RNL">
+                                                            <rect key="frame" x="15" y="10" width="46" height="22"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <subviews>
-                                                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="cPe-vc-RNL">
-                                                                    <rect key="frame" x="14" y="10" width="46" height="22"/>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="vB2-fg-nSW">
+                                                                    <rect key="frame" x="20" y="-1" width="50" height="25"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <subviews>
-                                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="vB2-fg-nSW">
-                                                                            <rect key="frame" x="20" y="-1" width="50" height="25"/>
-                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="16"/>
-                                                                            <color key="textColor" red="0.49803921568627452" green="0.20784313725490197" blue="0.039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
-                                                                            <nil key="highlightedColor"/>
-                                                                            <color key="shadowColor" red="1" green="0.99215686270000003" blue="0.56862745100000001" alpha="0.75" colorSpace="calibratedRGB"/>
-                                                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                                                        </label>
-                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="oilicon.png" id="nSJ-64-LmG">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="19" height="19"/>
-                                                                            <autoresizingMask key="autoresizingMask"/>
-                                                                        </imageView>
-                                                                    </subviews>
-                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                                </view>
+                                                                    <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="16"/>
+                                                                    <color key="textColor" red="0.49803921568627452" green="0.20784313725490197" blue="0.039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                    <color key="shadowColor" red="1" green="0.99215686270000003" blue="0.56862745100000001" alpha="0.75" colorSpace="calibratedRGB"/>
+                                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                                </label>
+                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="oilicon.png" id="nSJ-64-LmG">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="19" height="19"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
+                                                                </imageView>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </view>
@@ -461,15 +456,6 @@
                             <rect key="frame" x="342" y="28" width="96" height="67"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="4Su-7x-nyW" customClass="NiceFontLabel8">
-                                    <rect key="frame" x="4" y="25" width="72" height="43"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <string key="text">Max
-Level!</string>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" red="0.40392160420000001" green="0.71764707569999997" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="enhancelevelbg.png" id="EfL-RX-0ja">
                                     <rect key="frame" x="0.0" y="0.0" width="94" height="67"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -496,6 +482,15 @@ Level!</string>
                                     <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="deviceRGB"/>
                                     <color key="highlightedColor" red="0.90588241815567017" green="0.031372550874948502" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="4Su-7x-nyW">
+                                    <rect key="frame" x="11" y="21" width="72" height="43"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <string key="text">Max
+Level!</string>
+                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="15"/>
+                                    <color key="textColor" red="0.40392160420000001" green="0.71764707569999997" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                    <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -628,7 +623,7 @@ Level!</string>
         <image name="level.png" width="138" height="56"/>
         <image name="menubottombar.png" width="1" height="79"/>
         <image name="oilicon.png" width="21" height="26"/>
-        <image name="orangemenuoption.png" width="80" height="40"/>
+        <image name="orangemediumbutton.png" width="77" height="42"/>
         <image name="popupline.png" width="1" height="1"/>
         <image name="popuplinevertical.png" width="1" height="1"/>
         <image name="purplemediumbutton.png" width="77" height="42"/>

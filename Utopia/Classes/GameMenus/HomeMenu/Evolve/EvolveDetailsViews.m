@@ -58,7 +58,7 @@
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:monsterId];
   
-  UIColor *masked = [UIColor colorWithWhite:102/255.f alpha:1.f];
+  UIColor *masked = [UIColor colorWithHexString:@"FEDA0A"];//[UIColor colorWithWhite:102/255.f alpha:1.f];
   
   NSString *p1 = [NSString stringWithFormat:@"%@ ", mp.monsterName];
   NSString *p2 = [NSString stringWithFormat:@"L%d", 1];

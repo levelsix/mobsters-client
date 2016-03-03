@@ -10,7 +10,7 @@
 #import "GameState.h"
 #import "Globals.h"
 
-#define SCIENTIST_SPACING ([Globals isiPad] ? 18.f : 5.f)
+#define SCIENTIST_SPACING ([Globals isiPad] ? 18.f : 10.f)
 #define NAME_Y_BUFFER ([Globals isiPad] ? 5.f : 0.f)
 
 @implementation EvolveCardCell
@@ -45,12 +45,12 @@
       self.statusLabel.textColor = [UIColor colorWithRed:255/255.f green:0.f blue:10/255.f alpha:1.f];
     }
     
-    self.statusLabel.superview.hidden = NO;
+    self.statusLabel.hidden = NO;
     self.reqEvoChamberLabel.hidden = YES;
   } else {
     self.reqEvoChamberLabel.text = [NSString stringWithFormat:@"Req. LVL %d\n%@", reqEvoChamberLevel, ecp.structInfo.name];
     
-    self.statusLabel.superview.hidden = YES;
+    self.statusLabel.hidden = YES;
     self.reqEvoChamberLabel.hidden = NO;
   }
 }

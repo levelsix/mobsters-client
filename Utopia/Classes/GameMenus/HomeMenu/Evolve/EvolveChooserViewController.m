@@ -22,7 +22,7 @@
 #define DESCRIPTION_HEADER_NAME @"EvolveDescriptionHeaderView"
 
 #define HEADER_SIZE ([Globals isiPad] ? 35.f : 25.f)
-#define DESCRIPTION_HEADER_SIZE ([Globals isiPad] ? 102.f : 77.f)
+#define DESCRIPTION_HEADER_SIZE ([Globals isiPad] ? 102.f : 101.f)
 
 @implementation EvolveChooserViewController
 
@@ -276,10 +276,10 @@
     NSString *text = nil;
     UIColor *color = nil;
     if (indexPath.section == 0) {
-      text = @"READY FOR EVOLUTION";
+      text = @"Ready for Evolution";
       color = [UIColor colorWithRed:48/255.f green:144/255.f blue:0.f alpha:1.f];
     } else {
-      text = @"MISSING PIECES FOR EVOLUTION";
+      text = @"Missing Pieces for Evolution";
       color = [UIColor colorWithRed:239/255.f green:1/255.f blue:0.f alpha:1.f];
     }
     
@@ -290,11 +290,6 @@
   } else {
     UICollectionReusableView *rv = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:DESCRIPTION_HEADER_NAME forIndexPath:indexPath];
     UIView *yellow = rv.subviews[0];
-    if (![Globals isiPad]) {
-      yellow.layer.cornerRadius = 5.f;
-      yellow.layer.borderColor = [UIColor colorWithRed:1.f green:211/255.f blue:145/255.f alpha:1.f].CGColor;
-      yellow.layer.borderWidth = 0.5f;
-    }
     
     for (UIView *sv in yellow.subviews) {
       if ([sv isKindOfClass:[UILabel class]]) {

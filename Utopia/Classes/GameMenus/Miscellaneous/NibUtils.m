@@ -13,7 +13,7 @@
 
 @implementation ShadowBlurLabel
 
-@dynamic shadowBlur, strokeSize, strokeColor;
+@dynamic shadowBlur, strokeSize, strokeColor, gradientStartColor, gradientEndColor;
 
 - (void) awakeFromNib {
   if (self.shadowBlur == 0) {
