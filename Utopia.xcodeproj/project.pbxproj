@@ -2333,6 +2333,8 @@
 		913B95BC1C87CBC400D2F002 /* emptystar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 913B95B61C87CBC400D2F002 /* emptystar@2x.png */; };
 		913B95BD1C87CBC400D2F002 /* fullstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 913B95B71C87CBC400D2F002 /* fullstar@2x.png */; };
 		913B95BE1C87CBC400D2F002 /* fullstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 913B95B71C87CBC400D2F002 /* fullstar@2x.png */; };
+		91558F4F1C87E526008515B6 /* genericpopupbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91558F4D1C87E526008515B6 /* genericpopupbg@2x.png */; };
+		91558F501C87E526008515B6 /* genericpopupbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91558F4D1C87E526008515B6 /* genericpopupbg@2x.png */; };
 		9B0E6E2C1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
 		9B0E6E2D1A73373100118210 /* confusionbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E211A73373100118210 /* confusionbubble@2x.png */; };
 		9B0E6E321A73373100118210 /* powermove@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E241A73373100118210 /* powermove@2x.plist */; };
@@ -7644,6 +7646,7 @@
 		913B95B51C87CBC400D2F002 /* achievementrewardbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "achievementrewardbg@2x.png"; sourceTree = "<group>"; };
 		913B95B61C87CBC400D2F002 /* emptystar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emptystar@2x.png"; sourceTree = "<group>"; };
 		913B95B71C87CBC400D2F002 /* fullstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullstar@2x.png"; sourceTree = "<group>"; };
+		91558F4D1C87E526008515B6 /* genericpopupbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "genericpopupbg@2x.png"; sourceTree = "<group>"; };
 		9B0E6E211A73373100118210 /* confusionbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "confusionbubble@2x.png"; sourceTree = "<group>"; };
 		9B0E6E241A73373100118210 /* powermove@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "powermove@2x.plist"; sourceTree = "<group>"; };
 		9B0E6E271A73373100118210 /* LifeSteal.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LifeSteal.plist; sourceTree = "<group>"; };
@@ -11340,6 +11343,7 @@
 		29F3BB611C4702940055CA93 /* Fantasy Squad */ = {
 			isa = PBXGroup;
 			children = (
+				91558F4C1C87E526008515B6 /* Generic Popup */,
 				913B95B41C87CBC400D2F002 /* Achievements */,
 				913B958F1C87BFB800D2F002 /* Fill Dropdown */,
 				913B95881C87BF7900D2F002 /* Secret Gift */,
@@ -12086,6 +12090,14 @@
 				913B95B71C87CBC400D2F002 /* fullstar@2x.png */,
 			);
 			path = Achievements;
+			sourceTree = "<group>";
+		};
+		91558F4C1C87E526008515B6 /* Generic Popup */ = {
+			isa = PBXGroup;
+			children = (
+				91558F4D1C87E526008515B6 /* genericpopupbg@2x.png */,
+			);
+			path = "Generic Popup";
 			sourceTree = "<group>";
 		};
 		9B0E6E1F1A73373100118210 /* Confusion */ = {
@@ -18911,6 +18923,7 @@
 				9BA69D861B26687300FE01A8 /* lockedboss@2x~ipad.png in Resources */,
 				CF9F991719E4734B006B0119 /* minijobsbuilding@2x.png in Resources */,
 				6B2656FB1B2B8FBC00969EB9 /* firegrenade@2x~ipad.png in Resources */,
+				91558F501C87E526008515B6 /* genericpopupbg@2x.png in Resources */,
 				6B2656C51B2B8FBC00969EB9 /* lightupdown@2x~ipad.png in Resources */,
 				9BE48A721B3B6E9200696FB0 /* eventeventactive@2x~ipad.png in Resources */,
 				CF0CF52B196F452900ECD301 /* commonband@2x.png in Resources */,
@@ -21673,6 +21686,7 @@
 				913B959E1C87BFB800D2F002 /* fillbarbg@2x.png in Resources */,
 				294035651AD7310B00B759A4 /* researchbubble@2x.png in Resources */,
 				6B20E5001B41A1CD00787823 /* MiniJobsRewardView~ipad.xib in Resources */,
+				91558F4F1C87E526008515B6 /* genericpopupbg@2x.png in Resources */,
 				6B1EA9E61ACF5DCC00E0B642 /* VinesMain05.png in Resources */,
 				9B6B77CD1A858B1A0080C8E5 /* 1moveslabel@2x.png in Resources */,
 				9B0ECB061B34DE4000C442F3 /* blacksquareoverlay@2x~ipad.png in Resources */,

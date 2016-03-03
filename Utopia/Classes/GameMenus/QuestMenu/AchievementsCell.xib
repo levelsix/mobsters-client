@@ -188,7 +188,7 @@
                 <outletCollection property="starViews" destination="9tZ-yp-wZk" id="lS5-v5-f1E"/>
                 <outletCollection property="starViews" destination="Xi3-7i-yG0" id="Fcy-5b-VLK"/>
             </connections>
-            <point key="canvasLocation" x="884.5" y="501"/>
+            <point key="canvasLocation" x="527.5" y="479"/>
         </tableViewCell>
     </objects>
     <resources>
