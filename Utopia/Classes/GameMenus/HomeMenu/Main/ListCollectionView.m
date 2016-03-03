@@ -107,11 +107,11 @@
   [self.cardContainer.monsterCardView updateForMonster:um backupString:@"" greyscale:greyscale];
   
   if (self.sellCostLabel) {
-    self.sellCostLabel.text = [NSString stringWithFormat:@"%i", [um sellPrice]];
+    self.sellCostLabel.text = [NSString stringWithFormat:@" %i", [um sellPrice]];
     //Shrink sellCostLabel to be just long enough to fit the text
-    float sellCostLabelRight = self.sellCostLabel.originX + self.sellCostLabel.width;
-    self.sellCostLabel.width = [self.sellCostLabel.text getSizeWithFont:self.sellCostLabel.font].width + 1;
-    self.sellCostLabel.originX = sellCostLabelRight - self.sellCostLabel.width;
+//    float sellCostLabelRight = self.sellCostLabel.originX + self.sellCostLabel.width;
+//    self.sellCostLabel.width = [self.sellCostLabel.text getSizeWithFont:self.sellCostLabel.font].width + 1;
+//    self.sellCostLabel.originX = sellCostLabelRight - self.sellCostLabel.width;
   }
   
   if (self.healCostLabel) {

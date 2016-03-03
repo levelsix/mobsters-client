@@ -83,11 +83,7 @@
   if (sellAmt > 0) {
     self.sellCostLabel.text = [NSString stringWithFormat:@"%i", sellAmt];
     
-    if (self.sellTotalValueLabel && self.sellCostIcon) {
-      self.sellCostLabel.width = [self.sellCostLabel.text getSizeWithFont:self.sellCostLabel.font].width + 1;
-      self.sellCostLabel.centerX = self.sellTotalValueLabel.centerX + self.sellCostIcon.width * .5f + 2;
-      self.sellCostIcon.originX = self.sellCostLabel.originX - self.sellCostIcon.width - 4;
-    }
+    [Globals adjustViewForCentering:self.sellCostLabel.superview withLabel:self.sellCostLabel];
   }
 }
 

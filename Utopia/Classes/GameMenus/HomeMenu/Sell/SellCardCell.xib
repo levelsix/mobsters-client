@@ -4,91 +4,109 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBold.otf">
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+        </mutableArray>
+        <mutableArray key="HVD Fonts - MikadoMedium.otf">
+            <string>MikadoMedium</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="Ag8-1c-luA" customClass="MonsterListCell">
-            <rect key="frame" x="0.0" y="0.0" width="74" height="92"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="bqT-xg-1Hs" customClass="MonsterListCell">
+            <rect key="frame" x="0.0" y="0.0" width="65" height="88"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="74" height="92"/>
+                <rect key="frame" x="0.0" y="0.0" width="65" height="88"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" id="Qbd-Of-syd" customClass="MonsterCardContainerView">
-                        <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
+                    <view contentMode="scaleToFill" id="NGo-Jh-Qap" customClass="MonsterCardContainerView">
+                        <rect key="frame" x="0.0" y="0.0" width="65" height="88"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="bigsquarebottom.png" id="6wq-BB-tWf">
-                                <rect key="frame" x="0.0" y="55" width="74" height="19"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" id="ocq-6u-LPo">
-                                <rect key="frame" x="0.0" y="55" width="74" height="19"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hpbarbg.png" id="v9i-Ab-jtk">
-                                        <rect key="frame" x="9" y="6" width="56" height="8"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
-                                    <view contentMode="scaleToFill" id="c9T-dK-0Zj" customClass="SplitImageProgressBar">
-                                        <rect key="frame" x="9" y="6" width="56" height="8"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="dOZ-Po-8Ee">
-                                                <rect key="frame" x="0.0" y="0.0" width="3" height="8"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                            </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarmiddle.png" id="EEy-FM-hsd">
-                                                <rect key="frame" x="3" y="0.0" width="38" height="8"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                            </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="CCe-Pj-fWG" customClass="FlipImageView">
-                                                <rect key="frame" x="41" y="0.0" width="3" height="8"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                            </imageView>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="leftCap" destination="dOZ-Po-8Ee" id="tE4-9S-jgN"/>
-                                            <outlet property="middleBar" destination="EEy-FM-hsd" id="GsK-kQ-c9Y"/>
-                                            <outlet property="rightCap" destination="CCe-Pj-fWG" id="sIy-KS-eyq"/>
-                                        </connections>
-                                    </view>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="400/500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Llo-gu-Y3Z" customClass="NiceFontLabel10S">
-                                        <rect key="frame" x="5" y="-6" width="65" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                        <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                                        <size key="shadowOffset" width="0.0" height="1"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vsy-qA-omh" customClass="NiceFontLabel8WS">
-                                <rect key="frame" x="19" y="-1" width="49" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Healing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6C6-je-Av1" customClass="NiceFontLabel10">
+                                <rect key="frame" x="0.0" y="51" width="65" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="0.18823531269999999" green="0.5647059083" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
-                                <nil key="highlightedColor"/>
-                                <size key="shadowOffset" width="0.0" height="1"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="moneystack.png" id="vfV-H9-QQg">
-                                <rect key="frame" x="38" y="5" width="14" height="12"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Healing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0jD-Cy-eQP" customClass="NiceFontLabel10">
-                                <rect key="frame" x="5" y="52" width="65" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <fontDescription key="fontDescription" name="MikadoMedium" family="Mikado" pointSize="10"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="lockedmobster.png" id="jAy-ne-MLK">
-                                <rect key="frame" x="26" y="16" width="23" height="27"/>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" id="tIE-md-BwX">
+                                <rect key="frame" x="8" y="55" width="49" height="13"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="SGi-mk-NQu">
+                                        <rect key="frame" x="0.0" y="0.0" width="49" height="13"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healthbarbg.png" id="zFE-Cs-uFE">
+                                                <rect key="frame" x="-1" y="0.0" width="50" height="11"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </imageView>
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healthbar.png" id="C2N-S0-Ork" customClass="ProgressBar">
+                                                <rect key="frame" x="0.0" y="1" width="48" height="9"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </imageView>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="400/500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RFZ-vM-bH8" customClass="ShadowBlurLabel">
+                                                <rect key="frame" x="-11" y="-5" width="74" height="20"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="8"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                                <size key="shadowOffset" width="0.0" height="1"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                                        <real key="value" value="0.90000000000000002"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="strokeSize">
+                                                        <real key="value" value="0.0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="iiY-v5-EwC">
+                                <rect key="frame" x="6" y="11" width="49" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="4lS-h8-7yU">
+                                        <rect key="frame" x="0.0" y="0.0" width="17" height="16"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="122" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" id="mO4-j2-CRX" customClass="ShadowBlurLabel">
+                                        <rect key="frame" x="18" y="-3" width="48" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="11"/>
+                                        <color key="textColor" red="0.51764705879999995" green="0.65490196079999996" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <size key="shadowOffset" width="0.0" height="1"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="strokeSize">
+                                                <real key="value" value="1.2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="lockedmobster.png" id="hgK-lw-Gb3">
+                                <rect key="frame" x="23" y="27" width="19" height="23"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                         </subviews>
@@ -97,26 +115,25 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <size key="customSize" width="57" height="77"/>
             <connections>
-                <outlet property="availableView" destination="ocq-6u-LPo" id="cl8-EO-2Ej"/>
-                <outlet property="cardContainer" destination="Qbd-Of-syd" id="nrP-PQ-og2"/>
-                <outlet property="healCostMoneyIcon" destination="vfV-H9-QQg" id="bkR-RJ-FtC"/>
-                <outlet property="healthBar" destination="c9T-dK-0Zj" id="wLe-AA-2nM"/>
-                <outlet property="healthLabel" destination="Llo-gu-Y3Z" id="LTT-cM-qEz"/>
-                <outlet property="lockIcon" destination="jAy-ne-MLK" id="sds-bQ-Y9t"/>
-                <outlet property="sellCostLabel" destination="vsy-qA-omh" id="Ar6-jm-CDS"/>
-                <outlet property="statusLabel" destination="0jD-Cy-eQP" id="Zea-zd-0Fx"/>
-                <outlet property="unavailableView" destination="0jD-Cy-eQP" id="gdH-Wo-mFn"/>
+                <outlet property="availableView" destination="SGi-mk-NQu" id="hLf-LU-mjQ"/>
+                <outlet property="cardContainer" destination="NGo-Jh-Qap" id="etC-AR-fsa"/>
+                <outlet property="healCostMoneyIcon" destination="4lS-h8-7yU" id="50a-8f-d3U"/>
+                <outlet property="healthBar" destination="C2N-S0-Ork" id="cPl-hp-nBt"/>
+                <outlet property="healthLabel" destination="RFZ-vM-bH8" id="6ZC-1M-4Uz"/>
+                <outlet property="lockIcon" destination="hgK-lw-Gb3" id="Xlz-t1-vqE"/>
+                <outlet property="sellCostLabel" destination="mO4-j2-CRX" id="BTn-z1-gaG"/>
+                <outlet property="statusLabel" destination="6C6-je-Av1" id="UXr-bQ-YWg"/>
+                <outlet property="unavailableView" destination="6C6-je-Av1" id="2a4-yW-nAb"/>
             </connections>
-            <point key="canvasLocation" x="535" y="665"/>
+            <point key="canvasLocation" x="354.5" y="461"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="bigsquarebottom.png" width="74" height="19"/>
-        <image name="hpbarbg.png" width="56" height="8"/>
+        <image name="healthbar.png" width="48" height="9"/>
+        <image name="healthbarbg.png" width="50" height="11"/>
         <image name="lockedmobster.png" width="23" height="27"/>
         <image name="moneystack.png" width="29" height="25"/>
-        <image name="teamhealthbarcap.png" width="3" height="8"/>
-        <image name="teamhealthbarmiddle.png" width="1" height="8"/>
     </resources>
 </document>

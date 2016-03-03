@@ -103,7 +103,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" lineBreakMode="middleTruncation" id="muq-Gu-1ar" userLabel="Card Button" customClass="MaskedButton">
-                            <rect key="frame" x="4" y="8" width="57" height="75"/>
+                            <rect key="frame" x="4" y="8" width="57" height="77"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <state key="normal">
