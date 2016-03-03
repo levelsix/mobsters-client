@@ -17,9 +17,6 @@
 @implementation AchievementsCell
 
 - (void) awakeFromNib {
-  self.collectView.frame = self.progressView.frame;
-  [self.progressView.superview addSubview:self.collectView];
-  
   self.spinner.transform = CGAffineTransformMakeScale(0.75, 0.75);
 }
 
@@ -48,7 +45,6 @@
   self.rankLabel.text = [NSString stringWithFormat:@"%d", numStars];
   
   self.collectView.hidden = (!ua.isComplete || ua.isRedeemed);
-  self.progressView.hidden = !self.collectView.hidden;
   
   self.achievementId = ap.achievementId;
 }

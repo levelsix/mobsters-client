@@ -34,20 +34,20 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  self.containerView.superview.layer.cornerRadius = [Globals isiPad] ? 8.f : 5.f;
-  self.containerView.superview.clipsToBounds = YES;
+//  self.containerView.superview.layer.cornerRadius = [Globals isiPad] ? 8.f : 5.f;
+//  self.containerView.superview.clipsToBounds = YES;
   
-  self.congratsLabel.gradientStartColor = [UIColor colorWithHexString:@"edfaff"];
-  self.congratsLabel.gradientEndColor = [UIColor colorWithHexString:@"a0e3ff"];
-  self.congratsLabel.strokeColor = [UIColor colorWithHexString:@"094984"];
-  self.congratsLabel.strokeSize = 1.f;
-  self.congratsLabel.shadowBlur = 0.5f;
+//  self.congratsLabel.gradientStartColor = [UIColor colorWithHexString:@"edfaff"];
+//  self.congratsLabel.gradientEndColor = [UIColor colorWithHexString:@"a0e3ff"];
+//  self.congratsLabel.strokeColor = [UIColor colorWithHexString:@"094984"];
+//  self.congratsLabel.strokeSize = 1.f;
+//  self.congratsLabel.shadowBlur = 0.5f;
   
-  self.receivedLabel.strokeColor = [UIColor colorWithHexString:@"094984"];
-  self.receivedLabel.strokeSize = 0.8f;
+//  self.receivedLabel.strokeColor = [UIColor colorWithHexString:@"094984"];
+//  self.receivedLabel.strokeSize = 0.8f;
   
-  self.iconLabel.strokeSize = 1.5f;
-  self.iconLabel.strokeColor = [UIColor colorWithHexString:@"ebebeb"];
+//  self.iconLabel.strokeSize = 1.5f;
+//  self.iconLabel.strokeColor = [UIColor colorWithHexString:@"ebebeb"];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

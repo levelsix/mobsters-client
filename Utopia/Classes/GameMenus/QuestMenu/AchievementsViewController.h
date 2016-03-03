@@ -17,12 +17,11 @@
 @property (nonatomic, retain) IBOutlet UILabel *progressLabel;
 @property (nonatomic, retain) IBOutlet UILabel *gemRewardLabel;
 
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *progressBar;
+@property (nonatomic, retain) IBOutlet ProgressBar *progressBar;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet UILabel *collectLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *collectView;
-@property (nonatomic, retain) IBOutlet UIView *progressView;
 
 @property (nonatomic, retain) IBOutletCollection(UIImageView) NSArray *starViews;
 
