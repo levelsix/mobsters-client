@@ -36,7 +36,7 @@
   self.nameLabel.textColor = [Globals colorForRarity:mjp.quality];
   self.jobQualityTag.image = [Globals imageNamed:[Globals imageNameForRarity:mjp.quality suffix:@"job.png"]];
   
-  self.totalTimeLabel.text = [[Globals convertTimeToMediumString:umj.durationSeconds] uppercaseString];
+  self.totalTimeLabel.text = [Globals convertTimeToShortString:umj.durationSeconds];
   
   NSArray *rewards = [Reward createRewardsForMiniJob:mjp];
   if (rewards.count > 3) rewards = [rewards subarrayWithRange:NSMakeRange(0, 3)];
@@ -89,7 +89,8 @@
     MSDate *date = self.userMiniJob.tentativeCompletionDate;
     int timeLeft = [date timeIntervalSinceNow];
     
-    self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    self.finishTimeLabel.text = [Globals convertTimeToShortString:timeLeft];
+    self.helpTimeLabel.text = self.finishTimeLabel.text;
     
     BOOL canGetHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeMiniJob userDataUuid:self.userMiniJob.userMiniJobUuid] < 0;
     
@@ -182,7 +183,7 @@
   UserStruct *mjc = [gs myMiniJobCenter];
   MiniJobCenterProto *fsp = (MiniJobCenterProto *)mjc.staticStruct;
   MSDate *spawnTime = [gs.lastMiniJobSpawnTime dateByAddingTimeInterval:fsp.hoursBetweenJobGeneration*60*60];
-  self.spawnTimeLabel.text = [[Globals convertTimeToShortString:spawnTime.timeIntervalSinceNow] uppercaseString];
+  self.spawnTimeLabel.text = [Globals convertTimeToShortString:spawnTime.timeIntervalSinceNow];
   
   [Globals adjustViewForCentering:self.spawnTimeLabel.superview withLabel:self.spawnTimeLabel];
 }

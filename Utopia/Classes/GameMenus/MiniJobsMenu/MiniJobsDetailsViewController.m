@@ -12,12 +12,6 @@
 
 @implementation MiniJobsQueueFooterView
 
-- (void) awakeFromNib {
-  self.queueFullLabel.strokeColor = self.queueFullLabel.textColor;
-  self.queueFullLabel.textColor = [UIColor whiteColor];
-  self.queueFullLabel.strokeSize = 0.5;
-}
-
 @end
 
 @implementation MiniJobsDetailsCell
@@ -29,11 +23,11 @@
   [self.monsterView updateForMonsterId:um.monsterId];
   
   self.nameLabel.text = mp.monsterName;
-  self.levelLabel.text = [NSString stringWithFormat:@"LVL. %d", um.level];
+  self.levelLabel.text = [NSString stringWithFormat:@"LVL %d", um.level];
   
   int curHealth = um.curHealth, curAtk = [gl calculateTotalDamageForMonster:um];
   self.hpLabel.text = [NSString stringWithFormat:@"HP: %@", [Globals commafyNumber:curHealth]];
-  self.attackLabel.text = [NSString stringWithFormat:@"ATTACK: %@", [Globals commafyNumber:curAtk]];
+  self.attackLabel.text = [NSString stringWithFormat:@"Attack: %@", [Globals commafyNumber:curAtk]];
   
   self.hpProgressBar.percentage = curHealth/(float)reqHp;
   self.attackProgressBar.percentage = curAtk/(float)reqAtk;
@@ -120,7 +114,7 @@
   
   [self stopSpinning];
   
-  self.availableMonstersLabel.text = [NSString stringWithFormat:@"AVAILABLE %@S", MONSTER_NAME.uppercaseString];
+  self.availableMonstersLabel.text = [NSString stringWithFormat:@"Available %@s", MONSTER_NAME];
   
   self.title = self.userMiniJob.miniJob.name;
   
@@ -199,15 +193,15 @@
   }
   
   int reqHp = self.userMiniJob.miniJob.hpRequired, reqAtk = self.userMiniJob.miniJob.atkRequired;
-  self.hpLabel.text = [NSString stringWithFormat:@"REQ. HP: %@/%@", [Globals commafyNumber:totalHp], [Globals commafyNumber:reqHp]];
-  self.attackLabel.text = [NSString stringWithFormat:@"REQ. ATK: %@/%@", [Globals commafyNumber:totalAtk], [Globals commafyNumber:reqAtk]];
+  self.hpLabel.text = [NSString stringWithFormat:@"Req Hp: %@/%@", [Globals commafyNumber:totalHp], [Globals commafyNumber:reqHp]];
+  self.attackLabel.text = [NSString stringWithFormat:@"Req Atk: %@/%@", [Globals commafyNumber:totalAtk], [Globals commafyNumber:reqAtk]];
   self.hpProgressBar.percentage = totalHp/(float)reqHp;
   self.attackProgressBar.percentage = totalAtk/(float)reqAtk;
   
   //self.hpLabel.highlighted = totalHp >= reqHp;
   //self.attackLabel.highlighted = totalAtk >= reqAtk;
   
-  self.timeLabel.text = [[Globals convertTimeToMediumString:self.userMiniJob.durationSeconds] uppercaseString];
+  self.timeLabel.text = [[Globals convertTimeToShortString:self.userMiniJob.durationSeconds] uppercaseString];
   
   int maxAllowed = self.userMiniJob.miniJob.maxNumMonstersAllowed;
   self.slotsAvailableLabel.text = [NSString stringWithFormat:@"%d Slot%@ Available", maxAllowed, maxAllowed == 1 ? @"" : @"s"];
@@ -216,17 +210,9 @@
   [self updateOpenSlotsView];
   
   if (totalHp >= reqHp && totalAtk >= reqAtk) {
-    self.engageArrow.highlighted = NO;
-    [self.engageButton setImage:[Globals imageNamed:([Globals isiPad] ? @"greenmenuoption.png" : @"engagebutton.png")] forState:UIControlStateNormal];
-    
-    self.engageLabel.textColor = [UIColor colorWithRed:61/255.f green:114/255.f blue:1/255.f alpha:1.f];
-    self.engageLabel.shadowColor = [UIColor colorWithRed:253/255.f green:255/255.f blue:95/255.f alpha:0.75];
+    [self.engageButton setImage:[Globals imageNamed:@"greenmediumbutton.png"] forState:UIControlStateNormal];
   } else {
-    self.engageArrow.highlighted = YES;
-    [self.engageButton setImage:[Globals imageNamed:([Globals isiPad] ? @"greymenuoption.png" : @"engagedisabled.png")] forState:UIControlStateNormal];
-    
-    self.engageLabel.textColor = [UIColor colorWithWhite:0.5f alpha:1.f];
-    self.engageLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.25];
+    [self.engageButton setImage:[Globals imageNamed:@"greymediumbutton.png"] forState:UIControlStateNormal];
   }
 }
 
@@ -236,14 +222,17 @@
   int openSlots = maxQueueSize-curQueueSize;
   
   if (openSlots > 0) {
-    _footerView.openSlotsLabel.text = [NSString stringWithFormat:@"%d SLOT%@ OPEN", openSlots, openSlots == 1 ? @"" : @"S"];
+    _footerView.openSlotsLabel.text = [NSString stringWithFormat:@"Slot%@\nOpen", openSlots == 1 ? @"" : @"s"];
+    _footerView.openSlotsNumLabel.text = [NSString stringWithFormat:@"%d", openSlots];
     
     _footerView.openSlotsLabel.hidden = NO;
     _footerView.openSlotsBorder.hidden = NO;
+    _footerView.openSlotsNumLabel.hidden = NO;
     _footerView.queueFullLabel.hidden = YES;
   } else {
     _footerView.openSlotsLabel.hidden = YES;
     _footerView.openSlotsBorder.hidden = YES;
+    _footerView.openSlotsNumLabel.hidden = YES;
     _footerView.queueFullLabel.hidden = NO;
   }
 }
@@ -263,7 +252,7 @@
 }
 
 - (void) beginEngageSpinning {
-  self.engageLabelsView.hidden = YES;
+  self.engageLabel.hidden = YES;
   self.engageSpinner.hidden = NO;
   [self.engageSpinner startAnimating];
 }
@@ -281,7 +270,7 @@
 }
 
 - (void) stopSpinning {
-  self.engageLabelsView.hidden = NO;
+  self.engageLabel.hidden = NO;
   self.engageSpinner.hidden = YES;
   self.inProgressView.completeLabelsView.hidden = NO;
   self.inProgressView.completeSpinner.hidden = YES;
@@ -349,7 +338,7 @@
   _clickedButton = button;
   
   self.headerArrow.hidden = NO;
-  self.headerArrow.center = ccp(CGRectGetMaxX(button.frame)+5.f, self.headerArrow.center.y);
+  self.headerArrow.center = ccp(CGRectGetMaxX(button.frame)+8.f, self.headerArrow.center.y);
   if (isDesc) {
     self.headerArrow.transform = CGAffineTransformIdentity;
   } else {

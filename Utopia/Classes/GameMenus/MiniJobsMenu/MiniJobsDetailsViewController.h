@@ -12,6 +12,7 @@
 
 @interface MiniJobsQueueFooterView : UICollectionReusableView
 
+@property (nonatomic, retain) IBOutlet UILabel *openSlotsNumLabel;
 @property (nonatomic, retain) IBOutlet UILabel *openSlotsLabel;
 @property (nonatomic, retain) IBOutlet THLabel *queueFullLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *openSlotsBorder;
@@ -26,8 +27,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *hpLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *hpProgressBar;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *attackProgressBar;
+@property (nonatomic, retain) IBOutlet ProgressBar *hpProgressBar;
+@property (nonatomic, retain) IBOutlet ProgressBar *attackProgressBar;
 
 @property (nonatomic, assign) UserMonster *userMonster;
 
@@ -89,15 +90,13 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *engageSpinner;
-@property (nonatomic, retain) IBOutlet UIView *engageLabelsView;
 @property (nonatomic, retain) IBOutlet UILabel *engageLabel;
 @property (nonatomic, retain) IBOutlet UIButton *engageButton;
-@property (nonatomic, retain) IBOutlet UIImageView *engageArrow;
 
 @property (nonatomic, retain) IBOutlet UILabel *hpLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *hpProgressBar;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *attackProgressBar;
+@property (nonatomic, retain) IBOutlet ProgressBar *hpProgressBar;
+@property (nonatomic, retain) IBOutlet ProgressBar *attackProgressBar;
 
 @property (nonatomic, retain) IBOutlet MiniMonsterView *animMonsterView;
 @property (nonatomic, retain) IBOutlet ListCollectionView *queueView;

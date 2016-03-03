@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBold-Italic.otf">
+            <string>MikadoBold-Italic</string>
+        </mutableArray>
+        <mutableArray key="HVD Fonts - MikadoBold.otf">
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+        </mutableArray>
+        <mutableArray key="HVD Fonts - MikadoMedium.otf">
+            <string>MikadoMedium</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MiniJobsListViewController">
             <connections>
@@ -13,17 +25,17 @@
                 <outlet property="refreshButtonLabel" destination="iAL-7k-e6C" id="YfZ-I8-PIu"/>
                 <outlet property="refreshButtonSpinner" destination="kB2-ec-OEi" id="M4y-kg-50P"/>
                 <outlet property="returnsInLabel" destination="luB-Ji-gnR" id="4nR-Rk-cor"/>
-                <outlet property="spawnTimeLabel" destination="Mys-YF-dVL" id="2nc-QX-mf4"/>
+                <outlet property="spawnTimeLabel" destination="MIg-1w-BSJ" id="NfQ-Ba-YQg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="430" height="238"/>
+            <rect key="frame" x="0.0" y="0.0" width="464" height="243"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="27" sectionFooterHeight="22" id="eC6-9C-elJ" customClass="CancellableTableView">
-                    <rect key="frame" x="3" y="0.0" width="424" height="185"/>
+                    <rect key="frame" x="0.0" y="0.0" width="464" height="182"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <inset key="contentInset" minX="0.0" minY="3" maxX="0.0" maxY="0.0"/>
@@ -32,91 +44,81 @@
                         <outlet property="delegate" destination="-1" id="rq6-IJ-moA"/>
                     </connections>
                 </tableView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no more Mini Jobs." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Kbd-LX-d2I" customClass="NiceFontLabel7">
-                    <rect key="frame" x="74" y="56" width="283" height="74"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no more Mini Jobs." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Kbd-LX-d2I">
+                    <rect key="frame" x="91" y="58" width="283" height="74"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" name="MikadoBold-Italic" family="Mikado" pointSize="15"/>
                     <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <view contentMode="scaleToFill" id="cXA-6V-zUe">
-                    <rect key="frame" x="3" y="185" width="424" height="50"/>
+                    <rect key="frame" x="0.0" y="179" width="464" height="64"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="sellbarbg.png" id="REy-ms-HKG">
-                            <rect key="frame" x="0.0" y="0.0" width="424" height="50"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="menubottombar.png" id="REy-ms-HKG">
+                            <rect key="frame" x="0.0" y="0.0" width="464" height="79"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
-                        <view contentMode="scaleToFill" id="SyT-TZ-My0">
-                            <rect key="frame" x="69" y="10" width="286" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="New mini jobs will spawn in:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="f8f-1B-RQO" customClass="NiceFontLabel9">
-                                    <rect key="frame" x="-8" y="4" width="182" height="23"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="newjobstimerbg.png" id="CqY-6L-fmB">
-                                    <rect key="frame" x="183" y="0.0" width="70" height="31"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <view contentMode="scaleToFill" id="Wnp-6j-8m0">
-                                    <rect key="frame" x="190" y="0.0" width="57" height="31"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="timerclock.png" id="e26-un-oGc">
-                                            <rect key="frame" x="0.0" y="10" width="12" height="12"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="3H 12M" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Mys-YF-dVL" customClass="NiceFontLabel10">
-                                            <rect key="frame" x="15" y="3" width="49" height="23"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="girl3.png" id="t86-K2-3QE">
-                            <rect key="frame" x="19" y="-21" width="67" height="71"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
                         <view contentMode="scaleToFill" id="acD-bm-QOn" userLabel="RefreshView">
-                            <rect key="frame" x="336" y="5" width="80" height="40"/>
+                            <rect key="frame" x="361" y="14" width="77" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <subviews>
                                 <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ORx-e4-TlQ" customClass="GemsButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="77" height="42"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" backgroundImage="purplemenuoption.png">
+                                    <state key="normal" backgroundImage="purplemediumbutton.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
                                         <action selector="refreshClicked:" destination="-1" eventType="touchUpInside" id="66c-Yo-Nzb"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="iAL-7k-e6C" customClass="NiceFontLabel12B">
-                                    <rect key="frame" x="8" y="8" width="64" height="23"/>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="iAL-7k-e6C" customClass="ShadowBlurLabel">
+                                    <rect key="frame" x="7" y="9" width="64" height="23"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="13"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
-                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                            <real key="value" value="1"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
                                 </label>
                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="kB2-ec-OEi">
-                                    <rect key="frame" x="30" y="10" width="20" height="20"/>
+                                    <rect key="frame" x="28" y="11" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="girl3.png" id="t86-K2-3QE">
+                            <rect key="frame" x="20" y="-7" width="67" height="71"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="c7M-ig-6XA">
+                            <rect key="frame" x="136" y="19" width="193" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="3H 12M" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="MIg-1w-BSJ" customClass="NiceFontLabel10">
+                                    <rect key="frame" x="132" y="3" width="79" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="15"/>
+                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="New jobs spawn in:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="f8f-1B-RQO">
+                                    <rect key="frame" x="0.0" y="3" width="134" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="MikadoMedium" family="Mikado" pointSize="15"/>
+                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -127,7 +129,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="455" y="306"/>
+            <point key="canvasLocation" x="455" y="305.5"/>
         </view>
         <view contentMode="scaleToFill" id="MwW-rg-xMr">
             <rect key="frame" x="0.0" y="0.0" width="364" height="27"/>
@@ -171,15 +173,8 @@
     </objects>
     <resources>
         <image name="girl3.png" width="67" height="94"/>
-        <image name="newjobstimerbg.png" width="70" height="31"/>
+        <image name="menubottombar.png" width="1" height="79"/>
         <image name="popupline.png" width="1" height="1"/>
-        <image name="purplemenuoption.png" width="80" height="40"/>
-        <image name="sellbarbg.png" width="424" height="50"/>
-        <image name="timerclock.png" width="12" height="12"/>
+        <image name="purplemediumbutton.png" width="77" height="42"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

@@ -280,7 +280,7 @@
                                             </connections>
                                         </collectionView>
                                         <view contentMode="scaleToFill" id="Yl6-2e-AUI">
-                                            <rect key="frame" x="313" y="0.0" width="80" height="75"/>
+                                            <rect key="frame" x="313" y="0.0" width="78" height="77"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" id="37U-tx-a9p" userLabel="Finish View">
@@ -339,7 +339,7 @@
                                                                 <action selector="helpClicked:" destination="-1" eventType="touchUpInside" id="P4e-f1-FsO"/>
                                                             </connections>
                                                         </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Help!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="k06-2o-bFq" customClass="NiceFontLabel12B">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Help!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="k06-2o-bFq" customClass="ShadowBlurLabel">
                                                             <rect key="frame" x="5" y="9" width="67" height="23"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="12"/>
@@ -347,6 +347,11 @@
                                                             <nil key="highlightedColor"/>
                                                             <color key="shadowColor" red="0.98039215690000003" green="0.78039215689999997" blue="0.28235294119999998" alpha="0.75" colorSpace="calibratedRGB"/>
                                                             <size key="shadowOffset" width="0.0" height="1"/>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                                                    <real key="value" value="1"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -365,14 +370,19 @@
                                                                 <action selector="collectClicked:" destination="-1" eventType="touchUpInside" id="gVH-4T-46z"/>
                                                             </connections>
                                                         </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collect!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="CMw-gW-tin" customClass="NiceFontLabel12B">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collect!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="CMw-gW-tin" customClass="ShadowBlurLabel">
                                                             <rect key="frame" x="5" y="9" width="67" height="23"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="12"/>
-                                                            <color key="textColor" red="0.0" green="0.61176472900000001" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="14"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
-                                                            <color key="shadowColor" red="0.99215686270000003" green="1" blue="0.37254901959999998" alpha="0.75" colorSpace="calibratedRGB"/>
+                                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                                             <size key="shadowOffset" width="0.0" height="1"/>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                                                    <real key="value" value="1"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

@@ -7,9 +7,9 @@
     <customFonts key="customFonts">
         <mutableArray key="HVD Fonts - MikadoBlack.otf">
             <string>MikadoBlack</string>
-            <string>MikadoBlack</string>
         </mutableArray>
         <mutableArray key="HVD Fonts - MikadoBold.otf">
+            <string>MikadoBold</string>
             <string>MikadoBold</string>
             <string>MikadoBold</string>
             <string>MikadoBold</string>
@@ -148,7 +148,7 @@
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enter" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="g41-gC-g7M" customClass="ShadowBlurLabel">
                                             <rect key="frame" x="12" y="9" width="51" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="16"/>
+                                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>

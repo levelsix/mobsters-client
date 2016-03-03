@@ -269,8 +269,6 @@ static int listViewContentOffset = 0.f;
   self.helpButtonView.hidden = YES;
   self.collectButtonView.hidden = YES;
   
-  self.totalTimeLabel.highlighted = NO;
-  
   MSDate *date = [ue expectedEndTime];
   if (!date) {
     int totalOilCost = [gl calculateTotalOilCostForEnhancement:ue];

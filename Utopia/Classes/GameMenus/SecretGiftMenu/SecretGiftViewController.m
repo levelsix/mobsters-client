@@ -89,7 +89,7 @@
   int quantity = reward.quantity;
   NSString *shorterName = [reward shorterName];
   
-  self.itemNameLabel.text = [NSString stringWithFormat:@"%d x %@", quantity, [[reward name] uppercaseString]];
+  self.itemNameLabel.text = [NSString stringWithFormat:@"%d x %@", quantity, [reward name]];
   
   if (shorterName) {
     self.iconLabel.text = shorterName;
