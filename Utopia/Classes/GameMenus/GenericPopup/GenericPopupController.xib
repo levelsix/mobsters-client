@@ -11,7 +11,9 @@
         <mutableArray key="HVD Fonts - MikadoBold.otf">
             <string>MikadoBold</string>
             <string>MikadoBold</string>
-            <string>MikadoBold</string>
+        </mutableArray>
+        <mutableArray key="HVD Fonts - MikadoMedium.otf">
+            <string>MikadoMedium</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -75,7 +77,7 @@
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="18" customClass="NiceFontLabel5">
                                     <rect key="frame" x="0.0" y="0.0" width="225" height="66"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="15"/>
+                                    <fontDescription key="fontDescription" name="MikadoMedium" family="Mikado" pointSize="15"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                     <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
@@ -134,7 +136,7 @@
                                         <action selector="close:" destination="-1" eventType="touchUpInside" id="HDW-2B-6L2"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Okay" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="xjz-Fw-oTB" customClass="ShadowBlurLabel">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Leave" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="xjz-Fw-oTB" customClass="ShadowBlurLabel">
                                     <rect key="frame" x="119" y="13" width="67" height="23"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="14"/>
