@@ -33,8 +33,8 @@
 @property (nonatomic, assign) IBOutlet NiceFontButton9 *detailButton;
 @property (nonatomic, assign) IBOutlet UIView *buttonView;
 
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *frontBar;
-@property (nonatomic, assign) IBOutlet SplitImageProgressBar *backBar;
+@property (nonatomic, assign) IBOutlet ProgressBar *frontBar;
+@property (nonatomic, assign) IBOutlet ProgressBar *backBar;
 
 @property (nonatomic, weak) IBOutlet id<EmbeddedDelegate> delegate;
 

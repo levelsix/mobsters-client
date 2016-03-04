@@ -61,13 +61,10 @@
 
 @property (nonatomic, assign) IBOutlet UIView *cityHallUnlocksView;
 @property (nonatomic, retain) IBOutlet UIView *nibUnlocksView;
-@property (nonatomic, assign) IBOutlet UIImageView *nibUnlocksLabelBgd;
 @property (nonatomic, assign) IBOutlet UILabel *nibUnlocksLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *nibUnlocksStructIcon;
 
 @property (nonatomic, assign) IBOutlet EmbeddedScrollingUpgradeView *embeddedScrollView;
-
-//@property (nonatomic, retain) IBOutletCollection(UpgradePrereqView) NSArray *prereqViews;
 
 @end
 

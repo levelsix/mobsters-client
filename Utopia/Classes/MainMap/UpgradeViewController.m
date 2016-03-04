@@ -192,7 +192,7 @@
   }
   for (StructureInfoProto *sip in changedQuant) {
     if (sip.level > 1) {
-      [unlockViews addObject:[self unlockViewWithImageName:sip.imgName text:[NSString stringWithFormat:@"LVL %d", sip.level] useBigTextBgd:YES]];
+      [unlockViews addObject:[self unlockViewWithImageName:sip.imgName text:[NSString stringWithFormat:@"Lvl %d", sip.level] useBigTextBgd:YES]];
     }
   }
   
@@ -214,12 +214,8 @@
 - (UIView *) unlockViewWithImageName:(NSString *)imgName text:(NSString *)text useBigTextBgd:(BOOL)bigTextBgd {
   [[NSBundle mainBundle] loadNibNamed:@"UpgradeUnlockView" owner:self options:nil];
   
-  self.nibUnlocksLabelBgd.highlighted = !bigTextBgd;
   [Globals imageNamed:imgName withView:self.nibUnlocksStructIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   self.nibUnlocksLabel.text = text;
-  
-  UIImage *img = bigTextBgd ? self.nibUnlocksLabelBgd.image : self.nibUnlocksLabelBgd.highlightedImage;
-  self.nibUnlocksLabel.center = ccp(self.nibUnlocksLabelBgd.frame.origin.x+img.size.width/2, self.nibUnlocksLabel.center.y);
   
   return self.nibUnlocksView;
 }

@@ -56,11 +56,11 @@
   [self.embeddedScrollView updateForGameTypeProto:curResearch];
   
   [Globals imageNamed:curResearch.iconImgName withView:self.researchIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  self.researchTimeLabel.text = nextResearch ? [[Globals convertTimeToMediumString:[gl calculateSecondsToResearch:nextResearch]] uppercaseString] : @"N/A";
+  self.researchTimeLabel.text = nextResearch ? [Globals convertTimeToMediumString:[gl calculateSecondsToResearch:nextResearch]] : @"N/A";
   
   {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineSpacing = 4;
+    paragraphStyle.lineSpacing = 0;
     paragraphStyle.alignment = NSTextAlignmentCenter;
     
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:curResearch.name attributes:@{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : self.researchNameLabel.font}];
@@ -118,7 +118,7 @@
   self.researchOilLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.25];
   
   self.bottomNameLabel.text = @"Woops!";
-  self.bottomDescLabel.text = [NSString stringWithFormat:@"You are missing %d requirement%@ to Research.", missingRequirements, missingRequirements == 1 ? @"" : @"s"];
+  self.bottomDescLabel.text = [NSString stringWithFormat:@"You are missing %d requirement%@ to research.", missingRequirements, missingRequirements == 1 ? @"" : @"s"];
   
   self.bottomBarIcon.highlighted = YES;
   self.bottomBarBgd.highlighted = YES;

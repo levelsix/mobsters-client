@@ -28,20 +28,7 @@
   int curRank = userResearch.staticResearchForBenefitLevel.level;
   int maxRank = userResearch.staticResearch.maxLevelResearch.level;
   self.rankTotal.text = [NSString stringWithFormat:@"%d/%d", curRank, maxRank];
-  self.rankTotal.shadowBlur = 0.5f;
   self.selectionTitle.text = [NSString stringWithFormat:@" %@", proto.name];
-  
-  self.nextArrowButton.image = [UIImage imageWithCGImage:self.nextArrowButton.image.CGImage
-                                                   scale:self.nextArrowButton.image.scale
-                                             orientation:UIImageOrientationUpMirrored];
-  
-  self.rankTotal.shadowBlur = 0.5f;
-  
-  self.selectionTitle.gradientStartColor = [UIColor whiteColor];
-  self.selectionTitle.strokeSize = 1.f;
-  self.selectionTitle.shadowBlur = 0.5f;
-  self.selectionTitle.strokeColor = isAvailable ? [UIColor colorWithHexString:BLUE_STROKE] : [UIColor colorWithHexString:RED_STROKE];
-  self.selectionTitle.gradientEndColor = isAvailable ? [UIColor colorWithHexString:BLUE_BOT_COLOR] : [UIColor colorWithHexString:RED_BOT_COLOR];
   
   NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:proto.desc];
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -64,15 +51,15 @@
     [self.barButtonBgdRight setHighlightedImage:[Globals imageNamed:capPressedImage]];
   }
   else {
-    NSString *barBGImage = isAvailable ? @"enhancenextbg.png" : @"researchmissingrequirements.png";
-    [self.barButton setImage:[Globals imageNamed:barBGImage] forState:UIControlStateNormal];
-    NSString *barClickedImageName = isAvailable ? @"enhancenextbgpressed.png" : @"researchmissingrequirementspressed.png";
-    [self.barButton setImage:[Globals imageNamed:barClickedImageName] forState:UIControlStateHighlighted];
+    NSString *barBGImage = isAvailable ? @"menubottombarblue.png" : @"menubottombarred.png";
+    [self.barButton setBackgroundImage:[Globals imageNamed:barBGImage] forState:UIControlStateNormal];
+    NSString *barClickedImageName = isAvailable ? @"menubottombarbluepressed.png" : @"menubottombarredpressed.png";
+    [self.barButton setBackgroundImage:[Globals imageNamed:barClickedImageName] forState:UIControlStateHighlighted];
   }
 }
 
 - (void) animateIn:(dispatch_block_t)completion {
-  CGPoint pt = ccp(self.superview.center.x, self.superview.frame.size.height - (self.frame.size.height/2) - 3);
+  CGPoint pt = ccp(self.superview.center.x, self.superview.frame.size.height - (self.frame.size.height/2));
   self.center = ccp(pt.x, self.superview.frame.size.height + (self.frame.size.height/2));
   
   [UIView animateWithDuration:0.3f animations:^{
@@ -85,7 +72,7 @@
 }
 
 - (void) appearInPosition {
-  self.center = ccp(self.superview.center.x, self.superview.frame.size.height - (self.frame.size.height/2) - 3);
+  self.center = ccp(self.superview.center.x, self.superview.frame.size.height - (self.frame.size.height/2));
 }
 
 - (void) animateOut:(dispatch_block_t)completion {
@@ -118,14 +105,16 @@
 
 @end
 
-#define AVAILABLE_OUTLINE   @"canresearchclickedborder.png"
-#define UNAVAILABLE_OUTLINE @"cantresearchtapped.png"
-#define DARK_GREY_OUTLINE   @"darkresearchcircle.png"
-#define LIGHT_GREY_OUTLINE  @"lightresearchcircle.png"
-#define LIGHT_LINE_COLOR    @"EAEAEA"
-#define DARK_LINE_COLOR     @"555555"
-#define LIGHT_CURVE         @"lightresearchcorner.png"
-#define DARK_CURVE          @"darkresearchcorner.png"
+#define AVAILABLE_BASE                @"canresearchsquare.png"
+#define UNAVAILABLE_BASE              @"cantresearchsquare.png"
+#define AVAILABLE_CLICKED_OUTLINE     @"canresearchsquareblueborder.png"
+#define UNAVAILABLE_CLICKED_OUTLINE   @"cantresearchsquareredborder.png"
+#define AVAILABLE_DARK_OUTLINE     @"canresearchsquaredarkborder.png"
+#define UNAVAILABLE_DARK_OUTLINE     @"cantresearchsquaredarkborder.png"
+#define LIGHT_LINE_COLOR              @"EAEAEA"
+#define DARK_LINE_COLOR               @"555555"
+#define LIGHT_CURVE                   @"lightresearchcorner.png"
+#define DARK_CURVE                    @"darkresearchcorner.png"
 
 @implementation ResearchButtonView
 
@@ -133,15 +122,13 @@
 int x = 0;
 - (void) select {
   x = 0;
-  self.bgView.hidden = !_isAvailable;
-  self.outline.image = _isAvailable ? [Globals imageNamed:AVAILABLE_OUTLINE] : [Globals imageNamed:UNAVAILABLE_OUTLINE];
+  self.bgdIcon.image = _isAvailable ? [Globals imageNamed:AVAILABLE_CLICKED_OUTLINE] : [Globals imageNamed:UNAVAILABLE_CLICKED_OUTLINE];
   
   [self highlightPathToParentNodes:YES needsBlackOutline:NO ignoreNodes:[NSMutableArray array]];
 }
 
 - (void) deselect {
-  self.bgView.hidden = YES;
-  self.outline.image = [Globals imageNamed:LIGHT_GREY_OUTLINE];
+  self.bgdIcon.image = _isAvailable ? [Globals imageNamed:AVAILABLE_BASE] : [Globals imageNamed:UNAVAILABLE_BASE];
   
   [self highlightPathToParentNodes:NO needsBlackOutline:NO ignoreNodes:[NSMutableArray array]];
 }
@@ -177,6 +164,9 @@ int x = 0;
   self.researchNameLabel.textColor = [UIColor colorWithHexString:_isAvailable ? @"2AB4E8" : @"555555"];
   self.rankCountLabel.textColor = [UIColor colorWithHexString:_isAvailable ? @"333333" : @"999999"];
   self.lockedIcon.hidden = _isAvailable;
+  
+  // Call this before parent nodes is set so it doesnt try to work on whole tree
+  [self deselect];
   
   [Globals imageNamed:research.iconImgName withView:self.researchIcon greyscale:!_isAvailable indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
   
@@ -231,9 +221,9 @@ int x = 0;
   for (ResearchButtonView* parentButtonView in parentNodes)
   {
     // All coordinates in this view's local space
-    const CGPoint connectionFromSelf = CGPointMake(self.width * .5f, self.outline.originY);
+    const CGPoint connectionFromSelf = CGPointMake(self.width * .5f, self.bgdIcon.originY);
     const CGPoint connectionToParent = [self convertPoint:CGPointMake(parentButtonView.centerX,
-                                                                      parentButtonView.originY + CGRectGetMaxY(parentButtonView.outline.frame))
+                                                                      parentButtonView.originY + CGRectGetMaxY(parentButtonView.bgdIcon.frame))
                                                  fromView:parentButtonView.superview];
     
     if ((int)connectionFromSelf.x == (int)connectionToParent.x)
@@ -242,7 +232,7 @@ int x = 0;
       UIView* connectingLine = [[UIView alloc] initWithFrame:CGRectMake(connectionToParent.x - kLineWidth * .5f, connectionToParent.y,
                                                                         kLineWidth, connectionFromSelf.y - connectionToParent.y + 1)];
       [connectingLine setBackgroundColor:[UIColor colorWithHexString:LIGHT_LINE_COLOR]];
-      [self insertSubview:connectingLine belowSubview:self.bgView];
+      [self insertSubview:connectingLine belowSubview:self.bgdIcon];
       [_connectionsToParentNodes addObject:connectingLine];
     }
     else
@@ -254,13 +244,13 @@ int x = 0;
       UIView* lineFromSelf = [[UIView alloc] initWithFrame:CGRectMake(meetingPointFromSelf.x - kLineWidth * .5f, meetingPointFromSelf.y,
                                                                       kLineWidth, connectionFromSelf.y - meetingPointFromSelf.y + 2)];
       [lineFromSelf setBackgroundColor:[UIColor colorWithHexString:LIGHT_LINE_COLOR]];
-      [self insertSubview:lineFromSelf belowSubview:self.bgView];
+      [self insertSubview:lineFromSelf belowSubview:self.bgdIcon];
       [_connectionsToParentNodes addObject:lineFromSelf];
       
       UIView* lineToParent = [[UIView alloc] initWithFrame:CGRectMake(meetingPointToParent.x - kLineWidth * .5f, connectionToParent.y,
                                                                       kLineWidth, meetingPointToParent.y - connectionToParent.y + 2)];
       [lineToParent setBackgroundColor:[UIColor colorWithHexString:LIGHT_LINE_COLOR]];
-      [self insertSubview:lineToParent belowSubview:self.bgView];
+      [self insertSubview:lineToParent belowSubview:self.bgdIcon];
       [_connectionsToParentNodes addObject:lineToParent];
       
       const BOOL parentToTheRight = (connectionToParent.x - connectionFromSelf.x) > 0;
@@ -270,7 +260,7 @@ int x = 0;
                                                lineFromSelf.originY - kCornerSize.height, kCornerSize.width, kCornerSize.height)];
       [curveFromSelf setImage:[Globals imageNamed:LIGHT_CURVE]];
       [curveFromSelf.layer setTransform:CATransform3DMakeScale(parentToTheRight ? 1.f : -1.f, 1.f, 1.f)];
-      [self insertSubview:curveFromSelf belowSubview:self.bgView];
+      [self insertSubview:curveFromSelf belowSubview:self.bgdIcon];
       [_connectionsToParentNodes addObject:curveFromSelf];
       
       UIImageView* curveToParent = [[UIImageView alloc] initWithFrame:
@@ -278,14 +268,14 @@ int x = 0;
                                                lineToParent.originY + lineToParent.height, kCornerSize.width, kCornerSize.height)];
       [curveToParent setImage:[Globals imageNamed:LIGHT_CURVE]];
       [curveToParent.layer setTransform:CATransform3DMakeScale(parentToTheRight ? -1.f : 1.f, -1.f, 1.f)];
-      [self insertSubview:curveToParent belowSubview:self.bgView];
+      [self insertSubview:curveToParent belowSubview:self.bgdIcon];
       [_connectionsToParentNodes addObject:curveToParent];
       
       UIView* connectingLine = [[UIView alloc] initWithFrame:
                                 CGRectMake((parentToTheRight ? curveFromSelf.originX : curveToParent.originX) + kCornerSize.width, curveFromSelf.originY,
                                            ABS(meetingPointToParent.x - meetingPointFromSelf.x) + kLineWidth - kCornerSize.width * 2.f, kLineWidth)];
       [connectingLine setBackgroundColor:[UIColor colorWithHexString:LIGHT_LINE_COLOR]];
-      [self insertSubview:connectingLine belowSubview:self.bgView];
+      [self insertSubview:connectingLine belowSubview:self.bgdIcon];
       [_connectionsToParentNodes addObject:connectingLine];
     }
     
@@ -295,8 +285,14 @@ int x = 0;
 
 - (void) highlightPathToParentNodes:(BOOL)highlight needsBlackOutline:(BOOL)needsBlackOutline ignoreNodes:(NSMutableArray *)ignoreNodes
 {
-  if (needsBlackOutline)
-    [self.outline setImage:[Globals imageNamed:highlight ? DARK_GREY_OUTLINE : LIGHT_GREY_OUTLINE]];
+  if (needsBlackOutline) {
+    NSString *base = _isAvailable ? AVAILABLE_BASE : UNAVAILABLE_BASE;
+    NSString *dark = _isAvailable ? AVAILABLE_DARK_OUTLINE : UNAVAILABLE_DARK_OUTLINE;
+    NSString *image = highlight ? dark : base;
+    
+    [self.bgdIcon setImage:[Globals imageNamed:image]];
+  }
+  
   
   for (UIView* connection in _connectionsToParentNodes)
   {

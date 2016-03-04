@@ -11,10 +11,10 @@
 #import "GameState.h"
 #import "Globals.h"
 
-#define REQUIREMENTS_TITLE @"REQUIREMENTS"
-#define IMPROVEMENTS_TITLE @"IMPROVEMENTS"
-#define STRENGTH_TITLE @"STRENGTH"
-#define UNLOCKS_TITLE @"UNLOCKS"
+#define REQUIREMENTS_TITLE @"Requirements"
+#define IMPROVEMENTS_TITLE @"Improvements"
+#define STRENGTH_TITLE @"Strength"
+#define UNLOCKS_TITLE @"Unlocks"
 
 #define VIEW_BUFFER 10
 #define START_BUFFER 27

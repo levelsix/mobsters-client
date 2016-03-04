@@ -18,10 +18,9 @@
 @interface ResearchSelectionBarView : TouchableSubviewsView
 
 @property (nonatomic, assign) IBOutlet UIImageView *selectionIcon;
-@property (nonatomic, assign) IBOutlet UIImageView *nextArrowButton;
-@property (nonatomic, assign) IBOutlet THLabel *rankTotal;
-@property (nonatomic, assign) IBOutlet THLabel *selectionTitle;
-@property (nonatomic, assign) IBOutlet THLabel *selectionDescription;
+@property (nonatomic, assign) IBOutlet UILabel *rankTotal;
+@property (nonatomic, assign) IBOutlet UILabel *selectionTitle;
+@property (nonatomic, assign) IBOutlet UILabel *selectionDescription;
 @property (nonatomic, assign) IBOutlet UIButton *barButton;
 
 @property (nonatomic, retain) IBOutlet UIImageView *barButtonBgdLeft;
@@ -54,8 +53,7 @@
 @property (nonatomic, assign) IBOutlet UILabel *researchNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *rankLabel;
 @property (nonatomic, assign) IBOutlet UILabel *rankCountLabel;
-@property (nonatomic, assign) IBOutlet UIImageView *outline;
-@property (nonatomic, assign) IBOutlet UIImageView *bgView;
+@property (nonatomic, assign) IBOutlet UIImageView *bgdIcon;
 @property (nonatomic, assign) IBOutlet UIImageView *lockedIcon;
 @property (nonatomic, assign) IBOutlet UILabel *researchingTimeLeftLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *researchingCircle;
