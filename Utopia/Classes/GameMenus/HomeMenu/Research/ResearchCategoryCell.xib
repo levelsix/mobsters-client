@@ -34,7 +34,7 @@
                                 <color key="textColor" red="0.10196078431372549" green="0.60784313725490191" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.59999999999999998" contentMode="scaleToFill" image="popupline.png" id="UnH-BZ-F7P" customClass="VerticalFlipImageView">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.59999999999999998" contentMode="center" image="popupline.png" id="UnH-BZ-F7P" customClass="VerticalFlipImageView">
                                 <rect key="frame" x="14" y="54" width="436" height="1"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
