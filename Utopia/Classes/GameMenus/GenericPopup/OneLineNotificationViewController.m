@@ -10,7 +10,7 @@
 #import "Globals.h"
 #import "SoundEngine.h"
 
-#define LOWEST_LABEL_BOT_POINT ([Globals isiPad] ? 30.f : 20.f)
+#define LOWEST_LABEL_BOT_POINT ([Globals isiPad] ? 30.f : 27.f)
 
 @implementation OneLineNotificationView
 
@@ -44,8 +44,8 @@
   
   self.label.text = str;
   
-  self.leftBgdIcon.image = [Globals imageNamed:[@"notendcap" stringByAppendingString:[prefix stringByAppendingString:@".png"]]];
-  self.middleBgdIcon.image = [Globals imageNamed:[@"notmiddle" stringByAppendingString:[prefix stringByAppendingString:@".png"]]];
+  self.leftBgdIcon.image = [Globals imageNamed:[prefix stringByAppendingString:@"notificationcap.png"]];
+  self.middleBgdIcon.image = [Globals imageNamed:[prefix stringByAppendingString:@"notificationmiddle.png"]];
   self.rightBgdIcon.image = self.leftBgdIcon.image;
   
   CGSize size = [self.label.text getSizeWithFont:self.label.font constrainedToSize:self.label.frame.size];

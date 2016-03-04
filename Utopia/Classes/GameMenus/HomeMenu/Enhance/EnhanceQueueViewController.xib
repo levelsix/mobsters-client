@@ -590,7 +590,7 @@ Level!</string>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-186" y="340.5"/>
+            <point key="canvasLocation" x="-7" y="379.5"/>
         </view>
         <view clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" id="Zu9-Xx-EOK">
             <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>

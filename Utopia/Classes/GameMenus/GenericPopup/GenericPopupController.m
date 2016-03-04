@@ -108,7 +108,7 @@
 + (GenericPopupController *) displayNegativeConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector {
   GenericPopupController *gp = [GenericPopupController displayConfirmationWithDescription:description title:title okayButton:okay cancelButton:cancel okTarget:okTarget okSelector:okSelector cancelTarget:cancelTarget cancelSelector:cancelSelector];
   
-  [gp.confOkayButton setImage:[Globals imageNamed:@"orangemenuoption.png"] forState:UIControlStateNormal];
+  [gp.confOkayButton setImage:[Globals imageNamed:@"orangemediumbutton.png"] forState:UIControlStateNormal];
   gp.titleBgd.image = [Globals imageNamed:@"orangenotificationheader.png"];
   
   //iPad version of header
@@ -134,7 +134,7 @@
 + (GenericPopupController *) displayNotEnoughGemsViewWithTarget:(id)target selector:(SEL)selector {
   GenericPopupController *gp = [GenericPopupController displayNotificationViewWithText:@"You don't have enough gems.\nWant more?" title:@"Not Enough Gems" okayButton:@"Enter Shop" target:target selector:selector];
   
-  [gp.notifButton setImage:[Globals imageNamed:@"purplemenuoption.png"] forState:UIControlStateNormal];
+  [gp.notifButton setImage:[Globals imageNamed:@"purplemediumbutton.png"] forState:UIControlStateNormal];
   gp.titleBgd.image = [Globals imageNamed:@"purplenotificationheader.png"];
   
   //iPad version of header

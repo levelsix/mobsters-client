@@ -152,7 +152,6 @@
   
   UIColor *greenColor = [UIColor colorWithRed:48/255.f green:144/255.f blue:0.f alpha:1.f];
   UIColor *redColor = [UIColor colorWithRed:219/255.f green:1/255.f blue:0.f alpha:1.f];
-  UIFont *boldFont = [UIFont fontWithName:@"GothamBlack" size:self.descriptionLabel.font.pointSize];
   
   MonsterProto *mp = self.evoItem.userMonster1.staticMonster;
   MonsterProto *cata = self.evoItem.userMonster1.staticEvolutionCatalystMonster;

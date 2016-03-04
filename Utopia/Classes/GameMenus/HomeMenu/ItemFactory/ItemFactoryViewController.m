@@ -86,7 +86,7 @@
   for (UserBattleItem *bi in self.battleItemUtil.battleItems) {
     quantity += bi.quantity;
   }
-  self.numItemsLabel.text = [NSString stringWithFormat:@"%d", quantity];
+  self.numItemsLabel.text = [NSString stringWithFormat:@"%d Items", quantity];
 }
 
 - (void) waitTimeComplete {
@@ -182,34 +182,23 @@
 #pragma mark - Scope
 
 - (IBAction) scopeTabClicked:(id)sender {
-  float pointSize = self.allItemsTabButton.titleLabel.font.pointSize;
-  
-  UIFont *regFont = [UIFont fontWithName:@"Gotham-Medium" size:pointSize];
-  self.allItemsTabButton.titleLabel.font = regFont;
-  self.potionsTabButton.titleLabel.font = regFont;
-  self.puzzleTabButton.titleLabel.font = regFont;
-  
   [self.allItemsTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_BUTTON_TAB_COLOR] forState:UIControlStateNormal];
   [self.potionsTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_BUTTON_TAB_COLOR] forState:UIControlStateNormal];
   [self.puzzleTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_BUTTON_TAB_COLOR] forState:UIControlStateNormal];
   
   UIButton *senderButton = (UIButton*)sender;
   
-  UIFont *highlightedFont = [UIFont fontWithName:@"Gotham-Bold" size:pointSize];
   switch (senderButton.tag) {
     case 1:
       _scope = ItemFactoryScopeAll;
-      self.allItemsTabButton.titleLabel.font = highlightedFont;
       [self.allItemsTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_BUTTON_TAB_COLOR] forState:UIControlStateNormal];
       break;
     case 2:
       _scope = ItemFactoryScopePotions;
-      self.potionsTabButton.titleLabel.font = highlightedFont;
       [self.potionsTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_BUTTON_TAB_COLOR] forState:UIControlStateNormal];
       break;
     case 3:
       _scope = ItemFactoryScopePuzzle;
-      self.puzzleTabButton.titleLabel.font = highlightedFont;
       [self.puzzleTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_BUTTON_TAB_COLOR] forState:UIControlStateNormal];
       break;
       
