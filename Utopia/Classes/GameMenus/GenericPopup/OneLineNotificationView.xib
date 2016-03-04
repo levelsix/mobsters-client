@@ -24,17 +24,29 @@
                     <rect key="frame" x="1" y="0.0" width="6" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                 </imageView>
+<<<<<<< Updated upstream
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="notmiddlered.png" id="IiX-cE-Qgm">
                     <rect key="frame" x="6" y="0.0" width="556" height="40"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+=======
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="rednotificationmiddle.png" id="IiX-cE-Qgm">
+                    <rect key="frame" x="6" y="0.0" width="556" height="26"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+>>>>>>> Stashed changes
                 </imageView>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="rednotificationcap.png" id="bfq-vO-hv8" customClass="FlipImageView">
                     <rect key="frame" x="560" y="0.0" width="6" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                 </imageView>
+<<<<<<< Updated upstream
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="3Sd-SM-K80" customClass="ShadowBlurLabel">
                     <rect key="frame" x="20" y="9" width="529" height="21"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+=======
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="3Sd-SM-K80" customClass="ShadowBlurLabel">
+                    <rect key="frame" x="15" y="2" width="539" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+>>>>>>> Stashed changes
                     <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="14"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                     <nil key="highlightedColor"/>
@@ -54,7 +66,7 @@
         </view>
     </objects>
     <resources>
-        <image name="notmiddlered.png" width="1" height="26"/>
         <image name="rednotificationcap.png" width="5" height="40"/>
+        <image name="rednotificationmiddle.png" width="1" height="40"/>
     </resources>
 </document>
