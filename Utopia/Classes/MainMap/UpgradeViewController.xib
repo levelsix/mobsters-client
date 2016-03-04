@@ -115,6 +115,9 @@
                                             <state key="highlighted">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="upgradeClicked:" destination="-1" eventType="touchUpInside" id="mup-JJ-ZP8"/>
+                                            </connections>
                                         </button>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="FfC-GQ-QTy">
                                             <rect key="frame" x="8" y="7" width="68" height="23"/>
@@ -150,6 +153,9 @@
                                             <state key="normal" image="yellowmenuoption.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="upgradeClicked:" destination="-1" eventType="touchUpInside" id="fSW-NU-QbF"/>
+                                            </connections>
                                         </button>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="3q1-Jw-wnl">
                                             <rect key="frame" x="8" y="7" width="68" height="23"/>
