@@ -30,7 +30,7 @@ static NSString* kTierTitleLabelColors[3] = { @"B56C16", @"535758", @"8F6200" };
 - (void) updateForTier:(int)tier prizeList:(NSArray*)prizeList
 {
   self.tierBackground.image = [UIImage imageNamed:[NSString stringWithFormat:@"tier%dbg.png", tier]];
-  self.tierTitle.text = [NSString stringWithFormat:@"TIER %d PRIZE", tier];
+  self.tierTitle.text = [NSString stringWithFormat:@"Tier %d Prize", tier];
   self.tierTitle.textColor = [UIColor colorWithHexString:kTierTitleLabelColors[tier - 1]];
   
   _prizeList = [NSMutableArray array];

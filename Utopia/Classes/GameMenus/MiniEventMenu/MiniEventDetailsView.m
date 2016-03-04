@@ -24,58 +24,58 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
 {
   [super awakeFromNib];
   
-  UIImageView* backgroundLeftCap = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventblueheadercap.png"]];
-  {
-    backgroundLeftCap.frame = CGRectMake(self.eventInfoBackground.originX - backgroundLeftCap.width, self.eventInfoBackground.originY, backgroundLeftCap.width, self.eventInfoBackground.height);
-    [self.eventInfoView insertSubview:backgroundLeftCap belowSubview:self.eventInfoBackground];
-  }
-  UIImageView* backgroundRightCap = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventblueheadercap.png"]];
-  {
-    backgroundRightCap.frame = CGRectMake(self.eventInfoBackground.originX + self.eventInfoBackground.width, self.eventInfoBackground.originY, backgroundRightCap.width, self.eventInfoBackground.height);
-    backgroundRightCap.layer.transform = CATransform3DMakeScale(-1, 1, 1);
-    [self.eventInfoView insertSubview:backgroundRightCap belowSubview:self.eventInfoBackground];
-  }
+  //  UIImageView* backgroundLeftCap = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventblueheadercap.png"]];
+  //  {
+  //    backgroundLeftCap.frame = CGRectMake(self.eventInfoBackground.originX - backgroundLeftCap.width, self.eventInfoBackground.originY, backgroundLeftCap.width, self.eventInfoBackground.height);
+  //    [self.eventInfoView insertSubview:backgroundLeftCap belowSubview:self.eventInfoBackground];
+  //  }
+  //  UIImageView* backgroundRightCap = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventblueheadercap.png"]];
+  //  {
+  //    backgroundRightCap.frame = CGRectMake(self.eventInfoBackground.originX + self.eventInfoBackground.width, self.eventInfoBackground.originY, backgroundRightCap.width, self.eventInfoBackground.height);
+  //    backgroundRightCap.layer.transform = CATransform3DMakeScale(-1, 1, 1);
+  //    [self.eventInfoView insertSubview:backgroundRightCap belowSubview:self.eventInfoBackground];
+  //  }
+  //
+  //  UIImageView* progressBarLeftCap = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventcounterbgcap.png"]];
+  //  {
+  //    progressBarLeftCap.frame = CGRectMake(self.progressBarBackground.originX - progressBarLeftCap.width, self.progressBarBackground.originY, progressBarLeftCap.width, self.progressBarBackground.height);
+  //    [self.eventInfoView insertSubview:progressBarLeftCap belowSubview:self.progressBarBackground];
+  //  }
+  //  UIImageView* progressBarRightCap = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventcounterbgcap.png"]];
+  //  {
+  //    progressBarRightCap.frame = CGRectMake(self.progressBarBackground.originX + self.progressBarBackground.width, self.progressBarBackground.originY, progressBarRightCap.width, self.progressBarBackground.height);
+  //    progressBarRightCap.layer.transform = CATransform3DMakeScale(-1, 1, 1);
+  //    [self.eventInfoView insertSubview:progressBarRightCap belowSubview:self.progressBarBackground];
+  //  }
   
-  UIImageView* progressBarLeftCap = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventcounterbgcap.png"]];
-  {
-    progressBarLeftCap.frame = CGRectMake(self.progressBarBackground.originX - progressBarLeftCap.width, self.progressBarBackground.originY, progressBarLeftCap.width, self.progressBarBackground.height);
-    [self.eventInfoView insertSubview:progressBarLeftCap belowSubview:self.progressBarBackground];
-  }
-  UIImageView* progressBarRightCap = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"eventcounterbgcap.png"]];
-  {
-    progressBarRightCap.frame = CGRectMake(self.progressBarBackground.originX + self.progressBarBackground.width, self.progressBarBackground.originY, progressBarRightCap.width, self.progressBarBackground.height);
-    progressBarRightCap.layer.transform = CATransform3DMakeScale(-1, 1, 1);
-    [self.eventInfoView insertSubview:progressBarRightCap belowSubview:self.progressBarBackground];
-  }
-  
-  self.eventInfoName.gradientStartColor = [UIColor whiteColor];
-  self.eventInfoName.gradientEndColor   = [UIColor colorWithHexString:@"DCF8FF"];
-  self.eventInfoName.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
-  self.eventInfoName.shadowOffset = CGSizeMake(0, 1);
-  self.eventInfoName.shadowBlur   = 1.2f;
-  
-  self.eventInfoDesc.shadowColor  = [UIColor colorWithWhite:.6 alpha:1.f];
-  self.eventInfoDesc.shadowOffset = CGSizeMake(0, .5);
-  self.eventInfoDesc.shadowBlur   = 1.2f;
-  
-  self.eventInfoEndsIn.shadowColor  = [UIColor colorWithWhite:.6 alpha:1.f];
-  self.eventInfoEndsIn.shadowOffset = CGSizeMake(0, .5);
-  self.eventInfoEndsIn.shadowBlur   = 1.2f;
-  
-  self.eventInfoTimeLeft.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
-  self.eventInfoTimeLeft.shadowOffset = CGSizeMake(0, .5);
-  self.eventInfoTimeLeft.shadowBlur   = 1.2f;
-  
-  self.eventInfoEventEnded.shadowColor  = [[UIColor colorWithHexString:@"BAF2FF"] colorWithAlphaComponent:.85f];
-  self.eventInfoEventEnded.shadowOffset = CGSizeMake(0, .5);
-  self.eventInfoEventEnded.shadowBlur   = 1.2f;
-  
-  self.eventInfoMyPoints.shadowColor  = [UIColor colorWithWhite:.6 alpha:1.f];
-  self.eventInfoMyPoints.shadowOffset = CGSizeMake(0, .5);
-  self.eventInfoMyPoints.shadowBlur   = 1.2f;
-  
-  self.eventInfoPointsEearned.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
-  self.eventInfoPointsEearned.shadowOffset = CGSizeMake(0, 1);
+  //  self.eventInfoName.gradientStartColor = [UIColor whiteColor];
+  //  self.eventInfoName.gradientEndColor   = [UIColor colorWithHexString:@"DCF8FF"];
+  //  self.eventInfoName.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
+  //  self.eventInfoName.shadowOffset = CGSizeMake(0, 1);
+  //  self.eventInfoName.shadowBlur   = 1.2f;
+  //
+  //  self.eventInfoDesc.shadowColor  = [UIColor colorWithWhite:.6 alpha:1.f];
+  //  self.eventInfoDesc.shadowOffset = CGSizeMake(0, .5);
+  //  self.eventInfoDesc.shadowBlur   = 1.2f;
+  //
+  //  self.eventInfoEndsIn.shadowColor  = [UIColor colorWithWhite:.6 alpha:1.f];
+  //  self.eventInfoEndsIn.shadowOffset = CGSizeMake(0, .5);
+  //  self.eventInfoEndsIn.shadowBlur   = 1.2f;
+  //
+  //  self.eventInfoTimeLeft.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
+  //  self.eventInfoTimeLeft.shadowOffset = CGSizeMake(0, .5);
+  //  self.eventInfoTimeLeft.shadowBlur   = 1.2f;
+  //
+  //  self.eventInfoEventEnded.shadowColor  = [[UIColor colorWithHexString:@"BAF2FF"] colorWithAlphaComponent:.85f];
+  //  self.eventInfoEventEnded.shadowOffset = CGSizeMake(0, .5);
+  //  self.eventInfoEventEnded.shadowBlur   = 1.2f;
+  //
+  //  self.eventInfoMyPoints.shadowColor  = [UIColor colorWithWhite:.6 alpha:1.f];
+  //  self.eventInfoMyPoints.shadowOffset = CGSizeMake(0, .5);
+  //  self.eventInfoMyPoints.shadowBlur   = 1.2f;
+  //
+  //  self.eventInfoPointsEearned.shadowColor  = [UIColor colorWithWhite:.25 alpha:1.f];
+  //  self.eventInfoPointsEearned.shadowOffset = CGSizeMake(0, 1);
   
   if ([Globals isiPad]) ++self.tier3PrizeView.width; // View width on iPad is not divisible by 3 so an extra pixel is needed at the end
   
@@ -99,7 +99,7 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   [Globals imageNamedWithiPadSuffix:miniEvent.img withView:self.eventInfoImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   const int pointsEarned = userMiniEvent.pointsEarned;
-//const int maxPoints    = miniEvent.lvlEntered.tierThreeMinPts * kTierPointsProgressBarExtendBy;
+  //const int maxPoints    = miniEvent.lvlEntered.tierThreeMinPts * kTierPointsProgressBarExtendBy;
   const int tier1Points  = miniEvent.lvlEntered.tierOneMinPts;
   const int tier2Points  = miniEvent.lvlEntered.tierTwoMinPts;
   const int tier3Points  = miniEvent.lvlEntered.tierThreeMinPts;
@@ -119,9 +119,9 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
    * 4/21/15 - BN - Tier indicators are displayed at fixed positions,
    * hence the progress from one tier to the next will be non-linear
    *
-  const float tier1IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)tier1Points / (float)maxPoints);
-  const float tier2IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)tier2Points / (float)maxPoints);
-  const float tier3IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)tier3Points / (float)maxPoints);
+   const float tier1IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)tier1Points / (float)maxPoints);
+   const float tier2IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)tier2Points / (float)maxPoints);
+   const float tier3IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)tier3Points / (float)maxPoints);
    */
   
   const float tier1IndicatorPos = self.pointsProgressBar.originX + self.pointsProgressBar.width * (kTier1FixedDisplayPercentage / kTierPointsProgressBarExtendBy);
@@ -148,14 +148,14 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   else
   {
     /*
-    self.pointsProgressBar.percentage = (float)pointsEarned / (float)maxPoints;
-    self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)pointsEarned / (float)maxPoints);
+     self.pointsProgressBar.percentage = (float)pointsEarned / (float)maxPoints;
+     self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)pointsEarned / (float)maxPoints);
      */
     
     const float nonLinearPercentage = [self nonLinearPercentageForPointsEarned:pointsEarned tier1Points:tier1Points tier2Points:tier2Points tier3Points:tier3Points];
     
     self.pointsProgressBar.percentage = nonLinearPercentage;
-    self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * nonLinearPercentage;
+    self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width;
   }
   
   _tierPrizes = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
@@ -224,7 +224,7 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   MiniEventProto* miniEvent = userMiniEvent.miniEvent;
   
   const int pointsEarned = userMiniEvent.pointsEarned;
-//const int maxPoints    = miniEvent.lvlEntered.tierThreeMinPts * kTierPointsProgressBarExtendBy;
+  //const int maxPoints    = miniEvent.lvlEntered.tierThreeMinPts * kTierPointsProgressBarExtendBy;
   const int tier1Points  = miniEvent.lvlEntered.tierOneMinPts;
   const int tier2Points  = miniEvent.lvlEntered.tierTwoMinPts;
   const int tier3Points  = miniEvent.lvlEntered.tierThreeMinPts;
@@ -242,22 +242,24 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   
   if (tier3Completed && !_tier3Completed)
   {
-    [self.pointsProgressBar animateToPercentage:1.f duration:kTierPointsProgressBarUpdateAnimationDuration completion:nil];
+    [UIView animateWithDuration:kTierPointsProgressBarUpdateAnimationDuration animations:^{
+      self.pointsProgressBar.percentage = 1.f;
+    }];
     [self.pointCounterView setHidden:YES];
   }
   else if (!tier3Completed)
   {
     /*
-    [self.pointsProgressBar animateToPercentage:(float)pointsEarned / (float)maxPoints duration:kTierPointsProgressBarUpdateAnimationDuration completion:nil];
-    [UIView animateWithDuration:kTierPointsProgressBarUpdateAnimationDuration animations:^{
-      self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)pointsEarned / (float)maxPoints);
-    }];
+     [self.pointsProgressBar animateToPercentage:(float)pointsEarned / (float)maxPoints duration:kTierPointsProgressBarUpdateAnimationDuration completion:nil];
+     [UIView animateWithDuration:kTierPointsProgressBarUpdateAnimationDuration animations:^{
+     self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * ((float)pointsEarned / (float)maxPoints);
+     }];
      */
     
     const float nonLinearPercentage = [self nonLinearPercentageForPointsEarned:pointsEarned tier1Points:tier1Points tier2Points:tier2Points tier3Points:tier3Points];
     
-    [self.pointsProgressBar animateToPercentage:nonLinearPercentage duration:kTierPointsProgressBarUpdateAnimationDuration completion:nil];
     [UIView animateWithDuration:kTierPointsProgressBarUpdateAnimationDuration animations:^{
+      self.pointsProgressBar.percentage = nonLinearPercentage;
       self.pointCounterView.centerX = self.pointsProgressBar.originX + self.pointsProgressBar.width * nonLinearPercentage;
     }];
   }
@@ -295,7 +297,7 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   
   tierIndicatorLabel.textColor = [UIColor colorWithHexString:@"469D00"];
   tierPrizeView.tierCheckmark.hidden = NO;
-
+  
   UIImageView* tierCheckmark = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"requirementmet.png"]];
   tierCheckmark.frame = CGRectMake(tierIndicatorLabel.originX - tierCheckmark.width - 2, tierIndicatorLabel.centerY - tierCheckmark.height * .5f, tierCheckmark.width, tierCheckmark.height);
   [self.eventInfoView insertSubview:tierCheckmark belowSubview:tierIndicatorLabel];
@@ -367,7 +369,7 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   int nextTierWithUnredeemedReward = 0;
   if (tier == 1 && _tier2Completed && !_tier2Redeemed) nextTierWithUnredeemedReward = 2;
   if (tier == 2 && _tier3Completed && !_tier3Redeemed) nextTierWithUnredeemedReward = 3;
-
+  
   [self displayCollectRewardViewForTier:nextTierWithUnredeemedReward
                               prizeList:nextTierWithUnredeemedReward > 0 ? _tierPrizes[nextTierWithUnredeemedReward - 1] : nil
                                 animate:YES];

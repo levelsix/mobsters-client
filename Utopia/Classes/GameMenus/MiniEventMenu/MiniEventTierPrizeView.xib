@@ -21,17 +21,22 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="150" height="120"/>
+            <rect key="frame" x="0.0" y="0.0" width="154" height="113"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tier1bg.png" id="jjQ-WG-3DL">
-                    <rect key="frame" x="0.0" y="0.0" width="150" height="120"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="0.0" y="0.0" width="154" height="113"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tier 1 Prize" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="00N-Hf-RbB">
-                    <rect key="frame" x="32" y="3" width="110" height="21"/>
+                <view contentMode="scaleToFill" id="Nut-EH-mrI">
+                    <rect key="frame" x="0.0" y="0.0" width="154" height="27"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="14"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.10000000000000001" colorSpace="calibratedRGB"/>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tier 1 Prize" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="00N-Hf-RbB">
+                    <rect key="frame" x="33" y="4" width="110" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="13"/>
                     <color key="textColor" red="0.70980392156862748" green="0.42352941176470588" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.95383023233218311" green="0.96525456773618545" blue="0.90598460742691111" alpha="1" colorSpace="calibratedRGB"/>
@@ -51,7 +56,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="26" sectionHeaderHeight="1" sectionFooterHeight="1" id="tOR-xz-HRg">
-                    <rect key="frame" x="0.0" y="27" width="150" height="93"/>
+                    <rect key="frame" x="0.0" y="27" width="154" height="86"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
@@ -63,7 +68,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="665" y="677"/>
+            <point key="canvasLocation" x="665" y="676.5"/>
         </view>
     </objects>
     <resources>

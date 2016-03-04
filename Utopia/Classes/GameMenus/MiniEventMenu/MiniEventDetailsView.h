@@ -11,7 +11,7 @@
 #import "MiniEventCollectRewardView.h"
 
 @class THLabel;
-@class SplitImageProgressBar;
+@class ProgressBar;
 @class MiniEventTierPrizeView;
 
 @interface MiniEventDetailsView : UIView <MiniEventInfoViewProtocol, MiniEventCollectRewardCallbackDelegate>
@@ -39,7 +39,7 @@
 @property (nonatomic, retain) IBOutlet THLabel* eventInfoMyPoints;
 @property (nonatomic, retain) IBOutlet UILabel* eventInfoPointsEearned;
 @property (nonatomic, retain) IBOutlet UIImageView* progressBarBackground;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar* pointsProgressBar;
+@property (nonatomic, retain) IBOutlet ProgressBar* pointsProgressBar;
 @property (nonatomic, retain) IBOutlet UIImageView* tier1IndicatorArrow;
 @property (nonatomic, retain) IBOutlet UILabel*     tier1IndicatorLabel;
 @property (nonatomic, retain) IBOutlet UIImageView* tier2IndicatorArrow;
