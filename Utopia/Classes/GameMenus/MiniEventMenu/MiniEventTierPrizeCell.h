@@ -17,6 +17,8 @@
 @property (nonatomic, retain) IBOutlet UILabel* prizeName;
 @property (nonatomic, retain) IBOutlet UILabel* prizeCount;
 
+@property (nonatomic, retain) IBOutlet UIImageView* separator;
+
 - (BOOL) updateForReward:(RewardProto*)rewardProto useItemShortName:(BOOL)useItemShortName;
 
 @end

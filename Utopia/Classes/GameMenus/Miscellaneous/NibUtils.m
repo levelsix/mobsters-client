@@ -1320,6 +1320,7 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
   for (int i = 1; i <= 3; i++) {
     UIButton *b = (UIButton *)[self viewWithTag:i];
     b.enabled = i != button;
+//    b.selected = i == button;
   }
   
   // Check if it has a highlightedTextColor before highlighting.

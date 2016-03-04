@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="HVD Fonts - MikadoBold.otf">
-            <string>MikadoBold</string>
-            <string>MikadoBold</string>
+        <mutableArray key="HVD Fonts - MikadoBlack.otf">
+            <string>MikadoBlack</string>
+            <string>MikadoBlack</string>
         </mutableArray>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MiniEventViewController">
             <connections>
+                <outlet property="bgdImgView" destination="7st-rD-XPA" id="7eu-5n-LuU"/>
                 <outlet property="bgdView" destination="nL4-R1-Bhb" id="gsu-ja-KJw"/>
                 <outlet property="buttonTabBar" destination="JyG-Qo-L1q" id="ErE-yW-Eso"/>
                 <outlet property="containerView" destination="rRK-Nn-czM" id="D9w-4U-Mat"/>
@@ -67,11 +68,11 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="19I-6l-Hcb">
-                            <rect key="frame" x="15" y="0.0" width="450" height="47"/>
+                            <rect key="frame" x="15" y="3" width="450" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7Gt-wb-URM" userLabel="Close Button" customClass="CloseButton">
-                                    <rect key="frame" x="405" y="10" width="30" height="32"/>
+                                    <rect key="frame" x="405" y="7" width="30" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal" image="closearrow.png">
@@ -86,29 +87,42 @@
                                     </connections>
                                 </button>
                                 <view contentMode="scaleToFill" id="JyG-Qo-L1q" customClass="ButtonTabBar">
-                                    <rect key="frame" x="112" y="0.0" width="315" height="57"/>
+                                    <rect key="frame" x="113" y="0.0" width="225" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SYP-mx-v3w" userLabel="Tab 1 Button" customClass="GeneralButton">
-                                            <rect key="frame" x="8" y="4" width="86" height="51"/>
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SYP-mx-v3w" userLabel="Tab 1 Button" customClass="GeneralButton">
+                                            <rect key="frame" x="12" y="-8" width="86" height="57"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="18"/>
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
                                             <size key="titleShadowOffset" width="0.0" height="1"/>
                                             <state key="normal" title="Event">
-                                                <color key="titleColor" red="0.95383023229999997" green="0.96525456769999995" blue="0.90598460739999997" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" red="0.089646464646464641" green="0.089646464646464641" blue="0.089646464646464641" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            </state>
+                                            <state key="disabled">
+                                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
+                                            <state key="selected">
+                                                <color key="titleColor" red="0.99607843137254903" green="0.85490196078431369" blue="0.039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
                                             <connections>
                                                 <action selector="buttonClicked:" destination="JyG-Qo-L1q" eventType="touchUpInside" id="cXX-4d-c9m"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="EM5-xr-smf" userLabel="Tab 2 Button" customClass="GeneralButton">
-                                            <rect key="frame" x="93" y="0.0" width="97" height="57"/>
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="EM5-xr-smf" userLabel="Tab 2 Button" customClass="GeneralButton">
+                                            <rect key="frame" x="106" y="-8" width="105" height="57"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="18"/>
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
                                             <size key="titleShadowOffset" width="0.0" height="1"/>
                                             <state key="normal" title="Earn Points">
-                                                <color key="titleShadowColor" red="0.089646464649999993" green="0.089646464649999993" blue="0.089646464649999993" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            </state>
+                                            <state key="disabled">
+                                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
+                                            <state key="selected">
+                                                <color key="titleColor" red="0.99607843137254903" green="0.85490196078431369" blue="0.039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
                                             <connections>
                                                 <action selector="buttonClicked:" destination="JyG-Qo-L1q" eventType="touchUpInside" id="nZQ-3i-pP0"/>

@@ -55,8 +55,8 @@
 //    [self.buttonTabBar addSubview:_tabRightDivider];
 //  }
 //  
-//  self.buttonTabBar.inactiveTextColor = [UIColor colorWithHexString:@"0089C6"];
-//  self.buttonTabBar.activeTextColor   = [UIColor colorWithHexString:@"15AFD6"];
+  self.buttonTabBar.inactiveTextColor = [UIColor colorWithHexString:@"FFFFFF"];
+  self.buttonTabBar.activeTextColor   = [UIColor colorWithHexString:@"FEDA0A"];
   
   self.detailsView = [[NSBundle mainBundle] loadNibNamed:@"MiniEventDetailsView" owner:self options:nil][0];
   self.pointsView  = [[NSBundle mainBundle] loadNibNamed:@"MiniEventPointsView" owner:self options:nil][0];
@@ -83,6 +83,11 @@
   }
   
   [[MiniEventManager sharedInstance] setMiniEventViewController:self];
+  
+  CALayer *_maskingLayer = [CALayer layer];
+  _maskingLayer.frame = CGRectMake((self.containerView.width-self.bgdImgView.width)/2, self.containerView.height-self.bgdImgView.height, self.bgdImgView.width, self.bgdImgView.height);
+  [_maskingLayer setContents:(id)[_bgdImgView.image CGImage]];
+  [self.containerView.layer setMask:_maskingLayer];
 }
 
 - (void) viewWillAppear:(BOOL)animated

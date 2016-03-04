@@ -32,6 +32,8 @@
 
 @property (nonatomic, retain) NSTimer* eventUpdateTimeLeftTimer;
 
+@property (nonatomic, retain) IBOutlet UIImageView *bgdImgView;
+
 - (IBAction) closeClicked:(id)sender;
 
 - (void) miniEventUpdated:(UserMiniEvent*)userMiniEvent;

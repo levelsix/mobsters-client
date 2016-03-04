@@ -111,9 +111,9 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   self.tier2IndicatorLabel.text = [NSString stringWithFormat:@"Tier 2 / %@", [Globals commafyNumber:tier2Points]];
   self.tier3IndicatorLabel.text = [NSString stringWithFormat:@"Tier 3 / %@", [Globals commafyNumber:tier3Points]];
   
-  [self.tier1IndicatorLabel sizeToFit];
-  [self.tier2IndicatorLabel sizeToFit];
-  [self.tier3IndicatorLabel sizeToFit];
+//  [self.tier1IndicatorLabel sizeToFit];
+//  [self.tier2IndicatorLabel sizeToFit];
+//  [self.tier3IndicatorLabel sizeToFit];
   
   /*
    * 4/21/15 - BN - Tier indicators are displayed at fixed positions,
@@ -380,14 +380,12 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   if ([userMiniEvent eventHasEnded])
   {
     // Event has ended
-    self.eventInfoTimerBackground.hidden = YES;
-    self.eventInfoTimeLeft.hidden = YES;
-    self.eventInfoEventEnded.hidden = NO;
+    self.eventInfoTimeLeft.text = @"EVENT ENDED";
   }
   else
   {
     const NSTimeInterval timeLeft = [userMiniEvent secondsTillEventEndTime];
-    self.eventInfoTimeLeft.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    self.eventInfoTimeLeft.text = [NSString stringWithFormat:@"ENDS IN: %@", [[Globals convertTimeToShortString:timeLeft] uppercaseString]];
   }
 }
 

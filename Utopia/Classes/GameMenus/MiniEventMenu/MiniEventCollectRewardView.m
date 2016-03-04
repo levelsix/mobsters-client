@@ -96,6 +96,9 @@
   if (![cell updateForReward:(RewardProto*)[_prizeList objectAtIndex:indexPath.row] useItemShortName:NO])
     return [[UITableViewCell alloc] init];
   
+  cell.separator.image = [Globals imageNamed:@"pinkwhitedivider.png"];
+  cell.separator.alpha = 1.f;
+  
   cell.containerView.width = tableView.width;
   
   return cell;

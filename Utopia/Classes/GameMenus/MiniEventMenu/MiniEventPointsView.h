@@ -16,15 +16,10 @@
   NSMutableArray* _actionList;
 }
 
-@property (nonatomic, retain) IBOutlet UIImageView* eventInfoBackground;
 @property (nonatomic, retain) IBOutlet UIImageView* eventInfoImage;
-@property (nonatomic, retain) IBOutlet THLabel* eventInfoName;
-@property (nonatomic, retain) IBOutlet THLabel* eventInfoDesc;
-@property (nonatomic, retain) IBOutlet THLabel* eventInfoEndsIn;
-@property (nonatomic, retain) IBOutlet THLabel* eventInfoTimeLeft;
-@property (nonatomic, retain) IBOutlet UIImageView* eventInfoTimerBackground;
-@property (nonatomic, retain) IBOutlet THLabel* eventInfoEventEnded;
-@property (nonatomic, retain) IBOutlet THLabel* eventInfoMyPoints;
+@property (nonatomic, retain) IBOutlet UILabel* eventInfoName;
+@property (nonatomic, retain) IBOutlet UILabel* eventInfoDesc;
+@property (nonatomic, retain) IBOutlet UILabel* eventInfoTimeLeft;
 @property (nonatomic, retain) IBOutlet UILabel* eventInfoPointsEearned;
 @property (nonatomic, retain) IBOutlet UITableView* eventActionList;
 
