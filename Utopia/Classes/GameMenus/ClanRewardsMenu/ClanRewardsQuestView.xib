@@ -10,21 +10,19 @@
             <string>MikadoBold</string>
             <string>MikadoBold</string>
             <string>MikadoBold</string>
-        </mutableArray>
-        <mutableArray key="HVD Fonts - MikadoRegular.otf">
-            <string>MikadoRegular</string>
+            <string>MikadoBold</string>
         </mutableArray>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClanRewardsQuestView">
             <connections>
-                <outlet property="checkView" destination="Owm-xA-jrx" id="2Qz-WV-hM3"/>
                 <outlet property="collectView" destination="OQD-vO-rud" id="SMj-UB-v0L"/>
                 <outlet property="completeView" destination="ixM-xj-QXm" id="ibG-XF-XCk"/>
                 <outlet property="descriptionIcon" destination="BKy-23-ysD" id="0qf-My-tZB"/>
+                <outlet property="gemsLabel" destination="Jgi-TM-ldF" id="HLd-1i-bVt"/>
+                <outlet property="goButtonView" destination="BU1-KB-DUu" id="Htl-aZ-FiE"/>
                 <outlet property="nameLabel" destination="3Z4-I2-Ncm" id="OSi-YR-m9a"/>
-                <outlet property="progressLabel" destination="5jZ-V6-K4N" id="hm8-te-3az"/>
-                <outlet property="progressView" destination="Ojf-hq-v6k" id="Yie-oV-1Sy"/>
+                <outlet property="rewardView" destination="ouD-RO-7P3" id="81e-9i-wS1"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -32,10 +30,6 @@
             <rect key="frame" x="0.0" y="0.0" width="143" height="236"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greycomplete.png" id="ixM-xj-QXm">
-                    <rect key="frame" x="27" y="177" width="88" height="40"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Join a Squad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="3Z4-I2-Ncm">
                     <rect key="frame" x="17" y="29" width="108" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -44,52 +38,38 @@
                     <color key="highlightedColor" red="0.39607843139999999" green="0.39607843139999999" blue="0.39607843139999999" alpha="1" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="complete.png" id="ixM-xj-QXm">
+                    <rect key="frame" x="27" y="176" width="83" height="39"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
                 <view contentMode="scaleToFill" id="PdW-Nk-3hC" userLabel="Middle View">
                     <rect key="frame" x="17" y="64" width="106" height="109"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greysquadrewardcheck.png" id="Owm-xA-jrx">
-                            <rect key="frame" x="69" y="73" width="25" height="24"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="squadrewardbg.png" id="reo-dE-N1c">
+                            <rect key="frame" x="0.0" y="0.0" width="111" height="101"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <view contentMode="scaleToFill" id="Ojf-hq-v6k">
-                            <rect key="frame" x="69" y="73" width="25" height="24"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="squadrewardsprogress.png" id="pVz-Ke-lCF">
-                                    <rect key="frame" x="0.0" y="0.0" width="25" height="24"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2/5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="5jZ-V6-K4N" customClass="NiceFontLabel10">
-                                    <rect key="frame" x="0.0" y="1" width="25" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="highlightedColor" red="0.39607843139999999" green="0.39607843139999999" blue="0.39607843139999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                            </subviews>
-                        </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="squadreward2.png" id="BKy-23-ysD" customClass="ShrinkOnlyImageView">
                             <rect key="frame" x="16" y="15" width="76" height="76"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <view contentMode="scaleAspectFit" id="BU1-KB-DUu" userLabel="GoButtonView">
-                            <rect key="frame" x="66" y="70" width="42" height="25"/>
+                            <rect key="frame" x="65" y="82" width="43" height="27"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Gb1-aR-2dE" customClass="GeneralButton">
                                     <rect key="frame" x="0.0" y="0.0" width="42" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Button" image="greenmediumbutton.png">
+                                    <state key="normal" title="Button" image="greensmallbutton.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
                                         <action selector="goClicked:" destination="-1" eventType="touchUpInside" id="Ygj-te-Ish"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Go »" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oOU-KA-a79" customClass="ShadowBlurLabel">
-                                    <rect key="frame" x="11" y="2" width="28" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Go »" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oOU-KA-a79" customClass="ShadowBlurLabel">
+                                    <rect key="frame" x="7" y="2" width="28" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="11"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -109,7 +89,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nSe-j8-DBS" customClass="GeneralButton">
-                            <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
+                            <rect key="frame" x="4" y="-4" width="72" height="47"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" image="greenmediumbutton.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -119,12 +99,13 @@
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collect" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="vfz-76-SVt" customClass="ShadowBlurLabel">
-                            <rect key="frame" x="7" y="7" width="67" height="23"/>
+                            <rect key="frame" x="6" y="8" width="67" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="14"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="0.0"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
                                     <real key="value" value="1"/>
@@ -133,7 +114,7 @@
                         </label>
                     </subviews>
                 </view>
-                <view contentMode="scaleToFill" id="ouD-RO-7P3" userLabel="Reward View">
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="ouD-RO-7P3" userLabel="Reward View">
                     <rect key="frame" x="27" y="179" width="88" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -142,13 +123,13 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="Lwh-CK-LVo">
-                            <rect key="frame" x="25" y="16" width="24" height="23"/>
+                            <rect key="frame" x="27" y="17" width="14" height="20"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jgi-TM-ldF">
-                            <rect key="frame" x="35" y="15" width="42" height="21"/>
+                            <rect key="frame" x="31" y="17" width="42" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="10"/>
+                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="12"/>
                             <color key="textColor" red="0.72941176470000002" green="0.1843137255" blue="1" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
@@ -167,16 +148,16 @@
             </subviews>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="522.5" y="514"/>
+            <point key="canvasLocation" x="51.5" y="301"/>
         </view>
     </objects>
     <resources>
         <image name="achievementrewardbg.png" width="55" height="60"/>
+        <image name="complete.png" width="82" height="39"/>
         <image name="diamond.png" width="28" height="28"/>
         <image name="greenmediumbutton.png" width="77" height="42"/>
-        <image name="greycomplete.png" width="78" height="33"/>
-        <image name="greysquadrewardcheck.png" width="24" height="24"/>
+        <image name="greensmallbutton.png" width="43" height="27"/>
         <image name="squadreward2.png" width="79" height="79"/>
-        <image name="squadrewardsprogress.png" width="25" height="24"/>
+        <image name="squadrewardbg.png" width="111" height="101"/>
     </resources>
 </document>

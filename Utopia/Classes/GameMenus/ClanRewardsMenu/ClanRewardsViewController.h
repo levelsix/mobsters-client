@@ -21,23 +21,15 @@
 @interface ClanRewardsQuestView : EmbeddedNibView
 @property (nonatomic, assign) BOOL greyScale;
 
-@property (nonatomic, retain) IBOutlet UIImageView *numberIcon;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *gemsLabel;
-@property (nonatomic, retain) IBOutlet UILabel *progressLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *descriptionIcon;
-
-@property (nonatomic, retain) IBOutlet UIImageView *rewardBg;
-@property (nonatomic, retain) IBOutlet UIImageView *diamondIcon;
 
 @property (nonatomic, retain) IBOutlet UIView *collectView;
 @property (nonatomic, retain) IBOutlet UIView *completeView;
+@property (nonatomic, retain) IBOutlet UIView *rewardView;
 
-@property (nonatomic, retain) IBOutlet UIView *progressView;
-@property (nonatomic, retain) IBOutlet UIView *checkView;
-
-@property (nonatomic, retain) IBOutlet THLabel *goButtonLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *circleImage;
+@property (nonatomic, retain) IBOutlet UIView *goButtonView;
 
 @property (nonatomic, weak) IBOutlet id<ClanRewardsQuestDelegate> delegate;
 
