@@ -120,12 +120,21 @@
 - (id) initStrengthLeaderBoard {
   if ((self = [super init])) {
     GameState *gs = [GameState sharedGameState];
-    _scoreName = @"STRENGTH";
+    _scoreName = @"Strength";
     _scoreIcon = @"strengthicon.png";
     _ownScore = gs.totalStrength;
   }
   
   return self;
+}
+
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  
+  CALayer *_maskingLayer = [CALayer layer];
+  _maskingLayer.frame = CGRectMake((self.containerView.width-self.bgdImgView.width)/2, self.containerView.height-self.bgdImgView.height, self.bgdImgView.width, self.bgdImgView.height);
+  [_maskingLayer setContents:(id)[_bgdImgView.image CGImage]];
+  [self.containerView.layer setMask:_maskingLayer];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -264,8 +273,10 @@
   [self.popoverView openAtPoint:pt];
   self.popoverView.delegate = self;
   
-  NSInteger row = [self.tableView indexPathForCell:cell].row;
-  _clickedLeader = self.leaderList[row];
+  NSIndexPath *ip = [self.tableView indexPathForCell:cell];
+  if (ip.section == 1) {
+    _clickedLeader = self.leaderList[ip.row];
+  }
 }
 
 - (void) closePopover {

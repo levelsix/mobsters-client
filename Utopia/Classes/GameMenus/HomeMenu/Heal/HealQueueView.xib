@@ -7,9 +7,9 @@
     <customFonts key="customFonts">
         <mutableArray key="HVD Fonts - MikadoBlack.otf">
             <string>MikadoBlack</string>
-            <string>MikadoBlack</string>
         </mutableArray>
         <mutableArray key="HVD Fonts - MikadoBold.otf">
+            <string>MikadoBold</string>
             <string>MikadoBold</string>
             <string>MikadoBold</string>
             <string>MikadoBold</string>
@@ -98,32 +98,6 @@
                                 <outlet property="delegate" destination="47O-aY-Ys8" id="umC-C9-iKg"/>
                             </connections>
                         </collectionView>
-                        <view contentMode="scaleToFill" id="kJX-Lj-nG1" userLabel="Help View">
-                            <rect key="frame" x="360" y="13" width="80" height="40"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UfJ-un-uIs" customClass="GeneralButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" image="orangemenuoption.png">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="getHelpClicked:" destination="-1" eventType="touchUpInside" id="xOw-or-EO3"/>
-                                    </connections>
-                                </button>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Help!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="Nf0-11-MLM" customClass="NiceFontLabel12B">
-                                    <rect key="frame" x="7" y="7" width="67" height="23"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="15"/>
-                                    <color key="textColor" red="0.75686274509999996" green="0.14901960780000001" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.98039215690000003" green="0.78039215689999997" blue="0.28235294119999998" alpha="0.75" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
                         <view contentMode="scaleToFill" id="pR8-vV-nn1" userLabel="Finish View">
                             <rect key="frame" x="360" y="13" width="77" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -170,6 +144,37 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <view contentMode="scaleToFill" id="kJX-Lj-nG1" userLabel="Help View">
+                            <rect key="frame" x="360" y="13" width="77" height="42"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UfJ-un-uIs" customClass="GeneralButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="77" height="42"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="orangemediumbutton.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="getHelpClicked:" destination="-1" eventType="touchUpInside" id="xOw-or-EO3"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Help!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="Nf0-11-MLM" customClass="ShadowBlurLabel">
+                                    <rect key="frame" x="5" y="9" width="67" height="23"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="13"/>
+                                    <color key="textColor" red="0.75686274509999996" green="0.14901960780000001" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.98039215690000003" green="0.78039215689999997" blue="0.28235294119999998" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                            <real key="value" value="1"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -189,8 +194,8 @@
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="gCL-Yj-snu" customClass="FlipImageView">
-                            <rect key="frame" x="88" y="4" width="1" height="62"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="menubottomdivider.png" id="xhb-r7-EcW" customClass="FlipImageView">
+                            <rect key="frame" x="82" y="3" width="4" height="73"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                     </subviews>
@@ -214,8 +219,8 @@
         <image name="bigspeeduparrow.png" width="25" height="22"/>
         <image name="greenqueuearrow.png" width="171" height="53"/>
         <image name="menubottombar.png" width="1" height="79"/>
-        <image name="orangemenuoption.png" width="80" height="40"/>
-        <image name="popuplinevertical.png" width="1" height="1"/>
+        <image name="menubottomdivider.png" width="4" height="73"/>
+        <image name="orangemediumbutton.png" width="77" height="42"/>
         <image name="purplemediumbutton.png" width="77" height="42"/>
         <image name="redqueuearrow.png" width="171" height="53"/>
     </resources>

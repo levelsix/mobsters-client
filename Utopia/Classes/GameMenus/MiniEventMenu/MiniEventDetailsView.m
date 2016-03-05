@@ -298,9 +298,9 @@ static const float kCollectRewardViewSlideAnimationDuration = .5f;
   tierIndicatorLabel.textColor = [UIColor colorWithHexString:@"469D00"];
   tierPrizeView.tierCheckmark.hidden = NO;
   
-  UIImageView* tierCheckmark = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"requirementmet.png"]];
-  tierCheckmark.frame = CGRectMake(tierIndicatorLabel.originX - tierCheckmark.width - 2, tierIndicatorLabel.centerY - tierCheckmark.height * .5f, tierCheckmark.width, tierCheckmark.height);
-  [self.eventInfoView insertSubview:tierCheckmark belowSubview:tierIndicatorLabel];
+//  UIImageView* tierCheckmark = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"requirementmet.png"]];
+//  tierCheckmark.frame = CGRectMake(tierIndicatorLabel.originX - tierCheckmark.width - 2, tierIndicatorLabel.centerY - tierCheckmark.height * .5f, tierCheckmark.width, tierCheckmark.height);
+//  [self.eventInfoView insertSubview:tierCheckmark belowSubview:tierIndicatorLabel];
 }
 
 - (void) displayCollectRewardViewForTier:(int)tier prizeList:(NSArray*)prizeList animate:(BOOL)animate

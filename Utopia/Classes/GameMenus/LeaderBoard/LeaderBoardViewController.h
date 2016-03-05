@@ -70,6 +70,8 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet LeaderBoardBotBar *botBar;
 
+@property (nonatomic, retain) IBOutlet UIImageView *bgdImgView;
+
 - (id) initStrengthLeaderBoard;
 
 @end

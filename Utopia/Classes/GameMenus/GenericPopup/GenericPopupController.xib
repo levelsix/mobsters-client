@@ -13,7 +13,6 @@
             <string>MikadoBold</string>
             <string>MikadoBold</string>
             <string>MikadoBold</string>
-            <string>MikadoBold</string>
         </mutableArray>
         <mutableArray key="HVD Fonts - MikadoMedium.otf">
             <string>MikadoMedium</string>
@@ -35,6 +34,8 @@
                 <outlet property="gemButtonLabel" destination="9rx-d5-h1W" id="rcG-Vc-v2i"/>
                 <outlet property="gemView" destination="Bai-yh-rce" id="cr4-fE-5p4"/>
                 <outlet property="mainView" destination="YXg-hz-Uo0" id="zbD-Bj-42C"/>
+                <outlet property="notifButton" destination="DBV-ij-pUR" id="99O-l4-KGG"/>
+                <outlet property="notifButtonLabel" destination="xjz-Fw-oTB" id="0G0-9i-Hrv"/>
                 <outlet property="notificationView" destination="17" id="L9y-Tz-n8y"/>
                 <outlet property="titleLabel" destination="22" id="gmD-ce-Dpt"/>
                 <outlet property="view" destination="1" id="VeG-bS-fRh"/>
@@ -93,23 +94,8 @@
                             <rect key="frame" x="63" y="134" width="206" height="52"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MEX-4m-cWo" customClass="GeneralButton">
-                                    <rect key="frame" x="16" y="4" width="77" height="42"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                    <state key="normal" backgroundImage="pinkmediumbutton.png">
-                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="close:" destination="-1" eventType="touchUpInside" id="olU-SI-nKB"/>
-                                    </connections>
-                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DBV-ij-pUR" customClass="GeneralButton">
-                                    <rect key="frame" x="112" y="4" width="77" height="42"/>
+                                    <rect key="frame" x="65" y="5" width="77" height="42"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal" backgroundImage="greenmediumbutton.png">
@@ -124,26 +110,9 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Leave" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="xjz-Fw-oTB" customClass="ShadowBlurLabel">
-                                    <rect key="frame" x="117" y="13" width="67" height="23"/>
+                                    <rect key="frame" x="68" y="14" width="69" height="23"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="14"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
-                                            <real key="value" value="1"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="strokeSize">
-                                            <real key="value" value="0.0"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
-                                </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cancel" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="yDa-DC-g0J" customClass="ShadowBlurLabel">
-                                    <rect key="frame" x="21" y="13" width="67" height="23"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="14"/>
+                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="13"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
@@ -208,7 +177,7 @@
                     <rect key="frame" x="18" y="5" width="77" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                    <state key="normal" image="greymediumbutton.png">
+                    <state key="normal" image="pinkmediumbutton.png">
                         <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -303,7 +272,6 @@
         <image name="diamond.png" width="28" height="28"/>
         <image name="genericpopupbg.png" width="332" height="210"/>
         <image name="greenmediumbutton.png" width="77" height="42"/>
-        <image name="greymediumbutton.png" width="77" height="42"/>
         <image name="pinkmediumbutton.png" width="77" height="42"/>
         <image name="purplemediumbutton.png" width="77" height="42"/>
     </resources>
