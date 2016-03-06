@@ -38,6 +38,12 @@
   [self.noClanTopBar.superview addSubview:self.inClanTopBar];
   
   if ([Globals isiPad]) self.view.transform = CGAffineTransformMakeScale(1.5, 1.5);
+  
+  
+  CALayer *_maskingLayer = [CALayer layer];
+  _maskingLayer.frame = CGRectMake((self.containerView.width-self.bgdImgView.width)/2, self.containerView.height-self.bgdImgView.height, self.bgdImgView.width, self.bgdImgView.height);
+  [_maskingLayer setContents:(id)[_bgdImgView.image CGImage]];
+  [self.containerView.layer setMask:_maskingLayer];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

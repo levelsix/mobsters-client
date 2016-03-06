@@ -38,6 +38,8 @@
 @property (nonatomic, retain) IBOutlet ButtonTabBar *inClanTopBar;
 @property (nonatomic, retain) IBOutlet BadgeIcon *helpBadge;
 
+@property (nonatomic, retain) IBOutlet UIImageView *bgdImgView;
+
 @property (nonatomic, retain) NSArray *myClanMembersList;
 @property (nonatomic, assign) int canStartRaidStage;
 

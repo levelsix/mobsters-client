@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBlack.otf">
+            <string>MikadoBlack</string>
+            <string>MikadoBlack</string>
+            <string>MikadoBlack</string>
+            <string>MikadoBlack</string>
+            <string>MikadoBlack</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClanViewController">
             <connections>
                 <outlet property="backLabel" destination="G0k-K6-USH" id="AGj-io-J05"/>
                 <outlet property="backMaskedButton" destination="hce-u2-H8N" id="XhN-Qg-7hc"/>
                 <outlet property="backView" destination="qNi-mw-ZxT" id="7kN-un-w7a"/>
+                <outlet property="bgdImgView" destination="KHu-zW-M5m" id="VyH-fn-bBB"/>
                 <outlet property="bgdView" destination="RtB-c5-JNq" id="29B-nH-o2b"/>
                 <outlet property="containerView" destination="YnG-8W-E9A" id="ZGe-kB-L2c"/>
                 <outlet property="helpBadge" destination="785-4t-8m6" id="VYD-uy-PeD"/>
-                <outlet property="inClanTopBar" destination="h28-vw-iq0" id="Ueo-Dr-4br"/>
+                <outlet property="inClanTopBar" destination="YfS-K5-dzK" id="BtE-gY-dgr"/>
                 <outlet property="mainView" destination="12n-hU-GhI" id="DIX-Oz-O32"/>
-                <outlet property="noClanTopBar" destination="IXC-fC-W7g" id="pxx-h6-f0D"/>
+                <outlet property="noClanTopBar" destination="gHL-nz-ryk" id="vOw-Xr-qO0"/>
                 <outlet property="view" destination="TpO-4L-uQF" id="h9g-Br-Awe"/>
             </connections>
         </placeholder>
@@ -46,24 +56,24 @@
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                 </view>
-                <view contentMode="scaleToFill" id="12n-hU-GhI" customClass="PopupShadowView">
-                    <rect key="frame" x="54" y="10" width="460" height="300"/>
+                <view contentMode="scaleToFill" id="12n-hU-GhI">
+                    <rect key="frame" x="54" y="10" width="483" height="293"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="homemenushadow.png" id="hLb-Kg-Bzy">
+                            <rect key="frame" x="0.0" y="-1" width="481" height="294"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="homemenubg.png" id="KHu-zW-M5m">
+                            <rect key="frame" x="3" y="2" width="475" height="288"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
                         <view contentMode="scaleToFill" id="iM1-nf-QdH">
-                            <rect key="frame" x="3" y="3" width="454" height="39"/>
+                            <rect key="frame" x="0.0" y="8" width="483" height="39"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="popupheadercap.png" id="8wp-U7-6IE">
-                                    <rect key="frame" x="0.0" y="0.0" width="5" height="39"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupheadermiddle.png" id="g5J-wK-5k6">
-                                    <rect key="frame" x="5" y="0.0" width="444" height="39"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </imageView>
                                 <view contentMode="scaleToFill" id="qNi-mw-ZxT" userLabel="Back View">
-                                    <rect key="frame" x="5" y="5" width="70" height="30"/>
+                                    <rect key="frame" x="13" y="5" width="70" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Clans" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="G0k-K6-USH" customClass="NiceFontLabel8B">
@@ -93,105 +103,85 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="popupheadercap.png" id="zWd-i0-SDU" customClass="FlipImageView">
-                                    <rect key="frame" x="449" y="0.0" width="5" height="39"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                </imageView>
-                                <view contentMode="scaleToFill" id="IXC-fC-W7g" customClass="ButtonTabBar">
-                                    <rect key="frame" x="107" y="-2" width="240" height="41"/>
+                                <view contentMode="scaleToFill" id="gHL-nz-ryk" customClass="ButtonTabBar">
+                                    <rect key="frame" x="80" y="-6" width="326" height="49"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WlM-lf-iIY" customClass="GeneralButton">
-                                            <rect key="frame" x="28" y="9" width="86" height="32"/>
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2jr-xF-Df0" userLabel="Tab 1 Button" customClass="GeneralButton">
+                                            <rect key="frame" x="0.0" y="-4" width="86" height="57"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="popupinactivetab.png">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                                            <size key="titleShadowOffset" width="0.0" height="1"/>
+                                            <state key="normal" title="Browse">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                             </state>
-                                            <state key="highlighted" image="popuppressedtab.png"/>
+                                            <state key="disabled">
+                                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
+                                            <state key="selected">
+                                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
                                             <connections>
-                                                <action selector="buttonClicked:" destination="IXC-fC-W7g" eventType="touchUpInside" id="gMn-9f-h6e"/>
+                                                <action selector="buttonClicked:" destination="gHL-nz-ryk" eventType="touchUpInside" id="0hQ-Gk-Nsa"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ozl-GP-peE" customClass="GeneralButton">
-                                            <rect key="frame" x="120" y="9" width="86" height="32"/>
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Znx-PH-KiR" userLabel="Tab 2 Button" customClass="GeneralButton">
+                                            <rect key="frame" x="97" y="-3" width="112" height="57"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="popupinactivetab.png">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                                            <size key="titleShadowOffset" width="0.0" height="1"/>
+                                            <state key="normal" title="Create Squad">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                             </state>
-                                            <state key="highlighted" image="popuppressedtab.png"/>
+                                            <state key="disabled">
+                                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
+                                            <state key="selected">
+                                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
                                             <connections>
-                                                <action selector="buttonClicked:" destination="IXC-fC-W7g" eventType="touchUpInside" id="BTM-2T-dGz"/>
+                                                <action selector="buttonClicked:" destination="gHL-nz-ryk" eventType="touchUpInside" id="DDa-sr-MKq"/>
                                             </connections>
                                         </button>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="popupactivetab.png" id="eR7-eY-vxM">
-                                            <rect key="frame" x="28" y="9" width="86" height="32"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BROWSE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="p7a-Bc-KAB" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="36" y="19" width="70" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CREATE SQUAD" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="zKd-vM-LVb" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="124" y="19" width="78" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clanbrowseinactiveicon2.png" highlightedImage="clanbrowseactiveicon2.png" id="z4e-7A-asb">
-                                            <rect key="frame" x="65" y="15" width="10" height="9"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clanscreateinactive.png" highlightedImage="clanscreateactive.png" id="kRe-UK-SOA">
-                                            <rect key="frame" x="159" y="16" width="8" height="8"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
-                                        <outlet property="delegate" destination="-1" id="N8M-1Z-1sg"/>
-                                        <outlet property="icon1" destination="z4e-7A-asb" id="rRy-Cx-Zhw"/>
-                                        <outlet property="icon2" destination="kRe-UK-SOA" id="2Wu-xP-Egu"/>
-                                        <outlet property="label1" destination="p7a-Bc-KAB" id="izK-8M-s8O"/>
-                                        <outlet property="label2" destination="zKd-vM-LVb" id="IYC-WX-hTT"/>
-                                        <outlet property="selectedView" destination="eR7-eY-vxM" id="LKJ-Ux-xjm"/>
+                                        <outlet property="delegate" destination="-1" id="Dsv-1b-2xd"/>
                                     </connections>
                                 </view>
+                                <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uNV-so-F0B" userLabel="Close Button" customClass="CloseButton">
+                                    <rect key="frame" x="431" y="4" width="30" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" image="closearrow.png">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="closeClicked:" destination="-1" eventType="touchUpInside" id="oFU-I8-jov"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uNV-so-F0B" userLabel="Close Button" customClass="CloseButton">
-                            <rect key="frame" x="421" y="7" width="30" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" image="closepopupx.png">
-                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="closeClicked:" destination="-1" eventType="touchUpInside" id="oFU-I8-jov"/>
-                            </connections>
-                        </button>
                         <view clipsSubviews="YES" contentMode="scaleToFill" id="YnG-8W-E9A">
-                            <rect key="frame" x="0.0" y="42" width="460" height="258"/>
+                            <rect key="frame" x="9" y="47" width="464" height="243"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <point key="canvasLocation" x="693" y="515"/>
         </view>
         <view contentMode="scaleToFill" id="h28-vw-iq0" customClass="ButtonTabBar">
             <rect key="frame" x="0.0" y="0.0" width="326" height="41"/>
@@ -310,6 +300,86 @@
             </connections>
             <point key="canvasLocation" x="111" y="382.5"/>
         </view>
+        <view contentMode="scaleToFill" id="YfS-K5-dzK" customClass="ButtonTabBar">
+            <rect key="frame" x="0.0" y="0.0" width="326" height="49"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="X3C-iI-cEf" customClass="ButtonTabBar">
+                    <rect key="frame" x="0.0" y="0.0" width="326" height="49"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="VGq-Fz-Qsj" userLabel="Tab 1 Button" customClass="GeneralButton">
+                            <rect key="frame" x="0.0" y="-4" width="86" height="57"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                            <size key="titleShadowOffset" width="0.0" height="1"/>
+                            <state key="normal" title="Event">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="disabled">
+                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected">
+                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClicked:" destination="X3C-iI-cEf" eventType="touchUpInside" id="ofj-Qn-Md3"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Mth-Jy-v87" userLabel="Tab 2 Button" customClass="GeneralButton">
+                            <rect key="frame" x="100" y="-3" width="105" height="57"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                            <size key="titleShadowOffset" width="0.0" height="1"/>
+                            <state key="normal" title="Earn Points">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="disabled">
+                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected">
+                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClicked:" destination="X3C-iI-cEf" eventType="touchUpInside" id="KJf-tC-Ozn"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3mU-ju-5j4" userLabel="Tab 2 Button" customClass="GeneralButton">
+                            <rect key="frame" x="224" y="-3" width="105" height="57"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                            <size key="titleShadowOffset" width="0.0" height="1"/>
+                            <state key="normal" title="Browse">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="disabled">
+                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected">
+                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClicked:" destination="X3C-iI-cEf" eventType="touchUpInside" id="tfF-RI-GGY"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="HBA-WK-XGn"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="delegate" destination="-1" id="fGf-cp-7OB"/>
+            </connections>
+            <point key="canvasLocation" x="111" y="294.5"/>
+        </view>
     </objects>
     <resources>
         <image name="badgeicon.png" width="18" height="18"/>
@@ -317,21 +387,14 @@
         <image name="clanbrowseinactiveicon2.png" width="10" height="9"/>
         <image name="clansbrowseactive.png" width="14" height="11"/>
         <image name="clansbrowseinactive.png" width="14" height="11"/>
-        <image name="clanscreateactive.png" width="8" height="8"/>
-        <image name="clanscreateinactive.png" width="8" height="8"/>
         <image name="clanshelpactive.png" width="10" height="12"/>
         <image name="clanshelpinactive.png" width="10" height="12"/>
-        <image name="closepopupx.png" width="25" height="26"/>
+        <image name="closearrow.png" width="25" height="26"/>
+        <image name="homemenubg.png" width="475" height="288"/>
+        <image name="homemenushadow.png" width="481" height="294"/>
         <image name="popupactivetab.png" width="86" height="32"/>
-        <image name="popupheadercap.png" width="5" height="39"/>
-        <image name="popupheadermiddle.png" width="1" height="39"/>
         <image name="popupinactivetab.png" width="86" height="32"/>
         <image name="popuppressedtab.png" width="86" height="32"/>
-        <image name="whitebackbutton.png" width="14" height="21"/>
+        <image name="whitebackbutton.png" width="16" height="24"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>
