@@ -83,7 +83,7 @@
   _obstacleImage = [BoardDesignerObstacleView imageForObstacleProto:proto];
   
   [self.obstacleImageView setImage:[Globals imageNamed:_obstacleImage]];
-  [self.obstacleNameLabel setText:[proto.name uppercaseString]];
+  [self.obstacleNameLabel setText:proto.name];
   [self.obstaclePowerCostLabel setText:[NSString stringWithFormat:@"%ld", (long)proto.powerAmt]];
   
   _isEnabled = YES;

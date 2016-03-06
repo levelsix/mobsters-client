@@ -15,7 +15,7 @@
 @end
 
 @class HomeTitleView;
-@class SplitImageProgressBar;
+@class ProgressBar;
 @class TouchableSubviewsView;
 @class PvpBoardObstacleProto;
 
@@ -43,6 +43,7 @@
 
 @property (nonatomic, retain) IBOutlet UIView* mainView;
 @property (nonatomic, retain) IBOutlet UIView* bgdView;
+@property (nonatomic, retain) IBOutlet UIImageView* bgdImgView;
 @property (nonatomic, retain) IBOutlet UIView* containerView;
 
 @property (nonatomic, retain) IBOutlet UIImageView* descriptionBgd;
@@ -57,7 +58,7 @@
 @property (nonatomic, retain) IBOutlet UIButton* leftArrowButton;
 
 @property (nonatomic, retain) IBOutlet HomeTitleView* homeTitleView;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar* powerProgressBar;
+@property (nonatomic, retain) IBOutlet ProgressBar* powerProgressBar;
 @property (nonatomic, retain) IBOutlet UIButton* closeButton;
 
 @property (nonatomic, weak) id<BoardDesignerViewControllerDelegate> delegate;

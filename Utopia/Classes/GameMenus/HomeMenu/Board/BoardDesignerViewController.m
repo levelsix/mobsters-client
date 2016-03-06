@@ -28,9 +28,6 @@
 {
   [super viewDidLoad];
   
-  [self.containerView.layer setCornerRadius:POPUP_CORNER_RADIUS];
-  [self.containerView setClipsToBounds:YES];
-  
   if ([Globals isSmallestiPhone])
   {
     // Adjust layout for iPhone 4 and 4S
@@ -47,51 +44,6 @@
     [self.homeTitleView setOriginX:self.homeTitleView.originX - 40];
     [self.closeButton setOriginX:self.closeButton.originX - 10];
     [self.obstaclesScrollView setOriginX:self.obstaclesScrollView.originX - 1];
-  }
-  
-  UIImageView* descriptionCapLeft = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"obstaclesdescriptioncap.png"]];
-  {
-    [descriptionCapLeft setFrame:CGRectMake(self.descriptionBgd.originX - descriptionCapLeft.width, self.descriptionBgd.originY, descriptionCapLeft.width, self.descriptionBgd.height)];
-    [self.descriptionBgd.superview insertSubview:descriptionCapLeft belowSubview:self.descriptionBgd];
-  }
-  
-  UIImageView* descriptionCapRight = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"obstaclesdescriptioncap.png"]];
-  {
-    [descriptionCapRight setFrame:CGRectMake(CGRectGetMaxX(self.descriptionBgd.frame), self.descriptionBgd.originY, descriptionCapRight.width, self.descriptionBgd.height)];
-    [descriptionCapRight.layer setTransform:CATransform3DMakeScale(-1.f, 1.f, 1.f)];
-    [self.descriptionBgd.superview insertSubview:descriptionCapRight belowSubview:self.descriptionBgd];
-  }
-  
-  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.descriptionBody.text];
-  {
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle setLineSpacing:4.f];
-    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [self.descriptionBody.text length])];
-    [self.descriptionBody setAttributedText:attributedString];
-  }
-  
-  UIImageView* progressBarCapLeft = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"obstaclespowerbarbgcap.png"]];
-  {
-    [progressBarCapLeft setFrame:CGRectMake(self.progressBarBgd.originX - progressBarCapLeft.width, self.progressBarBgd.originY, progressBarCapLeft.width, self.progressBarBgd.height)];
-    [self.progressBarBgd.superview insertSubview:progressBarCapLeft belowSubview:self.progressBarBgd];
-  }
-  
-  UIImageView* progressBarCapRight = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"obstaclespowerbarbgcap.png"]];
-  {
-    [progressBarCapRight setFrame:CGRectMake(CGRectGetMaxX(self.progressBarBgd.frame), self.progressBarBgd.originY, progressBarCapRight.width, self.progressBarBgd.height)];
-    [progressBarCapRight.layer setTransform:CATransform3DMakeScale(-1.f, 1.f, 1.f)];
-    [self.progressBarBgd.superview insertSubview:progressBarCapRight belowSubview:self.progressBarBgd];
-  }
-  
-  THLabel* powerLabel = (THLabel*)self.powerLabel;
-  {
-    powerLabel.gradientStartColor = [UIColor whiteColor];
-    powerLabel.gradientEndColor = [UIColor colorWithHexString:@"E6FCFF"];
-    powerLabel.strokeSize = 1.f;
-    powerLabel.strokeColor = [UIColor colorWithHexString:@"007298"];
-    powerLabel.shadowColor = [UIColor colorWithWhite:.65f alpha:1.f];
-    powerLabel.shadowOffset = CGSizeMake(0.f, .5f);
-    powerLabel.shadowBlur = 2.f;
   }
   
   [self loadObstaclesInScrollView];
@@ -128,6 +80,11 @@
   _draggingObstacle = NO;
   
   [self focusOnObstacle:0];
+  
+  CALayer *_maskingLayer = [CALayer layer];
+  _maskingLayer.frame = CGRectMake((self.containerView.width-self.bgdImgView.width)/2, self.containerView.height-self.bgdImgView.height, self.bgdImgView.width, self.bgdImgView.height);
+  [_maskingLayer setContents:(id)[_bgdImgView.image CGImage]];
+  [self.containerView.layer setMask:_maskingLayer];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -411,7 +368,9 @@
   const int32_t powerAvailable = _powerLimit - powerUsed;
   
   if (animated)
-    [self.powerProgressBar animateToPercentage:percentage duration:.2f completion:nil];
+    [UIView animateWithDuration:.2f animations:^{
+      self.powerProgressBar.percentage = percentage;
+    }];
   else
     [self.powerProgressBar setPercentage:percentage];
   
