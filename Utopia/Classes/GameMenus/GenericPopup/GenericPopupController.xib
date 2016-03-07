@@ -75,13 +75,13 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" id="KHf-hy-Bum">
-                            <rect key="frame" x="41" y="63" width="250" height="66"/>
+                            <rect key="frame" x="36" y="63" width="260" height="66"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="18">
-                                    <rect key="frame" x="0.0" y="0.0" width="250" height="66"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="260" height="66"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <fontDescription key="fontDescription" name="MikadoMedium" family="Mikado" pointSize="15"/>
+                                    <fontDescription key="fontDescription" name="MikadoMedium" family="Mikado" pointSize="14"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                     <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>

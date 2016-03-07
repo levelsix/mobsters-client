@@ -20,7 +20,7 @@
   self.buildingView.hidden = NO;
   
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-  [paragraphStyle setLineSpacing:1.8];
+//  [paragraphStyle setLineSpacing:1.8];
   [paragraphStyle setAlignment:NSTextAlignmentCenter];
   
   Globals *gl = [Globals sharedGlobals];

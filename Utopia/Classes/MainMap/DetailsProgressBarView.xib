@@ -36,11 +36,11 @@
                             <rect key="frame" x="92" y="16" width="162" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="upgraderedbar.png" id="KO6-yf-DOP" customClass="ProgressBar">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgraderedbar.png" id="KO6-yf-DOP" customClass="ProgressBar">
                             <rect key="frame" x="93" y="17" width="160" height="12"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="upgradebluebar.png" id="gfw-Bh-Aaq" customClass="ProgressBar">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="upgradebluebar.png" id="gfw-Bh-Aaq" customClass="ProgressBar">
                             <rect key="frame" x="93" y="17" width="160" height="12"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
