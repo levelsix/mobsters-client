@@ -23,10 +23,10 @@
 #define REPLACEMENT_DELIMITER @"`"
 #define LABEL_TAG 51
 
-#define SECTION_FONT @"Ziggurat-HTF-Black"
-#define TEXT_FONT @"Gotham-Book"
-#define SUBTITLE_FONT @"Gotham-Ultra"
-#define QUESTION_FONT @"Gotham-Ultra"
+#define SECTION_FONT @"MikadoBlack"
+#define TEXT_FONT @"MikadoRegular"
+#define SUBTITLE_FONT @"MikadoBold"
+#define QUESTION_FONT @"MikadoBold"
 
 #define SECTION_FONT_SIZE 16
 #define TEXT_FONT_SIZE 12

@@ -44,6 +44,7 @@
   
   if (!ua.isComplete) {
     self.gemsLabel.text = [NSString stringWithFormat:@"%d", ap.gemReward];
+    self.goButtonView.hidden = NO;
     
     //    self.progressView.hidden = self.greyScale;
     self.rewardView.hidden = NO;
