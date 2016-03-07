@@ -120,7 +120,7 @@
   GameState *gs = [GameState sharedGameState];
   FullTaskProto *task = [gs taskWithId:taskId];
   
-  NSString *file = !isLocked ? [Globals imageNameForElement:elem suffix:@"dailylab.png"] : @"lockeddailylab.png";
+  NSString *file = !isLocked ? [Globals imageNameForElement:elem suffix:@"pvebar.png"] : @"lockedpvebar.png";
   self.bgdImage.image = [Globals imageNamed:file];
   
   self.topLabel.text = task.name;
