@@ -19,9 +19,13 @@ typedef enum
 
 @interface PopoverViewController : UIViewController {
   BOOL _centeredOnScreen;
+  
+  CALayer *_maskingLayer;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet UIImageView *bgdImgView;
+@property (nonatomic, retain) IBOutlet UIView *containerView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *headerView;
 

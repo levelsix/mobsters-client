@@ -20,7 +20,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *itemIcon;
-@property (nonatomic, retain) IBOutlet THLabel *iconLabel;
+@property (nonatomic, retain) IBOutlet UILabel *iconLabel;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *quantityLabel;
 
@@ -67,8 +67,8 @@
 @property (nonatomic, retain) IBOutlet UITableView *itemsTable;
 
 @property (nonatomic, retain) IBOutlet UIView *progressBarView;
-@property (nonatomic, retain) IBOutlet THLabel *progressBarLabel;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *progressBar;
+@property (nonatomic, retain) IBOutlet UILabel *progressBarLabel;
+@property (nonatomic, retain) IBOutlet ProgressBar *progressBar;
 
 @property (nonatomic, retain) IBOutlet ItemSelectCell *selectCell;
 

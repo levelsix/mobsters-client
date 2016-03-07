@@ -10,6 +10,7 @@
 
 #import "Globals.h"
 
+const CGFloat kPopoverBottomInset = 6.f;
 const CGFloat kPopoverViewScreenPadding = 5.f; // Uniform padding from the edges of the screen
 
 @implementation PopoverViewController
@@ -31,7 +32,9 @@ static BOOL _instanceOpened = NO;
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  self.headerView.layer.cornerRadius = 6.f;
+  _maskingLayer = [CALayer layer];
+  [_maskingLayer setContents:(id)[_bgdImgView.image CGImage]];
+  [self.containerView.layer setMask:_maskingLayer];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -117,7 +120,7 @@ static BOOL _instanceOpened = NO;
         [self.triangle setTransform:CGAffineTransformMakeRotation(-M_PI_2)]; // Point arrow up
         
         arrowTargetX = invokingViewAbsolutePosition.x - (self.triangle.frame.size.width - invokingView.frame.size.width) * .5f - viewTargetX;
-        arrowTargetY = 2.f; // Adding a small offset so that the arrow blends with the view
+        arrowTargetY = 0.f; // Adding a small offset so that the arrow blends with the view
         
         viewAnchorPoint = CGPointMake(.5f - (offCenterX / self.mainView.frame.size.width), 0.f);
       }
@@ -134,12 +137,15 @@ static BOOL _instanceOpened = NO;
         arrowTargetX = self.mainView.frame.size.width - ([Globals isiPad] ? 15.f : 9.f); // This magic number is the right padding of the view, coming from the nib
         arrowTargetY = invokingViewAbsolutePosition.y - (self.triangle.frame.size.height - invokingView.frame.size.height) * .5f - viewTargetY;
         
+        CGFloat insetAdjustment = floorf((arrowTargetY/viewTargetHeight)*kPopoverBottomInset);
+        arrowTargetX -= insetAdjustment;
+        
         CGFloat offCenterY = windowSize.height * .5f - (invokingViewAbsolutePosition.y + invokingView.frame.size.height * .5f);
         const CGFloat horizontalClearance = invokingViewAbsolutePosition.x;
         if (horizontalClearance < self.mainView.frame.size.width) // Not enough room horizontally; scale down the view
         {
           viewScale = horizontalClearance / self.mainView.frame.size.width;
-          viewTargetX += self.mainView.frame.size.width * (1.f - viewScale) * .5f;
+          viewTargetX += self.mainView.frame.size.width * (1.f - viewScale) * .5f + insetAdjustment;
           viewTargetY -= offCenterY * (1.f - viewScale);
         }
         
@@ -158,12 +164,15 @@ static BOOL _instanceOpened = NO;
         arrowTargetX = 2.f; // Adding a small offset so that the arrow blends with the view
         arrowTargetY = invokingViewAbsolutePosition.y - (self.triangle.frame.size.height - invokingView.frame.size.height) * .5f - viewTargetY;
         
+        CGFloat insetAdjustment = floorf((arrowTargetY/viewTargetHeight)*kPopoverBottomInset);
+        arrowTargetX += insetAdjustment;
+        
         CGFloat offCenterY = windowSize.height * .5f - (invokingViewAbsolutePosition.y + invokingView.frame.size.height * .5f);
         const CGFloat horizontalClearance = windowSize.width - (invokingViewAbsolutePosition.x + invokingView.frame.size.width);
         if (horizontalClearance < self.mainView.frame.size.width) // Not enough room horizontally; scale down the view
         {
           viewScale = horizontalClearance / self.mainView.frame.size.width;
-          viewTargetX -= self.mainView.frame.size.width * (1.f - viewScale) * .5f;
+          viewTargetX -= self.mainView.frame.size.width * (1.f - viewScale) * .5f - insetAdjustment;
           viewTargetY -= offCenterY * (1.f - viewScale);
         }
         
@@ -242,6 +251,8 @@ static BOOL _instanceOpened = NO;
   {
     [self showCenteredOnScreen];
   }
+  
+  _maskingLayer.frame = CGRectMake((self.containerView.width-self.bgdImgView.width)/2, self.containerView.height-self.bgdImgView.height, self.bgdImgView.width, self.bgdImgView.height);
 }
 
 - (IBAction)closeClicked:(id)sender {

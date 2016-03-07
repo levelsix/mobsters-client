@@ -976,7 +976,9 @@ typedef void (^RevealAnimCompletionBlock)(void);
         self.shadowIcon.hidden = YES;
       }
       self.label.text = [[Globals stringForRarity:mp.quality] uppercaseString];
-      self.label.textColor = [Globals colorForRarity:mp.quality];
+      //self.label.textColor = [Globals colorForRarity:mp.quality];
+      
+      self.bgdView.image = [Globals imageNamed:[Globals imageNameForRarity:mp.quality suffix:@"gachasquare.png"]];
       
       self.diamondIcon.hidden = YES;
       self.icon.hidden = NO;

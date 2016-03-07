@@ -4,6 +4,11 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBold.otf">
+            <string>MikadoBold</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TimerViewController">
             <connections>
@@ -24,13 +29,13 @@
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="JYC-WL-blq" userLabel="Finish View">
-                    <rect key="frame" x="83" y="-1" width="54" height="32"/>
+                    <rect key="frame" x="90" y="1" width="43" height="27"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oSm-d8-5Ik" customClass="GeneralButton">
-                            <rect key="frame" x="7" y="2" width="43" height="27"/>
+                            <rect key="frame" x="0.0" y="0.0" width="43" height="27"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" image="purpletimerbutton.png">
+                            <state key="normal" image="purplesmallbutton.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -38,7 +43,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Free!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="hBZ-pn-x8P" customClass="FontLabelMikadoBlack">
-                            <rect key="frame" x="8" y="5" width="40" height="17"/>
+                            <rect key="frame" x="1" y="3" width="40" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -47,7 +52,7 @@
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speeduparrowsmall.png" id="y2y-M9-P0M">
-                            <rect key="frame" x="20" y="9" width="15" height="14"/>
+                            <rect key="frame" x="13" y="7" width="15" height="14"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                     </subviews>
@@ -88,27 +93,32 @@
             <point key="canvasLocation" x="238.5" y="443.5"/>
         </view>
         <view contentMode="scaleToFill" id="Hpf-BX-ODP" userLabel="Help View">
-            <rect key="frame" x="0.0" y="0.0" width="41" height="23"/>
+            <rect key="frame" x="0.0" y="0.0" width="43" height="27"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="s1B-uU-wHD" customClass="GeneralButton">
-                    <rect key="frame" x="0.0" y="0.0" width="41" height="23"/>
+                    <rect key="frame" x="0.0" y="0.0" width="43" height="27"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="timergethelp.png">
+                    <state key="normal" image="orangesmallbutton.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="helpClicked:" destination="-1" eventType="touchUpInside" id="FY8-Bo-pG7"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="HELP!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="OdO-wg-6RG" customClass="NiceFontLabel8">
-                    <rect key="frame" x="1" y="2" width="40" height="17"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Help!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="OdO-wg-6RG" customClass="ShadowBlurLabel">
+                    <rect key="frame" x="1" y="5" width="40" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="10"/>
                     <color key="textColor" red="0.75686274509999996" green="0.14901960780000001" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.98039215690000003" green="0.78039215689999997" blue="0.28235294119999998" alpha="0.75" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                 </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -119,9 +129,9 @@
     </objects>
     <resources>
         <image name="greentimer.png" width="74" height="14"/>
-        <image name="purpletimerbutton.png" width="43" height="27"/>
+        <image name="orangesmallbutton.png" width="43" height="27"/>
+        <image name="purplesmallbutton.png" width="43" height="27"/>
         <image name="speeduparrowsmall.png" width="15" height="14"/>
         <image name="timerbarbg.png" width="76" height="17"/>
-        <image name="timergethelp.png" width="41" height="23"/>
     </resources>
 </document>

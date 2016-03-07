@@ -26,7 +26,7 @@
 @implementation NewGachaViewController
 
 #define NUM_COLS INT_MAX/700000
-#define TABLE_CELL_WIDTH ([Globals isiPad] ? 95 : 57)
+#define TABLE_CELL_WIDTH ([Globals isiPad] ? 95 : 65)
 
 - (id) initWithBoosterPack:(BoosterPackProto *)bpp {
   if ((self = [super init])) {
@@ -197,7 +197,7 @@
                                         leftGradient.image.size.width * deviceScale,
                                         leftGradient.image.size.height * deviceScale)];
       [leftGradient setContentMode:UIViewContentModeScaleToFill];
-      [self.view insertSubview:leftGradient aboveSubview:featuredContainer];
+      //[self.view insertSubview:leftGradient aboveSubview:featuredContainer];
     }
     
     featuredContainer.originX = leftGradient.originX;

@@ -1089,7 +1089,7 @@
     [gvc addChildViewController:popover];
     [gvc.view addSubview:popover.view];
     
-    [popover showAnchoredToInvokingView:self.strengthIcon withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:nil preserveHeight:YES];
+    [popover showAnchoredToInvokingView:self.strengthLabel withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:nil preserveHeight:YES];
   }
 }
 

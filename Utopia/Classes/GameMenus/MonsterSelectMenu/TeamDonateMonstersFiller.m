@@ -71,7 +71,7 @@
 }
 
 - (NSString *) titleName {
-  return @"DONATE TOON";
+  return [NSString stringWithFormat:@"Donate %@", MONSTER_NAME];
 }
 
 - (NSString *) cellClassName {

@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBlack.otf">
+            <string>MikadoBlack</string>
+        </mutableArray>
+        <mutableArray key="HVD Fonts - MikadoBold.otf">
+            <string>MikadoBold</string>
+        </mutableArray>
+        <mutableArray key="HVD Fonts - MikadoMedium.otf">
+            <string>MikadoMedium</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MonsterSelectViewController">
             <connections>
+                <outlet property="bgdImgView" destination="eep-U2-Gsi" id="qj8-AT-hWM"/>
                 <outlet property="bgdView" destination="3TJ-MX-sZ3" id="rdZ-NU-LCi"/>
-                <outlet property="footerDescLabel" destination="ppa-ct-KkO" id="Lws-E4-GTA"/>
-                <outlet property="footerTitleLabel" destination="515-I7-3XC" id="9hi-40-hsc"/>
-                <outlet property="headerView" destination="Hsi-hI-QPn" id="sAT-Y7-4hf"/>
-                <outlet property="listView" destination="Ltq-C6-foZ" id="JJk-nL-TnM"/>
-                <outlet property="mainView" destination="4GQ-xe-U3E" id="DvH-eO-zho"/>
-                <outlet property="titleLabel" destination="n9f-M8-znu" id="NuP-nP-30e"/>
-                <outlet property="triangle" destination="r4E-GT-arB" id="8f8-xD-saN"/>
+                <outlet property="containerView" destination="3SL-pG-YTl" id="uyk-wV-xUs"/>
+                <outlet property="footerDescLabel" destination="vsQ-6E-7HI" id="imB-kI-px9"/>
+                <outlet property="footerTitleLabel" destination="6JI-Ni-2Xk" id="ugE-Dn-o55"/>
+                <outlet property="headerView" destination="tMw-9E-rHb" id="iBR-cL-1ft"/>
+                <outlet property="listView" destination="hwY-JL-7zb" id="WGF-mS-ewl"/>
+                <outlet property="mainView" destination="Cck-yx-Yku" id="TTi-9L-ymk"/>
+                <outlet property="titleLabel" destination="g2y-an-FHe" id="Y1c-Pd-RAJ"/>
+                <outlet property="triangle" destination="7x2-fI-0xY" id="euF-75-aCS"/>
                 <outlet property="view" destination="EEd-Ux-8JP" id="rgr-UW-L9u"/>
             </connections>
         </placeholder>
@@ -43,23 +56,31 @@
                         <action selector="closeClicked:" destination="-1" eventType="touchUpInside" id="Fem-V0-kSX"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" id="4GQ-xe-U3E">
-                    <rect key="frame" x="155" y="22" width="257" height="276"/>
+                <view contentMode="scaleToFill" id="Cck-yx-Yku">
+                    <rect key="frame" x="161" y="31" width="246" height="258"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" id="QuW-hg-AvC" customClass="PopupShadowView">
-                            <rect key="frame" x="8" y="9" width="241" height="258"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="fillbgshadow.png" id="niF-cX-BCh">
+                            <rect key="frame" x="0.0" y="0.0" width="246" height="258"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="fillbg.png" id="eep-U2-Gsi">
+                            <rect key="frame" x="5" y="5" width="237" height="249"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="3SL-pG-YTl">
+                            <rect key="frame" x="5" y="5" width="237" height="249"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" id="Ltq-C6-foZ" customClass="ListCollectionView">
-                                    <rect key="frame" x="0.0" y="32" width="241" height="164"/>
+                                <view contentMode="scaleToFill" id="hwY-JL-7zb" customClass="ListCollectionView">
+                                    <rect key="frame" x="0.0" y="35" width="237" height="155"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="nJW-ny-8HI" customClass="CancellableCollectionView">
-                                            <rect key="frame" x="0.0" y="0.0" width="241" height="164"/>
+                                        <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="Som-2W-701" customClass="CancellableCollectionView">
+                                            <rect key="frame" x="0.0" y="0.0" width="237" height="155"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="6" minimumInteritemSpacing="6" id="fMh-9Y-Lky">
+                                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="6" minimumInteritemSpacing="6" id="OnR-UZ-TLC">
                                                 <size key="itemSize" width="48" height="48"/>
                                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -67,30 +88,30 @@
                                             </collectionViewFlowLayout>
                                             <cells/>
                                             <connections>
-                                                <outlet property="dataSource" destination="Ltq-C6-foZ" id="wdr-Dr-I8q"/>
-                                                <outlet property="delegate" destination="Ltq-C6-foZ" id="slf-B9-PMu"/>
+                                                <outlet property="dataSource" destination="hwY-JL-7zb" id="rqg-ic-dUQ"/>
+                                                <outlet property="delegate" destination="hwY-JL-7zb" id="xyt-W6-aEE"/>
                                             </connections>
                                         </collectionView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
-                                        <outlet property="collectionView" destination="nJW-ny-8HI" id="QAF-Um-tAC"/>
-                                        <outlet property="delegate" destination="-1" id="aYT-3t-fW3"/>
-                                        <outlet property="notEmptyListView" destination="nJW-ny-8HI" id="Kwa-sC-AXG"/>
+                                        <outlet property="collectionView" destination="Som-2W-701" id="Pau-cK-bvy"/>
+                                        <outlet property="delegate" destination="-1" id="kKA-Jh-OaB"/>
+                                        <outlet property="notEmptyListView" destination="Som-2W-701" id="zkg-lZ-8xO"/>
                                     </connections>
                                 </view>
-                                <view clipsSubviews="YES" contentMode="scaleToFill" id="Hsi-hI-QPn" userLabel="Header View">
-                                    <rect key="frame" x="0.0" y="0.0" width="241" height="46"/>
+                                <view clipsSubviews="YES" contentMode="scaleToFill" id="tMw-9E-rHb" userLabel="Header View">
+                                    <rect key="frame" x="0.0" y="0.0" width="237" height="46"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="itemsheaderbg.png" id="evy-nn-k0q">
-                                            <rect key="frame" x="0.0" y="0.0" width="241" height="35"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="filltopbar.png" id="W5s-Lj-hRp">
+                                            <rect key="frame" x="-2" y="0.0" width="241" height="35"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SPEEDUP TO COMPLETION" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="n9f-M8-znu" customClass="NiceFontLabel12">
-                                            <rect key="frame" x="12" y="3" width="217" height="27"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fill Cash" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="g2y-an-FHe">
+                                            <rect key="frame" x="10" y="5" width="217" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="12"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="deviceRGB"/>
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
@@ -98,30 +119,30 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <view contentMode="scaleToFill" id="KI5-Cf-uLk" userLabel="Footer View">
-                                    <rect key="frame" x="0.0" y="195" width="241" height="63"/>
+                                <view contentMode="scaleToFill" id="2dr-tE-qH1" userLabel="Footer View">
+                                    <rect key="frame" x="0.0" y="186" width="237" height="63"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="donateenhancebottombar.png" id="Rx9-BX-izG">
-                                            <rect key="frame" x="6" y="0.0" width="229" height="57"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="menubottombar.png" id="TXD-G8-siG">
+                                            <rect key="frame" x="0.0" y="0.0" width="237" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a mobster to enhance." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="515-I7-3XC" customClass="NiceFontLabel12">
-                                            <rect key="frame" x="79" y="0.0" width="145" height="29"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a mobster to enhance." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="6JI-Ni-2Xk">
+                                            <rect key="frame" x="79" y="5" width="145" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="11"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="girl2.png" id="bri-9Q-VHs">
-                                            <rect key="frame" x="10" y="-32" width="62" height="88"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="girl2.png" id="pNL-ST-kk4">
+                                            <rect key="frame" x="10" y="-25" width="62" height="88"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="ppa-ct-KkO" customClass="NiceFontLabel2">
-                                            <rect key="frame" x="79" y="22" width="145" height="30"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="vsQ-6E-7HI">
+                                            <rect key="frame" x="79" y="27" width="145" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <fontDescription key="fontDescription" name="MikadoMedium" family="Mikado" pointSize="9"/>
                                             <color key="textColor" red="0.20000001789999999" green="0.20000001789999999" blue="0.20000001789999999" alpha="1" colorSpace="deviceRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -129,10 +150,10 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemssidearrow.png" id="r4E-GT-arB">
-                            <rect key="frame" x="248" y="76" width="9" height="18"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fillarrow.png" id="7x2-fI-0xY">
+                            <rect key="frame" x="241" y="67" width="8" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                     </subviews>
@@ -147,14 +168,11 @@
         </view>
     </objects>
     <resources>
-        <image name="donateenhancebottombar.png" width="229" height="57"/>
+        <image name="fillarrow.png" width="7" height="15"/>
+        <image name="fillbg.png" width="237" height="316"/>
+        <image name="fillbgshadow.png" width="246" height="325"/>
+        <image name="filltopbar.png" width="1" height="33"/>
         <image name="girl2.png" width="62" height="88"/>
-        <image name="itemsheaderbg.png" width="1" height="35"/>
-        <image name="itemssidearrow.png" width="9" height="18"/>
+        <image name="menubottombar.png" width="1" height="79"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

@@ -144,7 +144,7 @@
 }
 
 - (NSString *) titleName {
-  return @"SPEEDUP COMPLETION";
+  return @"Speedup Completion";
 }
 
 - (void) itemSelectClosed:(id)viewController {

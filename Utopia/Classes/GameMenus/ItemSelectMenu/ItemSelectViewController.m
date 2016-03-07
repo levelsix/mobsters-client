@@ -20,8 +20,8 @@
   
   self.gemsButtonView.frame = self.useButtonView.frame;
   
-  self.iconLabel.strokeSize = 2.1f;
-  self.iconLabel.strokeColor = [UIColor colorWithWhite:236/255.f alpha:1.f];
+//  self.iconLabel.strokeSize = 2.1f;
+//  self.iconLabel.strokeColor = [UIColor colorWithWhite:236/255.f alpha:1.f];
   
   self.backgroundColor = [UIColor clearColor];
   
@@ -76,13 +76,13 @@
     }
     
     if (showGreyScale) {
-      [self.useButton setImage:[Globals imageNamed:@"greyitemsbutton.png"] forState:UIControlStateNormal];
-      self.buttonLabel.textColor = [UIColor colorWithHexString:@"666666"];
-      self.buttonLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
+      [self.useButton setImage:[Globals imageNamed:@"greysmallbutton.png"] forState:UIControlStateNormal];
+//      self.buttonLabel.textColor = [UIColor colorWithHexString:@"666666"];
+//      self.buttonLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
     } else {
-      [self.useButton setImage:[Globals imageNamed:@"greenitemsbutton.png"] forState:UIControlStateNormal];
-      self.buttonLabel.textColor = [UIColor colorWithHexString:@"065d18"];
-      self.buttonLabel.shadowColor = [UIColor colorWithHexString:@"eeffbbbd"];
+      [self.useButton setImage:[Globals imageNamed:@"greensmallbutton.png"] forState:UIControlStateNormal];
+//      self.buttonLabel.textColor = [UIColor colorWithHexString:@"065d18"];
+//      self.buttonLabel.shadowColor = [UIColor colorWithHexString:@"eeffbbbd"];
     }
     
     self.gemsButtonView.hidden = YES;
@@ -243,16 +243,14 @@
     // Reload it
     NSString *prefix = nil;
     if (color == TimerProgressBarColorYellow) {
-      prefix = [Globals isiPad] ? @"itembaryellowbarcurrent" : @"obtimeryellow";
+      prefix = @"yellow";
     } else if (color == TimerProgressBarColorGreen) {
-      prefix = [Globals isiPad] ? @"upgradebarcurrent" : @"obtimergreen";
+      prefix = @"green";
     } else if (color == TimerProgressBarColorPurple) {
-      prefix = [Globals isiPad] ? @"itembarpurplebarcurrent" : @"obtimerpurple";
+      prefix = @"purple";
     }
     
-    self.progressBar.leftCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];
-    self.progressBar.rightCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];
-    self.progressBar.middleBar.image = [Globals imageNamed:[prefix stringByAppendingString:@"middle.png"]];
+    self.progressBar.image = [Globals imageNamed:[NSString stringWithFormat:@"fill%@bar.png", prefix]];
     
     self.progressBar.tag = color;
   }

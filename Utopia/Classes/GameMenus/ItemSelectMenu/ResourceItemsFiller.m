@@ -124,9 +124,9 @@
 - (NSString *) titleName {
   if (_accumulate) {
     int missingAmount = _requiredAmount-[self currentAmount];
-    return [NSString stringWithFormat:@"MISSING %@ %@", [Globals commafyNumber:missingAmount], [Globals stringForResourceType:_resourceType].uppercaseString];
+    return [NSString stringWithFormat:@"Missing %@ %@", [Globals commafyNumber:missingAmount], [Globals stringForResourceType:_resourceType]];
   } else {
-    return [NSString stringWithFormat:@"FILL %@", [Globals stringForResourceType:_resourceType].uppercaseString];
+    return [NSString stringWithFormat:@"Fill %@", [Globals stringForResourceType:_resourceType]];
   }
 }
 

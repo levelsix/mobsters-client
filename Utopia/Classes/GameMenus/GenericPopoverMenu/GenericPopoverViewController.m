@@ -29,7 +29,7 @@
 {
   [super viewWillAppear:animated];
   
-  self.titleTextLabel.text = [_titleText uppercaseString];
+  self.titleTextLabel.text = _titleText;
   
   // Add line spacing
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];

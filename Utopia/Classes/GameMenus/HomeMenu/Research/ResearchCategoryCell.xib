@@ -34,9 +34,9 @@
                                 <color key="textColor" red="0.10196078431372549" green="0.60784313725490191" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.59999999999999998" contentMode="center" image="popupline.png" id="UnH-BZ-F7P" customClass="VerticalFlipImageView">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="UnH-BZ-F7P" customClass="VerticalFlipImageView">
                                 <rect key="frame" x="14" y="54" width="436" height="1"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="researchfieldsquare.png" id="y7s-bc-Dit">
                                 <rect key="frame" x="15" y="5" width="45" height="44"/>
@@ -56,7 +56,6 @@
             <connections>
                 <outlet property="categoryIcon" destination="Wlg-Gr-VXg" id="r30-Wp-OKr"/>
                 <outlet property="categoryTitle" destination="xmR-ge-WfK" id="SaB-BR-EAy"/>
-                <outlet property="line" destination="UnH-BZ-F7P" id="3P0-f3-KtJ"/>
                 <outlet property="selectedBackgroundView" destination="PSz-6l-2Kg" id="JDm-nP-OSq"/>
             </connections>
             <point key="canvasLocation" x="339" y="413"/>

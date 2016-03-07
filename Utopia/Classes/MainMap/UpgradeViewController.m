@@ -51,7 +51,7 @@
   Globals *gl = [Globals sharedGlobals];
   
   self.nameLabel.text = curSS.structInfo.name;
-  self.upgradeTimeLabel.text = curSS != nextSS ? [[Globals convertTimeToMediumString:[gl calculateSecondsToBuild:nextSS.structInfo]] uppercaseString] : @"N/A";
+  self.upgradeTimeLabel.text = curSS != nextSS ? [Globals convertTimeToMediumString:[gl calculateSecondsToBuild:nextSS.structInfo]] : @"N/A";
   
   [Globals imageNamed:nextSS.structInfo.imgName withView:self.structIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   

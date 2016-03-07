@@ -130,10 +130,10 @@
   if (_accumulate)
   {
     int missingAmount = _requiredAmount - [self currentAmount];
-    return [NSString stringWithFormat:@"MISSING %@ %@", [Globals commafyNumber:missingAmount], [Globals stringForResourceType:_resourceType].uppercaseString];
+    return [NSString stringWithFormat:@"Missing %@ %@", [Globals commafyNumber:missingAmount], [Globals stringForResourceType:_resourceType]];
   }
   else
-    return [NSString stringWithFormat:@"GET MORE %@", [Globals stringForResourceType:_resourceType].uppercaseString];
+    return [NSString stringWithFormat:@"Get More %@", [Globals stringForResourceType:_resourceType]];
 }
 
 - (void) itemSelected:(id<ItemObject>)io viewController:(id)viewController

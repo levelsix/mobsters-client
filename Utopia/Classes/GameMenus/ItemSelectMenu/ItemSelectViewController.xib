@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBlack.otf">
+            <string>MikadoBlack</string>
+            <string>MikadoBlack</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ItemSelectViewController">
             <connections>
+                <outlet property="bgdImgView" destination="9MX-Ha-2LF" id="ahp-MP-GIq"/>
                 <outlet property="bgdView" destination="3Ka-h6-TT1" id="DfW-2Y-yOU"/>
+                <outlet property="containerView" destination="dMK-07-1pC" id="uGG-eC-Rrc"/>
                 <outlet property="headerView" destination="cRQ-qH-e4y" id="W3P-i4-ogt"/>
                 <outlet property="itemsTable" destination="rJM-vz-7R3" id="2ul-ec-6SL"/>
                 <outlet property="mainView" destination="1ok-cB-71x" id="dVS-OG-Kll"/>
-                <outlet property="progressBar" destination="ZOW-SP-F1g" id="984-jU-3Dc"/>
+                <outlet property="progressBar" destination="nPd-eT-1zn" id="etd-CP-OFB"/>
                 <outlet property="progressBarLabel" destination="tlX-x3-CTo" id="PTR-Uz-n5G"/>
                 <outlet property="progressBarView" destination="gEH-Be-IxU" id="0Ef-PD-W0V"/>
                 <outlet property="titleLabel" destination="gA1-LP-hcP" id="EsI-5H-l9x"/>
@@ -45,35 +53,33 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" id="1ok-cB-71x">
-                    <rect key="frame" x="155" y="22" width="257" height="276"/>
+                    <rect key="frame" x="160" y="31" width="246" height="258"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" id="dMK-07-1pC" customClass="PopupShadowView">
-                            <rect key="frame" x="8" y="9" width="241" height="258"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="fillbgshadow.png" id="Ivj-IZ-szx">
+                            <rect key="frame" x="0.0" y="0.0" width="246" height="258"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="fillbg.png" id="9MX-Ha-2LF">
+                            <rect key="frame" x="5" y="5" width="237" height="249"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="dMK-07-1pC">
+                            <rect key="frame" x="5" y="5" width="237" height="249"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="52" sectionHeaderHeight="32" sectionFooterHeight="22" id="rJM-vz-7R3" customClass="CancellableTableView">
-                                    <rect key="frame" x="0.0" y="31" width="241" height="226"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    <connections>
-                                        <outlet property="dataSource" destination="-1" id="4ur-vO-B7R"/>
-                                        <outlet property="delegate" destination="-1" id="mbU-gx-EV1"/>
-                                    </connections>
-                                </tableView>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" id="cRQ-qH-e4y" userLabel="Header View">
-                                    <rect key="frame" x="0.0" y="0.0" width="241" height="46"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="237" height="46"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="itemsheaderbg.png" id="x2S-x6-22G">
-                                            <rect key="frame" x="0.0" y="0.0" width="241" height="35"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="filltopbar.png" id="x2S-x6-22G">
+                                            <rect key="frame" x="-2" y="0.0" width="241" height="35"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SPEEDUP TO COMPLETION" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="gA1-LP-hcP" customClass="NiceFontLabel12">
-                                            <rect key="frame" x="12" y="3" width="217" height="27"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fill Cash" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="gA1-LP-hcP">
+                                            <rect key="frame" x="10" y="5" width="217" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="12"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="deviceRGB"/>
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
@@ -82,58 +88,53 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="gEH-Be-IxU" userLabel="Progress Bar View">
-                                    <rect key="frame" x="0.0" y="79" width="241" height="32"/>
+                                    <rect key="frame" x="0.0" y="75" width="237" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemstimerbg.png" id="Q4g-bl-x2Z">
-                                            <rect key="frame" x="9" y="9" width="222" height="13"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fillbarbg.png" id="Q4g-bl-x2Z">
+                                            <rect key="frame" x="15" y="9" width="207" height="14"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <view contentMode="scaleToFill" id="ZOW-SP-F1g" customClass="SplitImageProgressBar">
-                                            <rect key="frame" x="9" y="9" width="222" height="13"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fillbluebar.png" id="nPd-eT-1zn" customClass="ProgressBar">
+                                            <rect key="frame" x="16" y="10" width="205" height="12"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="9M 33S" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="tlX-x3-CTo" customClass="ShadowBlurLabel">
+                                            <rect key="frame" x="17" y="9" width="203" height="13"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="obtimergreencap.png" id="m1O-Yg-Gsw">
-                                                    <rect key="frame" x="71" y="0.0" width="4" height="13"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="obtimergreenmiddle.png" id="6w3-Xg-F3N">
-                                                    <rect key="frame" x="5" y="0.0" width="1" height="13"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="obtimergreencap.png" id="pGT-sQ-LxG">
-                                                    <rect key="frame" x="0.0" y="0.0" width="4" height="13"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <outlet property="leftCap" destination="pGT-sQ-LxG" id="z9S-YU-Yyn"/>
-                                                <outlet property="middleBar" destination="6w3-Xg-F3N" id="hq8-Pd-q5I"/>
-                                                <outlet property="rightCap" destination="m1O-Yg-Gsw" id="08Q-wK-Bdj"/>
-                                            </connections>
-                                        </view>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="9M 33S" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="tlX-x3-CTo" customClass="NiceFontLabel14S">
-                                            <rect key="frame" x="19" y="8" width="203" height="11"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="9"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                                    <real key="value" value="1"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </label>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="8g6-MN-lFt" customClass="VerticalFlipImageView">
-                                            <rect key="frame" x="8" y="31" width="225" height="1"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                            <rect key="frame" x="12" y="31" width="213" height="1"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="52" sectionHeaderHeight="32" sectionFooterHeight="22" id="rJM-vz-7R3" customClass="CancellableTableView">
+                                    <rect key="frame" x="0.0" y="35" width="237" height="214"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <connections>
+                                        <outlet property="dataSource" destination="-1" id="4ur-vO-B7R"/>
+                                        <outlet property="delegate" destination="-1" id="mbU-gx-EV1"/>
+                                    </connections>
+                                </tableView>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemssidearrow.png" id="4Rk-l9-dtk">
-                            <rect key="frame" x="248" y="76" width="9" height="18"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fillarrow.png" id="4Rk-l9-dtk">
+                            <rect key="frame" x="241" y="67" width="8" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                     </subviews>
@@ -144,20 +145,16 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="850" y="525"/>
+            <point key="canvasLocation" x="825" y="609"/>
         </view>
     </objects>
     <resources>
-        <image name="itemsheaderbg.png" width="1" height="35"/>
-        <image name="itemssidearrow.png" width="9" height="18"/>
-        <image name="itemstimerbg.png" width="222" height="13"/>
-        <image name="obtimergreencap.png" width="4" height="13"/>
-        <image name="obtimergreenmiddle.png" width="1" height="13"/>
+        <image name="fillarrow.png" width="7" height="15"/>
+        <image name="fillbarbg.png" width="207" height="14"/>
+        <image name="fillbg.png" width="237" height="316"/>
+        <image name="fillbgshadow.png" width="246" height="325"/>
+        <image name="fillbluebar.png" width="205" height="12"/>
+        <image name="filltopbar.png" width="1" height="33"/>
         <image name="popupline.png" width="1" height="1"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>
