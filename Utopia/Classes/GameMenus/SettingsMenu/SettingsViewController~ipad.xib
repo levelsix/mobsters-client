@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBlack.otf">
+            <string>MikadoBlack</string>
+            <string>MikadoBlack</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsViewController">
             <connections>
@@ -68,8 +74,13 @@
                                         <button opaque="NO" tag="1" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MMq-L8-twt" customClass="GeneralButton">
                                             <rect key="frame" x="10" y="12" width="129" height="46"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" backgroundImage="popupinactivetab.png">
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                                            <state key="normal" title="Settings">
+                                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="disabled">
+                                                <color key="titleColor" red="0.99607843137254903" green="0.85490196078431369" blue="0.039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
                                             <state key="highlighted" backgroundImage="popuppressedtab.png"/>
                                             <connections>
@@ -79,76 +90,22 @@
                                         <button opaque="NO" tag="2" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uOE-2I-q3k" customClass="GeneralButton">
                                             <rect key="frame" x="146" y="12" width="129" height="46"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" backgroundImage="popupinactivetab.png">
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                                            <state key="normal" title="FAQ">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="disabled">
+                                                <color key="titleShadowColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
                                             <state key="highlighted" backgroundImage="popuppressedtab.png"/>
                                             <connections>
                                                 <action selector="buttonClicked:" destination="wwl-hZ-KZq" eventType="touchUpInside" id="sKl-fk-Pz2"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="3" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Xyi-Wv-dj7" customClass="GeneralButton">
-                                            <rect key="frame" x="280" y="12" width="129" height="46"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" backgroundImage="popupinactivetab.png">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <state key="highlighted" backgroundImage="popuppressedtab.png"/>
-                                            <connections>
-                                                <action selector="buttonClicked:" destination="wwl-hZ-KZq" eventType="touchUpInside" id="6FZ-rt-AzM"/>
-                                            </connections>
-                                        </button>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="popupactivetab.png" id="AJ9-zo-qpS">
-                                            <rect key="frame" x="10" y="12" width="131" height="48"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SETTINGS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="SoP-Jh-7CJ" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="23" y="27" width="103" height="34"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FAQ" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="mhT-ed-4JM" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="159" y="27" width="103" height="34"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CREDITS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="jik-ii-Tgx" userLabel="CREDITS" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="292" y="27" width="103" height="34"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="settingsinactive.png" highlightedImage="settingsactive.png" id="fjB-cM-1J2">
-                                            <rect key="frame" x="68" y="19" width="13" height="15"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="faqinactive.png" highlightedImage="faqactive.png" id="DLU-0c-C4w">
-                                            <rect key="frame" x="203" y="20" width="15" height="15"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="clanbrowseinactiveicon2.png" highlightedImage="clanbrowseactiveicon2.png" id="4MQ-Qx-Frt">
-                                            <rect key="frame" x="337" y="19" width="15" height="15"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
                                         <outlet property="delegate" destination="-1" id="N7m-VL-sF5"/>
-                                        <outlet property="icon1" destination="fjB-cM-1J2" id="Fog-sc-26h"/>
-                                        <outlet property="icon2" destination="DLU-0c-C4w" id="hO9-xk-26c"/>
-                                        <outlet property="icon3" destination="4MQ-Qx-Frt" id="4RL-zu-vjq"/>
-                                        <outlet property="label1" destination="SoP-Jh-7CJ" id="mzV-GT-g1b"/>
-                                        <outlet property="label2" destination="mhT-ed-4JM" id="jxO-Qy-bRP"/>
-                                        <outlet property="label3" destination="jik-ii-Tgx" id="xk5-TI-kkP"/>
-                                        <outlet property="selectedView" destination="AJ9-zo-qpS" id="tjH-NB-t8D"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -185,22 +142,9 @@
         </view>
     </objects>
     <resources>
-        <image name="bluenotificationheadercap.png" width="78" height="33"/>
+        <image name="bluenotificationheadercap.png" width="481" height="294"/>
         <image name="bluenotificationheadermiddle.png" width="78" height="33"/>
-        <image name="clanbrowseactiveicon2.png" width="10" height="9"/>
-        <image name="clanbrowseinactiveicon2.png" width="10" height="9"/>
         <image name="closepopupx.png" width="25" height="26"/>
-        <image name="faqactive.png" width="10" height="10"/>
-        <image name="faqinactive.png" width="10" height="10"/>
-        <image name="popupactivetab.png" width="86" height="32"/>
-        <image name="popupinactivetab.png" width="86" height="32"/>
         <image name="popuppressedtab.png" width="86" height="32"/>
-        <image name="settingsactive.png" width="9" height="10"/>
-        <image name="settingsinactive.png" width="9" height="10"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>
