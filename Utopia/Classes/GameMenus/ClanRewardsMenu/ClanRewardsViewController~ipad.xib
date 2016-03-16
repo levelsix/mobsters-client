@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBlack.otf">
+            <string>MikadoBlack</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClanRewardsViewController">
             <connections>
@@ -11,7 +16,6 @@
                 <outlet property="containerView" destination="Bwf-as-xnv" id="XTl-xf-1UJ"/>
                 <outlet property="mainView" destination="9CI-sx-km6" id="VqE-0D-ukZ"/>
                 <outlet property="squadRewardArrow" destination="cUf-sI-s2y" id="oPb-na-OIR"/>
-                <outlet property="titleDiamond" destination="a9z-TG-ykw" id="6Jk-Cq-G38"/>
                 <outlet property="titleLabel" destination="woW-ea-hwF" id="QhN-lZ-ewI"/>
                 <outlet property="view" destination="PUS-GI-5c9" id="5Ip-5y-Na0"/>
                 <outletCollection property="questViews" destination="sPG-B2-Eng" id="Isc-S9-GEL"/>
@@ -85,18 +89,20 @@
                                                     <rect key="frame" x="205" y="86" width="20" height="19"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JOIN A SQUAD TO EARN FREE" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" minimumFontSize="9" id="woW-ea-hwF" customClass="NiceFontLabel12">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join Squad to Earn Gems!" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" minimumFontSize="9" id="woW-ea-hwF" customClass="ShadowBlurLabel">
                                                     <rect key="frame" x="94" y="30" width="458" height="42"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.31764706970000001" green="0.31764706970000001" blue="0.31764706970000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="20"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                                            <real key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="a9z-TG-ykw">
-                                                    <rect key="frame" x="463" y="42" width="29" height="19"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -143,7 +149,7 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 </view>
                                 <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="girl1.png" id="wEX-Pw-P39">
-                                    <rect key="frame" x="41" y="-3.9999897338790911" width="102" height="89"/>
+                                    <rect key="frame" x="41" y="-4" width="102" height="89"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 </imageView>
                             </subviews>
@@ -162,15 +168,9 @@
     </objects>
     <resources>
         <image name="activesquadrewardarrow.png" width="20" height="12"/>
-        <image name="diamond.png" width="28" height="28"/>
         <image name="girl1.png" width="71" height="88"/>
         <image name="homemenutop.png" width="1" height="57"/>
         <image name="menuclosex.png" width="17" height="17"/>
         <image name="popuplinevertical.png" width="1" height="1"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>
