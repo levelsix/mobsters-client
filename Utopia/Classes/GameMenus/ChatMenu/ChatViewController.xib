@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBlack.otf">
+            <string>MikadoBlack</string>
+            <string>MikadoBlack</string>
+            <string>MikadoBlack</string>
+            <string>MikadoBlack</string>
+        </mutableArray>
+        <mutableArray key="HVD Fonts - MikadoBold.otf">
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+        </mutableArray>
+        <mutableArray key="HVD Fonts - MikadoRegular.otf">
+            <string>MikadoRegular</string>
+            <string>MikadoRegular</string>
+            <string>MikadoRegular</string>
+            <string>MikadoRegular</string>
+            <string>MikadoRegular</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatViewController">
             <connections>
@@ -24,15 +58,15 @@
             </connections>
         </placeholder>
         <view contentMode="scaleToFill" id="LJE-X2-xpP">
-            <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="euV-ve-au0">
-                    <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                    <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Bop-47-VMF" userLabel="Close Button" customClass="CloseButton">
-                            <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal">
@@ -50,25 +84,226 @@
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="K57-Ib-b86" customClass="ChatMainView">
-                    <rect key="frame" x="54" y="14" width="459" height="293"/>
+                    <rect key="frame" x="55" y="9" width="557" height="358"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bigchatbg.png" id="6a5-GQ-OTW">
+                            <rect key="frame" x="0.0" y="3" width="551" height="352"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bigchatbgshadow.png" id="Nv6-14-Ivn">
+                            <rect key="frame" x="-3" y="0.0" width="557" height="358"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="iGf-xh-f88" userLabel="Close Button" customClass="CloseButton">
+                            <rect key="frame" x="493" y="7" width="30" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" image="closearrow.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="closeClicked:" destination="-1" eventType="touchUpInside" id="jN7-ZB-mx4"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" id="Han-uB-4S1" customClass="GlobalChatView">
+                            <rect key="frame" x="6" y="47" width="539" height="311"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="66" sectionHeaderHeight="14" sectionFooterHeight="22" id="vgn-HL-6qP" customClass="CancellableTableView">
+                                    <rect key="frame" x="8" y="0.0" width="525" height="265"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                    <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <connections>
+                                        <outlet property="dataSource" destination="Han-uB-4S1" id="heE-Pg-ysX"/>
+                                        <outlet property="delegate" destination="Han-uB-4S1" id="Fg5-8I-IwO"/>
+                                    </connections>
+                                </tableView>
+                                <view contentMode="scaleToFill" id="fck-TC-Vtx" userLabel="Bottom View">
+                                    <rect key="frame" x="8" y="265" width="523" height="46"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" id="Pbc-a5-iV9">
+                                            <rect key="frame" x="0.0" y="0.0" width="525" height="46"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputbgmiddle.png" id="rCf-zt-9VG">
+                                                    <rect key="frame" x="-5" y="0.0" width="538" height="48"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" id="9YE-0F-DTJ">
+                                                    <rect key="frame" x="33" y="0.0" width="486" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" id="BJg-MG-dmm" customClass="CircleMonsterView">
+                                                            <rect key="frame" x="5" y="7" width="30" height="30"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <subviews>
+                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightavatar.png" id="hqQ-d6-qM2">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                </imageView>
+                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="qQd-oo-9Dm">
+                                                                    <rect key="frame" x="1" y="2" width="28" height="28"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oMo-KK-YZA" customClass="MaskedButton">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <state key="normal">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="avatarClicked:" destination="-1" eventType="touchUpInside" id="Po7-ye-utl"/>
+                                                                        <outlet property="baseImage" destination="hqQ-d6-qM2" id="4Vb-F9-V3p"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <connections>
+                                                                <outlet property="bgdIcon" destination="hqQ-d6-qM2" id="QPB-ev-TDM"/>
+                                                                <outlet property="monsterIcon" destination="qQd-oo-9Dm" id="lp5-pX-jXo"/>
+                                                            </connections>
+                                                        </view>
+                                                        <view contentMode="scaleToFill" id="eKP-nA-QNR" userLabel="Send View">
+                                                            <rect key="frame" x="416" y="7" width="57" height="30"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                                            <subviews>
+                                                                <button opaque="NO" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZmF-gc-9yY" customClass="GeneralButton">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="57" height="29"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="15"/>
+                                                                    <state key="normal" title="Send">
+                                                                        <color key="titleColor" red="0.062745098039215685" green="0.52549019607843139" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="sendChatClicked:" destination="Han-uB-4S1" eventType="touchUpInside" id="7yx-Jl-ouG"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </view>
+                                                        <view contentMode="scaleToFill" id="zNZ-zW-g71" userLabel="Input View">
+                                                            <rect key="frame" x="39" y="7" width="376" height="29"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputcap.png" id="a5m-b6-lxe">
+                                                                    <rect key="frame" x="1" y="0.0" width="6" height="31"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                </imageView>
+                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputcap.png" id="gHa-gl-bd4" customClass="FlipImageView">
+                                                                    <rect key="frame" x="368" y="0.0" width="6" height="31"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                                                </imageView>
+                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputmiddle.png" id="5fI-vZ-1eG">
+                                                                    <rect key="frame" x="5" y="0.0" width="366" height="31"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                                </imageView>
+                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Message..." minimumFontSize="17" id="Wp2-ML-0ur">
+                                                                    <rect key="frame" x="7" y="0.0" width="360" height="29"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                    <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                                                    <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="12"/>
+                                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                                    <connections>
+                                                                        <outlet property="delegate" destination="Han-uB-4S1" id="bHX-S6-Qr1"/>
+                                                                    </connections>
+                                                                </textField>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </view>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="bottomView" destination="fck-TC-Vtx" id="CQc-ok-KBM"/>
+                                <outlet property="chatTable" destination="vgn-HL-6qP" id="71L-NH-loh"/>
+                                <outlet property="delegate" destination="-1" id="GTe-MS-11N"/>
+                                <outlet property="flagButton" destination="Vdu-ZQ-C7L" id="ZOT-sw-jTv"/>
+                                <outlet property="flagCheckImage" destination="fc9-8o-SgO" id="grA-i2-SWI"/>
+                                <outlet property="flagSpinner" destination="jwA-aR-Otm" id="swD-Ik-ikU"/>
+                                <outlet property="languageSelectorView" destination="jo8-Ux-jma" id="458-UI-qSZ"/>
+                                <outlet property="monsterView" destination="BJg-MG-dmm" id="0kA-B3-Qsz"/>
+                                <outlet property="popoverView" destination="pfc-Vl-jbC" id="k5Z-Vv-oNE"/>
+                                <outlet property="textField" destination="Wp2-ML-0ur" id="WLz-dx-7wL"/>
+                            </connections>
+                        </view>
+                        <view contentMode="scaleToFill" id="qDn-fu-Cwv" userLabel="LiveHelp">
+                            <rect key="frame" x="46" y="-14" width="102" height="56"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="t1s-6X-Vjj" customClass="GeneralButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="90" height="56"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="topLiveHelpClicked:" destination="-1" eventType="touchUpInside" id="7xl-VR-YRR"/>
+                                    </connections>
+                                </button>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="livehelpgirl.png" id="lFz-KJ-nrQ">
+                                    <rect key="frame" x="-5" y="0.0" width="72" height="56"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Live Support" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9dP-2u-669" customClass="ShadowBlurLabel">
+                                    <rect key="frame" x="46" y="18" width="60" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="11"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                            <real key="value" value="1"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat Now »" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6yj-CL-qfl" customClass="ShadowBlurLabel">
+                                    <rect key="frame" x="46" y="30" width="60" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="8"/>
+                                    <color key="textColor" red="0.99215686274509807" green="0.75686274509803919" blue="0.035294117647058823" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                            <real key="value" value="1"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <view contentMode="scaleToFill" id="OYW-4i-mb0" userLabel="Top View">
-                            <rect key="frame" x="3" y="3" width="453" height="39"/>
+                            <rect key="frame" x="38" y="3" width="480" height="39"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="QvB-dK-o7n" userLabel="Private Chat Back View">
-                                    <rect key="frame" x="5" y="-3" width="443" height="42"/>
+                                    <rect key="frame" x="5" y="-3" width="470" height="42"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupheadermiddle.png" id="gcF-y7-ufs">
-                                            <rect key="frame" x="0.0" y="3" width="445" height="39"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Meepert" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="003-5V-mHH" customClass="NiceFontLabel12B">
-                                            <rect key="frame" x="116" y="5" width="211" height="31"/>
+                                            <rect key="frame" x="129" y="9" width="211" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
@@ -154,20 +389,7 @@
                                             </subviews>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupheadercap.png" id="8Vj-gO-48L">
-                                    <rect key="frame" x="0.0" y="0.0" width="5" height="39"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupheadermiddle.png" id="dnj-Ww-qWN">
-                                    <rect key="frame" x="4" y="0.0" width="445" height="39"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupheadercap.png" id="83M-fo-jfN" customClass="FlipImageView">
-                                    <rect key="frame" x="448" y="0.0" width="5" height="39"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                </imageView>
                                 <view contentMode="scaleToFill" id="4NH-0q-KJj" userLabel="TranslatorView">
                                     <rect key="frame" x="357" y="5" width="56" height="29"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -217,82 +439,72 @@
                                     </subviews>
                                 </view>
                                 <view contentMode="scaleToFill" id="eXa-Ou-uhP" customClass="ButtonTabBar">
-                                    <rect key="frame" x="61" y="-2" width="299" height="41"/>
+                                    <rect key="frame" x="71" y="-2" width="299" height="41"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1Ry-Xq-I5P" customClass="GeneralButton">
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1Ry-Xq-I5P" customClass="GeneralButton">
                                             <rect key="frame" x="41" y="7" width="83" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="chatinactiveside.png">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                                            <size key="titleShadowOffset" width="0.0" height="1"/>
+                                            <state key="normal" title="Global">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                             </state>
-                                            <state key="disabled" image="chatactiveside.png"/>
-                                            <state key="highlighted" image="chatpressedside.png"/>
+                                            <state key="disabled">
+                                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
                                             <connections>
                                                 <action selector="buttonClicked:" destination="eXa-Ou-uhP" eventType="touchUpInside" id="cKE-rJ-CEU"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VVM-Zm-3gA" customClass="GeneralButton">
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="VVM-Zm-3gA" customClass="GeneralButton">
                                             <rect key="frame" x="124" y="7" width="83" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="chatinactivemiddle.png">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                                            <size key="titleShadowOffset" width="0.0" height="1"/>
+                                            <state key="normal" title="Clan">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                             </state>
-                                            <state key="disabled" image="chatactivemiddle.png"/>
+                                            <state key="disabled">
+                                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
                                             <state key="highlighted" image="chatpressedmiddle.png"/>
                                             <connections>
                                                 <action selector="buttonClicked:" destination="eXa-Ou-uhP" eventType="touchUpInside" id="hcg-wt-LHJ"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4W5-oe-7D1" customClass="GeneralButton">
+                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4W5-oe-7D1" customClass="GeneralButton">
                                             <rect key="frame" x="207" y="7" width="83" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="chatinactiveside.png">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                                            <size key="titleShadowOffset" width="0.0" height="1"/>
+                                            <state key="normal" title="Private">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                             </state>
-                                            <state key="disabled" image="chatactiveside.png"/>
+                                            <state key="disabled">
+                                                <color key="titleColor" red="0.99607843139999996" green="0.85490196080000003" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
                                             <state key="highlighted" image="chatpressedside.png"/>
                                             <connections>
                                                 <action selector="buttonClicked:" destination="eXa-Ou-uhP" eventType="touchUpInside" id="Nix-qK-KaX"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GLOBAL" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="inc-Nl-gRT" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="54" y="9" width="70" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" red="0.031372549020000001" green="0.44705882349999998" blue="0.63137254899999995" alpha="1" colorSpace="deviceRGB"/>
-                                            <color key="highlightedColor" red="0.0" green="0.14901960780000001" blue="0.27058823529999998" alpha="1" colorSpace="deviceRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SQUAD" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="NPl-0B-Mit" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="140" y="9" width="70" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" red="0.031372549020000001" green="0.44705882349999998" blue="0.63137254899999995" alpha="1" colorSpace="deviceRGB"/>
-                                            <color key="highlightedColor" red="0.0" green="0.14901960780000001" blue="0.27058823529999998" alpha="1" colorSpace="deviceRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRIVATE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="dbo-68-EIk" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="220" y="9" width="70" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" red="0.031372549020000001" green="0.44705882349999998" blue="0.63137254899999995" alpha="1" colorSpace="deviceRGB"/>
-                                            <color key="highlightedColor" red="0.0" green="0.14901960780000001" blue="0.27058823529999998" alpha="1" colorSpace="deviceRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="Pjs-Fm-PfB" customClass="BadgeIcon">
-                                            <rect key="frame" x="116" y="0.0" width="18" height="18"/>
+                                            <rect key="frame" x="107" y="7" width="29" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="badgeicon.png" id="DQa-pJ-0vf">
-                                                    <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="headernotificationbubble.png" id="DQa-pJ-0vf">
+                                                    <rect key="frame" x="0.0" y="0.0" width="29" height="29"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="hQi-QD-uNp" customClass="NiceFontLabel8S">
-                                                    <rect key="frame" x="1" y="-1" width="18" height="19"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="hQi-QD-uNp">
+                                                    <rect key="frame" x="5" y="4" width="18" height="19"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="11"/>
+                                                    <color key="textColor" red="0.98431372549019602" green="0.0" blue="0.10588235294117647" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
@@ -304,18 +516,18 @@
                                             </connections>
                                         </view>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="3lP-rt-9fe" customClass="BadgeIcon">
-                                            <rect key="frame" x="198" y="0.0" width="18" height="18"/>
+                                            <rect key="frame" x="186" y="7" width="29" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="badgeicon.png" id="s4a-Ma-hcD">
-                                                    <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="headernotificationbubble.png" id="s4a-Ma-hcD">
+                                                    <rect key="frame" x="0.0" y="0.0" width="29" height="29"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="XKD-el-mEy" customClass="NiceFontLabel8S">
-                                                    <rect key="frame" x="1" y="-1" width="18" height="19"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="XKD-el-mEy">
+                                                    <rect key="frame" x="6" y="5" width="18" height="19"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="11"/>
+                                                    <color key="textColor" red="0.98431372549999996" green="0.0" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
@@ -327,18 +539,18 @@
                                             </connections>
                                         </view>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="2dE-gs-eUi" customClass="BadgeIcon">
-                                            <rect key="frame" x="281" y="0.0" width="18" height="18"/>
+                                            <rect key="frame" x="277" y="8" width="29" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="badgeicon.png" id="9Bs-GK-pzW">
-                                                    <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="headernotificationbubble.png" id="9Bs-GK-pzW">
+                                                    <rect key="frame" x="0.0" y="0.0" width="29" height="29"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="O02-Kh-2QZ" customClass="NiceFontLabel8S">
-                                                    <rect key="frame" x="1" y="-1" width="18" height="19"/>
+                                                    <rect key="frame" x="5" y="5" width="18" height="19"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="11"/>
+                                                    <color key="textColor" red="0.98431372549999996" green="0.0" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
@@ -349,246 +561,17 @@
                                                 <outlet property="badgeLabel" destination="O02-Kh-2QZ" id="bqY-JA-EM7"/>
                                             </connections>
                                         </view>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatglobalinactive.png" highlightedImage="chatglobalactive.png" id="5Z2-pw-LOQ">
-                                            <rect key="frame" x="50" y="16" width="10" height="10"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatclaninactive.png" highlightedImage="chatclanactive.png" id="IyJ-3c-1Zn">
-                                            <rect key="frame" x="139" y="16" width="14" height="11"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatprivateinactive.png" highlightedImage="chatprivateactive.png" id="84F-Re-ddH">
-                                            <rect key="frame" x="217" y="16" width="10" height="10"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
                                         <outlet property="delegate" destination="-1" id="Auk-R4-WJL"/>
-                                        <outlet property="icon1" destination="5Z2-pw-LOQ" id="9PF-a5-Dg9"/>
-                                        <outlet property="icon2" destination="IyJ-3c-1Zn" id="yH9-ZB-EEx"/>
-                                        <outlet property="icon3" destination="84F-Re-ddH" id="0mW-yF-RAx"/>
-                                        <outlet property="label1" destination="inc-Nl-gRT" id="UdA-2A-Cex"/>
-                                        <outlet property="label2" destination="NPl-0B-Mit" id="iMI-Hf-H51"/>
-                                        <outlet property="label3" destination="dbo-68-EIk" id="1u1-Bf-OHr"/>
                                     </connections>
                                 </view>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="iGf-xh-f88" userLabel="Close Button" customClass="CloseButton">
-                            <rect key="frame" x="420" y="7" width="30" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" image="closepopupx.png">
-                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="closeClicked:" destination="-1" eventType="touchUpInside" id="jN7-ZB-mx4"/>
-                            </connections>
-                        </button>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" id="2zl-FB-oOf">
-                            <rect key="frame" x="3" y="42" width="453" height="251"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <view contentMode="scaleToFill" id="Han-uB-4S1" customClass="GlobalChatView">
-                                    <rect key="frame" x="0.0" y="0.0" width="453" height="251"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="66" sectionHeaderHeight="14" sectionFooterHeight="22" id="vgn-HL-6qP" customClass="CancellableTableView">
-                                            <rect key="frame" x="0.0" y="0.0" width="453" height="205"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                                            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                            <connections>
-                                                <outlet property="dataSource" destination="Han-uB-4S1" id="heE-Pg-ysX"/>
-                                                <outlet property="delegate" destination="Han-uB-4S1" id="Fg5-8I-IwO"/>
-                                            </connections>
-                                        </tableView>
-                                        <view contentMode="scaleToFill" id="fck-TC-Vtx" userLabel="Bottom View">
-                                            <rect key="frame" x="0.0" y="205" width="453" height="43"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" id="Pbc-a5-iV9">
-                                                    <rect key="frame" x="0.0" y="0.0" width="453" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <subviews>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbgcap.png" id="ZH0-EH-Lgh">
-                                                            <rect key="frame" x="0.0" y="0.0" width="6" height="43"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        </imageView>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputbgmiddle.png" id="rCf-zt-9VG">
-                                                            <rect key="frame" x="6" y="0.0" width="441" height="43"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                        </imageView>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbgcap.png" id="Osw-Nt-3a8" customClass="FlipImageView">
-                                                            <rect key="frame" x="447" y="0.0" width="6" height="43"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                        </imageView>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                </view>
-                                                <view contentMode="scaleToFill" id="9YE-0F-DTJ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="453" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                    <subviews>
-                                                        <view contentMode="scaleToFill" id="BJg-MG-dmm" customClass="CircleMonsterView">
-                                                            <rect key="frame" x="5" y="7" width="30" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <subviews>
-                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightavatar.png" id="hqQ-d6-qM2">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                </imageView>
-                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="qQd-oo-9Dm">
-                                                                    <rect key="frame" x="1" y="2" width="28" height="28"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                </imageView>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oMo-KK-YZA" customClass="MaskedButton">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <state key="normal">
-                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    </state>
-                                                                    <connections>
-                                                                        <action selector="avatarClicked:" destination="-1" eventType="touchUpInside" id="Po7-ye-utl"/>
-                                                                        <outlet property="baseImage" destination="hqQ-d6-qM2" id="4Vb-F9-V3p"/>
-                                                                    </connections>
-                                                                </button>
-                                                            </subviews>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <connections>
-                                                                <outlet property="bgdIcon" destination="hqQ-d6-qM2" id="QPB-ev-TDM"/>
-                                                                <outlet property="monsterIcon" destination="qQd-oo-9Dm" id="lp5-pX-jXo"/>
-                                                            </connections>
-                                                        </view>
-                                                        <view contentMode="scaleToFill" id="eKP-nA-QNR" userLabel="Send View">
-                                                            <rect key="frame" x="388" y="7" width="57" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                            <subviews>
-                                                                <button opaque="NO" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZmF-gc-9yY" customClass="GeneralButton">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="57" height="29"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                                    <state key="normal" image="sendchat.png">
-                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    </state>
-                                                                    <connections>
-                                                                        <action selector="sendChatClicked:" destination="Han-uB-4S1" eventType="touchUpInside" id="7yx-Jl-ouG"/>
-                                                                    </connections>
-                                                                </button>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="g3I-0I-hE2" customClass="NiceFontLabel12B">
-                                                                    <rect key="frame" x="7" y="3" width="42" height="21"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <color key="shadowColor" white="0.0" alpha="0.25" colorSpace="calibratedWhite"/>
-                                                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                                                </label>
-                                                            </subviews>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                        </view>
-                                                        <view contentMode="scaleToFill" id="zNZ-zW-g71" userLabel="Input View">
-                                                            <rect key="frame" x="39" y="7" width="343" height="29"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                            <subviews>
-                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputcap.png" id="a5m-b6-lxe">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="5" height="29"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                </imageView>
-                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputcap.png" id="gHa-gl-bd4" customClass="FlipImageView">
-                                                                    <rect key="frame" x="338" y="0.0" width="5" height="29"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                                </imageView>
-                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputmiddle.png" id="5fI-vZ-1eG">
-                                                                    <rect key="frame" x="5" y="0.0" width="333" height="29"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                </imageView>
-                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Message..." minimumFontSize="17" id="Wp2-ML-0ur" customClass="NiceFontTextField17">
-                                                                    <rect key="frame" x="7" y="1" width="328" height="27"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                                    <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                                                    <connections>
-                                                                        <outlet property="delegate" destination="Han-uB-4S1" id="bHX-S6-Qr1"/>
-                                                                    </connections>
-                                                                </textField>
-                                                            </subviews>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                        </view>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                        </view>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <connections>
-                                        <outlet property="bottomView" destination="fck-TC-Vtx" id="CQc-ok-KBM"/>
-                                        <outlet property="chatTable" destination="vgn-HL-6qP" id="71L-NH-loh"/>
-                                        <outlet property="delegate" destination="-1" id="GTe-MS-11N"/>
-                                        <outlet property="flagButton" destination="Vdu-ZQ-C7L" id="ZOT-sw-jTv"/>
-                                        <outlet property="flagCheckImage" destination="fc9-8o-SgO" id="grA-i2-SWI"/>
-                                        <outlet property="flagSpinner" destination="jwA-aR-Otm" id="swD-Ik-ikU"/>
-                                        <outlet property="languageSelectorView" destination="jo8-Ux-jma" id="458-UI-qSZ"/>
-                                        <outlet property="monsterView" destination="BJg-MG-dmm" id="0kA-B3-Qsz"/>
-                                        <outlet property="popoverView" destination="pfc-Vl-jbC" id="k5Z-Vv-oNE"/>
-                                        <outlet property="textField" destination="Wp2-ML-0ur" id="WLz-dx-7wL"/>
-                                    </connections>
-                                </view>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                        <view contentMode="scaleToFill" id="qDn-fu-Cwv" userLabel="LiveHelp">
-                            <rect key="frame" x="0.0" y="-14" width="102" height="56"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="t1s-6X-Vjj" customClass="GeneralButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="90" height="56"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="topLiveHelpClicked:" destination="-1" eventType="touchUpInside" id="7xl-VR-YRR"/>
-                                    </connections>
-                                </button>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="livehelpgirl.png" id="lFz-KJ-nrQ">
-                                    <rect key="frame" x="-5" y="0.0" width="72" height="56"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Live Help!" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9dP-2u-669" customClass="NiceFontLabel14B">
-                                    <rect key="frame" x="46" y="18" width="60" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat Now »" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6yj-CL-qfl" customClass="NiceFontLabel14B">
-                                    <rect key="frame" x="46" y="30" width="60" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                    <color key="textColor" red="0.61568629741668701" green="1" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
                         <outletCollection property="allowedViews" destination="fck-TC-Vtx" id="seq-0X-zlk"/>
                         <outletCollection property="allowedViews" destination="4ei-bl-984" id="6cj-QZ-E08"/>
@@ -599,8 +582,8 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-            <point key="canvasLocation" x="-92" y="-33"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <point key="canvasLocation" x="-200.5" y="-219.5"/>
         </view>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="eIq-PW-faH" customClass="ClanChatView">
@@ -630,10 +613,10 @@
                                     <rect key="frame" x="0.0" y="0.0" width="453" height="45"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7 Squad Mates Requested Help" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YQs-7p-e9P" customClass="NiceFontLabel12">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7 Squad Mates Requested Help" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YQs-7p-e9P">
                                     <rect key="frame" x="12" y="5" width="290" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="11"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                     <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -642,7 +625,7 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click Help to speed up their timers." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Bx-E2-Nbs" customClass="NiceFontLabel2">
                                     <rect key="frame" x="12" y="24" width="290" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="9"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -653,17 +636,17 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Do9-Fk-Hee" customClass="GeneralButton">
                                             <rect key="frame" x="0.0" y="7" width="82" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="chathelpallbutton.png">
+                                            <state key="normal" image="greenmediumbutton.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
                                                 <action selector="helpAllClicked:" destination="eIq-PW-faH" eventType="touchUpInside" id="kho-PT-rIY"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Help All" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="XLV-kD-Xkf" customClass="NiceFontLabel12B">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Help All" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="XLV-kD-Xkf">
                                             <rect key="frame" x="0.0" y="10" width="82" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="11"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="shadowColor" white="0.0" alpha="0.25" colorSpace="calibratedWhite"/>
@@ -738,23 +721,14 @@
                                                 <button opaque="NO" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="60j-dl-Kku" customClass="GeneralButton">
                                                     <rect key="frame" x="0.0" y="0.0" width="57" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <state key="normal" image="sendchat.png">
+                                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="15"/>
+                                                    <state key="normal" title="Send">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="sendChatClicked:" destination="eIq-PW-faH" eventType="touchUpInside" id="WJi-62-OBy"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="DlP-SZ-vJX" customClass="NiceFontLabel12B">
-                                                    <rect key="frame" x="7" y="3" width="42" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="shadowColor" white="0.0" alpha="0.25" colorSpace="calibratedWhite"/>
-                                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -817,7 +791,8 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="AlB-5f-M9Z" customClass="GeneralButton">
                                     <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" image="greenmenuoption.png">
+                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="18"/>
+                                    <state key="normal" image="greenmediumbutton.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -827,19 +802,19 @@
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Squad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="7AH-So-htw" customClass="NiceFontLabel12B">
                                     <rect key="frame" x="11" y="14" width="58" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                    <color key="textColor" red="0.090196078430000007" green="0.47058823529999999" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="11"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="shadowColor" red="0.96470588239999999" green="1" blue="0.51372549020000002" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
+                                    <color key="shadowColor" white="0.5" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join a" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="mIA-qk-Gs2" customClass="NiceFontLabel12B">
                                     <rect key="frame" x="11" y="1" width="58" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                    <color key="textColor" red="0.090196078430000007" green="0.47058823529999999" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="9"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="shadowColor" red="0.96470588239999999" green="1" blue="0.51372549020000002" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
+                                    <color key="shadowColor" white="0.5" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                             </subviews>
@@ -884,10 +859,10 @@
                                     <rect key="frame" x="0.0" y="0.0" width="453" height="32"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="a2I-4c-rsp" customClass="NiceFontButton9">
-                                    <rect key="frame" x="64" y="4" width="99" height="21"/>
+                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="a2I-4c-rsp">
+                                    <rect key="frame" x="64" y="5" width="99" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="10"/>
                                     <state key="normal" title="ALL MESSAGES">
                                         <color key="titleColor" red="0.039215686274509803" green="0.61960784313725492" blue="0.84313725490196079" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -903,21 +878,6 @@
                                     <rect key="frame" x="169" y="7" width="1" height="14"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V7I-ZQ-HVP" customClass="NiceFontButton2">
-                                    <rect key="frame" x="176" y="5" width="101" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                    <state key="normal" title="DEFENSIVE LOG">
-                                        <color key="titleColor" red="0.63529411764705879" green="0.63529411764705879" blue="0.63529411764705879" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="privateSubTabClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="Duk-CI-Yze"/>
-                                    </connections>
-                                </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(5)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="K4q-Pu-fo8" customClass="NiceFontLabel2">
                                     <rect key="frame" x="262" y="4" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -929,10 +889,10 @@
                                     <rect key="frame" x="285" y="7" width="1" height="14"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JdZ-dN-w3T" customClass="NiceFontButton2">
-                                    <rect key="frame" x="290" y="4" width="99" height="21"/>
+                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JdZ-dN-w3T">
+                                    <rect key="frame" x="291" y="5" width="99" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="10"/>
                                     <state key="normal" title="OFFENSIVE LOG">
                                         <color key="titleColor" red="0.63529411764705879" green="0.63529411764705879" blue="0.63529411764705879" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -942,6 +902,21 @@
                                     </state>
                                     <connections>
                                         <action selector="privateSubTabClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="Jkm-rR-diq"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V7I-ZQ-HVP">
+                                    <rect key="frame" x="176" y="5" width="101" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="10"/>
+                                    <state key="normal" title="DEFENSIVE LOG">
+                                        <color key="titleColor" red="0.63529411764705879" green="0.63529411764705879" blue="0.63529411764705879" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="privateSubTabClicked:" destination="EYy-Nb-xNZ" eventType="touchUpInside" id="Duk-CI-Yze"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -1153,20 +1128,20 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bRe-In-ZDW">
                             <rect key="frame" x="0.0" y="0.0" width="68" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" image="bluesmallbutton.png">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="18"/>
+                            <state key="normal" title="Profile" image="bluemediumbutton.png">
+                                <color key="titleShadowColor" white="0.5" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="profileClicked:" destination="pfc-Vl-jbC" eventType="touchUpInside" id="Fk0-HG-v0R"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qeE-QL-K2K" customClass="NiceFontLabel12B">
-                            <rect key="frame" x="5" y="3" width="58" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="rEp-Dj-aG7">
+                            <rect key="frame" x="5" y="4" width="58" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" red="0.0" green="0.33333333333333331" blue="0.55294117647058827" alpha="1" colorSpace="deviceRGB"/>
+                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="10"/>
+                            <color key="textColor" red="1" green="0.98823529409999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="shadowColor" red="0.52941176470588236" green="0.98431372549019602" blue="1" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                     </subviews>
@@ -1186,13 +1161,12 @@
                                 <action selector="messageClicked:" destination="pfc-Vl-jbC" eventType="touchUpInside" id="t3d-fk-zWN"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="A9M-x6-4Zh" customClass="NiceFontLabel12B">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="A9M-x6-4Zh">
                             <rect key="frame" x="5" y="3" width="58" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" red="0.090196078431372548" green="0.47058823529411764" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="10"/>
+                            <color key="textColor" red="1" green="0.98823529409999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="shadowColor" red="0.96470588235294119" green="1" blue="0.51372549019607838" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                     </subviews>
@@ -1205,20 +1179,20 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HXG-rl-s6Q">
                             <rect key="frame" x="0.0" y="0.0" width="68" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" image="redsmallbutton.png">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="18"/>
+                            <state key="normal" image="pinkmediumbutton.png">
+                                <color key="titleShadowColor" white="0.5" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="muteClicked:" destination="pfc-Vl-jbC" eventType="touchUpInside" id="tBQ-WQ-iLB"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mute 24h" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="hJQ-wn-jLM" customClass="NiceFontLabel12B">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mute 24h" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="hJQ-wn-jLM">
                             <rect key="frame" x="5" y="3" width="58" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" red="0.51372549019607838" green="0.011764705882352941" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="10"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="shadowColor" red="1" green="0.63921568627450975" blue="0.38039215686274508" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                     </subviews>
@@ -1231,7 +1205,7 @@
             <point key="canvasLocation" x="-131" y="497.5"/>
         </view>
         <view contentMode="scaleToFill" id="jo8-Ux-jma" userLabel="LanguageSelect" customClass="ChatLanguageSelectorView">
-            <rect key="frame" x="5" y="0.0" width="256" height="113"/>
+            <rect key="frame" x="0.0" y="0.0" width="256" height="113"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chattranslatoredge.png" id="BWH-P8-7pj">
@@ -1388,56 +1362,40 @@
     </objects>
     <resources>
         <image name="activelanguageflag.png" width="36" height="26"/>
-        <image name="badgeicon.png" width="18" height="18"/>
-        <image name="bluesmallbutton.png" width="68" height="30"/>
-        <image name="chatactivemiddle.png" width="83" height="28"/>
-        <image name="chatactiveside.png" width="83" height="28"/>
-        <image name="chatclanactive.png" width="14" height="11"/>
-        <image name="chatclaninactive.png" width="14" height="11"/>
-        <image name="chatglobalactive.png" width="10" height="10"/>
-        <image name="chatglobalinactive.png" width="10" height="10"/>
-        <image name="chathelpallbutton.png" width="82" height="29"/>
-        <image name="chatinactivemiddle.png" width="83" height="28"/>
-        <image name="chatinactiveside.png" width="83" height="28"/>
+        <image name="bigchatbg.png" width="551" height="352"/>
+        <image name="bigchatbgshadow.png" width="557" height="358"/>
+        <image name="bluemediumbutton.png" width="77" height="42"/>
         <image name="chatinputbgcap.png" width="6" height="43"/>
         <image name="chatinputbgmiddle.png" width="1" height="43"/>
-        <image name="chatinputcap.png" width="5" height="29"/>
-        <image name="chatinputmiddle.png" width="1" height="29"/>
+        <image name="chatinputcap.png" width="6" height="31"/>
+        <image name="chatinputmiddle.png" width="1" height="31"/>
         <image name="chatpopupbg.png" width="226" height="51"/>
         <image name="chatpressedmiddle.png" width="83" height="28"/>
         <image name="chatpressedside.png" width="83" height="28"/>
-        <image name="chatprivateactive.png" width="10" height="10"/>
-        <image name="chatprivateinactive.png" width="10" height="10"/>
         <image name="chatsquadhelpbg.png" width="1" height="52"/>
         <image name="chattranslatorarrow.png" width="18" height="113"/>
         <image name="chattranslatoredge.png" width="8" height="105"/>
         <image name="chattranslatormiddle.png" width="1" height="105"/>
-        <image name="closepopupx.png" width="25" height="26"/>
+        <image name="closearrow.png" width="25" height="26"/>
         <image name="flagarabic.png" width="31" height="21"/>
         <image name="flagenglish.png" width="31" height="21"/>
         <image name="flagfrench.png" width="31" height="21"/>
         <image name="flaggerman.png" width="31" height="21"/>
         <image name="flagrussian.png" width="31" height="21"/>
         <image name="flagspanish.png" width="31" height="21"/>
-        <image name="greenmenuoption.png" width="80" height="40"/>
-        <image name="greensmallbutton.png" width="68" height="30"/>
+        <image name="greenmediumbutton.png" width="77" height="42"/>
+        <image name="greensmallbutton.png" width="43" height="27"/>
+        <image name="headernotificationbubble.png" width="29" height="29"/>
         <image name="livehelpgirl.png" width="43" height="51"/>
         <image name="logobg.png" width="1" height="32"/>
         <image name="maptaskdonebg.png" width="15" height="15"/>
         <image name="maptaskdonecheck.png" width="20" height="18"/>
         <image name="nightavatar.png" width="30" height="30"/>
-        <image name="popupheadercap.png" width="5" height="39"/>
-        <image name="popupheadermiddle.png" width="1" height="39"/>
+        <image name="pinkmediumbutton.png" width="77" height="42"/>
         <image name="popupline.png" width="1" height="1"/>
         <image name="popuplinevertical.png" width="1" height="1"/>
-        <image name="redsmallbutton.png" width="68" height="30"/>
         <image name="sendchat.png" width="57" height="29"/>
         <image name="translateselectflagbutton.png" width="56" height="29"/>
-        <image name="whitebackbutton.png" width="14" height="21"/>
+        <image name="whitebackbutton.png" width="16" height="24"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>
