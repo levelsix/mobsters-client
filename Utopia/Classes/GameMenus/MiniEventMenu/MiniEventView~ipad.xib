@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBlack.otf">
+            <string>MikadoBlack</string>
+            <string>MikadoBlack</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MiniEventViewController">
             <connections>
@@ -85,8 +91,9 @@
                                                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SYP-mx-v3w" userLabel="Tab 1 Button" customClass="GeneralButton">
                                                             <rect key="frame" x="53" y="0.0" width="134" height="92"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                                                            <state key="normal" title="Event">
+                                                                <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             </state>
                                                             <state key="disabled" backgroundImage="tabactivestate.png"/>
                                                             <state key="highlighted" backgroundImage="tabpressedstate.png"/>
@@ -94,22 +101,12 @@
                                                                 <action selector="buttonClicked:" destination="JyG-Qo-L1q" eventType="touchUpInside" id="cXX-4d-c9m"/>
                                                             </connections>
                                                         </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EVENT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="NHZ-Ej-aZu" customClass="NiceFontLabel9">
-                                                            <rect key="frame" x="61" y="53" width="118" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <nil key="highlightedColor"/>
-                                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                                        </label>
-                                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="eventeventinactive.png" highlightedImage="eventeventactive.png" id="qOp-u1-FhS">
-                                                            <rect key="frame" x="104" y="15" width="33" height="36"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
                                                         <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="EM5-xr-smf" userLabel="Tab 2 Button" customClass="GeneralButton">
                                                             <rect key="frame" x="187" y="0.0" width="134" height="92"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <fontDescription key="fontDescription" name="MikadoBlack" family="Mikado" pointSize="18"/>
+                                                            <state key="normal" title="Earn Points">
+                                                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             </state>
                                                             <state key="disabled" backgroundImage="tabactivestate.png"/>
                                                             <state key="highlighted" backgroundImage="tabpressedstate.png"/>
@@ -117,25 +114,10 @@
                                                                 <action selector="buttonClicked:" destination="JyG-Qo-L1q" eventType="touchUpInside" id="nZQ-3i-pP0"/>
                                                             </connections>
                                                         </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EARN POINTS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="pac-Sc-Dog" customClass="NiceFontLabel9">
-                                                            <rect key="frame" x="195" y="53" width="118" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <nil key="highlightedColor"/>
-                                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                                        </label>
-                                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="eventearnpointsinactive.png" highlightedImage="eventearnpointsactive.png" id="8uo-xF-Bes">
-                                                            <rect key="frame" x="238" y="15" width="33" height="36"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="-1" id="hMh-Jv-UDQ"/>
-                                                        <outlet property="icon1" destination="qOp-u1-FhS" id="BoH-2C-fZO"/>
-                                                        <outlet property="icon2" destination="8uo-xF-Bes" id="rio-sA-hEx"/>
-                                                        <outlet property="label1" destination="NHZ-Ej-aZu" id="j1I-Ju-W4b"/>
-                                                        <outlet property="label2" destination="pac-Sc-Dog" id="1Os-Iy-ryK"/>
                                                     </connections>
                                                 </view>
                                             </subviews>
@@ -163,18 +145,9 @@
         </view>
     </objects>
     <resources>
-        <image name="eventearnpointsactive.png" width="18" height="20"/>
-        <image name="eventearnpointsinactive.png" width="18" height="20"/>
-        <image name="eventeventactive.png" width="18" height="20"/>
-        <image name="eventeventinactive.png" width="18" height="20"/>
         <image name="homemenutop.png" width="1" height="57"/>
         <image name="menuclosex.png" width="17" height="17"/>
         <image name="tabactivestate.png" width="1" height="57"/>
         <image name="tabpressedstate.png" width="1" height="57"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>
