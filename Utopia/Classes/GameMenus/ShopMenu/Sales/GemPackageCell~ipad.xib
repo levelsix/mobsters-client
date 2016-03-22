@@ -114,7 +114,7 @@
     <resources>
         <image name="baggems.png" width="29" height="36"/>
         <image name="diamond.png" width="28" height="28"/>
-        <image name="gempackagecap.png" width="345" height="52"/>
+        <image name="gempackagecap.png" width="13" height="21"/>
         <image name="gempackagecappressed.png" width="345" height="52"/>
         <image name="gempackagemiddle.png" width="345" height="52"/>
         <image name="gempackagemiddlepressed.png" width="345" height="52"/>

@@ -142,7 +142,7 @@
         </view>
     </objects>
     <resources>
-        <image name="bluenotificationheadercap.png" width="481" height="294"/>
+        <image name="bluenotificationheadercap.png" width="13" height="21"/>
         <image name="bluenotificationheadermiddle.png" width="78" height="33"/>
         <image name="closepopupx.png" width="25" height="26"/>
         <image name="popuppressedtab.png" width="86" height="32"/>

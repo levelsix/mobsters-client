@@ -10,6 +10,8 @@
         </mutableArray>
         <mutableArray key="HVD Fonts - MikadoRegular.otf">
             <string>MikadoRegular</string>
+            <string>MikadoRegular</string>
+            <string>MikadoRegular</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -35,18 +37,18 @@
                     <rect key="frame" x="25" y="16" width="20" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="POWER:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="niS-zo-fKx" customClass="NiceFontLabel9">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="POWER:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="niS-zo-fKx">
                     <rect key="frame" x="8" y="63" width="45" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="9"/>
                     <color key="textColor" red="0.43529411764705883" green="0.62352941176470589" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="zqP-dQ-Mdd" customClass="NiceFontLabel8">
-                    <rect key="frame" x="52" y="63" width="15" height="20"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="zqP-dQ-Mdd">
+                    <rect key="frame" x="52" y="62" width="15" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="10"/>
                     <color key="textColor" red="0.43529411764705883" green="0.62352941176470589" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                     <size key="shadowOffset" width="0.0" height="1"/>

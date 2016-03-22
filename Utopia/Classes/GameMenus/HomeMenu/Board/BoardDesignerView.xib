@@ -135,7 +135,7 @@
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="color" keyPath="gradientStartColor">
-                                                    <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="value" red="1" green="0.98823529409999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 </userDefinedRuntimeAttribute>
                                                 <userDefinedRuntimeAttribute type="color" keyPath="gradientEndColor">
                                                     <color key="value" red="1" green="0.94117647059999998" blue="0.80784313730000001" alpha="1" colorSpace="calibratedRGB"/>
