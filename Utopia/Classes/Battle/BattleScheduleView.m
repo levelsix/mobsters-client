@@ -11,8 +11,6 @@
 #import "Globals.h"
 #import "CAKeyFrameAnimation+Jumping.h"
 
-#define VIEW_SPACING 4
-
 @implementation SideEffectActiveTurns
 
 - (instancetype) init
@@ -36,7 +34,7 @@
   _battleSchedule = nil;
   _upcomingSideEffectTurns = [NSMutableDictionary dictionary];
   
-  UIImage *dark = [Globals maskImage:self.bgdView.image withColor:[UIColor colorWithWhite:0.f alpha:1.f]];
+  UIImage *dark = [Globals maskImage:[Globals snapShotView:self.bgdView] withColor:[UIColor colorWithWhite:0.f alpha:1.f]];
   UIImageView *img = [[UIImageView alloc] initWithImage:dark];
   [self.bgdView.superview addSubview:img];
   img.frame = self.bgdView.frame;
@@ -59,7 +57,10 @@
 - (void) setFrame:(CGRect)frame {
   [super setFrame:frame];
   
-  self.numSlots = roundf(self.width/(self.currentBorder.width+VIEW_SPACING));
+  //self.numSlots = roundf(self.width/(self.currentBorder.width+VIEW_SPACING));
+  
+  // We know currentBorder width is 1 more than miniMonsterViews
+  self.currentBorder.center = [self.currentBorder.superview convertPoint:[self centerForIndex:0 width:self.currentBorder.width-1] fromView:self.containerView];
 }
 
 - (void) setBattleSchedule:(__weak BattleSchedule*)battleSchedule
@@ -190,9 +191,9 @@
 }
 
 - (CGPoint) centerForIndex:(int)i width:(float)width {
-  
-  return ccp(self.containerView.frame.size.width-VIEW_SPACING*(i+1)-width*(i+0.5),
-             self.containerView.frame.size.height/2);
+  CGFloat viewSpacing = (self.containerView.width-width*self.numSlots)/(self.numSlots+1);
+  return ccp(self.containerView.width-viewSpacing*(i+1)-width*(i+0.5),
+             self.containerView.height/2);
 }
 
 - (MiniMonsterView *) monsterViewForMonsterId:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player {

@@ -25,7 +25,7 @@
 
 @implementation BattleSprite
 
-- (id) initWithPrefix:(NSString *)prefix nameString:(NSAttributedString *)name rarity:(Quality)rarity animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset {
+- (id) initWithPrefix:(NSString *)prefix nameString:(NSAttributedString *)name rarity:(Quality)rarity element:(Element)element animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset {
   if ((self = [super init])) {
     self.prefix = prefix;
     self.contentSize = CGSizeMake(40, 55);
@@ -43,11 +43,11 @@
     
     self.isFacingNear = YES;
     
-    self.healthBgd = [CCSprite spriteWithImageNamed:@"minitimebg.png"];
+    self.healthBgd = [CCSprite spriteWithImageNamed:@"battlehpbg.png"];
     [self addChild:self.healthBgd z:100];
     self.healthBgd.position = ccp(self.contentSize.width/2, self.contentSize.height);
     
-    self.healthBar = [CCProgressNode progressWithSprite:[CCSprite spriteWithImageNamed:@"minihpbar.png"]];
+    self.healthBar = [CCProgressNode progressWithSprite:[CCSprite spriteWithImageNamed:[Globals imageNameForElement:element suffix:@"battlehp.png"]]];
     [self.healthBgd addChild:self.healthBar];
     self.healthBar.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height/2);
     self.healthBar.type = CCProgressNodeTypeBar;
@@ -55,7 +55,7 @@
     self.healthBar.barChangeRate = ccp(1,0);
     self.healthBar.percentage = 90;
     
-    self.healthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:@"GothamNarrow-Ultra" fontSize:11];
+    self.healthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:@"MikadoBold" fontSize:11];
     [self.healthBgd addChild:self.healthLabel];
     self.healthLabel.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height);
     self.healthLabel.color = [CCColor whiteColor];

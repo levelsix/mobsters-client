@@ -24,7 +24,7 @@
 @property (nonatomic, retain) IBOutlet UIView *emptyView;
 
 @property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *healthbar;
+@property (nonatomic, retain) IBOutlet ProgressBar *healthbar;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;
 
 @end
@@ -76,17 +76,17 @@
 @interface BattleHudView : TouchableSubviewsView <BattleSkillCounterPopupCallbackDelegate>
 
 @property (nonatomic, retain) IBOutlet UIView *swapView;
-@property (nonatomic, retain) IBOutlet THLabel *swapLabel;
+@property (nonatomic, retain) IBOutlet UILabel *swapLabel;
 @property (nonatomic, retain) IBOutlet BattleDeployView *deployView;
 @property (nonatomic, retain) IBOutlet UIView *forfeitButtonView;
 @property (nonatomic, retain) IBOutlet UIView *bottomView;
 @property (nonatomic, retain) UIButton *deployCancelButton;
-@property (nonatomic, retain) IBOutlet THLabel *waveNumLabel;
+@property (nonatomic, retain) IBOutlet UILabel *waveNumLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *itemsView;
 @property (nonatomic, retain) IBOutlet UIButton *itemsButton;
 @property (nonatomic, retain) IBOutlet UIImageView *itemsBag;
-@property (nonatomic, retain) IBOutlet THLabel *itemsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *itemsLabel;
 @property (nonatomic, retain) IBOutlet BadgeIcon *itemsBadge;
 
 @property (nonatomic, retain) IBOutlet UIButton *elementButton;

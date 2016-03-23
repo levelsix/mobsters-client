@@ -203,24 +203,17 @@
   self.battleScheduleView.hidden = YES;
   self.forfeitButtonView.hidden = YES;
   self.itemsView.alpha = 0.f;
+  //self.waveNumLabel.alpha = 0.f;
   
   self.elementView.center = ccp(CGRectGetMaxX(self.elementButton.frame), self.elementView.center.y);
   
-  //On ipad, waveNumLabel label isn't THLabel
-  if ([self.waveNumLabel isKindOfClass:[THLabel class]]) {
-    self.waveNumLabel.shadowBlur = 1.f;
-    self.waveNumLabel.gradientStartColor = [UIColor whiteColor];
-    self.waveNumLabel.gradientEndColor = [UIColor colorWithWhite:233/255.f alpha:1.f];
-    self.waveNumLabel.alpha = 0.f;
-  }
   
   self.swapLabel.text = [NSString stringWithFormat:@"SELECT A %@ TO DEPLOY", MONSTER_NAME.uppercaseString];
-  self.swapLabel.shadowBlur = 1.f;
-  self.swapLabel.gradientStartColor = [UIColor whiteColor];
-  self.swapLabel.gradientEndColor = [UIColor colorWithWhite:233/255.f alpha:1.f];
   
   [self addSubview:self.deployView];
   [self addSubview:self.skillPopupView];
+  
+  [self.skillPopupCloseButton.superview bringSubviewToFront:self.skillPopupCloseButton];
 }
 
 - (void) removeButtons {

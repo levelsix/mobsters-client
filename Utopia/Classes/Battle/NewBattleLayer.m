@@ -106,12 +106,15 @@
 }
 
 - (void) addSceneAtBasePosition:(CGPoint)pos {
-  CCSprite *left1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene.jpg"]];
+  CCSprite *left1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"battleleft.jpg"]];
+  CCSprite *right1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"battleright.jpg"]];
   
   left1.position = ccp(pos.x+left1.contentSize.width/2, pos.y+left1.contentSize.height/2);
-  NSLog(@"%@", NSStringFromCGPoint(left1.position));
+  right1.position = ccp(left1.position.x+left1.contentSize.width/2+right1.contentSize.width/2,
+                                                left1.position.y);
   
   [self addChild:left1];
+  [self addChild:right1];
 //  CCSprite *left1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene1left.png"]];
 //  CCSprite *right1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene1right.png"]];
 //  
@@ -393,7 +396,7 @@
 {
   if (self.myPlayer)
   {
-    if (!self.movesLeftContainer)
+    if (!self.movesLeftLabel)
     {
       self.movesLeftContainer = [CCSprite spriteWithImageNamed:@"movescounterbg.png"];
         [self.movesLeftContainer setAnchorPoint:ccp(.5f, 0.f)];
@@ -495,9 +498,9 @@
     _movesLeftHidden = YES;
   }];
   
-  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.attrName rarity:self.myPlayerObject.rarity animationType:self.myPlayerObject.animationType isMySprite:YES verticalOffset:self.myPlayerObject.verticalOffset];
+  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.attrName rarity:self.myPlayerObject.rarity element:self.myPlayerObject.element animationType:self.myPlayerObject.animationType isMySprite:YES verticalOffset:self.myPlayerObject.verticalOffset];
   mp.battleLayer = self;
-  mp.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)self.myPlayerObject.element];
+  //mp.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)self.myPlayerObject.element];
   [self.bgdContainer addChild:mp z:1];
   mp.position = [self myPlayerLocation];
   if (_puzzleIsOnLeft) mp.position = ccpAdd(mp.position, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
@@ -666,9 +669,9 @@
 }
 
 - (void) createNextEnemySprite {
-  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.attrName rarity:self.enemyPlayerObject.rarity animationType:self.enemyPlayerObject.animationType isMySprite:NO verticalOffset:self.enemyPlayerObject.verticalOffset];
+  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.attrName rarity:self.enemyPlayerObject.rarity element:self.enemyPlayerObject.element animationType:self.enemyPlayerObject.animationType isMySprite:NO verticalOffset:self.enemyPlayerObject.verticalOffset];
   bs.battleLayer = self;
-  bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)self.enemyPlayerObject.element];
+  //bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)self.enemyPlayerObject.element];
   [bs showRarityTag];
   [self.bgdContainer addChild:bs];
   self.currentEnemy = bs;
@@ -1754,7 +1757,7 @@
                    }],
                   nil]];
   
-  self.hudView.waveNumLabel.text = [NSString stringWithFormat:@"ENEMY %d/%d", _curStage+1, (int)self.enemyTeam.count];
+  self.hudView.waveNumLabel.text = [NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count];
   
   [UIView animateWithDuration:fadeTime delay:initDelay options:UIViewAnimationOptionCurveLinear animations:^{
     self.hudView.waveNumLabel.alpha = 0.3f;
@@ -2589,10 +2592,12 @@
   self.hudView.bottomView.centerX = self.hudView.swapView.width+(self.hudView.itemsView.originX-self.hudView.swapView.width)/2;
   
   if (![Globals isiPad]) {
-    UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
-    if (BOTTOM_CENTER_X*2 >= img.size.width) {
-      self.hudView.battleScheduleView.bgdView.image = img;
-      self.hudView.battleScheduleView.width = img.size.width;
+    //UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
+    // 280 is size of this image
+    if (BOTTOM_CENTER_X*2 >= 280) {
+      // It should just expand (fantasysquad is using extendable one) so comment out this line
+      //self.hudView.battleScheduleView.bgdView.image = img;
+      self.hudView.battleScheduleView.width = 280;
     }
     
     // Move schedule up in case board is too close to the edge so that it is flush with top of the board

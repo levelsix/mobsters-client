@@ -119,7 +119,7 @@
 {
   const Element element = (Element)_skillController.orbColor;
   
-  NSString* bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:element suffix:@"counterbg"]];
+  NSString* bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:element suffix:@"counter"]];
   _skillCounterBg = [CCSprite spriteWithImageNamed:bgName];
   [_skillCounterBg setPosition:ccp(0, 5)];
   [self addChild:_skillCounterBg z:10];

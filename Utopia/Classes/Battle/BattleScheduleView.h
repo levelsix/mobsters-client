@@ -29,7 +29,7 @@
   NSMutableDictionary* _upcomingSideEffectTurns;
 }
 
-@property (nonatomic, assign) IBOutlet UIImageView *bgdView;
+@property (nonatomic, assign) IBOutlet UIView *bgdView;
 @property (nonatomic, assign) UIImageView *overlayView;
 @property (nonatomic, assign) IBOutlet UIView *containerView;
 @property (nonatomic, assign) IBOutlet UIImageView *currentBorder;

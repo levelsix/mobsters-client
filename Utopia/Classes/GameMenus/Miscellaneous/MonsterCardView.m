@@ -190,7 +190,14 @@ static UIImage *img = nil;
 //    const CGFloat bigSquareSize = [Globals isiPad] ? 94 : 74;
 //    const CGFloat mediumSquareSize = [Globals isiPad] ? 72 : 48;
     
-    NSString *suffix = @"mediumsquare.png" ;//self.bgdIcon.frame.size.width >= bigSquareSize ? @"square.png" : (self.bgdIcon.frame.size.width >= mediumSquareSize ? @"mediumsquare.png" : @"smallsquare.png");
+    
+    
+    NSString *suffix = @"mediumsquare.png";
+    if (ABS(self.width-self.height) < 5) {
+      suffix = @"minisquare.png";
+    }
+    
+    //NSString *suffix = self.bgdIcon.frame.size.width >= bigSquareSize ? @"square.png" : (self.bgdIcon.frame.size.width >= mediumSquareSize ? @"mediumsquare.png" : @"smallsquare.png");
     file = !greyscale ? [Globals imageNameForElement:element suffix:suffix] : [@"grey" stringByAppendingString:suffix];
     [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   }

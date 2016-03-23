@@ -90,7 +90,7 @@
 - (void) performNearFlinchAnimationWithStrength:(float)strength delay:(float)delay;
 - (void) performFarFlinchAnimationWithDelay:(float)delay;
 
-- (id) initWithPrefix:(NSString *)prefix nameString:(NSAttributedString *)name rarity:(Quality)rarity
+- (id) initWithPrefix:(NSString *)prefix nameString:(NSAttributedString *)name rarity:(Quality)rarity element:(Element)element
         animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset;
 
 - (void) showRarityTag;

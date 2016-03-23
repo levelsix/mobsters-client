@@ -60,9 +60,9 @@
   self.enemyTeamSprites = mut;
   for (BattlePlayer *bp in self.enemyTeam) {
     int idx = (int)[self.enemyTeam indexOfObject:bp];
-    BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
+    BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity element:bp.element animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
     bs.battleLayer = self;
-    bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
+    //bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
     [self.bgdContainer addChild:bs z:-idx-2];
     
     bs.healthBar.percentage = ((float)bp.curHealth)/bp.maxHealth*100;

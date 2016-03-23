@@ -606,9 +606,9 @@
   _numMyPlayersRanIn = 0;
   for (BattlePlayer *bp in self.myTeam) {
     NSInteger idx = [self.myTeam indexOfObject:bp];
-    BattleSprite *bs = [[BattleSprite alloc]  initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:YES verticalOffset:bp.verticalOffset];
+    BattleSprite *bs = [[BattleSprite alloc]  initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity element:bp.element animationType:bp.animationType isMySprite:YES verticalOffset:bp.verticalOffset];
     bs.battleLayer = self;
-    bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
+    //bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
     [self.bgdContainer addChild:bs z:idx];
     bs.isFacingNear = NO;
     
@@ -759,9 +759,9 @@
         
         if (_puzzleIsOnLeft) finalPos = ccpAdd(finalPos, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
         
-        BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
+        BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity element:bp.element animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
         bs.battleLayer = self;
-        bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
+        //bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
         [self.bgdContainer addChild:bs z:-idx];
         bs.isFacingNear = YES;
         
