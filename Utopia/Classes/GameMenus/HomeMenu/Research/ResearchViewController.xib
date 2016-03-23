@@ -7,6 +7,12 @@
     <customFonts key="customFonts">
         <mutableArray key="HVD Fonts - MikadoBold.otf">
             <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+        </mutableArray>
+        <mutableArray key="HVD Fonts - MikadoRegular.otf">
+            <string>MikadoRegular</string>
+            <string>MikadoRegular</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -90,17 +96,17 @@
                         <action selector="curResearchBarClicked:" destination="-1" eventType="touchUpInside" id="pWb-kd-6fa"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RESEARCHING:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oc6-4H-8yH" customClass="NiceFontLabel12">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Researching:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oc6-4H-8yH">
                     <rect key="frame" x="59" y="7" width="134" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="12"/>
                     <color key="textColor" red="0.32549019607843138" green="0.32549019607843138" blue="0.32549019607843138" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hosptial Queue Size" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sJI-JL-sGR" customClass="NiceFontLabel14">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hosptial Queue Size" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sJI-JL-sGR">
                     <rect key="frame" x="59" y="22" width="187" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="12"/>
                     <color key="textColor" red="0.031372549019607843" green="0.30196078431372547" blue="0.76470588235294112" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -179,18 +185,18 @@
                     <rect key="frame" x="227" y="6" width="80" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIME LEFT:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sMX-VP-FH0" customClass="NiceFontLabel10">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIME LEFT:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sMX-VP-FH0">
                             <rect key="frame" x="-13" y="1" width="105" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="9"/>
                             <color key="textColor" red="0.32941176470588235" green="0.32941176470588235" blue="0.32941176470588235" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12H 12M" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JWm-zw-Tj9" customClass="NiceFontLabel8T">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12H 12M" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JWm-zw-Tj9">
                             <rect key="frame" x="-13" y="12" width="105" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="12"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
@@ -205,7 +211,7 @@
             </subviews>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="78" y="340"/>
+            <point key="canvasLocation" x="78" y="374"/>
         </view>
     </objects>
     <resources>

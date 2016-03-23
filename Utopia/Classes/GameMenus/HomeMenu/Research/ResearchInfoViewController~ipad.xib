@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBold.otf">
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+            <string>MikadoBold</string>
+        </mutableArray>
+        <mutableArray key="HVD Fonts - MikadoRegular.otf">
+            <string>MikadoRegular</string>
+            <string>MikadoRegular</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResearchInfoViewController">
             <connections>
@@ -204,28 +216,28 @@
                             <rect key="frame" x="27" y="19" width="45" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have met all the requirements to Research." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YfJ-6j-IJ1" customClass="NiceFontLabel2">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have met all the requirements to Research." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YfJ-6j-IJ1">
                             <rect key="frame" x="91" y="44" width="643" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="15"/>
                             <color key="textColor" red="0.27450981740000002" green="0.27450981740000002" blue="0.27450981740000002" alpha="1" colorSpace="deviceRGB"/>
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ready to Research!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bjr-19-cVq" customClass="NiceFontLabel12">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ready to Research!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bjr-19-cVq">
                             <rect key="frame" x="91" y="20" width="643" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                            <color key="textColor" red="0.28627452250000002" green="0.60000002379999995" blue="0.09803922474" alpha="1" colorSpace="deviceRGB"/>
+                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="21"/>
+                            <color key="textColor" red="0.4392156862745098" green="0.63921568627450975" blue="0.050980392156862744" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </label>
                         <view contentMode="scaleToFill" id="oK1-OE-TM2" userLabel="EndsInView">
                             <rect key="frame" x="613" y="0.0" width="100" height="88"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIME LEFT:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pgK-Eb-ci4" customClass="NiceFontLabel10">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Left:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pgK-Eb-ci4">
                                     <rect key="frame" x="0.0" y="22" width="100" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="13"/>
                                     <color key="textColor" red="0.3294117647" green="0.3294117647" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
@@ -256,28 +268,28 @@
                             <rect key="frame" x="64" y="93" width="160" height="145"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cash Vault" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="TQz-pw-1Vn" customClass="NiceFontLabel9">
-                            <rect key="frame" x="30" y="25" width="228" height="49"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                            <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="RESEARCH TIME:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="tYG-wg-3Vf" customClass="NiceFontLabel9">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Research Time:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="tYG-wg-3Vf">
                             <rect key="frame" x="0.0" y="260" width="288" height="36"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" name="MikadoRegular" family="Mikado" pointSize="14"/>
                             <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2 hours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qVM-Ga-tOT" customClass="NiceFontLabel8">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2 hours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qVM-Ga-tOT">
                             <rect key="frame" x="0.0" y="288" width="288" height="36"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="23"/>
+                            <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cash Vault" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="TQz-pw-1Vn">
+                            <rect key="frame" x="30" y="25" width="228" height="49"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="25"/>
                             <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
@@ -322,7 +334,7 @@
         </view>
     </objects>
     <resources>
-        <image name="functionalhomemenubottombarcap.png" width="38" height="38"/>
+        <image name="functionalhomemenubottombarcap.png" width="41" height="38"/>
         <image name="functionalhomemenubottombarmiddle.png" width="1" height="57"/>
         <image name="functionalhomemenubottombarredcap.png" width="38" height="38"/>
         <image name="functionalhomemenubottombarredmiddle.png" width="38" height="38"/>
@@ -337,9 +349,4 @@
         <image name="woopsalertsign.png" width="31" height="29"/>
         <image name="yellowmenuoption.png" width="80" height="40"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

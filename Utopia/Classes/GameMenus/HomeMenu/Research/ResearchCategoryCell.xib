@@ -20,11 +20,11 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="2HC-xg-ph1">
-                        <rect key="frame" x="0.0" y="0.0" width="464" height="55"/>
+                        <rect key="frame" x="0.0" y="0.0" width="464" height="54"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="blueforwardarrow.png" id="wrb-rt-mPb">
-                                <rect key="frame" x="436" y="14" width="14" height="26"/>
+                                <rect key="frame" x="436" y="13" width="14" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xmR-ge-WfK">
@@ -35,7 +35,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="UnH-BZ-F7P" customClass="VerticalFlipImageView">
-                                <rect key="frame" x="14" y="54" width="436" height="1"/>
+                                <rect key="frame" x="14" y="53" width="436" height="1"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="researchfieldsquare.png" id="y7s-bc-Dit">
