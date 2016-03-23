@@ -109,7 +109,7 @@
     
     [self moveToCenterAnimated:NO];
     
-    CCSprite *map = [CCSprite spriteWithImageNamed:@"homemapbig.jpg"];
+    CCSprite *map = [CCSprite spriteWithImageNamed:@"mainmap.jpg"];
     [self addChild:map z:-1000];
     
     

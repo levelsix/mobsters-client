@@ -19,6 +19,7 @@ static const CGFloat kRevealAnimDuration = 1.f;         // Seconds
 static const CGFloat kRevealAnimFrames = 20.f;          // Frames
 static const CGFloat kRevealDelayInBetweenAnims = .2f;  // Seconds
 static const CGFloat kSoundEffectAnimHeadStart = .8f;   // Seconds
+static const CGFloat kRevealAnimTotalFrames = 45;          // Frames
 
 static const CGFloat kStatsScaleAnimStartingScale = 8.f;
 static const CGFloat kStatsScaleAnimDuration = .4f;   // Seconds
@@ -45,7 +46,9 @@ typedef void (^RevealAnimCompletionBlock)(void);
 // Stupid Objective-C...
 @end
 
-@implementation NewGachaPrizeView
+@implementation NewGachaPrizeView {
+  NSArray *_animKeyFrames;
+}
 
 - (void) awakeFromNib
 {
@@ -90,6 +93,12 @@ typedef void (^RevealAnimCompletionBlock)(void);
   _lightCircleDuplicate = nil;
   _whiteLightCircleDuplicate = nil;
   _characterWhite = nil;
+  
+//  _animKeyFrames = @[@[//grshadow@2x.png
+//                       @[@(0), @(1)],
+//                       @[@(22)]
+//                       ],
+//                     ]
 }
 
 - (void) didMoveToSuperview

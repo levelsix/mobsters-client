@@ -27,7 +27,8 @@
     return nil;
   
   _orb = orb;
-  _suffix = suffix;
+  //_suffix = suffix;
+  _suffix = @"";
   
   // Create a new sprite for the orb
   [self reloadSprite:NO];
@@ -36,11 +37,11 @@
 }
 
 - (void) resetOrbSpriteScale {
-  if ([Globals isiPhone6Plus]) {
-    self.orbSprite.scale = 1.1;
-  } else {
+//  if (//[Globals isiPhone6Plus]) {
+//    self.orbSprite.scale = 1.1;
+//  } else {
     self.orbSprite.scale = 1.f;
-  }
+//  }
 }
 
 - (void) loadSprite
@@ -408,6 +409,8 @@
     default:
       break;
   }
+  
+  resPrefix = @"";
   
   NSString *colorPrefix = @"";
   switch (orbColor) {

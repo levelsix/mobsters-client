@@ -1103,60 +1103,60 @@
 
 @implementation ItemFactoryBuilding
 
-- (void) setupBuildingSprite:(NSString *)fileName {
-  fileName = fileName.stringByDeletingPathExtension;
-  
-  [self.buildingSprite removeFromParent];
-  self.buildingSprite = nil;
-  
-  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
-  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
-    if (success) {
-      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
-      
-      self.buildingSprite = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@Base00.png", fileName]];
-      [self addChild:self.buildingSprite];
-      
-      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:[NSString stringWithFormat:@"%@Roof", fileName] delay:0.1];
-      [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
-      self.spriteAnimation = anim;
-      
-      if (anim.frames.count) {
-        self.animSprite = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-        self.animSprite.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2);
-        [self.buildingSprite addChild:self.animSprite z:2];
-      }
-      
-      [self adjustBuildingSprite];
-      
-      if (_battleItemQueueObject) {
-        [self beginAnimatingWithBattleItemQueueObject:_battleItemQueueObject];
-      }
-    }
-  }];
-}
+//- (void) setupBuildingSprite:(NSString *)fileName {
+//  fileName = fileName.stringByDeletingPathExtension;
+//  
+//  [self.buildingSprite removeFromParent];
+//  self.buildingSprite = nil;
+//  
+//  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
+//  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+//    if (success) {
+//      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+//      
+//      self.buildingSprite = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@Base00.png", fileName]];
+//      [self addChild:self.buildingSprite];
+//      
+//      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:[NSString stringWithFormat:@"%@Roof", fileName] delay:0.1];
+//      [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
+//      self.spriteAnimation = anim;
+//      
+//      if (anim.frames.count) {
+//        self.animSprite = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+//        self.animSprite.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2);
+//        [self.buildingSprite addChild:self.animSprite z:2];
+//      }
+//      
+//      [self adjustBuildingSprite];
+//      
+//      if (_battleItemQueueObject) {
+//        [self beginAnimatingWithBattleItemQueueObject:_battleItemQueueObject];
+//      }
+//    }
+//  }];
+//}
 
 - (void) beginAnimatingWithBattleItemQueueObject:(BattleItemQueueObject *)hi {
   [self stopAnimating];
   
-  [self.animSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.spriteAnimation]]];
+//  [self.animSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.spriteAnimation]]];
   
   _battleItemQueueObject = hi;
   if (hi) {
     [self displayProgressBar];
     
-    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWithElement:ElementWater imageName:_battleItemQueueObject.staticBattleItem.imgName];
-    [self.progressBar addChild:spr];
-    spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
+//    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWithElement:ElementWater imageName:_battleItemQueueObject.staticBattleItem.imgName];
+//    [self.progressBar addChild:spr];
+//    spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
   }
 }
 
 - (void) stopAnimating {
-  [self.animSprite stopAllActions];
-  
-  if (self.spriteAnimation.frames.count) {
-    [self.animSprite setSpriteFrame:[self.spriteAnimation.frames[0] spriteFrame]];
-  }
+//  [self.animSprite stopAllActions];
+//  
+//  if (self.spriteAnimation.frames.count) {
+//    [self.animSprite setSpriteFrame:[self.spriteAnimation.frames[0] spriteFrame]];
+//  }
   
   if (!self.isConstructing) {
     [self removeProgressBar];

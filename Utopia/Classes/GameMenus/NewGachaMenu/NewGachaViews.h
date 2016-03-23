@@ -62,6 +62,8 @@
 @property (nonatomic, retain) IBOutlet UIPageControl* contentPageControl;
 @property (nonatomic, retain) IBOutlet UILabel* contentPageLabel;
 
+@property (nonatomic, retain) IBOutletCollection(UIImageView) NSArray *animateImageViews;
+
 @property (nonatomic, retain) IBOutlet UIImageView* background;
 @property (nonatomic, retain) IBOutlet UIImageView* characterShadow;
 @property (nonatomic, retain) IBOutlet UIImageView* character;

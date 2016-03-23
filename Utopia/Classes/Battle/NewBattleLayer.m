@@ -46,9 +46,10 @@
 - (id) initWithPrefix:(NSString *)prefix {
   if ((self = [super init])) {
     self.prefix = prefix;
-    [self addNewScene];
     
-    _curBasePoint = ccp(-175, 0);
+    _curBasePoint = ccp(-70, 0);
+    
+    [self addNewScene];
   }
   return self;
 }
@@ -108,6 +109,7 @@
   CCSprite *left1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene.jpg"]];
   
   left1.position = ccp(pos.x+left1.contentSize.width/2, pos.y+left1.contentSize.height/2);
+  NSLog(@"%@", NSStringFromCGPoint(left1.position));
   
   [self addChild:left1];
 //  CCSprite *left1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene1left.png"]];

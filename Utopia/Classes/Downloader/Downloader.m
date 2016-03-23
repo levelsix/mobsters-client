@@ -14,7 +14,8 @@
 
 #import <Reachability/Reachability.h>
 
-#define URL_BASE @"https://s3-us-west-1.amazonaws.com/lvl6mobsters/Resources/";
+#define URL_BASE @"https://s3-us-west-2.amazonaws.com/smkfantasysquad/Resources/"
+#define URL_BASE_BACKUP @"https://s3-us-west-1.amazonaws.com/lvl6mobsters/Resources/"
 
 @implementation BgdFileDownload
 
@@ -44,7 +45,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   return self;
 }
 
-- (NSString *) downloadFile:(NSString *)imageName {
+- (NSString *) downloadFile:(NSString *)imageName urlBase:(NSString *)base {
   if (!imageName) {
     return nil;
   }
@@ -52,7 +53,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   // LNLogs here are NOT thread safe, be careful
   NSURL *url = nil;
   if ([imageName rangeOfString:@"http"].location == NSNotFound) {
-    NSString *urlBase = URL_BASE;
+    NSString *urlBase = base;
     url = [[NSURL alloc] initWithString:[urlBase stringByAppendingString:imageName]];
   } else {
     url = [[NSURL alloc] initWithString:imageName];
@@ -79,6 +80,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   }
   
   return success ? filePath : nil;
+}
+
+- (NSString *) downloadFile:(NSString *)imageName {
+  NSString *base1 = [self downloadFile:imageName urlBase:URL_BASE];
+  if (!base1) {
+    return [self downloadFile:imageName urlBase:URL_BASE_BACKUP];
+  }
+  return base1;
 }
 
 - (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(BOOL success))completed {
