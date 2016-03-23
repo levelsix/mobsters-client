@@ -399,6 +399,7 @@
   [UIView setAnimationCurve:curve];
   [UIView setAnimationDuration:animationDuration];
   
+  
   NSArray *chatViews = @[self.globalChatView, self.clanChatView, self.privateChatView];
   for (ChatView *cv in chatViews) {
     if (!_isEditing) {
@@ -418,6 +419,7 @@
       [cv.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:numRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
     }
   }
+  
   
   [UIView commitAnimations];
   

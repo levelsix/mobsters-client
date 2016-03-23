@@ -244,7 +244,7 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" id="qDn-fu-Cwv" userLabel="LiveHelp">
-                            <rect key="frame" x="46" y="-14" width="102" height="56"/>
+                            <rect key="frame" x="14" y="-14" width="139" height="56"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="t1s-6X-Vjj" customClass="GeneralButton">
@@ -262,7 +262,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Live Support" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9dP-2u-669" customClass="ShadowBlurLabel">
-                                    <rect key="frame" x="46" y="18" width="60" height="21"/>
+                                    <rect key="frame" x="46" y="18" width="76" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="11"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -1111,7 +1111,7 @@
                 <outlet property="titleLabel" destination="003-5V-mHH" id="7YF-8M-hgJ"/>
                 <outlet property="unreadDefenseLog" destination="K4q-Pu-fo8" id="dwR-sg-t0Q"/>
             </connections>
-            <point key="canvasLocation" x="-261" y="301.5"/>
+            <point key="canvasLocation" x="-161" y="291.5"/>
         </view>
         <view contentMode="scaleToFill" id="pfc-Vl-jbC" customClass="ChatPopoverView">
             <rect key="frame" x="0.0" y="0.0" width="226" height="51"/>
