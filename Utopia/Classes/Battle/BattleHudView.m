@@ -208,7 +208,7 @@
   self.elementView.center = ccp(CGRectGetMaxX(self.elementButton.frame), self.elementView.center.y);
   
   
-  self.swapLabel.text = [NSString stringWithFormat:@"SELECT A %@ TO DEPLOY", MONSTER_NAME.uppercaseString];
+  self.swapLabel.text = [NSString stringWithFormat:@"Select a %@ to Deploy", MONSTER_NAME];
   
   [self addSubview:self.deployView];
   [self addSubview:self.skillPopupView];

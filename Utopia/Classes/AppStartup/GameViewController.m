@@ -1140,7 +1140,8 @@ static const CGSize FIXED_SIZE = {568, 384};
   [tlv display:self.view];
   
   // Check if scenes have been dl'ed
-  NSArray *arr = @[[task.groundImgPrefix stringByAppendingString:@"scene.jpg"]];
+  NSArray *arr = @[[task.groundImgPrefix stringByAppendingString:@"battleleft.jpg"],
+                   [task.groundImgPrefix stringByAppendingString:@"battleright.jpg"]];
   /*
                    [task.groundImgPrefix stringByAppendingString:@"scene2left.png"],
                    [task.groundImgPrefix stringByAppendingString:@"scene1right.png"],

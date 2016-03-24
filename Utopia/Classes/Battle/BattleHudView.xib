@@ -348,7 +348,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="8tI-tj-4Ne" userLabel="Health View">
-                                            <rect key="frame" x="3" y="34" width="38" height="16"/>
+                                            <rect key="frame" x="3" y="37" width="38" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healthbarbgsmall.png" id="bN9-RR-gNK">
@@ -392,11 +392,26 @@
                                             <rect key="frame" x="23" y="21" width="15" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lbc-fj-YQt" customClass="MaskedButton">
+                                            <rect key="frame" x="0.0" y="0.0" width="45" height="57"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="QxO-11-nXY"/>
+                                                <outlet property="baseImage" destination="Pdt-xc-NxP" id="w7j-hU-faz"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
                                         <outlet property="bgdIcon" destination="Pdt-xc-NxP" id="jQQ-nr-nCl"/>
                                         <outlet property="monsterIcon" destination="vfC-H8-zgw" id="UBy-nA-BWk"/>
+                                        <outlet property="sideEffectView1" destination="1gC-vS-0co" id="mOS-y5-wRM"/>
+                                        <outlet property="sideEffectView2" destination="Hg0-MU-tKo" id="XZw-LP-EVb"/>
+                                        <outlet property="sideEffectView3" destination="zFH-j4-lYN" id="3eI-hK-zfP"/>
+                                        <outlet property="sideEffectView4" destination="VYD-hA-fGI" id="Tls-oM-bUG"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -409,7 +424,7 @@
                                 <outlet property="monsterView" destination="58b-jd-xIh" id="c8M-Yb-2Eu"/>
                             </connections>
                         </view>
-                        <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="Z1J-w9-SB0" customClass="BattleDeployCardView">
+                        <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="Z1J-w9-SB0" customClass="BattleDeployCardView">
                             <rect key="frame" x="62" y="5" width="45" height="57"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -430,7 +445,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="KkB-7T-lK4" userLabel="Health View">
-                                            <rect key="frame" x="3" y="34" width="38" height="16"/>
+                                            <rect key="frame" x="3" y="37" width="38" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healthbarbgsmall.png" id="NdC-AU-uM7">
@@ -474,11 +489,26 @@
                                             <rect key="frame" x="23" y="21" width="15" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="beq-yh-dgj" customClass="MaskedButton">
+                                            <rect key="frame" x="-2" y="5" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="xfp-4c-WH3"/>
+                                                <outlet property="baseImage" destination="Gfz-wT-qiE" id="gl6-yh-ZrG"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
                                         <outlet property="bgdIcon" destination="Gfz-wT-qiE" id="a3m-ag-pH9"/>
                                         <outlet property="monsterIcon" destination="yUa-mO-60h" id="eAK-7c-ZEO"/>
+                                        <outlet property="sideEffectView1" destination="hxL-OP-Zzg" id="Eg1-zR-jm4"/>
+                                        <outlet property="sideEffectView2" destination="lMp-p7-cZ8" id="vYC-Hz-wK4"/>
+                                        <outlet property="sideEffectView3" destination="Lag-eE-uCD" id="9KM-Q7-STw"/>
+                                        <outlet property="sideEffectView4" destination="2Ou-bc-MtE" id="vZv-Lu-cDc"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -491,7 +521,7 @@
                                 <outlet property="monsterView" destination="sOW-UK-y9x" id="O52-4N-4HK"/>
                             </connections>
                         </view>
-                        <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="Wkf-pe-xCi" customClass="BattleDeployCardView">
+                        <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="Wkf-pe-xCi" customClass="BattleDeployCardView">
                             <rect key="frame" x="116" y="5" width="45" height="57"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -512,7 +542,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="IWa-7P-HgZ" userLabel="Health View">
-                                            <rect key="frame" x="3" y="34" width="38" height="16"/>
+                                            <rect key="frame" x="3" y="37" width="38" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healthbarbgsmall.png" id="hxj-H5-VID">
@@ -556,11 +586,26 @@
                                             <rect key="frame" x="23" y="21" width="15" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Swa-gT-d9e" customClass="MaskedButton">
+                                            <rect key="frame" x="-2" y="5" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="N5E-tM-Ybz"/>
+                                                <outlet property="baseImage" destination="c8P-Zf-dAO" id="SAe-jf-sZR"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
                                         <outlet property="bgdIcon" destination="c8P-Zf-dAO" id="1a7-VD-5cG"/>
                                         <outlet property="monsterIcon" destination="xvZ-TO-y7N" id="Pic-cb-pwo"/>
+                                        <outlet property="sideEffectView1" destination="tJy-pg-sT4" id="sq0-CE-MZZ"/>
+                                        <outlet property="sideEffectView2" destination="bCR-ov-tHr" id="fVq-ko-tdm"/>
+                                        <outlet property="sideEffectView3" destination="po4-YH-8Bv" id="Hjv-Hj-b5r"/>
+                                        <outlet property="sideEffectView4" destination="Mfz-eb-kfx" id="bGK-sx-8DA"/>
                                     </connections>
                                 </view>
                             </subviews>
@@ -573,7 +618,7 @@
                                 <outlet property="monsterView" destination="UuS-SN-cq5" id="7ur-uh-gjj"/>
                             </connections>
                         </view>
-                        <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="6eH-rm-Fr5" customClass="BattleDeployCardView">
+                        <view clipsSubviews="YES" tag="4" contentMode="scaleToFill" id="6eH-rm-Fr5" customClass="BattleDeployCardView">
                             <rect key="frame" x="181" y="5" width="45" height="57"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -594,7 +639,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="NXr-JG-sGd" userLabel="Health View">
-                                            <rect key="frame" x="3" y="34" width="38" height="16"/>
+                                            <rect key="frame" x="3" y="37" width="38" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healthbarbgsmall.png" id="hRu-lI-6cU">
@@ -638,11 +683,26 @@
                                             <rect key="frame" x="23" y="21" width="15" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9L2-PM-Krg" customClass="MaskedButton">
+                                            <rect key="frame" x="-2" y="5" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="Wbd-Ia-ZND"/>
+                                                <outlet property="baseImage" destination="Hlz-mG-rsm" id="hCK-1x-8rM"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
                                         <outlet property="bgdIcon" destination="Hlz-mG-rsm" id="gOu-zp-KAV"/>
                                         <outlet property="monsterIcon" destination="xgM-pA-fCm" id="DY4-53-dab"/>
+                                        <outlet property="sideEffectView1" destination="k8k-Q4-qT7" id="BJ2-o0-7oh"/>
+                                        <outlet property="sideEffectView2" destination="kRR-Xy-V5u" id="0N8-Vo-uIe"/>
+                                        <outlet property="sideEffectView3" destination="ET9-Th-vKy" id="alf-qU-k9G"/>
+                                        <outlet property="sideEffectView4" destination="3yD-ms-WjX" id="6ci-Xr-reZ"/>
                                     </connections>
                                 </view>
                             </subviews>

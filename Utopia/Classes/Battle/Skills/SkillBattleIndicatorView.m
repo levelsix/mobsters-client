@@ -129,7 +129,7 @@
   [_skillOrbIcon setPosition:ccp(13, _skillCounterBg.contentSize.height * .5f)];
   [_skillCounterBg addChild:_skillOrbIcon];
   
-  _skillCounterLabel = [CCLabelTTF labelWithString:@"" fontName:@"Gotham-Ultra" fontSize:8.f];
+  _skillCounterLabel = [CCLabelTTF labelWithString:@"" fontName:@"MikadoBold" fontSize:8.f];
   [_skillCounterLabel setHorizontalAlignment:CCTextAlignmentLeft];
   [_skillCounterLabel setColor:[CCColor whiteColor]];
   [_skillCounterLabel setPosition:ccp(27, _skillCounterBg.contentSize.height * .5f)];
