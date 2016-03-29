@@ -15,11 +15,11 @@
 #import "UIEffectDesignerView.h"
 #import "SoundEngine.h"
 
-static const CGFloat kRevealAnimDuration = 1.f;         // Seconds
+static const CGFloat kRevealAnimDuration = 1.5f;         // Seconds
 static const CGFloat kRevealAnimFrames = 20.f;          // Frames
 static const CGFloat kRevealDelayInBetweenAnims = .2f;  // Seconds
 static const CGFloat kSoundEffectAnimHeadStart = .8f;   // Seconds
-static const CGFloat kRevealAnimTotalFrames = 45;          // Frames
+static const CGFloat kRevealAnimTotalFrames = 43;          // Frames
 
 static const CGFloat kStatsScaleAnimStartingScale = 8.f;
 static const CGFloat kStatsScaleAnimDuration = .4f;   // Seconds
@@ -86,19 +86,145 @@ typedef void (^RevealAnimCompletionBlock)(void);
   [effectView setFrame:CGRectMake(pos.x * deviceScale, pos.y * deviceScale, size.width * deviceScale, size.height * deviceScale)];
   [effectView.emitter setEmitterSize:CGSizeMake(effectView.width, effectView.height)];
   [effectView.emitter setEmitterPosition:CGPointMake(effectView.emitter.emitterPosition.x - effectView.width * .5f, effectView.emitter.emitterPosition.y)];
-  [self insertSubview:effectView aboveSubview:self.contentScrollView];
+  //[self insertSubview:effectView aboveSubview:self.contentScrollView];
   _particleEffectView = effectView;
   
-  _backgroundDuplicate = nil;
   _lightCircleDuplicate = nil;
   _whiteLightCircleDuplicate = nil;
-  _characterWhite = nil;
   
-//  _animKeyFrames = @[@[//grshadow@2x.png
-//                       @[@(0), @(1)],
-//                       @[@(22)]
-//                       ],
-//                     ]
+  _animKeyFrames = @[
+                     @[//CHARACTER
+                       @[@30, @31],
+                       @[@0, @1]
+                       ],
+  
+                     @[//grshadow@2x.png
+                       @[@0, @22, @43],
+                       @[@1, @1, @0]
+                       ],
+                     
+                     @[//grlb11@2x.png
+                       @[@20, @21, @22, @24],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grlb10@2x.png
+                       @[@19, @20, @21, @23],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grlb9@2x.png
+                       @[@18, @19, @20, @22],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grlb8@2x.png
+                       @[@17, @18, @19, @21],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grlb7@2x.png
+                       @[@16, @17, @18, @20],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grlb6@2x.png
+                       @[@15, @16, @17, @19],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grlb5@2x.png
+                       @[@14, @15, @16, @18],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grlb4@2x.png
+                       @[@13, @14, @15, @17],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grlb3@2x.png
+                       @[@12, @13, @14, @16],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grlb2@2x.png
+                       @[@11, @12, @13, @15],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grlb1@2x.png
+                       @[@10, @11, @12, @14],
+                       @[@0, @1, @1, @0]
+                       ],
+                     
+                     @[//grhalo@2x.png
+                       @[@16, @21, @28],
+                       @[@0, @1, @0]
+                       ],
+                     
+                     @[//CHARACTER WHITE
+                       @[@27, @29, @32, @37],
+                       @[@0, @1, @1, @0]
+                       ],
+                     
+                     @[//grrespawn8@2x.png
+                       @[@24, @26, @31, @36],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grrespawn7@2x.png
+                       @[@28, @30, @32],
+                       @[@0, @1, @0]
+                       ],
+                     @[//grrespawn6@2x.png
+                       @[@28, @30, @32],
+                       @[@0, @1, @0]
+                       ],
+                     @[//grrespawn5@2x.png
+                       @[@27, @29, @31],
+                       @[@0, @1, @0]
+                       ],
+                     @[//grrespawn4@2x.png
+                       @[@26, @28, @30],
+                       @[@0, @1, @0]
+                       ],
+                     @[//grrespawn3@2x.png
+                       @[@25, @27, @29],
+                       @[@0, @1, @0]
+                       ],
+                     @[//grrespawn2@2x.png
+                       @[@24, @26, @28],
+                       @[@0, @1, @0]
+                       ],
+                     @[//grrespawn1@2x.png
+                       @[@23, @25, @27],
+                       @[@0, @1, @0]
+                       ],
+                     
+                     @[//grglow@2x.png
+                       @[@18, @20, @31, @34],
+                       @[@0, @1, @1, @0]
+                       ],
+                     
+                     @[//grpedestal@2x.png
+                       @[@1],
+                       @[@1]
+                       ],
+                     
+                     @[//grhaloeffect@2x.png
+                       @[@18, @23, @31, @41],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grblueglow@2x.png
+                       @[@12, @24, @28, @41],
+                       @[@0, @1, @1, @0]
+                       ],
+                     @[//grblackoverlay@2x.png
+                       @[@1, @5, @13],
+                       @[@1, @0.79,  @0]
+                       ],
+                     
+                     
+                     ];
+  
+  NSMutableArray *arr = [NSMutableArray arrayWithArray:self.animationContainerView.subviews];
+  [arr replaceObjectAtIndex:[arr indexOfObject:self.characterScrollView] withObject:self.character];
+  [arr removeObjectAtIndex:0]; // Background
+  self.animateImageViews = arr;
+  
+  if (_animKeyFrames.count != self.animateImageViews.count) {
+    NSLog(@"WARNING: DIFFERENT NUMBER OF ANIMATE KEY FRAMES AND IMAGE VIEWS");
+  }
 }
 
 - (void) didMoveToSuperview
@@ -120,12 +246,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
   MonsterProto *proto = [gs monsterWithId:[monsterIds[0] intValue]];
   [Globals imageNamed:[proto.imagePrefix stringByAppendingString:@"Character.png"] withView:self.character maskedColor:nil greyscale:NO
             indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES useiPhone6Prefix:YES useiPadSuffix:YES];
-  
-  const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
-  self.background.image = [Globals imageNamedWithiPadSuffix:[elementStr stringByAppendingString:@"grbackground.jpg"]];
-
-  _characterBackgrounds = [NSMutableArray array];
-  [_characterBackgrounds addObject:self.background.image];
   
   //
   // Load the remaining characters (if any) as subviews of characterScrollView
@@ -150,9 +270,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
     MonsterProto *proto = [gs monsterWithId:[monsterIds[i] intValue]];
     [Globals imageNamed:[proto.imagePrefix stringByAppendingString:@"Character.png"] withView:characterImageView maskedColor:nil greyscale:NO
               indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES useiPhone6Prefix:YES useiPadSuffix:YES];
-    
-    const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
-    [_characterBackgrounds addObject:[Globals imageNamedWithiPadSuffix:[elementStr stringByAppendingString:@"grbackground.jpg"]]];
     
     [self.characterScrollView addSubview:characterImageView];
     [_characterImageViews addObject:characterImageView];
@@ -364,9 +481,15 @@ typedef void (^RevealAnimCompletionBlock)(void);
   [self.lightningBolt1.layer setOpacity:0.f];
   [self.afterGlow.layer setOpacity:0.f];
   
+  for (int i = 0; i < self.animateImageViews.count && i < _animKeyFrames.count; i++) {
+    UIView *animView = self.animateImageViews[i];
+    NSArray *animKeyFrame = _animKeyFrames[i];
+    NSArray *values = animKeyFrame[1];
+    [animView.layer setOpacity:[values.firstObject floatValue]];
+  }
+  
   if (_lightCircleDuplicate) [_lightCircleDuplicate.layer setOpacity:0.f];
   if (_whiteLightCircleDuplicate) [_whiteLightCircleDuplicate.layer setOpacity:0.f];
-  if (_characterWhite) [_characterWhite.layer setOpacity:0.f];
 }
 
 - (void) beginAnimation
@@ -382,7 +505,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
     self.elementGlow.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grglow2glowblend.png"]];
     self.elementLightsFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"lightsflashlow1.png"]];
   }
-  self.background.image = _characterBackgrounds[_currentCharacterIndex];
   
   if (!_lightCircleDuplicate)
   {
@@ -400,158 +522,180 @@ typedef void (^RevealAnimCompletionBlock)(void);
     [self.animationContainerView insertSubview:_whiteLightCircleDuplicate aboveSubview:_lightCircleDuplicate];
   }
   
-  if (_characterWhite) [_characterWhite removeFromSuperview];
-   _characterWhite = [[UIImageView alloc] initWithFrame:self.character.frame];
-  [_characterWhite setImage:[Globals maskImage:characterImageView.image withColor:[UIColor whiteColor]]];
-  [_characterWhite setContentMode:self.character.contentMode];
-  [self.animationContainerView insertSubview:_characterWhite aboveSubview:self.elementLightsFlash];
+  [self.characterWhite setImage:[Globals maskImage:characterImageView.image withColor:[UIColor whiteColor]]];
   
-  REVEAL_KEYFRAME_ANIMATION(anim1, @"opacity")
-    [anim1 setKeyTimes:@[ @0.f, @(6.f / kRevealAnimFrames), @(13.f / kRevealAnimFrames), @1.0f ]];
-    [anim1 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
-    [anim1 setValue:^(void) { [self.characterShadow.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.characterShadow.layer addAnimation:anim1 forKey:@"CharacterShadowFadeInAnimation"];
-    [self.characterShadow.layer setOpacity:1.f];
+  NSArray *animViews = [@[characterImageView] arrayByAddingObjectsFromArray:[self.animateImageViews subarrayWithRange:NSMakeRange(1, self.animateImageViews.count-1)]];
   
-  REVEAL_KEYFRAME_ANIMATION(anim2, @"opacity")
-    [anim2 setKeyTimes:@[ @0.f, @(8.f / kRevealAnimFrames), @(9.f / kRevealAnimFrames), @1.0f ]];
-    [anim2 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
-    [anim2 setValue:^(void) { [characterImageView.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [characterImageView.layer addAnimation:anim2 forKey:@"CharacterFadeInAnimation"];
-    [characterImageView.layer setOpacity:1.f];
+  for (int i = 0; i < animViews.count && i < _animKeyFrames.count; i++) {
+    UIView *animView = animViews[i];
+    NSArray *animKeyFrame = _animKeyFrames[i];
+    NSArray *keyTimes = animKeyFrame[0];
+    NSArray *values = animKeyFrame[1];
+    
+    // Add 0 and 1 values
+    values = [[@[values.firstObject] arrayByAddingObjectsFromArray:values] arrayByAddingObject:values.lastObject];
+    
+    NSMutableArray *realKeyTimes = [NSMutableArray array];
+    for (NSNumber *num in keyTimes) {
+      [realKeyTimes addObject:@(num.floatValue/kRevealAnimTotalFrames)];
+    }
+    // Add first and last object
+    keyTimes = [[@[@0] arrayByAddingObjectsFromArray:realKeyTimes] arrayByAddingObject:@1];
+    
+    REVEAL_KEYFRAME_ANIMATION(anim1, @"opacity")
+      [anim1 setKeyTimes:keyTimes];
+      [anim1 setValues:values];
+      //[anim1 setValue:^(void) { [animView.layer setOpacity:[values.lastObject floatValue]]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+      [animView.layer addAnimation:anim1 forKey:@"FadeInAnimation"];
+      [animView.layer setOpacity:[values.lastObject floatValue]];
+  }
   
-  REVEAL_KEYFRAME_ANIMATION(anim3, @"opacity")
-    [anim3 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(8.f / kRevealAnimFrames), @(17.f / kRevealAnimFrames), @1.0f ]];
-    [anim3 setValues:@[ @0.f, @0.f, @1.f, @0.f, @0.f ]];
-    [anim3 setValue:^(void) { [self.elementbigFlash.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.elementbigFlash.layer addAnimation:anim3 forKey:@"BigFlashFadeInOutAnimation"];
-    [self.elementbigFlash.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim4, @"opacity")
-    [anim4 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(12.f / kRevealAnimFrames), @1.0f ]];
-    [anim4 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
-    [anim4 setValue:^(void) { [self.lightCircle.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.lightCircle.layer addAnimation:anim4 forKey:@"LightCircleFadeInAnimation"];
-    [self.lightCircle.layer setOpacity:1.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim5, @"opacity")
-    [anim5 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(12.f / kRevealAnimFrames), @1.0f ]];
-    [anim5 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
-    [anim5 setValue:^(void) { [self.whiteLightCircle.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.whiteLightCircle.layer addAnimation:anim5 forKey:@"WhiteLightCircleFadeInAnimation"];
-    [self.whiteLightCircle.layer setOpacity:1.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim6, @"opacity")
-    [anim6 setKeyTimes:@[ @0.f, @(6.f / kRevealAnimFrames), @(16.f / kRevealAnimFrames), @1.0f ]];
-    [anim6 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
-    [anim6 setValue:^(void) { [_lightCircleDuplicate.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [_lightCircleDuplicate.layer addAnimation:anim6 forKey:@"LightCircleDuplicateFadeInAnimation"];
-    [_lightCircleDuplicate.layer setOpacity:1.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim7, @"opacity")
-    [anim7 setKeyTimes:@[ @0.f, @(6.f / kRevealAnimFrames), @(16.f / kRevealAnimFrames), @1.0f ]];
-    [anim7 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
-    [anim7 setValue:^(void) { [_whiteLightCircleDuplicate.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [_whiteLightCircleDuplicate.layer addAnimation:anim7 forKey:@"WhiteLightCircleDuplicateFadeInAnimation"];
-    [_whiteLightCircleDuplicate.layer setOpacity:1.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim8, @"opacity")
-    [anim8 setKeyTimes:@[ @0.f, @(2.f / kRevealAnimFrames), @(7.f / kRevealAnimFrames), @(20.f / kRevealAnimFrames), @1.0f ]];
-    [anim8 setValues:@[ @0.f, @0.f, @1.f, @0.f, @0.f ]];
-    [anim8 setValue:^(void) { [self.elementLightsFlash.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.elementLightsFlash.layer addAnimation:anim8 forKey:@"LighsFlashFadeInOutAnimation"];
-    [self.elementLightsFlash.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim9, @"opacity")
-    [anim9 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(7.f / kRevealAnimFrames), @(9.f / kRevealAnimFrames), @(15.f / kRevealAnimFrames), @1.0f ]];
-    [anim9 setValues:@[ @0.f, @0.f, @1.f, @1.f, @0.f, @0.f ]];
-    [anim9 setValue:^(void) { [_characterWhite.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [_characterWhite.layer addAnimation:anim9 forKey:@"CharacterWhiteFadeInOutAnimation"];
-    [_characterWhite.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim10, @"opacity")
-    [anim10 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(8.f / kRevealAnimFrames), @(14.f / kRevealAnimFrames), @1.0f ]];
-    [anim10 setValues:@[ @0.f, @0.f, @1.f, @0.f, @0.f ]];
-    [anim10 setValue:^(void) { [self.lights.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.lights.layer addAnimation:anim10 forKey:@"LighsFadeInOutAnimation"];
-    [self.lights.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim11, @"opacity")
-    [anim11 setKeyTimes:@[ @0.f, @(1.f / kRevealAnimFrames), @(3.f / kRevealAnimFrames), @(6.f / kRevealAnimFrames), @(20.f / kRevealAnimFrames), @1.0f ]];
-    [anim11 setValues:@[ @0.f, @0.f, @1.f, @1.f, @0.f, @.0f ]];
-    [anim11 setValue:^(void) { [self.glow.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.glow.layer addAnimation:anim11 forKey:@"GlowFadeInOutAnimation"];
-    [self.glow.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim12, @"opacity")
-    [anim12 setKeyTimes:@[ @0.f, @(1.f / kRevealAnimFrames), @(3.f / kRevealAnimFrames), @(6.f / kRevealAnimFrames), @(20.f / kRevealAnimFrames), @1.0f ]];
-    [anim12 setValues:@[ @0.f, @0.f, @1.f, @1.f, @0.f, @.0f ]];
-    [anim12 setValue:^(void) { [self.elementGlow.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.elementGlow.layer addAnimation:anim12 forKey:@"ElementGlowFadeInOutAnimation"];
-    [self.elementGlow.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim13, @"opacity")
-    [anim13 setKeyTimes:@[ @0.f, @(2.f / kRevealAnimFrames), @(6.f / kRevealAnimFrames), @(14.f / kRevealAnimFrames), @1.0f ]];
-    [anim13 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
-    [anim13 setValue:^(void) { [self.crystalGlow.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.crystalGlow.layer addAnimation:anim13 forKey:@"CrystalGlowFadeInOutAnimation"];
-    [self.crystalGlow.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim14, @"opacity")
-    [anim14 setKeyTimes:@[ @0.f, @(8.f / kRevealAnimFrames), @(10.f / kRevealAnimFrames), @(12.f / kRevealAnimFrames), @1.0f ]];
-    [anim14 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
-    [anim14 setValue:^(void) { [self.lightningBolt7.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.lightningBolt7.layer addAnimation:anim14 forKey:@"LightningBolt7FadeInOutAnimation"];
-    [self.lightningBolt7.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim15, @"opacity")
-    [anim15 setKeyTimes:@[ @0.f, @(7.f / kRevealAnimFrames), @(9.f / kRevealAnimFrames), @(11.f / kRevealAnimFrames), @1.0f ]];
-    [anim15 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
-    [anim15 setValue:^(void) { [self.lightningBolt6.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.lightningBolt6.layer addAnimation:anim15 forKey:@"LightningBolt6FadeInOutAnimation"];
-    [self.lightningBolt6.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim16, @"opacity")
-    [anim16 setKeyTimes:@[ @0.f, @(6.f / kRevealAnimFrames), @(8.f / kRevealAnimFrames), @(10.f / kRevealAnimFrames), @1.0f ]];
-    [anim16 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
-    [anim16 setValue:^(void) { [self.lightningBolt5.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.lightningBolt5.layer addAnimation:anim16 forKey:@"LightningBolt5FadeInOutAnimation"];
-    [self.lightningBolt5.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim17, @"opacity")
-    [anim17 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(5.f / kRevealAnimFrames), @(7.f / kRevealAnimFrames), @(9.f / kRevealAnimFrames), @1.0f ]];
-    [anim17 setValues:@[ @0.f, @0.f, @1.f, @1.f, @.0f, @.0f ]];
-    [anim17 setValue:^(void) { [self.lightningBolt4.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.lightningBolt4.layer addAnimation:anim17 forKey:@"LightningBolt4FadeInOutAnimation"];
-    [self.lightningBolt4.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim18, @"opacity")
-    [anim18 setKeyTimes:@[ @0.f, @(2.f / kRevealAnimFrames), @(4.f / kRevealAnimFrames), @(6.f / kRevealAnimFrames), @1.0f ]];
-    [anim18 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
-    [anim18 setValue:^(void) { [self.lightningBolt3.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.lightningBolt3.layer addAnimation:anim18 forKey:@"LightningBolt3FadeInOutAnimation"];
-    [self.lightningBolt3.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim19, @"opacity")
-    [anim19 setKeyTimes:@[ @0.f, @(1.f / kRevealAnimFrames), @(3.f / kRevealAnimFrames), @(5.f / kRevealAnimFrames), @1.0f ]];
-    [anim19 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
-    [anim19 setValue:^(void) { [self.lightningBolt2.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.lightningBolt2.layer addAnimation:anim19 forKey:@"LightningBolt2FadeInOutAnimation"];
-    [self.lightningBolt2.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim20, @"opacity")
-    [anim20 setKeyTimes:@[ @0.f, @(0.f / kRevealAnimFrames), @(2.f / kRevealAnimFrames), @(4.f / kRevealAnimFrames), @1.0f ]];
-    [anim20 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
-    [anim20 setValue:^(void) { [self.lightningBolt1.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.lightningBolt1.layer addAnimation:anim20 forKey:@"LightningBolt1FadeInOutAnimation"];
-    [self.lightningBolt1.layer setOpacity:0.f];
-  
-  REVEAL_KEYFRAME_ANIMATION(anim21, @"opacity")
-    [anim21 setKeyTimes:@[ @0.f, @(0.f / kRevealAnimFrames), @(3.f / kRevealAnimFrames), @(10.f / kRevealAnimFrames), @1.0f ]];
-    [anim21 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
-    [anim21 setValue:^(void) { [self.afterGlow.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
-    [self.afterGlow.layer addAnimation:anim21 forKey:@"AfterGlowFadeInOutAnimation"];
-    [self.afterGlow.layer setOpacity:0.f];
+//  REVEAL_KEYFRAME_ANIMATION(anim1, @"opacity")
+//    [anim1 setKeyTimes:@[ @0.f, @(6.f / kRevealAnimFrames), @(13.f / kRevealAnimFrames), @1.0f ]];
+//    [anim1 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
+//    [anim1 setValue:^(void) { [self.characterShadow.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.characterShadow.layer addAnimation:anim1 forKey:@"CharacterShadowFadeInAnimation"];
+//    [self.characterShadow.layer setOpacity:1.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim2, @"opacity")
+//    [anim2 setKeyTimes:@[ @0.f, @(8.f / kRevealAnimFrames), @(9.f / kRevealAnimFrames), @1.0f ]];
+//    [anim2 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
+//    [anim2 setValue:^(void) { [characterImageView.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [characterImageView.layer addAnimation:anim2 forKey:@"CharacterFadeInAnimation"];
+//    [characterImageView.layer setOpacity:1.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim3, @"opacity")
+//    [anim3 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(8.f / kRevealAnimFrames), @(17.f / kRevealAnimFrames), @1.0f ]];
+//    [anim3 setValues:@[ @0.f, @0.f, @1.f, @0.f, @0.f ]];
+//    [anim3 setValue:^(void) { [self.elementbigFlash.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.elementbigFlash.layer addAnimation:anim3 forKey:@"BigFlashFadeInOutAnimation"];
+//    [self.elementbigFlash.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim4, @"opacity")
+//    [anim4 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(12.f / kRevealAnimFrames), @1.0f ]];
+//    [anim4 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
+//    [anim4 setValue:^(void) { [self.lightCircle.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.lightCircle.layer addAnimation:anim4 forKey:@"LightCircleFadeInAnimation"];
+//    [self.lightCircle.layer setOpacity:1.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim5, @"opacity")
+//    [anim5 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(12.f / kRevealAnimFrames), @1.0f ]];
+//    [anim5 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
+//    [anim5 setValue:^(void) { [self.whiteLightCircle.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.whiteLightCircle.layer addAnimation:anim5 forKey:@"WhiteLightCircleFadeInAnimation"];
+//    [self.whiteLightCircle.layer setOpacity:1.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim6, @"opacity")
+//    [anim6 setKeyTimes:@[ @0.f, @(6.f / kRevealAnimFrames), @(16.f / kRevealAnimFrames), @1.0f ]];
+//    [anim6 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
+//    [anim6 setValue:^(void) { [_lightCircleDuplicate.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [_lightCircleDuplicate.layer addAnimation:anim6 forKey:@"LightCircleDuplicateFadeInAnimation"];
+//    [_lightCircleDuplicate.layer setOpacity:1.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim7, @"opacity")
+//    [anim7 setKeyTimes:@[ @0.f, @(6.f / kRevealAnimFrames), @(16.f / kRevealAnimFrames), @1.0f ]];
+//    [anim7 setValues:@[ @0.f, @0.f, @1.f, @1.f ]];
+//    [anim7 setValue:^(void) { [_whiteLightCircleDuplicate.layer setOpacity:1.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [_whiteLightCircleDuplicate.layer addAnimation:anim7 forKey:@"WhiteLightCircleDuplicateFadeInAnimation"];
+//    [_whiteLightCircleDuplicate.layer setOpacity:1.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim8, @"opacity")
+//    [anim8 setKeyTimes:@[ @0.f, @(2.f / kRevealAnimFrames), @(7.f / kRevealAnimFrames), @(20.f / kRevealAnimFrames), @1.0f ]];
+//    [anim8 setValues:@[ @0.f, @0.f, @1.f, @0.f, @0.f ]];
+//    [anim8 setValue:^(void) { [self.elementLightsFlash.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.elementLightsFlash.layer addAnimation:anim8 forKey:@"LighsFlashFadeInOutAnimation"];
+//    [self.elementLightsFlash.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim9, @"opacity")
+//    [anim9 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(7.f / kRevealAnimFrames), @(9.f / kRevealAnimFrames), @(15.f / kRevealAnimFrames), @1.0f ]];
+//    [anim9 setValues:@[ @0.f, @0.f, @1.f, @1.f, @0.f, @0.f ]];
+//    [anim9 setValue:^(void) { [_characterWhite.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [_characterWhite.layer addAnimation:anim9 forKey:@"CharacterWhiteFadeInOutAnimation"];
+//    [_characterWhite.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim10, @"opacity")
+//    [anim10 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(8.f / kRevealAnimFrames), @(14.f / kRevealAnimFrames), @1.0f ]];
+//    [anim10 setValues:@[ @0.f, @0.f, @1.f, @0.f, @0.f ]];
+//    [anim10 setValue:^(void) { [self.lights.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.lights.layer addAnimation:anim10 forKey:@"LighsFadeInOutAnimation"];
+//    [self.lights.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim11, @"opacity")
+//    [anim11 setKeyTimes:@[ @0.f, @(1.f / kRevealAnimFrames), @(3.f / kRevealAnimFrames), @(6.f / kRevealAnimFrames), @(20.f / kRevealAnimFrames), @1.0f ]];
+//    [anim11 setValues:@[ @0.f, @0.f, @1.f, @1.f, @0.f, @.0f ]];
+//    [anim11 setValue:^(void) { [self.glow.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.glow.layer addAnimation:anim11 forKey:@"GlowFadeInOutAnimation"];
+//    [self.glow.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim12, @"opacity")
+//    [anim12 setKeyTimes:@[ @0.f, @(1.f / kRevealAnimFrames), @(3.f / kRevealAnimFrames), @(6.f / kRevealAnimFrames), @(20.f / kRevealAnimFrames), @1.0f ]];
+//    [anim12 setValues:@[ @0.f, @0.f, @1.f, @1.f, @0.f, @.0f ]];
+//    [anim12 setValue:^(void) { [self.elementGlow.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.elementGlow.layer addAnimation:anim12 forKey:@"ElementGlowFadeInOutAnimation"];
+//    [self.elementGlow.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim13, @"opacity")
+//    [anim13 setKeyTimes:@[ @0.f, @(2.f / kRevealAnimFrames), @(6.f / kRevealAnimFrames), @(14.f / kRevealAnimFrames), @1.0f ]];
+//    [anim13 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
+//    [anim13 setValue:^(void) { [self.crystalGlow.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.crystalGlow.layer addAnimation:anim13 forKey:@"CrystalGlowFadeInOutAnimation"];
+//    [self.crystalGlow.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim14, @"opacity")
+//    [anim14 setKeyTimes:@[ @0.f, @(8.f / kRevealAnimFrames), @(10.f / kRevealAnimFrames), @(12.f / kRevealAnimFrames), @1.0f ]];
+//    [anim14 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
+//    [anim14 setValue:^(void) { [self.lightningBolt7.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.lightningBolt7.layer addAnimation:anim14 forKey:@"LightningBolt7FadeInOutAnimation"];
+//    [self.lightningBolt7.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim15, @"opacity")
+//    [anim15 setKeyTimes:@[ @0.f, @(7.f / kRevealAnimFrames), @(9.f / kRevealAnimFrames), @(11.f / kRevealAnimFrames), @1.0f ]];
+//    [anim15 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
+//    [anim15 setValue:^(void) { [self.lightningBolt6.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.lightningBolt6.layer addAnimation:anim15 forKey:@"LightningBolt6FadeInOutAnimation"];
+//    [self.lightningBolt6.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim16, @"opacity")
+//    [anim16 setKeyTimes:@[ @0.f, @(6.f / kRevealAnimFrames), @(8.f / kRevealAnimFrames), @(10.f / kRevealAnimFrames), @1.0f ]];
+//    [anim16 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
+//    [anim16 setValue:^(void) { [self.lightningBolt5.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.lightningBolt5.layer addAnimation:anim16 forKey:@"LightningBolt5FadeInOutAnimation"];
+//    [self.lightningBolt5.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim17, @"opacity")
+//    [anim17 setKeyTimes:@[ @0.f, @(3.f / kRevealAnimFrames), @(5.f / kRevealAnimFrames), @(7.f / kRevealAnimFrames), @(9.f / kRevealAnimFrames), @1.0f ]];
+//    [anim17 setValues:@[ @0.f, @0.f, @1.f, @1.f, @.0f, @.0f ]];
+//    [anim17 setValue:^(void) { [self.lightningBolt4.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.lightningBolt4.layer addAnimation:anim17 forKey:@"LightningBolt4FadeInOutAnimation"];
+//    [self.lightningBolt4.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim18, @"opacity")
+//    [anim18 setKeyTimes:@[ @0.f, @(2.f / kRevealAnimFrames), @(4.f / kRevealAnimFrames), @(6.f / kRevealAnimFrames), @1.0f ]];
+//    [anim18 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
+//    [anim18 setValue:^(void) { [self.lightningBolt3.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.lightningBolt3.layer addAnimation:anim18 forKey:@"LightningBolt3FadeInOutAnimation"];
+//    [self.lightningBolt3.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim19, @"opacity")
+//    [anim19 setKeyTimes:@[ @0.f, @(1.f / kRevealAnimFrames), @(3.f / kRevealAnimFrames), @(5.f / kRevealAnimFrames), @1.0f ]];
+//    [anim19 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
+//    [anim19 setValue:^(void) { [self.lightningBolt2.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.lightningBolt2.layer addAnimation:anim19 forKey:@"LightningBolt2FadeInOutAnimation"];
+//    [self.lightningBolt2.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim20, @"opacity")
+//    [anim20 setKeyTimes:@[ @0.f, @(0.f / kRevealAnimFrames), @(2.f / kRevealAnimFrames), @(4.f / kRevealAnimFrames), @1.0f ]];
+//    [anim20 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
+//    [anim20 setValue:^(void) { [self.lightningBolt1.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.lightningBolt1.layer addAnimation:anim20 forKey:@"LightningBolt1FadeInOutAnimation"];
+//    [self.lightningBolt1.layer setOpacity:0.f];
+//  
+//  REVEAL_KEYFRAME_ANIMATION(anim21, @"opacity")
+//    [anim21 setKeyTimes:@[ @0.f, @(0.f / kRevealAnimFrames), @(3.f / kRevealAnimFrames), @(10.f / kRevealAnimFrames), @1.0f ]];
+//    [anim21 setValues:@[ @0.f, @0.f, @1.f, @0.f, @.0f ]];
+//    [anim21 setValue:^(void) { [self.afterGlow.layer setOpacity:0.f]; } forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+//    [self.afterGlow.layer addAnimation:anim21 forKey:@"AfterGlowFadeInOutAnimation"];
+//    [self.afterGlow.layer setOpacity:0.f];
   
   characterStatsView.hidden = NO;
   characterStatsView.alpha = 0.f;
@@ -650,14 +794,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
           self.skipAllButton.alpha = 1.f;
         }];
       }
-      
-      if (!_backgroundDuplicate)
-      {
-         _backgroundDuplicate = [[UIImageView alloc] initWithFrame:self.background.frame];
-        [_backgroundDuplicate setAlpha:0.f];
-        [_backgroundDuplicate setContentMode:self.background.contentMode];
-        [self.animationContainerView insertSubview:_backgroundDuplicate aboveSubview:self.background];
-      }
     }
   }
 }
@@ -730,9 +866,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
 
 - (void) scrollViewDidScroll:(UIScrollView*)scrollView
 {
-  // Positive value indicates swiping right (left/previous page coming into view)
-  const CGFloat dx = self.characterScrollView.contentOffset.x - scrollView.contentOffset.x;
-  
   // This is the delegate callback method for contentScrollView that's
   // user-interactable. Keeping characterScrollView scrolling in sync
   self.characterScrollView.contentOffset = scrollView.contentOffset;
@@ -748,16 +881,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
   }
   
   self.contentPageControl.currentPage = currentPage;
-  
-  const float n = clampf(scrollView.contentOffset.x, 0.f, scrollView.contentSize.width - scrollView.width) / scrollView.width;
-  const int p0  = clampf(floorf(n) + (dx > 0.f), 0, characterCount - 1); // Page swiping from
-  const int p1  = clampf(floorf(n) + (dx < 0.f), 0, characterCount - 1); // Page swiping to
-  
-  self.background.image = _characterBackgrounds[p0];
-  _backgroundDuplicate.image = _characterBackgrounds[p1];
-  
-  const float t = (n - p0) * (p1 - p0);
-  self.background.alpha = 1. - t; _backgroundDuplicate.alpha = t;
 }
 
 - (IBAction) prevButtonClicked:(id)sender
@@ -789,10 +912,8 @@ typedef void (^RevealAnimCompletionBlock)(void);
   } completion:^(BOOL finished) {
     [self removeFromSuperview];
     
-    [_backgroundDuplicate removeFromSuperview]; _backgroundDuplicate = nil;
     [_lightCircleDuplicate removeFromSuperview]; _lightCircleDuplicate = nil;
     [_whiteLightCircleDuplicate removeFromSuperview]; _whiteLightCircleDuplicate = nil;
-    [_characterWhite removeFromSuperview]; _characterWhite = nil;
     
     [self.lightCircle.layer removeAllAnimations];
     
@@ -805,9 +926,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
     [_characterStatsViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [_characterStatsViews removeAllObjects];
     _characterStatsViews = nil;
-    
-    [_characterBackgrounds removeAllObjects];
-    _characterBackgrounds = nil;
     
     self.alpha = 1.f;
   }];

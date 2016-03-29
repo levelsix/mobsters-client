@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewGachaViewController">
@@ -243,7 +243,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="633" y="577"/>
+            <point key="canvasLocation" x="634" y="634"/>
         </view>
         <view contentMode="scaleToFill" id="L2P-0l-ua5" customClass="CoinBar">
             <rect key="frame" x="0.0" y="0.0" width="600" height="52"/>
@@ -626,8 +626,137 @@
         </view>
         <view contentMode="scaleToFill" id="Kon-Hh-eje" customClass="NewGachaPrizeView">
             <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" id="rWm-mQ-HOW" userLabel="Animation Container View">
+                    <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gacharevealbg.png" id="Ktg-Kc-5nS">
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="vGz-OA-v4w" userLabel="Character Scroll View">
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="yCm-lw-FrN" userLabel="Character">
+                                    <rect key="frame" x="62" y="35" width="313" height="278"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                            </subviews>
+                        </scrollView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grshadow.png" id="6oW-cM-9FK">
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grlb11.png" id="GjK-5P-Oqb">
+                            <rect key="frame" x="153" y="0.0" width="156" height="306"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grlb10.png" id="F3h-Xm-bqh">
+                            <rect key="frame" x="153" y="0.0" width="156" height="305"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grlb9.png" id="Rpn-ML-gxw">
+                            <rect key="frame" x="153" y="0.0" width="156" height="305"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grlb8.png" id="nUM-tl-u0t">
+                            <rect key="frame" x="153" y="0.0" width="157" height="305"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grlb7.png" id="Vu8-A1-ErO">
+                            <rect key="frame" x="164" y="0.0" width="144" height="305"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grlb6.png" id="B05-da-lb9">
+                            <rect key="frame" x="182" y="0.0" width="123" height="297"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grlb5.png" id="eLE-e4-obb">
+                            <rect key="frame" x="195" y="0.0" width="109" height="272"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grlb4.png" id="mCm-ng-xHW">
+                            <rect key="frame" x="209" y="0.0" width="92" height="251"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grlb3.png" id="8ZN-do-P1T">
+                            <rect key="frame" x="209" y="0.0" width="90" height="225"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grlb2.png" id="HuO-eG-36X">
+                            <rect key="frame" x="209" y="0.0" width="88" height="225"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grlb1.png" id="i4o-I9-0gK">
+                            <rect key="frame" x="209" y="0.0" width="87" height="225"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grhalo.png" id="n5j-wb-6Av">
+                            <rect key="frame" x="0.0" y="0.0" width="495" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Txz-Xn-wiI">
+                            <rect key="frame" x="62" y="35" width="313" height="278"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grrespawn8.png" id="e8V-mK-vwl">
+                            <rect key="frame" x="60" y="45" width="299" height="299"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grrespawn7.png" id="uXF-1q-OKW">
+                            <rect key="frame" x="100" y="80" width="229" height="230"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grrespawn6.png" id="xE1-2q-3PT">
+                            <rect key="frame" x="30" y="81" width="349" height="243"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grrespawn5.png" id="udL-ww-y5t">
+                            <rect key="frame" x="62" y="99" width="300" height="205"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grrespawn4.png" id="hfu-Wz-EMM">
+                            <rect key="frame" x="90" y="130" width="245" height="163"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grrespawn3.png" id="fmK-b2-gfx">
+                            <rect key="frame" x="150" y="50" width="129" height="253"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grrespawn2.png" id="BC0-9X-F9d">
+                            <rect key="frame" x="195" y="84" width="46" height="185"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grrespawn1.png" id="IJ0-lg-5us">
+                            <rect key="frame" x="198" y="100" width="36" height="140"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grglow.png" id="SP8-hx-cr9">
+                            <rect key="frame" x="100" y="271" width="193" height="92"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grpedestal.png" id="Cdh-wY-9Nb">
+                            <rect key="frame" x="85" y="282" width="275" height="93"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grhaloeffect.png" id="k8E-vz-eNc">
+                            <rect key="frame" x="0.0" y="0.0" width="612" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="grblueglow.png" id="y6A-z4-JIP">
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" image="grblackoverlay.png" id="ON9-aL-5v6">
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="jc7-g8-rCa" userLabel="Content Scroll View">
                     <rect key="frame" x="0.0" y="0.0" width="667" height="376"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -697,141 +826,17 @@
                         <action selector="closeClicked:" destination="Kon-Hh-eje" eventType="touchUpInside" id="QaX-5z-jan"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" id="rWm-mQ-HOW" userLabel="Animation Container View">
-                    <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="vGz-OA-v4w" userLabel="Character Scroll View">
-                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="yCm-lw-FrN" userLabel="Character">
-                                    <rect key="frame" x="39" y="1" width="313" height="278"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                </imageView>
-                            </subviews>
-                        </scrollView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gacharevealbg.png" id="Ktg-Kc-5nS">
-                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grshadow.png" id="6oW-cM-9FK">
-                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grlb11.png" id="GjK-5P-Oqb">
-                            <rect key="frame" x="153" y="0.0" width="156" height="306"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grlb10.png" id="F3h-Xm-bqh">
-                            <rect key="frame" x="153" y="0.0" width="156" height="305"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grlb9.png" id="Rpn-ML-gxw">
-                            <rect key="frame" x="153" y="0.0" width="156" height="305"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grlb8.png" id="nUM-tl-u0t">
-                            <rect key="frame" x="153" y="0.0" width="157" height="305"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grlb7.png" id="Vu8-A1-ErO">
-                            <rect key="frame" x="164" y="0.0" width="144" height="305"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grlb6.png" id="B05-da-lb9">
-                            <rect key="frame" x="182" y="0.0" width="123" height="297"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grlb5.png" id="eLE-e4-obb">
-                            <rect key="frame" x="195" y="0.0" width="109" height="272"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grlb4.png" id="mCm-ng-xHW">
-                            <rect key="frame" x="209" y="0.0" width="92" height="251"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grlb3.png" id="8ZN-do-P1T">
-                            <rect key="frame" x="209" y="0.0" width="90" height="225"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grlb2.png" id="HuO-eG-36X">
-                            <rect key="frame" x="209" y="0.0" width="88" height="225"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grlb1.png" id="i4o-I9-0gK">
-                            <rect key="frame" x="209" y="0.0" width="87" height="225"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grhalo.png" id="n5j-wb-6Av">
-                            <rect key="frame" x="0.0" y="0.0" width="495" height="375"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grrespawn8.png" id="e8V-mK-vwl">
-                            <rect key="frame" x="60" y="45" width="299" height="299"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grrespawn7.png" id="uXF-1q-OKW">
-                            <rect key="frame" x="100" y="80" width="229" height="230"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grrespawn6.png" id="xE1-2q-3PT">
-                            <rect key="frame" x="30" y="81" width="349" height="243"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grrespawn5.png" id="udL-ww-y5t">
-                            <rect key="frame" x="62" y="99" width="300" height="205"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grrespawn4.png" id="hfu-Wz-EMM">
-                            <rect key="frame" x="90" y="130" width="245" height="163"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grrespawn3.png" id="fmK-b2-gfx">
-                            <rect key="frame" x="150" y="50" width="129" height="253"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grrespawn2.png" id="BC0-9X-F9d">
-                            <rect key="frame" x="195" y="84" width="46" height="185"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grrespawn1.png" id="IJ0-lg-5us">
-                            <rect key="frame" x="198" y="100" width="36" height="140"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grglow.png" id="SP8-hx-cr9">
-                            <rect key="frame" x="100" y="271" width="193" height="92"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grpedestal.png" id="Cdh-wY-9Nb">
-                            <rect key="frame" x="85" y="282" width="275" height="93"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grhaloeffect.png" id="k8E-vz-eNc">
-                            <rect key="frame" x="0.0" y="0.0" width="612" height="375"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="grblueglow.png" id="y6A-z4-JIP">
-                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" image="grblackoverlay.png" id="ON9-aL-5v6">
-                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        </imageView>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <connections>
                 <outlet property="animationContainerView" destination="rWm-mQ-HOW" id="Hc8-04-da0"/>
                 <outlet property="background" destination="Ktg-Kc-5nS" id="0OB-db-Fjc"/>
                 <outlet property="character" destination="yCm-lw-FrN" id="BF3-SR-t4b"/>
                 <outlet property="characterScrollView" destination="vGz-OA-v4w" id="oOb-qG-tcM"/>
+                <outlet property="characterWhite" destination="Txz-Xn-wiI" id="Gai-jv-k3C"/>
                 <outlet property="closeButton" destination="BCO-Vq-WKh" id="Spp-yJ-Ws5"/>
                 <outlet property="contentPageControl" destination="kM9-cf-7KM" id="FyK-uy-YFF"/>
                 <outlet property="contentPageLabel" destination="Nxi-8h-5sD" id="YFi-yw-duy"/>
@@ -840,6 +845,7 @@
                 <outlet property="prevButton" destination="bBb-5F-ZEJ" id="DGz-uG-xAS"/>
                 <outlet property="skipAllButton" destination="RSL-Th-WdW" id="W4M-xj-QvV"/>
                 <outlet property="statsContainerView" destination="7iV-Jc-8I6" id="RCJ-eB-CaT"/>
+                <outletCollection property="animateImageViews" destination="yCm-lw-FrN" id="Ktn-GN-rgL"/>
                 <outletCollection property="animateImageViews" destination="6oW-cM-9FK" id="Nbp-69-gau"/>
                 <outletCollection property="animateImageViews" destination="GjK-5P-Oqb" id="XRx-d8-axs"/>
                 <outletCollection property="animateImageViews" destination="F3h-Xm-bqh" id="BFF-e8-nMI"/>
@@ -853,6 +859,7 @@
                 <outletCollection property="animateImageViews" destination="HuO-eG-36X" id="Fm4-qf-Aqg"/>
                 <outletCollection property="animateImageViews" destination="i4o-I9-0gK" id="7UB-vb-J4I"/>
                 <outletCollection property="animateImageViews" destination="n5j-wb-6Av" id="FHC-Wb-JTB"/>
+                <outletCollection property="animateImageViews" destination="Txz-Xn-wiI" id="JpM-uD-SQc"/>
                 <outletCollection property="animateImageViews" destination="e8V-mK-vwl" id="Xi0-xn-lND"/>
                 <outletCollection property="animateImageViews" destination="uXF-1q-OKW" id="q9c-RL-h19"/>
                 <outletCollection property="animateImageViews" destination="xE1-2q-3PT" id="cKv-6h-MAN"/>
@@ -862,12 +869,11 @@
                 <outletCollection property="animateImageViews" destination="BC0-9X-F9d" id="K9q-SO-nZ0"/>
                 <outletCollection property="animateImageViews" destination="IJ0-lg-5us" id="fm3-bX-rU0"/>
                 <outletCollection property="animateImageViews" destination="SP8-hx-cr9" id="aXk-fO-xhB"/>
-                <outletCollection property="animateImageViews" destination="Cdh-wY-9Nb" id="lBJ-SR-aPW"/>
                 <outletCollection property="animateImageViews" destination="k8E-vz-eNc" id="bvc-hr-Wk1"/>
                 <outletCollection property="animateImageViews" destination="y6A-z4-JIP" id="aZh-80-J4c"/>
                 <outletCollection property="animateImageViews" destination="ON9-aL-5v6" id="RHD-Qf-eEK"/>
             </connections>
-            <point key="canvasLocation" x="633.5" y="189.5"/>
+            <point key="canvasLocation" x="691.5" y="218.5"/>
         </view>
         <view contentMode="scaleToFill" id="Oop-Hy-MU3" userLabel="Footer View">
             <rect key="frame" x="0.0" y="0.0" width="241" height="63"/>
@@ -940,7 +946,7 @@
         <image name="diamond.png" width="28" height="28"/>
         <image name="donateenhancebottombar.png" width="229" height="57"/>
         <image name="earthskilldescription.png" width="219" height="129"/>
-        <image name="fireorb.png" width="27" height="34"/>
+        <image name="fireorb.png" width="38" height="40"/>
         <image name="gachaallarrow.png" width="47" height="47"/>
         <image name="gachaallarrowdisabled.png" width="47" height="47"/>
         <image name="gachabg.jpg" width="667" height="265"/>

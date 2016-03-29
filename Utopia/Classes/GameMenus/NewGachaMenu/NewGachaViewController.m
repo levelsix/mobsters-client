@@ -1002,9 +1002,10 @@
 }
 
 - (void) displayWhiteFlash {
+  // Now a black flash
   UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
   [self.navigationController.view addSubview:view];
-  view.backgroundColor = [UIColor whiteColor];
+  view.backgroundColor = [UIColor blackColor];
   view.alpha = 0.f;
   
   [UIView animateWithDuration:0.4f animations:^{
@@ -1015,7 +1016,7 @@
     
     [self.topBar updateLabels];
     
-    [UIView animateWithDuration:0.4f animations:^{
+    [UIView animateWithDuration:0.05f/*0.4f*/ animations:^{
       view.alpha = 0.f;
     } completion:^(BOOL finished) {
       [view removeFromSuperview];

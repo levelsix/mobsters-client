@@ -36,12 +36,10 @@
 {
   NSMutableArray* _characterImageViews;
   NSMutableArray* _characterStatsViews;
-  NSMutableArray* _characterBackgrounds;
   
   NSArray*  _characterDescriptors;
   NSInteger _currentCharacterIndex;
-  
-  UIImageView *_backgroundDuplicate;
+
   UIImageView *_lightCircleDuplicate;
   UIImageView *_whiteLightCircleDuplicate;
   UIImageView *_characterWhite;
@@ -67,6 +65,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView* background;
 @property (nonatomic, retain) IBOutlet UIImageView* characterShadow;
 @property (nonatomic, retain) IBOutlet UIImageView* character;
+@property (nonatomic, retain) IBOutlet UIImageView* characterWhite;
 @property (nonatomic, retain) IBOutlet UIImageView* elementbigFlash;
 @property (nonatomic, retain) IBOutlet UIImageView* lightCircle;
 @property (nonatomic, retain) IBOutlet UIImageView* whiteLightCircle;
