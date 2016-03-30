@@ -120,6 +120,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *rarityIcon;
+@property (nonatomic, retain) IBOutlet UILabel *rarityLabel;
 @property (nonatomic, retain) IBOutlet UILabel *hpLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *speedLabel;

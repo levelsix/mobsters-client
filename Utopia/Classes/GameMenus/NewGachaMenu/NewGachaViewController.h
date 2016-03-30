@@ -52,29 +52,29 @@
 @property (nonatomic, retain) IBOutlet UIImageView* gachaBgBottomRight;
 
 @property (nonatomic, retain) IBOutlet UIView *singleSpinContainer;
-@property (nonatomic, retain) IBOutlet UILabel *singleSpinGemCostLabel;
+@property (nonatomic, retain) IBOutlet THLabel *singleSpinGemCostLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *singleSpinGemCostIcon;
 @property (nonatomic, retain) IBOutlet UIView *singleSpinGemCostView;
 @property (nonatomic, retain) IBOutlet UIView *singleSpinView;
 @property (nonatomic, retain) IBOutlet UIButton *singleSpinButton;
-@property (nonatomic, retain) IBOutlet UILabel *singleSpinActionLabel;
+@property (nonatomic, retain) IBOutlet THLabel *singleSpinActionLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *singleSpinSpinner;
 
 @property (nonatomic, retain) IBOutlet UIView *multiSpinContainer;
-@property (nonatomic, retain) IBOutlet UILabel *multiSpinGemCostLabel;
+@property (nonatomic, retain) IBOutlet THLabel *multiSpinGemCostLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *multiSpinGemCostIcon;
 @property (nonatomic, retain) IBOutlet UIView *multiSpinGemCostView;
 @property (nonatomic, retain) IBOutlet UIView *multiSpinView;
 @property (nonatomic, retain) IBOutlet UIButton *multiSpinButton;
-@property (nonatomic, retain) IBOutlet UILabel *multiSpinActionLabel;
-@property (nonatomic, retain) IBOutlet UILabel *multiSpinTapToUnlockLabel;
+@property (nonatomic, retain) IBOutlet THLabel *multiSpinActionLabel;
+@property (nonatomic, retain) IBOutlet THLabel *multiSpinTapToUnlockLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *multiSpinSpinner;
 
 @property (nonatomic, retain) IBOutlet NewGachaItemCell *itemCell;
 @property (nonatomic, retain) IBOutlet NewGachaFeaturedView *featuredView;
 @property (nonatomic, retain) IBOutlet NewGachaPrizeView *prizeView;
 
-@property (nonatomic, retain) IBOutlet NewGachaTabBar *navBar;
+@property (nonatomic, retain) IBOutlet ButtonTabBar *navBar;
 @property (nonatomic, retain) IBOutlet BadgeIcon *badBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *goodBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *eventBadge;

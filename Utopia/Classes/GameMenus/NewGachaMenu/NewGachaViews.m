@@ -998,7 +998,8 @@ typedef void (^RevealAnimCompletionBlock)(void);
   MonsterProto *proto = [gs monsterWithId:monsterId];
   
   self.nameLabel.text = proto.displayName;
-  self.rarityIcon.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"tag.png"]]];
+  self.rarityIcon.image = [Globals imageNamed:[Globals imageNameForRarity:proto.quality suffix:@"bottom.png"]];
+  self.rarityLabel.text = [Globals stringForRarity:proto.quality].uppercaseString;
   
   _curMonsterElement = proto.monsterElement;
   

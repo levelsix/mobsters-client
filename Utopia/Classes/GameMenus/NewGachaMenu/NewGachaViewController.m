@@ -47,8 +47,6 @@
   GameState *gs = [GameState sharedGameState];
   _cachedDailySpin = [gs hasDailyFreeSpin];
   
-  [self setUpCloseButton:[Globals isiPad]]; // Place the close button on the right on iPad
-  
   [[NSNotificationCenter defaultCenter] removeObserver:self.topBar];
   
   [self.navBar button:3 shouldBeHidden:YES];
@@ -61,6 +59,8 @@
   _tickerController = [[NewGachaTicker alloc] initWithImageView:self.ticker
                                                       cellWidth:TABLE_CELL_WIDTH
                                                     anchorPoint:CGPointMake(.5f, 12.f / 50.f)];
+  
+  [self.skillPopupCloseButton.superview bringSubviewToFront:self.skillPopupCloseButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -72,39 +72,7 @@
   
   [self setupGachaTable];
   
-  [self layoutViews];
-  
-  THLabel* singleSpinLabel = (THLabel*)self.singleSpinActionLabel; {
-    singleSpinLabel.strokePosition = THLabelStrokePositionOutside;
-    singleSpinLabel.strokeSize = 1.f;
-    singleSpinLabel.strokeColor = [UIColor colorWithRed:59.f / 255.f green:4.f / 255.f blue:134.f / 255.f alpha:1.f];
-    singleSpinLabel.gradientStartColor = [UIColor whiteColor];
-    singleSpinLabel.gradientEndColor = [UIColor colorWithRed:248.f / 255.f green:191.f / 255.f blue:255.f / 255.f alpha:1.f];
-  }
-  
-  THLabel* sinlgeSpinGemLabel = (THLabel*)self.singleSpinGemCostLabel; {
-    sinlgeSpinGemLabel.strokePosition = THLabelStrokePositionOutside;
-    sinlgeSpinGemLabel.strokeSize = 1.f;
-    sinlgeSpinGemLabel.strokeColor = [UIColor colorWithRed:59.f / 255.f green:4.f / 255.f blue:134.f / 255.f alpha:1.f];
-    sinlgeSpinGemLabel.gradientStartColor = [UIColor whiteColor];
-    sinlgeSpinGemLabel.gradientEndColor = [UIColor colorWithRed:248.f / 255.f green:191.f / 255.f blue:255.f / 255.f alpha:1.f];
-    sinlgeSpinGemLabel.originY += 1.f;
-  }
-  
-  self.singleSpinGemCostLabel.width += 10.f;
-  self.singleSpinGemCostLabel.height = self.singleSpinActionLabel.height;
-  self.multiSpinGemCostLabel.width += 10.f;
-  self.multiSpinGemCostLabel.height = self.multiSpinActionLabel.height;
-  
   [self updateMultiSpinButton];
-  
-  THLabel* itemSelectPackagesLabel = (THLabel*)self.itemSelectPackagesLabel;
-  {
-    itemSelectPackagesLabel.gradientStartColor = [UIColor whiteColor];
-    itemSelectPackagesLabel.gradientEndColor = [UIColor colorWithHexString:@"DEFFC2"];
-    itemSelectPackagesLabel.strokeSize = 1.f;
-    itemSelectPackagesLabel.shadowBlur = .5f;
-  }
   
   [Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
   
@@ -117,18 +85,18 @@
   [[GameViewController baseController] clearTutorialArrows];
 }
 
-- (void) viewWillLayoutSubviews {
-  self.topBar.tokensView.centerX = [self.singleSpinContainer convertPoint:self.singleSpinButton.center toView:self.topBar].x;
-  if ([Globals isSmallestiPhone]) self.topBar.tokensView.centerX += 13.f;
-  
-  CGFloat leftAnchor = 0.f;
-  if (![Globals isiPad]) {
-    CGRect closeButtonFrame = [(UIView*)[self.navigationItem.leftBarButtonItem valueForKey:@"view"] frame]; // Magical way of getting the frame of a UIBarButtonItem
-    leftAnchor = CGRectGetMaxX(closeButtonFrame);
-  }
-  self.topBar.gemsView.centerX = (leftAnchor + self.navBar.originX) * .5f;
-  if ([Globals isSmallestiPhone]) self.topBar.gemsView.hidden = YES;
-}
+//- (void) viewWillLayoutSubviews {
+//  self.topBar.tokensView.centerX = [self.singleSpinContainer convertPoint:self.singleSpinButton.center toView:self.topBar].x;
+//  if ([Globals isSmallestiPhone]) self.topBar.tokensView.centerX += 13.f;
+//  
+//  CGFloat leftAnchor = 0.f;
+//  if (![Globals isiPad]) {
+//    CGRect closeButtonFrame = [(UIView*)[self.navigationItem.leftBarButtonItem valueForKey:@"view"] frame]; // Magical way of getting the frame of a UIBarButtonItem
+//    leftAnchor = CGRectGetMaxX(closeButtonFrame);
+//  }
+//  self.topBar.gemsView.centerX = (leftAnchor + self.navBar.originX) * .5f;
+//  if ([Globals isSmallestiPhone]) self.topBar.gemsView.hidden = YES;
+//}
 
 - (void) viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
@@ -144,127 +112,27 @@
   _tickerController = nil;
 }
 
-- (void) layoutViews {
-  const CGFloat navBarHeight = self.topBar.height;
-  CGFloat deviceScale = [Globals screenSize].width / 667.f;
-  if ([Globals isiPad]) deviceScale *= 1.2f;
-  
-  const CGSize bgTopLeftScaledSize = CGSizeMake(self.gachaBgTopLeft.image.size.width * deviceScale, self.gachaBgTopLeft.image.size.height * deviceScale);
-  [self.gachaBgTopLeft setFrame:CGRectMake(0.f,
-                                           navBarHeight,
-                                           bgTopLeftScaledSize.width,
-                                           bgTopLeftScaledSize.height)];
-  [self.gachaBgTopLeft setContentMode:UIViewContentModeScaleToFill];
-  const CGSize bgBottomRightScaledSize = CGSizeMake(self.gachaBgBottomRight.image.size.width * deviceScale, self.gachaBgBottomRight.image.size.height * deviceScale);
-  [self.gachaBgBottomRight setFrame:CGRectMake(self.view.width - bgBottomRightScaledSize.width,
-                                               self.view.height - bgBottomRightScaledSize.height,
-                                               bgBottomRightScaledSize.width,
-                                               bgBottomRightScaledSize.height)];
-  [self.gachaBgBottomRight setContentMode:UIViewContentModeScaleToFill];
-
-  UIView *featuredContainer = self.focusScrollView.superview;
-  
-  if ([Globals isiPad])
-  {
-    self.gachaBgTopLeft.layer.transform = CATransform3DMakeScale(1.f, -1.f, 1.f);
-    self.logoSeparatorImage.hidden = YES;
-  }
-  else
-  {
-    featuredContainer.height = CGRectGetMaxY(featuredContainer.frame) - navBarHeight;
-    featuredContainer.originY = navBarHeight;
-  }
-  
-  if ([Globals isSmallestiPhone])
-  {
-    self.logoImage.hidden = YES;
-    self.logoSeparatorImage.hidden = YES;
-    
-    CGFloat moveBy = featuredContainer.originX;
-    featuredContainer.originX -= moveBy;
-    featuredContainer.width += moveBy + 50.f;
-    featuredContainer.originY -= 15.f;
-    featuredContainer.height += 15.f;
-    
-    self.machineImage.superview.originX -= 15.f;
-  }
-  else if (![Globals isiPad])
-  {
-    UIImageView* leftGradient = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gachagradientbarleft.png"]];
-    {
-      [leftGradient setFrame:CGRectMake(172.f * deviceScale,
-                                        navBarHeight,
-                                        leftGradient.image.size.width * deviceScale,
-                                        leftGradient.image.size.height * deviceScale)];
-      [leftGradient setContentMode:UIViewContentModeScaleToFill];
-      //[self.view insertSubview:leftGradient aboveSubview:featuredContainer];
-    }
-    
-    featuredContainer.originX = leftGradient.originX;
-    featuredContainer.width = (542.f * deviceScale) - featuredContainer.originX;
-  }
-}
-
 - (void) updateMultiSpinButton {
   _isMultiSpinAvailable = [[GameState sharedGameState].itemUtil getItemsForType:ItemTypeGachaMultiSpin].count > 0;
-
-  THLabel* multiSpinLabel = (THLabel*)self.multiSpinActionLabel;
-  if (_isMultiSpinAvailable) {
-    multiSpinLabel.strokePosition = THLabelStrokePositionOutside;
-    multiSpinLabel.strokeSize = 1.f;
-    multiSpinLabel.strokeColor = [UIColor colorWithHexString:@"B84A00"];
-    multiSpinLabel.gradientStartColor = [UIColor whiteColor];
-    multiSpinLabel.gradientEndColor = [UIColor colorWithHexString:@"FFF0BA"];
-    multiSpinLabel.shadowColor = [UIColor colorWithHexString:@"B84A00BF"];
-  } else {
-    multiSpinLabel.strokeSize = 0.f;
-  }
-  
-  THLabel* multiSpinGemLabel = (THLabel*)self.multiSpinGemCostLabel;
-  if (_isMultiSpinAvailable) {
-    multiSpinGemLabel.strokePosition = THLabelStrokePositionOutside;
-    multiSpinGemLabel.strokeSize = 1.f;
-    multiSpinGemLabel.strokeColor = [UIColor colorWithHexString:@"B84A00"];
-    multiSpinGemLabel.gradientStartColor = [UIColor whiteColor];
-    multiSpinGemLabel.gradientEndColor = [UIColor colorWithHexString:@"FFF0BA"];
-    multiSpinGemLabel.shadowColor = [UIColor colorWithHexString:@"B84A00BF"];
-    multiSpinGemLabel.originY += 1.f;
-  } else {
-    multiSpinGemLabel.strokeSize = 0.f;
-  }
   
   [Globals imageNamed:@"grabchip.png" withView:self.multiSpinGemCostIcon greyscale:!_isMultiSpinAvailable indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
   
   if (_isMultiSpinAvailable) {
-    [self.multiSpinButton setImage:[Globals imageNamed:@"bigspingold.png"] forState:UIControlStateNormal];
-    [self.multiSpinButton setImage:[Globals imageNamed:@"bigspingoldpressed.png"] forState:UIControlStateHighlighted];
-    
+    [self.multiSpinButton setImage:[Globals imageNamed:@"11spinsbutton.png"] forState:UIControlStateNormal];
     self.multiSpinTapToUnlockLabel.hidden = YES;
     
-    self.multiSpinActionLabel.font = [UIFont fontWithName:self.multiSpinActionLabel.font.fontName size:[Globals isiPad] ? 18.f : 11.f];
-    self.multiSpinActionLabel.centerY = self.multiSpinView.height * .5f - 3;
-    
-    self.multiSpinView.originX = [Globals isiPad] ? 2 : 6;
-    self.multiSpinGemCostView.centerY = self.multiSpinActionLabel.centerY - 3;
-    
-    const CGPoint gemCostIconCenter = self.multiSpinGemCostIcon.center;
-    self.multiSpinGemCostIcon.size = [Globals isiPad] ? CGSizeMake(38, 38) : CGSizeMake(20, 20);
-    self.multiSpinGemCostIcon.centerX = gemCostIconCenter.x;
-    
-    self.multiSpinGemCostLabel.font = [UIFont fontWithName:self.multiSpinGemCostLabel.font.fontName size:[Globals isiPad] ? 18.f : 11.f];
-    self.multiSpinGemCostLabel.originY = 4;
+    self.multiSpinGemCostLabel.strokeSize = 1.f;
+    self.multiSpinActionLabel.strokeSize = 1.f;
+    self.multiSpinGemCostLabel.highlighted = NO;
+    self.multiSpinActionLabel.highlighted = NO;
   } else {
-    self.multiSpinGemCostView.centerY = self.multiSpinActionLabel.centerY - ([Globals isiPad] ? 8 : 4);
-    self.multiSpinTapToUnlockLabel.originY = [Globals isiPad] ? 0 : -1;
-    self.multiSpinActionLabel.originY = self.multiSpinView.height - self.multiSpinActionLabel.height - ([Globals isiPad] ? 8 : 4);
-    self.multiSpinGemCostLabel.originY = [Globals isiPad] ? 3 : 2;
+    [self.multiSpinButton setImage:[Globals greyScaleImageWithBaseImage:[Globals imageNamed:@"11spinsbutton.png"]] forState:UIControlStateNormal];
     
-    if ([Globals isiPad]) { self.multiSpinView.originX -= 5; self.multiSpinTapToUnlockLabel.originX += 5; }
+    self.multiSpinGemCostLabel.strokeSize = 0.f;
+    self.multiSpinActionLabel.strokeSize = 0.f;
+    self.multiSpinGemCostLabel.highlighted = YES;
+    self.multiSpinActionLabel.highlighted = YES;
   }
-  
-  self.multiSpinGemCostView.originX = (self.multiSpinView.centerX - self.multiSpinView.originX) + 8;
-  self.multiSpinGemCostLabel.originX = CGRectGetMaxX(self.multiSpinGemCostIcon.frame) + 1;
-  self.multiSpinGemCostIcon.centerY = self.multiSpinGemCostLabel.centerY;
 }
 
 - (void) loadBoosterPacks {
@@ -272,13 +140,13 @@
   self.badBoosterPack = gs.boosterPacks[0];
   self.goodBoosterPack = gs.boosterPacks[1];
   
-  self.navBar.label1.text = [self.badBoosterPack.boosterPackName uppercaseString];
-  self.navBar.label2.text = [self.goodBoosterPack.boosterPackName uppercaseString];
+  [[self.navBar getButton:1] setTitle:self.badBoosterPack.boosterPackName forState:UIControlStateNormal];
+  [[self.navBar getButton:2] setTitle:self.goodBoosterPack.boosterPackName forState:UIControlStateNormal];
   
   NSString* desc = @"Packages contain tons of tokens at huge discounts!";
   {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineSpacing = 4.f;
+    paragraphStyle.lineSpacing = 2.f;
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:desc];
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, desc.length)];
     self.itemSelectDescriptionLabel.attributedText = attributedString;
@@ -306,72 +174,19 @@
   [Globals imageNamed:bpp.navBarImgName withView:self.logoImage greyscale:NO
             indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
-  CGFloat deviceScale = MIN([Globals screenSize].height / 375.f, 1.1f); // These images are designed for iPhone 6
-  if (![Globals isiPad])
-  {
-    const CGPoint oldCenter = self.logoImage.center;
-    self.logoImage.size = CGSizeMake(self.logoImage.image.size.width * deviceScale, self.logoImage.image.size.height * deviceScale);
-    self.logoImage.center = oldCenter;
-  }
-  if (deviceScale < 1.f) deviceScale *= deviceScale; // Scale down a bit further on smaller screens
-  {
-    const CGPoint oldCenter = self.machineImage.center;
-    self.machineImage.size = CGSizeMake(self.machineImage.image.size.width * deviceScale, self.machineImage.image.size.height * deviceScale);
-    self.machineImage.center = oldCenter;
-  }
   
   const BOOL regularGrab = (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId);
   if (regularGrab) {
     self.multiSpinContainer.hidden = YES;
-    self.singleSpinContainer.centerY = self.multiSpinContainer.centerY - ([Globals isiPad] ? -4 : 12);
+    self.singleSpinContainer.centerY = self.multiSpinContainer.centerY;
   } else {
     self.multiSpinContainer.hidden = NO;
-    self.singleSpinContainer.centerY = self.multiSpinContainer.centerY - ([Globals isiPad] ? 77 : 41);
+    self.singleSpinContainer.centerY = self.multiSpinContainer.originY - self.singleSpinContainer.height/2 - 5;
   }
   
-  [self updateSingleSpinButton];
+  //[self updateSingleSpinButton];
   
-//[Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
-}
-
-- (void) updateSingleSpinButton
-{
-  const BOOL regularGrab = (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId);
-  
-  const CGPoint spinButtonCenter = self.singleSpinButton.center;
-  [self.singleSpinButton setImage:[Globals imageNamed:regularGrab ? @"bigspinpurple.png" : @"smallspinpurple.png"] forState:UIControlStateNormal];
-  [self.singleSpinButton setImage:[Globals imageNamed:regularGrab ? @"bigspinpurplepressed.png" : @"smallspinpurplepressed.png"] forState:UIControlStateHighlighted];
-  self.singleSpinButton.size = self.singleSpinButton.imageView.image.size;
-  self.singleSpinButton.center = spinButtonCenter;
-  
-  const CGSize newSize = self.singleSpinButton.imageView.image.size;
-  const CGFloat widthRatio = newSize.width / self.singleSpinButton.width;
-  const CGFloat heightRatio = newSize.height / self.singleSpinButton.height;
-  self.singleSpinView.size = CGSizeMake(self.singleSpinView.width * widthRatio, self.singleSpinView.height * heightRatio);
-  self.singleSpinView.centerY = self.singleSpinButton.centerY;
-  
-  self.singleSpinGemCostView.originX = (self.singleSpinView.centerX - self.singleSpinView.originX) + (regularGrab ? 6 : 3);
-  self.singleSpinGemCostView.originY = (self.singleSpinView.height - self.singleSpinGemCostView.height) * .5f - 4;
-  
-  const CGFloat labelFontSize = [Globals isiPad] ? (regularGrab ? 20.f : 15.f) : (regularGrab ? 11.f : 9.f);
-  const CGSize iconSize = [Globals isiPad] ? (regularGrab ? CGSizeMake(32, 32) : CGSizeMake(25, 25)) : (regularGrab ? CGSizeMake(20, 20) : CGSizeMake(14, 14));
-  
-  self.singleSpinActionLabel.font = [UIFont fontWithName:self.singleSpinActionLabel.font.fontName size:labelFontSize];
-  self.singleSpinActionLabel.height = floorf(self.singleSpinActionLabel.height * (self.singleSpinButton.width / self.singleSpinActionLabel.width));
-  self.singleSpinActionLabel.width = self.singleSpinButton.width;
-  self.singleSpinActionLabel.centerX = self.singleSpinActionLabel.superview.width * .5f;
-  self.singleSpinActionLabel.centerY = [self.singleSpinButton.superview convertPoint:self.singleSpinButton.center
-                                                                              toView:self.singleSpinActionLabel.superview].y - ([Globals isiPad] ? 5 : 3);
-  
-  const CGPoint gemCostIconCenter = self.singleSpinGemCostIcon.center;
-  self.singleSpinGemCostIcon.size = iconSize;
-  self.singleSpinGemCostIcon.center = CGPointMake(gemCostIconCenter.x, self.singleSpinActionLabel.centerY + 1);
-  
-  self.singleSpinGemCostLabel.font = [UIFont fontWithName:self.singleSpinGemCostLabel.font.fontName size:labelFontSize];
-  self.singleSpinGemCostLabel.width = floorf(self.singleSpinGemCostLabel.width * (self.singleSpinActionLabel.height / self.singleSpinGemCostLabel.height));
-  self.singleSpinGemCostLabel.height = self.singleSpinActionLabel.height;
-  self.singleSpinGemCostLabel.centerY = self.singleSpinActionLabel.centerY + 1;
-  self.singleSpinGemCostLabel.originX = CGRectGetMaxX(self.singleSpinGemCostIcon.frame) + 1;
+  //[Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
 }
 
 - (void) updateFreeGachasCounter
@@ -384,36 +199,27 @@
   if (_cachedDailySpin && firstPageSelected)
   {
     self.singleSpinView.centerX = self.singleSpinButton.centerX;
-    self.singleSpinGemCostView.hidden = YES;
+    self.singleSpinGemCostLabel.hidden = YES;
+    self.singleSpinGemCostIcon.hidden = YES;
     self.singleSpinActionLabel.textAlignment = NSTextAlignmentCenter;
     self.singleSpinActionLabel.text = @" DAILY SPIN! ";
   }
   else if (numFreeSpins)
   {
     self.singleSpinView.centerX = self.singleSpinButton.centerX;
-    self.singleSpinGemCostView.hidden = YES;
+    self.singleSpinGemCostLabel.hidden = YES;
+    self.singleSpinGemCostIcon.hidden = YES;
     self.singleSpinActionLabel.textAlignment = NSTextAlignmentCenter;
     self.singleSpinActionLabel.text = [NSString stringWithFormat:@" %d FREE SPIN%@! ", numFreeSpins, numFreeSpins > 1 ? @"S" : @""];
   }
   else
   {
-    self.singleSpinGemCostView.hidden = NO;
-    self.singleSpinView.centerX = self.singleSpinButton.centerX - 4;
-    self.singleSpinActionLabel.textAlignment = NSTextAlignmentLeft;
+    self.singleSpinGemCostLabel.hidden = NO;
+    self.singleSpinGemCostIcon.hidden = NO;
     self.singleSpinActionLabel.text = @" 1 SPIN ";
-    
-    CGFloat labelTextWidth = [self.singleSpinActionLabel.text getSizeWithFont:self.singleSpinActionLabel.font
-                                                            constrainedToSize:self.singleSpinActionLabel.frame.size
-                                                                lineBreakMode:self.singleSpinActionLabel.lineBreakMode].width;
-    self.singleSpinActionLabel.originX = (self.singleSpinView.centerX - self.singleSpinView.originX) - labelTextWidth + 3;
   }
   
   self.multiSpinActionLabel.text = [NSString stringWithFormat:@" %d SPINS!", [Globals sharedGlobals].boosterPackNumberOfPacksGiven];
-  
-  CGFloat labelTextWidth = [self.multiSpinActionLabel.text getSizeWithFont:self.multiSpinActionLabel.font
-                                                         constrainedToSize:self.multiSpinActionLabel.frame.size
-                                                             lineBreakMode:self.multiSpinActionLabel.lineBreakMode].width;
-  self.multiSpinActionLabel.originX = (self.multiSpinView.centerX - self.multiSpinView.originX) - labelTextWidth + 3;
   
   int badSpins = [gs numberOfFreeSpinsForBoosterPack:self.badBoosterPack.boosterPackId];
   int goodSpins = [gs numberOfFreeSpinsForBoosterPack:self.goodBoosterPack.boosterPackId];
@@ -645,7 +451,7 @@
               // one incomplete.
               numPuzzlePieces = ((numTotalPiecesForMonster - numUnaccountedPiecesForMonster) % mp.numPuzzlePieces) + 1;
             }
-
+            
             [monsterIds addObject:@(prizeMonsterId)];
             [monsterDescriptors addObject:@{ @"MonsterId" : @(prizeMonsterId), @"NumPuzzlePieces" : @(numPuzzlePieces) }];
             [monsterElements addObject:@(mp.monsterElement)];
@@ -665,25 +471,10 @@
                                                                      attributes:@{NSParagraphStyleAttributeName : paragraphStyle}]];
         [tlv display:self.navigationController.view];
       }
+      [self.prizeView preloadWithMonsterIds:monsterIds];
+      [self completeGachaSpinWithKnownPrizes:prizes isMultiSpin:prizes.count > 1];
       
-      NSMutableArray* assetsToDownload = [NSMutableArray array];
-      NSMutableArray* deviceSpecificAssetsToDownload = [NSMutableArray array];
-      for (NSNumber* monsterElement in monsterElements) {
-        const NSString* elementStr = [[Globals stringForElement:(Element)[monsterElement intValue]] lowercaseString];
-        [deviceSpecificAssetsToDownload addObject:[elementStr stringByAppendingString:@"grbackground.jpg"]];
-        [assetsToDownload addObjectsFromArray:@[  [elementStr stringByAppendingString:@"grbigflash1.png"],
-                                                  [elementStr stringByAppendingString:@"grglow2glowblend.png"],
-                                                  [elementStr stringByAppendingString:@"lightsflashlow1.png"] ]];
-      }
-      
-      [Globals checkAndLoadFiles:deviceSpecificAssetsToDownload useiPhone6Prefix:NO useiPadSuffix:YES completion:^(BOOL success) {
-        [Globals checkAndLoadFiles:assetsToDownload useiPhone6Prefix:NO useiPadSuffix:NO completion:^(BOOL success) {
-          [self.prizeView preloadWithMonsterIds:monsterIds];
-          [self completeGachaSpinWithKnownPrizes:prizes isMultiSpin:prizes.count > 1];
-          
-          [tlv stop];
-        }];
-      }];
+      [tlv stop];
     }
     else {
       [self completeGachaSpinWithKnownPrizes:prizes isMultiSpin:NO];
@@ -737,7 +528,7 @@
   
   NSMutableArray* monsterList = nil;
   int itemId = 0, itemQuantity = 0;
-
+  
   if (prizes.count > 1 || ((BoosterItemProto*)prizes[0]).reward.typ == RewardProto_RewardTypeMonster) {
     monsterList = [NSMutableArray array];
     for (BoosterItemProto* prize in prizes) {

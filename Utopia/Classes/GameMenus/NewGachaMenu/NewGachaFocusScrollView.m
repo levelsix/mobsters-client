@@ -67,7 +67,9 @@
   int leftIdx = floorf(curIdx-self.frame.size.width/width/2);
   int rightIdx = floorf(curIdx+self.frame.size.width/width/2);
   
-  self.pageControl.currentPage = (int)floorf(curIdx) % self.pageControl.numberOfPages;
+  if (self.pageControl) {
+    self.pageControl.currentPage = (int)floorf(curIdx) % self.pageControl.numberOfPages;
+  }
   
   NSMutableArray *toRemove = [NSMutableArray array];
   for (UIView *v in self.innerViews) {
