@@ -22,6 +22,8 @@
 
 #import "MiniEventManager.h"
 
+#define BOTTOM_SPACING 8.f
+
 @implementation ChatMessage
 
 - (id) initWithProto:(GroupChatMessageProto *)p {
@@ -120,10 +122,10 @@
   float translationSpace = 0.f;
   
   if (!chatCell.translationDescription.superview.hidden) {
-    translationSpace = 14.f;
+    translationSpace = BOTTOM_SPACING;
   }
   
-  return CGRectGetMaxY(chatCell.msgLabel.frame)+14.f+translationSpace;
+  return CGRectGetMaxY(chatCell.msgLabel.frame)+BOTTOM_SPACING+translationSpace;
 }
 
 - (void) markAsRead {
@@ -187,7 +189,7 @@
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
   [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
-  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
+  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+BOTTOM_SPACING;
 }
 
 - (PrivateChatPostProto *) privateChat {
@@ -334,7 +336,7 @@
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
   [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
-  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
+  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+BOTTOM_SPACING;
 }
 
 - (PrivateChatPostProto *) privateChat {
@@ -486,7 +488,7 @@
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
   [self updateInChatCell:chatCell showsClanTag:YES language:TranslateLanguagesEnglish];
-  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
+  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+BOTTOM_SPACING;
 }
 
 - (IBAction)attackClicked:(id)sender {
@@ -621,7 +623,7 @@
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell language:(TranslateLanguages)language{
   [self updateInChatCell:chatCell showsClanTag:YES language:language];
-  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f;
+  return CGRectGetMaxY(chatCell.currentChatSubview.frame)+BOTTOM_SPACING;
 }
 
 @end

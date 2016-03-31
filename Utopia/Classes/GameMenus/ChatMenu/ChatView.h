@@ -156,6 +156,7 @@ typedef enum {
 
 @property (nonatomic, retain) UIView *topLiveHelpView;
 @property (nonatomic, retain) IBOutlet UIView *backView;
+@property (nonatomic, retain) IBOutlet UIView *topBar;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 
 @property (nonatomic, retain) NSArray *privateChatList;

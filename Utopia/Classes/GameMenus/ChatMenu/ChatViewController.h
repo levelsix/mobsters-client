@@ -16,7 +16,7 @@
 #import "AvatarMonstersFiller.h"
 #import "ChatView.h"
 
-@interface ChatMainView : PopupShadowView
+@interface ChatMainView : UIView
 
 @property (nonatomic, retain) IBOutletCollection(UIView) NSArray *allowedViews;
 
@@ -51,6 +51,7 @@
 @property (nonatomic, retain) IBOutlet UIView *topLiveHelpView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet UIImageView *bgdImgView;
 @property (nonatomic, retain) IBOutlet ChatPopoverView *popoverView;
 
 @property (nonatomic, retain) IBOutlet ChatLanguageSelectorView *languageSelectorView;

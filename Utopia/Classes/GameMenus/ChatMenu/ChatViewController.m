@@ -67,10 +67,12 @@
   
   [Analytics openChat];
   
-  // Increase
+  // Decrease
   float newHeight = self.view.height-HEIGHT_OFFSET;
-  self.mainView.height = newHeight;
-  self.mainView.center = ccp(self.view.width/2, self.view.height/2);
+  if (self.mainView.height > newHeight) {
+    self.mainView.height = newHeight;
+    self.mainView.center = ccp(self.view.width/2, self.view.height/2);
+  }
   
   // Add other chat views
   self.clanChatView.frame = self.globalChatView.frame;
@@ -102,7 +104,11 @@
   
   [[GameViewController baseController] clearTutorialArrows];
   
-  self.mainView.layer.cornerRadius = 5.f;
+  CALayer *_maskingLayer = [CALayer layer];
+  _maskingLayer.frame = CGRectMake((self.containerView.width-self.bgdImgView.width)/2, self.containerView.height-self.bgdImgView.height, self.bgdImgView.width, self.bgdImgView.height);
+  [_maskingLayer setContents:(id)[_bgdImgView.image CGImage]];
+  [self.containerView.layer setMask:_maskingLayer];
+  self.containerView.clipsToBounds = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated {

@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HVD Fonts - MikadoBold.otf">
+            <string>MikadoBold</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatMonsterView">
             <connections>
-                <outlet property="monsterView" destination="b9C-On-XY9" id="sDW-e3-I2W"/>
+                <outlet property="monsterView" destination="VeW-2S-j4g" id="diq-M2-1Sa"/>
                 <outlet property="nameLabel" destination="C4j-1L-jv2" id="gY0-7S-tmE"/>
                 <outlet property="rarityTag" destination="2K4-vo-7pf" id="KTk-bx-oDe"/>
             </connections>
@@ -18,25 +22,6 @@
             <rect key="frame" x="0.0" y="0.0" width="115" height="56"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="b9C-On-XY9" customClass="MiniMonsterView">
-                    <rect key="frame" x="0.0" y="4" width="48" height="48"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthmediumsquare.png" id="gbZ-Bn-G5p">
-                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="icU-fa-RQR">
-                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="bgdIcon" destination="gbZ-Bn-G5p" id="7cj-ft-K9P"/>
-                        <outlet property="monsterIcon" destination="icU-fa-RQR" id="ttR-S5-CUh"/>
-                    </connections>
-                </view>
                 <view contentMode="scaleToFill" id="ois-hY-TVL" userLabel="Right View">
                     <rect key="frame" x="51" y="3" width="65" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -45,7 +30,7 @@
                             <rect key="frame" x="2" y="23" width="63" height="24"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                            <fontDescription key="fontDescription" name="MikadoBold" family="Mikado" pointSize="8"/>
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="highlightedColor" red="0.36862745879999997" green="0.66666668650000005" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                             <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -58,6 +43,25 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <view contentMode="scaleToFill" id="VeW-2S-j4g" customClass="MiniMonsterView">
+                    <rect key="frame" x="0.0" y="0.0" width="41" height="56"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="earthmediumsquare.png" id="bYY-Kp-5G0">
+                            <rect key="frame" x="0.0" y="0.0" width="41" height="56"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="9oq-1g-raH">
+                            <rect key="frame" x="0.0" y="0.0" width="41" height="56"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="bgdIcon" destination="bYY-Kp-5G0" id="fuh-3A-qDu"/>
+                        <outlet property="monsterIcon" destination="9oq-1g-raH" id="8Fq-8p-DkJ"/>
+                    </connections>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -67,11 +71,6 @@
     </objects>
     <resources>
         <image name="battlecommontag.png" width="49" height="14"/>
-        <image name="earthmediumsquare.png" width="48" height="48"/>
+        <image name="earthmediumsquare.png" width="57" height="77"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

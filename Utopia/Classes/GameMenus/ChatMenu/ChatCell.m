@@ -94,7 +94,7 @@ static float buttonInitialWidth = 159.f;
   // Do width after we use the current chat subview
   self.msgLabel.height = size.height+3.f;
   
-  self.mainView.width = MAX(size.width+66.f, buttonSize.width+self.timeLabel.frame.size.width+50.f);
+  //self.mainView.width = MAX(size.width+66.f, buttonSize.width+self.timeLabel.frame.size.width+50.f);
   
   // Chat subview stuff
   for (UIView *sub in self.chatSubviews.allValues) {
@@ -110,7 +110,7 @@ static float buttonInitialWidth = 159.f;
     view.originX = self.msgLabel.originX;
     view.originY = CGRectGetMaxY(self.msgLabel.frame);
     
-    self.mainView.width = MAX(self.mainView.width, CGRectGetMaxX(view.frame)+14.f);
+//    self.mainView.width = MAX(self.mainView.width, CGRectGetMaxX(view.frame)+14.f);
     view.width = self.mainView.width-14.f-view.originX;
     
     self.currentChatSubview = view;
@@ -127,41 +127,43 @@ static float buttonInitialWidth = 159.f;
     self.translationDescription.text = [Globals translationDescriptionWith:translatedTo];
   }
   
-  if (!self.translationDescription.superview.hidden) {
-    CGSize size = [self.translationDescription.text getSizeWithFont:self.translationDescription.font];
-    self.mainView.width = MAX(self.mainView.width, size.width + 77.f + 14.f); //77 is the spacing on the left // 14 is right padding
-  }
+//  if (!self.translationDescription.superview.hidden) {
+//    CGSize size = [self.translationDescription.text getSizeWithFont:self.translationDescription.font];
+//    self.mainView.width = MAX(self.mainView.width, size.width + 77.f + 14.f); //77 is the spacing on the left // 14 is right padding
+//  }
 
-  BOOL shouldHighlight;
-  if ([sender.userUuid isEqualToString:gs.userUuid]) {
-    self.transform = CGAffineTransformMakeScale(-1, 1);
-    self.nameLabel.transform = CGAffineTransformMakeScale(-1, 1);
-    self.msgLabel.transform = CGAffineTransformMakeScale(-1, 1);
-    self.timeLabel.transform = CGAffineTransformMakeScale(-1, 1);
-    self.nameLabel.textAlignment = NSTextAlignmentRight;
-    self.timeLabel.textAlignment = NSTextAlignmentLeft;
-    shouldHighlight = YES;
-    
-    if ([self.currentChatSubview respondsToSelector:@selector(flip)]) {
-      [self.currentChatSubview performSelector:@selector(flip)];
-    } else {
-      self.currentChatSubview.transform = CGAffineTransformMakeScale(-1, 1);
-    }
-  } else {
-    self.transform = CGAffineTransformIdentity;
-    self.nameLabel.transform = CGAffineTransformIdentity;
-    self.msgLabel.transform = CGAffineTransformIdentity;
-    self.timeLabel.transform = CGAffineTransformIdentity;
-    self.nameLabel.textAlignment = NSTextAlignmentLeft;
-    self.timeLabel.textAlignment = NSTextAlignmentRight;
-    shouldHighlight = NO;
-    
-    if ([self.currentChatSubview respondsToSelector:@selector(unflip)]) {
-      [self.currentChatSubview performSelector:@selector(unflip)];
-    } else {
-      self.currentChatSubview.transform = CGAffineTransformIdentity;
-    }
-  }
+  BOOL shouldHighlight = NO;
+//  if ([sender.userUuid isEqualToString:gs.userUuid]) {
+//    self.transform = CGAffineTransformMakeScale(-1, 1);
+//    self.nameLabel.transform = CGAffineTransformMakeScale(-1, 1);
+//    self.msgLabel.transform = CGAffineTransformMakeScale(-1, 1);
+//    self.timeLabel.transform = CGAffineTransformMakeScale(-1, 1);
+//    self.nameLabel.textAlignment = NSTextAlignmentRight;
+//    self.timeLabel.textAlignment = NSTextAlignmentLeft;
+//    shouldHighlight = YES;
+//    
+//    if ([self.currentChatSubview respondsToSelector:@selector(flip)]) {
+//      [self.currentChatSubview performSelector:@selector(flip)];
+//    } else {
+//      self.currentChatSubview.transform = CGAffineTransformMakeScale(-1, 1);
+//    }
+//  } else {
+//    self.transform = CGAffineTransformIdentity;
+//    self.nameLabel.transform = CGAffineTransformIdentity;
+//    self.msgLabel.transform = CGAffineTransformIdentity;
+//    self.timeLabel.transform = CGAffineTransformIdentity;
+//    self.nameLabel.textAlignment = NSTextAlignmentLeft;
+//    self.timeLabel.textAlignment = NSTextAlignmentRight;
+//    shouldHighlight = NO;
+//    
+//    if ([self.currentChatSubview respondsToSelector:@selector(unflip)]) {
+//      [self.currentChatSubview performSelector:@selector(unflip)];
+//    } else {
+//      self.currentChatSubview.transform = CGAffineTransformIdentity;
+//    }
+//  }
+  
+  self.nameLabel.highlighted = [sender.userUuid isEqualToString:gs.userUuid];
   
   if (allowHighlight && _bubbleColorChanged) {
     [self updateBubbleImagesWithPrefix:@"grey"];

@@ -644,12 +644,14 @@
     [UIView animateWithDuration:0.3f animations:^{
       self.frame = r;
       self.backView.alpha = 0.f;
+      self.topBar.alpha = 1.f;
     } completion:^(BOOL finished) {
       [self.chatTable reloadData];
     }];
   } else {
     self.frame = r;
     self.backView.alpha = 0.f;
+    self.topBar.alpha = 1.f;
     [self.chatTable reloadData];
   }
 }
@@ -663,10 +665,12 @@
     [UIView animateWithDuration:0.3f animations:^{
       self.frame = r;
       self.backView.alpha = 1.f;
+      self.topBar.alpha = 0.f;
     }];
   } else {
     self.frame = r;
     self.backView.alpha = 1.f;
+    self.topBar.alpha = 0.f;
   }
 }
 
@@ -879,12 +883,6 @@
 #pragma mark - Chat mode buttons
 
 - (IBAction)privateSubTabClicked:(id)sender {
-  self.allMessagesTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
-                                                              size:self.allMessagesTabButton.titleLabel.font.pointSize];
-  self.defensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
-                                                               size:self.allMessagesTabButton.titleLabel.font.pointSize];
-  self.offensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium"
-                                                               size:self.allMessagesTabButton.titleLabel.font.pointSize];
   
   [self.allMessagesTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
   [self.defensiveLogTabButton setTitleColor:[UIColor colorWithHexString:INACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
@@ -895,20 +893,14 @@
   switch (senderButton.tag) {
     case 1:
       _chatMode = PrivateChatModeAllMessages;
-      self.allMessagesTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
-                                                                  size:self.allMessagesTabButton.titleLabel.font.pointSize];
       [self.allMessagesTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
       break;
     case 2:
       _chatMode = PrivateChatModeDefenseLog;
-      self.defensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
-                                                                   size:self.defensiveLogTabButton.titleLabel.font.pointSize];
       [self.defensiveLogTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
       break;
     case 3:
       _chatMode = PrivateChatModeAttackLog;
-      self.offensiveLogTabButton.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold"
-                                                                   size:self.offensiveLogTabButton.titleLabel.font.pointSize];
       [self.offensiveLogTabButton setTitleColor:[UIColor colorWithHexString:ACTIVE_PRIVATE_CHAT_TAB_COLOR] forState:UIControlStateNormal];
       break;
       
