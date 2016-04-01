@@ -141,25 +141,26 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
   
   self.backButtonView.hidden = YES;
   
-  self.mainView.layer.cornerRadius = POPUP_CORNER_RADIUS;
-  self.container.layer.cornerRadius = POPUP_CORNER_RADIUS;
-  self.bottomBgView.layer.cornerRadius = POPUP_CORNER_RADIUS;
-  
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  CALayer *_maskingLayer = [CALayer layer];
+  _maskingLayer.frame = CGRectMake((self.containerView.width-self.bgdImgView.width)/2, self.containerView.height-self.bgdImgView.height, self.bgdImgView.width, self.bgdImgView.height);
+  [_maskingLayer setContents:(id)[_bgdImgView.image CGImage]];
+  [self.containerView.layer setMask:_maskingLayer];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  if ([Globals isiPhone6] || [Globals isiPhone6Plus]) {
-    float aspectRatio = self.mainView.width/self.mainView.height;
-    float newHeight = 339.f;//self.view.height-36.f; // Keep the 6+ same size as 6
-    self.mainView.size = CGSizeMake(roundf(newHeight*aspectRatio), newHeight);
-    self.mainView.center = ccp(self.view.width/2, self.view.height/2);
-    
-    // Adjust the view so that
-    self.researchInfoView.frame = self.descriptionView.frame;
-  }
+//  if ([Globals isiPhone6] || [Globals isiPhone6Plus]) {
+//    float aspectRatio = self.mainView.width/self.mainView.height;
+//    float newHeight = 339.f;//self.view.height-36.f; // Keep the 6+ same size as 6
+//    self.mainView.size = CGSizeMake(roundf(newHeight*aspectRatio), newHeight);
+//    self.mainView.center = ccp(self.view.width/2, self.view.height/2);
+//    
+//    // Adjust the view so that
+//    self.researchInfoView.frame = self.descriptionView.frame;
+//  }
   
   [self updateMonster];
 }
@@ -219,7 +220,7 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
   self.elementLabel.textColor = [Globals colorForElementOnLightBackground:mp.monsterElement];
   
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES useiPhone6Prefix:YES useiPadSuffix:YES];
+  [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES useiPhone6Prefix:NO useiPadSuffix:YES];
   
   self.elementType.image = [Globals imageNamed:[Globals imageNameForElement:mp.monsterElement suffix:@"orb.png"]];
   [Globals adjustViewForCentering:self.monsterNameLabel.superview withLabel:self.monsterNameLabel];

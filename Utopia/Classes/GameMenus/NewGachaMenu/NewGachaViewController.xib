@@ -112,6 +112,26 @@
                                 <outlet property="delegate" destination="EWj-RU-bBZ" id="EyD-MQ-XR0"/>
                             </connections>
                         </scrollView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eyo-uz-tts">
+                            <rect key="frame" x="8" y="79" width="37" height="49"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="fliparrow.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="leftClicked:" destination="EWj-RU-bBZ" eventType="touchUpInside" id="Qka-uy-6vX"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hJQ-GI-dTn" customClass="FlipButton">
+                            <rect key="frame" x="295" y="79" width="37" height="49"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="fliparrow.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="rightClicked:" destination="EWj-RU-bBZ" eventType="touchUpInside" id="15L-cV-WY8"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -299,7 +319,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-            <point key="canvasLocation" x="417" y="386"/>
+            <point key="canvasLocation" x="559" y="512"/>
         </view>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="E9O-mL-cy5" userLabel="Main View">
@@ -869,6 +889,7 @@
         <image name="diamond.png" width="28" height="28"/>
         <image name="earthskilldescription.png" width="219" height="129"/>
         <image name="fireorb.png" width="38" height="40"/>
+        <image name="fliparrow.png" width="26" height="43"/>
         <image name="gachaallarrow.png" width="47" height="47"/>
         <image name="gachaallarrowdisabled.png" width="47" height="47"/>
         <image name="gachabg.jpg" width="667" height="265"/>

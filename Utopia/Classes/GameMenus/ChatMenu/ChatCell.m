@@ -62,6 +62,8 @@ static float buttonInitialWidth = 159.f;
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier translatedTo:(TranslateLanguages)translatedTo untranslate:(BOOL)untranslate showTranslateButton:(BOOL)showTranslateButton {
   GameState *gs = [GameState sharedGameState];
   
+  BOOL isMe = [sender.userUuid isEqualToString:gs.userUuid];
+  
   self.msgLabel.text = message;
   self.msgLabel.textColor = _initMsgLabelColor;
   self.msgLabel.highlightedTextColor = _initMsgLabelHighlightedColor;
@@ -69,7 +71,7 @@ static float buttonInitialWidth = 159.f;
   self.timeLabel.text = [Globals stringForTimeSinceNow:date shortened:NO];
   self.timeLabel.textColor = _initTimeLabelColor;
   
-  NSString *buttonText = [Globals fullNameWithName:sender.name clanTag:sender.clan.tag];
+  NSString *buttonText = [[Globals fullNameWithName:sender.name clanTag:sender.clan.tag] stringByAppendingString:(isMe ? @" (you)" : @"")];
   if (!showsClanTag) {
     buttonText = sender.name;
   }
@@ -163,7 +165,7 @@ static float buttonInitialWidth = 159.f;
 //    }
 //  }
   
-  self.nameLabel.highlighted = [sender.userUuid isEqualToString:gs.userUuid];
+  self.nameLabel.highlighted = isMe;
   
   if (allowHighlight && _bubbleColorChanged) {
     [self updateBubbleImagesWithPrefix:@"grey"];

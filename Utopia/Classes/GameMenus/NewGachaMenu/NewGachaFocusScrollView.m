@@ -110,17 +110,33 @@
         [self.reusableViews removeObject:blurView];
         
         /*
-        if (![blurView viewWithTag:GRADIENT_TAG]) {
-          UIImageView *grad = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"covergradient.png"]];
-          [blurView addSubview:grad];
-          grad.contentMode = UIViewContentModeScaleToFill;
-          grad.frame = CGRectMake(blurView.frame.size.width-grad.frame.size.width, 0, grad.frame.size.width, blurView.frame.size.height);
-          grad.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin;
-          grad.tag = GRADIENT_TAG;
-        }
+         if (![blurView viewWithTag:GRADIENT_TAG]) {
+         UIImageView *grad = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"covergradient.png"]];
+         [blurView addSubview:grad];
+         grad.contentMode = UIViewContentModeScaleToFill;
+         grad.frame = CGRectMake(blurView.frame.size.width-grad.frame.size.width, 0, grad.frame.size.width, blurView.frame.size.height);
+         grad.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin;
+         grad.tag = GRADIENT_TAG;
+         }
          */
       }
     }
+  }
+}
+
+- (IBAction)leftClicked:(id)sender {
+  if (!self.scrollView.isDecelerating && !self.scrollView.isTracking) {
+    CGPoint pt = self.scrollView.contentOffset;
+    pt.x -= self.scrollView.width;
+    [self.scrollView setContentOffset:pt animated:YES];
+  }
+}
+
+- (IBAction)rightClicked:(id)sender {
+  if (!self.scrollView.isDecelerating && !self.scrollView.isTracking) {
+    CGPoint pt = self.scrollView.contentOffset;
+    pt.x += self.scrollView.width;
+    [self.scrollView setContentOffset:pt animated:YES];
   }
 }
 
@@ -138,11 +154,11 @@
     CGPoint focusCenter = focus.center;
     float distFactor = MIN(1.f, ABS(focusCenter.x-curCenter)/width);
     // Allow close to the center values to be completely unblurred
-//  distFactor = MAX(0.f, (distFactor-0.2)/0.8);
+    //  distFactor = MAX(0.f, (distFactor-0.2)/0.8);
     
     float alphaBase = focusCenter.x > curCenter ? 0.f : 0.6f;
     focus.alpha = alphaBase+(1-alphaBase)*(1-(distFactor*fadeOutSpeedForOutOfFocusView));
-//  [[focus viewWithTag:GRADIENT_TAG] setAlpha:distFactor];
+    //  [[focus viewWithTag:GRADIENT_TAG] setAlpha:distFactor];
     
     float scale = scaleFactorForOutOfFocus+(1-scaleFactorForOutOfFocus)*(1-distFactor);
     focus.transform = CGAffineTransformMakeScale(scale, scale);

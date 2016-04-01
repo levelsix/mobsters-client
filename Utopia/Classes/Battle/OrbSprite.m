@@ -40,7 +40,11 @@
 //  if (//[Globals isiPhone6Plus]) {
 //    self.orbSprite.scale = 1.1;
 //  } else {
+  if ([Globals isiPhone5orSmaller]) {
+    self.orbSprite.scale = 0.8f;
+  } else {
     self.orbSprite.scale = 1.f;
+  }
 //  }
 }
 

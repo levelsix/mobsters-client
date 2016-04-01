@@ -43,7 +43,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="Q0a-Gv-e7L">
-                            <rect key="frame" x="8" y="80" width="284" height="42"/>
+                            <rect key="frame" x="8" y="85" width="284" height="37"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>

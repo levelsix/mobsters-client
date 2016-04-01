@@ -35,13 +35,35 @@
   
   self.continueButton.label.position = ccp(0.5, 0.52);
   
-  self.tipLabel.fontName = @"Whitney-Semibold";
+  self.tipLabel.fontName = @"MikadoBold";
   self.tipLabel.string = [@"Tip: " stringByAppendingString:[Globals getRandomTipFromFile:@"tips"]];
   
   // Move the bgd node to the main hierarchy
   self.mainNode = self.bgdNode.parent;
   [self.bgdNode removeFromParent];
   [self addChild:self.bgdNode z:-1];
+  
+  // Fantasy squad
+  {
+    self.shareButton.title = @"Share";
+    self.doneButton.title = @"Go Home";
+    
+    self.topLabelHeader.visible = NO;
+    self.botLabelHeader.visible = NO;
+    
+    self.ribbon.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"rewardribbontop.png"];
+    self.rewardsBgd.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"rewardribbonbottom.png"];
+    self.rewardsBgd.position = ccpAdd(self.rewardsBgd.position, ccp(0, 3.f));
+    self.ribbonLabel.position = ccpAdd(self.ribbonLabel.position, ccp(0, 0.1f));
+    
+    self.stickerHead.position = ccpAdd(self.stickerHead.position, ccp(0, -8.f));
+    
+    // Need to do this to reorder.. zOrder not working
+    [self.rewardsBgd removeFromParent];
+    [self.ribbon.parent addChild:self.rewardsBgd];
+    
+    self.shareButton.parent.position = ccpAdd(self.shareButton.parent.position, ccp(0, 0.03));
+  }
 }
 
 - (void) setupContinueLayout:(int)gems {
@@ -51,14 +73,14 @@
   self.continueButton.maxSize = frame.originalSize;
   self.continueButton.position = ccp(0,0);
   self.continueButton.label.fontSize += 2.f;
-  NSString *buttonStr = [NSString stringWithFormat:@"CONTINUE          %d", gems];
+  NSString *buttonStr = [NSString stringWithFormat:@"Continue          %d", gems];
   [self.continueButton setTitle:buttonStr];
   
   CCSprite *sprite = [CCSprite spriteWithImageNamed:@"diamond.png"];
   [self.continueButton addChild:sprite];
   sprite.scale = 0.6;
   
-  NSString *str = @"CONTINUE     ";
+  NSString *str = @"Continue     ";
   UIFont *font = [UIFont fontWithName:self.continueButton.label.fontName size:self.continueButton.label.fontSize];
   CGSize s1 = [str getSizeWithFont:font];
   CGSize s2 = [buttonStr getSizeWithFont:font];
@@ -74,7 +96,7 @@
   self.headerView.position = ccpAdd(self.headerView.position, ccp(0, 0.05f));
   self.spinner.position = ccpAdd(self.spinner.position, ccp(0, 0.05f));
   self.rewardsBgd.parent.parent.position = ccpAdd(self.rewardsBgd.parent.parent.position, ccp(0, 0.05f));
-  self.continueButton.parent.position = ccpAdd(self.continueButton.parent.position, ccp(0, 0.06f));
+  self.continueButton.parent.position = ccpAdd(self.continueButton.parent.position, ccp(0, 0.01f));
   
   [self.tipLabel removeFromParent];
 }
@@ -82,12 +104,48 @@
 - (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin showsReplay:(BOOL)showsReplay allowsContinue:(BOOL)allowsContinue continueCost:(int)continueCost {
   _isWin = isWin;
   
+  // Fantasy Squad
+  {
+    [self.continueButton setBackgroundSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"purplemediumbutton.png"] forState:CCControlStateNormal];
+    [self.shareButton setBackgroundSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"orangemediumbutton.png"] forState:CCControlStateNormal];
+    [self.doneButton setBackgroundSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"greenmediumbutton.png"] forState:CCControlStateNormal];
+    
+    self.continueButton.label.fontName = @"MikadoBold";
+    self.continueButton.label.fontSize = 14.f;
+    self.shareButton.label.fontName = @"MikadoBold";
+    self.shareButton.label.fontSize = 14.f;
+    self.doneButton.label.fontName = @"MikadoBold";
+    self.doneButton.label.fontSize = 14.f;
+    
+    
+    [self.continueButton setLabelColor:[CCColor whiteColor] forState:CCControlStateNormal];
+    self.continueButton.label.fontColor = [CCColor whiteColor];
+    self.continueButton.label.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
+    [self.shareButton setLabelColor:[CCColor whiteColor] forState:CCControlStateNormal];
+    self.shareButton.label.fontColor = [CCColor whiteColor];
+    self.shareButton.label.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
+    [self.doneButton setLabelColor:[CCColor whiteColor] forState:CCControlStateNormal];
+    self.doneButton.label.fontColor = [CCColor whiteColor];
+    self.doneButton.label.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
+    
+    self.ribbonLabel.fontName = @"MikadoBold";
+    self.ribbonLabel.fontSize = 12.f;
+    self.ribbonLabel.fontColor = [CCColor whiteColor];
+    self.ribbonLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
+  }
+  
   if (!isWin) {
     self.topLabelHeader.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"youlostyou.png"];
     self.botLabelHeader.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"youlostlost.png"];
-    self.ribbon.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"youmissoutonribbon.png"];
-    self.stickerHead.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"loststickerhead.png"];
+    self.stickerHead.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"smileybad.png"];
+    
+    self.headerLabel = [CCSprite spriteWithImageNamed:@"youlost.png"];
+  } else {
+    self.stickerHead.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"smileygood.png"];
+    
+    self.headerLabel = [CCSprite spriteWithImageNamed:@"youwon.png"];
   }
+  [self.headerView addChild:self.headerLabel];
   
   
   // Add a clipping node for the rewards bg so that it can fall
@@ -110,7 +168,7 @@
   }
   
   if (showsReplay) {
-    self.shareButton.title = @"RE-ENTER";
+    self.shareButton.title = @"Re-Enter";
   }
   
   
@@ -167,6 +225,9 @@
     
     [self scrollViewDidScroll:self.rewardsScrollView];
   }
+  
+  // Fantasy squad
+  self.ribbonLabel.string = self.ribbonLabel.string.capitalizedString;
 }
 
 - (void) updatePvpReward:(PvpLeagueProto *)league leagueChange:(BOOL)leagueChange change:(int)change  {
@@ -178,7 +239,7 @@
   [self.loadingSpinner removeFromSuperview];
   [self.msgTextField removeFromSuperview];
   
-  self.doneButton.title = @"GO HOME";
+  self.doneButton.title = @"Go Home";
   
   //  CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
   //  clip.stencil = nil;
@@ -234,6 +295,12 @@
      [CCActionEaseSineIn actionWithAction:[CCActionMoveTo actionWithDuration:secondDur*0.6f position:origPos]],
      [CCActionSequence actions:[CCActionDelay actionWithDuration:0.05f],
       [CCActionEaseBackOut actionWithAction:[CCActionScaleTo actionWithDuration:secondDur*0.6f scale:1.f]], nil], nil], nil]];
+  
+  self.headerLabel.scale = 0.f;
+  [self.headerLabel runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:firstDur],
+    [CCActionEaseBackOut actionWithAction:[CCActionScaleTo actionWithDuration:secondDur scale:1.f]], nil]];
   
   [self.ribbon recursivelyApplyOpacity:0.f];
   [self.ribbon runAction:
@@ -391,9 +458,9 @@
   CCColor *c = [CCColor colorWithRed:0/255.f green:85/255.f blue:141/255.f];
   [sendButton setLabelColor:c forState:CCControlStateNormal];
   [sendButton setLabelColor:c forState:CCControlStateHighlighted];
-//  [sendButton.label setShadowColor:[CCColor colorWithRed:1.f green:1.f blue:1.f alpha:0.8f]];
-//  [sendButton.label setShadowBlurRadius:2.f];
-//  [sendButton.label setShadowOffset:ccp(0, -1)];
+  //  [sendButton.label setShadowColor:[CCColor colorWithRed:1.f green:1.f blue:1.f alpha:0.8f]];
+  //  [sendButton.label setShadowBlurRadius:2.f];
+  //  [sendButton.label setShadowOffset:ccp(0, -1)];
   [msgNode addChild:sendButton];
   sendButton.position = ccp(self.rewardsBgd.contentSize.width/2-sendButton.contentSize.width/2+2, 0);
   self.sendButton = sendButton;
@@ -542,7 +609,7 @@
   if (reward.type == RewardTypeMonster) {
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
     bgdName = [Globals imageNameForRarity:mp.quality suffix:@"found.png"];
-    labelImage = [@"battle" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"tag.png"]];
+    labelName = nil;
     isPiece = reward.monsterLvl == 0 && mp.numPuzzlePieces > 1;
   } else if (reward.type == RewardTypeCash) {
     bgdName = @"cashfound.png";
@@ -561,7 +628,7 @@
     color = [Globals creamColor];
   } else if (reward.type == RewardTypePvpLeague) {
     labelName = @"Loading";
-    color = [UIColor whiteColor];
+    color = [UIColor colorWithHexString:@"333333"];
   }
   
   if (loss) {
@@ -571,6 +638,15 @@
     bgdName = @"youwonitembg.png";
     borderName = @"youwonitemborder.png";
   }
+  
+  //Fantasy squad
+  if (reward.type == RewardTypeMonster) {
+    MonsterProto *mp = [gs monsterWithId:reward.monsterId];
+    bgdName = [Globals imageNameForElement:mp.monsterElement suffix:@"minisquare.png"];
+  } else {
+    bgdName = @"greyminisquare.png";
+  }
+  borderName = nil;
   
   if ((self = [super initWithImageNamed:bgdName])) {
     _inside = [CCSprite node];
@@ -586,24 +662,26 @@
         }
       }
     }];
-    [self addChild:_inside];  
+    [self addChild:_inside];
     _inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
-    float labelPosition = loss ? -10.f : -13.f;
+    float labelPosition = 10.f;
     if (labelImage) {
       CCSprite *label = [CCSprite spriteWithImageNamed:labelImage];
       [self addChild:label];
       label.position = ccp(self.contentSize.width/2, labelPosition);
     } else if (labelName) {
-      _label = [CCLabelTTF labelWithString:labelName fontName:@"Gotham-Ultra" fontSize:11.f dimensions:CGSizeMake(self.contentSize.width+5, 15)];
+      _label = [CCLabelTTF labelWithString:labelName fontName:@"MikadoBold" fontSize:11.f dimensions:CGSizeMake(self.contentSize.width+5, 15)];
       _label.horizontalAlignment = CCTextAlignmentCenter;
-      _label.color = [CCColor colorWithUIColor:color];
+      _label.fontColor = [CCColor colorWithUIColor:color];
       [self addChild:_label];
       _label.position = ccp(self.contentSize.width/2, labelPosition-1);
+      _label.outlineColor = [CCColor whiteColor];
+      _label.outlineWidth = 1.f;
     }
     
     if (isPiece) {
-      CCLabelTTF *label = [CCLabelTTF labelWithString:@"Piece" fontName:@"Gotham-Ultra" fontSize:8.f dimensions:CGSizeMake(self.contentSize.width, 15)];
+      CCLabelTTF *label = [CCLabelTTF labelWithString:@"Piece" fontName:@"MikadoBold" fontSize:8.f dimensions:CGSizeMake(self.contentSize.width, 15)];
       label.horizontalAlignment = CCTextAlignmentCenter;
       label.color = [CCColor whiteColor];
       label.shadowColor = [CCColor colorWithWhite:0.f alpha:0.76];
@@ -613,16 +691,18 @@
       label.position = ccp(self.contentSize.width/2, label.contentSize.height/2);
     }
     
-    CCSprite *border = [CCSprite spriteWithImageNamed:borderName];
-    [self addChild:border];
-    border.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    if (borderName) {
+      CCSprite *border = [CCSprite spriteWithImageNamed:borderName];
+      [self addChild:border];
+      border.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    }
     
   }
   return self;
 }
 
 - (void) updatePvpLeagueReward:(PvpLeagueProto *)league leagueChange:(BOOL)leagueChange change:(int)change  {
-  float labelPosition = change < 0 ? -10.f : -13.f;
+  float labelPosition = 10.f;
   NSString *labelName;
   
   if (leagueChange) {
@@ -660,9 +740,9 @@
 @implementation BattleQueueNode
 
 - (void) didLoadFromCCB {
-  self.cashLabel.fontName = @"Gotham-Ultra";
-  self.oilLabel.fontName = @"Gotham-Ultra";
-  self.leagueLabel.fontName = @"Ziggurat-HTF-Black-Italic";
+  self.cashLabel.fontName = @"MikadoBold";
+  self.oilLabel.fontName = @"MikadoBold";
+  self.leagueLabel.fontName = @"MikadoBlack";
   
   CCClippingNode *clip = [CCClippingNode clippingNode];
   CCNode *stencil = [CCNode node];
@@ -695,7 +775,7 @@
   self.mainNode.anchorPoint = ccp(1, 0.5);
   self.mainNode.position = ccp(self.contentSize.width, self.contentSize.height/2);
   
-  self.bubbleNode = [CCSprite spriteWithImageNamed:@"attackpvpbubble.png"];
+  self.bubbleNode = [CCSprite spriteWithImageNamed:@"pvpbubble.png"];
   [self.mainNode addChild:self.bubbleNode];
   
   self.defendingMsgLabel = [CCLabelTTF labelWithString:@"Come at me, bruh..." fontName:@"Whitney-SemiboldItalic" fontSize:11.f dimensions:CGSizeMake(self.bubbleNode.contentSize.width-15.f, self.bubbleNode.contentSize.height-8.f)];
@@ -706,6 +786,55 @@
   self.defendingMsgLabel.position = ccp(self.bubbleNode.contentSize.width/2, self.bubbleNode.contentSize.height/2+4.f);
   
   [self.gradientNode removeFromParent];
+  
+  // Fantasy squad
+  {
+    self.defendingMsgLabel.fontName = @"MikadoRegular";
+    
+    self.nameLabel.fontName = @"MikadoBlack";
+    
+    self.cashLabel.fontName = @"MikadoBold";
+    self.oilLabel.fontName = @"MikadoBold";
+    
+    CCSprite *cashBgd = self.cashNode.children[0];
+    cashBgd.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"hugbarbg.png"];
+    CCSprite *oilBgd = self.oilNode.children[0];
+    oilBgd.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"hugbarbg.png"];
+    
+    CCButton *nextButton = self.nextButtonNode.children[0];
+    [nextButton setBackgroundSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"pinkmediumbutton.png"] forState:CCControlStateNormal];
+    nextButton.preferredSize = CGSizeMake(72, 42);
+    CCButton *attackButton = self.attackButtonNode.children[0];
+    [attackButton setBackgroundSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"greenmediumbutton.png"] forState:CCControlStateNormal];
+    attackButton.preferredSize = nextButton.contentSize;
+    
+    CCLabelTTF *nextCostLabel = self.nextButtonNode.children[1];
+    CCLabelTTF *nextLabel = self.nextButtonNode.children[2];
+    CCLabelTTF *attackLabel = self.attackButtonNode.children[2];
+    
+    nextCostLabel.fontName = @"MikadoBold";
+    nextCostLabel.fontSize = 11.f;
+    nextLabel.fontName = @"MikadoBold";
+    nextLabel.fontSize = 11.f;
+    attackLabel.fontName = @"MikadoBold";
+    attackLabel.fontSize = 13.f;
+    
+    attackLabel.position = ccp(0, 0);
+    
+    nextCostLabel.fontColor = [CCColor whiteColor];
+    nextCostLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
+    nextLabel.fontColor = [CCColor whiteColor];
+    nextLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
+    attackLabel.fontColor = [CCColor whiteColor];
+    attackLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
+    
+    // Remove bomb
+    [self.attackButtonNode.children[1] removeFromParent];
+    
+    self.rankLabel.fontName = @"MikadoBlack";
+    self.rankQualifierLabel.fontName = @"MikadoBold";
+    self.placeLabel.fontName = @"MikadoBold";
+  }
 }
 
 - (void) updateForPvpProto:(PvpProto *)pvp {
@@ -737,7 +866,7 @@
     PvpLeagueProto *pvpLeague = [gs leagueForId:pvp.pvpLeagueStats.leagueId];
     NSString *league = pvpLeague.imgPrefix;
     int rank = pvp.pvpLeagueStats.rank;
-    [self.leagueBgd setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[@"pvp" stringByAppendingString:[league stringByAppendingString:@"ribbon.png"]]]];
+    [self.leagueBgd setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"bgbar.png"]];
     [self.leagueIcon setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:[Globals isiPad] ? @"big.png" : @"icon.png"]]];
     self.leagueLabel.string = pvpLeague.leagueName;
     self.rankLabel.string = [Globals commafyNumber:rank];
@@ -749,6 +878,7 @@
   }
   
   NSString *defMsg = pvp.defenderMsg;
+  defMsg = @"abc meep";
   if (defMsg.length > 0) {
     self.bubbleNode.position = ccpAdd(self.monsterBgd.parent.position, ccp(0, self.monsterBgd.contentSize.height/2+self.bubbleNode.contentSize.height/2+8));
     self.defendingMsgLabel.string = defMsg;
@@ -765,7 +895,7 @@
     self.mainNode.scale = 1.f;
   }
   
-//NSLog(@"Attack button scale: %g", self.attackButtonNode.scale);
+  //NSLog(@"Attack button scale: %g", self.attackButtonNode.scale);
 }
 
 - (void) fadeInAnimationForIsRevenge:(BOOL)isRevenge {

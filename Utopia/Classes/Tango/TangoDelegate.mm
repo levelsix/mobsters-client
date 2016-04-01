@@ -21,7 +21,7 @@
 
 #import "OutgoingEventController.h"
 
-#define TANGO_ENABLED
+//#define TANGO_ENABLED
 
 #ifdef DEBUG
 #define TANGO_INVITE_RESOURCE_ID @"TEST_INVITE_ID"

@@ -1612,7 +1612,7 @@
   CCNodeColor *bgd = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4b:ccc4(0, 0, 0, 0)] width:self.contentSize.width height:self.contentSize.height];
   [self addChild:bgd z:z];
   
-  CCLabelTTF *label = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count] fontName:@"Ziggurat-HTF-Black" fontSize:21];
+  CCLabelTTF *label = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count] fontName:@"MikadoBlack" fontSize:21];
   [self addChild:label z:z];
   label.position = ccp(24, self.contentSize.height/2+29);
   label.anchorPoint = ccp(0, 0.5);
@@ -1643,24 +1643,24 @@
       inside.scale = bgdIcon.contentSize.height/inside.contentSize.height;
     }];
     
-    if (self.enemyPlayerObject.evoLevel > 1)
-    {
-      CCSprite *evo = [CCSprite node];
-      [bgdIcon addChild:evo];
-      
-      [Globals imageNamed:@"evobadge2.png" toReplaceSprite:evo];
-      evo.position = ccp(evo.contentSize.width-1, evo.contentSize.height-1);
-      
-      CCLabelTTF *evoLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%i", self.enemyPlayerObject.evoLevel] fontName:@"Gotham-Ultra" fontSize:8];
-      [evo addChild:evoLabel];
-      evoLabel.horizontalAlignment = CCTextAlignmentCenter;
-      evoLabel.position = ccp(evo.contentSize.width/2, evo.contentSize.height/2-1);
-      evoLabel.color = [CCColor colorWithWhite:1.0f alpha:1.0f];
-      evoLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
-      evoLabel.shadowOffset = ccp(0, -1);
-      evoLabel.shadowBlurRadius = .6;
-      
-    }
+//    if (self.enemyPlayerObject.evoLevel > 1)
+//    {
+//      CCSprite *evo = [CCSprite node];
+//      [bgdIcon addChild:evo];
+//      
+//      [Globals imageNamed:@"evobadge2.png" toReplaceSprite:evo];
+//      evo.position = ccp(evo.contentSize.width-1, evo.contentSize.height-1);
+//      
+//      CCLabelTTF *evoLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%i", self.enemyPlayerObject.evoLevel] fontName:@"MikadoBold" fontSize:8];
+//      [evo addChild:evoLabel];
+//      evoLabel.horizontalAlignment = CCTextAlignmentCenter;
+//      evoLabel.position = ccp(evo.contentSize.width/2, evo.contentSize.height/2-1);
+//      evoLabel.color = [CCColor colorWithWhite:1.0f alpha:1.0f];
+//      evoLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
+//      evoLabel.shadowOffset = ccp(0, -1);
+//      evoLabel.shadowBlurRadius = .6;
+//      
+//    }
     
   }
   
@@ -1670,7 +1670,7 @@
   
   
   
-  CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:@"" fontName:@"Ziggurat-HTF-Black" fontSize:10];
+  CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:@"" fontName:@"MikadoBlack" fontSize:10];
   nameLabel.attributedString = self.enemyPlayerObject.attrName;
   [bgdIcon addChild:nameLabel];
   nameLabel.color = [CCColor whiteColor];

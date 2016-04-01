@@ -41,6 +41,7 @@
 @property (nonatomic, retain) CCNode *headerView;
 @property (nonatomic, retain) CCSprite *topLabelHeader;
 @property (nonatomic, retain) CCSprite *botLabelHeader;
+@property (nonatomic, retain) CCSprite *headerLabel;
 @property (nonatomic, retain) CCSprite *spinner;
 
 @property (nonatomic, retain) CCSprite *ribbon;

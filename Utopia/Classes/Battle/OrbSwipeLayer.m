@@ -633,7 +633,7 @@
         [CCActionScaleTo actionWithDuration:pulseDur scale:1.f], nil] times:numTimes],
       [CCActionDelay actionWithDuration:delay], nil]];
     action.tag = PULSING_ANIMATION_TAG;
-    [orbLayer.orbSprite runAction:action];
+    [orbLayer runAction:action];
     
     [spr runAction:
      [CCActionRepeatForever actionWithAction:
@@ -650,8 +650,8 @@
   // Stop the pulsing gems
   for (OrbSprite *node in self.children) {
     if ([node isKindOfClass:[OrbSprite class]]) {
-      [node.orbSprite stopActionByTag:PULSING_ANIMATION_TAG];
-      [node resetOrbSpriteScale];
+      [node stopActionByTag:PULSING_ANIMATION_TAG];
+      node.scale = 1.f;
       
       CCNode *n = [node getChildByName:@"Overlay" recursively:YES];
       [n removeFromParent];

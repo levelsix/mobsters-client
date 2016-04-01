@@ -57,7 +57,7 @@
 - (void) setFrame:(CGRect)frame {
   [super setFrame:frame];
   
-  //self.numSlots = roundf(self.width/(self.currentBorder.width+VIEW_SPACING));
+  self.numSlots = roundf(self.width/(self.currentBorder.width+2));
   
   // We know currentBorder width is 1 more than miniMonsterViews
   self.currentBorder.center = [self.currentBorder.superview convertPoint:[self centerForIndex:0 width:self.currentBorder.width-1] fromView:self.containerView];

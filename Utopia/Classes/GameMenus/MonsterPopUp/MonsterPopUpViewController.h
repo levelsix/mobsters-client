@@ -36,11 +36,14 @@ NSMutableAttributedString *attributedStringWithResearchChange(int total, int bas
 
 @property (nonatomic, strong) IBOutlet UIView *mainView;
 @property (nonatomic, strong) IBOutlet UIView *bgdView;
+@property (nonatomic, strong) IBOutlet UIView *containerView;
+@property (nonatomic, strong) IBOutlet UIImageView *bgdImgView;
 @property (nonatomic, strong) IBOutlet UIView *container;
 @property (nonatomic, strong) IBOutlet UIView *descriptionView;
 @property (nonatomic, strong) IBOutlet UIView *backButtonView;
 @property (nonatomic, strong) IBOutlet UIView *elementView;
 @property (nonatomic, strong) IBOutlet UIView *researchInfoView;
+@property (nonatomic, strong) IBOutlet UIView *infoLinesView;
 @property (nonatomic, strong) IBOutlet UIScrollView *researchInfoScrollView;
 
 @property (nonatomic, strong) IBOutlet ElementDisplayView *fireView;
